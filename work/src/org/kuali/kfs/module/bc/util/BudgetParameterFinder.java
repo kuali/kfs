@@ -58,4 +58,13 @@ public class BudgetParameterFinder {
     public static List<String> getNotGenerate2PlgSubFundGroupCodes() {
         return parameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.GENERATE_2PLG_SUB_FUND_GROUPS);
     }
+
+    /**
+     * get the biweekly pay object codes setup in system parameters
+     * 
+     * @return the biweekly pay object codes setup in system parameters
+     */
+    public static List<String> getBiweeklyPayObjectCodes() {
+        return parameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES);
+    }
 }

@@ -430,14 +430,10 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         PendingBudgetConstructionGeneralLedger pendingRecord = this.getPendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, updateAmount, false);
         businessObjectService.save(pendingRecord);
-
-        this.updatePendingBudgetGeneralLedgerPlug(appointmentFunding, updateAmount.negated());
     }
     
     /**
-     * This method...
-     * @param appointmentFunding
-     * @param updateAmount
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#updatePendingBudgetGeneralLedgerPlug(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.core.util.KualiInteger)
      */
     public void updatePendingBudgetGeneralLedgerPlug(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount) {
         BudgetConstructionHeader budgetConstructionHeader = this.getBudgetConstructionHeader(appointmentFunding);

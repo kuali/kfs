@@ -56,7 +56,7 @@ public interface BudgetDocumentService {
      * @throws ValidationException
      */
     public Document saveDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException, ValidationException;
-    
+
     /**
      * Performs all actions needed to validate and save a Budget Construction document to the database only.
      * 
@@ -65,12 +65,11 @@ public interface BudgetDocumentService {
      * @throws ValidationException
      */
     public Document saveDocumentNoWorkflow(BudgetConstructionDocument budgetConstructionDocument) throws ValidationException;
-    
+
     /**
-     * Performs all actions needed to validate and save a Budget Construction document to the database only.
-     * Whether or not the monthly RI check is performed during validation is controled using doMonthRICheck.
-     * Passing in false is a case used by the monthlySpread deletion functionality.  No need to perform monthly RI
-     * check if the action is to remove all the records
+     * Performs all actions needed to validate and save a Budget Construction document to the database only. Whether or not the
+     * monthly RI check is performed during validation is controled using doMonthRICheck. Passing in false is a case used by the
+     * monthlySpread deletion functionality. No need to perform monthly RI check if the action is to remove all the records
      * 
      * @param bcDoc
      * @param doMonthRICheck
@@ -78,13 +77,13 @@ public interface BudgetDocumentService {
      * @throws ValidationException
      */
     public Document saveDocumentNoWorkFlow(BudgetConstructionDocument bcDoc, MonthSpreadDeleteType monthSpreadDeleteType, boolean doMonthRICheck) throws ValidationException;
-    
+
     /**
      * Checks if annual and/or monthly benefits need calculated and calls the associated calculation method
      * 
      * @param bcDoc
      */
-    public void calculateBenefitsIfNeeded (BudgetConstructionDocument bcDoc);
+    public void calculateBenefitsIfNeeded(BudgetConstructionDocument bcDoc);
 
     /**
      * Explicitly calls both the annual and monthly benefits calculation methods
@@ -94,16 +93,14 @@ public interface BudgetDocumentService {
     public void calculateBenefits(BudgetConstructionDocument bcDoc);
 
     /**
-     * Calculates annual benefits for a budget construction document using the persisted data
-     * currently stored in the database.
+     * Calculates annual benefits for a budget construction document using the persisted data currently stored in the database.
      * 
      * @param bcDoc
      */
     public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc);
 
     /**
-     * Calculates the monthly benefits for a budget construction document using the persisted data
-     * currently stored in the database.
+     * Calculates the monthly benefits for a budget construction document using the persisted data currently stored in the database.
      * 
      * @param bcDoc
      */
@@ -111,22 +108,19 @@ public interface BudgetDocumentService {
 
     /**
      * Gets the salary detail lines request sum for a budget document expenditure accounting line
-     *  
+     * 
      * @param salaryDetailLine
      * @return
      */
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine);
 
     /**
-     * Gets the Budget Construction access mode for the document candidate key and the user. Assumes the Budget Document
-     * exists in the database and the Account Organization Hierarchy rows exist for the account.  Checks the special
-     * case when the document is at level 0 and the user is either the fiscal officer for the account or an account
-     * delegate for the Budget Construction document type or the special 'ALL' document type. All other cases calculate
-     * access based on a comparison of the Account Organization Hierarchy and the approval (pointOfView) organizations
-     * setup in workflow for the user.
-     * 
-     * It returns one of the edit mode constants.
-     * KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY
+     * Gets the Budget Construction access mode for the document candidate key and the user. Assumes the Budget Document exists in
+     * the database and the Account Organization Hierarchy rows exist for the account. Checks the special case when the document is
+     * at level 0 and the user is either the fiscal officer for the account or an account delegate for the Budget Construction
+     * document type or the special 'ALL' document type. All other cases calculate access based on a comparison of the Account
+     * Organization Hierarchy and the approval (pointOfView) organizations setup in workflow for the user. It returns one of the
+     * edit mode constants. KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY
      * KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE
      * KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY
      * KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER
@@ -141,26 +135,28 @@ public interface BudgetDocumentService {
      * @return
      */
     public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u);
-    
+
 
     public List<BudgetConstructionAccountOrganizationHierarchy> getPushPullLevelList(BudgetConstructionDocument bcDoc, UniversalUser u);
-    
+
     /**
-     * update the pending budget construction GL record assocating with the given appointment funding
+     * update the pending budget construction GL record assocating with the given appointment funding. If there exists any pbgl
+     * record, a new one will be created and stored
      * 
      * @param appointmentFunding the given appointment funding
      * @param updateAmount the amount that can be used to update the amounts of the pending budget construction GL record
      */
     public void updatePendingBudgetGeneralLedger(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount);
-    
+
     /**
-     * update the pending budget construction GL plug record assocating with the given appointment funding
+     * update the pending budget construction GL plug record assocating with the given appointment funding. If there exists any pbgl
+     * plug record, a new one will be created and stored
      * 
      * @param appointmentFunding the given appointment funding
      * @param updateAmount the amount that can be used to update the amounts of the pending budget construction GL plug record
      */
     public void updatePendingBudgetGeneralLedgerPlug(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount);
-    
+
     /**
      * get the budget document with the information provided by the given appointment funding
      * 

@@ -93,7 +93,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}"/>
-				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
+				<kul:htmlAttributeHeaderCell><kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" nowrap="true" />
 				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>

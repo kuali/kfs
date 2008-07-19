@@ -105,7 +105,7 @@
 
   <bean id="VendorGenericAttributes-hiddenIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hiddenIndicator" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Hidden Indicator" />
     <property name="shortLabel" value="Hidden?" />
     <property name="maxLength" value="1" />

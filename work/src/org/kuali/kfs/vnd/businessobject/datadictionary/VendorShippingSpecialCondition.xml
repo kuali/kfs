@@ -28,6 +28,7 @@
   <bean id="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode-parentBean" abstract="true" parent="ShippingSpecialCondition-vendorShippingSpecialConditionCode">
     <property name="label" value="Shipping Special Condition" />
     <property name="shortLabel" value="Shipping Special Condition" />
+    <property name="forceUppercase" value="true" />
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"

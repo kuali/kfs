@@ -197,7 +197,7 @@
 
   <bean id="VendorDetail-vendorDunsNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorDunsNumber" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="DUNS Number" />
     <property name="shortLabel" value="DUNS Num." />
     <property name="maxLength" value="9" />
@@ -332,6 +332,7 @@
 
   <bean id="VendorDetail-vendorUrlAddress-parentBean" abstract="true" parent="VendorGenericAttributes-genericUrlAddress">
     <property name="name" value="vendorUrlAddress" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Vendor URL" />
     <property name="shortLabel" value="Vendor URL" />
   </bean>

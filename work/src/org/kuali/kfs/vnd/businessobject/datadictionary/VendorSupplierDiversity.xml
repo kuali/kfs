@@ -26,6 +26,7 @@
 
   <bean id="VendorSupplierDiversity-vendorSupplierDiversityCode-parentBean" abstract="true" parent="SupplierDiversity-vendorSupplierDiversityCode">
     <property name="label" value="Supplier Diversity" />
+    <property name="forceUppercase" value="true" />
     <property name="shortLabel" value="Supplier Diversity" />
     <property name="required" value="true" />
     <property name="control" >

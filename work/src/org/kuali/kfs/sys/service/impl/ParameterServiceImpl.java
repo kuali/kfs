@@ -440,16 +440,6 @@ public class ParameterServiceImpl implements ParameterService {
         return param;
     }
 
-    private void removeCachedMethod(Method method, Object[] arguments) {
-        MethodCacheInterceptor methodCacheInterceptor = SpringContext.getBean(MethodCacheInterceptor.class);
-        
-        String cacheKey = methodCacheInterceptor.buildCacheKey(method.toString(), arguments);
-        methodCacheInterceptor.removeCacheKey(cacheKey);
-
-        MethodCacheNoCopyInterceptor methodCacheNoCopyInterceptor = SpringContext.getBean(MethodCacheNoCopyInterceptor.class);
-        methodCacheNoCopyInterceptor.removeCacheKey(cacheKey);
-    }
-
     private boolean constraintIsAllow(Parameter parameter) {
         return KNSConstants.APC_ALLOWED_OPERATOR.equals(parameter.getParameterConstraintCode());
     }

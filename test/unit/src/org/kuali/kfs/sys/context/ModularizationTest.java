@@ -3,9 +3,7 @@ package org.kuali.kfs.sys.context;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -17,16 +15,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ModularizationTest extends KualiTestBase {
     private static final String BASE_SPRING_FILESET = "SpringBeans.xml,SpringDataSourceBeans.xml,SpringRiceBeans.xml,org/kuali/kfs/sys/KualiSpringBeansKfs.xml,org/kuali/kfs/integration/SpringBeansModules.xml,org/kuali/kfs/coa/KualiSpringBeansChart.xml,org/kuali/kfs/fp/KualiSpringBeansFinancial.xml,org/kuali/kfs/gl/KualiSpringBeansGl.xml,org/kuali/kfs/pdp/KualiSpringBeansPdp.xml,org/kuali/kfs/vnd/KualiSpringBeansVendor.xml";
-    private static final Map<String, String> OPTIONAL_MODULE_IDS = new HashMap<String, String>();
+    private static final Set<String> OPTIONAL_MODULE_IDS = new HashSet<String>();
     static {
-        OPTIONAL_MODULE_IDS.put("ar", "KualiSpringBeansAr.xml");
-        OPTIONAL_MODULE_IDS.put("bc", "KualiSpringBeansBudget.xml");
-        OPTIONAL_MODULE_IDS.put("cab", "KualiSpringBeansCapitalAssetBuilder.xml");
-        OPTIONAL_MODULE_IDS.put("cam", "KualiSpringBeansCams.xml");
-        OPTIONAL_MODULE_IDS.put("cg", "KualiSpringBeansCg.xml");
-        OPTIONAL_MODULE_IDS.put("ec", "KualiSpringBeansEffort.xml");
-        OPTIONAL_MODULE_IDS.put("ld", "KualiSpringBeansLabor.xml");
-        OPTIONAL_MODULE_IDS.put("purap", "KualiSpringBeansPurap.xml");
+        OPTIONAL_MODULE_IDS.add("ar");
+        OPTIONAL_MODULE_IDS.add("bc");
+        OPTIONAL_MODULE_IDS.add("cab");
+        OPTIONAL_MODULE_IDS.add("cam");
+        OPTIONAL_MODULE_IDS.add("cg");
+        OPTIONAL_MODULE_IDS.add("ec");
+        OPTIONAL_MODULE_IDS.add("ld");
+        OPTIONAL_MODULE_IDS.add("purap");
     }
     private static final Set<String> SYSTEM_MODULE_IDS = new HashSet<String>();
     static {
@@ -39,7 +37,7 @@ public class ModularizationTest extends KualiTestBase {
     }
     private KualiModuleService moduleService;
 
-    public void testSpring() throws Exception {
+//    public void testSpring() throws Exception {
 //        // switch to a different context classloader context so that we don't blow away our existing configuration
 //        ContextClassLoaderBinder binder = new ContextClassLoaderBinder();
 //        binder.bind(new URLClassLoader(new URL[0]));
@@ -49,7 +47,7 @@ public class ModularizationTest extends KualiTestBase {
 //            context.close();
 //            boolean testSucceeded = true;
 //            StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
-//            for (String moduleId : OPTIONAL_MODULE_IDS.keySet()) {
+//            for (String moduleId : OPTIONAL_MODULE_IDS) {
 //                testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(moduleId, errorMessage);
 //            }
 //            System.out.print(errorMessage.toString());
@@ -58,12 +56,12 @@ public class ModularizationTest extends KualiTestBase {
 //        finally {
 //            binder.unbind();
 //        }
-    }
+//    }
 
     private boolean testOptionalModuleSpringConfiguration(String moduleId, StringBuffer errorMessage) {
         ClassPathXmlApplicationContext context = null;
         try {
-            context = new ClassPathXmlApplicationContext(new StringBuffer(BASE_SPRING_FILESET).append(",org/kuali/kfs/module/").append(moduleId).append("/").append(OPTIONAL_MODULE_IDS.get(moduleId)).toString().split(","));
+            context = new ClassPathXmlApplicationContext(new StringBuffer(BASE_SPRING_FILESET).append(",org/kuali/kfs/module/").append(moduleId).append("/spring-").append(moduleId).append(".xml").toString().split(","));
             return true;
         }
         catch (Exception e) {

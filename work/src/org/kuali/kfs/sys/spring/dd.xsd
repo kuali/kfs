@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+    xmlns="http://rice.kuali.org/dd"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    targetNamespace="http://rice.kuali.org/dd"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.springframework.org/schema/beans" />
+
+
+    <xsd:simpleType name="forceEnum">
+        <!-- Restricting the values to a set of value using 'enumeration' -->
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="no" />
+            <xsd:enumeration value="force" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- 
+        The below was lifted and simplified from the Spring 2.0 XSD.
+     -->
+    <xsd:complexType name="simplePropertyType">
+        <xsd:attribute name="name" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[
+    The name of the property, following JavaBean naming conventions.
+                ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="ref" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[
+    A short-cut alternative to a nested "<ref bean='...'/>".
+                ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="value" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[
+    A short-cut alternative to a nested "<value>...</value>"
+    element.
+                ]]></xsd:documentation>
+
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <!-- 
+        dd:defaultExistenceChecks
+            dd:check boAttribute="" activeIndicatorAttribute="" attributeToHighlightOnFail="" activeIndicatorReversed="" displayFieldName=""
+            dd:collectionAttributeCheck collectionAttribute="" (and all above)
+            dd:userCheck userAttribute=""    
+     -->
+	<xsd:element name="defaultExistenceChecks">
+		<xsd:annotation>
+			<xsd:documentation>
+			 Used on maintenance document to define checks the framework should automatically 
+             make for related objects.  Specify the business object attribute that needs to be validated
+             and a property (usually a field of the primary key) to highlight in the case of a failure.
+ 			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:choice minOccurs="1" maxOccurs="unbounded">
+				<xsd:element name="check" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Standard existence check on an attribute of this business object.
+                        </xsd:documentation>
+                    </xsd:annotation>
+					<xsd:complexType>
+						<xsd:attributeGroup ref="existenceCheckAttributes" />
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="collectionCheck" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Existence check on an attribute within an embedded collection.
+                        </xsd:documentation>
+                    </xsd:annotation>
+					<xsd:complexType>
+						<xsd:attributeGroup ref="existenceCheckAttributes" />
+						<xsd:attribute name="collectionAttribute" use="required" type="xsd:string">
+						  <xsd:annotation>
+                            <xsd:documentation>
+                                Attribute (may be nested attribute reference) of the collection to which the boAttribute belongs.
+                            </xsd:documentation>
+                          </xsd:annotation>
+						</xsd:attribute>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="userCheck" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Existence check on an user object.  Simplified case of dd:check since only a user property is needed.
+                        </xsd:documentation>
+                    </xsd:annotation>
+					<xsd:complexType>
+						<xsd:attribute name="userAttribute" type="xsd:string" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Attribute of the user business object on the maintained object.  
+                                    The user property will automatically be derived.
+                                </xsd:documentation>
+                            </xsd:annotation>
+						</xsd:attribute>	
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:attributeGroup name="existenceCheckAttributes">
+		<xsd:attribute name="boAttribute" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Attribute of the business object which is the related business 
+                    object whose existence needs to be checked.
+                </xsd:documentation>
+            </xsd:annotation>
+		</xsd:attribute>	
+		<xsd:attribute name="activeIndicatorAttribute" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Name of an attribute on the related object which contains the active state.  
+                    If not set, the object's active status will not be checked.
+                </xsd:documentation>
+            </xsd:annotation>
+		</xsd:attribute>	
+		<xsd:attribute name="attributeToHighlightOnFail" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The name of an attribute (usually a field of the primary key) to highlight in the case of a failure.
+                </xsd:documentation>
+            </xsd:annotation>
+		</xsd:attribute>	
+		<xsd:attribute name="activeIndicatorReversed" type="xsd:boolean" use="optional" default="false">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Whether the active indicator's sense is reversed.  (That is, a true value indicates that the
+                    object is inactive.) 
+                </xsd:documentation>
+            </xsd:annotation>
+		</xsd:attribute>	
+		<xsd:attribute name="displayAttribute" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Attribute from which to pull the label when displaying the error message upon a validation failure.
+                </xsd:documentation>
+            </xsd:annotation>
+		</xsd:attribute>	
+	</xsd:attributeGroup>
+
+    <!-- 
+       dd:field attributeName="" required="" inquiry="" lookup="" defaultValue="" defaultValueFinderClass="" maxLength=""
+          dd:property name="" value="" ref=""
+      -->
+    <xsd:element name="field">
+        <xsd:annotation>
+            <xsd:documentation>
+                Represents a field on an inquiry, lookup criteria, or lookup results.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:sequence>
+                        <xsd:element name="property" type="simplePropertyType" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    An additional property to be set on the field definition.  Must exist on the
+                                    corresponding Java object. 
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                    <xsd:attribute name="attributeName" type="xsd:string" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                The name of the bean property on the business object being
+                                referenced.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="required" type="xsd:boolean" default="false">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Whether this field is required to be filled in when performing a
+                                lookup. Has no effect when used in other locations.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="inquiry" type="forceEnum">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Whether to force or suppress an inquiry drill-down on this field.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="lookup" type="forceEnum">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Whether to force or suppress a lookup on this field when used in the search criteria of a lookup.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="defaultValue" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Default value for this field when used in the search criteria of a lookup.  
+                                Mutually exclusive with the defaultValueFinderClass attribute.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="defaultValueFinderClass" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Class to calculate the default value for this field when used in the search criteria of a lookup.
+                                The class must implement the org.kuali.core.lookup.valueFinder.ValueFinder interface.  
+                                Mutually exclusive with the defaultValue attribute.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="maxLength" type="xsd:positiveInteger">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Maximum length to display when shown in lookup results.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>                    
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <!-- 
+        dd:relationship objectAttribute=""
+            dd:primitiveAttribute source="" target=""
+            dd:supportAttribute source="" target="" identifier=""
+      -->
+    <xsd:element name="relationship">
+        <xsd:annotation>
+            <xsd:documentation>
+                Defines a relationship between this business object and another business object by 
+                identifying the object property and linking the fields on this object to the primary key
+                on the related object.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:sequence minOccurs="1" maxOccurs="1">
+                        <xsd:element name="primitiveAttribute" minOccurs="1" maxOccurs="unbounded">
+                            <xsd:complexType>
+                                <xsd:attribute name="source" type="xsd:string" use="required">
+                                    <xsd:annotation>
+                                        <xsd:documentation>
+                                            An attribute on the current business object which should be linked to a primary key field
+                                            on the related object.   
+                                        </xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:attribute>
+                                <xsd:attribute name="target" type="xsd:string" use="required">
+                                    <xsd:annotation>
+                                        <xsd:documentation>
+                                            An attribute on the related business object which should be the primary key field
+                                            linked to the source attribute on the current business object.   
+                                        </xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:attribute>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="supportAttribute" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:complexType>
+                                <xsd:attribute name="source" type="xsd:string" use="required">
+                                    <xsd:annotation>
+                                        <xsd:documentation>
+                                            An attribute on the current business object which should be linked to a field
+                                            on the related object for purposes of returning from a lookup.   
+                                        </xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:attribute>
+                                <xsd:attribute name="target" type="xsd:string" use="required">
+                                    <xsd:annotation>
+                                        <xsd:documentation>
+                                            An attribute on the related business object which should be copied into the source field
+                                            on the current business object when returning from a lookup.   
+                                        </xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:attribute>
+                                <xsd:attribute name="identifier" use="optional" default="false" type="xsd:boolean">
+                                    <xsd:annotation>
+                                        <xsd:documentation>
+                                            Whether this attribute is the identifier of this object that is displayed to the user.  Only needed
+                                            when the interface does not display the actual primary key of the related object.
+                                            (As is the case for users - where the network ID is used on the UI.)   
+                                        </xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:attribute>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                    <xsd:attribute name="objectAttribute" use="required" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                The attribute on the current business object which represents the related object.  
+                                This attribute's type will be a class implementing BusinessObject.   
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>                    
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <!-- 
+        dd:maintField attributeName="" required="" readOnly="" defaultValue="" defaultValueFinderClass="" 
+                        javascriptLeaveFieldFunction="" javascriptLeaveFieldCallbackFunction=""
+            dd:property name="" value="" ref=""
+      -->
+    <xsd:element name="maintField">
+        <xsd:annotation>
+            <xsd:documentation>
+                Represents a field on a maintenance document.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:sequence>
+                        <xsd:element name="property" type="simplePropertyType" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    An additional property to be set on the maintainable field definition.  Must exist on the
+                                    corresponding Java object. 
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                    <xsd:attribute name="attributeName" type="xsd:string" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                The name of the bean property on the business object being maintained.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="required" type="xsd:boolean" default="false">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Whether this field is required to be filled in on the maintenance document.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="readOnly" type="xsd:boolean" default="false">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Whether this field should be read-only on the maintenance document.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="defaultValue" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Default value for this field when creating a new object of this type via this maintenance document.  
+                                Mutually exclusive with the defaultValueFinderClass attribute.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="defaultValueFinderClass" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Class to calculate the default value for this field when creating a new object of this type via this maintenance document.
+                                The class must implement the org.kuali.core.lookup.valueFinder.ValueFinder interface.  
+                                Mutually exclusive with the defaultValue attribute.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="javascriptLeaveFieldFunction" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Javascript function to call when the user tabs out of this field.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="javascriptLeaveFieldCallbackFunction" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Javascript function to call after retrieving a result from a AJAX call to the server.  
+                                Usually used to update the user interface. 
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+      
+    <!-- 
+        dd:workflow
+            dd:group basePath=""
+                dd:path path=""
+      -->
+    <xsd:element name="workflow">
+        <xsd:annotation>
+            <xsd:documentation>
+                Used to define the properties which should be marshalled from a document
+                into the workflow XML document content.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <!--  1 or more group elements -->
+                    <xsd:sequence maxOccurs="1" minOccurs="1">
+                        <xsd:element name="group" minOccurs="1" maxOccurs="unbounded">
+                        	<xsd:annotation>
+                        		<xsd:documentation>
+                        			Identifies a group of properties which share a common base path.
+                        			Specify a basePath when you have multiple properties that
+                        			share a common prefix. 
+                        		</xsd:documentation>
+                        	</xsd:annotation>
+                        	<xsd:complexType>
+                                <!-- 1 or more path elements -->
+                        		<xsd:sequence maxOccurs="1" minOccurs="1">
+                        			<xsd:element name="path" minOccurs="1" maxOccurs="unbounded">
+                        				<xsd:annotation>
+                        					<xsd:documentation>
+                        						Represents a single path that will be marshaled into XML.  If this points
+                        						to a business object, then all primitives on that business object will
+                        						be added to the XML.
+                        					</xsd:documentation>
+                        				</xsd:annotation>
+                        				<xsd:complexType>
+                        					<xsd:attribute name="path" type="xsd:string" use="required">
+                        						<xsd:annotation>
+                        							<xsd:documentation>
+                        								Specify the path that should be marshalled into XML.
+                        							</xsd:documentation>
+                        						</xsd:annotation>
+                        					</xsd:attribute>
+                        				</xsd:complexType>
+                        			</xsd:element>
+                        		</xsd:sequence>
+                        		<xsd:attribute name="basePath" type="xsd:string" use="optional">
+                        			<xsd:annotation>
+                        				<xsd:documentation>
+                        					A base path that will be added as a prefix to all enclosed path elements.
+                        				</xsd:documentation>
+                        			</xsd:annotation>
+                        		</xsd:attribute>
+                        	</xsd:complexType>                        		
+                        </xsd:element>
+                    </xsd:sequence>
+                    <xsd:attributeGroup ref="abstractAttribute"  />
+                </xsd:extension>
+            </xsd:complexContent>
+
+        </xsd:complexType>
+    </xsd:element>
+
+<!-- TODO:
+        
+    dd:boAttribute attributeName="" label="" shortLabel="" required="" abstract="" forceUppercase="" maxLength=""
+                    displayLabelAttribute="" formatterClass=""
+        dd:control type="" 
+            dd:property
+        <OR>
+        dd:textarea/dd:text/dd:hidden/dd:select/dd:user/dd:etc...
+            dd:property
+        dd:validationPattern parent="" class="" 
+            dd:property
+    
+    
+    dd:text size="" valuesFinderClass=""
+    dd:select/radio boClass="" keyAttribute="" labelAttribute="" includeKeyInLabel="" valuesFinderClass=""
+    dd:textarea rows="" cols=""
+    dd:user universalIdAttribute="" userObjectAttribute=""
+    
+    
+    (leave mask out - likely to be replaced by KIM permissions) 
+ -->
+
+    <xsd:element name="boAttribute">
+        <xsd:annotation>
+            <xsd:documentation source="java:org.kuali.core.datadictionary.AttributeDefinition">
+                Represents an attribute definition for a BusinessObjectEntry or a TransactionalDocumentEntry.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:sequence maxOccurs="1" minOccurs="1" >
+                        <!-- exactly one of the control defenitions followed by an optional validation pattern
+                             and then generic properties -->
+	                    <xsd:group ref="controlElementGroup" minOccurs="1" maxOccurs="1" />
+                        <xsd:element name="validationPattern" minOccurs="0" maxOccurs="1" type="validationPatternType">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Defines a format that data entered in this field must follow.
+                                    Examples of these formats are located in the org.kuali.core.datadictionary.validations package.
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                            <xsd:element name="property" type="simplePropertyType">
+                                <xsd:annotation>
+                                    <xsd:documentation>
+                                        An additional property to be set on the attribute definition.  Must exist on the
+                                        corresponding Java object. 
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:sequence>
+                    <xsd:attributeGroup ref="abstractAttribute"  />
+                    <xsd:attribute name="attributeName" type="xsd:string" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                The java bean property name of the attribute on this business object
+                                you are configuring.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="label" type="xsd:string" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                The label which should be displayed next to this attribute in the
+                                user interface.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attributeGroup ref="attributeOptionalAttributes" />
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>  
+
+    <xsd:element name="boAttributeRef">
+        <xsd:annotation>
+            <xsd:documentation source="java:org.kuali.core.datadictionary.AttributeDefinition">
+                A business object reference which takes most of its definition from an attribute
+                defined on another business object. 
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:sequence maxOccurs="1" minOccurs="1" >
+	                    <xsd:group ref="controlElementGroup" minOccurs="0" maxOccurs="1" />
+                        <xsd:element name="validationPattern" minOccurs="0" maxOccurs="1" type="validationPatternType">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Defines a format that data entered in this field must follow.
+                                    Examples of these formats are located in the org.kuali.core.datadictionary.validations package.
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                            <xsd:element name="property" type="simplePropertyType">
+                                <xsd:annotation>
+                                    <xsd:documentation>
+                                        An additional property to be set on the attribute definition.  Must exist on the
+                                        corresponding Java object. 
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:sequence>
+                    <xsd:attributeGroup ref="abstractAttribute"  />
+                    <!-- 
+                        The below was lifted from the Spring 2.0 XSD.
+                     -->
+                    <xsd:attribute name="parent" type="xsd:string" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[
+                The name of the parent bean definition.
+                
+                Will use the bean class of the parent if none is specified, but can
+                also override it. In the latter case, the child bean class must be
+                compatible with the parent, i.e. accept the parent's property values
+                and constructor argument values, if any.
+                
+                A child bean definition will inherit constructor argument values,
+                property values and method overrides from the parent, with the option
+                to add new values. If init method, destroy method, factory bean and/or
+                factory method are specified, they will override the corresponding
+                parent settings.
+                
+                The remaining settings will always be taken from the child definition:
+                depends on, autowire mode, dependency check, scope, lazy init.
+                            ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="attributeName" type="xsd:string" use="optional">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                The java bean property name of the attribute on this business object
+                                you are configuring.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="label" type="xsd:string" use="optional">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                The label which should be displayed next to this attribute in the
+                                user interface.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attributeGroup ref="attributeOptionalAttributes" />
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>  
+
+    <xsd:attributeGroup name="parentAttribute">
+        <!-- 
+            The below was lifted from the Spring 2.0 XSD.
+         -->
+        <xsd:attribute name="parent" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[
+    The name of the parent bean definition.
+    
+    Will use the bean class of the parent if none is specified, but can
+    also override it. In the latter case, the child bean class must be
+    compatible with the parent, i.e. accept the parent's property values
+    and constructor argument values, if any.
+    
+    A child bean definition will inherit constructor argument values,
+    property values and method overrides from the parent, with the option
+    to add new values. If init method, destroy method, factory bean and/or
+    factory method are specified, they will override the corresponding
+    parent settings.
+    
+    The remaining settings will always be taken from the child definition:
+    depends on, autowire mode, dependency check, scope, lazy init.
+                ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="abstractAttribute">
+        <!-- 
+            The below was lifted from the Spring 2.0 XSD.
+         -->
+        <xsd:attribute name="abstract" type="xsd:boolean">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[
+    Is this bean "abstract", that is, not meant to be instantiated itself
+    but rather just serving as parent for concrete child bean definitions?
+    The default is "false". Specify "true" to tell the bean factory to not
+    try to instantiate that particular bean in any case.
+
+    Note: This attribute will not be inherited by child bean definitions.
+    Hence, it needs to be specified per abstract bean definition.
+                ]]></xsd:documentation>
+            </xsd:annotation>            
+        </xsd:attribute>
+    </xsd:attributeGroup>
+
+    <xsd:complexType name="validationPatternType">
+        <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="property" type="simplePropertyType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        An additional property to be set on the validation pattern definition.  Must exist on the
+                        corresponding Java object. 
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>                            
+        <xsd:attributeGroup ref="parentAttribute"  />
+        <xsd:attribute name="validationPatternClass" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Fully qualified class name of a class implementing the ValidationPattern interface.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>                              
+
+    
+    <xsd:attributeGroup name="attributeOptionalAttributes">
+      <xsd:attribute name="shortLabel" type="xsd:string">
+        <xsd:annotation>
+            <xsd:documentation>
+                A shorter label that can be used when necessary. 
+            </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="required" type="xsd:boolean" default="false">
+        <xsd:annotation>
+            <xsd:documentation>
+                Whether this property is required when validating this business object.  This is
+                only used for validation.  It is not used for displaying the asterisk on 
+                maintenance documents.
+            </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="forceUppercase" type="xsd:boolean" default="false">
+        <xsd:annotation>
+            <xsd:documentation>
+                Whether to force the data in this attribute to upper-case during validation.
+            </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="maxLength" type="xsd:positiveInteger">
+        <xsd:annotation>
+            <xsd:documentation>
+                Maximum length for this field.  Used to set the max length on the HTML UI controls.
+            </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="displayLabelAttribute" type="xsd:string">
+        <xsd:annotation>
+            <xsd:documentation>
+                Name of another attribute that will be used instead of this one when a message needs
+                to be displayed related to this attribute.
+            </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="formatterClass" type="xsd:string">
+        <xsd:annotation>
+            <xsd:documentation>
+                Fully-qualified class name of a class implementing the Formatter interface that can be used to
+                convert values for this field between strings and the internal type of this property.
+            </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+    </xsd:attributeGroup>
+    
+    <xsd:group name="controlElementGroup">
+       <xsd:choice>
+           <xsd:element name="text" minOccurs="1" maxOccurs="1" type="textControlType">
+            <xsd:annotation>
+                <xsd:documentation>
+                    A standard text control.
+                </xsd:documentation>
+            </xsd:annotation>
+           </xsd:element>
+           <xsd:element name="textarea" minOccurs="1" maxOccurs="1" type="textareaControlType">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Render a TEXTAREA HTML control for this attribute.
+                </xsd:documentation>
+            </xsd:annotation>
+           </xsd:element>
+           <xsd:element name="hidden" minOccurs="1" maxOccurs="1" type="hiddenControlType">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Don't renter this field if included in a UI.
+                </xsd:documentation>
+            </xsd:annotation>
+           </xsd:element>
+           <xsd:element name="select" minOccurs="1" maxOccurs="1" type="selectControlType">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Display a drop-down list for this attribute. 
+                </xsd:documentation>
+            </xsd:annotation>
+           </xsd:element>
+           <xsd:element name="radio" minOccurs="1" maxOccurs="1" type="radioControlType">
+            <xsd:annotation>
+                <xsd:documentation>
+                    A set of radio buttons.
+                </xsd:documentation>
+            </xsd:annotation>
+           </xsd:element>
+           <xsd:element name="user" minOccurs="1" maxOccurs="1" type="userControlType">
+            <xsd:annotation>
+                <xsd:documentation>
+                    A user control with AJAX display of the person's name and a lookup link. 
+                </xsd:documentation>
+            </xsd:annotation>
+           </xsd:element>
+           <xsd:element name="checkbox" minOccurs="1" maxOccurs="1" type="checkboxControlType">
+            <xsd:annotation>
+                <xsd:documentation>
+                    A single checkbox for boolean attributes.
+                </xsd:documentation>
+            </xsd:annotation>
+           </xsd:element>
+       </xsd:choice>
+    </xsd:group>
+    
+    <xsd:complexType name="textControlType" >
+        <xsd:complexContent>
+            <xsd:extension base="baseControlType">
+                <xsd:attribute name="size" type="xsd:positiveInteger" use="required">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            The HTML-specified size of the text input element.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="textareaControlType" >
+        <xsd:complexContent>
+            <xsd:extension base="baseControlType">
+                <xsd:attribute name="rows" type="xsd:positiveInteger" use="required">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            The HTML-specified number of rows of the textarea element.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="cols" type="xsd:positiveInteger" use="required">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            The HTML-specified number of columns of the textarea element.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="selectableControlType" >
+        <xsd:complexContent>
+            <xsd:extension base="baseControlType">
+                <xsd:attribute name="valuesFinderClass" type="xsd:string" use="required">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Class implementing the ValuesFinder interface to be used to obtain values
+                            to display in a select list or radio button set.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="boClass" type="xsd:string" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            If the valuesFinderClass is a PersistableBusinessObjectValuesFinder, the BO class
+                            from which to load values.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="keyAttribute" type="xsd:string" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            If the valuesFinderClass is a PersistableBusinessObjectValuesFinder, the attribute of
+                            the BO class to use for the key values in the list.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="labelAttribute" type="xsd:string" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            If the valuesFinderClass is a PersistableBusinessObjectValuesFinder, the attribute of
+                            the BO class to use for the displayed labels in the list.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="includeKeyInLabel" type="xsd:boolean" use="optional" default="false">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            If the valuesFinderClass is a PersistableBusinessObjectValuesFinder, whether to 
+                            display the keys as part of the labels in the list.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="userControlType" >
+        <xsd:complexContent>
+            <xsd:extension base="baseControlType">
+                <xsd:attribute name="universalIdAttribute" type="xsd:string" use="required">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Attribute name of the property containing the universal user ID related to this property.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="userObjectAttribute" type="xsd:string" use="required">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Attribute name of the property containing the UniversalUser object related to this property.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="baseControlType" />
+
+    <xsd:complexType name="hiddenControlType" >
+        <xsd:complexContent>
+            <xsd:extension base="baseControlType" />
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="checkboxControlType" >
+        <xsd:complexContent>
+            <xsd:extension base="baseControlType" />
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="selectControlType" >
+        <xsd:complexContent>
+            <xsd:extension base="selectableControlType" />
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="radioControlType" >
+        <xsd:complexContent>
+            <xsd:extension base="selectableControlType" />
+        </xsd:complexContent>
+    </xsd:complexType>
+
+</xsd:schema>

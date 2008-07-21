@@ -88,7 +88,7 @@ public class ModularizationTest extends KualiTestBase {
         for (String moduleId : SYSTEM_MODULE_IDS) {
             allModuleIds.add(moduleId);
         }
-        for (String moduleId : OPTIONAL_MODULE_IDS.keySet()) {
+        for (String moduleId : OPTIONAL_MODULE_IDS) {
             allModuleIds.add(moduleId);
         }
         for (String moduleId : allModuleIds) {
@@ -99,7 +99,7 @@ public class ModularizationTest extends KualiTestBase {
 
     private boolean testOptionalModuleOjbConfiguration(String moduleId, StringBuffer errorMessage) throws FileNotFoundException {
         boolean testSucceeded = true;
-        for (String referencedModuleId : OPTIONAL_MODULE_IDS.keySet()) {
+        for (String referencedModuleId : OPTIONAL_MODULE_IDS) {
             if (!moduleId.equals(referencedModuleId)) {
                 Scanner scanner = null;
                 scanner = new Scanner("work/src/" + moduleService.getModule(referencedModuleId).getDatabaseRepositoryFilePaths().iterator().next());

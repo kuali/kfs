@@ -298,6 +298,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * Sets the budgetDocumentService attribute value.
      * @param budgetDocumentService The budgetDocumentService to set.
      */
+    @NonTransactional
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
         this.budgetDocumentService = budgetDocumentService;
     }

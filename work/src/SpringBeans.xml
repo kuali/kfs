@@ -37,7 +37,7 @@
 		<property name="url" value="${datasource.url}" />
 		<property name="username" value="${datasource.username}" />
 		<property name="password" value="${datasource.password}" />
-		<property name="preparedStmtCacheSize" value="25" />
+		<property name="preparedStmtCacheSize" value="${datasource.maximum.cached.preparedstatements}" />
 	</bean>
 
 	<bean id="dbPlatformFactory" class="org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory">

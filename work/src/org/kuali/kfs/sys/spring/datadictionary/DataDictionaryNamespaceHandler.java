@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.spring;
+package org.kuali.kfs.sys.spring.datadictionary;
 
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 

@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.spring;
+package org.kuali.kfs.sys.spring.datadictionary;
 
 import org.kuali.core.datadictionary.FieldDefinition;
-import org.kuali.core.datadictionary.MaintainableFieldDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -26,11 +25,11 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class MaintenanceFieldBeanDefinitionParser extends KualiBeanDefinitionParserBase {
+public class FieldBeanDefinitionParser extends KualiBeanDefinitionParserBase {
 
     @Override
     protected String getBaseBeanTypeParent(Element element) {
-        return "MaintainableFieldDefinition";
+        return "FieldDefinition";
     }
     
     @Override
@@ -38,34 +37,38 @@ public class MaintenanceFieldBeanDefinitionParser extends KualiBeanDefinitionPar
         // get all attributes
         String attributeName = element.getAttribute("attributeName");
         String required = element.getAttribute("required");
-        String readOnly = element.getAttribute("readOnly");
+        String inquiry = element.getAttribute("inquiry");
+        String lookup = element.getAttribute("lookup");
         String defaultValue = element.getAttribute("defaultValue");
         String defaultValueFinderClass = element.getAttribute("defaultValueFinderClass");
-        String javascriptLeaveFieldFunction = element.getAttribute("javascriptLeaveFieldFunction");
-        String javascriptLeaveFieldCallbackFunction = element.getAttribute("javascriptLeaveFieldCallbackFunction");
+        String maxLength = element.getAttribute("maxLength");
 
         // now, set on the bean definition
         if ( StringUtils.hasText(attributeName) ) {
-            bean.addPropertyValue("name", attributeName);
+            bean.addPropertyValue("attributeName", attributeName);
         }
         if ( StringUtils.hasText(required) ) {
             bean.addPropertyValue("required", Boolean.parseBoolean(required));
-        }
-        if ( StringUtils.hasText(readOnly) ) {
-            bean.addPropertyValue("readOnly", Boolean.parseBoolean(readOnly));
         }
         if ( StringUtils.hasText(defaultValue) ) {
             bean.addPropertyValue("defaultValue", defaultValue);
         } else if ( StringUtils.hasText(defaultValueFinderClass) ) {
             bean.addPropertyValue("defaultValueFinderClass", defaultValueFinderClass);
         }
-        if ( StringUtils.hasText(javascriptLeaveFieldFunction) ) {
-            bean.addPropertyValue("webUILeaveFieldFunction", javascriptLeaveFieldFunction);
+        if ( StringUtils.hasText(maxLength) ) {
+            bean.addPropertyValue("maxLength", Integer.parseInt(maxLength));
         }
-        if ( StringUtils.hasText(javascriptLeaveFieldCallbackFunction) ) {
-            bean.addPropertyValue("webUILeaveFieldCallbackFunction", javascriptLeaveFieldCallbackFunction);
+        if ( inquiry.equals( "no" ) ) {
+            bean.addPropertyValue("noInquiry", Boolean.TRUE);
+        } else if ( inquiry.equals( "force" ) ) {
+            bean.addPropertyValue("forceInquiry", Boolean.TRUE);
         }
-        
+        if ( lookup.equals( "no" ) ) {
+            bean.addPropertyValue("noLookup", Boolean.TRUE);
+        } else if ( lookup.equals( "force" ) ) {
+            bean.addPropertyValue("forceLookup", Boolean.TRUE);
+        }
+
         // handle any other simple child properties
         parseEmbeddedPropertyElements(element, bean);
     }

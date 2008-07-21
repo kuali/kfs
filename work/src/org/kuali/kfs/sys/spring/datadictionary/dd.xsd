@@ -252,6 +252,12 @@ on the related object.
                 <xsd:extension base="beans:identifiedType">
                     <xsd:sequence minOccurs="1" maxOccurs="1">
                         <xsd:element name="primitiveAttribute" minOccurs="1" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>
+Attribute set identifying a pair of attributes which should be linked.  There will be one of these tags for
+each field in the primary key.
+                                </xsd:documentation>
+                            </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:attribute name="source" type="xsd:string" use="required">
                                     <xsd:annotation>
@@ -272,6 +278,12 @@ linked to the source attribute on the current business object.
                             </xsd:complexType>
                         </xsd:element>
                         <xsd:element name="supportAttribute" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>
+Non-primary key attribute which should be returned from lookups in addition to the primary key fields 
+referenced in the primitiveAttribute references. 
+                                </xsd:documentation>
+                            </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:attribute name="source" type="xsd:string" use="required">
                                     <xsd:annotation>
@@ -659,6 +671,11 @@ Hence, it needs to be specified per abstract bean definition.
     </xsd:attributeGroup>
 
     <xsd:complexType name="validationPatternType">
+        <xsd:annotation>
+            <xsd:documentation>
+Type of the dd:validationPattern element.
+            </xsd:documentation>
+        </xsd:annotation>
         <xsd:sequence minOccurs="0" maxOccurs="unbounded">
             <xsd:element name="property" type="simplePropertyType">
                 <xsd:annotation>
@@ -681,6 +698,11 @@ Fully qualified class name of a class implementing the ValidationPattern interfa
 
     
     <xsd:attributeGroup name="attributeOptionalAttributes">
+      <xsd:annotation>
+        <xsd:documentation>
+Optional attributes which are common to dd:boAttribute and dd:boAttributeRef. 
+        </xsd:documentation>
+      </xsd:annotation>
       <xsd:attribute name="shortLabel" type="xsd:string">
         <xsd:annotation>
             <xsd:documentation>
@@ -730,6 +752,11 @@ convert values for this field between strings and the internal type of this prop
     </xsd:attributeGroup>
     
     <xsd:group name="controlElementGroup">
+       <xsd:annotation>
+        <xsd:documentation>
+Elements representing controls for dd:boAttribute and dd:boAttributeRef tags.
+        </xsd:documentation>
+       </xsd:annotation>
        <xsd:choice>
            <xsd:element name="text" minOccurs="1" maxOccurs="1" type="textControlType">
             <xsd:annotation>

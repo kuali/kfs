@@ -207,7 +207,27 @@ are intended for use only by Kuali Foundation developers.
     	</delete>
     	<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${rice.project.directory}/${licenses.directory}" excludes="**/CVS" />
   	</target>
-  
+
+	
+	<target name="build-dd-doc" depends="init-properties" description="Builds documentation for the Data Dictionary custom tags.">
+		<taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task">
+			<classpath>
+				<pathelement location="build/foundation/xsddoc.jar" />
+				<fileset dir="${lib.directory}">
+					<include name="x*.jar"/>
+				</fileset>
+			</classpath>
+		</taskdef>
+		
+    	<delete dir="${dddoc.directory}" failonerror="false" />
+    <!-- setup destination directories -->
+    	<mkdir dir="${dddoc.directory}" />
+		<xsddoc file="work/src/org/kuali/kfs/sys/spring/datadictionary/dd.xsd"
+		         out="${dddoc.directory}"
+		    doctitle="Data Dictionary Custom Tags Schema"
+		     verbose="true"/>
+	</target>
+	
   	<macrodef name="maven">
     	<attribute name="goals" />
     	<attribute name="options" default="--offline" />

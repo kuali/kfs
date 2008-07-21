@@ -40,16 +40,17 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class BulkReceivingDocumentRule extends DocumentRuleBase implements ContinuePurapRule {
 
     @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {        
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {       
+        
         boolean valid = true;
-//        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument)document;
-//        
-//        GlobalVariables.getErrorMap().clearErrorPath();
-//        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
-//        
-//        valid &= super.processCustomRouteDocumentBusinessRules(document);
-//        valid &= canCreateReceivingLineDocument(receivingLineDocument);
-//        valid &= isAtLeastOneItemEntered(receivingLineDocument);
+        
+        BulkReceivingDocument bulkReceivingDocument = (BulkReceivingDocument)document;
+        
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        
+        valid &= super.processCustomRouteDocumentBusinessRules(document);
+        valid &= canCreateBulkReceivingDocument(bulkReceivingDocument);
         
         return valid;
     }
@@ -71,7 +72,7 @@ public class BulkReceivingDocumentRule extends DocumentRuleBase implements Conti
     /**
      * Make sure the required fields on the init screen are filled in.
      * 
-     * @param receivingLineDocument
+     * @param bulkReceivingDocument
      * @return
      */
     private boolean hasRequiredFieldsForContinue(BulkReceivingDocument bulkReceivingDocument){
@@ -87,86 +88,9 @@ public class BulkReceivingDocumentRule extends DocumentRuleBase implements Conti
     }
     
     /**
-     * FIXME: Have to pass the po id only, not the bulk doc since this method wont do much with the doc but we 
-     * need the po available check, maybe have to move this check to the calling method - vpc 
-     */
-//    private boolean isValidPOIdentifier(BulkReceivingDocument bulkReceivingDocument){
-//        
-//        if (!bulkReceivingDocument.isPOAvailable()){
-//            return true;
-//        }
-//        
-//        boolean valid = true;
-//        
-//        GlobalVariables.getErrorMap().clearErrorPath();
-//        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
-//
-//        Integer POID = bulkReceivingDocument.getPurchaseOrderIdentifier();
-//
-//        PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(POID);
-//        
-//        if (ObjectUtils.isNull(purchaseOrderDocument)) {
-//            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
-//            valid &= false;
-//        }
-//        else if (purchaseOrderDocument.isPendingActionIndicator()) {
-//            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION);
-//            valid &= false;
-//        }
-//        else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(), PurapConstants.PurchaseOrderStatuses.OPEN)) {
-//            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
-//            valid &= false;
-//            // if the PO is pending and it is not a Retransmit, we cannot generate a Payment Request for it
-//        }
-//        else {
-//            // Verify that there exists at least 1 item left to be invoiced
-//            valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
-//        }
-//        GlobalVariables.getErrorMap().clearErrorPath();
-//        return valid;
-//    }
-//
-//    /**
-//     * Determines if there are items with encumbrances to be invoiced on passed in
-//     * purchase order document.
-//     * 
-//     * @param document - purchase order document
-//     * @return
-//     */
-//    public boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
-//        boolean zeroDollar = true;
-//        GlobalVariables.getErrorMap().clearErrorPath();
-//        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
-//        for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) document.getItems()) {
-//            // Quantity-based items
-//            if (poi.getItemType().isItemTypeAboveTheLineIndicator() && poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
-//                KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? KualiDecimal.ZERO : poi.getItemOutstandingEncumberedQuantity();
-//                if (encumberedQuantity.compareTo(KualiDecimal.ZERO) == 1) {
-//                    zeroDollar = false;
-//                    break;
-//                }
-//            }
-//            // Service Items or Below-the-line Items
-//            else if (poi.getItemType().isAmountBasedGeneralLedgerIndicator() || !poi.getItemType().isItemTypeAboveTheLineIndicator()) {
-//                KualiDecimal encumberedAmount = poi.getItemOutstandingEncumberedAmount() == null ? KualiDecimal.ZERO : poi.getItemOutstandingEncumberedAmount();
-//                if (encumberedAmount.compareTo(KualiDecimal.ZERO) == 1) {
-//                    zeroDollar = false;
-//                    break;
-//                }
-//            }
-//        }
-//        if (zeroDollar) {
-//            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_NO_ITEMS_TO_INVOICE);
-//        }
-//        GlobalVariables.getErrorMap().clearErrorPath();
-//        return !zeroDollar;
-//    }
-    
-    /**
-     * Determines if it is valid to create a receiving line document.  Only one
-     * receiving line document can be active at any time per purchase order document.
+     * Determines if it is valid to create a bulk receiving document.  
      * 
-     * @param receivingLineDocument
+     * @param bulkReceivingDocument
      * @return
      */
     private boolean canCreateBulkReceivingDocument(BulkReceivingDocument bulkReceivingDocument){

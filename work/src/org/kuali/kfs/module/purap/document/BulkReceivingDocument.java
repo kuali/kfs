@@ -151,6 +151,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private String alternateVendorNumber;
     private String goodsDeliveredVendorName;
     private String vendorContact;
+    private Integer vendorAddressGeneratedIdentifier;
     
     
     public BulkReceivingDocument() {
@@ -182,6 +183,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         setVendorNumber(po.getVendorNumber());
         setVendorAddressInternationalProvinceName(po.getVendorAddressInternationalProvinceName());
         setVendorNoteText(po.getVendorNoteText());
+        setVendorAddressGeneratedIdentifier(po.getVendorAddressGeneratedIdentifier());
         
         //copy alternate vendor
         setAlternateVendorName( po.getAlternateVendorName() );
@@ -833,6 +835,14 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         this.goodsDeliveredVendorHeaderGeneratedIdentifier = goodsDeliveredVendorHeaderGeneratedIdentifier;
     }
 
+    public Integer getVendorAddressGeneratedIdentifier() {
+        return vendorAddressGeneratedIdentifier;
+    }
+
+    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier) {
+        this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
+    }
+    
     public void setRelatedViews(PurApRelatedViews relatedViews) {
         this.relatedViews = relatedViews;
     }

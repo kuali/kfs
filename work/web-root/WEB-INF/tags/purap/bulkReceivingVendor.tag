@@ -20,9 +20,12 @@
               
 <c:set var="vendorReadOnly" value="${(not empty KualiForm.editingMode['lockVendorEntry'])}" />
 
-<kul:tab tabTitle="Vendor" defaultOpen="${true}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
+<kul:tab tabTitle="Vendor" defaultOpen="${true}" tabErrorKey="${PurapConstants.BULK_RECEIVING_VENDOR_TAB_ERRORS}">
     <div class="tab-container" align=center>
         
+        <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
+        <html:hidden property="document.vendorDetailAssignedIdentifier" />
+        <html:hidden property="document.vendorNumber" />
         
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
             <tr>
@@ -32,16 +35,11 @@
 			<%-- If PO available, display the available vendor and alternate vendor details --%>
 			<c:if test="${isPOAvailable}" > 
 			
-				<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
-		        <html:hidden property="document.vendorDetailAssignedIdentifier" />
 		        <html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
 		        <html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
 		        <html:hidden property="document.goodsDeliveredVendorHeaderGeneratedIdentifier" />
 		        <html:hidden property="document.goodsDeliveredVendorDetailAssignedIdentifier" />
-		        <html:hidden property="document.vendorName" />
-		        <html:hidden property="document.alternateVendorName" />
 		        <html:hidden property="document.goodsDeliveredVendorName" />
-		        <html:hidden property="document.vendorNumber" />
 		        <html:hidden property="document.alternateVendorNumber" />
 		        <html:hidden property="document.vendorNoteText" />
         
@@ -168,13 +166,15 @@
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorName}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell" width="25%">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorName}" property="document.vendorName" readOnly="${vendorReadOnly or (not fullEntryMode)}" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorName}" 
+	                    						  property="document.vendorName" 
+	                    						  readOnly="${not (fullEntryMode) or vendorReadOnly}" />
 	                    <c:if test="${fullEntryMode}" >
 	                        <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" 
-				                         lookupParameters="'Y':activeIndicator, 'PO':vendorHeader.vendorTypeCode"
+	                        			 lookupParameters="'Y':activeIndicator, 'PO':vendorHeader.vendorTypeCode"
 	                        			 fieldConversions="vendorNumber:document.vendorNumber,vendorName:document.vendorName,vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier,defaultAddressLine1:document.vendorLine1Address,defaultAddressLine2:document.vendorLine2Address,defaultAddressCity:document.vendorCityName,defaultAddressPostalCode:document.vendorPostalCode,defaultAddressStateCode:document.vendorStateCode,defaultAddressInternationalProvince:document.vendorAddressInternationalProvinceName,defaultAddressCountryCode:document.vendorCountryCode"/>
 	                    </c:if>
-	                </td>
+                	</td>
 	                <th align=right valign=middle class="bord-l-b" width="25%">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCityName}" /></div>
 	                </th>

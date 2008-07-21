@@ -85,12 +85,17 @@
         <ref bean="BulkReceivingDocument-deliveryPostalCode" />
         <ref bean="BulkReceivingDocument-deliveryCountryCode" />
         <ref bean="BulkReceivingDocument-deliveryCampusName" />
+        <ref bean="BulkReceivingDocument-deliveryCampusCode" />
         <ref bean="BulkReceivingDocument-deliveryInstructionText" />
         <ref bean="BulkReceivingDocument-deliveryAdditionalInstructionText" />
         <ref bean="BulkReceivingDocument-deliveryToName" />
         <ref bean="BulkReceivingDocument-deliveryToEmailAddress" />
         <ref bean="BulkReceivingDocument-deliveryToPhoneNumber" />
 
+        <ref bean="BulkReceivingDocument-institutionContactName" />
+        <ref bean="BulkReceivingDocument-institutionContactPhoneNumber" />
+        <ref bean="BulkReceivingDocument-institutionContactEmailAddress" />
+        
       </list>
     </property>
   </bean>
@@ -170,7 +175,7 @@
   <bean id="BulkReceivingDocument-deliveryBuildingName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="deliveryBuildingName" />
     <property name="forceUppercase" value="false" />
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="label" value="Building" />
     <property name="shortLabel" value="Building" />
     <property name="maxLength" value="45" />
@@ -202,12 +207,27 @@
             p:size="10" />
     </property>
   </bean>
+  
   <bean id="BulkReceivingDocument-deliveryCampusName" parent="BulkReceivingDocument-deliveryCampusName-parentBean" />
 
   <bean id="BulkReceivingDocument-deliveryCampusName-parentBean" abstract="true" parent="Campus-campusName">
     <property name="name" value="deliveryCampusName" />
     <property name="label" value="Campus" />
     <property name="required" value="false" />
+  </bean>
+  
+  <bean id="BulkReceivingDocument-deliveryCampusCode" parent="BulkReceivingDocument-deliveryCampusCode-parentBean" />
+
+  <bean id="BulkReceivingDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
+    <property name="name" value="deliveryCampusCode" />
+    <property name="label" value="Campus" />
+    <property name="shortLabel" value="Campus" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CampusNoBlankValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
   </bean>
   
   <bean id="BulkReceivingDocument-deliveryCityName" parent="BulkReceivingDocument-deliveryCityName-parentBean" />
@@ -288,6 +308,7 @@
     <property name="name" value="deliveryToName" />
     <property name="label" value="Delivery To" />
     <property name="shortLabel" value="To" />
+    <property name="required" value="true" />
   </bean>
   
   <bean id="BulkReceivingDocument-deliveryToPhoneNumber" parent="BulkReceivingDocument-deliveryToPhoneNumber-parentBean" />
@@ -400,7 +421,6 @@
 
   <bean id="BulkReceivingDocument-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
     <property name="label" value="Vendor" />
-    <property name="shortLabel" value="Vendor" />
     <property name="required" value="false" />
   </bean>
 
@@ -440,7 +460,7 @@
 
   <bean id="BulkReceivingDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="vendorCountryCode" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
   </bean>
   
   <bean id="BulkReceivingDocument-vendorLine1Address" parent="BulkReceivingDocument-vendorLine1Address-parentBean" />
@@ -634,6 +654,39 @@
     </property>
     <property name="summary" value="Requisition Preparer Phone" />
     <property name="description" value="Requisition Preparer Phone description..." />
+  </bean>
+  
+  <bean id="BulkReceivingDocument-institutionContactEmailAddress" parent="BulkReceivingDocument-institutionContactEmailAddress-parentBean" />
+
+  <bean id="BulkReceivingDocument-institutionContactEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
+    <property name="name" value="institutionContactEmailAddress" />
+    <property name="label" value="Institutional Contact Email" />
+    <property name="shortLabel" value="Address" />
+  </bean>
+  <bean id="BulkReceivingDocument-institutionContactName" parent="BulkReceivingDocument-institutionContactName-parentBean" />
+
+  <bean id="BulkReceivingDocument-institutionContactName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="institutionContactName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Institutional Contact Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  
+  <bean id="BulkReceivingDocument-institutionContactPhoneNumber" parent="BulkReceivingDocument-institutionContactPhoneNumber-parentBean" />
+
+  <bean id="BulkReceivingDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+    <property name="name" value="institutionContactPhoneNumber" />
+    <property name="label" value="Institutional Contact Phone" />
+    <property name="shortLabel" value="Number" />
   </bean>
   
 </beans>

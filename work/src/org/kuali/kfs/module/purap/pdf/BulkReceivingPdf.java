@@ -39,6 +39,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -126,11 +127,19 @@ public class BulkReceivingPdf extends PurapPdf {
         /**
          * Title
          */
-        cell = new PdfPCell(new Paragraph(" ", ver_15_normal));
-        cell.setBorderWidth(0);
-        nestedHeaderTable.addCell(cell);
         cell = new PdfPCell(new Paragraph("BULK RECEIVING", ver_15_normal));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBorderWidth(0);
+        nestedHeaderTable.addCell(cell);
+        
+        /**
+         * Doc Number
+         */
+        Paragraph p = new Paragraph();
+        p.add(new Chunk("Doc Number: ", ver_11_normal));
+        p.add(new Chunk(blkRecDoc.getDocumentNumber().toString(), cour_10_normal));
+        cell = new PdfPCell(p);
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         cell.setBorderWidth(0);
         nestedHeaderTable.addCell(cell);
         
@@ -210,17 +219,6 @@ public class BulkReceivingPdf extends PurapPdf {
         infoTable.setHorizontalAlignment(Element.ALIGN_CENTER);
         infoTable.setSplitLate(false);
         
-        /**
-         * Doc Number
-         */
-        p.add(new Chunk("Doc Number: ", ver_10_normal));
-        p.add(new Chunk(blkRecDoc.getDocumentNumber().toString(), cour_10_normal));
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        cell.setBorderWidth(0);
-        cell.setColspan(2);
-        infoTable.addCell(cell);
-        
         infoTable.addCell(getPDFCell("Vendor", getFormattedVendorAddress()));
         infoTable.addCell(getPDFCell("Delivery", getFormattedDeliveryAddress()));
         infoTable.addCell(getPDFCell("Reference Number\n", blkRecDoc.getShipmentReferenceNumber()));
@@ -264,44 +262,89 @@ public class BulkReceivingPdf extends PurapPdf {
     }
     
     private String getFormattedVendorAddress(){
-        
+
         StringBuffer vendorInfo = new StringBuffer();
         vendorInfo.append("\n");
         
-        if (StringUtils.isNotBlank(blkRecDoc.getVendorName())) {
-            vendorInfo.append("     " + blkRecDoc.getVendorName() + "\n");
-        }
-        
-        if (StringUtils.isNotBlank(blkRecDoc.getVendorLine1Address())) {
-            vendorInfo.append("     " + blkRecDoc.getVendorLine1Address() + "\n");
-        }
-        
-        if (StringUtils.isNotBlank(blkRecDoc.getVendorLine2Address())) {
-            vendorInfo.append("     " + blkRecDoc.getVendorLine2Address() + "\n");
-        }
-        
-        if (StringUtils.isNotBlank(blkRecDoc.getVendorCityName())) {
-            vendorInfo.append("     " + blkRecDoc.getVendorCityName());
-        }
-        
-        if (StringUtils.isNotBlank(blkRecDoc.getVendorStateCode())) {
-            vendorInfo.append(", " + blkRecDoc.getVendorStateCode());
-        }
-        
-        if (StringUtils.isNotBlank(blkRecDoc.getVendorAddressInternationalProvinceName())) {
-            vendorInfo.append(", " + blkRecDoc.getVendorAddressInternationalProvinceName());
-        }
-        
-        if (StringUtils.isNotBlank(blkRecDoc.getVendorPostalCode())) {
-            vendorInfo.append(" " + blkRecDoc.getVendorPostalCode() + "\n");
-        }else {
-            vendorInfo.append("\n");
-        }
-        
-        if (!KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(blkRecDoc.getVendorCountryCode()) && blkRecDoc.getVendorCountry() != null) {
-            vendorInfo.append("     " + blkRecDoc.getVendorCountry().getPostalCountryName() + "\n\n");
-        }else {
-            vendorInfo.append("\n\n");
+        /**
+         * GoodsDeliveredVendorNumber will be null if it the doc is not for a specific PO 
+         */
+        if (blkRecDoc.getGoodsDeliveredVendorNumber() == null ||
+            blkRecDoc.getGoodsDeliveredVendorNumber().equals(blkRecDoc.getVendorNumber())){
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getVendorName())) {
+                vendorInfo.append("     " + blkRecDoc.getVendorName() + "\n");
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getVendorLine1Address())) {
+                vendorInfo.append("     " + blkRecDoc.getVendorLine1Address() + "\n");
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getVendorLine2Address())) {
+                vendorInfo.append("     " + blkRecDoc.getVendorLine2Address() + "\n");
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getVendorCityName())) {
+                vendorInfo.append("     " + blkRecDoc.getVendorCityName());
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getVendorStateCode())) {
+                vendorInfo.append(", " + blkRecDoc.getVendorStateCode());
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getVendorAddressInternationalProvinceName())) {
+                vendorInfo.append(", " + blkRecDoc.getVendorAddressInternationalProvinceName());
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getVendorPostalCode())) {
+                vendorInfo.append(" " + blkRecDoc.getVendorPostalCode() + "\n");
+            }else {
+                vendorInfo.append("\n");
+            }
+            
+            if (!KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(blkRecDoc.getVendorCountryCode()) && blkRecDoc.getVendorCountry() != null) {
+                vendorInfo.append("     " + blkRecDoc.getVendorCountry().getPostalCountryName() + "\n\n");
+            }else {
+                vendorInfo.append("\n\n");
+            }
+            
+        }else{
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getAlternateVendorDetail().getVendorName())) {
+                vendorInfo.append("     " + blkRecDoc.getAlternateVendorDetail().getVendorName() + "\n");
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getAlternateVendorDetail().getDefaultAddressLine1())) {
+                vendorInfo.append("     " + blkRecDoc.getAlternateVendorDetail().getDefaultAddressLine1() + "\n");
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getAlternateVendorDetail().getDefaultAddressLine2())) {
+                vendorInfo.append("     " + blkRecDoc.getAlternateVendorDetail().getDefaultAddressLine2() + "\n");
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getAlternateVendorDetail().getDefaultAddressCity())) {
+                vendorInfo.append("     " + blkRecDoc.getAlternateVendorDetail().getDefaultAddressCity());
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getAlternateVendorDetail().getDefaultAddressStateCode())) {
+                vendorInfo.append(", " + blkRecDoc.getAlternateVendorDetail().getDefaultAddressStateCode());
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getAlternateVendorDetail().getDefaultAddressInternationalProvince())) {
+                vendorInfo.append(", " + blkRecDoc.getAlternateVendorDetail().getDefaultAddressInternationalProvince());
+            }
+            
+            if (StringUtils.isNotBlank(blkRecDoc.getAlternateVendorDetail().getDefaultAddressPostalCode())) {
+                vendorInfo.append(" " + blkRecDoc.getAlternateVendorDetail().getDefaultAddressPostalCode() + "\n");
+            }else {
+                vendorInfo.append("\n");
+            }
+            
+            if (!KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(blkRecDoc.getAlternateVendorDetail().getDefaultAddressCountryCode()) && blkRecDoc.getAlternateVendorDetail().getDefaultAddressCountryCode() != null) {
+                vendorInfo.append("     " + blkRecDoc.getAlternateVendorDetail().getDefaultAddressCountryCode() + "\n\n");
+            }else {
+                vendorInfo.append("\n\n");
+            }
         }
         
         return vendorInfo.toString();

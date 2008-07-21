@@ -20,7 +20,7 @@
 <%@ attribute name="deliveryReadOnly" required="false"
               description="Boolean to indicate if delivery tab fields are read only" %>              
               
-<kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
+<kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${PurapConstants.BULK_RECEIVING_DELIVERY_TAB_ERRORS}">
     <div class="tab-container" align=center>
     
         <h3>Delivery Information</h3>
@@ -76,10 +76,10 @@
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.preparerPersonName}" 
 	                    	property="document.preparerPersonName" readOnly="${true}"/>
 	                </td>
-	                <th align=right valign=middle class="bord-l-b" rowspan="4">
+	                <th align=right valign=middle class="bord-l-b" rowspan="3">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}"/></div>
 	                </th>
-	                <td align=right valign=middle class="bord-l-b" rowspan="4">
+	                <td align=right valign=middle class="bord-l-b" rowspan="3">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}" 
 	                    	property="document.deliveryAdditionalInstructionText" readOnly="${not (fullEntryMode)}"/>
 	                </td>
@@ -99,7 +99,7 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonPhoneNumber}" 
-	                    	property="document.requestorPersonName" readOnly="${true}"/>
+	                    	property="document.requestorPersonPhoneNumber" readOnly="${true}"/>
 	                </td>
 	            </tr>
 	            <tr>
@@ -108,6 +108,10 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryCampusName}" property="document.deliveryCampus.campusName" readOnly="true" />
+               	 	</td>
+               	 	<th align=right valign=middle class="bord-l-b">
+	                </th>
+	                <td align=left valign=middle class="datacell">
                	 	</td>
 	            </tr>
         	</c:if>
@@ -204,7 +208,7 @@
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}" 
 	                    	property="document.deliveryBuildingRoomNumber" readOnly="${not (fullEntryMode)}"/>
-	                </td>		
+	                </td>	
 				</tr>
 				
 				<tr>
@@ -239,6 +243,31 @@
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryPostalCode}" 
 	                    	property="document.deliveryPostalCode" readOnly="true"/>
+	                </td>
+				</tr>
+				<tr>
+					<th align=right valign=middle class="bord-l-b">
+                    	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactName}" /></div>
+                 	</th>
+                	<td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactName}" property="document.institutionContactName" readOnly="${not (fullEntryMode)}" />
+	                    <c:if test="${(fullEntryMode)}" >
+	                        <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personName:document.institutionContactName,personLocalPhoneNumber:document.institutionContactPhoneNumber,personEmailAddress:document.institutionContactEmailAddress" /></div>
+	                    </c:if>
+                	</td>
+				</tr>
+				<tr>
+					<th align=right valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactPhoneNumber}" /></div>
+	                </th>
+	                <td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactPhoneNumber}" property="document.institutionContactPhoneNumber" readOnly="${not (fullEntryMode)}" />
+	                </td>
+	                <th align=right valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactEmailAddress}" /></div>
+	                </th>
+	                <td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactEmailAddress}" property="document.institutionContactEmailAddress" readOnly="${not (fullEntryMode)}" />
 	                </td>
 				</tr>
 			</c:if>	

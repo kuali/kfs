@@ -209,7 +209,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
             if(!(workflowDocument.stateIsCanceled() ||
                  workflowDocument.stateIsException() ||
                  workflowDocument.stateIsFinal()) &&
-                 docNumber.equals(bulkReceivingDocumentNumber)){
+                 !docNumber.equals(bulkReceivingDocumentNumber)){
                      
                 isInProcess = true;
                 break;

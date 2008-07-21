@@ -37,7 +37,7 @@ public interface PayrateImportService {
     /**
      * Processes all payrate holding records
      */
-    public void update(Integer budgetYear, UniversalUser user, List<ExternalizedMessageWrapper> messageList);
+    public void update(Integer budgetYear, UniversalUser user, List<ExternalizedMessageWrapper> messageList, String personUniversalIdentifier);
     
     /**
      * Generates the log file
@@ -47,12 +47,5 @@ public interface PayrateImportService {
      * @throws DocumentException
      */
     public void generatePdf(List<ExternalizedMessageWrapper> logMessages, ByteArrayOutputStream baos) throws DocumentException;
-    
-    /**
-     * Returns the importCount
-     * 
-     * @return
-     */
-    public int getImportCount();
     
 }

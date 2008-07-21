@@ -75,7 +75,11 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      */
     @Transactional
     public boolean importFile(InputStream fileImportStream, List<ExternalizedMessageWrapper> messageList, String personUniversalIdentifier) {
-        clearPayrateHoldingTable();
+        Map payRateHoldingPersonUniversalIdentifierKey = new HashMap();
+        payRateHoldingPersonUniversalIdentifierKey.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
+        
+        this.businessObjectService.deleteMatching(BudgetConstructionPayRateHolding.class, payRateHoldingPersonUniversalIdentifierKey);
+        
         BufferedReader fileReader = new BufferedReader(new InputStreamReader(fileImportStream));
         this.importCount = 0;
         
@@ -90,7 +94,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
             }
         }
         catch (Exception e) {
-            clearPayrateHoldingTable();
+            this.businessObjectService.deleteMatching(BudgetConstructionPayRateHolding.class, payRateHoldingPersonUniversalIdentifierKey);
             messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_IMPORT_ABORTED));
             
             return false;
@@ -107,18 +111,18 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @see org.kuali.kfs.module.bc.service.PayrateImportService#update()
      */
     @Transactional
-    public void update(Integer budgetYear, UniversalUser user, List<ExternalizedMessageWrapper> messageList) {
-        //List<ExternalizedMessageWrapper> messageList = new ArrayList<ExternalizedMessageWrapper>();
+    public void update(Integer budgetYear, UniversalUser user, List<ExternalizedMessageWrapper> messageList, String personUniversalIdentifier) {
         Map<String, PendingBudgetConstructionAppointmentFunding> lockMap = new HashMap<String, PendingBudgetConstructionAppointmentFunding>();
         boolean updateContainsErrors = false;
         this.updateCount = 0;
         
+        Map payRateHoldingPersonUniversalIdentifierKey = new HashMap();
+        payRateHoldingPersonUniversalIdentifierKey.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
         List<BudgetConstructionPayRateHolding> records = (List<BudgetConstructionPayRateHolding>) this.businessObjectService.findAll(BudgetConstructionPayRateHolding.class);
         
         if ( !getPayrateLock(lockMap, messageList, budgetYear, user, records) ) {
             messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_UPDATE_ABORTED, String.valueOf(this.updateCount)));
             doRollback();
-            //return messageList;
         }
         
         List<String> biweeklyPayObjectCodes = BudgetParameterFinder.getBiweeklyPayObjectCodes();
@@ -180,8 +184,6 @@ public class PayrateImportServiceImpl implements PayrateImportService {
             PendingBudgetConstructionAppointmentFunding recordToUnlock = lockMap.get(lockingKey);
             this.lockService.unlockAccount(budgetDocumentService.getBudgetConstructionHeader(recordToUnlock));
         }
-        
-        //return messageList;
     }
     
     /**
@@ -207,45 +209,65 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     }
     
     /**
+     * Sets the business object service
      * 
-     * @see org.kuali.kfs.module.bc.service.PayrateImportService#getImportCount()
+     * @param businessObjectService
      */
-    @NonTransactional
-    public int getImportCount() {
-        return importCount;
-    }
-    
     @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
     
+    /**
+     * sets lock service
+     * 
+     * @param lockService
+     */
     @NonTransactional
     public void setLockService(LockService lockService) {
         this.lockService = lockService;
     }
     
+    /**
+     * sets option service
+     * 
+     * @param optionsService
+     */
     @NonTransactional
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
     }
     
+    /**
+     * sets payrate import dao
+     * 
+     * @param payrateImportDao
+     */
     @NonTransactional
     public void setPayrateImportDao(PayrateImportDao payrateImportDao) {
         this.payrateImportDao = payrateImportDao;
     }
     
+    /**
+     * Creates the locking key to use in retrieving account locks
+     * 
+     * @param record
+     * @return
+     */
     private String getLockingKeyString(PendingBudgetConstructionAppointmentFunding record) {
         return record.getUniversityFiscalYear() + "-" + record.getChartOfAccountsCode() + "-" + record.getAccountNumber() + "-" + record.getSubAccountNumber();
     }
     
-    private void clearPayrateHoldingTable() {
-        List<BudgetConstructionPayRateHolding> records = (List<BudgetConstructionPayRateHolding>) this.businessObjectService.findAll(BudgetConstructionPayRateHolding.class);
-        for (BudgetConstructionPayRateHolding record : records) {
-            this.businessObjectService.delete(record);
-        }
-    }
-    
+    /**
+     * Retrieves Account locks for payrate import records
+     * 
+     * @param lockMap
+     * @param messageList
+     * @param budgetYear
+     * @param user
+     * @param records
+     * @return
+     */
     private boolean getPayrateLock(Map<String, PendingBudgetConstructionAppointmentFunding> lockMap, List<ExternalizedMessageWrapper> messageList, Integer budgetYear, UniversalUser user, List<BudgetConstructionPayRateHolding> records) {
         List<String> biweeklyPayObjectCodes = BudgetParameterFinder.getBiweeklyPayObjectCodes();
         
@@ -276,11 +298,14 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         return true;
     }
     
+    /**
+     * File format for payrate import file
+     * 
+     */
     private static class DefaultImportFileFormat {
         private static final int[] fieldLengths = new int[] {11, 8, 50, 5, 4, 3, 3, 10, 8};
         private static final String[] fieldNames = new String[] {KFSPropertyConstants.EMPLID, KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.PERSON_NAME, BCPropertyConstants.SET_SALARY_ID, BCPropertyConstants.SALARY_ADMINISTRATION_PLAN, BCPropertyConstants.GRADE, "unionCode", BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCPropertyConstants.CSF_FREEZE_DATE};
     }
-
     
     /**
      * If retrieving budget locks fails, this method rolls back previous changes

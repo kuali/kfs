@@ -28,9 +28,9 @@
     <html:hidden property="returnFormKey" />
     <html:hidden property="backLocation" />
     <html:hidden name="KualiForm" property="universityFiscalYear" />
-	<kul:tabTop tabTitle="Payrate Export" defaultOpen="true">
+	<kul:tabTop tabTitle="Payrate Import/Export" defaultOpen="true">
 		<div class="tab-container" align=center>
-			<h3>Export</h3>
+			<h3>Payrate Export</h3>
 			<table bgcolor="#C0C0C0" cellpadding="30" >
 				<tr>
 					<td> 
@@ -51,19 +51,14 @@
 					<td colspan="3">
 						<div align="center">
 							<html:image property="methodToCall.performExport" src="kr/static/images/buttonsmall_submit.gif"  title="Export" alt="Export" styleClass="tinybutton" /> &nbsp;&nbsp;&nbsp;
-						
-							<html:image property="methodToCall.close" src="kr/static/images/buttonsmall_close.gif"  title="Import" alt="Import" styleClass="tinybutton" /> &nbsp;&nbsp;&nbsp;
 						</div>
 					</td>
 				</tr>
 			</table>
 		</div>
-	</kul:tabTop>
-	
-	<kul:tab tabTitle="Payrate Import" defaultOpen="true">
 		<div class="tab-container" align=center>
-			<h3>Import</h3>
-			<table bgcolor="#C0C0C0" >
+			<table bgcolor="#C0C0C0" cellpadding="30" >
+				<tr><h3>Payrate Import</h3></tr>
 				<tr>
 					<td> 
 						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.fileName}" /></b>
@@ -81,6 +76,6 @@
 				</tr>
 			</table>
 		</div>
-	</kul:tab>
+	</kul:tabTop>
 	
 </kul:page>

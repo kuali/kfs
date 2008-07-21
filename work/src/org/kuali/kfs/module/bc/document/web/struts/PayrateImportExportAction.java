@@ -78,7 +78,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         
         //perform updates
-        payrateImportService.update(budgetYear, user, messageList);
+        payrateImportService.update(budgetYear, user, messageList, personUniversalIdentifier);
         
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_LOG_FILE_FOOTER, dateFormatter.format(new Date())));
         

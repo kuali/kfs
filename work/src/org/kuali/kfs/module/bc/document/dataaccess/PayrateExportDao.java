@@ -22,14 +22,6 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 
 public interface PayrateExportDao {
     
-    /**
-     * Returns the list of PendingBudgetConstructionAppointmentFunding for this BudgetConstructionPayRateHolding
-     * 
-     * @param holdingRecord
-     * @param budgetYear
-     * @return
-     */
-    List<PendingBudgetConstructionAppointmentFunding> getFundingRecords(Integer budgetYear, String positionUnionCode);
     
     /**
      * Checks if this position union code exsits in the database
@@ -38,4 +30,14 @@ public interface PayrateExportDao {
      * @return
      */
     public boolean isValidPositionUnionCode(String positionUnionCode);
+    
+    /**
+     * Populates the PayrateHolding table for the payrate export
+     * 
+     * @param budgetYear
+     * @param positionUnionCode
+     * @param personUniversalIdentifier
+     * @return
+     */
+    public Integer buildPayRateHoldingRows(Integer budgetYear, String positionUnionCode, String personUniversalIdentifier);
 }

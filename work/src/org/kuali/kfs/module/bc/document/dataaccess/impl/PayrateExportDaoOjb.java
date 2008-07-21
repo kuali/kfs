@@ -15,13 +15,17 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
+import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.dataaccess.PayrateExportDao;
@@ -29,19 +33,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class PayrateExportDaoOjb extends PlatformAwareDaoBaseOjb implements PayrateExportDao {
 
-    public List<PendingBudgetConstructionAppointmentFunding> getFundingRecords(Integer budgetYear, String positionUnionCode) {
-        Criteria criteria = new Criteria();
-        
-        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
-        criteria.addNotEqualTo(KFSPropertyConstants.EMPLID, BCConstants.VACANT_EMPLID);
-        criteria.addEqualTo(BCPropertyConstants.APPOINTMENT_FUNDING_DELETE_INDICATOR, "N");
-        criteria.addEqualTo(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.POSITION_UNION_CODE, positionUnionCode);
-        criteria.addEqualTo(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.CONFIDENTIAL_POSITION, "N");
-        
-        List<PendingBudgetConstructionAppointmentFunding> records = (List<PendingBudgetConstructionAppointmentFunding>)getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PendingBudgetConstructionAppointmentFunding.class, criteria, true));
-        
-        return records;
-    }
     
     /**
      * 
@@ -57,4 +48,64 @@ public class PayrateExportDaoOjb extends PlatformAwareDaoBaseOjb implements Payr
         return true;
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.bc.document.dataaccess.PayrateExportDao#buildPayRateHoldingRows(java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    public Integer buildPayRateHoldingRows(Integer budgetYear, String positionUnionCode, String personUniversalIdentifier) {
+        Integer rowsSaved = 0;
+        
+        Iterator<Object[]> payRateRows =  getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryForPayrateHoldingRecords(budgetYear, positionUnionCode));
+        while (payRateRows.hasNext())
+        {
+            Object[] payRateRow = payRateRows.next();
+            BudgetConstructionPayRateHolding payRateHolder = new BudgetConstructionPayRateHolding();
+            payRateHolder.setAppointmentRequestedPayRate(new BigDecimal(0));
+            payRateHolder.setEmplid((String) payRateRow[0]);
+            payRateHolder.setPositionNumber((String) payRateRow[1]);
+            payRateHolder.setPersonName((String) payRateRow[2]);
+            payRateHolder.setSetidSalary((String) payRateRow[3]);
+            payRateHolder.setSalaryAdministrationPlan((String) payRateRow[4]);
+            payRateHolder.setGrade((String) payRateRow[5]);
+            payRateHolder.setUnionCode((String) payRateRow[6]);
+            payRateHolder.setPersonUniversalIdentifier(personUniversalIdentifier);
+            
+            getPersistenceBrokerTemplate().store(payRateHolder);
+            rowsSaved = rowsSaved+1;
+        }
+        return rowsSaved;
+    }
+
+    /**
+     * Selects the unique list of PendingBudgetConstructionAppointmentFunding to populate the payrate holding table for export
+     * This method...
+     * @param budgetYear
+     * @param positionUnionCode
+     * @return
+     */
+    private ReportQueryByCriteria queryForPayrateHoldingRecords(Integer budgetYear, String positionUnionCode) {
+        Criteria criteria = new Criteria();
+        
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
+        criteria.addNotEqualTo(KFSPropertyConstants.EMPLID, BCConstants.VACANT_EMPLID);
+        criteria.addEqualTo(BCPropertyConstants.APPOINTMENT_FUNDING_DELETE_INDICATOR, "N");
+        criteria.addEqualTo(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.POSITION_UNION_CODE, positionUnionCode);
+        criteria.addEqualTo(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.CONFIDENTIAL_POSITION, "N");
+        
+        
+        ReportQueryByCriteria queryId = new ReportQueryByCriteria(PendingBudgetConstructionAppointmentFunding.class, criteria, true);
+        
+        String[] selectList = new String[7];
+        selectList[0] = KFSPropertyConstants.EMPLID;
+        selectList[1] = KFSPropertyConstants.POSITION_NUMBER;
+        selectList[2] = BCPropertyConstants.BUDGET_CONSTRUCTION_INTENDED_INCUMBENT + "." + KFSPropertyConstants.PERSON_NAME;
+        selectList[3] = BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.SET_SALARY_ID;
+        selectList[4] = BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.POSITION_SALARY_PLAN_DEFAULT;
+        selectList[5] = BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.POSITION_GRADE_DEFAULT;
+        selectList[6] = BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.POSITION_UNION_CODE;
+        
+        queryId.setAttributes(selectList);
+        
+        return queryId;
+    }
 }

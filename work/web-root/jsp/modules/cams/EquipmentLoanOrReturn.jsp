@@ -26,11 +26,11 @@
 	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 	<c:set var="displayNewLoanTab" value="${KualiForm.editingMode['displayNewLoanTab']}" scope="request"/>
 	
+	<kfs:hiddenDocumentFields isTransactionalDocument="true" isFinancialDocument="false"/>
 	<html:hidden property="document.capitalAssetNumber" />
 	<html:hidden property="document.documentNumber" />
 	<html:hidden property="document.versionNumber" />	
 	<html:hidden property="document.newLoan" />	
-	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
 
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <cams:viewAssetDetails defaultTabHide="false" /> 
@@ -67,7 +67,7 @@
 				            <c:when test="${displayNewLoanTab}">
 				                <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" /> </td>
 				            </c:when>
-				            <c:otherwise>${KualiForm.editingMode['displayNewLoanTab']}-1
+				            <c:otherwise>
 				                <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" readOnly="true" />
 			            </c:otherwise>
  			       </c:choose>

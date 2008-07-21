@@ -24,16 +24,12 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumen
 
 public class EquipmentLoanOrReturnForm extends FinancialSystemTransactionalDocumentFormBase {
 
-    private EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument;
-
     /**
      * Constructs a EquipmentLoanOrReturnForm.java.
      */
     public EquipmentLoanOrReturnForm() {
         super();
-        this.equipmentLoanOrReturnDocument = new EquipmentLoanOrReturnDocument();
-        setDocument(this.equipmentLoanOrReturnDocument);
-//        setDocument(new EquipmentLoanOrReturnDocument());
+        setDocument(new EquipmentLoanOrReturnDocument());
     }
 
     /**
@@ -42,16 +38,7 @@ public class EquipmentLoanOrReturnForm extends FinancialSystemTransactionalDocum
      * @return EquipmentLoanOrReturnDocument
      */
     public EquipmentLoanOrReturnDocument getEquipmentLoanOrReturnDocument() {
-        return this.equipmentLoanOrReturnDocument;
-    }
-
-    /**
-     * This method sets the equipmentLoanOrReturnDocument selected
-     * 
-     * @param equipmentLoanOrReturnDocument
-     */
-    public void setEquipmentLoanOrReturnDocument(EquipmentLoanOrReturnDocument document) {
-        setDocument(document);
+        return (EquipmentLoanOrReturnDocument) getDocument();
     }
 
     /**

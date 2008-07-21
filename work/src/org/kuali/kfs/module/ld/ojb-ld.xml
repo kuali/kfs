@@ -108,8 +108,6 @@
 	<field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionLedgerEntryDescription" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR"/>
@@ -217,8 +215,6 @@
 	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="contractsGrantsBeginningBalanceAmount" column="CONTR_GR_BB_AC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
@@ -1409,8 +1405,6 @@
 	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="contractsGrantsBeginningBalanceAmount" column="CONTR_GR_BB_AC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>

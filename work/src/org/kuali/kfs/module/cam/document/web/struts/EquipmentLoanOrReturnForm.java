@@ -15,12 +15,8 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -37,10 +33,7 @@ public class EquipmentLoanOrReturnForm extends FinancialSystemTransactionalDocum
         super();
         this.equipmentLoanOrReturnDocument = new EquipmentLoanOrReturnDocument();
         setDocument(this.equipmentLoanOrReturnDocument);
-        // If this is not done, when document description error is there, message comes back with read-only mode
-        Map<String, String> editModeMap = new HashMap<String, String>();
-        editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
-        setEditingMode(editModeMap);
+//        setDocument(new EquipmentLoanOrReturnDocument());
     }
 
     /**

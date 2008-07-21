@@ -40,13 +40,13 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      * @see org.kuali.kfs.module.bc.service.PayrateExportService#buildExportFile()
      */
     @Transactional(propagation=Propagation.REQUIRES_NEW)
-    public StringBuilder buildExportFile(Integer budgetYear, String positionUnionCode, String csfFreezeDate) {
+    public StringBuilder buildExportFile(Integer budgetYear, String positionUnionCode, String csfFreezeDate, String personUniversalIdentifier) {
         this.exportCount = 0;
         clearPayrateHoldingTable();
         
         StringBuilder results = new StringBuilder();
         
-        populatePayrateHoldingRecords(budgetYear, positionUnionCode);
+        populatePayrateHoldingRecords(budgetYear, positionUnionCode, personUniversalIdentifier);
         List<BudgetConstructionPayRateHolding> holdingRecords = (List<BudgetConstructionPayRateHolding>) this.businessObjectService.findAll(BudgetConstructionPayRateHolding.class);
         for (BudgetConstructionPayRateHolding record : holdingRecords) {
             results.append(buildExportLine(record, csfFreezeDate));
@@ -94,13 +94,14 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      * @param positionUnionCode
      */
     @Transactional
-    private void populatePayrateHoldingRecords(Integer budgetYear, String positionUnionCode) {
+    private void populatePayrateHoldingRecords(Integer budgetYear, String positionUnionCode, String personUniversalIdentifier) {
         List<PendingBudgetConstructionAppointmentFunding> fundingRecordList = this.payrateExportDao.getFundingRecords(budgetYear, positionUnionCode);
         BudgetConstructionPayRateHolding temp;
         List<String> holdingRecordList = new ArrayList<String>();
         for (PendingBudgetConstructionAppointmentFunding fundingRecord : fundingRecordList) {
             
             temp = new BudgetConstructionPayRateHolding();
+            temp.setPersonUniversalIdentifier(personUniversalIdentifier);
             temp.setEmplid(fundingRecord.getEmplid());
             temp.setPositionNumber(fundingRecord.getPositionNumber());
             temp.setPersonName((fundingRecord.getBudgetConstructionIntendedIncumbent().getPersonName() == null) ? "NOT ASSIGNED" : fundingRecord.getBudgetConstructionIntendedIncumbent().getPersonName());

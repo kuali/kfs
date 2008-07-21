@@ -74,7 +74,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @see org.kuali.kfs.module.bc.service.PayrateImportService#importFile(java.io.InputStream)
      */
     @Transactional
-    public boolean importFile(InputStream fileImportStream, List<ExternalizedMessageWrapper> messageList) {
+    public boolean importFile(InputStream fileImportStream, List<ExternalizedMessageWrapper> messageList, String personUniversalIdentifier) {
         clearPayrateHoldingTable();
         BufferedReader fileReader = new BufferedReader(new InputStreamReader(fileImportStream));
         this.importCount = 0;
@@ -84,6 +84,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                 BudgetConstructionPayRateHolding budgetConstructionPayRateHolding = new BudgetConstructionPayRateHolding();
                 String line = fileReader.readLine();
                 ObjectUtil.convertLineToBusinessObject(budgetConstructionPayRateHolding, line, DefaultImportFileFormat.fieldLengths, Arrays.asList(DefaultImportFileFormat.fieldNames));
+                budgetConstructionPayRateHolding.setPersonUniversalIdentifier(personUniversalIdentifier);
                 businessObjectService.save(budgetConstructionPayRateHolding);
                 this.importCount++;
             }

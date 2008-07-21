@@ -53,7 +53,8 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         List<ExternalizedMessageWrapper> messageList = new ArrayList<ExternalizedMessageWrapper>();
         Integer budgetYear = payrateImportExportForm.getUniversityFiscalYear();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
+        String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy ' ' HH:mm:ss", Locale.US);
         
         boolean isValid = validateImportFormData(payrateImportExportForm);
@@ -66,7 +67,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_LOG_FILE_HEADER_LINE, dateFormatter.format(startTime)));
         
         //parse file
-        if (!payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream(), messageList) ) {
+        if (!payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream(), messageList, personUniversalIdentifier) ) {
             payrateImportService.generatePdf(messageList, baos);
             WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, BCConstants.PAYRATE_IMPORT_LOG_FILE);
             return null;
@@ -96,6 +97,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         Integer budgetYear = payrateImportExportForm.getUniversityFiscalYear();
         String positionUnionCode = payrateImportExportForm.getPositionUnionCode();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
+        String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
         
         //form validation
         boolean isValidPositionUnionCode = validateExportFormData(payrateImportExportForm);
@@ -110,7 +112,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
-        StringBuilder fileContents = payrateExportService.buildExportFile(budgetYear, positionUnionCode, payrateImportExportForm.getCsfFreezeDateFormattedForExportFile());
+        StringBuilder fileContents = payrateExportService.buildExportFile(budgetYear, positionUnionCode, payrateImportExportForm.getCsfFreezeDateFormattedForExportFile(), personUniversalIdentifier);
         
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos.write(fileContents.toString().getBytes());

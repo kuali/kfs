@@ -31,12 +31,4 @@ public interface PayrateImportDao {
      */
     List<PendingBudgetConstructionAppointmentFunding> getFundingRecords(BudgetConstructionPayRateHolding holdingRecord, Integer budgetYear, List objectCodeValues);
     
-    /**
-     * Returns the number of payrate holding records that exist for this person
-     * 
-     * @param personUniversalIdentifier
-     * @return
-     */
-    public int getImportCount(String personUniversalIdentifier);
-    
 }

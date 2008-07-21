@@ -32,7 +32,7 @@ public interface PayrateImportService {
      * @param fileImportStream
      * @return
      */
-    public boolean importFile(InputStream fileImportStream, List<ExternalizedMessageWrapper> messageList);
+    public boolean importFile(InputStream fileImportStream, List<ExternalizedMessageWrapper> messageList, String personUniversalIdentifier);
     
     /**
      * Processes all payrate holding records

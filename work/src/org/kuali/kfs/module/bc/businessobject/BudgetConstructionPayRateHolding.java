@@ -34,7 +34,8 @@ public class BudgetConstructionPayRateHolding extends PersistableBusinessObjectB
     private String grade;
     private String unionCode;
     private BigDecimal appointmentRequestedPayRate;
-
+    private String personUniversalIdentifier;
+    
     /**
      * Default constructor.
      */
@@ -202,5 +203,13 @@ public class BudgetConstructionPayRateHolding extends PersistableBusinessObjectB
         m.put("emplid", this.emplid);
         m.put("positionNumber", this.positionNumber);
         return m;
+    }
+
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
+
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
     }
 }

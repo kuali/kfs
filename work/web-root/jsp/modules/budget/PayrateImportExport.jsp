@@ -34,8 +34,13 @@
 			<table bgcolor="#C0C0C0" cellpadding="30" >
 				<tr>
 					<td> 
-						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.positionUnionCode}" /></b>
-						<kul:htmlControlAttribute property="positionUnionCode" readOnly="false" attributeEntry="${payrateImportExportAttributes.positionUnionCode}"/>
+						<b>
+								<kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.positionUnionCode}" /></b>
+						<kul:lookup boClassName="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition" 
+								fieldConversions="positionUnionCode:positionUnionCode" 
+								lookupParameters="positionUnionCode:positionUnionCode" /> 
+								<kul:htmlControlAttribute property="positionUnionCode" readOnly="false" attributeEntry="${payrateImportExportAttributes.positionUnionCode}"/>
+						<!-- /kul:lookup-->
 					</td> 
 					<td> 
 						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.csfFreezeDate}" /></b>

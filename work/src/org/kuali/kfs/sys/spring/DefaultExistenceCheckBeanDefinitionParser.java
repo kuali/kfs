@@ -21,6 +21,7 @@ import org.kuali.core.datadictionary.ReferenceDefinition;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.springframework.beans.factory.config.ListFactoryBean;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,14 +29,18 @@ import org.w3c.dom.NodeList;
 
 public class DefaultExistenceCheckBeanDefinitionParser extends KualiBeanDefinitionParserBase {
 
-    @SuppressWarnings("unchecked")
+    @Override
+    protected String getBaseBeanTypeParent(Element element) {
+        return null;
+    }
+    
     @Override
     protected Class getBeanClass(Element element) {
         return ListFactoryBean.class;
     }
     
     @Override
-    protected void doParse(Element element, BeanDefinitionBuilder bean) {
+    protected void doParse(Element element, ParserContext context, BeanDefinitionBuilder bean) {
         // get all attributes
 
         // parse checks

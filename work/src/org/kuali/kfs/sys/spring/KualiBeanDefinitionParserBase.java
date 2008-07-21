@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.spring;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractBeanDefinitionParser;
@@ -27,6 +28,8 @@ import org.w3c.dom.NodeList;
 
 public abstract class KualiBeanDefinitionParserBase extends AbstractBeanDefinitionParser {
 
+    private static Logger LOG = Logger.getLogger(KualiBeanDefinitionParserBase.class);
+    
     protected void parseEmbeddedPropertyElements(Element element, BeanDefinitionBuilder bean) {
         NodeList children = element.getChildNodes();
         for ( int i = 0; i < children.getLength(); i++ ) {
@@ -66,16 +69,23 @@ public abstract class KualiBeanDefinitionParserBase extends AbstractBeanDefiniti
      */
     @SuppressWarnings("unchecked")
     protected final AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
-        Class beanClass = getBeanClass(element);
-        Assert.state(beanClass != null, "Class returned from getBeanClass(Element) must not be null");
-        
         BeanDefinitionBuilder builder = null;
         
         String parent = element.getAttribute("parent");
-        if ( StringUtils.hasText(parent)) {
+        String beanClass = element.getAttribute("class");
+        if ( StringUtils.hasText(beanClass) ) {
+            try {
+                builder = BeanDefinitionBuilder.rootBeanDefinition(Class.forName(beanClass));
+            } catch (Exception ex) {
+                LOG.fatal( "Unable to resolve class given in class element of a " + element.getLocalName() + " element with id " + element.getAttribute("id"), ex );
+                throw new RuntimeException(ex);
+            }
+        } else  if ( StringUtils.hasText(parent)) {
             builder = BeanDefinitionBuilder.childBeanDefinition(parent);
+        } else if ( getBeanClass(element) != null ) {
+            builder = BeanDefinitionBuilder.rootBeanDefinition(getBeanClass(element));
         } else {
-            builder = BeanDefinitionBuilder.rootBeanDefinition(beanClass); 
+            builder = BeanDefinitionBuilder.childBeanDefinition(getBaseBeanTypeParent(element)); 
         }
         builder.setSource(parserContext.extractSource(element));
         if (parserContext.isNested()) {
@@ -91,16 +101,6 @@ public abstract class KualiBeanDefinitionParserBase extends AbstractBeanDefiniti
     }
 
     /**
-     * Determine the bean class corresponding to the supplied {@link Element}.
-     * @param element the <code>Element</code> that is being parsed
-     * @return the {@link Class} of the bean that is being defined via parsing the supplied <code>Element</code>
-     * (must <b>not</b> be <code>null</code>)
-     * @see #parseInternal(org.w3c.dom.Element, ParserContext)   
-     */
-    @SuppressWarnings("unchecked")
-    protected abstract Class getBeanClass(Element element);
-
-    /**
      * Parse the supplied {@link Element} and populate the supplied
      * {@link BeanDefinitionBuilder} as required.
      * <p>The default implementation delegates to the <code>doParse</code>
@@ -110,17 +110,11 @@ public abstract class KualiBeanDefinitionParserBase extends AbstractBeanDefiniti
      * @param builder used to define the <code>BeanDefinition</code>
      * @see #doParse(Element, BeanDefinitionBuilder)
      */
-    protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
-        doParse(element, builder);
-    }
+    protected abstract void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder);
 
-    /**
-     * Parse the supplied {@link Element} and populate the supplied
-     * {@link BeanDefinitionBuilder} as required.
-     * <p>The default implementation does nothing.
-     * @param element the XML element being parsed
-     * @param builder used to define the <code>BeanDefinition</code>
-     */
-    protected abstract void doParse(Element element, BeanDefinitionBuilder builder);
+    protected abstract String getBaseBeanTypeParent( Element element );
     
+    protected Class getBeanClass( Element element ) {
+        return null;
+    }
 }

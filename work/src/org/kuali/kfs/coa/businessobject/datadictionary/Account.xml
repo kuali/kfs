@@ -137,28 +137,19 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-chartOfAccountsCode" parent="Account-chartOfAccountsCode-parentBean" />
 
-  <bean id="Account-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  </bean>
+  <dd:boAttributeRef id="Account-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />  
+
   <bean id="Account-chartOfAccounts.codeAndDescription" parent="Account-chartOfAccounts.codeAndDescription-parentBean" />
 
-  <bean id="Account-chartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription">
-    <property name="name" value="chartOfAccounts.codeAndDescription" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
-    </property>
-  </bean>
+  <dd:boAttributeRef id="Account-chartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription"
+                     attributeName="chartOfAccounts.codeAndDescription" />
+
   <bean id="Account-endowmentIncomeChartOfAccounts.codeAndDescription" parent="Account-endowmentIncomeChartOfAccounts.codeAndDescription-parentBean" />
 
-  <bean id="Account-endowmentIncomeChartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription">
-    <property name="name" value="endowmentIncomeChartOfAccounts.codeAndDescription" />
-    <property name="label" value="Endowment Chart of Accounts Code" />
-    <property name="shortLabel" value="Endowment Chart Code" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
-    </property>
-  </bean>
+  <dd:boAttributeRef id="Account-endowmentIncomeChartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription"
+                     attributeName="endowmentIncomeChartOfAccounts.codeAndDescription"
+                     label="Endowment Chart of Accounts Code"
+                     shortLabel="Endowment Chart Code" />
   
   <bean id="Account-accountNumber" parent="Account-accountNumber-parentBean" />
 
@@ -168,29 +159,23 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   >
       <dd:text size="10" />
       <dd:validationPattern parent="AlphaNumericValidationPattern">
-        <dd:property name="exactLength" value="7" />
-        
+        <dd:property name="exactLength" value="7" />        
       </dd:validationPattern>
   </dd:boAttribute>
   
   <bean id="Account-accountName" parent="Account-accountName-parentBean" />
-
-  <bean id="Account-accountName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountName" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Name" />
-    <property name="shortLabel" value="AcctName" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
-    </property>
-  </bean>
+  <dd:boAttribute id="Account-accountName-parentBean" abstract="true"
+        attributeName="accountName" 
+        label="Account Name" 
+        shortLabel="AcctName"
+        forceUppercase="true" 
+        maxLength="40" 
+        required="true">
+      <dd:text size="40" />
+      <dd:validationPattern parent="AnyCharacterValidationPattern">
+          <dd:property name="allowWhitespace" value="true" />
+      </dd:validationPattern>
+  </dd:boAttribute>
 
   <bean id="Account-organizationCode" parent="Account-organizationCode-parentBean" />
   <dd:boAttributeRef id="Account-organizationCode-parentBean" abstract="true" parent="Org-organizationCode" />
@@ -202,24 +187,19 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Account-accountTypeCode" parent="Account-accountTypeCode-parentBean" />
 
   <dd:boAttributeRef id="Account-accountTypeCode-parentBean" abstract="true" parent="AcctType-accountTypeCode">
-  	<dd:select valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AcctTypeValuesFinder" includeKeyInLabel="false" />
+  	<dd:select valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AcctTypeValuesFinder" />
   </dd:boAttributeRef>
   
   <bean id="Account-accountPhysicalCampusCode" parent="Account-accountPhysicalCampusCode-parentBean" />
-  
-  <bean id="Account-accountPhysicalCampusCode-parentBean" abstract="true" parent="Campus-campusCode">
-    <property name="name" value="accountPhysicalCampusCode" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-  </bean>
-  <bean id="Account-subFundGroupCode" parent="Account-subFundGroupCode-parentBean" />
+  <dd:boAttributeRef id="Account-accountPhysicalCampusCode-parentBean" abstract="true" parent="Campus-campusCode"
+                     attributeName="accountPhysicalCampusCode" >
+    <dd:select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
+  </dd:boAttributeRef>
 
-  <bean id="Account-subFundGroupCode-parentBean" abstract="true" parent="SubFundGroup-subFundGroupCode">
-    <property name="shortLabel" value="SubFundGrpCd" />
-  </bean>
+  <bean id="Account-subFundGroupCode" parent="Account-subFundGroupCode-parentBean" />
+  <dd:boAttributeRef id="Account-subFundGroupCode-parentBean" abstract="true" parent="SubFundGroup-subFundGroupCode"
+                     shortLabel="SUbFundGrpCd" />
+
   <bean id="Account-subFundGroup.codeAndDescription" parent="Account-subFundGroup.codeAndDescription-parentBean" />
 
   <bean id="Account-subFundGroup.codeAndDescription-parentBean" abstract="true" parent="SubFundGroup-codeAndDescription">
@@ -237,23 +217,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="FringeBene" />
     <property name="required" value="true" />
   </bean>
-  <bean id="Account-financialHigherEdFunctionCd" parent="Account-financialHigherEdFunctionCd-parentBean" />
 
-  <bean id="Account-financialHigherEdFunctionCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialHigherEdFunctionCd" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Higher Education Function Code" />
-    <property name="shortLabel" value="HighEdFncCd" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-  </bean>
+  <bean id="Account-financialHigherEdFunctionCd" parent="Account-financialHigherEdFunctionCd-parentBean" />
+  <dd:boAttributeRef id="Account-financialHigherEdFunctionCd-parentBean" abstract="true" parent="HigherEdFunction-financialHigherEdFunctionCd"
+                shortLabel="HighEdFncCd">  
+  </dd:boAttributeRef>
+
   <bean id="Account-financialHigherEdFunction.codeAndDescription" parent="Account-financialHigherEdFunction.codeAndDescription-parentBean" />
 
   <bean id="Account-financialHigherEdFunction.codeAndDescription-parentBean" abstract="true" parent="HigherEdFunction-codeAndDescription">

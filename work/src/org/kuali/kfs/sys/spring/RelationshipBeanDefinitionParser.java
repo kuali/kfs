@@ -18,26 +18,24 @@ package org.kuali.kfs.sys.spring;
 import java.util.ArrayList;
 
 import org.kuali.core.datadictionary.PrimitiveAttributeDefinition;
-import org.kuali.core.datadictionary.RelationshipDefinition;
 import org.kuali.core.datadictionary.SupportAttributeDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
+import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class RelationshipBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+public class RelationshipBeanDefinitionParser extends KualiBeanDefinitionParserBase {
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected Class getBeanClass(Element element) {
-        return RelationshipDefinition.class;
+    protected String getBaseBeanTypeParent(Element element) {
+        return "RelationshipDefinition";
     }
     
     @Override
-    protected void doParse(Element element, BeanDefinitionBuilder bean) {
+    protected void doParse(Element element, ParserContext context, BeanDefinitionBuilder bean) {
         // get all attributes
         String objectAttribute = element.getAttribute("objectAttribute");
 

@@ -17,10 +17,10 @@ package org.kuali.kfs.sys.spring;
 
 import java.util.ArrayList;
 
-import org.kuali.core.datadictionary.WorkflowProperties;
 import org.kuali.core.datadictionary.WorkflowProperty;
 import org.kuali.core.datadictionary.WorkflowPropertyGroup;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,14 +28,13 @@ import org.w3c.dom.NodeList;
 
 public class WorkflowPropertiesBeanDefinitionParser extends KualiBeanDefinitionParserBase {
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected Class getBeanClass(Element element) {
-        return WorkflowProperties.class;
+    protected String getBaseBeanTypeParent(Element element) {
+        return "WorkflowProperties";
     }
     
     @Override
-    protected void doParse(Element element, BeanDefinitionBuilder bean) {
+    protected void doParse(Element element, ParserContext context, BeanDefinitionBuilder bean) {
         // get all attributes
         handleAbstractAttribute(element, bean);
         

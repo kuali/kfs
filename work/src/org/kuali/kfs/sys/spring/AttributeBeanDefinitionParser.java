@@ -16,10 +16,10 @@
 package org.kuali.kfs.sys.spring;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.datadictionary.AttributeDefinition;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,16 +30,14 @@ public class AttributeBeanDefinitionParser extends KualiBeanDefinitionParserBase
     private static Logger LOG = Logger.getLogger(AttributeBeanDefinitionParser.class);
     
     
-    @SuppressWarnings("unchecked")
     @Override
-    protected Class getBeanClass(Element element) {
-        return AttributeDefinition.class;
-    }
-    
+    protected String getBaseBeanTypeParent(Element element) {
+        return "AttributeDefinition";
+    }    
     
     
     @Override
-    protected void doParse(Element element, BeanDefinitionBuilder bean) {
+    protected void doParse(Element element, ParserContext context, BeanDefinitionBuilder bean) {
         // get all attributes
         handleAbstractAttribute( element, bean );
         processAttributeAttributes(element, bean);

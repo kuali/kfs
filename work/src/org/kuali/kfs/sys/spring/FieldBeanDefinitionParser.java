@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.spring;
 import org.kuali.core.datadictionary.FieldDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
+import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -26,14 +27,13 @@ import org.w3c.dom.NodeList;
 
 public class FieldBeanDefinitionParser extends KualiBeanDefinitionParserBase {
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected Class getBeanClass(Element element) {
-        return FieldDefinition.class;
+    protected String getBaseBeanTypeParent(Element element) {
+        return "FieldDefinition";
     }
     
     @Override
-    protected void doParse(Element element, BeanDefinitionBuilder bean) {
+    protected void doParse(Element element, ParserContext context, BeanDefinitionBuilder bean) {
         // get all attributes
         String attributeName = element.getAttribute("attributeName");
         String required = element.getAttribute("required");

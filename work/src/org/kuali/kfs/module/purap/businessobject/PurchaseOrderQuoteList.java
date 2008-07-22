@@ -80,7 +80,14 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
         return contractManager;
     }
 
-    
+    /**
+     * @deprecated
+     * @param contractManager
+     */
+    public void setContractManager(ContractManager contractManager) {
+        this.contractManager = contractManager;
+    }
+
     public String getContractManagerName() {
         return contractManager.getContractManagerName();
     }

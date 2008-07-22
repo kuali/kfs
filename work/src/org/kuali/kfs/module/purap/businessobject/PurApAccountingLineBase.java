@@ -215,18 +215,18 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     public void refreshNonUpdateableReferences() {
         //hold onto item reference if there without itemId
         PurApItem item = null;
-        PurApItem tempItem = getPurApItem();
+        PurApItem tempItem = getPurapItem();
         if(tempItem != null &&
            tempItem.getItemIdentifier() != null) {
             item = tempItem;
         }
         super.refreshNonUpdateableReferences();
         if(ObjectUtils.isNotNull(item)) {
-            this.setPurApItem(item);
+            this.setPurapItem(item);
         }
     }
 
-    public <T extends PurApItem> T getPurApItem() {
+    public <T extends PurApItem> T getPurapItem() {
         return (T) purapItem;
     }
     
@@ -235,7 +235,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
      * @deprecated
      * @param item
      */
-    public void setPurApItem(PurApItem item) {
+    public void setPurapItem(PurApItem item) {
         purapItem = item;
     }
 

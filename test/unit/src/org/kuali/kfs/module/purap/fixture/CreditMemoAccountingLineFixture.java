@@ -46,7 +46,7 @@ public enum CreditMemoAccountingLineFixture {
 
     public void addTo(CreditMemoItem item) {
         PurApAccountingLine purApAccountingLine = createPurApAccountingLine(item.getAccountingLineClass(), purApAccountingLineFixture, accountingLineFixture);
-        purApAccountingLine.setPurApItem(item);
+        purApAccountingLine.setPurapItem(item);
         item.getSourceAccountingLines().add(purApAccountingLine);
     }
 

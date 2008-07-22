@@ -38,10 +38,7 @@ public class ReceivingCorrectionItem extends ReceivingItemBase {
         this.setItemReasonAddedCode(null);
     }
 
-	/**
-     * Gets the receivingCorrectionDocument attribute. 
-     * @return Returns the receivingCorrectionDocument.
-     */
+
     public ReceivingCorrectionDocument getReceivingCorrectionDocument() {
         return receivingCorrectionDocument;
     }
@@ -55,5 +52,5 @@ public class ReceivingCorrectionItem extends ReceivingItemBase {
         this.receivingCorrectionDocument = receivingCorrectionDocument;
     }
 
-
+    
 }

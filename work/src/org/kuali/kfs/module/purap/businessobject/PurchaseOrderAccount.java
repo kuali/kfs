@@ -68,7 +68,7 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
     }
 
     public PurchaseOrderItem getPurchaseOrderItem() {
-        return super.getPurApItem();
+        return super.getPurapItem();
     }
 
     /**
@@ -78,7 +78,7 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
      * @deprecated
      */
     public void setPurchaseOrderItem(PurchaseOrderItem purchaseOrderItem) {
-        super.setPurApItem(purchaseOrderItem);
+        super.setPurapItem(purchaseOrderItem);
     }
 
     /**

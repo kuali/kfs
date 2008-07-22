@@ -221,4 +221,13 @@ public abstract class ReceivingItemBase extends PersistableBusinessObjectBase im
     public void setItemOriginalDamagedTotalQuantity(KualiDecimal itemOriginalDamagedTotalQuantity) {
     	this.itemOriginalDamagedTotalQuantity = itemOriginalDamagedTotalQuantity;
     }
+
+    public ItemReasonAdded getItemReasonAdded() {
+        return itemReasonAdded;
+    }
+
+    public void setItemReasonAdded(ItemReasonAdded itemReasonAdded) {
+        this.itemReasonAdded = itemReasonAdded;
+    }
+    
 }

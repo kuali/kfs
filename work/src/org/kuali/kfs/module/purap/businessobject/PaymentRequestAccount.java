@@ -58,15 +58,15 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
     }
 
     public PaymentRequestItem getPaymentRequestItem() {
-        return super.getPurApItem();
+        return super.getPurapItem();
     }
 
     public void setPaymentRequestItem(PaymentRequestItem paymentRequestItem) {
-        super.setPurApItem(paymentRequestItem);
+        super.setPurapItem(paymentRequestItem);
     }
 
     /**
-     * Caller of this method should takecare of creating PaymentRequestItems
+     * Caller of this method should take care of creating PaymentRequestItems
      */
     public void copyFrom(PaymentRequestAccount other) {
         super.copyFrom(other);

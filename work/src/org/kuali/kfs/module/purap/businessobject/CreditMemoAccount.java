@@ -49,13 +49,13 @@ public class CreditMemoAccount extends PurApAccountingLineBase {
     }
 
     public CreditMemoItem getCreditMemoItem() {
-        return super.getPurApItem();
+        return super.getPurapItem();
     }
 
     /**
      * @deprecated
      */
     public void setCreditMemoItem(CreditMemoItem creditMemoItem) {
-        super.setPurApItem(creditMemoItem);
+        super.setPurapItem(creditMemoItem);
     }
 }

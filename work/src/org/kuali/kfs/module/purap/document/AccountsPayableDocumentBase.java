@@ -389,6 +389,15 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void setReopenPurchaseOrderIndicator(boolean reopenPurchaseOrderIndicator) {
         this.reopenPurchaseOrderIndicator = reopenPurchaseOrderIndicator;
     }
+    
+    /**
+     * Sets the processing campus.
+     * @deprecated
+     * @param processingCampus
+     */
+    public void setProcessingCampus(Campus processingCampus) {
+        this.processingCampus = processingCampus;
+    }
 
     // Helper methods
     /**

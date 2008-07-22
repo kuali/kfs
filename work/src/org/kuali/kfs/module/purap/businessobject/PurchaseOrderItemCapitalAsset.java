@@ -25,7 +25,7 @@ public class PurchaseOrderItemCapitalAsset extends PurchasingItemCapitalAsset {
 
     private String documentNumber;
     private Integer purchaseOrderItemCapitalAssetIdentifier;
-    private Integer purchaseOrderItemIdentifier;
+    private Integer itemIdentifier;
 
     private PurchaseOrderItem purchaseOrderItem;
 
@@ -59,12 +59,12 @@ public class PurchaseOrderItemCapitalAsset extends PurchasingItemCapitalAsset {
         this.purchaseOrderItemCapitalAssetIdentifier = purchaseOrderItemCapitalAssetIdentifier;
     }
 
-    public Integer getPurchaseOrderItemIdentifier() {
-        return purchaseOrderItemIdentifier;
+    public Integer getItemIdentifier() {
+        return itemIdentifier;
     }
 
-    public void setPurchaseOrderItemIdentifier(Integer purchaseOrderItemIdentifier) {
-        this.purchaseOrderItemIdentifier = purchaseOrderItemIdentifier;
+    public void setItemIdentifier(Integer itemIdentifier) {
+        this.itemIdentifier = itemIdentifier;
     }
 
     public PurchaseOrderItem getPurchaseOrderItem() {

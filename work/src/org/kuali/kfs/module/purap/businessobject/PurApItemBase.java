@@ -316,7 +316,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         PurApAccountingLine purApAccountingLine = getNewAccount();
         
         purApAccountingLine.setItemIdentifier(this.itemIdentifier);
-        purApAccountingLine.setPurApItem(this);
+        purApAccountingLine.setPurapItem(this);
         
         setNewSourceLine(purApAccountingLine);
     }
@@ -402,7 +402,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     public void fixAccountReferences() {
         if(ObjectUtils.isNull(this.getItemIdentifier())) {
             for (PurApAccountingLine account : this.getSourceAccountingLines()) {
-                account.setPurApItem(this);
+                account.setPurapItem(this);
             }
         }
     }

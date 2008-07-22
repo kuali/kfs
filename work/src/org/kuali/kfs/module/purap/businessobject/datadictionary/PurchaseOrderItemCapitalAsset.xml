@@ -17,7 +17,6 @@
     <property name="attributes" >
       <list>
         <ref bean="PurchaseOrderItemCapitalAsset-capitalAssetNumber" />
-        <ref bean="PurchaseOrderItemCapitalAsset-purchaseOrderItemIdentifier" />
         <ref bean="PurchaseOrderItemCapitalAsset-purchaseOrderItemCapitalAssetIdentifier" />
         <ref bean="PurchaseOrderItemCapitalAsset-versionNumber" />
       </list>
@@ -43,22 +42,7 @@
             p:size="14" />
     </property>
   </bean>
-  <bean id="PurchaseOrderItemCapitalAsset-purchaseOrderItemIdentifier" parent="PurchaseOrderItemCapitalAsset-purchaseOrderItemIdentifier-parentBean" />
 
-  <bean id="PurchaseOrderItemCapitalAsset-purchaseOrderItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderItemIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Purchase Order Item Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
-  </bean>
   <bean id="PurchaseOrderItemCapitalAsset-purchaseOrderItemCapitalAssetIdentifier" parent="PurchaseOrderItemCapitalAsset-purchaseOrderItemCapitalAssetIdentifier-parentBean" />
 
   <bean id="PurchaseOrderItemCapitalAsset-purchaseOrderItemCapitalAssetIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
@@ -109,8 +93,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderItemIdentifier" />
-              <bean parent="FieldDefinition"
                     p:attributeName="purchaseOrderItemCapitalAssetIdentifier" />
             </list>
           </property>
@@ -136,8 +118,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderItemIdentifier" />
-        <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderItemCapitalAssetIdentifier" />
       </list>
     </property>
@@ -145,8 +125,6 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderItemIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderItemCapitalAssetIdentifier" />
       </list>

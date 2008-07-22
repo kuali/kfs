@@ -84,14 +84,14 @@
 
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="name" value="expenditureFinancialDocumentNumber" />
-    <property name="label" value="Expenditure Financial Document Number" />
+    <property name="label" value="Document Number" />
     <property name="shortLabel" value="Doc. Number" />    
   </bean>
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentPostedDate" parent="AssetPaymentDetail-expenditureFinancialDocumentPostedDate-parentBean" />
 
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentPostedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="expenditureFinancialDocumentPostedDate" />
-    <property name="label" value="Expenditure Financial Document Posted Date" />
+    <property name="label" value="Posted Date" />
     <property name="shortLabel" value="Posted Date" />
      <property name="required" value="true" />
     <property name="summary" value="expenditureFinancialDocumentPostedDate" />
@@ -102,7 +102,7 @@
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="expenditureFinancialDocumentTypeCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Expenditure Financial Document Type Code" />
+    <property name="label" value="Document Type Code" />
     <property name="shortLabel" value="Doc. Type" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
@@ -177,7 +177,7 @@
   <bean id="AssetPaymentDetail-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentPostingYear" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Posting Year" />
+    <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >

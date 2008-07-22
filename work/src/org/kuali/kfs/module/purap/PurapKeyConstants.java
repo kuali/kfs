@@ -66,7 +66,8 @@ public class PurapKeyConstants {
     public static final String ERROR_RCVNG_ADDR_UNSET_DFLT = "error.rcvng.addr.unset.dflt";
     public static final String ERROR_RCVNG_ADDR_DEACTIVATE_DFLT = "error.rcvng.addr.deactivate.dflt";
     public static final String PUR_CAPITAL_ASSET_SYSTEM_TYPE_SWITCHED = "message.document.pur.systemTypeSwitched";
-       
+    public static final String ERROR_DELIVERY_CAMPUS_INVALID = "error.delivery.campus.invalid";
+    
     // Requisition APO Ineligibility reasons
     public static final String NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT = "requisition.nonAPO.requisitionTotal.greaterThan.APOLimit";
     public static final String NON_APO_REQUISITION_TOTAL_NOT_GREATER_THAN_ZERO="requisition.nonAPO.requisitionTotal.notGreaterThan.zero";

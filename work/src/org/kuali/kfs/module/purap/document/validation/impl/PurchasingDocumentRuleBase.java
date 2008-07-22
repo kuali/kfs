@@ -43,6 +43,7 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
+import org.kuali.kfs.module.purap.businessobject.CampusParameter;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionTypeRule;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
@@ -614,6 +615,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * Performs any validation for the Delivery tab.
      * If the delivery required date is not null, then it must be equal to
      * or after current date.
+     * If the selected delivery campus does not exist in Campus Parameter table,
+     * display error that it's an invalid selection.
      * 
      * @param purDocument the purchasing document to be validated
      * @return boolean true if it passes the validation.
@@ -632,7 +635,15 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.DELIVERY_REQUIRED_DATE, PurapKeyConstants.ERROR_DELIVERY_REQUIRED_DATE_IN_THE_PAST);
             }
         }
-
+        
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("campusCode", purDocument.getDeliveryCampusCode());
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        int match = businessObjectService.countMatching(CampusParameter.class, fieldValues);
+        if (match < 1) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.DELIVERY_CAMPUS_CODE, PurapKeyConstants.ERROR_DELIVERY_CAMPUS_INVALID);
+        }
         return valid;
     }
 

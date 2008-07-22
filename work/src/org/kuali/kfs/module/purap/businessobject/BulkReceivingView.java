@@ -23,14 +23,14 @@ import org.kuali.core.bo.Note;
  * Bulk Receiving View Business Object.
  */
 public class BulkReceivingView extends AbstractRelatedView {
-    private Integer purchaseOrderId;
+    private Integer purchaseOrderIdentifier;
 
-    public Integer getPurchaseOrderId() {
-        return purchaseOrderId;
+    public Integer getPurchaseOrderIdentifier() {
+        return purchaseOrderIdentifier;
     }
 
-    public void setPurchaseOrderId(Integer purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
+    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
+        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
     /**

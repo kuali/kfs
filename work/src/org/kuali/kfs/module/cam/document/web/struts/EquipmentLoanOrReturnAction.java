@@ -63,7 +63,6 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
         SpringContext.getBean(AssetLocationService.class).setOffCampusLocation(asset);
         SpringContext.getBean(PaymentSummaryService.class).calculateAndSetPaymentSummary(asset);
-        LOG.info("****** set new loan = " + equipmentLoanOrReturnDocument.isNewLoan() + "");
 
         return docHandlerForward;
     }
@@ -110,7 +109,7 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
                 if (!request.getParameter(CamsConstants.AssetActions.LOAN_TYPE).equals(CamsConstants.AssetActions.LOAN)) {
                     populateEquipmentLoanOrReturnDocument(equipmentLoanOrReturnDocument, newAsset);
                     equipmentLoanOrReturnDocument.setNewLoan(false);
-               }
+                }
                 // populate loan return date when loan type is return loan
                 if (request.getParameter(CamsConstants.AssetActions.LOAN_TYPE).equals(CamsConstants.AssetActions.LOAN_RETURN)) {
                     equipmentLoanOrReturnDocument.setLoanReturnDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
@@ -168,6 +167,6 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
             equipmentLoanOrReturnDocument.setBorrowerStorageCountryCode(storeAtLocation.getAssetLocationCountryCode());
             equipmentLoanOrReturnDocument.setBorrowerStoragePhoneNumber(storeAtLocation.getAssetLocationPhoneNumber());
         }
-   }
+    }
 
 }

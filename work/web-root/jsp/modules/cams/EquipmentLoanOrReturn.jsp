@@ -59,19 +59,11 @@
 
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanDate}" readOnly="true"/></th>
 			   	<c:choose>
-		            <c:when test="${readOnly}">
+		            <c:when test="${readOnly or !displayNewLoanTab}">
 		                <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" readOnly="true" />
 		            </c:when>
 		            <c:otherwise>
-					   	<c:choose>
-				            <c:when test="${displayNewLoanTab}">
-				                <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" /> </td>
-				            </c:when>
-				            <c:otherwise>
-				                <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" readOnly="true" />
-			            </c:otherwise>
- 			       </c:choose>
-
+				        <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" /> </td>
 		            </c:otherwise>
  		       </c:choose>
 			</tr>

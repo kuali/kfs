@@ -47,6 +47,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
@@ -61,6 +63,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private ParameterService parameterService;
     private AccountService accountService;
     private BalanceTypService balanceTypService;
+    private OptionsService optionsService;
 
     private PersistenceService persistenceService;
     private ScrubberValidator scrubberValidator;
@@ -192,24 +195,19 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validatePayrollEndFiscalYear(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateFiscalYear() started");
 
-        if ((laborOriginEntry.getPayrollEndDateFiscalYear() == null) || laborOriginEntry.getUniversityFiscalYear() == 0) {
-            laborOriginEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
-            laborWorkingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
-
-            // Retrieve these objects because the fiscal year is the primary key for them
-            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.FINANCIAL_SUB_OBJECT);
-            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.FINANCIAL_OBJECT);
-            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
-            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.OPTION);
+        Integer payrollEndDateFiscalYear = laborOriginEntry.getPayrollEndDateFiscalYear();    
+        if (payrollEndDateFiscalYear == null || payrollEndDateFiscalYear == 0) {
+            laborWorkingEntry.setPayrollEndDateFiscalYear(universityRunDate.getUniversityFiscalYear());
         }
         else {
-            laborWorkingEntry.setUniversityFiscalYear(laborOriginEntry.getUniversityFiscalYear());
-            laborWorkingEntry.setOption(laborOriginEntry.getOption());
+            laborWorkingEntry.setPayrollEndDateFiscalYear(payrollEndDateFiscalYear);
         }
-
-        if (laborOriginEntry.getOption() == null) {
-            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, "" + laborOriginEntry.getUniversityFiscalYear(), Message.TYPE_FATAL);
+        
+        Options options = optionsService.getOptions(laborWorkingEntry.getUniversityFiscalYear());
+        if (options == null) {
+            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, "" + payrollEndDateFiscalYear, Message.TYPE_FATAL);
         }
+        
         return null;
     }
 
@@ -219,21 +217,16 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validatePayrollEndFiscalPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateUniversityFiscalPeriodCode() started");
 
-        if (StringUtils.isNotBlank(laborOriginEntry.getUniversityFiscalPeriodCode())) {
-            laborWorkingEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
-            laborWorkingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
-
-            // Retrieve these objects because the fiscal year is the primary key for them
-            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.FINANCIAL_SUB_OBJECT);
-            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.FINANCIAL_OBJECT);
-            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
-            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.OPTION);
+        String payrollEndDateFiscalPeriodCode = laborOriginEntry.getPayrollEndDateFiscalPeriodCode();
+        if (StringUtils.isNotBlank(payrollEndDateFiscalPeriodCode)) {
+            laborWorkingEntry.setPayrollEndDateFiscalPeriodCode(payrollEndDateFiscalPeriodCode);
         }
         else {
-            if (laborOriginEntry.getAccountingPeriod() == null) {
-                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND, laborOriginEntry.getUniversityFiscalPeriodCode(), Message.TYPE_FATAL);
-            }
-            laborWorkingEntry.setUniversityFiscalPeriodCode(laborOriginEntry.getUniversityFiscalPeriodCode());
+            laborWorkingEntry.setPayrollEndDateFiscalPeriodCode(laborOriginEntry.getUniversityFiscalPeriodCode());
+        }
+        
+        if (laborOriginEntry.getAccountingPeriod() == null) {
+            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND, payrollEndDateFiscalPeriodCode, Message.TYPE_FATAL);
         }
 
         return null;
@@ -560,5 +553,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
         this.persistenceStructureService = persistenceStructureService;
+    }
+
+    /**
+     * Sets the optionsService attribute value.
+     * @param optionsService The optionsService to set.
+     */
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
 }

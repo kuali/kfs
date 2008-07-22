@@ -258,6 +258,9 @@
 		<property name="balanceTypService">
 			<ref bean="balanceTypService" />
 		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>
     </bean>
 	
     <bean id="laborPosterService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl">

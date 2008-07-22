@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,13 +28,21 @@ import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableItemBuy
 import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableItemCostSummary;
 import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableRestrictedMaterial;
 import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.RestrictedMaterial;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.service.CreditMemoService;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * 
  */
 public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAccountsPayableModuleService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableModuleServiceImpl.class);
 
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer, java.util.List)
@@ -95,6 +103,91 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
         Map primaryKeys = new HashMap();
         primaryKeys.put("restrictedMaterialCode", restrictedMaterialCode);
         return (PurchasingAccountsPayableRestrictedMaterial)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(RestrictedMaterial.class, primaryKeys);
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#isPurchasingBatchDocument(java.lang.String)
+     */
+    public boolean isPurchasingBatchDocument(String documentTypeCode) {
+        if (PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(documentTypeCode) || PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#handlePurchasingBatchCancels(java.lang.String)
+     */
+    public void handlePurchasingBatchCancels(String documentNumber, String documentTypeCode, boolean primaryCancel, boolean disbursedPayment) {
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        PaymentRequestService paymentRequestService = SpringContext.getBean(PaymentRequestService.class);
+        CreditMemoService creditMemoService = SpringContext.getBean(CreditMemoService.class);
+        
+        String preqCancelNote = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PDP_PREQ_CANCEL_NOTE);
+        String preqResetNote = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PDP_PREQ_RESET_NOTE);
+        String cmCancelNote = parameterService.getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_CANCEL_NOTE);
+        String cmResetNote = parameterService.getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_RESET_NOTE);
+        
+        if (PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(documentTypeCode)) {
+            PaymentRequestDocument pr = paymentRequestService.getPaymentRequestByDocumentNumber(documentNumber);
+            if (pr != null) {
+                if (disbursedPayment || primaryCancel) {
+                    paymentRequestService.cancelExtractedPaymentRequest(pr, preqCancelNote);
+                }
+                else {
+                    paymentRequestService.resetExtractedPaymentRequest(pr, preqResetNote);
+                }
+            }
+            else {
+                LOG.error("processPdpCancels() DOES NOT EXIST, CANNOT PROCESS - Payment Request with doc type of " + documentTypeCode + " with id " + documentNumber);
+            }
+        }
+        else if (PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
+            CreditMemoDocument cm = creditMemoService.getCreditMemoByDocumentNumber(documentNumber);
+            if (cm != null) {
+                if (disbursedPayment || primaryCancel) {
+                    creditMemoService.cancelExtractedCreditMemo(cm, cmCancelNote);
+                }
+                else {
+                    creditMemoService.resetExtractedCreditMemo(cm, cmResetNote);
+                }
+            }
+            else {
+                LOG.error("processPdpCancels() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);
+            }
+        }
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#handlePurchasingBatchPaids(java.lang.String)
+     */
+    public void handlePurchasingBatchPaids(String documentNumber, String documentTypeCode, Date processDate) {
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        PaymentRequestService paymentRequestService = SpringContext.getBean(PaymentRequestService.class);
+        CreditMemoService creditMemoService = SpringContext.getBean(CreditMemoService.class);
+
+        if (PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(documentTypeCode)) {
+            PaymentRequestDocument pr = paymentRequestService.getPaymentRequestByDocumentNumber(documentNumber);
+            if (pr != null) {
+                paymentRequestService.markPaid(pr, processDate);
+            }
+            else {
+                LOG.error("processPdpPaids() DOES NOT EXIST, CANNOT MARK - Payment Request with doc type of " + documentTypeCode + " with id " + documentNumber);
+            }
+        }
+        else if (PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
+            CreditMemoDocument cm = creditMemoService.getCreditMemoByDocumentNumber(documentNumber);
+            if (cm != null) {
+                creditMemoService.markPaid(cm, processDate);
+            }
+            else {
+                LOG.error("processPdpPaids() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);
+            }
+        }
+        
     }
 
 }

@@ -14,7 +14,8 @@ import org.kuali.rice.resourceloader.ContextClassLoaderBinder;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ModularizationTest extends KualiTestBase {
-    private static final String BASE_SPRING_FILESET = "SpringBeans.xml,SpringDataSourceBeans.xml,SpringRiceBeans.xml,org/kuali/kfs/sys/KualiSpringBeansKfs.xml,org/kuali/kfs/integration/SpringBeansModules.xml,org/kuali/kfs/coa/KualiSpringBeansChart.xml,org/kuali/kfs/fp/KualiSpringBeansFinancial.xml,org/kuali/kfs/gl/KualiSpringBeansGl.xml,org/kuali/kfs/pdp/KualiSpringBeansPdp.xml,org/kuali/kfs/vnd/KualiSpringBeansVendor.xml";
+    private static final String BASE_SPRING_FILESET = "SpringBeans.xml,SpringDataSourceBeans.xml,SpringRiceBeans.xml,org/kuali/kfs/integration/SpringBeansModules.xml,org/kuali/kfs/sys/spring-sys.xml,org/kuali/kfs/coa/spring-coa.xml,org/kuali/kfs/fp/spring-fp.xml,org/kuali/kfs/gl/spring-gl.xml,org/kuali/kfs/pdp/spring-pdp.xml,org/kuali/kfs/vnd/spring-vnd.xml";
+
     private static final Set<String> OPTIONAL_MODULE_IDS = new HashSet<String>();
     static {
         OPTIONAL_MODULE_IDS.add("ar");

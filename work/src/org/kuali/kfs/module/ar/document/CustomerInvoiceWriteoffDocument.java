@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -24,6 +26,9 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 
 public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumentBase {
@@ -36,6 +41,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     private String projectCode;
     private String organizationReferenceIdentifier;
     private String financialDocumentReferenceInvoiceNumber;
+    private String statusCode;
 
     private Account account;
     private Chart chartOfAccounts;
@@ -178,4 +184,46 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         this.invoiceWriteoffAmount = invoiceWriteoffAmount;
     }
 
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+    
+    /**
+     * Initializes the values for a new document.
+     */
+    public void initiateDocument() {
+        setStatusCode(ArConstants.CustomerInvoiceWriteoffStatuses.INITIATE);
+    }
+    
+    /**
+     * Clear out the initially populated fields.
+     */
+    public void clearInitFields() {
+        setFinancialDocumentReferenceInvoiceNumber(null);
+    }
+    
+    //METHODS NEEDED TO GET ACCOUNTING LINES TO SHOW UP CORRECTLY
+    
+    public List getSourceAccountingLines(){
+        return customerInvoiceDocument.getSourceAccountingLines();
+    }
+    
+    public SourceAccountingLine getSourceAccountingLine(int index){
+        return customerInvoiceDocument.getSourceAccountingLine(index);
+    }
+    
+    public String getSourceAccountingLineEntryName(){
+        return customerInvoiceDocument.getSourceAccountingLineEntryName();
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
+     */
+    public String getSourceAccountingLinesSectionTitle() {
+        return KFSConstants.SOURCE;
+    }    
 }

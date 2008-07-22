@@ -212,6 +212,11 @@ public class ArConstants {
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";
     }
+    
+    public static class CustomerInvoiceWriteoffStatuses {
+        public static final String INITIATE = "INIT";
+        public static final String IN_PROCESS = "INPR";
+    }    
 
     public static class CustomerCreditMemoConstants {
         public static final String CUSTOMER_CREDIT_MEMO_ITEM_QUANTITY = "qty";

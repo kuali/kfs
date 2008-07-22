@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 
 /**
@@ -457,5 +458,5 @@ public class Customer extends PersistableBusinessObjectBase {
     public void setCustomerTaxTypeCode(String customerTaxTypeCode) {
         this.customerTaxTypeCode = customerTaxTypeCode;
     }
-
+    
 }

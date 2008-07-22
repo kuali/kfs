@@ -1,12 +1,12 @@
 package org.kuali.kfs.module.ar.document;
 
 import java.sql.Date;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
@@ -20,16 +20,17 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerProcessingType;
 import org.kuali.kfs.module.ar.businessobject.PrintInvoiceOptions;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -1276,6 +1277,24 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
         return invoiceItemTaxAmountTotal;
     }    
+    
+    /**
+     * This method returns the primary customer address for the customer number provided.
+     * @return
+     */
+    public CustomerAddress getPrimaryAddressForCustomerNumber(){
+        if( ObjectUtils.isNotNull(accountsReceivableDocumentHeader) && StringUtils.isNotEmpty(accountsReceivableDocumentHeader.getCustomerNumber())){
+            return SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(accountsReceivableDocumentHeader.getCustomerNumber());
+        }
+        return null;
+    }
+
+    public Customer getCustomer() {
+        if( ObjectUtils.isNotNull(accountsReceivableDocumentHeader)){
+            return accountsReceivableDocumentHeader.getCustomer();
+        }
+        return null;
+    }
 }
 
 

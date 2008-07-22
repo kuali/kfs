@@ -63,6 +63,7 @@
         <ref bean="CustomerInvoiceDocument-paymentFinancialSubObjectCode" />
         <ref bean="CustomerInvoiceDocument-billingDateForDisplay" />
         <ref bean="CustomerInvoiceDocument-versionNumber" />
+        <ref bean="CustomerInvoiceDocument-balance" />
       </list>
     </property>
     <property name="validationMap" ref="CustomerInvoiceDocument-validations" />
@@ -455,6 +456,14 @@
 
   <bean id="CustomerInvoiceDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
+  
+  <bean id="CustomerInvoiceDocument-balance" parent="CustomerInvoiceDocument-balance-parentBean" />
+
+  <bean id="CustomerInvoiceDocument-balance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="balance" />
+    <property name="label" value="Balance Amount" />
+    <property name="shortLabel" value="Balance" />
+  </bean>  
   
   <bean id="CustomerInvoiceDocument-validations" parent="CustomerInvoiceDocument-validations-parentBean" />
   

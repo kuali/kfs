@@ -28,6 +28,8 @@ import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 
 /**
  * Tests the PosterService
@@ -648,6 +650,7 @@ public class PosterServiceTest extends OriginEntryTestBase {
      * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
+    @RelatesTo(JiraIssue.KFSMI833)
     public void testIcrGeneration() throws Exception {
         LOG.debug("testIcrGeneration() started");
         // Load the expenditure table

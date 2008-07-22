@@ -35,30 +35,21 @@ public class ModularizationTest extends KualiTestBase {
         SYSTEM_MODULE_IDS.add("sys");
         SYSTEM_MODULE_IDS.add("vnd");
     }
-    private KualiModuleService moduleService;
 
-//    public void testSpring() throws Exception {
-//        // switch to a different context classloader context so that we don't blow away our existing configuration
-//        ContextClassLoaderBinder binder = new ContextClassLoaderBinder();
-//        binder.bind(new URLClassLoader(new URL[0]));
-//        try {
-//            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(BASE_SPRING_FILESET.split(","));
-//            moduleService = (KualiModuleService) context.getBean("kualiModuleService");
-//            context.close();
-//            boolean testSucceeded = true;
-//            StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
-//            for (String moduleId : OPTIONAL_MODULE_IDS) {
-//                testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(moduleId, errorMessage);
-//            }
-//            System.out.print(errorMessage.toString());
-//            assertTrue(errorMessage.toString(), testSucceeded);
-//        }
-//        finally {
-//            binder.unbind();
-//        }
-//    }
+    public void testSpring() throws Exception {
+        boolean testSucceeded = true;
+        StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
+        for (String moduleId : OPTIONAL_MODULE_IDS) {
+            testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(moduleId, errorMessage);
+        }
+        System.out.print(errorMessage.toString());
+        assertTrue(errorMessage.toString(), testSucceeded);
+    }
 
     private boolean testOptionalModuleSpringConfiguration(String moduleId, StringBuffer errorMessage) {
+        // switch to a different context classloader context so that we don't blow away our existing configuration
+        ContextClassLoaderBinder binder = new ContextClassLoaderBinder();
+        binder.bind(new URLClassLoader(new URL[0]));
         ClassPathXmlApplicationContext context = null;
         try {
             context = new ClassPathXmlApplicationContext(new StringBuffer(BASE_SPRING_FILESET).append(",org/kuali/kfs/module/").append(moduleId).append("/spring-").append(moduleId).append(".xml").toString().split(","));
@@ -76,12 +67,12 @@ public class ModularizationTest extends KualiTestBase {
             }
             catch (Exception e) {
             }
+            binder.unbind();
         }
     }
 
     @ConfigureContext
     public void testOjb() throws Exception {
-        moduleService = SpringContext.getBean(KualiModuleService.class);
         boolean testSucceeded = true;
         StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in OJB configuration:");
         HashSet<String> allModuleIds = new HashSet();
@@ -102,11 +93,11 @@ public class ModularizationTest extends KualiTestBase {
         for (String referencedModuleId : OPTIONAL_MODULE_IDS) {
             if (!moduleId.equals(referencedModuleId)) {
                 Scanner scanner = null;
-                scanner = new Scanner("work/src/" + moduleService.getModule(referencedModuleId).getDatabaseRepositoryFilePaths().iterator().next());
+                scanner = new Scanner("work/src/" + SpringContext.getBean(KualiModuleService.class).getModule(referencedModuleId).getDatabaseRepositoryFilePaths().iterator().next());
                 scanner.useDelimiter(" ");
                 int count = 0;
                 while (scanner.hasNext()) {
-                    if (scanner.next().contains(((KualiModuleAuthorizerBase) moduleService.getModule(referencedModuleId).getModuleAuthorizer()).getPackagePrefixes().iterator().next())) {
+                    if (scanner.next().contains(((KualiModuleAuthorizerBase) SpringContext.getBean(KualiModuleService.class).getModule(referencedModuleId).getModuleAuthorizer()).getPackagePrefixes().iterator().next())) {
                         count++;
                     }
                 }

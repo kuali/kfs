@@ -33,6 +33,9 @@
         </bean>
       </list>
     </property>
+    
+        <property name="validationMap" ref="BenefitExpenseTransferDocument-validations" />
+        
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -62,4 +65,25 @@
       </list>
     </property>
   </bean>
+  
+  <!-- Validations -->
+  
+  <bean id="BenefitExpenseTransferDocument-validations" parent="BenefitExpenseTransferDocument-validations-parentBean" />
+  
+  <bean id="BenefitExpenseTransferDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>BenefitExpenseTransferDocument-addAccountingLineValidation</value>
+			</entry>
+						
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>BenefitExpenseTransferDocument-routeDocumentValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>  
+  
 </beans>

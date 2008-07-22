@@ -32,6 +32,12 @@
 		<property name="parameterService"><ref bean="parameterService" /></property>
 	</bean>	
 	
-	<bean id="SalaryExpenseTransferDocument-unbalancedObjectCodesValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferUnbalancedObjectCodesValidation" />
+	<bean id="SalaryExpenseTransferDocument-unbalancedObjectCodesValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferUnbalancedObjectCodesValidation" ></bean>
+
+	<bean id="BenefitExpenseTransferDocument-fringeBenefitObjectCodeValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.BenefitExpenseTransferFringeBenefitObjectCodeValidation" ></bean>
+
+	<bean id="BenefitExpenseTransferDocument-sameAccountValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.BenefitExpenseTransferSameAccountValidation" ></bean>
+
+	<bean id="BenefitExpenseTransferDocument-sameFringeBenefitObjectCodeValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.BenefitExpenseTransferSameFringeBenefitObjectCodeValidation" ></bean>
 	
 </beans>

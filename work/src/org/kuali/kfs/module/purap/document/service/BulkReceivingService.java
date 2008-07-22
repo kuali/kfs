@@ -55,6 +55,6 @@ public interface BulkReceivingService {
     
     public void performPrintReceivingTicketPDF(String blkDocId, ByteArrayOutputStream baosPDF);
     
-    public boolean isBulkReceivingDocumentInProcessForPurchaseOrder(Integer poId,String bulkReceivingDocumentNumber);
+    public String getBulkReceivingDocumentNumberInProcessForPurchaseOrder(Integer poId,String bulkReceivingDocumentNumber);
     
 }

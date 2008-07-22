@@ -189,10 +189,10 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         currentMessage.append( configurationService.getPropertyString(duplicateMessageKey) );                
     }
     
-    public boolean isBulkReceivingDocumentInProcessForPurchaseOrder(Integer poId, 
-                                                                    String bulkReceivingDocumentNumber){
+    public String getBulkReceivingDocumentNumberInProcessForPurchaseOrder(Integer poId, 
+                                                                          String bulkReceivingDocumentNumber){
         
-        boolean isInProcess = false;
+        String docNumberInProcess = StringUtils.EMPTY;
         
         List<String> docNumbers = bulkReceivingDao.getDocumentNumbersByPurchaseOrderId(poId);
         KualiWorkflowDocument workflowDocument = null;
@@ -211,12 +211,12 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
                  workflowDocument.stateIsFinal()) &&
                  !docNumber.equals(bulkReceivingDocumentNumber)){
                      
-                isInProcess = true;
+                docNumberInProcess = docNumber;
                 break;
             }
         }
 
-        return isInProcess;
+        return docNumberInProcess;
     }
 
     public void populateBulkReceivingFromPurchaseOrder(BulkReceivingDocument blkRecDoc) {

@@ -192,10 +192,10 @@
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine2Address}" 
 	                    	property="document.deliveryBuildingLine2Address" readOnly="${not (fullEntryMode)}"/>
 	                </td>			
-	                <th align=right valign=middle class="bord-l-b" rowspan="3">
+	                <th align=right valign=middle class="bord-l-b" rowspan="4">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryInstructionText}"/></div>
 	                </th>
-	                <td align=left valign=middle class="datacell"  rowspan="3">
+	                <td align=left valign=middle class="datacell"  rowspan="4">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryInstructionText}" 
 	                    	property="document.deliveryInstructionText" readOnly="${not (fullEntryMode)}"/>
 	                </td>
@@ -228,13 +228,6 @@
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryStateCode}" 
 	                    	property="document.deliveryStateCode" readOnly="true"/>
 	                </td>
-	                <th align=right valign=middle class="bord-l-b" rowspan="3">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}"/></div>
-	                </th>
-	                <td align=left valign=middle class="datacell"  rowspan="3">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}" 
-	                    	property="document.deliveryAdditionalInstructionText" readOnly="${not (fullEntryMode)}"/>
-	                </td>	
 				</tr>
 				<tr>
 					<th align=right valign=middle class="bord-l-b">
@@ -244,6 +237,13 @@
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryPostalCode}" 
 	                    	property="document.deliveryPostalCode" readOnly="true"/>
 	                </td>
+	                <th align=right valign=middle class="bord-l-b" rowspan="4">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}"/></div>
+	                </th>
+	                <td align=left valign=middle class="datacell"  rowspan="4">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}" 
+	                    	property="document.deliveryAdditionalInstructionText" readOnly="${not (fullEntryMode)}"/>
+	                </td>	
 				</tr>
 				<tr>
 					<th align=right valign=middle class="bord-l-b">
@@ -263,7 +263,9 @@
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactPhoneNumber}" property="document.institutionContactPhoneNumber" readOnly="${not (fullEntryMode)}" />
 	                </td>
-	                <th align=right valign=middle class="bord-l-b">
+				</tr>
+				<tr>
+					<th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactEmailAddress}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">

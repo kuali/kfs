@@ -61,6 +61,9 @@
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedReceivingCorrectionViews"
 			documentTypeLabel="Receiving Correction" /> 
-
+			
+		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
+			viewList="document.relatedViews.relatedBulkReceivingViews"
+			documentTypeLabel="Bulk Receiving" /> 
     </div>
 </kul:tab>

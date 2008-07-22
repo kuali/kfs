@@ -21,6 +21,8 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
@@ -164,4 +166,13 @@ public interface BudgetDocumentService {
      * @return the budget document with the information provided by the given appointment funding
      */
     public BudgetConstructionHeader getBudgetConstructionHeader(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    
+    /** 
+     * determine whether the given account and subaccount are budgetable for the specified budget year
+     * @param budgetYear the specified budget year
+     * @param account the given account
+     * @param subAccount the given subaccount
+     * @return true if the given account and subaccount are budgetable for the specified budget year; otherwise, false
+     */
+    public boolean isBudgetableAccount(Integer budgetYear, Account account, SubAccount subAccount);
 }

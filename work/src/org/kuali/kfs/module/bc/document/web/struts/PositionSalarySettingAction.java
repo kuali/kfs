@@ -56,14 +56,6 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);
         positionSalarySettingForm.populateBCAFLines();        
         positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
-        
-        if (positionSalarySettingForm.isAddLine()) {
-            positionSalarySettingForm.getNewBCAFLine().setChartOfAccountsCode(request.getParameter(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
-            positionSalarySettingForm.getNewBCAFLine().setAccountNumber(request.getParameter(KFSPropertyConstants.ACCOUNT_NUMBER));
-            positionSalarySettingForm.getNewBCAFLine().setSubAccountNumber(request.getParameter(KFSPropertyConstants.SUB_ACCOUNT_NUMBER));
-            positionSalarySettingForm.getNewBCAFLine().setFinancialObjectCode(request.getParameter(KFSPropertyConstants.OBJECT_CODE));
-            positionSalarySettingForm.getNewBCAFLine().setFinancialSubObjectCode(request.getParameter(KFSPropertyConstants.SUB_OBJECT_CODE));
-        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

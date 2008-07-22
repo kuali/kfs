@@ -15,29 +15,37 @@
  */
 package org.kuali.kfs.module.bc.document.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.dao.DocumentDao;
+import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
@@ -51,8 +59,10 @@ import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.validation.event.DeleteMonthlySpreadEvent;
+import org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionRuleUtil;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -133,7 +143,8 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocumentNoWorkFlow(org.kuali.kfs.module.bc.document.BudgetConstructionDocument, org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType, boolean)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocumentNoWorkFlow(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
+     *      org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType, boolean)
      */
     public Document saveDocumentNoWorkFlow(BudgetConstructionDocument bcDoc, MonthSpreadDeleteType monthSpreadDeleteType, boolean doMonthRICheck) throws ValidationException {
 
@@ -420,7 +431,43 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#updatePendingBudgetGeneralLedger(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.core.util.KualiInteger)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isBudgetableAccount(java.lang.Integer, org.kuali.kfs.coa.businessobject.Account, org.kuali.kfs.coa.businessobject.SubAccount)
+     */
+    public boolean isBudgetableAccount(Integer budgetYear, Account account, SubAccount subAccount) {
+        if (account.isAccountClosedIndicator()) {
+            return false;
+        }
+
+        Calendar expDate = BudgetConstructionRuleUtil.getNoBudgetAllowedExpireDate(budgetYear);
+        if (account.isExpired(expDate)) {
+            return false;
+        }
+
+        // is account a cash control account
+        if (account.getBudgetRecordingLevelCode().equalsIgnoreCase(BCConstants.BUDGET_RECORDING_LEVEL_N)) {
+            return false;
+        }
+
+        if (subAccount == null) {
+            return false;
+        }
+
+        if (!subAccount.isSubAccountActiveIndicator()) {
+            return false;
+        }
+
+        subAccount.refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
+        A21SubAccount a21SubAccount = subAccount.getA21SubAccount();
+        if (a21SubAccount != null && a21SubAccount.getSubAccountTypeCode().equals(BCConstants.SUB_ACCOUNT_TYPE_COST_SHARE)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#updatePendingBudgetGeneralLedger(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
+     *      org.kuali.core.util.KualiInteger)
      */
     public void updatePendingBudgetGeneralLedger(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount) {
         BudgetConstructionHeader budgetConstructionHeader = this.getBudgetConstructionHeader(appointmentFunding);
@@ -431,9 +478,10 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         PendingBudgetConstructionGeneralLedger pendingRecord = this.getPendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, updateAmount, false);
         businessObjectService.save(pendingRecord);
     }
-    
+
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#updatePendingBudgetGeneralLedgerPlug(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.core.util.KualiInteger)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#updatePendingBudgetGeneralLedgerPlug(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
+     *      org.kuali.core.util.KualiInteger)
      */
     public void updatePendingBudgetGeneralLedgerPlug(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount) {
         BudgetConstructionHeader budgetConstructionHeader = this.getBudgetConstructionHeader(appointmentFunding);
@@ -479,19 +527,19 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         if (appointmentFunding.isOverride2plgMode()) {
             return false;
         }
-        
+
         Account account = appointmentFunding.getAccount();
-        
-        // no plug for the account with the sub groups setup as a system parameter 
-        if(BudgetParameterFinder.getNotGenerate2PlgSubFundGroupCodes().contains(account.getSubFundGroupCode())) {
+
+        // no plug for the account with the sub groups setup as a system parameter
+        if (BudgetParameterFinder.getNotGenerate2PlgSubFundGroupCodes().contains(account.getSubFundGroupCode())) {
             return false;
         }
-        
+
         // no plug for the contract and grant account
-        if(account.isForContractsAndGrants()) {
+        if (account.isForContractsAndGrants()) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -510,26 +558,27 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             KualiInteger newAnnaulBalanceAmount = pendingRecord.getAccountLineAnnualBalanceAmount().add(updateAmount);
             pendingRecord.setAccountLineAnnualBalanceAmount(newAnnaulBalanceAmount);
         }
-        else if (!is2PLG || (is2PLG && updateAmount.isNonZero())){ // initialize a new pending record if not plug line or plug line not zero          
+        else if (!is2PLG || (is2PLG && updateAmount.isNonZero())) { // initialize a new pending record if not plug line or plug line
+                                                                    // not zero
             Integer budgetYear = appointmentFunding.getUniversityFiscalYear();
-            
+
             String objectCode = is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : appointmentFunding.getFinancialObjectCode();
             String subObjectCode = is2PLG ? KFSConstants.getDashFinancialSubObjectCode() : appointmentFunding.getFinancialSubObjectCode();
             String objectTypeCode = optionsService.getOptions(budgetYear).getFinObjTypeExpenditureexpCd();
 
             pendingRecord = new PendingBudgetConstructionGeneralLedger();
-            
+
             pendingRecord.setDocumentNumber(budgetConstructionHeader.getDocumentNumber());
             pendingRecord.setUniversityFiscalYear(appointmentFunding.getUniversityFiscalYear());
             pendingRecord.setChartOfAccountsCode(appointmentFunding.getChartOfAccountsCode());
             pendingRecord.setAccountNumber(appointmentFunding.getAccountNumber());
             pendingRecord.setSubAccountNumber(appointmentFunding.getSubAccountNumber());
-            
+
             pendingRecord.setFinancialObjectCode(objectCode);
             pendingRecord.setFinancialSubObjectCode(subObjectCode);
             pendingRecord.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
             pendingRecord.setFinancialObjectTypeCode(objectTypeCode);
-            
+
             pendingRecord.setFinancialBeginningBalanceLineAmount(KualiInteger.ZERO);
             pendingRecord.setAccountLineAnnualBalanceAmount(updateAmount);
         }
@@ -790,6 +839,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * Sets the optionsService attribute value.
+     * 
      * @param optionsService The optionsService to set.
      */
     public void setOptionsService(OptionsService optionsService) {

@@ -453,6 +453,39 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         appointmentFundings.add(newAppointmentFunding);
         appointmentFundings.remove(appointmentFunding);
     }
+    
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, String personUserIdentifier) {
+        boolean budgetByObject = true;
+        boolean singleAccountMode = true;
+        
+        if(budgetByObject) {
+            if(singleAccountMode) {
+                appointmentFunding.setDisplayOnlyMode(true);
+            }
+            else {
+                appointmentFunding.setDisplayOnlyMode(false);
+                
+                boolean isNotHomeAccount = false;
+                if(isNotHomeAccount) {
+                    // TODO: appointmentFunding.setOverride2plgMode(true);
+                    // TODO: can be used to update total amount
+                }
+            }
+        }
+        else {
+            boolean isUpdated = this.updateAppointmentFundingByUserLevel(appointmentFunding, personUserIdentifier);
+            
+            if(!isUpdated) {
+                return false;
+            }
+            
+            // TODO: appointmentFunding.setOverride2plgMode(false);
+            // TODO: can be used to update total amount
+            
+        }
+        
+        return true;
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAppointmentFundingByUserLevel(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,

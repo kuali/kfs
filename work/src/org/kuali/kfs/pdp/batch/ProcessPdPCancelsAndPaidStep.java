@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.batch;
+package org.kuali.kfs.pdp.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService;
+import org.kuali.kfs.pdp.batch.service.ProcessPdpCancelPaidService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 
 public class ProcessPdPCancelsAndPaidStep extends AbstractStep {

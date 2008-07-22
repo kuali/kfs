@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.service;
+package org.kuali.kfs.pdp.batch.service;
 
 /**
  * Defines methods that must be implemented by a ProcessPdpCancelPaidService implementation.

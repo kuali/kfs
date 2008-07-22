@@ -95,4 +95,11 @@ public class PdpConstants {
         public static String EXTRACTED = "EXTR";
         public static String PENDING_ACH = "PACH";
     }
+    
+    public static class PurapParameterConstants {
+        public static final String PURAP_PDP_EPIC_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
+        public static final String PURAP_PDP_EPIC_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
+        public static final String PURAP_PDP_USER_ID = "PRE_DISBURSEMENT_EXTRACT_USER";
+    }
+    
 }

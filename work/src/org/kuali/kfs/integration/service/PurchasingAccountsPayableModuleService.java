@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.integration.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableRestrictedMaterial;
@@ -49,4 +50,17 @@ public interface PurchasingAccountsPayableModuleService {
      * @return a List of all restricted materials known to the module
      */
     public List<PurchasingAccountsPayableRestrictedMaterial> getAllRestrictedMaterials();
+    
+    /**
+     * 
+     * This method...
+     * @param documentTypeCode
+     * @return
+     */
+    public boolean isPurchasingBatchDocument(String documentTypeCode);
+    
+    public void handlePurchasingBatchCancels(String documentNumber, String documentTypeCode, boolean primaryCancel, boolean disbursedPayment);
+    
+    public void handlePurchasingBatchPaids(String documentNumber, String documentTypeCode, Date processDate);
+    
 }

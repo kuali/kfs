@@ -297,7 +297,9 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
     protected void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
         UniversalUser kualiUser = GlobalVariables.getUserSession().getFinancialSystemUser();
 
-        setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
+//        setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
+        setEditingMode(documentAuthorizer.getEditModeFromSession());
+
         // TODO probably don't need these, editingmode drives expansion screen actions
         // setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));
     }

@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
@@ -390,19 +391,18 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine) {
         return budgetConstructionDao.getPendingBudgetConstructionAppointmentFundingRequestSum(salaryDetailLine);
     }
-
+    
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(java.lang.Integer, java.lang.String,
-     *      java.lang.String, java.lang.String, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader, org.kuali.core.bo.user.UniversalUser)
      */
-    public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u) {
+    public String getAccessMode(BudgetConstructionHeader bcHeader, UniversalUser u){
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
         boolean isFiscalOfcOrDelegate = false;
 
-        BudgetConstructionHeader bcHeader = this.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         Integer hdrLevel = bcHeader.getOrganizationLevelCode();
 
-        isFiscalOfcOrDelegate = u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) || budgetConstructionDao.isDelegate(chartOfAccountsCode, accountNumber, u.getPersonUniversalIdentifier());
+        bcHeader.refreshReferenceObject("account");
+        isFiscalOfcOrDelegate = u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) || budgetConstructionDao.isDelegate(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), u.getPersonUniversalIdentifier());
 
         // special case level 0 access, check if user is fiscal officer or delegate
         if (hdrLevel == 0) {
@@ -428,6 +428,50 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
 
         return editMode;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(java.lang.Integer, java.lang.String,
+     *      java.lang.String, java.lang.String, org.kuali.core.bo.user.UniversalUser)
+     */
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(java.lang.Integer, java.lang.String,
+     *      java.lang.String, java.lang.String, org.kuali.core.bo.user.UniversalUser)
+     */
+    public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u) {
+//        String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
+//        boolean isFiscalOfcOrDelegate = false;
+
+        BudgetConstructionHeader bcHeader = this.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+        return this.getAccessMode(bcHeader, u);
+//        Integer hdrLevel = bcHeader.getOrganizationLevelCode();
+
+//        isFiscalOfcOrDelegate = u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) || budgetConstructionDao.isDelegate(chartOfAccountsCode, accountNumber, u.getPersonUniversalIdentifier());
+//
+//        // special case level 0 access, check if user is fiscal officer or delegate
+//        if (hdrLevel == 0) {
+//            if (isFiscalOfcOrDelegate) {
+//                if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())) {
+//                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
+//                }
+//                else {
+//                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
+//                }
+//                return editMode;
+//            }
+//        }
+//
+//        // drops here if we need to check for org approver access for any doc level
+//        editMode = this.getOrgApproverAcessMode(bcHeader, u);
+//        if (isFiscalOfcOrDelegate && (editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER) || editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER))) {
+//
+//            // user is a fo or delegate and not an org approver or not in account's hier, means the doc is really above the user
+//            // level
+//            editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL;
+//
+//        }
+//
+//        return editMode;
     }
 
     /**
@@ -641,8 +685,8 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             for (BudgetConstructionAccountOrganizationHierarchy rvwHier : rvwHierList) {
                 rvwHierMap.put(rvwHier.getOrganizationChartOfAccountsCode() + rvwHier.getOrganizationCode(), rvwHier);
             }
-            // this will hold subset of accounOrgHier rows where user is approver
-            List<BudgetConstructionAccountOrganizationHierarchy> rvwHierApproverList = new ArrayList();
+            // this will hold an level ordered (low to high) subset of accountOrgHier rows where user is approver
+            TreeMap<Integer, BudgetConstructionAccountOrganizationHierarchy> rvwHierApproverList = new TreeMap<Integer, BudgetConstructionAccountOrganizationHierarchy>();
 
             // get the subset of hier rows where the user is an approver
             try {
@@ -655,7 +699,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
                 else {
                     for (Org povOrg : povOrgs) {
                         if (rvwHierMap.containsKey(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode())) {
-                            rvwHierApproverList.add(rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()));
+                            rvwHierApproverList.put(rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()).getOrganizationLevelCode(),rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()));
                         }
                     }
 
@@ -665,20 +709,14 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
                         // user is approver somewhere in the account hier, look for a min record above or equal to doc level
                         boolean fnd = false;
-                        for (BudgetConstructionAccountOrganizationHierarchy rvwHierApprover : rvwHierApproverList) {
+                        for (BudgetConstructionAccountOrganizationHierarchy rvwHierApprover : rvwHierApproverList.values()) {
                             if (rvwHierApprover.getOrganizationLevelCode() >= bcHeader.getOrganizationLevelCode()) {
                                 fnd = true;
                                 if (rvwHierApprover.getOrganizationLevelCode() > bcHeader.getOrganizationLevelCode()) {
                                     editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
                                 }
                                 else {
-                                    if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())) {
-                                        editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
-                                    }
-                                    else {
-                                        editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
-                                    }
-
+                                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
                                 }
                                 break;
                             }

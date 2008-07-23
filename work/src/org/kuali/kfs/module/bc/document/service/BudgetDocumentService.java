@@ -117,6 +117,17 @@ public interface BudgetDocumentService {
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine);
 
     /**
+     * Version of getAccessMode that uses a passed in BudgetConstructionHeader, instead of getting it directly from the database.
+     * Cases of using this method include testing what the access mode would be at another level without actually moving
+     * (setting new level and storing) the document in the database.
+     * 
+     * @param bcHeader
+     * @param u
+     * @return
+     */
+    public String getAccessMode(BudgetConstructionHeader bcHeader, UniversalUser u);
+
+    /**
      * Gets the Budget Construction access mode for the document candidate key and the user. Assumes the Budget Document exists in
      * the database and the Account Organization Hierarchy rows exist for the account. Checks the special case when the document is
      * at level 0 and the user is either the fiscal officer for the account or an account delegate for the Budget Construction

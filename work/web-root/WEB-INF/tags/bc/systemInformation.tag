@@ -26,7 +26,7 @@
 <c:set var="orgRptsVals" value="${KualiForm.document.budgetConstructionAccountReports.budgetConstructionOrganizationReports}" />
 <c:set var="orgRptsPropString" value="document.budgetConstructionAccountReports.budgetConstructionOrganizationReports" />
 
-<kul:tab tabTitle="System Information" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS}">
+<kul:tab tabTitle="System Information" defaultOpen="true" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS}">
 <div class="tab-container" align=center>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable" title="view system information" summary="view system information">
     	<tr>

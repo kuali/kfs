@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +47,7 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
@@ -101,7 +103,12 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
 
             if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY)) {
-                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
+                if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_VIEW_ONLY);
+                }
+                else {
+                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
+                }
 
                 // TODO: maybe move this to BC document service
                 if (!budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
@@ -206,6 +213,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // if (IDocHandler.INITIATE_COMMAND.equals(command)){
         loadDocument(budgetConstructionForm);
+        this.initAuthorizationEditMode(budgetConstructionForm);
         // }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -278,8 +286,68 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // KualiDocumentFormBase.populate() needs this updated in the session
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
+        
+        // initialize edit mode to be used by all budget by account screens
+        // TODO this should be moved to its own method initAuthorization(budgetConstructionDocument);
+        // and called from docHandler instead, this way loadDocument can be used for pullup case where refresh from DB is needed
+        // and optional call to initAuthorization() can be made if pullup causes change in editMode
+//        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+//        FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
+//
+//        String chartOfAccountsCode = budgetConstructionDocument.getChartOfAccountsCode();
+//        String accountNumber = budgetConstructionDocument.getAccountNumber();
+//        String subAccountNumber = budgetConstructionDocument.getSubAccountNumber();
+//        Integer universityFiscalYear = budgetConstructionDocument.getUniversityFiscalYear();
+//        
+//        Map editModeMap = new HashMap();
+//        String editMode = budgetDocumentService.getAccessMode(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, GlobalVariables.getUserSession().getUniversalUser());
+//        editModeMap.put(editMode, "TRUE");
+//        
+//        // adding the case where system is in view only mode in case we need this fact for functionality
+//        // getAccessMode() will not return FULL_ENTRY if the system is in view only mode,
+//        // so we may or may not need this extra map row
+//        if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(universityFiscalYear)){
+//            editModeMap.put(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY, "TRUE");
+//        }
+//        
+//        GlobalVariables.getUserSession().addObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY, editModeMap);
+
     }
 
+    /**
+     * Calculates the edit mode based on the BC security model and store it in session for later retrieval by
+     * budget by account expansion screens using BudgetConstructionDocumentAuthorizer.getEditModeFromSession()
+     * 
+     * @param bcDoc
+     */
+    private void initAuthorizationEditMode(BudgetConstructionForm bcForm){
+        BudgetConstructionDocument bcDoc = bcForm.getBudgetConstructionDocument(); 
+        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+        FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
+
+        String chartOfAccountsCode = bcDoc.getChartOfAccountsCode();
+        String accountNumber = bcDoc.getAccountNumber();
+        String subAccountNumber = bcDoc.getSubAccountNumber();
+        Integer universityFiscalYear = bcDoc.getUniversityFiscalYear();
+        
+        Map editModeMap = new HashMap();
+        String editMode = budgetDocumentService.getAccessMode(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, GlobalVariables.getUserSession().getUniversalUser());
+        editModeMap.put(editMode, "TRUE");
+        
+        // adding the case where system is in view only mode in case we need this fact for functionality
+        // getAccessMode() will not return FULL_ENTRY if the system is in view only mode,
+        // so we may or may not need this extra map row
+        if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(universityFiscalYear)){
+            editModeMap.put(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY, "TRUE");
+        }
+        
+        GlobalVariables.getUserSession().removeObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY);
+        GlobalVariables.getUserSession().addObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY, editModeMap);
+        
+        // need to set this immediately so pull/push action methods can use it
+        bcForm.setEditingMode(editModeMap);
+       
+    }
 
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#close(org.apache.struts.action.ActionMapping,
@@ -799,8 +867,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             deletePBGLLine(false, tForm, deleteIndex, expLine);
         }
 
-        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Delete
-        // Expenditure Line");
+        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Delete Expenditure Line");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1014,68 +1081,195 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     public ActionForward performAccountPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        boolean isPullupOK = true;
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Pullup");
+        
+        // TODO this method needs rewritten to handle case of pulling doc already locked and in edit mode VS view only mode
+        // and refreshing data from DB when the mode was view only
+        // if doc is in editingMode=full_entry and not system view only mode, assume locked - just do the pullup
+        // else doc is editingMode=view_only or system view only mode
+        //     call loadDocument to get latest copy from DB which re-inits edit mode
+        //     if the new editingMode is still view_only
+
+        // get fresh header to work with
+        HashMap primaryKey = new HashMap();
+        primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, tForm.getDocument().getDocumentNumber());
+        BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+        if (budgetConstructionHeader == null){
+            GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Fatal, Document not found.");
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        // attempt lock first if viewing and not system view only
+        // not viewing means the user already has a lock and we just need to pullup to another POV, maintaining that lock
+        if (tForm.getEditingMode().containsKey(BudgetConstructionEditMode.VIEW_ONLY)){
+            if (!tForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+
+                // only successful lock allows pullup here
+                isPullupOK = false;
+
+                LockService lockService = SpringContext.getBean(LockService.class);
+                BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                LockStatus lockStatus = bcLockStatus.getLockStatus();
+                switch (lockStatus){
+                    case SUCCESS:
+                        isPullupOK = true;
+                        break;
+                    case BY_OTHER:
+                        String lockerName = SpringContext.getBean(UniversalUserService.class).getUniversalUser(bcLockStatus.getAccountLockOwner()).getPersonName();
+                        GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Locked by "+lockerName);
+                        break;
+                    case FLOCK_FOUND:
+                        GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Funding lock found.");
+                        break;
+                    default:
+                        GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Optimistic lock or other failure during lock attempt.");
+                        break;
+                }
+            }
+        }
+       
+        // attempt pullup, but do a quick check that current level is not >= desired level against fresh header
+        // need this in case user has been viewing for a while
+        if (isPullupOK){
+            if (budgetConstructionHeader.getOrganizationLevelCode() > Integer.parseInt(tForm.getPullupKeyCode())){
+                GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Error, Document is already above the selected level.");
+            }
+            else {
+                budgetConstructionHeader.setOrganizationLevelCode(Integer.parseInt(tForm.getPullupKeyCode()));
+                budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPullupKeyCode())).getOrganizationChartOfAccountsCode());
+                budgetConstructionHeader.setOrganizationLevelOrganizationCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPullupKeyCode())).getOrganizationCode());
+                SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionHeader); 
+               
+                // finally refresh the doc with the changed header info
+                tForm.getBudgetConstructionDocument().setVersionNumber(budgetConstructionHeader.getVersionNumber());
+                tForm.getBudgetConstructionDocument().setOrganizationLevelCode(budgetConstructionHeader.getOrganizationLevelCode());
+                tForm.getBudgetConstructionDocument().setOrganizationLevelChartOfAccountsCode(budgetConstructionHeader.getOrganizationLevelChartOfAccountsCode());
+                tForm.getBudgetConstructionDocument().setOrganizationLevelOrganizationCode(budgetConstructionHeader.getOrganizationLevelOrganizationCode());
+                
+                // refresh the lock info even though the user may be pulling while in edit mode
+                tForm.getBudgetConstructionDocument().setBudgetLockUserIdentifier(budgetConstructionHeader.getBudgetLockUserIdentifier());
+                
+                // refresh organization - so UI shows new level description
+                tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
+                
+            }
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward performAccountPushdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        boolean doAllowPushdown = false;
+        boolean unlockNeeded = false;
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument bcDocument = tForm.getBudgetConstructionDocument();
+        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+
+        // This method is called only if user has edit access and there is somewhere to push to.
+        // If not system view only and the intended push level is view, we need to validate and save
+        // Otherwise new level is still allowing editing, just push and keep current lock
+        if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+
+            // check editing mode at the intended level
+            BudgetConstructionHeader bcHdr = this.getTestHeaderFromDocument(bcDocument, Integer.parseInt(tForm.getPushdownKeyCode()));
+            String targetEditMode = budgetDocumentService.getAccessMode(bcHdr,GlobalVariables.getUserSession().getUniversalUser());
+            if (targetEditMode.equals(BudgetConstructionEditMode.VIEW_ONLY)){
+
+                budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+                budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
+                tForm.initializePersistedRequestAmounts();
+
+                // repop and refresh refs - esp monthly so jsp can properly display state
+                tForm.populatePBGLLines();
+                
+                unlockNeeded = true;
+            }
+            doAllowPushdown = true;
+        }
+        else {
+            // reload document to get most up-to-date status and recheck that we still have FULL_ENTRY access
+            // anything else means the document was moved by someone else and we may no longer even have read access
+            loadDocument(tForm);
+            this.initAuthorizationEditMode(tForm);
+            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)){
+                doAllowPushdown = true;
+            }
+            else {
+                // document has moved
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_PUSHDOWN_DOCUMENT, "Full Access Control Lost.");
+            }
+        }
+
+        // gets here if editing and pushing to view and doc is valid and persisted
+        // or we are pushing from edit to edit
+        // or we are in system view only
+        if (doAllowPushdown){
+
+            HashMap primaryKey = new HashMap();
+            primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, tForm.getDocument().getDocumentNumber());
+
+            BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+            if (budgetConstructionHeader != null){
+                budgetConstructionHeader.setOrganizationLevelCode(Integer.parseInt(tForm.getPushdownKeyCode()));
+                if (Integer.parseInt(tForm.getPushdownKeyCode()) == 0){
+                    budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(null);
+                    budgetConstructionHeader.setOrganizationLevelOrganizationCode(null);
+                }
+                else {
+                    budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPushdownKeyCode())).getOrganizationChartOfAccountsCode());
+                    budgetConstructionHeader.setOrganizationLevelOrganizationCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPushdownKeyCode())).getOrganizationCode());
+                }
+            }
+            
+            // unlock if needed (which stores) - otherwise store the new level
+            if (unlockNeeded){
+
+                LockService lockService = SpringContext.getBean(LockService.class);
+                lockService.unlockAccount(budgetConstructionHeader);
+            }
+            else {
+                SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionHeader); 
+                
+            }
+            
+            // finally refresh the doc with the changed header info
+            tForm.getBudgetConstructionDocument().setVersionNumber(budgetConstructionHeader.getVersionNumber());
+            tForm.getBudgetConstructionDocument().setOrganizationLevelCode(budgetConstructionHeader.getOrganizationLevelCode());
+            tForm.getBudgetConstructionDocument().setOrganizationLevelChartOfAccountsCode(budgetConstructionHeader.getOrganizationLevelChartOfAccountsCode());
+            tForm.getBudgetConstructionDocument().setOrganizationLevelOrganizationCode(budgetConstructionHeader.getOrganizationLevelOrganizationCode());
+            tForm.getBudgetConstructionDocument().setBudgetLockUserIdentifier(budgetConstructionHeader.getBudgetLockUserIdentifier());
+            
+            // refresh organization - so UI shows new level description
+            tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
+            
+            this.initAuthorizationEditMode(tForm);
+            
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public ActionForward performAccountPushdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /**
+     * Derives a BudgetConstructionHeader from a BudgetConstructionDocument and sets a testLevel
+     * to be used in finding out the access mode for the level.
+     *  
+     * @param bcDoc
+     * @param testLevel
+     * @return
+     */
+    private BudgetConstructionHeader getTestHeaderFromDocument(BudgetConstructionDocument bcDoc, Integer testLevel){
 
-        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        BudgetConstructionDocument bcDocument = tForm.getBudgetConstructionDocument();
+        BudgetConstructionHeader bcHdr = new BudgetConstructionHeader();
+        bcHdr.setDocumentNumber(bcDoc.getDocumentNumber());
+        bcHdr.setUniversityFiscalYear(bcDoc.getUniversityFiscalYear());
+        bcHdr.setChartOfAccountsCode(bcDoc.getChartOfAccountsCode());
+        bcHdr.setAccountNumber(bcDoc.getAccountNumber());
+        bcHdr.setSubAccountNumber(bcDoc.getSubAccountNumber());
+        bcHdr.setOrganizationLevelCode(testLevel);
 
-        // this method is called only if user as edit access and there is somewhere to push to
-        // check for system view only and validate and save if not
-        if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-            BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-
-            budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
-            budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
-            tForm.initializePersistedRequestAmounts();
-
-            // repop and refresh refs - esp monthly so jsp can properly display state
-            tForm.populatePBGLLines();
-        }
-        
-        // getting here means doc is valid and persisted - do pushdown
-        HashMap primaryKey = new HashMap();
-        primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, tForm.getDocument().getDocumentNumber());
-
-        BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
-        if (budgetConstructionHeader != null){
-            budgetConstructionHeader.setOrganizationLevelCode(Integer.parseInt(tForm.getPushdownKeyCode()));
-            if (Integer.parseInt(tForm.getPushdownKeyCode()) == 0){
-                budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(null);
-                budgetConstructionHeader.setOrganizationLevelOrganizationCode(null);
-            }
-            else {
-                budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPushdownKeyCode())).getOrganizationChartOfAccountsCode());
-                budgetConstructionHeader.setOrganizationLevelOrganizationCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPushdownKeyCode())).getOrganizationCode());
-            }
-        }
-        
-        // unlock (which stores) if not system view only - otherwise store the new level
-        if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
-            LockService lockService = SpringContext.getBean(LockService.class);
-            lockService.unlockAccount(budgetConstructionHeader);
-        }
-        else {
-            SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionHeader); 
-        }
-        
-        // finally refresh the doc with the changed header info
-        tForm.getBudgetConstructionDocument().setVersionNumber(budgetConstructionHeader.getVersionNumber());
-        tForm.getBudgetConstructionDocument().setOrganizationLevelCode(budgetConstructionHeader.getOrganizationLevelCode());
-        tForm.getBudgetConstructionDocument().setOrganizationLevelChartOfAccountsCode(budgetConstructionHeader.getOrganizationLevelChartOfAccountsCode());
-        tForm.getBudgetConstructionDocument().setOrganizationLevelOrganizationCode(budgetConstructionHeader.getOrganizationLevelOrganizationCode());
-        tForm.getBudgetConstructionDocument().setBudgetLockUserIdentifier(budgetConstructionHeader.getBudgetLockUserIdentifier());
-        
-        // refresh organization - so UI shows new level description
-        tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
-        
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return bcHdr;
     }
 
     public ActionForward performReportDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

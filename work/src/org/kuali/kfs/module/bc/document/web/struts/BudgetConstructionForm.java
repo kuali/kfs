@@ -325,7 +325,8 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         BudgetConstructionDocumentAuthorizer bcDocumentAuthorizer = (BudgetConstructionDocumentAuthorizer) documentAuthorizer;
         UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
 
-        setEditingMode(bcDocumentAuthorizer.getEditMode(getDocument(), kualiUser));
+//        setEditingMode(bcDocumentAuthorizer.getEditMode(getDocument(), kualiUser));
+        setEditingMode(bcDocumentAuthorizer.getEditModeFromSession());
 
         // use BudgetConstructionDocumentAuthorizer method version using editingMode to set action flags
         setDocumentActionFlags(bcDocumentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser, getEditingMode()));

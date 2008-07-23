@@ -26,6 +26,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
@@ -57,6 +58,12 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
         return getEditMode(bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber(), u);
     }
 
+
+    public Map getEditModeFromSession(){
+        Map editModeMap = (Map) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY);
+        return editModeMap;
+    }
+    
     /**
      * This calculates editMode based on the BC Security model. A Budget Construction Document contains information associated with
      * a Fiscal Year, Chart, Account and SubAccount. This candidate key is used to find the document and calculate the editMode
@@ -170,7 +177,7 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
         FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(); // all flags default to false
 
         flags.setCanClose(true);
-        if (editModeMap.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)){
+        if (editModeMap.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !editModeMap.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
             flags.setCanSave(true);
         }
 

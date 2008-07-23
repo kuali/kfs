@@ -168,17 +168,8 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         }
 
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        orgAccountObjectDetailReportEntry.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
-        orgAccountObjectDetailReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
-        orgAccountObjectDetailReportEntry.setHeader1("Object Level Name");
-        orgAccountObjectDetailReportEntry.setHeader2a("Lv. FTE");
-        orgAccountObjectDetailReportEntry.setHeader2("FTE");
-        orgAccountObjectDetailReportEntry.setHeader3("Amount");
-        orgAccountObjectDetailReportEntry.setHeader31("FTE");
-        orgAccountObjectDetailReportEntry.setHeader40("FTE");
-        orgAccountObjectDetailReportEntry.setHeader4("Amount");
-        orgAccountObjectDetailReportEntry.setHeader5(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
-        orgAccountObjectDetailReportEntry.setHeader6(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
+        orgAccountObjectDetailReportEntry.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4) + " Base");
+        orgAccountObjectDetailReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4) + "Request");
         if (consolidated) {
             orgAccountObjectDetailReportEntry.setConsHdr(BCConstants.Report.CONSOLIIDATED);
         }

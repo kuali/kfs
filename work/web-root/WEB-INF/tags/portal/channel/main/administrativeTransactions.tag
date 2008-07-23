@@ -17,6 +17,11 @@
 
 <channel:portalChannelTop channelTitle="Administrative Transactions" />
 <div class="body">
+  <strong>Capital Asset Management</strong>
+  <ul class="chan">		
+  	 <li><portal:portalLink displayTitle="true" title="Barcode Inventory Process" url="uploadBarcodeInventoryFile.do?methodToCall=start&batchUpload.batchInputTypeName=assetBarcodeInventoryInputFileType" /></li>			 
+  </ul>
+
   <strong>Effort Certification</strong>
   <ul class="chan">		
 	 <li><portal:portalLink displayTitle="true" title="Effort Certification Recreate" url="effortCertificationRecreate.do?methodToCall=docHandler&command=initiate&docTypeName=EffortCertificationDocument" /></li>

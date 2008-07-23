@@ -22,7 +22,6 @@
 		<li><portal:portalLink displayTitle="true" title="Collector Batch Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=collectorInputFileType" /></li>				
 		<li><portal:portalLink displayTitle="true" title="Enterprise Feed Batch Upload" url="batchUploadFileSet.do?methodToCall=start&batchUpload.batchInputTypeName=enterpriseFeederFileSetType" /></li>
 		<li><portal:portalLink displayTitle="true" title="Procurement Card Batch Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=procurementCardInputFileType" /></li>
-		<li><portal:portalLink displayTitle="true" title="Asset Barcode Inventory Upload" url="uploadBarcodeInventoryFile.do?methodToCall=start&batchUpload.batchInputTypeName=assetBarcodeInventoryInputFileType" /></li>		
     </ul>
 </div>
 <channel:portalChannelBottom />

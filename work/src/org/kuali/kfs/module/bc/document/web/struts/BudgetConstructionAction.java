@@ -1079,41 +1079,89 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Handles the document (account) pullup action, resetting the cached editingMode as appropriate for the new level.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performAccountPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        boolean isPullupOK = true;
+        boolean doAllowPullup = false;
+        boolean lockNeeded = false;
+        boolean prePullReadOnlyAccess;
+
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        
-        // TODO this method needs rewritten to handle case of pulling doc already locked and in edit mode VS view only mode
-        // and refreshing data from DB when the mode was view only
-        // if doc is in editingMode=full_entry and not system view only mode, assume locked - just do the pullup
-        // else doc is editingMode=view_only or system view only mode
-        //     call loadDocument to get latest copy from DB which re-inits edit mode
-        //     if the new editingMode is still view_only
+        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
-        // get fresh header to work with
-        HashMap primaryKey = new HashMap();
-        primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, tForm.getDocument().getDocumentNumber());
-        BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
-        if (budgetConstructionHeader == null){
-            GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Fatal, Document not found.");
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        // if system view only or view only - reload to get the latest status
+        // and check that the document is still below the selected POV
+        if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) || tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY)){
+
+            prePullReadOnlyAccess = true;
+            // if not system view only mode, we are in document view mode - we'll need a lock before the pullup
+            // since by definition pullup puts the account at a full_entry level
+            // and we need exclusive access to perform the pullup
+            if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+                lockNeeded = true;
+            }
+
+            // now reload the document and get latest status info
+            loadDocument(tForm);
+            this.initAuthorizationEditMode(tForm);
+            if (tForm.getBudgetConstructionDocument().getOrganizationLevelCode() < Integer.parseInt(tForm.getPullupKeyCode())){
+                doAllowPullup = true;
+            }
+            else {
+                // document has been moved and is either at the desired level or above
+                doAllowPullup = false;
+                lockNeeded = false;
+                
+                // document has been moved above the desired level - let populate through an authorization exception
+                if (tForm.getBudgetConstructionDocument().getOrganizationLevelCode() > Integer.parseInt(tForm.getPullupKeyCode())){
+                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Document has already been moved above the selected level.");
+                }
+            }
+            
+            // if the reload now shows system view only mode and we flagged that a lock was needed - turn it back off
+            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+                lockNeeded = false;
+            }
+
         }
+        else {
+            // we are in document full_entry and not system view only
+            // assume we already have a lock, allow the pullup
+            // and we need to ensure the user can finish editing work if after pullup system goes to system view only
+            prePullReadOnlyAccess = false;
+            doAllowPullup = true;
+        }
+        
+        if (lockNeeded || doAllowPullup){
 
-        // attempt lock first if viewing and not system view only
-        // not viewing means the user already has a lock and we just need to pullup to another POV, maintaining that lock
-        if (tForm.getEditingMode().containsKey(BudgetConstructionEditMode.VIEW_ONLY)){
-            if (!tForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+            // get a fresh header to use for lock and/or pullup
+            HashMap primaryKey = new HashMap();
+            primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, tForm.getDocument().getDocumentNumber());
+            BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+            if (budgetConstructionHeader == null){
+                GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Fatal, Document not found.");
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
 
+            if (lockNeeded){
                 // only successful lock allows pullup here
-                isPullupOK = false;
+                doAllowPullup = false;
 
                 LockService lockService = SpringContext.getBean(LockService.class);
                 BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
                 LockStatus lockStatus = bcLockStatus.getLockStatus();
                 switch (lockStatus){
                     case SUCCESS:
-                        isPullupOK = true;
+                        doAllowPullup = true;
                         break;
                     case BY_OTHER:
                         String lockerName = SpringContext.getBean(UniversalUserService.class).getUniversalUser(bcLockStatus.getAccountLockOwner()).getPersonName();
@@ -1126,43 +1174,57 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Optimistic lock or other failure during lock attempt.");
                         break;
                 }
-            }
-        }
-       
-        // attempt pullup, but do a quick check that current level is not >= desired level against fresh header
-        // need this in case user has been viewing for a while
-        if (isPullupOK){
-            if (budgetConstructionHeader.getOrganizationLevelCode() > Integer.parseInt(tForm.getPullupKeyCode())){
-                GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Error, Document is already above the selected level.");
-            }
-            else {
-                budgetConstructionHeader.setOrganizationLevelCode(Integer.parseInt(tForm.getPullupKeyCode()));
-                budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPullupKeyCode())).getOrganizationChartOfAccountsCode());
-                budgetConstructionHeader.setOrganizationLevelOrganizationCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPullupKeyCode())).getOrganizationCode());
-                SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionHeader); 
-               
-                // finally refresh the doc with the changed header info
-                tForm.getBudgetConstructionDocument().setVersionNumber(budgetConstructionHeader.getVersionNumber());
-                tForm.getBudgetConstructionDocument().setOrganizationLevelCode(budgetConstructionHeader.getOrganizationLevelCode());
-                tForm.getBudgetConstructionDocument().setOrganizationLevelChartOfAccountsCode(budgetConstructionHeader.getOrganizationLevelChartOfAccountsCode());
-                tForm.getBudgetConstructionDocument().setOrganizationLevelOrganizationCode(budgetConstructionHeader.getOrganizationLevelOrganizationCode());
-                
-                // refresh the lock info even though the user may be pulling while in edit mode
-                tForm.getBudgetConstructionDocument().setBudgetLockUserIdentifier(budgetConstructionHeader.getBudgetLockUserIdentifier());
-                
-                // refresh organization - so UI shows new level description
-                tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
-                
-            }
+              }
+
+              // attempt pullup
+              if (doAllowPullup){
+                  budgetConstructionHeader.setOrganizationLevelCode(Integer.parseInt(tForm.getPullupKeyCode()));
+                  budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPullupKeyCode())).getOrganizationChartOfAccountsCode());
+                  budgetConstructionHeader.setOrganizationLevelOrganizationCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPullupKeyCode())).getOrganizationCode());
+                  SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionHeader); 
+                 
+                  // finally refresh the doc with the changed header info
+                  tForm.getBudgetConstructionDocument().setVersionNumber(budgetConstructionHeader.getVersionNumber());
+                  tForm.getBudgetConstructionDocument().setOrganizationLevelCode(budgetConstructionHeader.getOrganizationLevelCode());
+                  tForm.getBudgetConstructionDocument().setOrganizationLevelChartOfAccountsCode(budgetConstructionHeader.getOrganizationLevelChartOfAccountsCode());
+                  tForm.getBudgetConstructionDocument().setOrganizationLevelOrganizationCode(budgetConstructionHeader.getOrganizationLevelOrganizationCode());
+                  
+                  // refresh the lock info even though the user may be pulling while in edit mode
+                  tForm.getBudgetConstructionDocument().setBudgetLockUserIdentifier(budgetConstructionHeader.getBudgetLockUserIdentifier());
+                  
+                  // refresh organization - so UI shows new level description
+                  tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
+
+                  this.initAuthorizationEditMode(tForm);
+
+                  // if before pullup, system was 'not system view only' goes to 'system view only' after pull
+                  // need to manually remove the system view only editingMode here to allow the user to save work since still full_entry
+                  if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !prePullReadOnlyAccess){
+                      if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+                          tForm.getEditingMode().remove(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY);
+                      }
+                  }
+              }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
+    /**
+     * Handles the document (account) pushdown action, resetting the cached editingMode as appropriate for the new level.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performAccountPushdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         boolean doAllowPushdown = false;
         boolean unlockNeeded = false;
+        boolean prePushSystemViewOnly;
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument bcDocument = tForm.getBudgetConstructionDocument();
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
@@ -1171,6 +1233,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // If not system view only and the intended push level is view, we need to validate and save
         // Otherwise new level is still allowing editing, just push and keep current lock
         if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+            prePushSystemViewOnly = false;
 
             // check editing mode at the intended level
             BudgetConstructionHeader bcHdr = this.getTestHeaderFromDocument(bcDocument, Integer.parseInt(tForm.getPushdownKeyCode()));
@@ -1189,6 +1252,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             doAllowPushdown = true;
         }
         else {
+            prePushSystemViewOnly = true;
+            
             // reload document to get most up-to-date status and recheck that we still have FULL_ENTRY access
             // anything else means the document was moved by someone else and we may no longer even have read access
             loadDocument(tForm);
@@ -1245,6 +1310,14 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
             
             this.initAuthorizationEditMode(tForm);
+            
+            // if before push, system is 'not system view only' goes to 'system view only' after push
+            // need to manually remove the system view only editingMode here to allow the user to save work if still full_entry
+            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)){
+                if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) && !prePushSystemViewOnly){
+                    tForm.getEditingMode().remove(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY);
+                }
+            }
             
         }
 

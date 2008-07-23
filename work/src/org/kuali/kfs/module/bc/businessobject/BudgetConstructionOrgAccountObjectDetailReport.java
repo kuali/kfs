@@ -38,15 +38,6 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
     private String baseFy;
     private String reqFy;
     
-    private String header1;
-    private String header2;
-    private String header2a;
-    private String header3;
-    private String header31;
-    private String header4;
-    private String header40;
-    private String header5;
-    private String header6;
     private String accountNumber;
     private String accountName;
     private String subAccountName;
@@ -268,114 +259,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.fundGroupCode = fundGroupCode;
     }
 
-    /**
-     * Gets the header1
-     * 
-     * @return Returns the header1.
-     */
-    public String getHeader1() {
-        return header1;
-    }
-
-    /**
-     * Sets the header1
-     * 
-     * @param header1 The header1 to set.
-     */
-    public void setHeader1(String header1) {
-        this.header1 = header1;
-    }
-
-    /**
-     * Gets the header2
-     * 
-     * @return Returns the header2.
-     */
-    public String getHeader2() {
-        return header2;
-    }
-
-    /**
-     * Sets the header2
-     * 
-     * @param header2 The header2 to set.
-     */
-    public void setHeader2(String header2) {
-        this.header2 = header2;
-    }
-
-    /**
-     * Gets the header3
-     * 
-     * @return Returns the header3.
-     */
-    public String getHeader3() {
-        return header3;
-    }
-
-    /**
-     * Sets the header3
-     * 
-     * @param header3 The header3 to set.
-     */
-    public void setHeader3(String header3) {
-        this.header3 = header3;
-    }
-
-    /**
-     * Gets the header4
-     * 
-     * @return Returns the header4.
-     */
-    public String getHeader4() {
-        return header4;
-    }
-
-    /**
-     * Sets the header4
-     * 
-     * @param header4 The header4 to set.
-     */
-    public void setHeader4(String header4) {
-        this.header4 = header4;
-    }
-
-    /**
-     * Gets the header5
-     * 
-     * @return Returns the header5.
-     */
-    public String getHeader5() {
-        return header5;
-    }
-
-    /**
-     * Sets the header5
-     * 
-     * @param header5 The header5 to set.
-     */
-    public void setHeader5(String header5) {
-        this.header5 = header5;
-    }
-
-    /**
-     * Gets the header6
-     * 
-     * @return Returns the header6.
-     */
-    public String getHeader6() {
-        return header6;
-    }
-
-    /**
-     * Sets the header6
-     * 
-     * @param header6 The header6 to set.
-     */
-    public void setHeader6(String header6) {
-        this.header6 = header6;
-    }
-
+   
     /**
      * Gets the organizationCode
      * 
@@ -892,30 +776,6 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     public void setGrossPercentChange(BigDecimal grossPercentChange) {
         this.grossPercentChange = grossPercentChange;
-    }
-
-    public String getHeader2a() {
-        return header2a;
-    }
-
-    public void setHeader2a(String header2a) {
-        this.header2a = header2a;
-    }
-
-    public String getHeader31() {
-        return header31;
-    }
-
-    public void setHeader31(String header31) {
-        this.header31 = header31;
-    }
-
-    public String getHeader40() {
-        return header40;
-    }
-
-    public void setHeader40(String header40) {
-        this.header40 = header40;
     }
 
     public String getIncomeExpenseCode() {

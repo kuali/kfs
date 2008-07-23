@@ -15,10 +15,23 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.format.FormatException;
+import org.kuali.core.web.format.Formatter;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
@@ -51,9 +64,38 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
     public BarcodeInventoryErrorForm() {
         super();
         setDocument(new BarcodeInventoryErrorDocument());
+        
+        Map<String, String> editModeMap = new HashMap<String, String>();
+        editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
+        setEditingMode(editModeMap);
     }
 
 
+    public void populate(HttpServletRequest request) {
+//        LOG.info("****************Request Parameters*************");
+//        Enumeration paramNames;
+//        paramNames = request.getParameterNames();
+//        while (paramNames.hasMoreElements()) {
+//            String name = (String) paramNames.nextElement();            
+//            String[] values = request.getParameterValues(name);
+//            
+//            for (int x=0;x < values.length;x++)
+//                LOG.info("******Request Parameters: "+name +"["+x+"]: "+values[x]);
+//                        
+//        }
+//        LOG.info("**********************************************");                    
+        
+        
+        super.populate(request);
+
+//        BarcodeInventoryErrorDocument document = getBarcodeInventoryErrorDocument();
+//        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
+//
+//        for(BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
+//                LOG.info("*******AFTER TIMESTAMP!!! :"+detail.getUploadScanTimestamp());
+//        }
+    }
+    
     public BarcodeInventoryErrorDocument getBarcodeInventoryErrorDocument() {
         return (BarcodeInventoryErrorDocument) getDocument();
     }

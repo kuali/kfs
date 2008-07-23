@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
@@ -17,7 +18,6 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
 	private String uploaderUniversalIdentifier;
     
     private List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetail;
-    //private FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();    
     
 	/**
 	 * Default constructor.
@@ -68,26 +68,6 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
 		this.uploaderUniversalIdentifier = uploaderUniversalIdentifier;
 	}
 
-	/**
-//	 * Gets the documentHeader attribute.
-//	 * 
-//	 * @return Returns the documentHeader
-//	 * 
-//	 */
-//	public FinancialSystemDocumentHeader getDocumentHeader() { 
-//		return documentHeader;
-//	}
-//
-//	/**
-//	 * Sets the documentHeader attribute.
-//	 * 
-//	 * @param documentHeader The documentHeader to set.
-//	 * @deprecated
-//	 */
-//	public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
-//		this.documentHeader = documentHeader;
-//	}
-
     public List<BarcodeInventoryErrorDetail> getBarcodeInventoryErrorDetail() {
         return barcodeInventoryErrorDetail;
     }
@@ -102,15 +82,15 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
      * This method returns a particular element of the BCIE collection
      * @param index
      * @return
-     */
-//    public BarcodeInventoryErrorDetail getBarcodeInventoryErrorDetail(int index) {
-//        if (index >= barcodeInventoryErrorDetail.size()) {
-//            for (int i = barcodeInventoryErrorDetail.size(); i <= index; i++) {
-//                barcodeInventoryErrorDetail.add(new BarcodeInventoryErrorDetail());
-//            }
-//        }
-//        return barcodeInventoryErrorDetail.get(index);
-//    }  
+     *
+    public BarcodeInventoryErrorDetail getBarcodeInventoryErrorDetail(int index) {
+        if (index >= barcodeInventoryErrorDetail.size()) {
+            for (int i = barcodeInventoryErrorDetail.size(); i <= index; i++) {
+                barcodeInventoryErrorDetail.add(new BarcodeInventoryErrorDetail());
+            }
+        }
+        return barcodeInventoryErrorDetail.get(index);
+    } */ 
     
     /**
      * 
@@ -138,6 +118,26 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
             this.getBarcodeInventoryErrorDetail().get(i).setRowSelected(flag);
         }        
     }*/
+    
+        
+//    public void processAfterRetrieve() {
+//        super.processAfterRetrieve();
+//        LOG.info("****processAfterRetrieve()");
+//        for(int i=0;i<this.getBarcodeInventoryErrorDetail().size();i++) {
+//            if (this.getBarcodeInventoryErrorDetail(i).getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR)) {
+//                getBarcodeInventoryErrorDetail().remove(i);
+//                i=0;                
+//            }
+//        }        
+//    }
+
+    
+//    @Override
+//    public List buildListOfDeletionAwareLists() {
+//        List managedLists = super.buildListOfDeletionAwareLists();
+//        managedLists.add(this.getBarcodeInventoryErrorDetail());
+//        return managedLists;
+//    }
     
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

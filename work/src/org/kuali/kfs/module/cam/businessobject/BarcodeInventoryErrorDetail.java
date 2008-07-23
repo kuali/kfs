@@ -300,7 +300,9 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
         if (this.uploadRowNumber != null) {
             m.put("uploadRowNumber", this.uploadRowNumber.toString());
         }
+
         m.put("assetTagNumber", this.assetTagNumber);
+        m.put("buildingRoomNumber", this.buildingRoomNumber);
         m.put("errorCorrectionStatusCode", this.getErrorCorrectionStatusCode());
         return m;
     }

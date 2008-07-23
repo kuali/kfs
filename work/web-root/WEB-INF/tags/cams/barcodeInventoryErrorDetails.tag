@@ -16,6 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <c:set var="bcieDetailAttributes" value="${DataDictionary.BarcodeInventoryErrorDetail.attributes}" />
 <c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
+
 <!-- kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" tabErrorKey="${CamsConstants.BarcodeInventoryError.DETAIL_ERRORS}"-->
 <kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" >
 	<div id="barcodeInventoryDetails" class="tab-container" align=center>
@@ -29,8 +30,13 @@
             	<c:if test="${!readOnly}">				
 					<td align="right" class="${cssClass}" width="1%"><html:checkbox property="selectAllCheckbox" onclick="selectAllCheckboxes(document.forms[0])" /></td>
 				</c:if>
-									
+
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.uploadRowNumber}" width="1%" />
+				
+				<c:if test="${readOnly}">
+					<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.errorCorrectionStatusCode}" width="5%" />				
+				</c:if>
+									
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.assetTagNumber}"  width="6%"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" width="3%"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.uploadScanTimestamp}" width="10%"/>
@@ -47,9 +53,11 @@
 			
 			<c:set var="lineNumber" value="${0}"/>
 			<logic:iterate id="detail" name="KualiForm" property="document.barcodeInventoryErrorDetail" indexId="ctr">
-				<c:set var="status" value="${detail.errorCorrectionStatusCode}"/>
+				<c:set var="status" value="${detail.errorCorrectionStatusCode}"/>			
             	<c:if test="${(status == CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR) || readOnly}">
             		<c:set var="lineNumber" value="${lineNumber + 1}"/>
+            	</c:if>
+
 					<cams:barcodeInventoryErrorDetail
 						barcodeInventoryDetailAttributes="${bcieDetailAttributes}"					
 						propertyName="document.barcodeInventoryErrorDetail[${ctr}]"
@@ -57,8 +65,8 @@
 						cssClass="datacell"
 						lineNumber="${lineNumber}" 
 						rowNumber="${detail.uploadRowNumber}"
+						status="${status}"
 						/>
-            	</c:if>
             	
 <!--  We don't need to display the error message text on a page because they are being already displayed in a textbox.-->
 				<c:set var="keyMatch" value="document.barcodeInventoryErrorDetail[${ctr}]*"/>            	            	

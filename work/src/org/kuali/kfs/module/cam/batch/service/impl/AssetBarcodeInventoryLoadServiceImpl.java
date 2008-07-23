@@ -265,6 +265,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 barcodeInventoryErrorDetail.setBuildingRoomNumber(lineStrings[5].trim());
                 barcodeInventoryErrorDetail.setBuildingSubRoomNumber(lineStrings[6].trim());
                 barcodeInventoryErrorDetail.setAssetConditionCode(lineStrings[7].trim());
+                barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR);                
                 // barcodeInventoryErrorDetail.setRowSelected(true);
 
                 barcodeInventoryErrorDetails.add(barcodeInventoryErrorDetail);

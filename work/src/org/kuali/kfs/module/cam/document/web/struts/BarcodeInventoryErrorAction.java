@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
@@ -60,6 +61,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     private static final DocumentService documentService = SpringContext.getBean(DocumentService.class);
     private static final AssetBarcodeInventoryLoadService assetBarcodeInventoryLoadService = SpringContext.getBean(AssetBarcodeInventoryLoadService.class);
     private static final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    private static final DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
     
     /**
      * Adds handling for cash control detail amount updates.
@@ -86,6 +88,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
 
         this.invokeRules(document);
+        
     }
 
 
@@ -110,14 +113,15 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
         barcodeInventoryErrorForm.setDocument(document);
 
-        this.save(mapping, form, request, response);        
-        this.invokeRules(document);
+        this.invokeRules(document);       
+        businessObjectService.save(document.getBarcodeInventoryErrorDetail());                  
 
 //        if (this.isFullyProcessed(document)) {
 //            document.getDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.APPROVED);
 //        }            
         
         barcodeInventoryErrorForm.resetSearchFields();
+        this.loadDocument((KualiDocumentFormBase)form);        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);        
     }
 
@@ -126,13 +130,13 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
-        KualiDocumentFormBase kForm = (KualiDocumentFormBase)form;
-        ActionForward af = super.save(mapping, form, request, response);
-        loadDocument(kForm);
-        return af;
-    }
+//    @Override
+//    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+//        KualiDocumentFormBase kForm = (KualiDocumentFormBase)form;
+//        ActionForward af = super.save(mapping, form, request, response);
+//        //this.loadDocument(kForm);
+//        return af;
+//    }
 
 
     /**
@@ -150,33 +154,47 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorDocument document = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
 
+        String currentUserID=GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+        
+        boolean wasAnyCorrected = false;
+        
         int selectedCheckboxes[]= barcodeInventoryErrorForm.getRowCheckbox();
         
         if (selectedCheckboxes != null) {
+            //Validating...
             this.invokeRules(document);
+            
             barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
             for(int i=0;i<selectedCheckboxes.length;i++) {          
                 for(BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
                     if (detail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0) {
-                        LOG.info("******* Selected row to validate:"+selectedCheckboxes[i]+ " - uploadRowNumber:"+detail.getUploadRowNumber());                        
+                        //LOG.info("******* Selected row to validate:"+selectedCheckboxes[i]+ " - uploadRowNumber:"+detail.getUploadRowNumber());                        
                         if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED)) {
-                            LOG.info("******* Status is corrected.");
+                            //LOG.info("******* Status is corrected.");
+                            
+                            detail.setInventoryCorrectionTimestamp(dateTimeService.getCurrentTimestamp());
+                            detail.setCorrectorUniversalIdentifier(currentUserID);
+                            
                             assetBarcodeInventoryLoadService.updateAssetInformation(detail);
+                            wasAnyCorrected = true;
                         }
                     }
                 }
             }
-            if (this.isFullyProcessed(document)) {
-                //document.getDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.APPROVED);
-                
-                //If the same person that uploaded the bcie is the one processing it, then....
-                if (document.getUploaderUniversalIdentifier().equals(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier())) {
-                    this.blanketApprove(mapping, form, request, response);
+            
+            if (wasAnyCorrected) {
+                if (this.isFullyProcessed(document)) {
+                    //If the same person that uploaded the bcie is the one processing it, then....
+                    if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
+                        this.blanketApprove(mapping, form, request, response);
+                    }
+                } else {        
+                    businessObjectService.save(document.getBarcodeInventoryErrorDetail());  
                 }
-            } else {        
-                this.save(mapping, form, request, response);
             }
         }
+        this.loadDocument((KualiDocumentFormBase)form);
+        barcodeInventoryErrorForm.resetCheckBoxes();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);                
     }
 
@@ -197,28 +215,32 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
         BarcodeInventoryErrorDetail barcodeInventoryErrorDetail;
 
+        String currentUserID=GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+        
         int selectedCheckboxes[]= barcodeInventoryErrorForm.getRowCheckbox();
         if (!(selectedCheckboxes == null)) {
             for(int i=0;i<selectedCheckboxes.length;i++) {          
                 for(BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
                     if (detail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0) {
-                        LOG.info("*******XXXXXXX Selected rows to delete:"+selectedCheckboxes[i]+ " - uploadRowNumber:"+detail.getUploadRowNumber());
+                        //LOG.info("*******XXXXXXX Selected rows to delete:"+selectedCheckboxes[i]+ " - uploadRowNumber:"+detail.getUploadRowNumber());
                         detail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_DELETED);
-                        //businessObjectService.delete(detail);
+                        detail.setInventoryCorrectionTimestamp(dateTimeService.getCurrentTimestamp());
+                        detail.setCorrectorUniversalIdentifier(currentUserID);                        
                     }
                 }
-
             }
+
             if (this.isFullyProcessed(document)) {
-                //document.getDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.APPROVED);
                 //If the same person that uploaded the bcie is the one processing it, then....
-                if (document.getUploaderUniversalIdentifier().equals(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier())) {
-                    this.blanketApprove(mapping, form, request, response);
+                if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
+                    this.blanketApprove(mapping, barcodeInventoryErrorForm, request, response);
                 }
-            } else {            
-                this.save(mapping, form, request, response);
+            } else {
+                //GlobalVariables.getErrorMap().clear();
+                this.save(mapping, barcodeInventoryErrorForm, request, response);
             }
         }
+        barcodeInventoryErrorForm.resetCheckBoxes();
         this.loadDocument((KualiDocumentFormBase)form);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -247,8 +269,10 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorDetail barcodeInventoryErrorDetail;
 
         for(BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
-            if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR))
+            if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR)) {
                 result=false;
+                break;
+            }                
         }
         return result;        
     }

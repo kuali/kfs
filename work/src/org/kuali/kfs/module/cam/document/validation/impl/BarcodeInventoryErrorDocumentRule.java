@@ -81,41 +81,37 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         // Deleting previous error messages
         GlobalVariables.getErrorMap().clear();
 
-        Long lineNumber = new Long(1);
+        Long lineNumber = new Long(0);
         for (BarcodeInventoryErrorDetail barcodeInventoryErrorDetail : barcodeInventoryErrorDetails) {
-            valid = true;
-            errorPath = CamsConstants.DOCUMENT_PATH + "." + CamsPropertyConstants.BarcodeInventory.BARCODE_INVENTORY_DETAIL + "[" + (lineNumber.intValue() - 1) + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+//            if (barcodeInventoryErrorDetail.getAssetTagNumber().equals("IU011029")) {
+//                lineNumber = lineNumber;
+//            }
+            if (barcodeInventoryErrorDetail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR)) {
+                valid = true;
+                errorPath = CamsConstants.DOCUMENT_PATH + "." + CamsPropertyConstants.BarcodeInventory.BARCODE_INVENTORY_DETAIL + "[" + (lineNumber.intValue()) + "]";
+                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
 
-            valid &= this.validateTagNumber(barcodeInventoryErrorDetail.getAssetTagNumber());
-            valid &= this.validateBuildingCode(barcodeInventoryErrorDetail.getBuildingCode(), barcodeInventoryErrorDetail);
-            valid &= this.validateBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber(), barcodeInventoryErrorDetail);
-            valid &= this.validateCampusCode(barcodeInventoryErrorDetail.getCampusCode(), barcodeInventoryErrorDetail);
-            valid &= this.validateConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode(), barcodeInventoryErrorDetail);
-            valid &= this.validateInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
-            valid &= this.validateTaggingLock(barcodeInventoryErrorDetail.getAssetTagNumber());
+                valid &= this.validateTagNumber(barcodeInventoryErrorDetail.getAssetTagNumber());
+                valid &= this.validateBuildingCode(barcodeInventoryErrorDetail.getBuildingCode(), barcodeInventoryErrorDetail);
+                valid &= this.validateBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber(), barcodeInventoryErrorDetail);
+                valid &= this.validateCampusCode(barcodeInventoryErrorDetail.getCampusCode(), barcodeInventoryErrorDetail);
+                valid &= this.validateConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode(), barcodeInventoryErrorDetail);
+                valid &= this.validateInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
+                valid &= this.validateTaggingLock(barcodeInventoryErrorDetail.getAssetTagNumber());
 
-            if (!valid) {
-                barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR);
+                if (!valid) {
+                    barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR);
 
-                // Getting the errors from GlobalVariables.
-                barcodeInventoryErrorDetail.setErrorDescription(getErrorMessages(errorPath));
-                lineNumber++;
+                    // Getting the errors from GlobalVariables.
+                    barcodeInventoryErrorDetail.setErrorDescription(getErrorMessages(errorPath));
+                }
+                else {
+                    barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED);
+                }
+                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             }
-            else {
-                barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED);
-            }
-
-            // inventory.add(barcodeInventoryErrorDetail);
-
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            lineNumber++;
         }
-        // Cleaning collection.
-        // barcodeInventoryErrorDetails.clear();
-
-        // Adding back all elements including those that had modifications.
-        // barcodeInventoryErrorDetails.addAll(inventory);
-
         return true;
     }
 
@@ -257,8 +253,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     }
 
     /**
-     * Validates the Asset doesn't have any tagging locks as result of an existing document in process where the same
-     * asset being affected
+     * Validates the Asset doesn't have any tagging locks as result of an existing document in process where the same asset being
+     * affected
      * 
      * @param tagNumber
      * @return boolean

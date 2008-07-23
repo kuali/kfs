@@ -28,7 +28,6 @@ public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTran
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         flags.setCanSave(false);
-        flags.setCanRoute(false);
         flags.setCanReload(false);
         
         /* 

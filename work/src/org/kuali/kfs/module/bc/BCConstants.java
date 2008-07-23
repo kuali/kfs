@@ -34,6 +34,7 @@ public class BCConstants extends JSTLConstants {
 
     // formkey prefix to use for all screens we will store in session
     public static final String FORMKEY_PREFIX = "BcDoc";
+    public static final String BC_DOC_EDIT_MODE_SESSIONKEY = FORMKEY_PREFIX+"EditMode";
 
     // screen tab error keys
     public static final String BUDGET_CONSTRUCTION_SALARY_SETTING_TAB_ERRORS = "document.budgetConstructionSalarySetting*";
@@ -41,6 +42,7 @@ public class BCConstants extends JSTLConstants {
     public static final String BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS = "document.pendingBudgetConstructionGeneralLedgerExpenditureLines*,newExpenditureLine*";
     public static final String BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS = "document.budgetConstructionMonthlyBudget*";
     public static final String BUDGET_CONSTRUCTION_REPORTDUMP_TAB_ERRORS = "document.budgetConstructionDocumentReportModes*";
+    public static final String BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS = "accountOrgHierLevels*";
 
     public static final String NEW_EXPENDITURE_LINE_PROPERTY_NAME = "newExpenditureLine";
     public static final String NEW_REVENUE_LINE_PROPERTY_NAME = "newRevenueLine";

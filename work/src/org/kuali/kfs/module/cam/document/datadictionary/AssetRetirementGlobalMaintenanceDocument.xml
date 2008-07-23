@@ -73,7 +73,7 @@
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="retirementDate"
-              p:required="true" />
+              p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="mergedTargetCapitalAssetNumber" />
       </list>

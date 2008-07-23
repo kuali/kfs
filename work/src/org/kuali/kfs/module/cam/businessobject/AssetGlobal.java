@@ -10,6 +10,7 @@ import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -435,7 +436,12 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return Returns the createDate
      */
     public Date getCreateDate() {
-        return createDate;
+        if (createDate != null) {
+            return createDate;
+        }
+        else {
+            return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        }
     }
 
     /**

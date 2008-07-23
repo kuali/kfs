@@ -15,12 +15,16 @@
  */
 package org.kuali.kfs.module.bc.document.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
@@ -29,10 +33,15 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
+import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableException;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -49,7 +58,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class LockServiceImpl implements LockService {
     private BudgetConstructionDao budgetConstructionDao;
     private BudgetConstructionLockDao budgetConstructionLockDao;
-
+    private BudgetDocumentService budgetDocumentService;
+    
     /**
      * This method attempts to lock the given Account for the passed in uuid. Finding an exising account lock for the uuid returns
      * success without having to relock After setting an accountlock, if any funding locks are found, it releases the accountlock
@@ -636,5 +646,44 @@ public class LockServiceImpl implements LockService {
      */
     public void setBudgetConstructionLockDao(BudgetConstructionLockDao budgetConstructionLockDao) {
         this.budgetConstructionLockDao = budgetConstructionLockDao;
+    }
+    
+    /**
+     * Sets the budgetDocumentService attribute value.
+     * @param budgetDocumentService The budgetDocumentService to set.
+     */
+    @NonTransactional
+    public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
+        this.budgetDocumentService = budgetDocumentService;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockPendingBudgetConstructionAppointmentFundingRecords(java.util.List, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Transactional(propagation=Propagation.REQUIRES_NEW)
+    public List<PendingBudgetConstructionAppointmentFunding> lockPendingBudgetConstructionAppointmentFundingRecords(List<PendingBudgetConstructionAppointmentFunding> fundingRecords, UniversalUser user) throws BudgetConstructionLockUnavailableException {
+        List<PendingBudgetConstructionAppointmentFunding> lockedFundingRecords = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+        Map<String, PendingBudgetConstructionAppointmentFunding> lockMap = new HashMap<String, PendingBudgetConstructionAppointmentFunding>();
+        
+        for (PendingBudgetConstructionAppointmentFunding fundingRecord : fundingRecords) {
+            BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(fundingRecord);
+            String lockingKey = fundingRecord.getUniversityFiscalYear() + "-" + fundingRecord.getChartOfAccountsCode() + "-" + fundingRecord.getAccountNumber() + "-" + fundingRecord.getSubAccountNumber();
+            if ( !lockMap.containsKey(lockingKey) ) {
+                BudgetConstructionLockStatus lockStatus = lockAccount(header, user.getPersonUniversalIdentifier());
+                if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER) ) {
+                    throw new BudgetConstructionLockUnavailableException(lockStatus);
+                } else if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND) ) {
+                    throw new BudgetConstructionLockUnavailableException(lockStatus);
+                } else if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
+                    throw new BudgetConstructionLockUnavailableException(lockStatus);
+                } else {
+                    lockMap.put(lockingKey, fundingRecord);
+                    lockedFundingRecords.add(fundingRecord);
+                }
+            }
+        }
+        
+        return lockedFundingRecords;
     }
 }

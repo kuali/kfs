@@ -40,7 +40,6 @@
 								fieldConversions="positionUnionCode:positionUnionCode" 
 								lookupParameters="positionUnionCode:positionUnionCode" /> 
 								<kul:htmlControlAttribute property="positionUnionCode" readOnly="false" attributeEntry="${payrateImportExportAttributes.positionUnionCode}"/>
-						<!-- /kul:lookup-->
 					</td> 
 					<td> 
 						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.csfFreezeDate}" /></b>

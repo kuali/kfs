@@ -41,6 +41,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.PayrateImportDao;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PayrateImportService;
+import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableException;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
 import org.kuali.kfs.sys.KFSConstants;
@@ -247,7 +248,16 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     public void setPayrateImportDao(PayrateImportDao payrateImportDao) {
         this.payrateImportDao = payrateImportDao;
     }
-    
+
+    /**
+     * Sets the budgetDocumentService attribute value.
+     * @param budgetDocumentService The budgetDocumentService to set.
+     */
+    @NonTransactional
+    public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
+        this.budgetDocumentService = budgetDocumentService;
+    }
+        
     /**
      * Creates the locking key to use in retrieving account locks
      * 
@@ -268,12 +278,33 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @param records
      * @return
      */
+    @Transactional
     private boolean getPayrateLock(Map<String, PendingBudgetConstructionAppointmentFunding> lockMap, List<ExternalizedMessageWrapper> messageList, Integer budgetYear, UniversalUser user, List<BudgetConstructionPayRateHolding> records) {
         List<String> biweeklyPayObjectCodes = BudgetParameterFinder.getBiweeklyPayObjectCodes();
         
         for (BudgetConstructionPayRateHolding record: records) {
                 List<PendingBudgetConstructionAppointmentFunding> fundingRecords = this.payrateImportDao.getFundingRecords(record, budgetYear, biweeklyPayObjectCodes);
-                for (PendingBudgetConstructionAppointmentFunding fundingRecord : fundingRecords) {
+                
+                try {this.lockService.lockPendingBudgetConstructionAppointmentFundingRecords(fundingRecords, user);
+                
+                } catch(BudgetConstructionLockUnavailableException e) {
+                    BudgetConstructionLockStatus lockStatus = e.getLockStatus();
+                    if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER) ) {
+                        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_ACCOUNT_LOCK_EXISTS));
+                        
+                        return false;
+                    } else if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND) ) {
+                        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_FUNDING_LOCK_EXISTS));
+                        
+                        return false;
+                    } else if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
+                        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_BATCH_ACCOUNT_LOCK_FAILED));
+                        
+                        return false;
+                    }
+                }
+                
+                /*for (PendingBudgetConstructionAppointmentFunding fundingRecord : fundingRecords) {
                     BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(fundingRecord);
                     String lockingKey = getLockingKeyString(fundingRecord);
                     if ( !lockMap.containsKey(lockingKey) ) {
@@ -291,7 +322,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                             lockMap.put(lockingKey, fundingRecord);
                         }
                     }
-                }
+                }*/
             
         }
         
@@ -319,13 +350,4 @@ public class PayrateImportServiceImpl implements PayrateImportService {
 
     }
 
-    /**
-     * Sets the budgetDocumentService attribute value.
-     * @param budgetDocumentService The budgetDocumentService to set.
-     */
-    @NonTransactional
-    public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
-        this.budgetDocumentService = budgetDocumentService;
-    }
-    
 }

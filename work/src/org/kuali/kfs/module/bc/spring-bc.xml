@@ -139,6 +139,9 @@
 		<property name="budgetConstructionLockDao">
 		    <ref bean="budgetConstructionLockDao" />
 		</property>
+		<property name="budgetDocumentService">
+			<ref bean="budgetDocumentService" />
+		</property>
 	</bean>
 
 	<bean id="permissionService" class="org.kuali.kfs.module.bc.document.service.impl.PermissionServiceImpl">

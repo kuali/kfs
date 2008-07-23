@@ -18,12 +18,14 @@ package org.kuali.kfs.module.bc.document.service;
 import java.util.List;
 import java.util.SortedSet;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLockStatus;
+import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableException;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 
 
@@ -290,4 +292,14 @@ public interface LockService {
      * @return true if the account lock on the given budget document is held by the the specified user; otherwise, false
      */
     public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, String personUserIdentifier);
+    
+    /**
+     * Retrieves account locks for funding records, for use in the payrate import process. Throws BudgetConstructionLockUnavailableException if new account lock is unavailable
+     * 
+     * @param fundingRecords
+     * @param user
+     * @return
+     * @throws BudgetConstructionLockUnavailableException
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> lockPendingBudgetConstructionAppointmentFundingRecords(List<PendingBudgetConstructionAppointmentFunding> fundingRecords, UniversalUser user) throws BudgetConstructionLockUnavailableException;
 }

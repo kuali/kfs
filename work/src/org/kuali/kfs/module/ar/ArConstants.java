@@ -20,6 +20,7 @@ public class ArConstants {
     //System Parameters
     public static final String INSTITUTION_NAME = "INSTITUTION_NAME";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD = "GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD";
+    public static final String GLPE_WRITEOFF_GENERATION_METHOD = "GLPE_WRITEOFF_GENERATION_METHOD";
     public static final String MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE = "MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE";
     public static final String REMIT_TO_ADDRESS_EDITABLE_IND = "REMIT_TO_ADDRESS_EDITABLE_IND";
     public static final String REMIT_TO_NAME_EDITABLE_IND = "REMIT_TO_NAME_EDITABLE_IND";
@@ -109,14 +110,15 @@ public class ArConstants {
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART = "1";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND = "2";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU = "3";
-
+    public static final String GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT = "1";
+    public static final String GLPE_WRITEOFF_GENERATION_METHOD_CHART = "2";
     public static final String COPY_CUSTOMER_INVOICE_DOCUMENT_WITH_DISCOUNTS_QUESTION = "ConfirmationForCopyingInvoiceWithDiscounts";
-
-
     public static final String CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY = "invoiceItemCode";
-
-
     public static final String CUSTOMER_INVOICE_DETAIL_DEFAULT_DISCOUNT_DESCRIPTION_PREFIX = "LINE ITEM DISCOUNT";
+    
+    //Customer Invoice Writeoff errors
+    public static final String ERROR_ORG_ACCT_DEFAULT_FOR_USER_MUST_EXIST = "error.ar.OrganizationAccountingDefaultMustExist";
+    public static final String ERROR_ORG_ACCT_DEFAULT_WRITEOFF_MUST_EXIST = "error.ar.OrganizationAccountingDefaultWriteoffMustExist";
 
     public static class PaymentMediumCode {
         public static final String CASH = "CA";

@@ -591,7 +591,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         boolean isDebit = false;       
         
         CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
-        service.createReceivableGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
     }
     
     /**
@@ -608,7 +608,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         boolean isDebit = true;
         
         CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
-        service.createIncomeGLPEs(this, customerCreditMemoDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, customerCreditMemoDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
     }
     
     protected void addStateSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){

@@ -18,6 +18,8 @@ package org.kuali.kfs.module.ar.document;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -27,11 +29,22 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.WriteoffCustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterService;
 
-public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumentBase {
+public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource{
 
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -205,6 +218,137 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     public void clearInitFields() {
         setFinancialDocumentReferenceInvoiceNumber(null);
     }
+    
+    /**
+     * do all the calculations before the document gets saved
+     * gets called for 'Submit', 'Save', and 'Blanket Approved'
+     * @see org.kuali.core.document.Document#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
+    public void prepareForSave(KualiDocumentEvent event) {
+        
+        // generate GLPEs
+        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
+            logErrors();
+            throw new ValidationException("general ledger GLPE generation failed");
+        }
+        super.prepareForSave(event);  
+    }    
+    
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        return true;
+    }
+
+    /**
+     * This method creates the following GLPE's for the customer invoice writeoff
+     *
+     * 1. C Receivable object code with remaining amount
+     * 2. D Writeoff object code (or Writeoff FAU) with remaining amount
+     * 3. C Receivable object code for tax on state tax account
+     * 4. D Sales Tax object code for tax on the state tax account
+     * 5. C Receivable object code for tax on district tax account
+     * 6. D District tax object code for $1.00 on the district tax account
+     *
+     * @see org.kuali.kfs.service.impl.GenericGeneralLedgerPendingEntryGenerationProcessImpl#processGenerateGeneralLedgerPendingEntries(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        boolean hasClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
+        
+        boolean hasStateSalesTax = false;
+        boolean hasDistrictSalesTax = false;
+        
+        addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        sequenceHelper.increment();
+        addWriteoffGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        
+        if( hasStateSalesTax ){
+            sequenceHelper.increment();
+            addStateSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        }
+        
+        if( hasDistrictSalesTax ){
+            sequenceHelper.increment();
+            addDistrictSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        }
+
+        return true;
+    }
+    
+    /**
+     * This method creates the receivable GLPEs for customer invoice details using the remaining amount
+     *
+     * @param poster
+     * @param sequenceHelper
+     * @param postable
+     * @param explicitEntry
+     */
+    protected void addReceivableGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset) {
+
+        CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)glpeSourceDetail;
+        ReceivableCustomerInvoiceDetail receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(customerInvoiceDetail, getCustomerInvoiceDocument());
+        boolean isDebit = false;       
+        
+        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getBalance());
+    }
+    
+    /**
+     * This method adds writeoff GLPE's for the customer invoice details using the remaining amount.
+     *
+     * @param poster
+     * @param sequenceHelper
+     * @param postable
+     * @param explicitEntry
+     */
+    protected void addWriteoffGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset) {
+
+        CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)glpeSourceDetail;
+        WriteoffCustomerInvoiceDetail writeoffCustomerInvoiceDetail = new WriteoffCustomerInvoiceDetail(customerInvoiceDetail, this);
+        boolean isDebit = true;
+        
+        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getBalance());
+    }
+    
+    protected void addStateSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){
+        /*
+        CustomerCreditMemoDetail customerCreditMemoDetail = (CustomerCreditMemoDetail)glpeSourceDetail;   
+        boolean isDebit = false;
+        KualiDecimal creditMemoDetailStateTaxAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount().multiply(getStateTaxPercent());
+        
+        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        service.createStateSalesTaxGLPEs(this, customerCreditMemoDetail, sequenceHelper, isDebit, hasOffset, creditMemoDetailStateTaxAmount);
+        //Add state sales tax receivable too
+        */
+    }
+    
+    protected void addDistrictSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){
+        /*
+        CustomerCreditMemoDetail customerCreditMemoDetail = (CustomerCreditMemoDetail)glpeSourceDetail;        
+        boolean isDebit = true;
+        KualiDecimal creditMemoDetailDistrictTaxAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount().multiply(getDistrictTaxPercent());
+        
+        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        service.createDistrictSalesTaxGLPEs(this, customerCreditMemoDetail, sequenceHelper, isDebit, hasOffset, creditMemoDetailDistrictTaxAmount);
+        //Add district sales tax receivable too
+        */
+    }     
+
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
+        return getCustomerInvoiceDocument().getSourceAccountingLines();
+    }
+
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+        // TODO Auto-generated method stub
+        return false;
+    }    
     
     //METHODS NEEDED TO GET ACCOUNTING LINES TO SHOW UP CORRECTLY
     

@@ -994,7 +994,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         || (isInvoiceReversal() && customerInvoiceDetail.isDiscountLine());        
         
         CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
-        service.createReceivableGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
     }
 
     /**
@@ -1012,7 +1012,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         || (isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine());
         
         CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
-        service.createIncomeGLPEs(this, customerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, customerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
         
     }
     

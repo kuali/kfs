@@ -35,6 +35,8 @@
 	<c:if test="${not displayInitTab}" >
 		<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
+		<ar:customerInvoiceWriteoffHiddenFields />
+
 		<ar:customerInvoiceSummary 
 			customerInvoiceDocumentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"
 			documentAttributes="${DataDictionary.CustomerInvoiceWriteoffDocument.attributes}"

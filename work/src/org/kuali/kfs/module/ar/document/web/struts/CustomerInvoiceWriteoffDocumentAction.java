@@ -82,8 +82,7 @@ public class CustomerInvoiceWriteoffDocumentAction extends FinancialSystemTransa
         //String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME;
         boolean rulePassed = true; //TODO Put rule...
         if (rulePassed){
-            //update status
-            customerInvoiceWriteoffDocument.setStatusCode(ArConstants.CustomerInvoiceWriteoffStatuses.IN_PROCESS);
+
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

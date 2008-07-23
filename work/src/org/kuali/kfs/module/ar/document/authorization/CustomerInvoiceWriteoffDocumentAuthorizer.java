@@ -27,6 +27,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -37,23 +38,24 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
-    
+
     @Override
     public Map getEditMode(Document document, UniversalUser user) {
-        
-        Map<String,String> editModeMap = super.getEditMode(document, user);
+
+        Map<String, String> editModeMap = super.getEditMode(document, user);
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;
-        
-        if (StringUtils.equals(customerInvoiceWriteoffDocument.getStatusCode(),ArConstants.CustomerInvoiceWriteoffStatuses.INITIATE))
-            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB,"TRUE");
+
+        if (StringUtils.equals(customerInvoiceWriteoffDocument.getStatusCode(), ArConstants.CustomerInvoiceWriteoffStatuses.INITIATE))
+            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB, "TRUE");
         else
-            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB,"FALSE");
-        
+            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB, "FALSE");
+
         return editModeMap;
     }
-    
+
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
      */
@@ -69,26 +71,50 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
         }
         return flags;
     }
-    
+
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) throws DocumentTypeAuthorizationException {
         super.canInitiate(documentTypeName, user);
         // to initiate, the user must have the organization options set up.
         ChartOrgHolder chartUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
-        
-        Map<String, String> criteria = new HashMap<String, String>();
+
+        Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("chartOfAccountsCode", chartUser.getChartOfAccountsCode());
         criteria.put("organizationCode", chartUser.getOrganizationCode());
         OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
 
-        //if organization doesn't exist
+        // if organization doesn't exist
         if (ObjectUtils.isNull(organizationOptions)) {
             throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, new String[] {});
-
         }
-    }     
+
+        // if writeoff option is set up for to use organization accounting default FAU, those values must exist before a writeoff
+        // document can be initiated
+        String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
+        boolean isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffGenerationOption);
+        if (isUsingOrgAcctDefaultWriteoffFAU) {
+
+            Integer currentUniversityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+
+            criteria = new HashMap<String, Object>();
+            criteria.put("universityFiscalYear", currentUniversityFiscalYear);
+            criteria.put("chartOfAccountsCode", chartUser.getChartOfAccountsCode());
+            criteria.put("organizationCode", chartUser.getOrganizationCode());
+            OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+
+            // check if org. acct. default exists
+            if (ObjectUtils.isNull(organizationAccountingDefault)) {
+                throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORG_ACCT_DEFAULT_FOR_USER_MUST_EXIST, new String[] {});
+            }
+            //check if org acct. default writeoff chart, object, or account number are empty
+            else if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffAccountNumber()) || StringUtils.isEmpty(organizationAccountingDefault.getWriteoffChartOfAccountsCode()) || StringUtils.isEmpty(organizationAccountingDefault.getWriteoffFinancialObjectCode())) {
+                throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORG_ACCT_DEFAULT_WRITEOFF_MUST_EXIST, new String[] {});
+            }
+        }
+    }
 
 }

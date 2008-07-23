@@ -29,35 +29,6 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 public class CustomerInvoiceGLPEServiceImpl implements CustomerInvoiceGLPEService {
 
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService#createIncomeGLPEs(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, boolean, boolean, org.kuali.core.util.KualiDecimal)
-     */
-    public void createIncomeGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount) {
-        createAndAddGenericInvoiceRelatedGLPEs(glpeSource, glpeSourceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, amount);
-    }
-
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService#createReceivableGLPEs(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, boolean, boolean, org.kuali.core.util.KualiDecimal)
-     */
-    public void createReceivableGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount) {
-        createAndAddGenericInvoiceRelatedGLPEs(glpeSource, glpeSourceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, amount);   
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService#createDistrictTaxGLPEs(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, boolean, boolean, org.kuali.core.util.KualiDecimal)
-     */
-    public void createDistrictTaxGLPEs(GeneralLedgerPendingEntrySource glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount) {
-        // TODO Auto-generated method stub
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService#createSalesTaxGLPEs(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, boolean, boolean, org.kuali.core.util.KualiDecimal)
-     */
-    public void createSalesTaxGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount) {
-        // TODO Auto-generated method stub
-    }
     
     /**
      * This method creates and adds generic invoice related GLPE's
@@ -68,7 +39,7 @@ public class CustomerInvoiceGLPEServiceImpl implements CustomerInvoiceGLPEServic
      * @param hasClaimOnCashOffset
      * @param amount
      */
-    protected void createAndAddGenericInvoiceRelatedGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount){
+    public void createAndAddGenericInvoiceRelatedGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount){
         
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
         generalLedgerPendingEntryService.populateExplicitGeneralLedgerPendingEntry(glpeSource, glpeSourceDetail, sequenceHelper, explicitEntry);

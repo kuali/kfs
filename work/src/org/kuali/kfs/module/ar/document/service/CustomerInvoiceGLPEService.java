@@ -24,48 +24,5 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
  * This service helps in the creation of GLPE's for invoice related documents
  */
 public interface CustomerInvoiceGLPEService {
-    
-    /**
-     * This method creates the corresponding receivable GLPE's
-     * 
-     * @param glpeSource
-     * @param glpeSourceDetail
-     * @param sequenceHelper
-     * @param isDebit
-     * @param hasOffset
-     * @param amount
-     */
-    public void createReceivableGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount);
-
-    /**
-     * This method creates the income related GLPE's
-     * @param glpeSource
-     * @param glpeSourceDetail
-     * @param sequenceHelper
-     * @param isDebit
-     * @param hasOffset
-     * @param amount
-     */
-    public void createIncomeGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount);
-
-    /**
-     * This method creates the sales tax GLPE's
-     * @param glpeSource
-     * @param glpeSourceDetail
-     * @param sequenceHelper
-     * @param isDebit
-     * @param hasOffset
-     * @param amount
-     */
-    public void createSalesTaxGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount);
-
-    /**
-     * This method creates the district tax GLPE's
-     * @param glpeSourceDetail
-     * @param sequenceHelper
-     * @param isDebit
-     * @param hasOffset
-     * @param amount
-     */
-    public void createDistrictTaxGLPEs(GeneralLedgerPendingEntrySource glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount);
+   public void createAndAddGenericInvoiceRelatedGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount);
 }

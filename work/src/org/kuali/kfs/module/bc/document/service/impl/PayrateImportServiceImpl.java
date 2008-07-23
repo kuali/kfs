@@ -124,8 +124,9 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         if ( !getPayrateLock(lockedFundingRecords, messageList, budgetYear, user, records) ) {
             messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_UPDATE_ABORTED, String.valueOf(this.updateCount)));
             doRollback();
+            return;
         }
-        
+
         List<String> biweeklyPayObjectCodes = BudgetParameterFinder.getBiweeklyPayObjectCodes();
         for (BudgetConstructionPayRateHolding holdingRecord : records) {
             if (holdingRecord.getAppointmentRequestedPayRate().equals( -1.0)) {
@@ -281,47 +282,25 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         List<String> biweeklyPayObjectCodes = BudgetParameterFinder.getBiweeklyPayObjectCodes();
         
         for (BudgetConstructionPayRateHolding record: records) {
-                List<PendingBudgetConstructionAppointmentFunding> fundingRecords = this.payrateImportDao.getFundingRecords(record, budgetYear, biweeklyPayObjectCodes);
-                
-                try {this.lockService.lockPendingBudgetConstructionAppointmentFundingRecords(fundingRecords, user);
-                
-                } catch(BudgetConstructionLockUnavailableException e) {
-                    BudgetConstructionLockStatus lockStatus = e.getLockStatus();
-                    if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER) ) {
-                        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_ACCOUNT_LOCK_EXISTS));
-                        
-                        return false;
-                    } else if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND) ) {
-                        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_FUNDING_LOCK_EXISTS));
-                        
-                        return false;
-                    } else if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
-                        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_BATCH_ACCOUNT_LOCK_FAILED));
-                        
-                        return false;
-                    }
+            List<PendingBudgetConstructionAppointmentFunding> fundingRecords = this.payrateImportDao.getFundingRecords(record, budgetYear, biweeklyPayObjectCodes);
+            try {
+                lockedRecords.addAll(this.lockService.lockPendingBudgetConstructionAppointmentFundingRecords(fundingRecords, user));
+            } catch(BudgetConstructionLockUnavailableException e) {
+                BudgetConstructionLockStatus lockStatus = e.getLockStatus();
+                if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER) ) {
+                    messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_ACCOUNT_LOCK_EXISTS));
+                    
+                    return false;
+                } else if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND) ) {
+                    messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_FUNDING_LOCK_EXISTS));
+                    
+                    return false;
+                } else if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
+                    messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_BATCH_ACCOUNT_LOCK_FAILED));
+                    return false;
                 }
-                
-                /*for (PendingBudgetConstructionAppointmentFunding fundingRecord : fundingRecords) {
-                    BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(fundingRecord);
-                    String lockingKey = getLockingKeyString(fundingRecord);
-                    if ( !lockMap.containsKey(lockingKey) ) {
-                        BudgetConstructionLockStatus lockStatus = this.lockService.lockAccount(header, user.getPersonUniversalIdentifier());
-                        if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER) ) {
-                            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_ACCOUNT_LOCK_EXISTS));
-                            return false;
-                        } else if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND) ) {
-                            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_FUNDING_LOCK_EXISTS));
-                            return false;
-                        } else if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
-                            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_BATCH_ACCOUNT_LOCK_FAILED));
-                            return false;
-                        } else {
-                            lockMap.put(lockingKey, fundingRecord);
-                        }
-                    }
-                }*/
-            
+          }
+        
         }
         
         return true;

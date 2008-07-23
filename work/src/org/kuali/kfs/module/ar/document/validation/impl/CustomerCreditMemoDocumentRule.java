@@ -44,6 +44,7 @@ import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemo
 import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDocumentRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -59,7 +60,10 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
      */
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+        
+        GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
         isValid &= processRecalculateCustomerCreditMemoDocumentRules((TransactionalDocument)document, true);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
 
         return isValid;
     }

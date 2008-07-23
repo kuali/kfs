@@ -178,6 +178,9 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
                 Integer amountChange = appointmentFundingEntry.getAppointmentRequestedAmount().subtract(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount()).intValue();
                 orgPositionFundingDetailReportEntry.setAmountChange(amountChange);
                 orgPositionFundingDetailReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().bigDecimalValue()));
+            } else {
+                orgPositionFundingDetailReportEntry.setAmountChange(new Integer(0));
+                orgPositionFundingDetailReportEntry.setPercentChange(BigDecimal.ZERO);
             }
         }
         if (appointmentFundingEntry != null) {

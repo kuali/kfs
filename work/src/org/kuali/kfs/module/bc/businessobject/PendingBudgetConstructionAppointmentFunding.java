@@ -97,7 +97,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private boolean budgetable;
     private boolean hourlyPaid;
     private boolean excludedFromTotal;
-    private boolean override2plgMode;
+    private boolean override2PlugMode;
 
     /**
      * Default constructor.
@@ -951,24 +951,11 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     }
 
     /**
-     * Sets the newLineIndicator attribute value.
-     * @param newLineIndicator The newLineIndicator to set.
-     */
-    public void setNewLineIndicator(boolean newLineIndicator) {
-        this.newLineIndicator = newLineIndicator;
-    }
-    
-    /**
-     * determine whehter the salary is paid at hourly rate
-     * 
-     * @return true if the salary is paid at hourly rate; otherwise, false
+     * Gets the hourlyPaid attribute. 
+     * @return Returns the hourlyPaid.
      */
     public boolean isHourlyPaid() {
-        Integer fiscalYear = this.getUniversityFiscalYear();
-        String chartOfAccountsCode = this.getChartOfAccountsCode();
-        String objectCode = this.getFinancialObjectCode();
-        
-        return SpringContext.getBean(SalarySettingService.class).isHourlyPaidObject(fiscalYear, chartOfAccountsCode, objectCode);
+        return hourlyPaid;
     }
 
     /**
@@ -996,6 +983,14 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     }
 
     /**
+     * Gets the override2PlugMode attribute. 
+     * @return Returns the override2PlugMode.
+     */
+    public boolean isOverride2PlugMode() {
+        return override2PlugMode;
+    }
+    
+    /**
      * Sets the displayOnlyMode attribute value.
      * @param displayOnlyMode The displayOnlyMode to set.
      */
@@ -1003,6 +998,14 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.displayOnlyMode = displayOnlyMode;
     }
 
+    /**
+     * Sets the budgetable attribute value.
+     * @param budgetable The budgetable to set.
+     */
+    public void setBudgetable(boolean budgetable) {
+        this.budgetable = budgetable;
+    }
+    
     /**
      * Sets the excludedFromTotal attribute value.
      * @param excludedFromTotal The excludedFromTotal to set.
@@ -1012,19 +1015,26 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     }
 
     /**
-     * Gets the override2plgMode attribute. 
-     * @return Returns the override2plgMode.
+     * Sets the override2PlugMode attribute value.
+     * @param override2PlugMode The override2PlugMode to set.
      */
-    public boolean isOverride2plgMode() {
-        return override2plgMode;
+    public void setOverride2PlugMode(boolean override2PlugMode) {
+        this.override2PlugMode = override2PlugMode;
     }
-
+    
     /**
-     * Sets the override2plgMode attribute value.
-     * @param override2plgMode The override2plgMode to set.
+     * Sets the newLineIndicator attribute value.
+     * @param newLineIndicator The newLineIndicator to set.
      */
-    public void setOverride2plgMode(boolean override2plgMode) {
-        this.override2plgMode = override2plgMode;
+    public void setNewLineIndicator(boolean newLineIndicator) {
+        this.newLineIndicator = newLineIndicator;
     }
-
+    
+    /**
+     * Sets the hourlyPaid attribute value.
+     * @param hourlyPaid The hourlyPaid to set.
+     */
+    public void setHourlyPaid(boolean hourlyPaid) {
+        this.hourlyPaid = hourlyPaid;
+    }
 }

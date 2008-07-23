@@ -47,14 +47,6 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
     @Override
     protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine();
-      
-        if (isAddLine()) {
-            appointmentFunding.setChartOfAccountsCode(this.getChartOfAccountsCode());
-            appointmentFunding.setAccountNumber(this.getAccountNumber());
-            appointmentFunding.setSubAccountNumber(this.getSubAccountNumber());
-            appointmentFunding.setFinancialObjectCode(this.getFinancialObjectCode());
-            appointmentFunding.setFinancialSubObjectCode(this.getFinancialSubObjectCode());
-        }
 
         appointmentFunding.setPositionNumber(this.getBudgetConstructionPosition().getPositionNumber());
 

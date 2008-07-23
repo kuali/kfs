@@ -55,16 +55,12 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
         }
 
         incumbentSalarySettingForm.setBudgetConstructionIntendedIncumbent(budgetConstructionIntendedIncumbent);
+        if(incumbentSalarySettingForm.isSingleAccountMode()) {
+            // TODO: Single account mode constrains the funding lines displayed to only those that are associated with the document the user has open.
+        }
+        
         incumbentSalarySettingForm.populateBCAFLines();
         incumbentSalarySettingForm.setNewBCAFLine(incumbentSalarySettingForm.createNewAppointmentFundingLine());
-        
-        if (incumbentSalarySettingForm.isAddLine()) {
-            incumbentSalarySettingForm.getNewBCAFLine().setChartOfAccountsCode(request.getParameter(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
-            incumbentSalarySettingForm.getNewBCAFLine().setAccountNumber(request.getParameter(KFSPropertyConstants.ACCOUNT_NUMBER));
-            incumbentSalarySettingForm.getNewBCAFLine().setSubAccountNumber(request.getParameter(KFSPropertyConstants.SUB_ACCOUNT_NUMBER));
-            incumbentSalarySettingForm.getNewBCAFLine().setFinancialObjectCode(request.getParameter(KFSPropertyConstants.OBJECT_CODE));
-            incumbentSalarySettingForm.getNewBCAFLine().setFinancialSubObjectCode(request.getParameter(KFSPropertyConstants.SUB_OBJECT_CODE));
-        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -54,6 +54,10 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         }
 
         positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);
+        if(positionSalarySettingForm.isSingleAccountMode()) {
+            // TODO: Single account mode constrains the funding lines displayed to only those that are associated with the document the user has open.
+        }
+        
         positionSalarySettingForm.populateBCAFLines();        
         positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
 

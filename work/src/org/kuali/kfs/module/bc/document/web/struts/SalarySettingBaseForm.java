@@ -28,10 +28,13 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
+import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -46,6 +49,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     private String financialSubObjectCode;
     private String financialBalanceTypeCode;
     private String financialObjectTypeCode;
+    private SalarySettingFieldsHolder salarySettingFieldsHolder;
 
     private boolean hideAdjustmentMeasurement = true;
     private String adjustmentMeasurement;
@@ -55,9 +59,11 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     private Map<String, String> editingMode;
 
     private boolean budgetByAccountMode;
+    private boolean singleAccountMode;
     private boolean orgSalSetClose = false;
-    
+
     public SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+    public BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
     /**
      * get the refresh caller name of the current form
@@ -88,16 +94,24 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public void postProcessBCAFLines() {
         this.populateBCAFLines();
-        
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+
+        String currentUser = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
+            
             boolean vacatable = salarySettingService.canBeVacant(appointmentFundings, appointmentFunding);
             appointmentFunding.setVacatable(vacatable);
+                        
+            boolean budgetable = budgetDocumentService.isBudgetableAccount(fiscalYear, appointmentFunding.getAccount(), appointmentFunding.getSubAccount());
+            appointmentFunding.setBudgetable(budgetable);
+            
+            boolean hourlyPaid = salarySettingService.isHourlyPaidObject(fiscalYear, appointmentFunding.getChartOfAccountsCode(), appointmentFunding.getFinancialObjectCode());
+            appointmentFunding.setHourlyPaid(hourlyPaid);
             
             // TODO: apply locking somewhere
-            salarySettingService.updateAppointmentFundingByUserLevel(appointmentFunding, currentUser.getPersonUniversalIdentifier());
+            salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, this.getSalarySettingFieldsHolder(), this.isBudgetByAccountMode(), this.isSingleAccountMode(), currentUser);
         }
 
         DynamicCollectionComparator.sort(appointmentFundings, KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.EMPLID);
@@ -125,7 +139,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     /**
      * setup the budget construction authorization
      */
-    public void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {       
+    public void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
         if (this.isBudgetByAccountMode()) {
             UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
 
@@ -390,6 +404,24 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     }
 
     /**
+     * Gets the singleAccountMode attribute.
+     * 
+     * @return Returns the singleAccountMode.
+     */
+    public boolean isSingleAccountMode() {
+        return singleAccountMode;
+    }
+
+    /**
+     * Sets the singleAccountMode attribute value.
+     * 
+     * @param singleAccountMode The singleAccountMode to set.
+     */
+    public void setSingleAccountMode(boolean singleAccountMode) {
+        this.singleAccountMode = singleAccountMode;
+    }
+
+    /**
      * Gets the orgSalSetClose attribute.
      * 
      * @return Returns the orgSalSetClose.
@@ -541,5 +573,19 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public List<PendingBudgetConstructionAppointmentFunding> getEffectivePendingBudgetConstructionAppointmentFunding() {
         return SalarySettingCalculator.getEffectiveAppointmentFundings(this.getAppointmentFundings());
+    }
+
+    /**
+     * Gets the salarySettingFieldsHolder attribute.
+     * 
+     * @return Returns the salarySettingFieldsHolder.
+     */
+    public SalarySettingFieldsHolder getSalarySettingFieldsHolder() {
+        if (salarySettingFieldsHolder == null) {
+            salarySettingFieldsHolder = new SalarySettingFieldsHolder();
+            ObjectUtil.buildObject(salarySettingFieldsHolder, this);
+        }
+
+        return salarySettingFieldsHolder;
     }
 }

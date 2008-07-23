@@ -54,6 +54,7 @@ import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
+import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
@@ -373,7 +374,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
         businessObjectService.save(salarySettingExpansion);
-        
+
         // update or create plug line if the total amount has been changed
         if (changes.isNonZero()) {
             budgetDocumentService.updatePendingBudgetGeneralLedgerPlug(appointmentFundings.get(0), changes.negated());
@@ -453,45 +454,47 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         appointmentFundings.add(newAppointmentFunding);
         appointmentFundings.remove(appointmentFunding);
     }
-    
-    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, String personUserIdentifier) {
-        boolean budgetByObject = true;
-        boolean singleAccountMode = true;
-        
-        if(budgetByObject) {
-            if(singleAccountMode) {
-                appointmentFunding.setDisplayOnlyMode(true);
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, boolean, java.lang.String)
+     */
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean singleAccountMode, String personUserIdentifier) {
+        String budgetChartOfAccountsCode = salarySettingFieldsHolder.getChartOfAccountsCode();
+        String budgetAccountNumber = salarySettingFieldsHolder.getAccountNumber();
+        String budgetSubAccountNumber = salarySettingFieldsHolder.getSubAccountNumber();
+        String budgetObjectCode = salarySettingFieldsHolder.getFinancialObjectCode();
+        String budgetSubObjectCode = salarySettingFieldsHolder.getFinancialSubObjectCode();
+
+        String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
+        String accountNumber = appointmentFunding.getAccountNumber();
+        String subAccountNumber = appointmentFunding.getSubAccountNumber();
+        String objectCode = appointmentFunding.getFinancialObjectCode();
+        String subObjectCode = appointmentFunding.getFinancialSubObjectCode();
+
+        if (budgetByObjectMode && StringUtils.equals(chartOfAccountsCode, budgetChartOfAccountsCode) && StringUtils.equals(accountNumber, budgetAccountNumber) && StringUtils.equals(subAccountNumber, budgetSubAccountNumber)) {
+            appointmentFunding.setDisplayOnlyMode(singleAccountMode ? true : false);
+
+            if (!singleAccountMode && (!StringUtils.equals(objectCode, budgetObjectCode) || !StringUtils.equals(subObjectCode, budgetSubObjectCode))) {
+                appointmentFunding.setOverride2PlugMode(true);
             }
-            else {
-                appointmentFunding.setDisplayOnlyMode(false);
-                
-                boolean isNotHomeAccount = false;
-                if(isNotHomeAccount) {
-                    // TODO: appointmentFunding.setOverride2plgMode(true);
-                    // TODO: can be used to update total amount
-                }
-            }
+
+            return true;
         }
-        else {
-            boolean isUpdated = this.updateAppointmentFundingByUserLevel(appointmentFunding, personUserIdentifier);
-            
-            if(!isUpdated) {
-                return false;
-            }
-            
-            // TODO: appointmentFunding.setOverride2plgMode(false);
-            // TODO: can be used to update total amount
-            
+
+        boolean isUpdatedByUserLevel = this.updateAccessOfAppointmentFundingByUserLevel(appointmentFunding, personUserIdentifier);
+        if (isUpdatedByUserLevel) {
+            appointmentFunding.setOverride2PlugMode(false);
+            return true;
         }
-        
-        return true;
+
+        return false;
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAppointmentFundingByUserLevel(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFundingByUserLevel(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      java.lang.String)
      */
-    public boolean updateAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, String personUserIdentifier) {
+    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, String personUserIdentifier) {
         BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
         if (budgetConstructionHeader == null) {
             return false;
@@ -515,7 +518,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
         Integer userLevelCode = this.getUserLevelCode(documentOrganizationLevelCode, fiscalYear, account, organazationReviewHierachy);
 
-        // if funding line is inside the hierachy path, the editing mode can be determined by the levels of user and document organization
+        // if funding line is inside the hierachy path, the editing mode can be determined by the levels of user and document
+        // organization
         if (userLevelCode != null) {
             if (userLevelCode > documentOrganizationLevelCode) {
                 appointmentFunding.setDisplayOnlyMode(true);
@@ -526,11 +530,12 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             }
             else {
                 appointmentFunding.setDisplayOnlyMode(false);
-            }            
+            }
             return true;
         }
 
-        // if funding line is outside the hierachy path, an organization approver of the budget construction doccument has the read-only access
+        // if funding line is outside the hierachy path, an organization approver of the budget construction doccument has the
+        // read-only access
         if (!organazationReviewHierachy.isEmpty()) {
             appointmentFunding.setDisplayOnlyMode(true);
             return true;

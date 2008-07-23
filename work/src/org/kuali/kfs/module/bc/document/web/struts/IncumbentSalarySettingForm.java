@@ -47,7 +47,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     @Override
     protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine();
-
+        
         appointmentFunding.setEmplid(this.getBudgetConstructionIntendedIncumbent().getEmplid());
 
         return appointmentFunding;

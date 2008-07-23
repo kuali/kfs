@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.document.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -391,17 +392,18 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine) {
         return budgetConstructionDao.getPendingBudgetConstructionAppointmentFundingRequestSum(salaryDetailLine);
     }
-    
+
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
-    public String getAccessMode(BudgetConstructionHeader bcHeader, UniversalUser u){
+    public String getAccessMode(BudgetConstructionHeader bcHeader, UniversalUser u) {
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
         boolean isFiscalOfcOrDelegate = false;
 
         Integer hdrLevel = bcHeader.getOrganizationLevelCode();
 
-        bcHeader.refreshReferenceObject("account");
+        bcHeader.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         isFiscalOfcOrDelegate = u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) || budgetConstructionDao.isDelegate(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), u.getPersonUniversalIdentifier());
 
         // special case level 0 access, check if user is fiscal officer or delegate
@@ -434,48 +436,49 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, org.kuali.core.bo.user.UniversalUser)
      */
-    /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(java.lang.Integer, java.lang.String,
-     *      java.lang.String, java.lang.String, org.kuali.core.bo.user.UniversalUser)
-     */
     public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u) {
-//        String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
-//        boolean isFiscalOfcOrDelegate = false;
+        // String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
+        // boolean isFiscalOfcOrDelegate = false;
 
         BudgetConstructionHeader bcHeader = this.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         return this.getAccessMode(bcHeader, u);
-//        Integer hdrLevel = bcHeader.getOrganizationLevelCode();
+        // Integer hdrLevel = bcHeader.getOrganizationLevelCode();
 
-//        isFiscalOfcOrDelegate = u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) || budgetConstructionDao.isDelegate(chartOfAccountsCode, accountNumber, u.getPersonUniversalIdentifier());
-//
-//        // special case level 0 access, check if user is fiscal officer or delegate
-//        if (hdrLevel == 0) {
-//            if (isFiscalOfcOrDelegate) {
-//                if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())) {
-//                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
-//                }
-//                else {
-//                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
-//                }
-//                return editMode;
-//            }
-//        }
-//
-//        // drops here if we need to check for org approver access for any doc level
-//        editMode = this.getOrgApproverAcessMode(bcHeader, u);
-//        if (isFiscalOfcOrDelegate && (editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER) || editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER))) {
-//
-//            // user is a fo or delegate and not an org approver or not in account's hier, means the doc is really above the user
-//            // level
-//            editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL;
-//
-//        }
-//
-//        return editMode;
+        // isFiscalOfcOrDelegate =
+        // u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) ||
+        // budgetConstructionDao.isDelegate(chartOfAccountsCode, accountNumber, u.getPersonUniversalIdentifier());
+        //
+        // // special case level 0 access, check if user is fiscal officer or delegate
+        // if (hdrLevel == 0) {
+        // if (isFiscalOfcOrDelegate) {
+        // if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())) {
+        // editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
+        // }
+        // else {
+        // editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
+        // }
+        // return editMode;
+        // }
+        // }
+        //
+        // // drops here if we need to check for org approver access for any doc level
+        // editMode = this.getOrgApproverAcessMode(bcHeader, u);
+        // if (isFiscalOfcOrDelegate &&
+        // (editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER) ||
+        // editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER))) {
+        //
+        // // user is a fo or delegate and not an org approver or not in account's hier, means the doc is really above the user
+        // // level
+        // editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL;
+        //
+        // }
+        //
+        // return editMode;
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isBudgetableAccount(java.lang.Integer, org.kuali.kfs.coa.businessobject.Account, org.kuali.kfs.coa.businessobject.SubAccount)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isBudgetableAccount(java.lang.Integer,
+     *      org.kuali.kfs.coa.businessobject.Account, org.kuali.kfs.coa.businessobject.SubAccount)
      */
     public boolean isBudgetableAccount(Integer budgetYear, Account account, SubAccount subAccount) {
         if (account.isAccountClosedIndicator()) {
@@ -568,7 +571,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      */
     private boolean canUpdatePlugRecord(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         // no plug if the override mode is enabled
-        if (appointmentFunding.isOverride2plgMode()) {
+        if (appointmentFunding.isOverride2PlugMode()) {
             return false;
         }
 
@@ -603,7 +606,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             pendingRecord.setAccountLineAnnualBalanceAmount(newAnnaulBalanceAmount);
         }
         else if (!is2PLG || (is2PLG && updateAmount.isNonZero())) { // initialize a new pending record if not plug line or plug line
-                                                                    // not zero
+            // not zero
             Integer budgetYear = appointmentFunding.getUniversityFiscalYear();
 
             String objectCode = is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : appointmentFunding.getFinancialObjectCode();
@@ -654,9 +657,23 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, subObjectCode);
 
-        return (PendingBudgetConstructionGeneralLedger) this.businessObjectService.findByPrimaryKey(PendingBudgetConstructionGeneralLedger.class, searchCriteria);
+        return (PendingBudgetConstructionGeneralLedger) businessObjectService.findByPrimaryKey(PendingBudgetConstructionGeneralLedger.class, searchCriteria);
     }
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#retrievePendingBudgetConstructionGeneralLedger(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader)
+     */
+    public Collection<PendingBudgetConstructionGeneralLedger> retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader) {
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
+
+        searchCriteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionHeader.getDocumentNumber());
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetConstructionHeader.getUniversityFiscalYear());
+        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, budgetConstructionHeader.getChartOfAccountsCode());
+        searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, budgetConstructionHeader.getAccountNumber());
+        searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, budgetConstructionHeader.getSubAccountNumber());
+
+        return businessObjectService.findMatching(PendingBudgetConstructionGeneralLedger.class, searchCriteria);
+    }
 
     /**
      * Gets the Budget Construction access mode for a Budget Construction document header and Organization Approver user. This
@@ -699,7 +716,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
                 else {
                     for (Org povOrg : povOrgs) {
                         if (rvwHierMap.containsKey(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode())) {
-                            rvwHierApproverList.put(rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()).getOrganizationLevelCode(),rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()));
+                            rvwHierApproverList.put(rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()).getOrganizationLevelCode(), rvwHierMap.get(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode()));
                         }
                     }
 

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
@@ -186,4 +187,12 @@ public interface BudgetDocumentService {
      * @return true if the given account and subaccount are budgetable for the specified budget year; otherwise, false
      */
     public boolean isBudgetableAccount(Integer budgetYear, Account account, SubAccount subAccount);
+    
+    /**
+     * retrieve all pending budget construction GL records associated with the given budget contruction header
+     * 
+     * @param budgetConstructionHeader the budget construction header associated with the pending budget construction GL records to be retrieved
+     * @return all pending budget construction GL records associated with the given budget contruction header
+     */
+    public Collection<PendingBudgetConstructionGeneralLedger> retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader);
 }

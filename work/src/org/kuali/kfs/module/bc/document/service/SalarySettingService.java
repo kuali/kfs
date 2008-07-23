@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
+import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 
 /**
  * This class defines methods a Salary Setting Service must provide The Salary Setting Service supports functionality associated
@@ -62,7 +63,7 @@ public interface SalarySettingService {
      * @return the annual pay amount
      */
     public KualiInteger calculateAnnualPayAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
+
     /**
      * normalize the hourly pay rate and annual pay amount of the given appointment funding
      * 
@@ -122,7 +123,7 @@ public interface SalarySettingService {
      * @return a vacant appointment funding
      */
     public PendingBudgetConstructionAppointmentFunding vacateAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
+
     /**
      * delete the given appointment funding of the given appointment funding collection
      * 
@@ -188,12 +189,25 @@ public interface SalarySettingService {
      * @return the salary setting expension with the information provided by the given appointment funding
      */
     public SalarySettingExpansion retriveSalarySalarySettingExpansion(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
+
     /**
-     * update the access flags of the given appointment funding according to the user level and document organization level 
+     * update the access flags of the given appointment funding according to the given information
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @param salarySettingFieldsHolder the field holder that contains the values passed from the user
+     * @param budgetByObjectMode the budget by object mode flag
+     * @param singleAccountMode the single account mode flag
+     * @param personUserIdentifier the user's identifier
+     * @return true if the access flags are updated successfully; otherwsie, false
+     */
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean singleAccountMode, String personUserIdentifier);
+
+    /**
+     * update the access flags of the given appointment funding according to the user level and document organization level
+     * 
      * @param appointmentFunding the given appointment funding
      * @param personUserIdentifier the user's identifier
      * @return true if the access flags are updated successfully; otherwsie, false
      */
-    public boolean updateAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, String personUserIdentifier);
+    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, String personUserIdentifier);
 }

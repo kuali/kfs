@@ -40,7 +40,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private PendingBudgetConstructionAppointmentFunding newBCAFLine;
 
     private boolean addLine;
-    private boolean singleAccountMode;
 
     private String positionNumber;
     private String emplid;
@@ -97,6 +96,14 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
+        
+        if (this.isAddLine()) {
+            appointmentFunding.setChartOfAccountsCode(this.getChartOfAccountsCode());
+            appointmentFunding.setAccountNumber(this.getAccountNumber());
+            appointmentFunding.setSubAccountNumber(this.getSubAccountNumber());
+            appointmentFunding.setFinancialObjectCode(this.getFinancialObjectCode());
+            appointmentFunding.setFinancialSubObjectCode(this.getFinancialSubObjectCode());
+        }
 
         appointmentFunding.setUniversityFiscalYear(this.getUniversityFiscalYear());
         appointmentFunding.setAppointmentFundingDeleteIndicator(false);
@@ -194,24 +201,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public void setPersonName(String personName) {
         this.personName = personName;
-    }
-
-    /**
-     * Gets the singleAccountMode attribute.
-     * 
-     * @return Returns the singleAccountMode.
-     */
-    public boolean isSingleAccountMode() {
-        return singleAccountMode;
-    }
-
-    /**
-     * Sets the singleAccountMode attribute value.
-     * 
-     * @param singleAccountMode The singleAccountMode to set.
-     */
-    public void setSingleAccountMode(boolean singleAccountMode) {
-        this.singleAccountMode = singleAccountMode;
     }
 
     /**

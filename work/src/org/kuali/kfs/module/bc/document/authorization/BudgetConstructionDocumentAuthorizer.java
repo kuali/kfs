@@ -59,6 +59,20 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
     }
 
 
+    /**
+     * Gets the previously cached editModeMap from UserSession. The cached editModeMap is (re)initialized
+     * only during BC Document open, pullup or pushdown actions. All other actions associated with the BC document
+     * and the expansion screens used in budget by account mode use the cached editModeMap for authorization.
+     * This ensures a consistent access mode during the entire budget by account viewing/editing session.
+     * 
+     * Edit access is maintained during the entire document open/pullup/pushdown/close cycle even when the system
+     * is set to system view only mode, allowing the user to finish the current editing session.
+     * 
+     * Read only access is maintained during the entire document open/close cycle, with pullup and pushdown
+     * honoring any security model level changes and any changes to the system view only setting.
+     *  
+     * @return
+     */
     public Map getEditModeFromSession(){
         Map editModeMap = (Map) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY);
         return editModeMap;

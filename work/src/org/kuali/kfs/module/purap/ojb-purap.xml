@@ -3367,9 +3367,6 @@
     <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="purapDocumentIdentifier" class-ref="org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="purapDocumentIdentifier" />
-    </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
         <query-customizer class="org.kuali.kfs.module.purap.dataaccess.impl.PurapItemQueryCustomizer">
@@ -3414,9 +3411,6 @@
     <field-descriptor name="preqInvoicedTotalQuantity" column="PMT_RQST_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="preqUnitPrice" column="PMT_RQST_UNT_PRC" jdbc-type="DECIMAL"/>
     <field-descriptor name="preqExtendedPrice" column="PMT_RQST_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-    <reference-descriptor name="purapDocumentIdentifier" class-ref="org.kuali.kfs.module.purap.document.CreditMemoDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="purapDocumentIdentifier" />
-    </reference-descriptor>
     <reference-descriptor name="itemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>

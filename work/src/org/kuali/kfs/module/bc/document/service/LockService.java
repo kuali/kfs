@@ -111,6 +111,14 @@ public interface LockService {
      * @return LockStatus.SUCCESS, NO_DOOR (no fundinglock found)
      */
     public LockStatus unlockFunding(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
+    
+    /**
+     * release the locks for the given appointment fundings if any
+     * 
+     * @param lockedFundings the given appointment fundings that could have locks
+     * @param personUniversalIdentifier the user who owns the locks on the given appointment fundings
+     */
+    public void unlockFunding(List<PendingBudgetConstructionAppointmentFunding> lockedFundings, String personUniversalIdentifier);
 
     /**
      * Checks if the given user has a funding lock for the given accounting key.

@@ -59,16 +59,10 @@ public class LockServiceImpl implements LockService {
     private BudgetConstructionDao budgetConstructionDao;
     private BudgetConstructionLockDao budgetConstructionLockDao;
     private BudgetDocumentService budgetDocumentService;
-    
+
     /**
-     * This method attempts to lock the given Account for the passed in uuid. Finding an exising account lock for the uuid returns
-     * success without having to relock After setting an accountlock, if any funding locks are found, it releases the accountlock
-     * and sets BCLockStatus with LockStatus.FLOCK_FOUND. Accountlocks and Fundinglocks are mutex
-     * 
-     * @param bcHeader
-     * @param personUniversalIdentifier
-     * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, OPTIMISTIC_EX (lost optimistic lock), FLOCK_FOUND (also sets
-     *         fundingLocks), BY_OTHER (also sets accountLockOwner), NO_DOOR (null bcHeader)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockAccount(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
+     *      java.lang.String)
      */
     public BudgetConstructionLockStatus lockAccount(BudgetConstructionHeader bcHeader, String personUniversalIdentifier) {
 
@@ -116,10 +110,7 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * This method checks the database for an accountlock. It assumes a valid bcHeader parameter
-     * 
-     * @param bcHeader
-     * @return Returns true if locked, false if not locked or not found in the database
+     * @see org.kuali.kfs.module.bc.document.service.LockService#isAccountLocked(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader)
      */
     public boolean isAccountLocked(BudgetConstructionHeader bcHeader) {
 
@@ -133,7 +124,8 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#isAccountLockedByUser(java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#isAccountLockedByUser(java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.Integer, java.lang.String)
      */
     public boolean isAccountLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier) {
         BudgetConstructionHeader freshBcHeader = budgetConstructionDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
@@ -147,10 +139,7 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * This method attempts to unlock the given BudgetConstructionHeader.
-     * 
-     * @param bcHeader
-     * @return LockStatus.SUCCESS, NO_DOOR (not found), OPTIMISTIC_EX (lost optimistic lock)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockAccount(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader)
      */
     public LockStatus unlockAccount(BudgetConstructionHeader bcHeader) {
 
@@ -178,10 +167,7 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * This returns the set of BCFundingLocks associated with a BCHeader. The set is sorted by the UniversalUser personName
-     * 
-     * @param bcHeader
-     * @return SortedSet<BudgetConstructionFundingLock>
+     * @see org.kuali.kfs.module.bc.document.service.LockService#getFundingLocks(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader)
      */
     public SortedSet<BudgetConstructionFundingLock> getFundingLocks(BudgetConstructionHeader bcHeader) {
 
@@ -199,13 +185,8 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * This method sets a funding lock associated to the header. It tests for an accountlock before/after to ensure there is no
-     * locking conflict. Finding an accountlock after setting a fundinglock causes the fundinglock to be released. account locks and
-     * funding locks are mutex. Finding a funding lock for the passed in uuid returns success without having to relock
-     * 
-     * @param bcHeader
-     * @param personUniversalIdentifier
-     * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, BY_OTHER (accountlock found)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockFunding(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
+     *      java.lang.String)
      */
     public BudgetConstructionLockStatus lockFunding(BudgetConstructionHeader bcHeader, String personUniversalIdentifier) {
 
@@ -245,14 +226,8 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * This removes the fundinglock for the account and user
-     * 
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param subAccountNumber
-     * @param fiscalYear
-     * @param personUniversalIdentifier
-     * @return LockStatus.SUCCESS, NO_DOOR (no fundinglock found)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockFunding(java.lang.String, java.lang.String, java.lang.String,
+     *      java.lang.Integer, java.lang.String)
      */
     public LockStatus unlockFunding(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier) {
 
@@ -270,26 +245,35 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#isFundingLockedByUser(java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockFunding(java.util.List, java.lang.String)
+     */
+    public void unlockFunding(List<PendingBudgetConstructionAppointmentFunding> lockedFundings, String personUniversalIdentifier) {
+        for (PendingBudgetConstructionAppointmentFunding funding : lockedFundings) {
+            Integer fiscalYear = funding.getUniversityFiscalYear();
+            String chartOfAccountsCode = funding.getChartOfAccountsCode();
+            String objectCode = funding.getFinancialObjectCode();
+            String accountNumber = funding.getAccountNumber();
+            String subAccountNumber = funding.getSubAccountNumber();
+
+            this.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUniversalIdentifier);
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.LockService#isFundingLockedByUser(java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.Integer, java.lang.String)
      */
     public boolean isFundingLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier) {
         BudgetConstructionFundingLock budgetConstructionFundingLock = budgetConstructionDao.getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier);
         if (budgetConstructionFundingLock != null) {
             return true;
         }
-        
+
         return false;
     }
 
     /**
-     * This locks the position, meaning it sets the position lock id field with the puid. Finding the position already locked by the
-     * same user simply returns success.
-     * 
-     * @param positionNumber
-     * @param fiscalYear
-     * @param personUniversalIdentifier
-     * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, OPTIMISTIC_EX (lost optimistic lock), BY_OTHER (also sets
-     *         positionLockOwner), NO_DOOR (BudgetConstructionPosition found)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockPosition(java.lang.String, java.lang.Integer, java.lang.String)
      */
     public BudgetConstructionLockStatus lockPosition(String positionNumber, Integer fiscalYear, String personUniversalIdentifier) {
 
@@ -326,11 +310,7 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * This checks the database for an existing positionlock
-     * 
-     * @param positionNumber
-     * @param fiscalYear
-     * @return true or false (not locked or BudgetConstructionPosition not found)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#isPositionLocked(java.lang.String, java.lang.Integer)
      */
     public boolean isPositionLocked(String positionNumber, Integer fiscalYear) {
 
@@ -349,7 +329,8 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#isPositionLockedByUser(java.lang.String, java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#isPositionLockedByUser(java.lang.String, java.lang.Integer,
+     *      java.lang.String)
      */
     public boolean isPositionLockedByUser(String positionNumber, Integer fiscalYear, String personUserIdentifier) {
         BudgetConstructionPosition bcPosition = budgetConstructionDao.getByPrimaryId(positionNumber, fiscalYear);
@@ -361,19 +342,15 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#isPositionFundingLockedByUser(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#isPositionFundingLockedByUser(java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.String, java.lang.Integer, java.lang.String)
      */
     public boolean isPositionFundingLockedByUser(String positionNumber, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier) {
         return this.isPositionLockedByUser(positionNumber, fiscalYear, personUserIdentifier) && this.isFundingLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier);
     }
 
     /**
-     * This removes an existing positionlock
-     * 
-     * @param positionNumber
-     * @param fiscalYear
-     * @return LockStatus.SUCCESS (success or already unlocked), OPTIMISTIC_EX (lost optimistic lock - unlikely), NO_DOOR
-     *         (BudgetConstructionPosition not found)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPosition(java.lang.String, java.lang.Integer)
      */
     public LockStatus unlockPosition(String positionNumber, Integer fiscalYear) {
 
@@ -402,16 +379,8 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * This attempts a transactionlock on a BC Edoc for a pUId. It retries based on the setting of
-     * BudgetConstructionConstants.maxLockRetry.
-     * 
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param subAccountNumber
-     * @param fiscalYear
-     * @param personUniversalIdentifier
-     * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, OPTIMISTIC_EX (lost optimistic lock - unlikely) BY_OTHER
-     *         (retries exhausted, also sets transactionLockOwner), NO_DOOR (BudgetConstructionHeader not found)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockTransaction(java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.Integer, java.lang.String)
      */
     public BudgetConstructionLockStatus lockTransaction(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier) {
 
@@ -451,13 +420,8 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * This checks the database for an existing transactionlock for the BC EDoc (account).
-     * 
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param subAccountNumber
-     * @param fiscalYear
-     * @return true or false (not locked or BudgetConstructionHeader not found)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#isTransactionLocked(java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.Integer)
      */
     public boolean isTransactionLocked(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear) {
 
@@ -476,26 +440,21 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#isTransactionLockedByUser(java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#isTransactionLockedByUser(java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.Integer, java.lang.String)
      */
     public boolean isTransactionLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier) {
         BudgetConstructionHeader freshBcHeader = budgetConstructionDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
         if (freshBcHeader != null && freshBcHeader.getBudgetTransactionLockUserIdentifier() != null && freshBcHeader.getBudgetTransactionLockUserIdentifier().equals(personUserIdentifier)) {
-                return true;
+            return true;
         }
 
         return false;
     }
 
     /**
-     * This removes an existing transactionlock for a BC EDoc (account).
-     * 
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param subAccountNumber
-     * @param fiscalYear
-     * @return LockStatus.SUCCESS (success or already unlocked), OPTIMISTIC_EX (lost optimistic lock - unlikely), NO_DOOR
-     *         (BudgetConstructionHeader not found)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockTransaction(java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.Integer)
      */
     public LockStatus unlockTransaction(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear) {
 
@@ -550,7 +509,7 @@ public class LockServiceImpl implements LockService {
     public List<BudgetConstructionHeader> getAllTransactionLocks(String lockUserId) {
         return budgetConstructionLockDao.getAllTransactionLocks(lockUserId);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#getAllPositionFundingLocks(java.lang.String)
      */
@@ -579,7 +538,7 @@ public class LockServiceImpl implements LockService {
         if (BCConstants.LockTypes.POSITION_LOCK.equals(lockType)) {
             return this.isPositionLockedByUser(lockSummary.getPositionNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUser().getPersonUniversalIdentifier());
         }
-        
+
         if (BCConstants.LockTypes.POSITION_FUNDING_LOCK.equals(lockType)) {
             return this.isPositionFundingLockedByUser(lockSummary.getPositionNumber(), lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUser().getPersonUniversalIdentifier());
         }
@@ -611,21 +570,22 @@ public class LockServiceImpl implements LockService {
         if (BCConstants.LockTypes.POSITION_LOCK.equals(lockType)) {
             return this.unlockPosition(lockSummary.getPositionNumber(), lockSummary.getUniversityFiscalYear());
         }
-        
+
         if (BCConstants.LockTypes.POSITION_FUNDING_LOCK.equals(lockType)) {
             BudgetConstructionPosition position = budgetConstructionDao.getByPrimaryId(lockSummary.getPositionNumber(), lockSummary.getUniversityFiscalYear());
             for (PendingBudgetConstructionAppointmentFunding appointmentFunding : position.getPendingBudgetConstructionAppointmentFunding()) {
                 this.unlockFunding(appointmentFunding.getChartOfAccountsCode(), appointmentFunding.getAccountNumber(), appointmentFunding.getSubAccountNumber(), appointmentFunding.getUniversityFiscalYear(), lockSummary.getLockUser().getPersonUniversalIdentifier());
             }
-            
+
             return this.unlockPosition(position.getPositionNumber(), position.getUniversityFiscalYear());
         }
-        
+
         return LockStatus.NO_DOOR;
     }
-    
+
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#isAccountLockedByUser(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#isAccountLockedByUser(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
+     *      java.lang.String)
      */
     public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, String personUserIdentifier) {
         String chartOfAccountsCode = budgetConstructionHeader.getChartOfAccountsCode();
@@ -634,7 +594,7 @@ public class LockServiceImpl implements LockService {
         Integer fiscalYear = budgetConstructionHeader.getUniversityFiscalYear();
         return this.isAccountLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier);
     }
-    
+
     public void setBudgetConstructionDao(BudgetConstructionDao bcHeaderDao) {
         this.budgetConstructionDao = bcHeaderDao;
     }
@@ -647,43 +607,47 @@ public class LockServiceImpl implements LockService {
     public void setBudgetConstructionLockDao(BudgetConstructionLockDao budgetConstructionLockDao) {
         this.budgetConstructionLockDao = budgetConstructionLockDao;
     }
-    
+
     /**
      * Sets the budgetDocumentService attribute value.
+     * 
      * @param budgetDocumentService The budgetDocumentService to set.
      */
     @NonTransactional
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
         this.budgetDocumentService = budgetDocumentService;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.service.LockService#lockPendingBudgetConstructionAppointmentFundingRecords(java.util.List, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockPendingBudgetConstructionAppointmentFundingRecords(java.util.List,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
-    @Transactional(propagation=Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<PendingBudgetConstructionAppointmentFunding> lockPendingBudgetConstructionAppointmentFundingRecords(List<PendingBudgetConstructionAppointmentFunding> fundingRecords, UniversalUser user) throws BudgetConstructionLockUnavailableException {
         List<PendingBudgetConstructionAppointmentFunding> lockedFundingRecords = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         Map<String, PendingBudgetConstructionAppointmentFunding> lockMap = new HashMap<String, PendingBudgetConstructionAppointmentFunding>();
-        
+
         for (PendingBudgetConstructionAppointmentFunding fundingRecord : fundingRecords) {
             BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(fundingRecord);
             String lockingKey = fundingRecord.getUniversityFiscalYear() + "-" + fundingRecord.getChartOfAccountsCode() + "-" + fundingRecord.getAccountNumber() + "-" + fundingRecord.getSubAccountNumber();
-            if ( !lockMap.containsKey(lockingKey) ) {
+            if (!lockMap.containsKey(lockingKey)) {
                 BudgetConstructionLockStatus lockStatus = lockAccount(header, user.getPersonUniversalIdentifier());
-                if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER) ) {
+                if (lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER)) {
                     throw new BudgetConstructionLockUnavailableException(lockStatus);
-                } else if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND) ) {
+                }
+                else if (lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND)) {
                     throw new BudgetConstructionLockUnavailableException(lockStatus);
-                } else if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
+                }
+                else if (!lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS)) {
                     throw new BudgetConstructionLockUnavailableException(lockStatus);
-                } else {
+                }
+                else {
                     lockMap.put(lockingKey, fundingRecord);
                     lockedFundingRecords.add(fundingRecord);
                 }
             }
         }
-        
+
         return lockedFundingRecords;
     }
 }

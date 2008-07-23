@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,16 +26,23 @@ import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -64,6 +72,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     public SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     public BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+    public LockService lockService = SpringContext.getBean(LockService.class);
 
     /**
      * get the refresh caller name of the current form
@@ -90,31 +99,58 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     }
 
     /**
-     * do some operations on the appointment funding lines. The operations may be included updating and sorting.
+     * do some operations on the appointment funding lines. The operations may be included updating and sorting. If everything goes
+     * well, return true; otherwise, false
      */
-    public void postProcessBCAFLines() {
+    public boolean postProcessBCAFLines() {
         this.populateBCAFLines();
 
         String currentUser = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        List<PendingBudgetConstructionAppointmentFunding> lockedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
-            
+            String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
+            String objectCode = appointmentFunding.getFinancialObjectCode();
+
             boolean vacatable = salarySettingService.canBeVacant(appointmentFundings, appointmentFunding);
             appointmentFunding.setVacatable(vacatable);
-                        
+
             boolean budgetable = budgetDocumentService.isBudgetableAccount(fiscalYear, appointmentFunding.getAccount(), appointmentFunding.getSubAccount());
             appointmentFunding.setBudgetable(budgetable);
-            
-            boolean hourlyPaid = salarySettingService.isHourlyPaidObject(fiscalYear, appointmentFunding.getChartOfAccountsCode(), appointmentFunding.getFinancialObjectCode());
+
+            boolean hourlyPaid = salarySettingService.isHourlyPaidObject(fiscalYear, chartOfAccountsCode, objectCode);
             appointmentFunding.setHourlyPaid(hourlyPaid);
-            
-            // TODO: apply locking somewhere
-            salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, this.getSalarySettingFieldsHolder(), this.isBudgetByAccountMode(), this.isSingleAccountMode(), currentUser);
+
+            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, this.getSalarySettingFieldsHolder(), this.isBudgetByAccountMode(), this.isSingleAccountMode(), currentUser);
+            if (!updated) {
+                //TODO: modify the error message 
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
+                
+                lockService.unlockFunding(lockedFundings, currentUser);
+                return false;
+            }
+
+            BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
+            if (!appointmentFunding.isDisplayOnlyMode()) {
+                BudgetConstructionLockStatus lockStatus = lockService.lockFunding(header, currentUser);
+
+                if (LockStatus.BY_OTHER.equals(lockStatus.getLockStatus())) {
+                    //TODO: modify the error message 
+                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
+                    
+                    lockService.unlockFunding(lockedFundings, currentUser);
+                    return false;
+                }
+                else {
+                    lockedFundings.add(appointmentFunding);
+                }
+            }
         }
 
         DynamicCollectionComparator.sort(appointmentFundings, KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.EMPLID);
+        return true;
     }
 
     /**
@@ -140,14 +176,33 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * setup the budget construction authorization
      */
     public void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
+        this.setEditingMode(documentAuthorizer.getEditModeFromSession());
+    }
+
+    /**
+     * initialize the editing mode for salary setting
+     */
+    public void initializeEditingMode(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
+        Map<String, String> initialEditingMode = this.getInitialEditingMode(documentAuthorizer);
+
+        GlobalVariables.getUserSession().removeObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY);
+        GlobalVariables.getUserSession().addObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY, initialEditingMode);
+
+        this.setEditingMode(initialEditingMode);
+    }
+
+    /**
+     * initialize the editing mode for salary setting
+     */
+    public Map<String, String> getInitialEditingMode(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
         if (this.isBudgetByAccountMode()) {
             UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
 
-            this.setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
+            return documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser);
         }
         else {
             // user got here through organization salary setting - check that the user is a BC org approver somewhere
-            this.setEditingMode(documentAuthorizer.getEditMode());
+            return documentAuthorizer.getEditMode();
         }
     }
 

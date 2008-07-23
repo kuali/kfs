@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.module.cam.document.validation.impl;
 
+import java.util.List;
+
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -32,6 +35,8 @@ import org.kuali.kfs.sys.service.ParameterService;
  * This class validates object sub type code for the financial object for which payment is being made
  */
 public class AssetPaymentObjectCodeValidation extends GenericValidation {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentObjectCodeValidation.class);
+
     private AssetService assetService;
     private ParameterService parameterService;
 
@@ -46,10 +51,17 @@ public class AssetPaymentObjectCodeValidation extends GenericValidation {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;
 
+        LOG.info("*** Parameter namespace:"+parameterService.getNamespace(AssetGlobal.class));
+        LOG.info("*** Parameter Detail type:"+parameterService.getDetailType(AssetGlobal.class));
+        
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
         if (assetService.isCapitalAsset(assetPaymentDocument.getAsset())) {
-            if (!parameterService.getParameterValues(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.Payment.ERROR_INVALID_OBJECT_SUBTYPE, new String[] { assetPaymentDetail.getFinancialObjectCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode() });
+            List<String> validSubtypeCodes = parameterService.getParameterValues(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES);
+            String parameterDetail = "(module:"+parameterService.getNamespace(AssetGlobal.class)+"/component:"+parameterService.getDetailType(AssetGlobal.class)+")";
+            
+            //if (!parameterService.getParameterValues(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
+            if (!validSubtypeCodes.contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {            
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.Payment.ERROR_INVALID_OBJECT_SUBTYPE, new String[] { assetPaymentDetail.getFinancialObjectCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode(), CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES+" "+parameterDetail,validSubtypeCodes.toString() });
                 result = false;
             }
         }

@@ -590,13 +590,16 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         return true;
     }
 
+
     /**
      * get a pending budget construction GL record, and set its to the given update amount if it exists in database; otherwise,
      * create it with the given information
      * 
      * @param budgetConstructionHeader the budget construction header of the pending budget construction GL record
      * @param appointmentFunding the appointment funding associated with the pending budget construction GL record
-     * @return a pending budget construction GL record if any; otherwise, null
+     * @param updateAmount the amount being used to update the retrieved pending budget construction GL record
+     * @param is2PLG the flag used to instrcut to retrieve a pending budget construction GL plug record
+     * @return a pending budget construction GL record if any; otherwise, create one with the given information
      */
     private PendingBudgetConstructionGeneralLedger getPendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader, PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount, boolean is2PLG) {
         PendingBudgetConstructionGeneralLedger pendingRecord = this.retrievePendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, is2PLG);
@@ -638,6 +641,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * 
      * @param budgetConstructionHeader the budget construction header of the pending budget construction GL record to be retrieved
      * @param appointmentFunding the appointment funding associated with the pending budget construction GL record to be retrieved
+     * @param is2PLG the flag used to instrcut to retrieve a pending budget construction GL plug record
      * @return a pending budget construction GL record if any; otherwise, null
      */
     private PendingBudgetConstructionGeneralLedger retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader, PendingBudgetConstructionAppointmentFunding appointmentFunding, boolean is2PLG) {

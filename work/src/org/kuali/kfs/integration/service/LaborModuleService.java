@@ -191,20 +191,20 @@ public interface LaborModuleService {
     /**
      * retrieves a specific LaborLedgerObject from the database using primary key
      * 
-     * @param fiscalYear
-     * @param chartOfAccountsCode
-     * @param objectCode
-     * @return
+     * @param fiscalYear the given fiscal year
+     * @param chartOfAccountsCode the given chart of accounts code
+     * @param objectCode the given object code
+     * @return a labor object retrieved based on the given information
      */
     public LaborLedgerObject retrieveLaborLedgerObject(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
 
     /**
      * Retrieves LaborLedgerPositionObjectBenefits for a LaborLedgerObject key
      * 
-     * @param fiscalYear
-     * @param chartOfAccountsCode
-     * @param objectCode
-     * @return
+     * @param fiscalYear the given fiscal year
+     * @param chartOfAccountsCode the given chart of accounts code
+     * @param objectCode the given object code
+     * @return a labor position object benefit retrieved based on the given information
      */
     public Collection<LaborLedgerPositionObjectBenefit> retrieveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
 
@@ -243,16 +243,18 @@ public interface LaborModuleService {
      * @return the count of the entries in that group
      */
     public Integer getLaborOriginEntryGroupCount(Integer groupId);
-    
+
     /**
      * Retrieves Labor Ledger position object group information, based on a position object group code
+     * 
      * @param positionObjectGroupCode the code to find position object group information for
      * @return information about the correct LaborLedgerPositionObjectGroup or null if nothing was found
      */
     public LaborLedgerPositionObjectGroup getLaborLedgerPositionObjectGroup(String positionObjectGroupCode);
-    
+
     /**
      * Determines where a Labor Ledger postion object group with the given code actually exists.
+     * 
      * @param positionObjectGroupCode the code of the position object group to check for existence
      * @return true if the position object group exists, false otherwise
      */

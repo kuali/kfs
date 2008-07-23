@@ -51,9 +51,6 @@ public class AssetPaymentObjectCodeValidation extends GenericValidation {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;
 
-        LOG.info("*** Parameter namespace:"+parameterService.getNamespace(AssetGlobal.class));
-        LOG.info("*** Parameter Detail type:"+parameterService.getDetailType(AssetGlobal.class));
-        
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
         if (assetService.isCapitalAsset(assetPaymentDocument.getAsset())) {
             List<String> validSubtypeCodes = parameterService.getParameterValues(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES);

@@ -91,6 +91,10 @@
               p:required="true"
               p:webUILeaveFieldFunction="accountNameLookup" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="organizationOwnerAccount.organizationCode"
+              p:required="false"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
               p:name="agencyNumber"
               p:required="false" />
         <bean parent="MaintainableFieldDefinition"

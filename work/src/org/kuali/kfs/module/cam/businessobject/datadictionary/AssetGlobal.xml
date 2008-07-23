@@ -13,6 +13,7 @@
       <list>
         <ref bean="AssetGlobal-organizationOwnerChartOfAccountsCode" />
         <ref bean="AssetGlobal-organizationOwnerAccountNumber" />
+        <ref bean="AssetGlobal-organizationOwnerAccount.organizationCode" />
         <ref bean="AssetGlobal-agencyNumber" />
         <ref bean="AssetGlobal-versionNumber" />
         <ref bean="AssetGlobal-acquisitionTypeCode" />
@@ -76,6 +77,14 @@
 
   <bean id="AssetGlobal-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Asset-organizationOwnerAccountNumber">
   </bean>
+
+  <bean id="AssetGlobal-organizationOwnerAccount.organizationCode" parent="AssetGlobal-organizationOwnerAccount.organizationCode-parentBean" />
+  <bean id="AssetGlobal-organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
+    <property name="name" value="organizationOwnerAccount.organizationCode" />
+    <property name="label" value="Organization Owner Organization Code" />
+	<property name="shortLabel" value="Org Code" />    
+  </bean>
+
   <bean id="AssetGlobal-agencyNumber" parent="AssetGlobal-agencyNumber-parentBean" />
 
   <bean id="AssetGlobal-agencyNumber-parentBean" abstract="true" parent="Asset-agencyNumber">

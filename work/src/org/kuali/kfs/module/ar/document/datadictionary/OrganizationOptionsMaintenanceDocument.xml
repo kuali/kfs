@@ -75,20 +75,16 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="chartOfAccountsCode"
-              p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder" />
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationCode"
-              p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder" />
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="processingChartOfAccountCode"
-              p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder" />
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="processingOrganizationCode"
-              p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder" />
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
       </list>

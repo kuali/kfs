@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -40,12 +41,13 @@ import org.kuali.kfs.module.cam.businessobject.AssetCondition;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 /**
  * Business rule(s) applicable to Asset Barcode Inventory upload and Barcode inventory error document.
@@ -112,6 +114,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             }
             lineNumber++;
         }
+        
+        deleteLockErrorMessages();
         return true;
     }
 
@@ -269,7 +273,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             skipAssetLockValidation = parameterService.getParameterValue(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS);
         }
         else {
-            LOG.warn("CAMS Parameter '" + CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS + "' not found! - Setting default value = 'N' ");
+            LOG.warn("CAMS Parameter '" + CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS + "' not found! - Setting default value to 'N' ");            
             skipAssetLockValidation = CamsConstants.BarcodeInventoryError.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO;
         }
 
@@ -284,7 +288,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
                 isAssetLocked = assetService.isAssetLocked("", assets.get(0).getCapitalAssetNumber());
                 if (isAssetLocked) {
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_ASSET_LOCKED);
-                    result = false;
+                    result = false;                    
                 }
             }
         }
@@ -316,4 +320,27 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         }
         return (StringUtils.isEmpty(message) ? message : message.substring(2));
     }
+    
+    
+    /**
+     * 
+     * Deletes the asset locking error messages from the GlobalVariables.
+     * @return none 
+     */
+    private void deleteLockErrorMessages() {
+        //Finding locking error messages
+        List<ErrorMessage> el = new ArrayList<ErrorMessage>();                    
+        for (Iterator<ErrorMessage> iterator = GlobalVariables.getErrorMap().getMessages(KFSConstants.GLOBAL_ERRORS).iterator(); iterator.hasNext();) {                        
+            ErrorMessage errorMessage= (ErrorMessage)iterator.next();
+            if (errorMessage.getErrorKey().equals(KFSKeyConstants.ERROR_MAINTENANCE_LOCKED)) {
+                el.add(errorMessage);                        
+            }
+        }
+
+        //Deleting lock error messages from global variable.
+        for(ErrorMessage em : el) {
+            GlobalVariables.getErrorMap().getMessages(KFSConstants.GLOBAL_ERRORS).remove(em);
+        }        
+    }
+    
 }

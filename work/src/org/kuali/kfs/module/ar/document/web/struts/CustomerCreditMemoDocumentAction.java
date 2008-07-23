@@ -218,7 +218,7 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerCreditMemoDocumentEvent(errorPath,customerCreditMemoDocument,false));
         if (rulePassed) {
             CustomerCreditMemoDocumentService customerCreditMemoDocumentService = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
-            customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument);
+            customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument,false);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -386,11 +386,14 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
 
                 openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(itemLineNumber, (CustomerInvoiceDetail) invoiceDetail);
                 
+                /*
                 invoiceUnitPrice = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemUnitPrice();
                 openInvoiceQuantity = openInvoiceAmount.divide(invoiceUnitPrice);
                 customerCreditMemoDetail.setInvoiceOpenItemQuantity(openInvoiceQuantity);
+                */
                 
                 customerCreditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
+                customerCreditMemoDetail.setInvoiceOpenItemQuantity(getInvoiceOpenItemQuantity(customerCreditMemoDetail,(CustomerInvoiceDetail) invoiceDetail));
                 customerCreditMemoDetail.setDocumentNumber(this.documentNumber);
                 customerCreditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(this.financialDocumentReferenceInvoiceNumber);
 
@@ -420,9 +423,12 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
                    openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(invoiceDetail.getSequenceNumber(), (CustomerInvoiceDetail) invoiceDetail);
                    creditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
                    
+                   /*
                    invoiceUnitPrice = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemUnitPrice();
                    openInvoiceQuantity = openInvoiceAmount.divide(invoiceUnitPrice);
                    creditMemoDetail.setInvoiceOpenItemQuantity(openInvoiceQuantity);
+                   */
+                   creditMemoDetail.setInvoiceOpenItemQuantity(getInvoiceOpenItemQuantity(creditMemoDetail,(CustomerInvoiceDetail) invoiceDetail));
                    
                    creditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(this.financialDocumentReferenceInvoiceNumber);
                    
@@ -451,6 +457,18 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         }      
     }
     
+    public KualiDecimal getInvoiceOpenItemQuantity(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerInvoiceDetail customerInvoiceDetail) {
+        KualiDecimal invoiceOpenItemQuantity;
+        KualiDecimal invoiceItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
+        if (ObjectUtils.isNull(invoiceItemUnitPrice) || invoiceItemUnitPrice.equals(KualiDecimal.ZERO))
+            invoiceOpenItemQuantity = KualiDecimal.ZERO;
+        else {
+            KualiDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
+            invoiceOpenItemQuantity = invoiceOpenItemAmount.divide(invoiceItemUnitPrice);
+        }
+        return invoiceOpenItemQuantity;
+    }
+    
     /**
      * do all the calculations before the document gets saved
      * gets called for 'Submit', 'Save', and 'Blanket Approved'
@@ -460,9 +478,9 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)event.getDocument();
         CustomerCreditMemoDocumentService customerCreditMemoDocumentService = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
         if (event instanceof BlanketApproveDocumentEvent)
-            customerCreditMemoDocumentService.recalculateCRMForBlanketApproval(customerCreditMemoDocument);
+            customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument,true);
         else
-            customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument);
+            customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument,false);
         
         // generate GLPEs
         if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {

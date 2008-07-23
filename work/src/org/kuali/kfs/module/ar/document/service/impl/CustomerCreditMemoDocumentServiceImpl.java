@@ -29,73 +29,40 @@ import org.kuali.kfs.sys.context.SpringContext;
 
 public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemoDocumentService {
 
-    public void recalculateCustomerCreditMemoDocument(CustomerCreditMemoDocument customerCreditMemoDocument) {
-        Integer lineNumber;
-        CustomerInvoiceDetail customerInvoiceDetail;
-        KualiDecimal invItemUnitPrice, customerCreditMemoDetailItemAmount;
+    public void recalculateCustomerCreditMemoDocument(CustomerCreditMemoDocument customerCreditMemoDocument, boolean blanketApproveDocumentEventFlag) {
+        KualiDecimal customerCreditMemoDetailItemAmount;
         BigDecimal itemQuantity;
         
-        CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
         String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
         KualiDecimal taxRate = customerCreditMemoDocument.getTaxRate();
         List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
         
-        customerCreditMemoDocument.resetTotals();
+        if (!blanketApproveDocumentEventFlag)
+            customerCreditMemoDocument.resetTotals();
         
         for (CustomerCreditMemoDetail customerCreditMemoDetail:customerCreditMemoDetails) {
             // no data entered for the current credit memo detail -> no processing needed
             itemQuantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
             customerCreditMemoDetailItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
             if (ObjectUtils.isNull(itemQuantity) && ObjectUtils.isNull(customerCreditMemoDetailItemAmount)) {
-                customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(null);
+                if (!blanketApproveDocumentEventFlag)
+                    customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(null);
                 continue;
             }
             
-            lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber();
-            customerInvoiceDetail = service.getCustomerInvoiceDetail(invDocumentNumber,lineNumber);
-            invItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
-
             // if item quantity was entered
             if (ObjectUtils.isNotNull(itemQuantity)) {
-                customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(taxRate,invItemUnitPrice);
-                customerCreditMemoDetailItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
+                customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(taxRate);
+                if (!blanketApproveDocumentEventFlag)
+                    customerCreditMemoDetailItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
             } // if item amount was entered
             else {
-                customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(taxRate,invItemUnitPrice);
+                customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(taxRate);
             }
-            customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(customerCreditMemoDetailItemAmount);
-            customerCreditMemoDocument.recalculateTotals(customerCreditMemoDetailItemAmount);
-        }
-    }
-    
-    public void recalculateCRMForBlanketApproval(CustomerCreditMemoDocument customerCreditMemoDocument) {
-        Integer lineNumber;
-        CustomerInvoiceDetail customerInvoiceDetail;
-        KualiDecimal invItemUnitPrice, customerCreditMemoDetailItemAmount;
-        BigDecimal itemQuantity;
-        
-        CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
-        KualiDecimal taxRate = customerCreditMemoDocument.getTaxRate();
-        List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
-        
-        for (CustomerCreditMemoDetail customerCreditMemoDetail:customerCreditMemoDetails) {
-            // no data entered for the current credit memo detail -> no processing needed
-            itemQuantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
-            customerCreditMemoDetailItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
-            if (ObjectUtils.isNull(itemQuantity) && ObjectUtils.isNull(customerCreditMemoDetailItemAmount))
-                continue;
-            
-            lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber();
-            customerInvoiceDetail = service.getCustomerInvoiceDetail(invDocumentNumber,lineNumber);
-            invItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
-
-            // if item quantity was entered
-            if (ObjectUtils.isNotNull(itemQuantity))
-                customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(taxRate,invItemUnitPrice);
-            // if item amount was entered
-            else
-                customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(taxRate,invItemUnitPrice);
+            if (!blanketApproveDocumentEventFlag) {
+                customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(customerCreditMemoDetailItemAmount);
+                customerCreditMemoDocument.recalculateTotals(customerCreditMemoDetailItemAmount);
+            }
         }
     }
 }

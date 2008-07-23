@@ -77,31 +77,37 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         // 'Qty' was entered
         if (StringUtils.equals(ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_QUANTITY,inputKey)) {
             success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemQuantity());
-            success &= isCustomerCreditMemoQtyGreaterThanInvoiceQty(customerCreditMemoDetail);
+            success &= isCustomerCreditMemoQtyLessThanEqualToInvoiceOpenQty(customerCreditMemoDetail);
         }
         // 'Item Amount' was entered
         else if (StringUtils.equals(ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_TOTAL_AMOUNT,inputKey)) { 
             success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemTotalAmount());
-            success &= isCustomerCreditMemoItemAmountGreaterThanInvoiceOpenItemAmount(customerCreditMemoDetail,customerCreditMemoDocument);
+            success &= isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(customerCreditMemoDetail);
         }
-        // if there is no input or if both 'Qty' and 'Item Amount' were entered -> wrong input
+        // both 'Qty' and 'Item Amount' were entered -> validate
+        else if (StringUtils.equals(ArConstants.CustomerCreditMemoConstants.BOTH_QUANTITY_AND_ITEM_TOTAL_AMOUNT_ENTERED,inputKey)){
+            success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemTotalAmount());
+            success &= isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(customerCreditMemoDetail);
+            success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemQuantity());
+            success &= isCustomerCreditMemoQtyLessThanEqualToInvoiceOpenQty(customerCreditMemoDetail);
+            success &= checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(customerCreditMemoDetail,customerCreditMemoDetail.getCustomerInvoiceDetail().getInvoiceItemUnitPrice());
+        }
+        // if there is no input -> wrong input
         else
             success = false;
         
         return success;
     }
     
-    private String isQtyOrItemAmountEntered(CustomerCreditMemoDetail customerCreditMemoDetail) {
+    public String isQtyOrItemAmountEntered(CustomerCreditMemoDetail customerCreditMemoDetail) {
 
             BigDecimal customerCreditMemoItemQty = customerCreditMemoDetail.getCreditMemoItemQuantity();
             KualiDecimal customerCreditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
             String inputKey = "";
            
-            if (ObjectUtils.isNotNull(customerCreditMemoItemQty) && ObjectUtils.isNotNull(customerCreditMemoItemAmount)) {
+            if (ObjectUtils.isNotNull(customerCreditMemoItemQty) && ObjectUtils.isNotNull(customerCreditMemoItemAmount))
                 inputKey = ArConstants.CustomerCreditMemoConstants.BOTH_QUANTITY_AND_ITEM_TOTAL_AMOUNT_ENTERED;
-                GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
-                GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
-            } else if (ObjectUtils.isNotNull(customerCreditMemoItemQty))
+            else if (ObjectUtils.isNotNull(customerCreditMemoItemQty))
                 inputKey = ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_QUANTITY;
             else if (ObjectUtils.isNotNull(customerCreditMemoItemAmount))
                 inputKey = ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_TOTAL_AMOUNT;
@@ -109,22 +115,21 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
             return inputKey;
     }
     
-    private boolean isValueGreaterThanZero(BigDecimal value) {
+    public boolean isValueGreaterThanZero(BigDecimal value) {
         boolean validValue = (value.compareTo(BigDecimal.ZERO) == 1 ?true:false);
         if (!validValue)
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO); 
         return validValue;
     }
     
-    private boolean isValueGreaterThanZero(KualiDecimal value) {
+    public boolean isValueGreaterThanZero(KualiDecimal value) {
         boolean validValue = value.isPositive();
         if (!validValue)
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO); 
         return validValue;
     }
-    
-    private boolean isCustomerCreditMemoItemAmountGreaterThanInvoiceOpenItemAmount(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerCreditMemoDocument customerCreditMemoDocument){
-        int lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber().intValue();
+
+    public boolean isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(CustomerCreditMemoDetail customerCreditMemoDetail){
         KualiDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
         KualiDecimal creditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
         
@@ -135,7 +140,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         return validItemAmount;
     }
     
-    private boolean isCustomerCreditMemoQtyGreaterThanInvoiceQty(CustomerCreditMemoDetail customerCreditMemoDetail) {
+    public boolean isCustomerCreditMemoQtyLessThanEqualToInvoiceOpenQty(CustomerCreditMemoDetail customerCreditMemoDetail) {
         KualiDecimal invoiceOpenItemQty = customerCreditMemoDetail.getInvoiceOpenItemQuantity();
         KualiDecimal customerCreditMemoItemQty = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
         
@@ -147,12 +152,16 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         return validQuantity; 
     }
     
-    private KualiDecimal getInvoiceOpenItemQuantity(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerInvoiceDetail customerInvoiceDetail) {
-        KualiDecimal invoiceItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
-        KualiDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
-        KualiDecimal invoiceOpenItemQuantity = invoiceOpenItemAmount.divide(invoiceItemUnitPrice);
+    public boolean checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(CustomerCreditMemoDetail customerCreditMemoDetail, KualiDecimal unitPrice) {
+        KualiDecimal creditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
+        KualiDecimal creditMemoItemQty = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
         
-        return invoiceOpenItemQuantity;
+        boolean validFlag = (creditMemoItemAmount.divide(creditMemoItemQty)).equals(unitPrice);
+        if (!validFlag){
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
+        }
+        return validFlag;
     }
     
     /**
@@ -202,7 +211,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         return success;
     }
     
-    private boolean checkIfInvoiceNumberIsValid(String invDocumentNumber) {
+    public boolean checkIfInvoiceNumberIsValid(String invDocumentNumber) {
         boolean success = true;
         
         if (ObjectUtils.isNull(invDocumentNumber) || StringUtils.isBlank(invDocumentNumber)) {
@@ -226,7 +235,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
      * @param invoice
      * @return
      */
-    private boolean checkIfThereIsNoAnotherCRMInRouteForTheInvoice(String invoiceDocumentNumber) {
+    public boolean checkIfThereIsNoAnotherCRMInRouteForTheInvoice(String invoiceDocumentNumber) {
 
         KualiWorkflowDocument workflowDocument;
         boolean success = true;

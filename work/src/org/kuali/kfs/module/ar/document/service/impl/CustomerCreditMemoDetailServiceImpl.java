@@ -33,18 +33,16 @@ public class CustomerCreditMemoDetailServiceImpl implements CustomerCreditMemoDe
         
         String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
         Integer lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber();
-        CustomerInvoiceDetail customerInvoiceDetail = service.getCustomerInvoiceDetail(invDocumentNumber,lineNumber);
         
-        KualiDecimal invItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
         BigDecimal itemQuantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
         KualiDecimal taxRate = customerCreditMemoDocument.getTaxRate();
 
         // if item quantity was entered
         if (ObjectUtils.isNotNull(itemQuantity))
-            customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(taxRate,invItemUnitPrice);
+            customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(taxRate);
         // if item amount was entered
         else
-            customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(taxRate,invItemUnitPrice);
+            customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(taxRate);
         
         customerCreditMemoDocument.recalculateTotalsBasedOnChangedItemAmount(customerCreditMemoDetail);                                                                                                                                                           
     }

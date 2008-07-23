@@ -218,9 +218,11 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
         this.invoiceLineTotalAmount = invoiceLineTotalAmount;
     }
     
-    public void recalculateBasedOnEnteredItemQty(KualiDecimal invTaxPercent, KualiDecimal invItemUnitPrice) {
+    public void recalculateBasedOnEnteredItemQty(KualiDecimal invTaxPercent) {
         if (ObjectUtils.isNull(invTaxPercent))
             invTaxPercent = KualiDecimal.ZERO;
+        
+        KualiDecimal invItemUnitPrice = getCustomerInvoiceDetail().getInvoiceItemUnitPrice();
 
         creditMemoItemTotalAmount = new KualiDecimal(creditMemoItemQuantity.multiply(invItemUnitPrice.bigDecimalValue()));
         
@@ -228,9 +230,11 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
         creditMemoLineTotalAmount = creditMemoItemTotalAmount.add(creditMemoItemTaxAmount);
     }
 
-    public void recalculateBasedOnEnteredItemAmount(KualiDecimal invTaxPercent, KualiDecimal invItemUnitPrice) {
+    public void recalculateBasedOnEnteredItemAmount(KualiDecimal invTaxPercent) {
         if (ObjectUtils.isNull(invTaxPercent))
             invTaxPercent = KualiDecimal.ZERO;
+        
+        KualiDecimal invItemUnitPrice = getCustomerInvoiceDetail().getInvoiceItemUnitPrice();
         
         creditMemoItemQuantity = creditMemoItemTotalAmount.divide(invItemUnitPrice).bigDecimalValue();
         

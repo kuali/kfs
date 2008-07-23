@@ -1,0 +1,125 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PurchasingAccountsPayableDocument" parent="PurchasingAccountsPayableDocument-parentBean" />
+  
+  <bean id="PurchasingAccountsPayableDocument-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument" />
+    <property name="inquiryDefinition" >
+      <ref bean="PurchasingAccountsPayableDocument-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PurchasingAccountsPayableDocument-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+      	<ref bean="PurchasingAccountsPayableDocument-documentNumber" />
+        <ref bean="PurchasingAccountsPayableDocument-purapDocumentIdentifier" />
+        <ref bean="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" />
+        <ref bean="PurchasingAccountsPayableDocument-active" />
+        <ref bean="PurchasingAccountsPayableDocument-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+  <bean id="PurchasingAccountsPayableDocument-documentNumber" parent="PurchasingAccountsPayableDocument-documentNumber-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber" />
+  <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier" parent="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier" >
+    <property name="name" value="purapDocumentIdentifier" />
+  	<property name="label" value="PurAp Document Identifier" />
+    <property name="shortLabel" value="PurAp Document Identifier" />
+  </bean>
+  <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" parent="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
+    <property name="name" value="purchaseOrderIdentifier" />
+  	<property name="label" value="PO ID" />
+    <property name="shortLabel" value="PO Identifier" />
+  </bean>
+  <bean id="PurchasingAccountsPayableDocument-active" parent="PurchasingAccountsPayableDocument-active-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  	<property name="name" value="active" />
+  </bean>
+  <bean id="PurchasingAccountsPayableDocument-versionNumber" parent="PurchasingAccountsPayableDocument-versionNumber-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+  <bean id="PurchasingAccountsPayableDocument-inquiryDefinition" parent="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="CAB Purchasing Accounts Payable Document" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purapDocumentIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+  <bean id="PurchasingAccountsPayableDocument-lookupDefinition" parent="PurchasingAccountsPayableDocument-lookupDefinition-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="CAB Purchasing Accounts Payable Document Lookup" />
+    <property name="lookupableID" value="cabPurApDocumentLookupable" />
+    <property name="instructions" value="Lookup Purchasing Accounts Payable Document" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>purapDocumentIdentifier</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber"  />
+        <bean parent="FieldDefinition"
+              p:attributeName="purapDocumentIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber"  />
+        <bean parent="FieldDefinition"
+              p:attributeName="purapDocumentIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchaseOrderIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

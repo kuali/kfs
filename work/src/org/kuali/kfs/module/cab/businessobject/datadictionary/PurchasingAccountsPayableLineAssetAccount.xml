@@ -1,0 +1,148 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PurchasingAccountsPayableLineAssetAccount" parent="PurchasingAccountsPayableLineAssetAccount-parentBean" />
+  
+  <bean id="PurchasingAccountsPayableLineAssetAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount" />
+    <property name="inquiryDefinition" >
+      <ref bean="PurchasingAccountsPayableLineAssetAccount-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PurchasingAccountsPayableLineAssetAccount-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+      	<ref bean="PurchasingAccountsPayableLineAssetAccount-documentNumber" />
+        <ref bean="PurchasingAccountsPayableLineAssetAccount-accountsPayableLineItemIdentifier" />
+        <ref bean="PurchasingAccountsPayableLineAssetAccount-capitalAssetBuilderLineNumber" />
+        <ref bean="PurchasingAccountsPayableLineAssetAccount-generalLedgerAccountIdentifier" />
+        <ref bean="PurchasingAccountsPayableLineAssetAccount-itemAccountTotalAmount" />
+        <ref bean="PurchasingAccountsPayableLineAssetAccount-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+  <bean id="PurchasingAccountsPayableLineAssetAccount-documentNumber" parent="PurchasingAccountsPayableLineAssetAccount-documentNumber-parentBean" />
+
+  <bean id="PurchasingAccountsPayableLineAssetAccount-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber" />
+  <bean id="PurchasingAccountsPayableLineAssetAccount-accountsPayableLineItemIdentifier" parent="PurchasingAccountsPayableLineAssetAccount-accountsPayableLineItemIdentifier-parentBean" />
+
+  <bean id="PurchasingAccountsPayableLineAssetAccount-accountsPayableLineItemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier" >
+    <property name="name" value="accountsPayableLineItemIdentifier" />
+  	<property name="label" value="PurAp Line Item Identifier" />
+    <property name="shortLabel" value="PurAp Line Item Identifier" />
+  </bean>
+  <bean id="PurchasingAccountsPayableLineAssetAccount-capitalAssetBuilderLineNumber" parent="PurchasingAccountsPayableLineAssetAccount-capitalAssetBuilderLineNumber-parentBean" />
+
+  <bean id="PurchasingAccountsPayableLineAssetAccount-capitalAssetBuilderLineNumber-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
+    <property name="name" value="capitalAssetBuilderLineNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Builder Line Number" />
+    <property name="shortLabel" value="CAB Line Nbr" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="PurchasingAccountsPayableLineAssetAccount-generalLedgerAccountIdentifier" parent="PurchasingAccountsPayableLineAssetAccount-generalLedgerAccountIdentifier-parentBean" />
+
+  <bean id="PurchasingAccountsPayableLineAssetAccount-generalLedgerAccountIdentifier-parentBean" abstract="true" parent="GeneralLedgerEntry-generalLedgerAccountIdentifier">
+  	<property name="name" value="generalLedgerAccountIdentifier" />
+  </bean>
+  <bean id="PurchasingAccountsPayableLineAssetAccount-itemAccountTotalAmount" parent="PurchasingAccountsPayableLineAssetAccount-itemAccountTotalAmount-parentBean" />
+
+  <bean id="PurchasingAccountsPayableLineAssetAccount-itemAccountTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="itemAccountTotalAmount" />
+  	<property name="label" value="Item Account Total Amount" />
+    <property name="shortLabel" value="Account Total Amount" />
+  </bean>
+  <bean id="PurchasingAccountsPayableLineAssetAccount-versionNumber" parent="PurchasingAccountsPayableLineAssetAccount-versionNumber-parentBean" />
+
+  <bean id="PurchasingAccountsPayableLineAssetAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+  <bean id="PurchasingAccountsPayableLineAssetAccount-inquiryDefinition" parent="PurchasingAccountsPayableLineAssetAccount-inquiryDefinition-parentBean" />
+
+  <bean id="PurchasingAccountsPayableLineAssetAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="CAB Purchasing Accounts Payable Line Asset Account" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountsPayableLineItemIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="capitalAssetBuilderLineNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="generalLedgerAccountIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemAccountTotalAmount" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+  <bean id="PurchasingAccountsPayableLineAssetAccount-lookupDefinition" parent="PurchasingAccountsPayableLineAssetAccount-lookupDefinition-parentBean" />
+
+  <bean id="PurchasingAccountsPayableLineAssetAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="CAB Purchasing Accounts Payable Line Asset Account Lookup" />
+    <property name="lookupableID" value="cabPurApLineAssetAccountLookupable" />
+    <property name="instructions" value="Lookup Purchasing Accounts Payable Line Asset Account" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>documentNumber</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber"  />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountsPayableLineItemIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetBuilderLineNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="generalLedgerAccountIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemAccountTotalAmount" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber"  />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountsPayableLineItemIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="capitalAssetBuilderLineNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="generalLedgerAccountIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemAccountTotalAmount" />
+      </list>
+    </property>
+  </bean>
+</beans>

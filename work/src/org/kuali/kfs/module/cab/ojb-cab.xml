@@ -145,4 +145,34 @@
 	    
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument" table="CB_PUR_DOC_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="purapDocumentIdentifier" column="PO_ITM_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber"/>
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument" table="CB_PUR_LN_AST_ACCT_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="accountsPayableLineItemIdentifier" column="PUR_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="capitalAssetBuilderLineNumber" column="CB_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="generalLedgerAccountIdentifier" column="CB_GL_ACCT_ID" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="itemAccountTotalAmount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<reference-descriptor name="generalLedgerEntry" class-ref="org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<foreignkey field-ref="generalLedgerAccountIdentifier"/>
+	</reference-descriptor>
+	<!--  reference-descriptor name="purchasingAccountsPayableItemAsset" class-ref="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber"/>
+		<foreignkey field-ref="accountsPayableLineItemIdentifier"/>
+		<foreignkey field-ref="capitalAssetBuilderLineNumber"/>
+		<foreignkey field-ref="generalLedgerAccountIdentifier"/>
+	</reference-descriptor>-->
+</class-descriptor>
 </descriptor-repository>

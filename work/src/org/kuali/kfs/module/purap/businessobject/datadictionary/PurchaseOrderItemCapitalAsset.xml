@@ -43,6 +43,23 @@
     </property>
   </bean>
 
+  <bean id="PurchaseOrderItemCapitalAsset-itemIdentifier" parent="PurchaseOrderItemCapitalAsset-itemIdentifier-parentBean" />	 	
+	  
+  <bean id="PurchaseOrderItemCapitalAsset-itemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemIdentifier" />
+	<property name="forceUppercase" value="true" />
+	<property name="label" value="Purchase Order Item Identifier" />
+	<property name="shortLabel" value="Identifier" />
+	<property name="maxLength" value="10" />
+	<property name="validationPattern" >
+		<bean parent="NumericValidationPattern" />
+	</property>
+	<property name="control" >
+		<bean parent="TextControlDefinition"
+            p:size="12" />
+	</property>
+  </bean>
+ 	
   <bean id="PurchaseOrderItemCapitalAsset-purchaseOrderItemCapitalAssetIdentifier" parent="PurchaseOrderItemCapitalAsset-purchaseOrderItemCapitalAssetIdentifier-parentBean" />
 
   <bean id="PurchaseOrderItemCapitalAsset-purchaseOrderItemCapitalAssetIdentifier-parentBean" abstract="true" parent="AttributeDefinition">

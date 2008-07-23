@@ -113,7 +113,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      */
     @Transactional
     public void update(Integer budgetYear, UniversalUser user, List<ExternalizedMessageWrapper> messageList, String personUniversalIdentifier) {
-        Map<String, PendingBudgetConstructionAppointmentFunding> lockMap = new HashMap<String, PendingBudgetConstructionAppointmentFunding>();
+        List<PendingBudgetConstructionAppointmentFunding> lockedFundingRecords = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         boolean updateContainsErrors = false;
         this.updateCount = 0;
         
@@ -121,7 +121,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         payRateHoldingPersonUniversalIdentifierKey.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
         List<BudgetConstructionPayRateHolding> records = (List<BudgetConstructionPayRateHolding>) this.businessObjectService.findAll(BudgetConstructionPayRateHolding.class);
         
-        if ( !getPayrateLock(lockMap, messageList, budgetYear, user, records) ) {
+        if ( !getPayrateLock(lockedFundingRecords, messageList, budgetYear, user, records) ) {
             messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_UPDATE_ABORTED, String.valueOf(this.updateCount)));
             doRollback();
         }
@@ -180,9 +180,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_UPDATE_COMPLETE, String.valueOf(updateCount)));
         
-        Set<String> locks = lockMap.keySet();
-        for (String lockingKey : locks) {
-            PendingBudgetConstructionAppointmentFunding recordToUnlock = lockMap.get(lockingKey);
+        for (PendingBudgetConstructionAppointmentFunding recordToUnlock : lockedFundingRecords) {
             this.lockService.unlockAccount(budgetDocumentService.getBudgetConstructionHeader(recordToUnlock));
         }
     }
@@ -279,7 +277,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @return
      */
     @Transactional
-    private boolean getPayrateLock(Map<String, PendingBudgetConstructionAppointmentFunding> lockMap, List<ExternalizedMessageWrapper> messageList, Integer budgetYear, UniversalUser user, List<BudgetConstructionPayRateHolding> records) {
+    private boolean getPayrateLock(List<PendingBudgetConstructionAppointmentFunding> lockedRecords, List<ExternalizedMessageWrapper> messageList, Integer budgetYear, UniversalUser user, List<BudgetConstructionPayRateHolding> records) {
         List<String> biweeklyPayObjectCodes = BudgetParameterFinder.getBiweeklyPayObjectCodes();
         
         for (BudgetConstructionPayRateHolding record: records) {

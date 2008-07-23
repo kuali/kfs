@@ -456,7 +456,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, boolean, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
+     *      org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, boolean, java.lang.String)
      */
     public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean singleAccountMode, String personUserIdentifier) {
         String budgetChartOfAccountsCode = salarySettingFieldsHolder.getChartOfAccountsCode();
@@ -515,22 +516,13 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             return false;
         }
 
+        // if funding line is inside the hierachy path, editing mode can be determined by the levels of user and document organization
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
         Integer userLevelCode = this.getUserLevelCode(documentOrganizationLevelCode, fiscalYear, account, organazationReviewHierachy);
-
-        // if funding line is inside the hierachy path, the editing mode can be determined by the levels of user and document
-        // organization
         if (userLevelCode != null) {
-            if (userLevelCode > documentOrganizationLevelCode) {
-                appointmentFunding.setDisplayOnlyMode(true);
-            }
-            else if (userLevelCode < documentOrganizationLevelCode) {
-                appointmentFunding.setDisplayOnlyMode(true);
-                appointmentFunding.setExcludedFromTotal(true);
-            }
-            else {
-                appointmentFunding.setDisplayOnlyMode(false);
-            }
+            appointmentFunding.setDisplayOnlyMode(userLevelCode != documentOrganizationLevelCode ? true : false);
+            appointmentFunding.setExcludedFromTotal(userLevelCode < documentOrganizationLevelCode ? true : false);
+
             return true;
         }
 

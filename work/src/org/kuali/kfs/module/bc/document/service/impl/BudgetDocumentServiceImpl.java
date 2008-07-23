@@ -404,7 +404,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         Integer hdrLevel = bcHeader.getOrganizationLevelCode();
 
         bcHeader.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-        isFiscalOfcOrDelegate = u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) || budgetConstructionDao.isDelegate(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), u.getPersonUniversalIdentifier());
+        isFiscalOfcOrDelegate = permissionService.isAccountManagerOrDelegate(bcHeader.getAccount(), u.getPersonUniversalIdentifier());
 
         // special case level 0 access, check if user is fiscal officer or delegate
         if (hdrLevel == 0) {

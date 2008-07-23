@@ -88,21 +88,19 @@
 		</table>
 
 	<c:if test="${!readOnly}">						
-			<table table cellpadding="0" cellspacing="0">
-			<tr>
-			<td width="49%"><div align="right">
-				<html:image property="methodToCall.validateLines" src="${ConfigProperties.externalizable.images.url}tinybutton-validate.gif"
-				    		alt="Validates selected lines"
-				        	styleClass="tinybutton" align="center"/></div>
-			</td>
-			<td width="1%">&nbsp<td/>		
-			<td width="48%"><div align="left">
-				<html:image property="methodToCall.deleteLines" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
-				    		alt="Delete selected lines"
-				        	styleClass="tinybutton" align="center"/></div>
-			</td>
-	
-			</tr>
+			<table table cellpadding="0" cellspacing="0" border=0> 		
+				<tr>
+				<th width="50%" class="grid" align="right">
+					<html:image property="methodToCall.validateLines" src="${ConfigProperties.externalizable.images.url}tinybutton-validate.gif"
+					    		alt="Validates selected lines"
+					        	styleClass="tinybutton" align="center"/>&nbsp &nbsp &nbsp
+				</td>
+				<th width="50%" class="grid" align="left">&nbsp &nbsp &nbsp				
+					<html:image property="methodToCall.deleteLines" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
+					    		alt="Delete selected lines"
+					        	styleClass="tinybutton" align="center"/>
+				</td>	
+				</tr>			
 			</table>
 	</c:if>
 			
@@ -111,7 +109,7 @@
 
 <c:if test="${!readOnly}">				
 	<kul:tab tabTitle="Global Replace" defaultOpen="true">
-		<div id="barcodeInventoryDetails" class="tab-container" align=center>
+		<div id="globalReplace" class="tab-container" align=center>
 			<table cellpadding="0" cellspacing="0">
 				<tr>
 					<td colspan="11" class="subhead">Global replace</td>

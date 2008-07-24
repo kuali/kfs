@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArConstants.OrganizationAccountingDefaultErrors;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -29,7 +30,7 @@ public class CustomerInvoiceReceivableFinancialObjectCodeValidation extends Gene
     
     public boolean validate(AttributedDocumentEvent event) {
         if (StringUtils.isEmpty(customerInvoiceDocument.getPaymentFinancialObjectCode())) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArConstants.ERROR_PAYMENT_OBJECT_CODE_REQUIRED);
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, OrganizationAccountingDefaultErrors.ERROR_PAYMENT_OBJECT_CODE_REQUIRED);
             return false;
         }
         else {

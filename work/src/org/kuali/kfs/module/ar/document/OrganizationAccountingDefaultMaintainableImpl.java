@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,33 +36,40 @@ public class OrganizationAccountingDefaultMaintainableImpl extends KualiMaintain
     public List getSections(Maintainable oldMaintainable) {
 
         List<Section> sections = super.getSections(oldMaintainable);
+        List<Section> updatedSections = new ArrayList<Section>();
 
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        if (!receivableOffsetOption.equals(ArConstants.OrganizationAccountingOptionsConstants.SHOW_EDIT_PAYMENTS_DEFAULTS_TAB)) {
+        for (Iterator iter = sections.iterator(); iter.hasNext();) {
 
-            for (Iterator iter = sections.iterator(); iter.hasNext();) {
-
-                Section section = (Section) iter.next();
-                if (section.getSectionTitle().equals(ArConstants.OrganizationAccountingOptionsConstants.NAME_OF_THE_TAB_TO_HIDE)) {
-                    try {
-                        boolean success = sections.remove(section);
-                        break;
-                    }
-                    catch (Exception e) {
-                        LOG.error("Error removing tab",e);
-                    }
+            Section section = (Section) iter.next();
+            
+            if( isReceivableTab(section.getSectionTitle()) ){
+                if( showReceivableTab() ){
+                    updatedSections.add(section);
                 }
+            } else if( isWriteoffTab(section.getSectionTitle()) ){
+                if( showWriteoffTab() ){
+                    updatedSections.add(section);
+                }
+            } else {
+                updatedSections.add(section);
             }
         }
-        return sections;
+        return updatedSections;
     }
-
-
-    /*
-     * }catch (InstantiationException e) { LOG.error("Unable to create instance of object class" + e.getMessage()); throw new
-     * RuntimeException("Unable to create instance of object class" + e.getMessage()); } catch (IllegalAccessException e) {
-     * LOG.error("Unable to create instance of object class" + e.getMessage()); throw new RuntimeException("Unable to create
-     * instance of object class" + e.getMessage()); } } } return sections; }
-     */
-
+    
+    protected boolean isReceivableTab(String sectionTitle){
+        return ArConstants.OrganizationAccountingOptionsConstants.ORG_ACCT_DEFAULT_RECEIVABLE_TAB_NAME.equals( sectionTitle );
+    }
+    
+    protected boolean isWriteoffTab(String sectionTitle){
+        return ArConstants.OrganizationAccountingOptionsConstants.ORG_ACCT_DEFAULT_WRITEOFF_TAB_NAME.equals( sectionTitle );        
+    }   
+    
+    protected boolean showReceivableTab(){
+        return ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD));
+    }
+    
+    protected boolean showWriteoffTab(){
+        return ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD));
+    }    
 }

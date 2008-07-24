@@ -114,7 +114,7 @@
                     <c:if test="${not empty KualiForm.document.extractedDate}">
 	        			   <c:url var="page" value="/pdp/epicpaymentdetail.do">
         			     <c:param name="sourceDocNbr" value="${KualiForm.document.documentNumber}"/>
-        			     <c:param name="docTypeCode" value="PREQ"/>
+        			     <c:param name="docTypeCode" value="CM"/>
         			   </c:url>
         			   <c:url var="image" value="/pdp/images/tinybutton-disbursinfo.gif"/>
 					   &nbsp;<a href="${page}" target="_pdp"><img src="${image}" border="0"/></a>

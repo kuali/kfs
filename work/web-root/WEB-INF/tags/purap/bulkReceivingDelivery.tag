@@ -237,14 +237,16 @@
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryPostalCode}" 
 	                    	property="document.deliveryPostalCode" readOnly="true"/>
 	                </td>
-	                <th align=right valign=middle class="bord-l-b" rowspan="4">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}"/></div>
+	                <th align=right valign=middle class="bord-l-b">
 	                </th>
-	                <td align=left valign=middle class="datacell"  rowspan="4">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}" 
-	                    	property="document.deliveryAdditionalInstructionText" readOnly="${not (fullEntryMode)}"/>
-	                </td>	
+	                <td align=left valign=middle class="datacell">
+	                </td>
 				</tr>
+				
+				<tr>
+    	            <td colspan="4" class="subhead">Additional</td>
+	            </tr> 
+	            
 				<tr>
 					<th align=right valign=middle class="bord-l-b">
                     	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactName}" /></div>
@@ -252,9 +254,16 @@
                 	<td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactName}" property="document.institutionContactName" readOnly="${not (fullEntryMode)}" />
 	                    <c:if test="${(fullEntryMode)}" >
-	                        <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personName:document.institutionContactName,personLocalPhoneNumber:document.institutionContactPhoneNumber,personEmailAddress:document.institutionContactEmailAddress" /></div>
+	                        <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personName:document.institutionContactName,personLocalPhoneNumber:document.institutionContactPhoneNumber,personEmailAddress:document.institutionContactEmailAddress" />
 	                    </c:if>
                 	</td>
+                	<th align=right valign=middle class="bord-l-b" rowspan="4">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}"/></div>
+	                </th>
+	                <td align=left valign=middle class="datacell"  rowspan="4">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}" 
+	                    	property="document.deliveryAdditionalInstructionText" readOnly="${not (fullEntryMode)}"/>
+	                </td>	
 				</tr>
 				<tr>
 					<th align=right valign=middle class="bord-l-b">

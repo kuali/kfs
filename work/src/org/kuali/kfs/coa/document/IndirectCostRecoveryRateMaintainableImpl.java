@@ -72,7 +72,8 @@ public class IndirectCostRecoveryRateMaintainableImpl extends KualiMaintainableI
             }
         }
         
-        addLine.setActive(true); // TODO remove after active indicator fixes
+        // addLine.setActive(true); // TODO remove after active indicator fixes
+        addLine.setNewCollectionRecord(true);
         addLine.setAwardIndrCostRcvyEntryNbr(icrEntryNumberMax + 1);
         maintCollection.add(addLine);
         initNewCollectionLine(collectionName);

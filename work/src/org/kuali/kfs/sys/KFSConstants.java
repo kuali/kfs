@@ -43,6 +43,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String VENDOR = "vendor";
         public static final String PDP = "pdp";
     }
+    
     public static class ParameterNamespaces {
         public static final String KFS = "KFS-SYS";
         public static final String CHART = "KFS-COA";

@@ -184,7 +184,7 @@ public class GeneralLedgerConstants {
 
     public static class PosterService {
         static final public String SYMBOL_USE_EXPENDITURE_ENTRY = "@";
-        static final public String SYMBOL_USE_IRC_FROM_ACCOUNT = "#";
+        static final public String SYMBOL_USE_ICR_FROM_ACCOUNT = "#";
     }
 
     public static class PosterOutputSummaryEntry {

@@ -26,15 +26,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.dataaccess.AccountDao;
+import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryRateDetailDao;
+import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryTypeDao;
+import org.kuali.kfs.coa.dataaccess.SubAccountDao;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -388,9 +399,16 @@ public class PosterServiceImpl implements PosterService {
             KualiDecimal transactionAmount = et.getAccountObjectDirectCostAmount();
             KualiDecimal distributionAmount = KualiDecimal.ZERO;
 
-            Collection icrRateDetails = indirectCostRecoveryRateDetailDao.getEntriesBySeries(et.getUniversityFiscalYear(), et.getAccount().getFinancialIcrSeriesIdentifier());
+            String financialIcrSeriesIdentifier = "";
+            if(subAccountValid(et)) {
+                A21SubAccount subAcct = SpringContext.getBean(SubAccountDao.class).getByPrimaryId(et.getChartOfAccountsCode(), et.getAccountNumber(), et.getSubAccountNumber()).getA21SubAccount();
+                financialIcrSeriesIdentifier = subAcct.getFinancialIcrSeriesIdentifier();
+            } else {
+                financialIcrSeriesIdentifier = et.getAccount().getFinancialIcrSeriesIdentifier();
+            }
+            Collection icrRateDetails = indirectCostRecoveryRateDetailDao.getEntriesBySeries(et.getUniversityFiscalYear(), financialIcrSeriesIdentifier);
+            
             int rateDetailsCount = icrRateDetails.size();
-
             if (rateDetailsCount > 0) {
                 for (Iterator icrIter = icrRateDetails.iterator(); icrIter.hasNext();) {
                     IndirectCostRecoveryRateDetail icrRateDetail = (IndirectCostRecoveryRateDetail) icrIter.next();
@@ -433,6 +451,52 @@ public class PosterServiceImpl implements PosterService {
 
         reportService.generatePosterIcrStatisticsReport(executionDate, runDate, reportErrors, reportExpendTranRetrieved, reportExpendTranDeleted, reportExpendTranKept, reportOriginEntryGenerated);
     }
+    
+    public boolean subAccountValid(ExpenditureTransaction et) {
+        boolean success = false;
+        
+        A21SubAccount subAcct = SpringContext.getBean(SubAccountDao.class).getByPrimaryId(et.getChartOfAccountsCode(), et.getAccountNumber(), et.getSubAccountNumber()).getA21SubAccount();
+        if(ObjectUtils.isNotNull(subAcct) && subAccountFieldsPopulated(subAcct) && subAccountObjectsExist(subAcct)) {
+            success = true;
+        }
+        
+        return success;
+    }
+    
+    public boolean subAccountFieldsPopulated(A21SubAccount subAcct) {
+        boolean success = true;
+        if(StringUtils.isBlank(subAcct.getFinancialIcrSeriesIdentifier())) {
+            success =  false;
+        } else if(StringUtils.isBlank(subAcct.getIndirectCostRecoveryTypeCode())) {
+            success =  false;
+        } else if(StringUtils.isBlank(subAcct.getChartOfAccountsCode())) {
+            success =  false;
+        } else if(StringUtils.isBlank(subAcct.getAccountNumber())) {
+            success =  false;
+        }
+        return success;
+    }
+    
+    public boolean subAccountObjectsExist(A21SubAccount subAccount) {
+        boolean success = true;
+
+        Chart chart = SpringContext.getBean(ChartDao.class).getByPrimaryId(subAccount.getChartOfAccountsCode());
+        if(ObjectUtils.isNotNull(chart)) {
+            Account account = SpringContext.getBean(AccountDao.class).getByPrimaryId(subAccount.getChartOfAccountsCode(), subAccount.getAccountNumber());
+            if(ObjectUtils.isNull(account)) {
+                success = false;
+            }
+        } else {
+            success = false;
+        }
+        
+        IndirectCostRecoveryType icrType = SpringContext.getBean(IndirectCostRecoveryTypeDao.class).getByPrimaryKey(subAccount.getFinancialIcrSeriesIdentifier());
+        if(ObjectUtils.isNull(icrType)) {
+            success = false;
+        }
+
+        return success;
+    }
 
     /**
      * Generate a transfer transaction and an offset transaction
@@ -452,7 +516,7 @@ public class PosterServiceImpl implements PosterService {
 
         // SYMBOL_USE_EXPENDITURE_ENTRY means we use the field from the expenditure entry, SYMBOL_USE_IRC_FROM_ACCOUNT
         // means we use the ICR field from the account record, otherwise, use the field in the icrEntry
-        if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrEntry.getFinancialObjectCode()) || GeneralLedgerConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT.equals(icrEntry.getFinancialObjectCode())) {
+        if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrEntry.getFinancialObjectCode()) || GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(icrEntry.getFinancialObjectCode())) {
             e.setFinancialObjectCode(et.getObjectCode());
             e.setFinancialSubObjectCode(et.getSubObjectCode());
         }
@@ -471,7 +535,7 @@ public class PosterServiceImpl implements PosterService {
             e.setChartOfAccountsCode(et.getChartOfAccountsCode());
             e.setSubAccountNumber(et.getSubAccountNumber());
         }
-        else if (GeneralLedgerConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT.equals(icrEntry.getAccountNumber())) {
+        else if (GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(icrEntry.getAccountNumber())) {
             e.setAccountNumber(et.getAccount().getIndirectCostRecoveryAcctNbr());
             e.setChartOfAccountsCode(et.getAccount().getIndirectCostRcvyFinCoaCode());
             e.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());

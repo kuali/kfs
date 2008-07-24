@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.document;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -69,8 +70,8 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends KualiMaintainableI
                 if(!hasBusinessObjectExisted(templatedBo, existingIdentifierList, duplicateIdentifierFieldsFromDataDictionary)) {
                     if(templatedBo.getChartOfAccountsCode().equals(SpringContext.getBean(ChartService.class).getUniversityChart().getChartOfAccountsCode())) {
                         maintCollection.add(templatedBo);
-                    } else {                
-                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP, templatedBo.getChartOfAccountsCode(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+                    } else {
+                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART, templatedBo.getChartOfAccountsCode(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), SpringContext.getBean(ChartService.class).getUniversityChart().getChartOfAccountsCode());
                         isValid = false;
                     }
                 }

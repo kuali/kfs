@@ -24,9 +24,10 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableRestrictedMaterial;
 import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 
 /**
- * CommodityCode Code Business Object
+ * CommodityCode Business Object
  */
 public class CommodityCode extends PersistableBusinessObjectBase {
     
@@ -120,8 +121,8 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("purchasingCommodityCode",this.purchasingCommodityCode);
-        m.put("commodityDescription",this.commodityDescription);
+        m.put(VendorPropertyConstants.PURCHASING_COMMODITY_CODE, this.purchasingCommodityCode);
+        m.put(VendorPropertyConstants.COMMODITY_DESCRIPTION, this.commodityDescription);
         return null;
     }
 

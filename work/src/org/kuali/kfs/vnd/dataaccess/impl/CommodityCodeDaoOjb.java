@@ -20,6 +20,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.dataaccess.CommodityCodeDao;
 
@@ -35,7 +36,7 @@ public class CommodityCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Comm
     public boolean wildCardCommodityCodeExists(String wildCardCommodityCode) {
         String commodityCodeString = StringUtils.replace(wildCardCommodityCode, KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
         Criteria criteria = new Criteria();
-        criteria.addLike("purchasingCommodityCode", commodityCodeString);        
+        criteria.addLike(VendorPropertyConstants.PURCHASING_COMMODITY_CODE, commodityCodeString);        
         int count =  getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(CommodityCode.class, criteria));
         boolean exists = ((count > 0) ? true : false);
         return exists;

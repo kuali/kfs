@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -96,10 +97,10 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("purchasingCommodityCode", this.purchasingCommodityCode);
-        m.put("campusCode", this.campusCode);
+        m.put(VendorPropertyConstants.PURCHASING_COMMODITY_CODE, this.purchasingCommodityCode);
+        m.put(VendorPropertyConstants.CAMPUS_CODE, this.campusCode);
         if (this.contractManagerCode != null) {
-            m.put("contractManagerCode", this.contractManagerCode.toString());
+            m.put(VendorPropertyConstants.CONTRACT_MANAGER_CODE, this.contractManagerCode.toString());
         }
 	    return m;
     }

@@ -93,6 +93,10 @@ public class VendorPropertyConstants {
 
     // Vendor commodities code
     public static final String VENDOR_COMMODITIES_CODE = "vendorCommodities";
-    public static final String VENDOR_COMMODITIES_CODE_PURCHASING_COMMODITY_CODE = "vendorCommodities.purchasingCommodityCode";
+    public static final String PURCHASING_COMMODITY_CODE = "purchasingCommodityCode";
+    public static final String COMMODITY_DESCRIPTION = "commodityDescription";
+    public static final String CONTRACT_MANAGER_CODE = "contractManagerCode";
+    public static final String CAMPUS_CODE = "campusCode";
+    public static final String VENDOR_COMMODITIES_CODE_PURCHASING_COMMODITY_CODE = "vendorCommodities." + PURCHASING_COMMODITY_CODE;
     public static final String VENDOR_COMMODITIES_DEFAULT_INDICATOR = "commodityDefaultIndicator";
 }

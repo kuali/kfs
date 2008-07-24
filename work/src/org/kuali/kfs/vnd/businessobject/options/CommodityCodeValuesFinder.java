@@ -27,9 +27,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 
 /**
- * Values Finder for <code>ShippingSpecialCondition</code>.
+ * Values Finder for <code>CommodityCode</code>.
  * 
- * @see org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition
+ * @see org.kuali.kfs.vnd.businessobject.CommodityCode
  */
 public class CommodityCodeValuesFinder extends KeyValuesBase {
 

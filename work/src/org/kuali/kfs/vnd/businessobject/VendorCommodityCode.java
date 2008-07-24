@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 
 public class VendorCommodityCode extends PersistableBusinessObjectBase implements Inactivateable {
 
@@ -168,12 +169,12 @@ public class VendorCommodityCode extends PersistableBusinessObjectBase implement
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         if (this.vendorHeaderGeneratedIdentifier != null) {
-            m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());
+            m.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, this.vendorHeaderGeneratedIdentifier.toString());
         }
         if (this.vendorDetailAssignedIdentifier != null) {
-            m.put("vendorDetailAssignedIdentifier", this.vendorDetailAssignedIdentifier.toString());
+            m.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, this.vendorDetailAssignedIdentifier.toString());
         }
-        m.put("purchasingCommodityCode", this.purchasingCommodityCode);
+        m.put(VendorPropertyConstants.PURCHASING_COMMODITY_CODE, this.purchasingCommodityCode);
 	    return m;
     }
 	

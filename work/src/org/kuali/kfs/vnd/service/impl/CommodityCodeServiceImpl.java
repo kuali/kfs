@@ -33,6 +33,7 @@ public class CommodityCodeServiceImpl implements CommodityCodeService {
 
     private BusinessObjectService businessObjectService;
     private CommodityCodeDao commodityCodeDao;
+    
     /**
      * @see org.kuali.module.purap.service.CommodityCodeService#getByPrimaryId(java.lang.String)
      */
@@ -43,16 +44,19 @@ public class CommodityCodeServiceImpl implements CommodityCodeService {
         return cc;
     }
 
+    /**
+     * @see org.kuali.kfs.vnd.service.CommodityCodeService#wildCardCommodityCodeExists(java.lang.String)
+     */
+    public boolean wildCardCommodityCodeExists(String wildCardCommodityCode) {
+        return commodityCodeDao.wildCardCommodityCodeExists(wildCardCommodityCode);
+    }
+    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
     
     public void setCommodityCodeDao(CommodityCodeDao commodityCodeDao) {
         this.commodityCodeDao = commodityCodeDao;    
-    }
-    
-    public boolean wildCardCommodityCodeExists(String wildCardCommodityCode) {
-        return commodityCodeDao.wildCardCommodityCodeExists(wildCardCommodityCode);
     }
 
 }

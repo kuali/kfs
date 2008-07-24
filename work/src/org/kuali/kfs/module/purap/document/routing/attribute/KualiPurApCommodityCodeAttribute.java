@@ -84,6 +84,9 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
     private String purchasingCommodityCode;
     private String restrictedMaterialCode;
     
+    /**
+     * Constructs a KualiPurApCommodityCodeAttribute.java.
+     */
     public KualiPurApCommodityCodeAttribute() {
         ruleRows = new ArrayList();
         Map<String, String> campusMap  = (new CampusValuesFinder()).getKeyLabelMap();
@@ -137,10 +140,16 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         return new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX).append(deliveryCampusCode).append(purchasingCommodityCode).append(restrictedMaterialCode).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
+     */
     public List<Row> getRoutingDataRows() {
         return routingDataRows;
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
+     */
     public List<RuleExtensionValue> getRuleExtensionValues() {
         List extensions = new ArrayList();
         extensions.add(new RuleExtensionValue(DLVY_CMP_CD, getDeliveryCampusCode()));
@@ -153,30 +162,57 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         return extensions;
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleRows()
+     */
     public List<Row> getRuleRows() {
         return ruleRows;
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(edu.iu.uis.eden.routeheader.DocumentContent, java.util.List)
+     */
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
         return true;
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isRequired()
+     */
     public boolean isRequired() {
         return required;
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#setRequired(boolean)
+     */
     public void setRequired(boolean required) {
         this.required = required;
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRoutingData(java.util.Map)
+     */
     public List validateRoutingData(Map paramMap) {
         return validateCommodityCodeAttributeValues(paramMap);
     }
 
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
+     */
     public List validateRuleData(Map paramMap) {
         return validateCommodityCodeAttributeValues(paramMap);
     }
 
+    /**
+     * Validates the commodity code attribute values i.e. the delivery campus code, purchasing commodity code and the
+     * restricted material code from the given paramMap input parameter. If there are any validation errors, we'll
+     * add the errors to the List to be returned from this method.
+     * 
+     * @param paramMap the Map containing the delivery campus code, purchasing commodity code and restricted material code.
+     * 
+     * @return List of errors if there are any validation errors encountered in this method.
+     */
     private List validateCommodityCodeAttributeValues(Map paramMap) {
         setDeliveryCampusCode(LookupUtils.forceUppercase(DELIVERY_CAMPUS_CLASS, PurapPropertyConstants.DELIVERY_CAMPUS_CODE, (String) paramMap.get(DLVY_CMP_CD)));
         setPurchasingCommodityCode(LookupUtils.forceUppercase(COMMODITY_CODE_FIELD_CLASS, PurapPropertyConstants.ITEM_COMMODITY_CODE, (String) paramMap.get(PUR_COMM_CD)));
@@ -212,6 +248,11 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         return errors;
     }
     
+    /**
+     * Validates whether the delivery campus code exists in the database.
+     * 
+     * @return boolean true if the delivery campus code exists in the database and false otherwise.
+     */
     private boolean doesDeliveryCampusExist() {
         Map fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.CAMPUS_CODE, getDeliveryCampusCode());
@@ -224,10 +265,21 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         }
     }
     
+    /**
+     * Validates whether the commodity code or the wildcard forms of the commodity code exists
+     * in the database.
+     * 
+     * @return boolean true if the commodity code or its wildcard forms exists and false otherwise.
+     */
     private boolean doesCommodityCodeExist() {
         return SpringContext.getBean(CommodityCodeService.class).wildCardCommodityCodeExists(getPurchasingCommodityCode());
     }
     
+    /**
+     * Validates whether the restricted material code exists in the database.
+     * 
+     * @return boolean true if the restricted material code exists and false otherwise.
+     */
     private boolean doesRestrictedMaterialCodeExist() {
         Map fieldValues = new HashMap<String, String>();
         fieldValues.put(PurapPropertyConstants.RESTRICTED_MATERIAL_CODE, getRestrictedMaterialCode());
@@ -240,6 +292,9 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         }            
     }
     
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.MassRuleAttribute#filterNonMatchingRules(edu.iu.uis.eden.engine.RouteContext, java.util.List)
+     */
     public List filterNonMatchingRules(RouteContext routeContext, List rules) {
         List filteredRules = new ArrayList();
         DocumentType documentType = routeContext.getDocument().getDocumentType();
@@ -296,7 +351,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         }
         return false;
     }
-    
+
     protected Set populateCommodityCodesFromDocContent(String docTypeName, DocumentContent docContent, RouteContext routeContext) {
         Set commodityCodeValues = null;
         if (routeContext.getParameters().containsKey(DOCUMENT_COMMODITY_CODE_VALUES_KEY)) {
@@ -311,7 +366,6 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
                 boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
                 if (isReport) {
                     purchasingCommodityCode = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(reportMatchAnywhereExpressionPrefix).append(KualiWorkflowUtils.XPATH_ELEMENT_SEPARATOR).append(PurapPropertyConstants.ITEM_COMMODITY_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
-                    //restrictedMaterialCode = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(reportMatchAnywhereExpressionPrefix).append(KualiWorkflowUtils.XPATH_ELEMENT_SEPARATOR).append(PurapPropertyConstants.RESTRICTED_MATERIAL_CODE).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     commodityCodeValues.addAll(attemptCommodityCodeRetrieval(purchasingCommodityCode));
                 }
                 else {
@@ -320,7 +374,6 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
                     for (int i = 0; i < nodes.getLength(); i++) {
                         Node commodityCodeNode = nodes.item(i);
                         purchasingCommodityCode = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + PurapPropertyConstants.ITEM_COMMODITY_CODE, commodityCodeNode);
-                        //restrictedMaterialCode = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + PurapPropertyConstants.RESTRICTED_MATERIAL_CODE, commodityCodeNode);
                         commodityCodeValues.addAll(attemptCommodityCodeRetrieval(purchasingCommodityCode));
                     }
                 }
@@ -332,6 +385,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         }
         return commodityCodeValues;
     }
+
 
     protected Campus populateDeliveryCampusFromDocContent(String docTypeName, DocumentContent docContent, RouteContext routeContext) {
         Campus deliveryCampusValue = null;
@@ -364,6 +418,13 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         return deliveryCampusValue;
     }
     
+    /**
+     * Tries to retrieve the delivery campus given the deliveryCampusCode from the database. 
+     * If the result is null then throw runtime exception, otherwise return the result.
+     * 
+     * @param deliveryCampusCode the deliveryCampusCode to be retrieved from the database.
+     * @return the resulting delivery campus.
+     */
     private Campus attemptDeliveryCampusRetrieval(String deliveryCampusCode) {
         Campus deliveryCampus = null;
         if (StringUtils.isNotBlank(deliveryCampusCode)) {
@@ -379,6 +440,15 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         return deliveryCampus;
     }
     
+    /**
+     * Tries to retrieve a List of commodity codes from the database using the
+     * given input parameter purchasingCommodityCode. It will throw runtime exception if
+     * the commodity code is not found in the database.
+     * 
+     * @param purchasingCommodityCode The purchasingCommodityCode to be used to
+     *        retrieve the commodity code from the database.
+     * @return a List of commodity code obtained from the database.
+     */
     private List<CommodityCode> attemptCommodityCodeRetrieval(String purchasingCommodityCode) {
         List<CommodityCode> commodityCodeValues = new ArrayList();
         if (StringUtils.isNotBlank(purchasingCommodityCode)) {
@@ -395,6 +465,15 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         return commodityCodeValues;
     }
     
+    /**
+     * Helper method to retrieve the commodity codes from the database using the
+     * given purchasingCommodityCode input parameter. 
+     * 
+     * @param purchasingCommodityCode The purchasingCommodityCode to be used to
+     *        retrieve the commodity code from the database.
+     *        
+     * @return a List of commodity code obtained from the database.
+     */
     private Collection getCommodityCodes(String purchasingCommodityCode) {
         Map fieldValues = new HashMap<String, String>();
         fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, purchasingCommodityCode);

@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.authorization.AuthorizationType;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
 import org.kuali.core.service.KualiConfigurationService;
@@ -263,8 +264,8 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         // check if current user is an budget approver at the top level (root) org
         String[] chartOrg = SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
-        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
-        boolean isRootApprover = SpringContext.getBean(PermissionService.class).isOrgReviewApprover(personUserIdentifier, chartOrg[0], chartOrg[1]);
+        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+        boolean isRootApprover = SpringContext.getBean(PermissionService.class).isOrgReviewApprover(chartOrg[0], chartOrg[1], universalUser);
         urlParms.put(KFSConstants.SUPPRESS_ACTIONS, Boolean.toString(!isRootApprover));
 
         // forward to temp list action for displaying results

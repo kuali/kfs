@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Delegate;
@@ -97,16 +98,23 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isOrgReviewApprover(java.lang.String, java.lang.String,
-     *      java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrgReview(org.kuali.core.bo.user.UniversalUser)
      */
-    public boolean isOrgReviewApprover(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) throws Exception {
+    public List<Org> getOrgReview(UniversalUser universalUser) throws Exception {
+        return this.getOrgReview(universalUser.getPersonUserIdentifier());
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isOrgReviewApprover(java.lang.String, java.lang.String,
+     *      org.kuali.core.bo.user.UniversalUser)
+     */
+    public boolean isOrgReviewApprover(String chartOfAccountsCode, String organizationCode, UniversalUser universalUser) throws Exception {
 
         RuleExtensionVO ruleExtensionVO = new RuleExtensionVO(ORG_REVIEW_RULE_CHART_CODE_NAME, chartOfAccountsCode);
         RuleExtensionVO ruleExtensionVO2 = new RuleExtensionVO(ORG_REVIEW_RULE_ORG_CODE_NAME, organizationCode);
         RuleExtensionVO[] ruleExtensionVOs = new RuleExtensionVO[] { ruleExtensionVO, ruleExtensionVO2 };
 
-        RuleReportCriteriaVO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(personUserIdentifier);
+        RuleReportCriteriaVO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(universalUser.getPersonUserIdentifier());
         ruleReportCriteria.setRuleExtensionVOs(ruleExtensionVOs);
 
         RuleVO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
@@ -116,14 +124,14 @@ public class PermissionServiceImpl implements PermissionService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isOrgReviewApprover(org.kuali.kfs.coa.businessobject.Org,
-     *      java.lang.String)
+     *      org.kuali.core.bo.user.UniversalUser)
      */
-    public boolean isOrgReviewApprover(Org organzation, String personUserIdentifier) {
+    public boolean isOrgReviewApprover(Org organzation, UniversalUser universalUser) {
         try {
-            return this.isOrgReviewApprover(personUserIdentifier, organzation.getChartOfAccountsCode(), organzation.getOrganizationCode());
+            return this.isOrgReviewApprover(organzation.getChartOfAccountsCode(), organzation.getOrganizationCode(), universalUser);
         }
         catch (Exception e) {
-            String errorMessage = String.format("Fail to determine if %s is an approver for %s. ", personUserIdentifier, organzation);
+            String errorMessage = String.format("Fail to determine if %s is an approver for %s. ", universalUser, organzation);
             LOG.info(errorMessage + e);
         }
 
@@ -131,16 +139,16 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrganizationReviewHierachy(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrganizationReviewHierachy(org.kuali.core.bo.user.UniversalUser)
      */
-    public List<Org> getOrganizationReviewHierachy(String personUserIdentifier) {
+    public List<Org> getOrganizationReviewHierachy(UniversalUser universalUser) {
         List<Org> organazationReview = null;
 
         try {
-            organazationReview = this.getOrgReview(personUserIdentifier);
+            organazationReview = this.getOrgReview(universalUser);
         }
         catch (Exception e) {
-            String errorMessage = String.format("Fail to get organazation review hierachy for %s. ", personUserIdentifier);
+            String errorMessage = String.format("Fail to get organazation review hierachy for %s. ", universalUser);
             LOG.info(errorMessage + e);
             e.printStackTrace();
         }
@@ -150,23 +158,23 @@ public class PermissionServiceImpl implements PermissionService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountManagerOrDelegate(org.kuali.kfs.coa.businessobject.Account,
-     *      java.lang.String)
+     *      org.kuali.core.bo.user.UniversalUser)
      */
-    public boolean isAccountManagerOrDelegate(Account account, String personUserIdentifier) {
-        boolean isAccountManager = StringUtils.equals(personUserIdentifier, account.getAccountManagerUserPersonUserIdentifier());
+    public boolean isAccountManagerOrDelegate(Account account, UniversalUser universalUser) {
+        boolean isAccountManager = StringUtils.equals(universalUser.getPersonUserIdentifier(), account.getAccountManagerUserPersonUserIdentifier());
 
-        return isAccountManager || this.isAccountDelegate(account, personUserIdentifier);
+        return isAccountManager || this.isAccountDelegate(account, universalUser);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountDelegate(org.kuali.kfs.coa.businessobject.Account,
-     *      java.lang.String)
+     *      org.kuali.core.bo.user.UniversalUser)
      */
-    public boolean isAccountDelegate(Account account, String personUserIdentifier) {
+    public boolean isAccountDelegate(Account account, UniversalUser universalUser) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_SYSTEM_ID, personUserIdentifier);
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_SYSTEM_ID, universalUser.getPersonUserIdentifier());
         fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_ACTIVE_INDICATOR, Boolean.TRUE);
 
         fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.BUDGET_CONSTRUCTION);

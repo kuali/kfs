@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
@@ -457,9 +458,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, boolean, java.lang.String)
+     *      org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, boolean, org.kuali.core.bo.user.UniversalUser)
      */
-    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean singleAccountMode, String personUserIdentifier) {
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean singleAccountMode, UniversalUser universalUser) {
         String budgetChartOfAccountsCode = salarySettingFieldsHolder.getChartOfAccountsCode();
         String budgetAccountNumber = salarySettingFieldsHolder.getAccountNumber();
         String budgetSubAccountNumber = salarySettingFieldsHolder.getSubAccountNumber();
@@ -482,7 +483,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             return true;
         }
 
-        boolean isUpdatedByUserLevel = this.updateAccessOfAppointmentFundingByUserLevel(appointmentFunding, personUserIdentifier);
+        boolean isUpdatedByUserLevel = this.updateAccessOfAppointmentFundingByUserLevel(appointmentFunding, universalUser);
         if (isUpdatedByUserLevel) {
             appointmentFunding.setOverride2PlugMode(false);
             return true;
@@ -493,9 +494,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFundingByUserLevel(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      java.lang.String)
+     *      org.kuali.core.bo.user.UniversalUser)
      */
-    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, String personUserIdentifier) {
+    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser) {
         BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
         if (budgetConstructionHeader == null) {
             return false;
@@ -505,18 +506,19 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         Account account = appointmentFunding.getAccount();
 
         // account manager or delegate could edit the appointment funding if the document is in the beginning level
-        if (documentOrganizationLevelCode == 0 && permissionService.isAccountManagerOrDelegate(account, personUserIdentifier)) {
+        if (documentOrganizationLevelCode == 0 && permissionService.isAccountManagerOrDelegate(account, universalUser)) {
             appointmentFunding.setDisplayOnlyMode(false);
             return true;
         }
 
         // get the organization review hierachy path for which the user could be an approver
-        List<Org> organazationReviewHierachy = permissionService.getOrganizationReviewHierachy(personUserIdentifier);
+        List<Org> organazationReviewHierachy = permissionService.getOrganizationReviewHierachy(universalUser);
         if (organazationReviewHierachy == null) {
             return false;
         }
 
-        // if funding line is inside the hierachy path, editing mode can be determined by the levels of user and document organization
+        // if funding line is inside the hierachy path, editing mode can be determined by the levels of user and document
+        // organization
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
         Integer userLevelCode = this.getUserLevelCode(documentOrganizationLevelCode, fiscalYear, account, organazationReviewHierachy);
         if (userLevelCode != null) {
@@ -595,24 +597,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         for (BudgetConstructionAccountOrganizationHierarchy hierarchy : accountOrganizationHierarchy) {
             userLevelCodes.add(hierarchy.getOrganizationLevelCode());
         }
-    }
-
-    /**
-     * acquire funding lock on the given budget document
-     * 
-     * @param budgetConstructionHeader the given budget document
-     * @param personUserIdentifier the specified user
-     * @return true if the funding lock is acquired successfully or the user has the lock already; otherwise, false
-     */
-    public boolean acquireFundingLock(BudgetConstructionHeader budgetConstructionHeader, String personUserIdentifier) {
-        // allow a user back into the system if attempting to do the same type of lock
-        boolean lockByCurrentuser = lockService.isAccountLockedByUser(budgetConstructionHeader, personUserIdentifier);
-        if (lockByCurrentuser) {
-            return true;
-        }
-
-        BudgetConstructionLockStatus lockStatus = lockService.lockFunding(budgetConstructionHeader, personUserIdentifier);
-        return lockStatus != null && LockStatus.SUCCESS.equals(lockStatus.getLockStatus());
     }
 
     /**

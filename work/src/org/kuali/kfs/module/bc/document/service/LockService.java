@@ -116,9 +116,9 @@ public interface LockService {
      * release the locks for the given appointment fundings if any
      * 
      * @param lockedFundings the given appointment fundings that could have locks
-     * @param personUniversalIdentifier the user who owns the locks on the given appointment fundings
+     * @param universalUser the user who owns the locks on the given appointment fundings
      */
-    public void unlockFunding(List<PendingBudgetConstructionAppointmentFunding> lockedFundings, String personUniversalIdentifier);
+    public void unlockFunding(List<PendingBudgetConstructionAppointmentFunding> lockedFundings, UniversalUser universalUser);
 
     /**
      * Checks if the given user has a funding lock for the given accounting key.
@@ -191,7 +191,7 @@ public interface LockService {
      * 
      * @param positionNumber the given position number of a position
      * @param fiscalYear the given fiscal year of a position
-     * @param personUniversalIdentifier the user who owns the locks on the position
+     * @param universalUser the specified user who owns the locks on the position
      * @return LockStatus.SUCCESS (success or already unlocked), OPTIMISTIC_EX (lost optimistic lock - unlikely), NO_DOOR
      *         (BudgetConstructionPosition not found)
      */
@@ -201,9 +201,9 @@ public interface LockService {
      * release the locks for the given positions if any
      * 
      * @param lockedPositions the given budget construction positions that could have locks
-     * @param personUniversalIdentifier the user who owns the locks on the given positions
+     * @param universalUser the specified user who owns the locks on the given positions
      */
-    public void unlockPostion(List<BudgetConstructionPosition> lockedPositions, String personUniversalIdentifier);
+    public void unlockPostion(List<BudgetConstructionPosition> lockedPositions, UniversalUser universalUser);
 
     /**
      * This attempts a transactionlock on a BC Edoc for a pUId. It retries based on the setting of
@@ -315,10 +315,10 @@ public interface LockService {
      * determine whether the account lock on the given budget document is held by the the specified user
      * 
      * @param budgetConstructionHeader the given budget document
-     * @param personUserIdentifier the specified user
+     * @param universalUser the specified user
      * @return true if the account lock on the given budget document is held by the the specified user; otherwise, false
      */
-    public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, String personUserIdentifier);
+    public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, UniversalUser universalUser);
 
     /**
      * Retrieves account locks for funding records, for use in the payrate import process. Throws BudgetConstructionLockUnavailableException if new account lock is unavailable

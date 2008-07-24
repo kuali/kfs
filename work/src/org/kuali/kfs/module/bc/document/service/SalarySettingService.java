@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.document.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
@@ -197,17 +198,17 @@ public interface SalarySettingService {
      * @param salarySettingFieldsHolder the field holder that contains the values passed from the user
      * @param budgetByObjectMode the budget by object mode flag
      * @param singleAccountMode the single account mode flag
-     * @param personUserIdentifier the user's identifier
+     * @param universalUser the specified user
      * @return true if the access flags are updated successfully; otherwsie, false
      */
-    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean singleAccountMode, String personUserIdentifier);
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean singleAccountMode, UniversalUser universalUser);
 
     /**
      * update the access flags of the given appointment funding according to the user level and document organization level
      * 
      * @param appointmentFunding the given appointment funding
-     * @param personUserIdentifier the user's identifier
+     * @param universalUser the specified user
      * @return true if the access flags are updated successfully; otherwsie, false
      */
-    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, String personUserIdentifier);
+    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser);
 }

@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -110,7 +111,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             return false;
         }
 
-        String currentUser = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+        String currentUserId = universalUser.getPersonUserIdentifier();
 
         List<PendingBudgetConstructionAppointmentFunding> lockedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         List<BudgetConstructionPosition> lockedPositions = new ArrayList<BudgetConstructionPosition>();
@@ -122,35 +124,35 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             }
 
             BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
-            BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position.getPositionNumber(), position.getUniversityFiscalYear(), currentUser);
+            BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position.getPositionNumber(), position.getUniversityFiscalYear(), currentUserId);
             if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
                 LOG.info("failed to acquire position lock" + positionLockingStatus.getLockStatus().toString() + ":" + appointmentFunding);
-                
+
                 // TODO: modify the error message
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, positionLockingStatus.getLockStatus().toString());
-                this.releaseLocks(lockedPositions, lockedFundings, currentUser);
+                this.releaseLocks(lockedPositions, lockedFundings, universalUser);
                 return false;
             }
             lockedPositions.add(position);
 
-            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, this.getSalarySettingFieldsHolder(), this.isBudgetByAccountMode(), this.isSingleAccountMode(), currentUser);
+            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, this.getSalarySettingFieldsHolder(), this.isBudgetByAccountMode(), this.isSingleAccountMode(), universalUser);
             if (!updated) {
                 LOG.info("failed to update access for " + appointmentFunding);
-                
+
                 // TODO: modify the error message
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "!updated");
-                this.releaseLocks(lockedPositions, lockedFundings, currentUser);
+                this.releaseLocks(lockedPositions, lockedFundings, universalUser);
                 return false;
             }
 
             BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
-            BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(header, currentUser);
+            BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(header, currentUserId);
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
                 LOG.info("failed to acquire funding lock" + fundingLockingStatus.getLockStatus().toString() + ":" + appointmentFunding);
-                
+
                 // TODO: modify the error message
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, fundingLockingStatus.getLockStatus().toString());
-                this.releaseLocks(lockedPositions, lockedFundings, currentUser);
+                this.releaseLocks(lockedPositions, lockedFundings, universalUser);
                 return false;
             }
             lockedFundings.add(appointmentFunding);
@@ -164,11 +166,11 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * 
      * @param lockedPositions the locked position being released
      * @param lockedFundings the locked funding being released
-     * @param currentUser the current user who owns the locks
+     * @param universalUser the current user who owns the locks
      */
-    public void releaseLocks(List<BudgetConstructionPosition> lockedPositions, List<PendingBudgetConstructionAppointmentFunding> lockedFundings, String currentUser) {
-        lockService.unlockFunding(lockedFundings, currentUser);
-        lockService.unlockPostion(lockedPositions, currentUser);
+    public void releaseLocks(List<BudgetConstructionPosition> lockedPositions, List<PendingBudgetConstructionAppointmentFunding> lockedFundings, UniversalUser universalUser) {
+        lockService.unlockFunding(lockedFundings, universalUser);
+        lockService.unlockPostion(lockedPositions, universalUser);
     }
 
     /**
@@ -290,7 +292,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     private boolean resetSingleAccountModeFlag() {
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
-        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
 
         if (this.isBudgetByAccountMode()) {
             Account account = new Account();
@@ -299,13 +301,13 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             account.refreshReferenceObject(KFSPropertyConstants.ORGANIZATION);
 
             // instruct the detail salary setting by single account mode if current user is an account approver or delegate
-            if (permissionService.isAccountManagerOrDelegate(account, personUserIdentifier)) {
+            if (permissionService.isAccountManagerOrDelegate(account, universalUser)) {
                 return true;
             }
         }
 
         // instruct the detail salary setting by multiple account mode if current user is an organization level approver
-        List<Org> organizationReviewHierachy = permissionService.getOrganizationReviewHierachy(personUserIdentifier);
+        List<Org> organizationReviewHierachy = permissionService.getOrganizationReviewHierachy(universalUser);
         if (organizationReviewHierachy != null && !organizationReviewHierachy.isEmpty()) {
             return false;
         }

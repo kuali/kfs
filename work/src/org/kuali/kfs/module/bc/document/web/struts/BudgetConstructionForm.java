@@ -180,7 +180,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
                     }
                     if (!rvwHierMap.isEmpty()) {
                         try {
-                            List<Org> povOrgs = (List<Org>) SpringContext.getBean(PermissionService.class).getOrgReview(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier());
+                            List<Org> povOrgs = (List<Org>) SpringContext.getBean(PermissionService.class).getOrgReview(GlobalVariables.getUserSession().getUniversalUser());
                             if (!povOrgs.isEmpty()) {
                                 for (Org povOrg : povOrgs) {
                                     if (rvwHierMap.containsKey(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode())) {

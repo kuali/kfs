@@ -394,14 +394,14 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
      *      org.kuali.core.bo.user.UniversalUser)
      */
-    public String getAccessMode(BudgetConstructionHeader bcHeader, UniversalUser u) {
+    public String getAccessMode(BudgetConstructionHeader bcHeader, UniversalUser universalUser) {
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
         boolean isFiscalOfcOrDelegate = false;
 
         Integer hdrLevel = bcHeader.getOrganizationLevelCode();
 
         bcHeader.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-        isFiscalOfcOrDelegate = permissionService.isAccountManagerOrDelegate(bcHeader.getAccount(), u.getPersonUniversalIdentifier());
+        isFiscalOfcOrDelegate = permissionService.isAccountManagerOrDelegate(bcHeader.getAccount(), universalUser);
 
         // special case level 0 access, check if user is fiscal officer or delegate
         if (hdrLevel == 0) {
@@ -417,7 +417,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
 
         // drops here if we need to check for org approver access for any doc level
-        editMode = this.getOrgApproverAcessMode(bcHeader, u);
+        editMode = this.getOrgApproverAcessMode(bcHeader, universalUser);
         if (isFiscalOfcOrDelegate && (editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER) || editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER))) {
 
             // user is a fo or delegate and not an org approver or not in account's hier, means the doc is really above the user
@@ -690,7 +690,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @param u
      * @return
      */
-    private String getOrgApproverAcessMode(BudgetConstructionHeader bcHeader, UniversalUser u) {
+    private String getOrgApproverAcessMode(BudgetConstructionHeader bcHeader, UniversalUser universalUser) {
 
         // default the edit mode is just unviewable
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
@@ -713,7 +713,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
             // get the subset of hier rows where the user is an approver
             try {
-                List<Org> povOrgs = (List<Org>) permissionService.getOrgReview(u.getPersonUserIdentifier());
+                List<Org> povOrgs = (List<Org>) permissionService.getOrgReview(universalUser);
                 if (povOrgs.isEmpty()) {
 
                     editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
@@ -759,7 +759,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             catch (Exception e) {
 
                 // TODO should this reraise workflow exception? or should the method say it throws an exception
-                LOG.error("Can't get the list of pointOfView Orgs from permissionService.getOrgReview() for: " + u.getPersonUserIdentifier(), e);
+                LOG.error("Can't get the list of pointOfView Orgs from permissionService.getOrgReview() for: " + universalUser.getPersonUserIdentifier(), e);
             }
         }
         else {

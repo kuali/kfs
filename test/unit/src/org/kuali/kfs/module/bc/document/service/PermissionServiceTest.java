@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.bc.document.service;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.DFOGLE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Org;
@@ -44,9 +47,9 @@ public class PermissionServiceTest extends KualiTestBase {
     }
 
     /**
-     * This tests org.kuali.kfs.module.bc.document.service.PermissionService.getOrgReview() It depends on certain WorkFlow OrgReview rules to
-     * exist for the BudgetConstructionDocument type. It verifies that khuntley is a BCD approver for one organization and it
-     * is IU-UNIV It verifies that hsoucy is a BCD approver for two organizations in the review hierarchy (BL-BL,UA-UA) one as a
+     * This tests org.kuali.kfs.module.bc.document.service.PermissionService.getOrgReview() It depends on certain WorkFlow OrgReview
+     * rules to exist for the BudgetConstructionDocument type. It verifies that khuntley is a BCD approver for one organization and
+     * it is IU-UNIV It verifies that hsoucy is a BCD approver for two organizations in the review hierarchy (BL-BL,UA-UA) one as a
      * member of the workgroup KUALI-BLSPECIAL (BL-BL) and one as an individual (UA-UA)
      * 
      * @throws Exception
@@ -56,7 +59,7 @@ public class PermissionServiceTest extends KualiTestBase {
         if (!runTests())
             return;
 
-        orgs = permissionService.getOrgReview("khuntley");
+        orgs = permissionService.getOrgReview(KHUNTLEY.name());
         assertEquals("Number of BC Approval Organizations returned is incorrect.", 1, orgs.size());
         if (orgs.size() == 1) {
             assertEquals("IU", orgs.get(0).getChartOfAccountsCode());
@@ -69,10 +72,10 @@ public class PermissionServiceTest extends KualiTestBase {
     }
 
     /**
-     * This tests org.kuali.kfs.module.bc.document.service.PermissionService.isOrgReviewApprover() It depends on certain WorkFlow OrgReview
-     * rules to exist for the BudgetConstructionDocument type. It verfies that khuntley is a BCD approver for the organization
-     * IU-UNIV It verfies that khuntley is *NOT* a BCD approver for the organization BL-BL It verfies that dfogle is a KBCD
-     * approver for the organization BL-PSY
+     * This tests org.kuali.kfs.module.bc.document.service.PermissionService.isOrgReviewApprover() It depends on certain WorkFlow
+     * OrgReview rules to exist for the BudgetConstructionDocument type. It verfies that khuntley is a BCD approver for the
+     * organization IU-UNIV It verfies that khuntley is *NOT* a BCD approver for the organization BL-BL It verfies that dfogle is a
+     * KBCD approver for the organization BL-PSY
      * 
      * @throws Exception
      */
@@ -81,9 +84,9 @@ public class PermissionServiceTest extends KualiTestBase {
         if (!runTests())
             return;
 
-        assertTrue(permissionService.isOrgReviewApprover("khuntley", "IU", "UNIV"));
-        assertFalse(permissionService.isOrgReviewApprover("khuntley", "BL", "BL"));
-        assertTrue(permissionService.isOrgReviewApprover("dfogle", "BL", "PSY"));
+        assertTrue(permissionService.isOrgReviewApprover("IU", "UNIV", KHUNTLEY.getUniversalUser()));
+        assertFalse(permissionService.isOrgReviewApprover("BL", "BL", KHUNTLEY.getUniversalUser()));
+        assertTrue(permissionService.isOrgReviewApprover("BL", "PSY", DFOGLE.getUniversalUser()));
 
     }
 }

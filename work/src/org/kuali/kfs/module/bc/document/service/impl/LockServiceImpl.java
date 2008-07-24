@@ -255,10 +255,10 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockFunding(java.util.List, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockFunding(java.util.List, org.kuali.core.bo.user.UniversalUser)
      */
     @Transactional
-    public void unlockFunding(List<PendingBudgetConstructionAppointmentFunding> lockedFundings, String personUniversalIdentifier) {
+    public void unlockFunding(List<PendingBudgetConstructionAppointmentFunding> lockedFundings, UniversalUser universalUser) {
         for (PendingBudgetConstructionAppointmentFunding funding : lockedFundings) {
             Integer fiscalYear = funding.getUniversityFiscalYear();
             String chartOfAccountsCode = funding.getChartOfAccountsCode();
@@ -266,7 +266,7 @@ public class LockServiceImpl implements LockService {
             String accountNumber = funding.getAccountNumber();
             String subAccountNumber = funding.getSubAccountNumber();
 
-            this.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUniversalIdentifier);
+            this.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, universalUser.getPersonUserIdentifier());
         }
     }
 
@@ -396,7 +396,8 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPosition(java.lang.String, java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPosition(java.lang.String, java.lang.Integer,
+     *      java.lang.String)
      */
     @Transactional
     public LockStatus unlockPosition(String positionNumber, Integer fiscalYear, String personUniversalIdentifier) {
@@ -405,7 +406,7 @@ public class LockServiceImpl implements LockService {
             try {
                 bcPosition.setPositionLockUserIdentifier(null);
                 budgetConstructionDao.saveBudgetConstructionPosition(bcPosition);
-                
+
                 return LockStatus.SUCCESS;
             }
             catch (DataAccessException ex) {
@@ -418,15 +419,15 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPostion(java.util.List, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPostion(java.util.List, org.kuali.core.bo.user.UniversalUser)
      */
     @Transactional
-    public void unlockPostion(List<BudgetConstructionPosition> lockedPositions, String personUniversalIdentifier) {
+    public void unlockPostion(List<BudgetConstructionPosition> lockedPositions, UniversalUser universalUser) {
         for (BudgetConstructionPosition position : lockedPositions) {
             Integer fiscalYear = position.getUniversityFiscalYear();
             String positionNumber = position.getPositionNumber();
 
-            this.unlockPosition(positionNumber, fiscalYear, personUniversalIdentifier);
+            this.unlockPosition(positionNumber, fiscalYear, universalUser.getPersonUserIdentifier());
         }
     }
 
@@ -648,15 +649,15 @@ public class LockServiceImpl implements LockService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#isAccountLockedByUser(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
-     *      java.lang.String)
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Transactional
-    public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, String personUserIdentifier) {
+    public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, UniversalUser universalUser) {
         String chartOfAccountsCode = budgetConstructionHeader.getChartOfAccountsCode();
         String accountNumber = budgetConstructionHeader.getAccountNumber();
         String subAccountNumber = budgetConstructionHeader.getSubAccountNumber();
         Integer fiscalYear = budgetConstructionHeader.getUniversityFiscalYear();
-        return this.isAccountLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier);
+        return this.isAccountLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, universalUser.getPersonUserIdentifier());
     }
 
     @NonTransactional
@@ -726,12 +727,12 @@ public class LockServiceImpl implements LockService {
         this.budgetConstructionPositionService = budgetConstructionPositionService;
     }
 
-    
+
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.service.LockService#lockAccountAndCommit(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockAccountAndCommit(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
+     *      java.lang.String)
      */
-    @Transactional(propagation=Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public BudgetConstructionLockStatus lockAccountAndCommit(BudgetConstructionHeader bcHeader, String personUniversalIdentifier) {
         return lockAccount(bcHeader, personUniversalIdentifier);
     }

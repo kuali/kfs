@@ -17,6 +17,7 @@ package org.kuali.kfs.module.bc.document.service;
 
 import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 
@@ -37,56 +38,63 @@ import org.kuali.kfs.coa.businessobject.Org;
 public interface PermissionService {
 
     /**
-     * This method returns a list of organizations where the user is a BC document approver
+     * collect the list of organizations where the user is a BC document approver
      * 
-     * @param universalUserId
-     * @return
-     * @throws Exception
+     * @param personUserIdentifier the specified person user identifier
+     * @return the list of organizations where the user is a BC document approver
      */
     public List<Org> getOrgReview(String personUserIdentifier) throws Exception;
 
     /**
-     * This method returns whether or not a user is a BC approver for the passed in organization primary key values
+     * get a list of organizations where the user is a BC document approver
      * 
-     * @param personUserIdentifier
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
+     * @param universalUser the specified user
+     * @return a list of organizations where the user is a BC document approver
      */
-    public boolean isOrgReviewApprover(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) throws Exception;
-    
+    public List<Org> getOrgReview(UniversalUser universalUser) throws Exception;
+
+    /**
+     * determine whether or not a user is a BC approver for the passed in organization primary key values
+     * 
+     * @param chartOfAccountsCode the given chart of accounts code
+     * @param organizationCode the given organization code
+     * @param universalUser the specified user
+     * @return true if the specified user is an organization level approver for the given organization; otherwise, false
+     */
+    public boolean isOrgReviewApprover(String chartOfAccountsCode, String organizationCode, UniversalUser universalUser) throws Exception;
+
     /**
      * determine whether or not the specified user is an organization level approver for the given organization
      * 
      * @param organization the given organization
-     * @param personUserIdentifier the specified user
+     * @param universalUser the specified user
      * @return true if the specified user is an organization level approver for the given organization; otherwise, false
      */
-    public boolean isOrgReviewApprover(Org organization, String personUserIdentifier);
-    
+    public boolean isOrgReviewApprover(Org organization, UniversalUser universalUser);
+
     /**
      * get the orgazation review hierachy for which the specified user is an approver if any; otherwise, return null
      * 
-     * @param personUserIdentifier the specified user
+     * @param universalUser the specified user
      * @return the orgazation review hierachy for which the specified user is an approver if any; otherwise, return null
      */
-    public List<Org> getOrganizationReviewHierachy(String personUserIdentifier);
+    public List<Org> getOrganizationReviewHierachy(UniversalUser universalUser);
 
     /**
      * determine whether the specified user is a manager or account delegate of the given account
      * 
      * @param account the given account
-     * @param personUserIdentifier the specified user
+     * @param universalUser the specified user
      * @return true if the specified user is a manager or account delegate of the given account; otherwise, false
      */
-    public boolean isAccountManagerOrDelegate(Account account, String personUserIdentifier);
-    
+    public boolean isAccountManagerOrDelegate(Account account, UniversalUser universalUser);
+
     /**
      * determine whether the specified user is an account delegate of the given account
      * 
      * @param account the given account
-     * @param personUserIdentifier the specified user
+     * @param universalUser the specified user
      * @return true if the specified user is an account delegate of the given account; otherwise, false
      */
-    public boolean isAccountDelegate(Account account, String personUserIdentifier);
+    public boolean isAccountDelegate(Account account, UniversalUser universalUser);
 }

@@ -26,6 +26,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
@@ -123,13 +124,12 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
                 continue;
             }
 
+            //TODO: give the fine-grained error messages 
+            
             BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
             BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position.getPositionNumber(), position.getUniversityFiscalYear(), currentUserId);
             if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
-                LOG.info("failed to acquire position lock" + positionLockingStatus.getLockStatus().toString() + ":" + appointmentFunding);
-
-                // TODO: modify the error message
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, positionLockingStatus.getLockStatus().toString());
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
                 this.releaseLocks(lockedPositions, lockedFundings, universalUser);
                 return false;
             }
@@ -137,10 +137,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
             boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, this.getSalarySettingFieldsHolder(), this.isBudgetByAccountMode(), this.isSingleAccountMode(), universalUser);
             if (!updated) {
-                LOG.info("failed to update access for " + appointmentFunding);
-
-                // TODO: modify the error message
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "!updated");
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
                 this.releaseLocks(lockedPositions, lockedFundings, universalUser);
                 return false;
             }
@@ -148,10 +145,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
             BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(header, currentUserId);
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
-                LOG.info("failed to acquire funding lock" + fundingLockingStatus.getLockStatus().toString() + ":" + appointmentFunding);
-
-                // TODO: modify the error message
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, fundingLockingStatus.getLockStatus().toString());
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.toString());
                 this.releaseLocks(lockedPositions, lockedFundings, universalUser);
                 return false;
             }

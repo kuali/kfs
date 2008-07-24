@@ -127,5 +127,9 @@ public class BCKeyConstants {
     public static final String ERROR_PAYRATE_EXPORT_POSITION_UNION_CODE_REQUIRED = "error.budget.payrate.export.positionUnionCodeRequired";
     public static final String ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_REQUIRED = "error.budget.payrate.export.CsfFreezeDateRequired";
     public static final String ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_INCORRECT_FORMAT = "error.budget.payrate.export.CsfFreezeDateIncorrectFormat";
+    
+    public static final String ERROR_FAIL_TO_LOCK_POSITION = "error.budget.failToLockPosition";
+    public static final String ERROR_FAIL_TO_LOCK_FUNDING = "error.budget.failToLockFunding";
+    public static final String ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS = "error.budget.failToUpdateFundingAccess";
 }
 

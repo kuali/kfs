@@ -21,7 +21,6 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 
-
 /**
  * This interface defines the methods that a PermissionService must provide. PermissionService implements methods used to support
  * the BudgetConstruction Security Model. The User access mode to a Budgeted Account (BC Document) is calculated based on the

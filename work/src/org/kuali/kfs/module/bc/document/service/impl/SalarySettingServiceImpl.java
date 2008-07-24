@@ -59,7 +59,6 @@ import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

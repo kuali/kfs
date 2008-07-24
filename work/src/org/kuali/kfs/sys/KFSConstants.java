@@ -827,7 +827,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
     public static class EnterpriseFeederApplicationParameterKeys {
-        public static final String TO_ADDRESS = "INVALID_FILE_TO_ADDRESSES";
+        public static final String TO_ADDRESS = "INVALID_FILE_TO_EMAIL_ADDRESSES";
     }
 
     public static class ParameterValues {

@@ -208,7 +208,7 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
         //If the user is not in purchasing workgroup, we need to set the includeAddLine to false for vendorCommodities collection
         //and set the commodity default indicator and active indicator to be read only.
         if (!user.isMember(purchasingWorkgroup)) {
-            MaintainableCollectionDefinition collDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("VendorDetailMaintenanceDocument", "vendorCommodities");
+            MaintainableCollectionDefinition collDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("VendorDetailMaintenanceDocument", VendorPropertyConstants.VENDOR_COMMODITIES_CODE);
             collDef.setIncludeAddLine(false);
             
             List<VendorCommodityCode>vendorCommodities = vendor.getVendorCommodities();
@@ -220,7 +220,7 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
             }
         }
         else {
-            MaintainableCollectionDefinition collDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("VendorDetailMaintenanceDocument", "vendorCommodities");
+            MaintainableCollectionDefinition collDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("VendorDetailMaintenanceDocument", VendorPropertyConstants.VENDOR_COMMODITIES_CODE);
             collDef.setIncludeAddLine(true);
         }
     }

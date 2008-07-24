@@ -185,14 +185,12 @@ public class PurchaseOrderDocumentActionAuthorizer {
      * @return boolean true if the close order button can be displayed.
      */
     public boolean canClose() {
-        boolean validForDisplayingCloseButton = false;
         
         //Invoke the validation in the business rule class to find out whether
         //this purchase order is eligible to be closed.
         PurchaseOrderCloseDocumentRule rule = new PurchaseOrderCloseDocumentRule();
-        validForDisplayingCloseButton = rule.processRouteDocument(purchaseOrder);
+        return rule.processRouteDocument(purchaseOrder);
         
-        return validForDisplayingCloseButton;
     }
     
     /**

@@ -136,8 +136,7 @@
               p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="createDate"
-              p:required="false"
-              p:readOnly="true"
+              p:required="true"
               p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="capitalAssetInServiceDate"

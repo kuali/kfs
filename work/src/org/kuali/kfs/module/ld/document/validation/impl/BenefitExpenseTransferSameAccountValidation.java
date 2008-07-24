@@ -45,6 +45,7 @@ import org.kuali.kfs.module.ld.util.LaborPendingEntryGenerator;
  */
 public class BenefitExpenseTransferSameAccountValidation extends GenericValidation {
     private BenefitExpenseTransferDocument accountingDocumentForValidation;
+    private AccountingLine accountingLineForValidation;
     
     /**
      * Validates that the given accounting lines in the accounting document have 
@@ -55,8 +56,10 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         BenefitExpenseTransferDocument benefitExpenseTransferDocument = getAccountingDocumentForValidation() ;
+        AccountingLine accountingLine = getAccountingLineForValidation();
+
         
-        if (!hasSameAccount(benefitExpenseTransferDocument, null)) {
+        if (!hasSameAccount(benefitExpenseTransferDocument, accountingLine)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.DISTINCT_OBJECT_CODE_ERROR);
             result = false;
         }
@@ -64,7 +67,6 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
         return result ;    
     }
 
- 
     /**
      * Determines whether target accouting lines have the same fringe benefit object codes as source accounting lines
      * 
@@ -103,6 +105,14 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
         return accountingDocumentForValidation;
     }
 
+    /**
+     * Gets the accountingLineForValidation attribute. 
+     * @return Returns the accountingLineForValidation.
+     */
+    public AccountingLine getAccountingLineForValidation() {
+        return accountingLineForValidation;
+    }    
+    
     /**
      * Sets the accountingDocumentForValidation attribute value.
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.

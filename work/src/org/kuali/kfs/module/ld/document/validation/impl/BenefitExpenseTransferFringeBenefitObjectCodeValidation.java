@@ -40,8 +40,8 @@ public class BenefitExpenseTransferFringeBenefitObjectCodeValidation extends Gen
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
-        
-        if (getAccountingLineForValidation().isSourceAccountingLine() && isFringeBenefitObjectCode(accountingLineForValidation)) {
+        AccountingLine accountingLine = getAccountingLineForValidation();
+        if (isFringeBenefitObjectCode(accountingLine)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, LaborKeyConstants.INVALID_FRINGE_OBJECT_CODE_ERROR );
             result = false;
         }

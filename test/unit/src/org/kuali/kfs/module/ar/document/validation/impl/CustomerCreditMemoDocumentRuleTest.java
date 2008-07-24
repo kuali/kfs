@@ -228,13 +228,12 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
      *  This method tests if checkIfInvoiceNumberIsValid returns true if passed a valid invoice number
      */
     public void testCheckIfInvoiceNumberIsValid_True() {
-        /*
+
         String documentNumber = CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER,
             new CustomerInvoiceDetailFixture[]
             {CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE},
             null);
-        */
-        String documentNumber = "328019";
+
         assertTrue(rule.checkIfInvoiceNumberIsValid(documentNumber));   
     }
     
@@ -252,7 +251,9 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     /*
      *  This method tests if checkIfThereIsNoAnotherCRMInRouteForTheInvoice returns false if passed an invoice number for which there ia a CRM in route. 
      */
+/*
     public void testCheckIfThereIsNoAnotherCRMInRouteForTheInvoice_False() {
         assertFalse(rule.checkIfThereIsNoAnotherCRMInRouteForTheInvoice("328019"));   
     }
+*/
 }

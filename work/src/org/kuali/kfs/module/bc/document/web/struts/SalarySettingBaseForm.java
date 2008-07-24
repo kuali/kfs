@@ -20,35 +20,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
-import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
-import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * the base Struts form for salary setting
  */
 public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingBaseForm.class);
+
     private String documentNumber;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -70,9 +70,8 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     private boolean singleAccountMode;
     private boolean orgSalSetClose = false;
 
-    public SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
-    public BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-    public LockService lockService = SpringContext.getBean(LockService.class);
+    private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+    private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
     /**
      * get the refresh caller name of the current form
@@ -105,48 +104,25 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     public boolean postProcessBCAFLines() {
         this.populateBCAFLines();
 
-        String currentUser = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
-        List<PendingBudgetConstructionAppointmentFunding> lockedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
-
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
-            String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
-            String objectCode = appointmentFunding.getFinancialObjectCode();
 
             boolean vacatable = salarySettingService.canBeVacant(appointmentFundings, appointmentFunding);
             appointmentFunding.setVacatable(vacatable);
 
-            boolean budgetable = budgetDocumentService.isBudgetableAccount(fiscalYear, appointmentFunding.getAccount(), appointmentFunding.getSubAccount());
+            String subAccountNumber = appointmentFunding.getSubAccountNumber();
+            boolean isEmptyOrDashedSubAccountNumber = StringUtils.isNotEmpty(subAccountNumber) || StringUtils.equals(subAccountNumber, KFSConstants.getDashSubAccountNumber());
+            SubAccount subAccount = isEmptyOrDashedSubAccountNumber ? null : appointmentFunding.getSubAccount();
+
+            Account account = appointmentFunding.getAccount();
+            boolean budgetable = budgetDocumentService.isBudgetableAccount(fiscalYear, account, subAccount);
             appointmentFunding.setBudgetable(budgetable);
 
-            boolean hourlyPaid = salarySettingService.isHourlyPaidObject(fiscalYear, chartOfAccountsCode, objectCode);
+            String chartCode = appointmentFunding.getChartOfAccountsCode();
+            String objectCode = appointmentFunding.getFinancialObjectCode();
+            boolean hourlyPaid = salarySettingService.isHourlyPaidObject(fiscalYear, chartCode, objectCode);
             appointmentFunding.setHourlyPaid(hourlyPaid);
-
-            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, this.getSalarySettingFieldsHolder(), this.isBudgetByAccountMode(), this.isSingleAccountMode(), currentUser);
-            if (!updated) {
-                //TODO: modify the error message 
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
-                
-                lockService.unlockFunding(lockedFundings, currentUser);
-                return false;
-            }
-
-            BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
-            if (!appointmentFunding.isDisplayOnlyMode()) {
-                BudgetConstructionLockStatus lockStatus = lockService.lockFunding(header, currentUser);
-
-                if (LockStatus.BY_OTHER.equals(lockStatus.getLockStatus())) {
-                    //TODO: modify the error message 
-                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
-                    
-                    lockService.unlockFunding(lockedFundings, currentUser);
-                    return false;
-                }
-                else {
-                    lockedFundings.add(appointmentFunding);
-                }
-            }
         }
 
         DynamicCollectionComparator.sort(appointmentFundings, KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.EMPLID);
@@ -158,6 +134,8 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public void refreshBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         appointmentFunding.refreshNonUpdateableReferences();
+        appointmentFunding.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+        appointmentFunding.refreshReferenceObject(KFSPropertyConstants.SUB_ACCOUNT);
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);
     }
 
@@ -176,7 +154,13 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * setup the budget construction authorization
      */
     public void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
-        this.setEditingMode(documentAuthorizer.getEditModeFromSession());
+        Map<String, String> editModeFromSession = documentAuthorizer.getEditModeFromSession();
+        if (editModeFromSession == null || editModeFromSession.isEmpty()) {
+            this.initializeEditingMode(documentAuthorizer);
+            return;
+        }
+
+        this.setEditingMode(editModeFromSession);
     }
 
     /**

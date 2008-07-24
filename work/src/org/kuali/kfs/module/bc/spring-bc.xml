@@ -142,6 +142,9 @@
 		<property name="budgetDocumentService">
 			<ref bean="budgetDocumentService" />
 		</property>
+		<property name="budgetConstructionPositionService">
+			<ref bean="budgetConstructionPositionService"/>
+		</property>
 	</bean>
 
 	<bean id="permissionService" class="org.kuali.kfs.module.bc.document.service.impl.PermissionServiceImpl">

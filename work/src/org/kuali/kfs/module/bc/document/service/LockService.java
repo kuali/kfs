@@ -111,7 +111,7 @@ public interface LockService {
      * @return LockStatus.SUCCESS, NO_DOOR (no fundinglock found)
      */
     public LockStatus unlockFunding(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
-    
+
     /**
      * release the locks for the given appointment fundings if any
      * 
@@ -185,6 +185,25 @@ public interface LockService {
      *         (BudgetConstructionPosition not found)
      */
     public LockStatus unlockPosition(String positionNumber, Integer fiscalYear);
+
+    /**
+     * release the locks on a positions with the given information
+     * 
+     * @param positionNumber the given position number of a position
+     * @param fiscalYear the given fiscal year of a position
+     * @param personUniversalIdentifier the user who owns the locks on the position
+     * @return LockStatus.SUCCESS (success or already unlocked), OPTIMISTIC_EX (lost optimistic lock - unlikely), NO_DOOR
+     *         (BudgetConstructionPosition not found)
+     */
+    public LockStatus unlockPosition(String positionNumber, Integer fiscalYear, String personUniversalIdentifier);
+
+    /**
+     * release the locks for the given positions if any
+     * 
+     * @param lockedPositions the given budget construction positions that could have locks
+     * @param personUniversalIdentifier the user who owns the locks on the given positions
+     */
+    public void unlockPostion(List<BudgetConstructionPosition> lockedPositions, String personUniversalIdentifier);
 
     /**
      * This attempts a transactionlock on a BC Edoc for a pUId. It retries based on the setting of
@@ -300,7 +319,7 @@ public interface LockService {
      * @return true if the account lock on the given budget document is held by the the specified user; otherwise, false
      */
     public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, String personUserIdentifier);
-    
+
     /**
      * Retrieves account locks for funding records, for use in the payrate import process. Throws BudgetConstructionLockUnavailableException if new account lock is unavailable
      * 

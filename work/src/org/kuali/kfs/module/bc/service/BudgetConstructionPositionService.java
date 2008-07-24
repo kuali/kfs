@@ -50,4 +50,14 @@ public interface BudgetConstructionPositionService {
      * @return a Budget Construction Position object retrived by its primary key
      */
     public BudgetConstructionPosition getByPrimaryId(String fiscalYear, String positionNumber);
+    
+    /**
+     * retrieve a Budget Construction Position object by its primary key, which is locked by the specified user.
+     * 
+     * @param fiscalYear the given fiscal year
+     * @param positionNumber the given position number
+     * @param positionLockUserIdentifier the user id who owns a lock on the position
+     * @return a Budget Construction Position object retrived by its primary key, which is locked by the specified user.
+     */
+    public BudgetConstructionPosition getLockedPositionByPrimaryId(Integer fiscalYear, String positionNumber, String positionLockUserIdentifier);
 }

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -29,14 +28,12 @@ import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.dao.DocumentDao;
-import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
@@ -64,9 +61,9 @@ import org.kuali.kfs.module.bc.document.validation.event.DeleteMonthlySpreadEven
 import org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionRuleUtil;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -480,7 +477,12 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isBudgetableAccount(java.lang.Integer,
      *      org.kuali.kfs.coa.businessobject.Account, org.kuali.kfs.coa.businessobject.SubAccount)
      */
+    @NonTransactional
     public boolean isBudgetableAccount(Integer budgetYear, Account account, SubAccount subAccount) {
+        if (budgetYear == null || account == null || subAccount == null) {
+            return false;
+        }
+
         if (account.isAccountClosedIndicator()) {
             return false;
         }
@@ -491,7 +493,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
 
         // is account a cash control account
-        if (account.getBudgetRecordingLevelCode().equalsIgnoreCase(BCConstants.BUDGET_RECORDING_LEVEL_N)) {
+        if (StringUtils.equalsIgnoreCase(account.getBudgetRecordingLevelCode(), BCConstants.BUDGET_RECORDING_LEVEL_N)) {
             return false;
         }
 

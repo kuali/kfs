@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,10 +26,18 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLockStatus;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -45,7 +54,9 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private String emplid;
     private String personName;
 
-    protected SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+    private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+    private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+    private LockService lockService = SpringContext.getBean(LockService.class);
 
     /**
      * Constructs a DetailSalarySettingForm.java.
@@ -90,13 +101,84 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#postProcessBCAFLines()
+     */
+    @Override
+    public boolean postProcessBCAFLines() {
+        boolean success = super.postProcessBCAFLines();
+        if (!success) {
+            return false;
+        }
+
+        String currentUser = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+
+        List<PendingBudgetConstructionAppointmentFunding> lockedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+        List<BudgetConstructionPosition> lockedPositions = new ArrayList<BudgetConstructionPosition>();
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
+
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            if (appointmentFunding.isDisplayOnlyMode()) {
+                continue;
+            }
+
+            BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
+            BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position.getPositionNumber(), position.getUniversityFiscalYear(), currentUser);
+            if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
+                LOG.info("failed to acquire position lock" + positionLockingStatus.getLockStatus().toString() + ":" + appointmentFunding);
+                
+                // TODO: modify the error message
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, positionLockingStatus.getLockStatus().toString());
+                this.releaseLocks(lockedPositions, lockedFundings, currentUser);
+                return false;
+            }
+            lockedPositions.add(position);
+
+            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, this.getSalarySettingFieldsHolder(), this.isBudgetByAccountMode(), this.isSingleAccountMode(), currentUser);
+            if (!updated) {
+                LOG.info("failed to update access for " + appointmentFunding);
+                
+                // TODO: modify the error message
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "!updated");
+                this.releaseLocks(lockedPositions, lockedFundings, currentUser);
+                return false;
+            }
+
+            BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
+            BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(header, currentUser);
+            if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
+                LOG.info("failed to acquire funding lock" + fundingLockingStatus.getLockStatus().toString() + ":" + appointmentFunding);
+                
+                // TODO: modify the error message
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, fundingLockingStatus.getLockStatus().toString());
+                this.releaseLocks(lockedPositions, lockedFundings, currentUser);
+                return false;
+            }
+            lockedFundings.add(appointmentFunding);
+        }
+
+        return true;
+    }
+
+    /**
+     * release all the locks on the given position and fundings owns by the specified user
+     * 
+     * @param lockedPositions the locked position being released
+     * @param lockedFundings the locked funding being released
+     * @param currentUser the current user who owns the locks
+     */
+    public void releaseLocks(List<BudgetConstructionPosition> lockedPositions, List<PendingBudgetConstructionAppointmentFunding> lockedFundings, String currentUser) {
+        lockService.unlockFunding(lockedFundings, currentUser);
+        lockService.unlockPostion(lockedPositions, currentUser);
+    }
+
+    /**
      * sets the default fields not setable by the user for added lines and any other required initialization
      * 
      * @param appointmentFunding the given appointment funding line
      */
-    protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
+    public PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
-        
+
         if (this.isAddLine()) {
             appointmentFunding.setChartOfAccountsCode(this.getChartOfAccountsCode());
             appointmentFunding.setAccountNumber(this.getAccountNumber());
@@ -208,14 +290,14 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     private boolean resetSingleAccountModeFlag() {
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
-        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
-        
-        if(this.isBudgetByAccountMode()) {
+        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+
+        if (this.isBudgetByAccountMode()) {
             Account account = new Account();
             account.setAccountNumber(this.getAccountNumber());
             account.setChartOfAccountsCode(this.getChartOfAccountsCode());
             account.refreshReferenceObject(KFSPropertyConstants.ORGANIZATION);
-    
+
             // instruct the detail salary setting by single account mode if current user is an account approver or delegate
             if (permissionService.isAccountManagerOrDelegate(account, personUserIdentifier)) {
                 return true;

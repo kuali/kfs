@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.module.bc.service.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.Position;
 import org.kuali.kfs.module.bc.exception.BudgetPositionAlreadyExistsException;
@@ -125,6 +127,24 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
         primaryKeys.put(KFSPropertyConstants.POSITION_NUMBER, positionNumber);
 
         return (BudgetConstructionPosition) businessObjectService.findByPrimaryKey(BudgetConstructionPosition.class, primaryKeys);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.service.BudgetConstructionPositionService#getLockedPositionByPrimaryId(java.lang.String,
+     *      java.lang.String, java.lang.String)
+     */
+    public BudgetConstructionPosition getLockedPositionByPrimaryId(Integer fiscalYear, String positionNumber, String positionLockUserIdentifier) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.POSITION_NUMBER, positionNumber);
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        fieldValues.put(BCPropertyConstants.POSITION_LOCK_USER_IDENTIFIER, positionLockUserIdentifier);
+
+        Collection<BudgetConstructionPosition> positions = businessObjectService.findMatching(BudgetConstructionPosition.class, fieldValues);
+        for (BudgetConstructionPosition position : positions) {
+            return position;
+        }
+
+        return null;
     }
 
     /**

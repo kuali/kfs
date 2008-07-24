@@ -36,6 +36,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableException;
+import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
@@ -55,9 +56,12 @@ import org.springframework.transaction.annotation.Transactional;
  * of the accounting line update.
  */
 public class LockServiceImpl implements LockService {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LockServiceImpl.class);
+
     private BudgetConstructionDao budgetConstructionDao;
     private BudgetConstructionLockDao budgetConstructionLockDao;
     private BudgetDocumentService budgetDocumentService;
+    private BudgetConstructionPositionService budgetConstructionPositionService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#lockAccount(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
@@ -392,6 +396,41 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPosition(java.lang.String, java.lang.Integer, java.lang.String)
+     */
+    @Transactional
+    public LockStatus unlockPosition(String positionNumber, Integer fiscalYear, String personUniversalIdentifier) {
+        BudgetConstructionPosition bcPosition = budgetConstructionPositionService.getLockedPositionByPrimaryId(fiscalYear, positionNumber, personUniversalIdentifier);
+        if (bcPosition != null) {
+            try {
+                bcPosition.setPositionLockUserIdentifier(null);
+                budgetConstructionDao.saveBudgetConstructionPosition(bcPosition);
+                
+                return LockStatus.SUCCESS;
+            }
+            catch (DataAccessException ex) {
+                return LockStatus.OPTIMISTIC_EX;
+            }
+        }
+        else {
+            return LockStatus.NO_DOOR; // target not found
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPostion(java.util.List, java.lang.String)
+     */
+    @Transactional
+    public void unlockPostion(List<BudgetConstructionPosition> lockedPositions, String personUniversalIdentifier) {
+        for (BudgetConstructionPosition position : lockedPositions) {
+            Integer fiscalYear = position.getUniversityFiscalYear();
+            String positionNumber = position.getPositionNumber();
+
+            this.unlockPosition(positionNumber, fiscalYear, personUniversalIdentifier);
+        }
+    }
+
+    /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#lockTransaction(java.lang.String, java.lang.String,
      *      java.lang.String, java.lang.Integer, java.lang.String)
      */
@@ -619,6 +658,7 @@ public class LockServiceImpl implements LockService {
         Integer fiscalYear = budgetConstructionHeader.getUniversityFiscalYear();
         return this.isAccountLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier);
     }
+
     @NonTransactional
     public void setBudgetConstructionDao(BudgetConstructionDao bcHeaderDao) {
         this.budgetConstructionDao = bcHeaderDao;
@@ -676,6 +716,16 @@ public class LockServiceImpl implements LockService {
 
         return lockedFundingRecords;
     }
+
+    /**
+     * Sets the budgetConstructionPositionService attribute value.
+     * 
+     * @param budgetConstructionPositionService The budgetConstructionPositionService to set.
+     */
+    public void setBudgetConstructionPositionService(BudgetConstructionPositionService budgetConstructionPositionService) {
+        this.budgetConstructionPositionService = budgetConstructionPositionService;
+    }
+
     
     /**
      * 

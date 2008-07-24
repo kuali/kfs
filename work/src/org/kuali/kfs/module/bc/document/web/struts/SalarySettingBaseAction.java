@@ -74,12 +74,12 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         // SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
 
         BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
-        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
-        
+        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;       
         salarySettingForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
-        boolean isSuccessfullyProcessed = salarySettingForm.postProcessBCAFLines();
         
+        boolean isSuccessfullyProcessed = salarySettingForm.postProcessBCAFLines();        
         if(!isSuccessfullyProcessed) {
+            //return super.returnToCaller(mapping, form, request, response);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 

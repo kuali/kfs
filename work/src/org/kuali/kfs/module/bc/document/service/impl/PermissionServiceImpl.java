@@ -142,6 +142,7 @@ public class PermissionServiceImpl implements PermissionService {
         catch (Exception e) {
             String errorMessage = String.format("Fail to get organazation review hierachy for %s. ", personUserIdentifier);
             LOG.info(errorMessage + e);
+            e.printStackTrace();
         }
 
         return organazationReview;

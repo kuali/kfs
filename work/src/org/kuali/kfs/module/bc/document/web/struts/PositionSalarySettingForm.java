@@ -45,7 +45,7 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
      * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#createNewAppointmentFundingLine()
      */
     @Override
-    protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
+    public PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine();
 
         appointmentFunding.setPositionNumber(this.getBudgetConstructionPosition().getPositionNumber());

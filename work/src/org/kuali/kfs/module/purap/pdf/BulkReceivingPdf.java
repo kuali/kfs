@@ -127,7 +127,7 @@ public class BulkReceivingPdf extends PurapPdf {
         /**
          * Title
          */
-        cell = new PdfPCell(new Paragraph("BULK RECEIVING", ver_15_normal));
+        cell = new PdfPCell(new Paragraph("RECEIVING TICKET", ver_15_normal));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setBorderWidth(0);
         nestedHeaderTable.addCell(cell);

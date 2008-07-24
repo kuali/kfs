@@ -8,13 +8,10 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 
-/**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
 public class PurchasingAccountsPayableAssetDetail extends PersistableBusinessObjectBase {
 
     private String documentNumber;
-    private Integer lineItemId; 
+    private Integer accountsPayableLineItemIdentifier; 
     private Integer capitalAssetBuilderLineNumber;
     private Long capitalAssetNumber;
     private boolean newAssetIndicator;
@@ -47,20 +44,22 @@ public class PurchasingAccountsPayableAssetDetail extends PersistableBusinessObj
         this.documentNumber = documentNumber;
     }
 
+    
+
     /**
-     * Gets the lineItemId attribute. 
-     * @return Returns the lineItemId.
+     * Gets the accountsPayableLineItemIdentifier attribute. 
+     * @return Returns the accountsPayableLineItemIdentifier.
      */
-    public Integer getLineItemId() {
-        return lineItemId;
+    public Integer getAccountsPayableLineItemIdentifier() {
+        return accountsPayableLineItemIdentifier;
     }
 
     /**
-     * Sets the lineItemId attribute value.
-     * @param lineItemId The lineItemId to set.
+     * Sets the accountsPayableLineItemIdentifier attribute value.
+     * @param accountsPayableLineItemIdentifier The accountsPayableLineItemIdentifier to set.
      */
-    public void setLineItemId(Integer lineItemId) {
-        this.lineItemId = lineItemId;
+    public void setAccountsPayableLineItemIdentifier(Integer accountsPayableLineItemIdentifier) {
+        this.accountsPayableLineItemIdentifier = accountsPayableLineItemIdentifier;
     }
 
     public Integer getCapitalAssetBuilderLineNumber() {
@@ -314,8 +313,8 @@ public class PurchasingAccountsPayableAssetDetail extends PersistableBusinessObj
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	 
 	    m.put("documentNumber", this.documentNumber);
+	    m.put("accountsPayableLineItemIdentifier", this.accountsPayableLineItemIdentifier);
         m.put("capitalAssetBuilderLineNumber", this.capitalAssetBuilderLineNumber);
-        m.put("lineItemId", this.lineItemId);
         m.put("capitalAssetNumber", this.capitalAssetNumber);
         return m;
     }

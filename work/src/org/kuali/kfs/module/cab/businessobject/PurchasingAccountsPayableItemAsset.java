@@ -13,10 +13,10 @@ import org.kuali.kfs.module.cam.businessobject.AssetType;
 public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjectBase {
 
     private String documentNumber;
-    private Integer lineItemId; 
+    private Integer accountsPayableLineItemIdentifier; 
     private Integer capitalAssetBuilderLineNumber;
-    private String lineItemDescription;
-    private Long capitalAssetBuilderQuantity;
+    private String accountsPayableLineItemDescription;
+    private Long accountsPayableItemQuantity;
     private String capitalAssetDescription;
     private String capitalAssetTypeCode;
     private String vendorName;
@@ -45,19 +45,51 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the lineItemId attribute. 
-     * @return Returns the lineItemId.
+     * Gets the accountsPayableLineItemIdentifier attribute. 
+     * @return Returns the accountsPayableLineItemIdentifier.
      */
-    public Integer getLineItemId() {
-        return lineItemId;
+    public Integer getAccountsPayableLineItemIdentifier() {
+        return accountsPayableLineItemIdentifier;
     }
 
     /**
-     * Sets the lineItemId attribute value.
-     * @param lineItemId The lineItemId to set.
+     * Sets the accountsPayableLineItemIdentifier attribute value.
+     * @param accountsPayableLineItemIdentifier The accountsPayableLineItemIdentifier to set.
      */
-    public void setLineItemId(Integer lineItemId) {
-        this.lineItemId = lineItemId;
+    public void setAccountsPayableLineItemIdentifier(Integer accountsPayableLineItemIdentifier) {
+        this.accountsPayableLineItemIdentifier = accountsPayableLineItemIdentifier;
+    }
+
+    /**
+     * Gets the accountsPayableLineItemDescription attribute. 
+     * @return Returns the accountsPayableLineItemDescription.
+     */
+    public String getAccountsPayableLineItemDescription() {
+        return accountsPayableLineItemDescription;
+    }
+
+    /**
+     * Sets the accountsPayableLineItemDescription attribute value.
+     * @param accountsPayableLineItemDescription The accountsPayableLineItemDescription to set.
+     */
+    public void setAccountsPayableLineItemDescription(String accountsPayableLineItemDescription) {
+        this.accountsPayableLineItemDescription = accountsPayableLineItemDescription;
+    }
+
+    /**
+     * Gets the accountsPayableItemQuantity attribute. 
+     * @return Returns the accountsPayableItemQuantity.
+     */
+    public Long getAccountsPayableItemQuantity() {
+        return accountsPayableItemQuantity;
+    }
+
+    /**
+     * Sets the accountsPayableItemQuantity attribute value.
+     * @param accountsPayableItemQuantity The accountsPayableItemQuantity to set.
+     */
+    public void setAccountsPayableItemQuantity(Long accountsPayableItemQuantity) {
+        this.accountsPayableItemQuantity = accountsPayableItemQuantity;
     }
 
     /**
@@ -103,7 +135,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * 
      */
     public Long getCapitalAssetBuilderQuantity() {
-        return capitalAssetBuilderQuantity;
+        return accountsPayableItemQuantity;
     }
 
     /**
@@ -113,7 +145,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * 
      */
     public void setCapitalAssetBuilderQuantity(Long capitalAssetBuilderQuantity) {
-        this.capitalAssetBuilderQuantity = capitalAssetBuilderQuantity;
+        this.accountsPayableItemQuantity = capitalAssetBuilderQuantity;
     }
     
     /**
@@ -243,29 +275,14 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.capitalAssetType = capitalAssetType;
     }
     
-    /**
-     * Gets the purApLineItemDescription attribute. 
-     * @return Returns the purApLineItemDescription.
-     */
-    public String getPurApLineItemDescription() {
-        return lineItemDescription;
-    }
-
-    /**
-     * Sets the purApLineItemDescription attribute value.
-     * @param purApLineItemDescription The purApLineItemDescription to set.
-     */
-    public void setPurApLineItemDescription(String purApLineItemDescription) {
-        this.lineItemDescription = purApLineItemDescription;
-    }
-
+ 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
-        m.put("lineItemId", this.lineItemId);
+        m.put("accountsPayableLineItemIdentifier", this.accountsPayableLineItemIdentifier);
         m.put("capitalAssetBuilderLineNumber", this.capitalAssetBuilderLineNumber);
         return m;
     }

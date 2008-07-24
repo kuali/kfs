@@ -17,9 +17,9 @@
     <property name="attributes" >
       <list>
         <ref bean="PurchasingAccountsPayableItemAsset-documentNumber" />
-        <ref bean="PurchasingAccountsPayableItemAsset-lineItemId" />
+        <ref bean="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier" />
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber" />
-        <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetBuilderQuantity" />
+        <ref bean="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity" />
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetDescription" />
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetTypeCode" />
         <ref bean="PurchasingAccountsPayableItemAsset-vendorName" />
@@ -52,12 +52,12 @@
     <property name="description" value="documentNumber description..." />
   </bean>
   
-  <bean id="PurchasingAccountsPayableItemAsset-lineItemId" parent="PurchasingAccountsPayableItemAsset-lineItemId-parentBean" />
+  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier" parent="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier-parentBean" />
 
-  <bean id="PurchasingAccountsPayableItemAsset-lineItemId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="lineItemId" />
+  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountsPayableLineItemIdentifier" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Builder Line Number2" />
+    <property name="label" value="Accounts Payable Line Item Identifier" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
@@ -67,8 +67,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="lineItemId" />
-    <property name="description" value="lineItemId description..." />
+    <property name="summary" value="accountsPayableLineItemIdentifier" />
+    <property name="description" value="accountsPayableLineItemIdentifier description..." />
   </bean>
   
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber" parent="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber-parentBean" />
@@ -91,12 +91,12 @@
   </bean>
   
 
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetBuilderQuantity" parent="PurchasingAccountsPayableItemAsset-capitalAssetBuilderQuantity-parentBean" />
+  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity" parent="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean" />
 
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetBuilderQuantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetBuilderQuantity" />
+  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountsPayableItemQuantity" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Builder Quantity" />
+    <property name="label" value="Accounts Payable Item Quantity" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
@@ -106,8 +106,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="capitalAssetBuilderQuantity" />
-    <property name="description" value="capitalAssetBuilderQuantity description..." />
+    <property name="summary" value="accountsPayableItemQuantity" />
+    <property name="description" value="accountsPayableItemQuantity description..." />
   </bean>
 
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetDescription" parent="PurchasingAccountsPayableItemAsset-capitalAssetDescription-parentBean" />
@@ -240,9 +240,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetBuilderLineNumber" />
 			  <bean parent="FieldDefinition"
-                    p:attributeName="lineItemId" />                    
+                    p:attributeName="accountsPayableLineItemIdentifier" />                    
               <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetBuilderQuantity" />
+                    p:attributeName="accountsPayableItemQuantity" />
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetDescription" />
               <bean parent="FieldDefinition"
@@ -279,11 +279,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="lineItemId" />
+              p:attributeName="accountsPayableLineItemIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetBuilderLineNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetBuilderQuantity" />
+              p:attributeName="accountsPayableItemQuantity" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetDescription" />
         <bean parent="FieldDefinition"
@@ -303,11 +303,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
 		<bean parent="FieldDefinition"
-              p:attributeName="lineItemId" />              
+              p:attributeName="accountsPayableLineItemIdentifier" />              
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetBuilderLineNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetBuilderQuantity" />
+              p:attributeName="accountsPayableItemQuantity" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetDescription" />
         <bean parent="FieldDefinition"

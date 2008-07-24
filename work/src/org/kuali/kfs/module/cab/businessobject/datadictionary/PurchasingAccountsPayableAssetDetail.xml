@@ -17,7 +17,7 @@
     <property name="attributes" >
       <list>
         <ref bean="PurchasingAccountsPayableAssetDetail-documentNumber" />
-        <ref bean="PurchasingAccountsPayableAssetDetail-lineItemId" />
+        <ref bean="PurchasingAccountsPayableAssetDetail-accountsPayableLineItemIdentifier" />
         <ref bean="PurchasingAccountsPayableAssetDetail-capitalAssetBuilderLineNumber" />
         <ref bean="PurchasingAccountsPayableAssetDetail-capitalAssetNumber" />
         <ref bean="PurchasingAccountsPayableAssetDetail-newAssetIndicator" />
@@ -40,7 +40,7 @@
   <bean id="PurchasingAccountsPayableAssetDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="General Ledger Account Identifier" />
+    <property name="label" value="Document Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
@@ -54,12 +54,12 @@
     <property name="description" value="documentNumber description..." />
   </bean>
   
-  <bean id="PurchasingAccountsPayableAssetDetail-lineItemId" parent="PurchasingAccountsPayableAssetDetail-lineItemId-parentBean" />
+  <bean id="PurchasingAccountsPayableAssetDetail-accountsPayableLineItemIdentifier" parent="PurchasingAccountsPayableAssetDetail-accountsPayableLineItemIdentifier-parentBean" />
 
-  <bean id="PurchasingAccountsPayableAssetDetail-lineItemId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="lineItemId" />
+  <bean id="PurchasingAccountsPayableAssetDetail-accountsPayableLineItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountsPayableLineItemIdentifier" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Builder Line Number2" />
+    <property name="label" value="Accounts Payable Line Item Identifier" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
@@ -69,8 +69,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="lineItemId" />
-    <property name="description" value="lineItemId description..." />
+    <property name="summary" value="accountsPayableLineItemIdentifier" />
+    <property name="description" value="accountsPayableLineItemIdentifier description..." />
   </bean>
 
   <bean id="PurchasingAccountsPayableAssetDetail-capitalAssetBuilderLineNumber" parent="PurchasingAccountsPayableAssetDetail-capitalAssetBuilderLineNumber-parentBean" />
@@ -261,7 +261,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="documentNumber" />
 			  <bean parent="FieldDefinition"
-                    p:attributeName="lineItemId" />                    
+                    p:attributeName="accountsPayableLineItemIdentifier" />                    
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetBuilderLineNumber" />
               <bean parent="FieldDefinition"
@@ -304,7 +304,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
 		<bean parent="FieldDefinition"
-              p:attributeName="lineItemId" />              
+              p:attributeName="accountsPayableLineItemIdentifier" />              
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetBuilderLineNumber" />
         <bean parent="FieldDefinition"
@@ -330,7 +330,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
 		<bean parent="FieldDefinition"
-              p:attributeName="lineItemId" />              
+              p:attributeName="accountsPayableLineItemIdentifier" />              
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetBuilderLineNumber" />
         <bean parent="FieldDefinition"

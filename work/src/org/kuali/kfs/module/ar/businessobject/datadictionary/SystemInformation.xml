@@ -51,6 +51,7 @@
         <ref bean="SystemInformation-organizationRemitToZipCode" />
         <ref bean="SystemInformation-versionNumber" />
         <ref bean="SystemInformation-universityFederalEmployerIdentificationNumber" />
+        <ref bean="SystemInformation-cashControlWorkgroup" />
       </list>
     </property>
 	<property name="relationships" >
@@ -448,6 +449,19 @@
 
   <bean id="SystemInformation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
+  
+  <bean id = "SystemInformation-cashControlWorkgroup" parent="SystemInformation-cashControlWorkgroup-parentBean" />
+  
+  <bean id="SystemInformation-cashControlWorkgroup-parentBean" abstract="true" parent="AttributeDefinition" >
+  	<property name="name" value="cashControlWorkgroup" />
+    <property name="label" value="Cash Control Workgroup" />
+    <property name="shortLabel" value="Cash Wrkgrp" />
+    <property name="maxLength" value="70" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="70" />
+    </property>
+  </bean>  
 
 <!-- Business Object Inquiry Definition -->
 

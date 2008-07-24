@@ -636,6 +636,8 @@
               <bean parent="FieldDefinition"
                     p:attributeName="agencyFuture3Amount" />
               <bean parent="FieldDefinition"
+                    p:attributeName="proposal.grantNumber" />
+              <bean parent="FieldDefinition"
                     p:attributeName="grantDescriptionCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="awardAddendumNumber" />

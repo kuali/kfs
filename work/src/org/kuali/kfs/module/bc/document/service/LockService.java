@@ -310,4 +310,14 @@ public interface LockService {
      * @throws BudgetConstructionLockUnavailableException
      */
     public List<PendingBudgetConstructionAppointmentFunding> lockPendingBudgetConstructionAppointmentFundingRecords(List<PendingBudgetConstructionAppointmentFunding> fundingRecords, UniversalUser user) throws BudgetConstructionLockUnavailableException;
+    
+    /**
+     * Retrives an account lock (@see org.kuali.kfs.module.bc.document.service.LockService#lockAccount(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
+     *      java.lang.String) and commits the lock. Used by the request import process.
+     * 
+     * @param bcHeader
+     * @param personUniversalIdentifier
+     * @return
+     */
+    public BudgetConstructionLockStatus lockAccountAndCommit(BudgetConstructionHeader bcHeader, String personUniversalIdentifier);
 }

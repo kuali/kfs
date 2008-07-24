@@ -676,4 +676,13 @@ public class LockServiceImpl implements LockService {
 
         return lockedFundingRecords;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockAccountAndCommit(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader, java.lang.String)
+     */
+    @Transactional(propagation=Propagation.REQUIRES_NEW)
+    public BudgetConstructionLockStatus lockAccountAndCommit(BudgetConstructionHeader bcHeader, String personUniversalIdentifier) {
+        return lockAccount(bcHeader, personUniversalIdentifier);
+    }
 }

@@ -323,7 +323,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 }
 
                 if (recordToLoad.getHasAccess()) {
-                    BudgetConstructionLockStatus lockStatus = this.lockService.lockAccount(header, user.getPersonUniversalIdentifier());
+                    BudgetConstructionLockStatus lockStatus = this.lockService.lockAccountAndCommit(header, user.getPersonUniversalIdentifier());
                     if (lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS)) {
                         recordToLoad.setHasLock(true);
                     } else {

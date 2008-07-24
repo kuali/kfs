@@ -37,6 +37,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDocumentRule;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -186,21 +187,11 @@ public class PurchaseOrderDocumentActionAuthorizer {
     public boolean canClose() {
         boolean validForDisplayingCloseButton = false;
         
-        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
-
-            validForDisplayingCloseButton = true;
-            if (purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews() == null || purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews().size() == 0 ) {
-                validForDisplayingCloseButton = false;
-            }
-            else {
-                for (PaymentRequestView preq : purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews()) {
-                    // None of the PREQs against this PO may be in 'In Process' status.
-                    if (StringUtils.equalsIgnoreCase(preq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
-                        return false;
-                    }
-                }
-            }
-        }
+        //Invoke the validation in the business rule class to find out whether
+        //this purchase order is eligible to be closed.
+        PurchaseOrderCloseDocumentRule rule = new PurchaseOrderCloseDocumentRule();
+        validForDisplayingCloseButton = rule.processRouteDocument(purchaseOrder);
+        
         return validForDisplayingCloseButton;
     }
     

@@ -27,6 +27,7 @@
         <ref bean="SystemInformation-creditCardObjectCode" />
         <ref bean="SystemInformation-processingChartOfAccountCode" />
         <ref bean="SystemInformation-processingOrganizationCode" />
+        <ref bean="SystemInformation-processingOrganization.codeAndDescription" />
         <ref bean="SystemInformation-discountObjectCode" />
         <ref bean="SystemInformation-salesTaxAccountNumber" />
         <ref bean="SystemInformation-salesTaxFinancialObjectCode" />
@@ -207,8 +208,8 @@
   <bean id="SystemInformation-processingChartOfAccountCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="processingChartOfAccountCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Processing Chart" />
-    <property name="shortLabel" value="Processing Chart" />
+    <property name="label" value="Processing Chart Code" />
+    <property name="shortLabel" value="Processing Chart Code" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -225,8 +226,8 @@
   <bean id="SystemInformation-processingOrganizationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="processingOrganizationCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Processing Organization" />
-    <property name="shortLabel" value="Processing Organization" />
+    <property name="label" value="Processing Organization Code" />
+    <property name="shortLabel" value="Processing Organization Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -238,6 +239,14 @@
     <property name="summary" value="processingOrganizationCode" />
     <property name="description" value="processingOrganizationCode description..." />
   </bean>
+  
+  <bean id="SystemInformation-processingOrganization.codeAndDescription" parent="SystemInformation-processingOrganization.codeAndDescription-parentBean" />
+  
+  <bean id="SystemInformation-processingOrganization.codeAndDescription-parentBean" abstract="true" parent="Org-codeAndDescription-parentBean">
+  	<property name="name" value="processingOrganization.codeAndDescription" />
+  	<property name="label" value="Processing Organization Code" />
+  </bean>    
+  
   <bean id="SystemInformation-discountObjectCode" parent="SystemInformation-discountObjectCode-parentBean" />
 
   <bean id="SystemInformation-discountObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -461,7 +470,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="processingChartOfAccountCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="processingOrganizationCode" />
+                    p:attributeName="processingOrganization.codeAndDescription" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialDocumentInitiatorIdentifier" />                    
               <bean parent="FieldDefinition"

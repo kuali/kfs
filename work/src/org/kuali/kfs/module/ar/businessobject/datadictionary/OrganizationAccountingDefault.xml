@@ -34,6 +34,7 @@
         <ref bean="OrganizationAccountingDefault-defaultPaymentFinancialObjectCode" />
         <ref bean="OrganizationAccountingDefault-defaultPaymentFinancialSubObjectCode" />
         <ref bean="OrganizationAccountingDefault-organizationCode" />
+        <ref bean="OrganizationAccountingDefault-organization.codeAndDescription" />
         <ref bean="OrganizationAccountingDefault-organizationLateChargeObjectCode" />
         <ref bean="OrganizationAccountingDefault-writeoffChartOfAccountsCode" />
         <ref bean="OrganizationAccountingDefault-writeoffAccountNumber" />
@@ -67,7 +68,7 @@
   <bean id="OrganizationAccountingDefault-chartOfAccountsCode" parent="OrganizationAccountingDefault-chartOfAccountsCode-parentBean" />
 
   <bean id="OrganizationAccountingDefault-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="label" value="Billing Chart" />
+    <property name="label" value="Billing Chart Code" />
   </bean>
   <bean id="OrganizationAccountingDefault-defaultInvoiceAccountNumber" parent="OrganizationAccountingDefault-defaultInvoiceAccountNumber-parentBean" />
 
@@ -194,9 +195,17 @@
   <bean id="OrganizationAccountingDefault-organizationCode" parent="OrganizationAccountingDefault-organizationCode-parentBean" />
 
   <bean id="OrganizationAccountingDefault-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
-    <property name="label" value="Billing Organization" />
+    <property name="label" value="Billing Organization Code" />
     <property name="shortLabel" value="OrgCode" />
   </bean>
+  
+  <bean id="OrganizationAccountingDefault-organization.codeAndDescription" parent="OrganizationAccountingDefault-organization.codeAndDescription-parentBean" />
+  
+  <bean id="OrganizationAccountingDefault-organization.codeAndDescription-parentBean" abstract="true" parent="Org-codeAndDescription-parentBean">
+  	<property name="name" value="organization.codeAndDescription" />
+  	<property name="label" value="Billing Organization Code" />
+  </bean>     
+  
   <bean id="OrganizationAccountingDefault-organizationLateChargeObjectCode" parent="OrganizationAccountingDefault-organizationLateChargeObjectCode-parentBean" />
 
   <bean id="OrganizationAccountingDefault-organizationLateChargeObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
@@ -298,7 +307,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="chartOfAccountsCode" />    
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationCode" />
+                    p:attributeName="organization.codeAndDescription" />
             </list>
           </property>
         </bean>

@@ -20,8 +20,10 @@
         <ref bean="OrganizationOptions-organizationOptionsViewer" />
         <ref bean="OrganizationOptions-chartOfAccountsCode" />
         <ref bean="OrganizationOptions-organizationCode" />
+        <ref bean="OrganizationOptions-organization.codeAndDescription" />
         <ref bean="OrganizationOptions-processingChartOfAccountCode" />
         <ref bean="OrganizationOptions-processingOrganizationCode" />
+        <ref bean="OrganizationOptions-processingOrganization.codeAndDescription" />
         <ref bean="OrganizationOptions-organization800PhoneNumber" />
         <ref bean="OrganizationOptions-organizationCheckPayableToName" />
         <ref bean="OrganizationOptions-organizationFaxNumber" />
@@ -60,11 +62,21 @@
   <bean id="OrganizationOptions-chartOfAccountsCode" parent="OrganizationOptions-chartOfAccountsCode-parentBean" />
 
   <bean id="OrganizationOptions-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="label" value="Billing Chart Code" />
   </bean>
   <bean id="OrganizationOptions-organizationCode" parent="OrganizationOptions-organizationCode-parentBean" />
 
   <bean id="OrganizationOptions-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
+  	<property name="label" value="Billing Organization Code" />
   </bean>
+  
+  <bean id="OrganizationOptions-organization.codeAndDescription" parent="OrganizationOptions-organization.codeAndDescription-parentBean" />
+  
+  <bean id="OrganizationOptions-organization.codeAndDescription-parentBean" abstract="true" parent="Org-codeAndDescription-parentBean">
+  	<property name="name" value="organization.codeAndDescription" />
+  	<property name="label" value="Billing Organization Code" />
+  </bean>
+  
   <bean id="OrganizationOptions-processingChartOfAccountCode" parent="OrganizationOptions-processingChartOfAccountCode-parentBean" />
 
   <bean id="OrganizationOptions-processingChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
@@ -77,6 +89,14 @@
     <property name="name" value="processingOrganizationCode" />
     <property name="label" value="Processing Organization Code" />
   </bean>
+  
+  <bean id="OrganizationOptions-processingOrganization.codeAndDescription" parent="OrganizationOptions-processingOrganization.codeAndDescription-parentBean" />
+  
+  <bean id="OrganizationOptions-processingOrganization.codeAndDescription-parentBean" abstract="true" parent="Org-codeAndDescription-parentBean">
+  	<property name="name" value="processingOrganization.codeAndDescription" />
+  	<property name="label" value="Processing Organization Code" />
+  </bean>  
+  
   <bean id="OrganizationOptions-organization800PhoneNumber" parent="OrganizationOptions-organization800PhoneNumber-parentBean" />
 
   <bean id="OrganizationOptions-organization800PhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -354,11 +374,11 @@
 							<bean parent="FieldDefinition" 
 								p:attributeName="chartOfAccountsCode" />
 							<bean parent="FieldDefinition" 
-								p:attributeName="organizationCode" />
+								p:attributeName="organization.codeAndDescription" />
 							<bean parent="FieldDefinition" 
 								p:attributeName="processingChartOfAccountCode" />
 							<bean parent="FieldDefinition" 
-								p:attributeName="processingOrganizationCode" />
+								p:attributeName="processingOrganization.codeAndDescription" />
 						</list>
 					</property>
 				</bean>
@@ -450,6 +470,8 @@
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
               p:attributeName="processingChartOfAccountCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="processingOrganizationCode" />              
       </list>
     </property>
   </bean>

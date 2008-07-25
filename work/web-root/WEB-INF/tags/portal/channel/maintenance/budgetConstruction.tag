@@ -19,32 +19,32 @@
 <div class="body">
 	<ul class="chan">
 		<li>
-			<portal:portalLink displayTitle="true" title="Calculated Salary Foundation Tracker Override"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTrackerOverride&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		<li>
-			<portal:portalLink displayTitle="true" title="Budget Construction Account Reports"
+			<portal:portalLink displayTitle="true" title="Account Reports"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
-			<portal:portalLink displayTitle="true" title="Budget Construction Organization Reports"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			<portal:portalLink displayTitle="true" title="Appointment Funding Duration"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.BudgetConstructionDuration&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
-			<portal:portalLink displayTitle="true" title="Budget Construction Duration"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.BudgetConstructionDuration&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			<portal:portalLink displayTitle="true" title="Appointment Funding Reason Code"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true" title="Budget Construction Position"
 				url="budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
-			<portal:portalLink displayTitle="true" title="Budget Construction Intended Incumbent"
+			<portal:portalLink displayTitle="true" title="Calculated Salary Foundation Tracker Override"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTrackerOverride&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
+		<li>
+			<portal:portalLink displayTitle="true" title="Intended Incumbent"
 				url="budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
-			<portal:portalLink displayTitle="true" title="Budget Construction Appointment Funding Reason Code"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			<portal:portalLink displayTitle="true" title="Organization Reports"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 	</ul>
 </div>

@@ -27,13 +27,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -41,12 +41,17 @@ import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
+/**
+ * the struts action for the quick salary setting
+ */
 public class QuickSalarySettingAction extends SalarySettingBaseAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuickSalarySettingAction.class);
+
+    private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
@@ -91,9 +96,9 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         parameters.put(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION, "true");
         parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "true");
-        
+
         String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.INTENDED_INCUMBENT, BudgetConstructionIntendedIncumbent.class.getName(), parameters);
-        
+
         return new ActionForward(lookupUrl, true);
     }
 
@@ -115,9 +120,9 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, "true");
         parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "true");
-        
+
         String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.BUDGET_POSITION_LOOKUP, BudgetConstructionPosition.class.getName(), parameters);
-        
+
         return new ActionForward(lookupUrl, true);
     }
 

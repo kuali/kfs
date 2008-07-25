@@ -36,8 +36,8 @@ import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLockStatus;
+import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -50,6 +50,9 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     private PendingBudgetConstructionAppointmentFunding newBCAFLine;
 
+    private List<PendingBudgetConstructionAppointmentFunding> lockedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+    private List<BudgetConstructionPosition> lockedPositions = new ArrayList<BudgetConstructionPosition>();
+
     private boolean addLine;
 
     private String positionNumber;
@@ -58,6 +61,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+    private PermissionService permissionService = SpringContext.getBean(PermissionService.class);
     private LockService lockService = SpringContext.getBean(LockService.class);
 
     /**
@@ -76,6 +80,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
+
+        this.setSingleAccountMode(this.resetSingleAccountModeFlag());
 
         this.populateBCAFLines();
     }
@@ -115,8 +121,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
         String currentUserId = universalUser.getPersonUserIdentifier();
 
-        List<PendingBudgetConstructionAppointmentFunding> lockedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
-        List<BudgetConstructionPosition> lockedPositions = new ArrayList<BudgetConstructionPosition>();
+        SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
@@ -124,24 +129,29 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
                 continue;
             }
 
-            //TODO: give the fine-grained error messages 
-            
-            BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
-            BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position.getPositionNumber(), position.getUniversityFiscalYear(), currentUserId);
-            if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
-                this.releaseLocks(lockedPositions, lockedFundings, universalUser);
-                return false;
-            }
-            lockedPositions.add(position);
+            // TODO: give the fine-grained error messages
 
-            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, this.getSalarySettingFieldsHolder(), this.isBudgetByAccountMode(), this.isSingleAccountMode(), universalUser);
+            // acquire position lock for the current funding line
+            BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
+            if (!lockedPositions.contains(position)) {
+                BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position.getPositionNumber(), position.getUniversityFiscalYear(), currentUserId);
+                if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
+                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
+                    this.releaseLocks(lockedPositions, lockedFundings, universalUser);
+                    return false;
+                }
+                lockedPositions.add(position);
+            }
+
+            // update the access flags of the current funding line
+            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.isSingleAccountMode(), universalUser);
             if (!updated) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
                 this.releaseLocks(lockedPositions, lockedFundings, universalUser);
                 return false;
             }
 
+            // acquire funding lock for the current funding line
             BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
             BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(header, currentUserId);
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
@@ -151,6 +161,9 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             }
             lockedFundings.add(appointmentFunding);
         }
+        
+        LOG.info("position locks: " + lockedPositions.size() + " : " + lockedPositions);
+        LOG.info("Funding  locks: " + lockedFundings.size() + " : " + lockedFundings);
 
         return true;
     }
@@ -282,10 +295,27 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     }
 
     /**
+     * Gets the lockedFundings attribute.
+     * 
+     * @return Returns the lockedFundings.
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> getLockedFundings() {
+        return lockedFundings;
+    }
+
+    /**
+     * Gets the lockedPositions attribute.
+     * 
+     * @return Returns the lockedPositions.
+     */
+    public List<BudgetConstructionPosition> getLockedPositions() {
+        return lockedPositions;
+    }
+
+    /**
      * determine whether the editing mode for detail salary setting is in single account mode or not
      */
     private boolean resetSingleAccountModeFlag() {
-        PermissionService permissionService = SpringContext.getBean(PermissionService.class);
         UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
 
         if (this.isBudgetByAccountMode()) {

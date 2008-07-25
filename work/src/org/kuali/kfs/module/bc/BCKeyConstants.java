@@ -131,5 +131,8 @@ public class BCKeyConstants {
     public static final String ERROR_FAIL_TO_LOCK_POSITION = "error.budget.failToLockPosition";
     public static final String ERROR_FAIL_TO_LOCK_FUNDING = "error.budget.failToLockFunding";
     public static final String ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS = "error.budget.failToUpdateFundingAccess";
+    
+    public static final String ERROR_INCUMBENT_NOT_FOUND = "error.budget.incumbentNotFound";
+    public static final String ERROR_POSITION_NOT_FOUND = "error.budget.positionNotFound";
 }
 

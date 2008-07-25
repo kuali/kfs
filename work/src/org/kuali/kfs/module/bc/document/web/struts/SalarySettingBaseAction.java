@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.KualiModule;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
@@ -36,7 +34,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -49,9 +46,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingBaseAction.class);
 
-    protected SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
-    protected BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-    protected KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+    private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+    private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    private KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
     /**
      * loads the data for the expansion screen based on the passed in url parameters
@@ -63,23 +60,15 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.execute(mapping, form, request, response);
-
-        // TODO should not need to handle optimistic lock exception here (like KualiDocumentActionBase)
-        // since BC sets locks up front, but need to verify this
-
-        // TODO should probably use service locator and call
-        // DocumentAuthorizer documentAuthorizer =
-        // SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
-
-        BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
-        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;       
-        salarySettingForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
+        salarySettingForm.populateAuthorizationFields(new BudgetConstructionDocumentAuthorizer());
         
-        boolean isSuccessfullyProcessed = salarySettingForm.postProcessBCAFLines();        
-        if(!isSuccessfullyProcessed) {
-            //return super.returnToCaller(mapping, form, request, response);
+        ActionForward forward = super.execute(mapping, form, request, response);
+        
+        boolean isSuccessfullyProcessed = salarySettingForm.postProcessBCAFLines();
+        if (!isSuccessfullyProcessed) {
+            // return super.returnToCaller(mapping, form, request, response);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -221,7 +210,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             appointmentFunding.setAdjustmentAmount(adjustmentAmount);
             appointmentFunding.setAdjustmentMeasurement(adjustmentMeasurement);
-            
+
             this.adjustSalary(appointmentFunding);
         }
 
@@ -247,7 +236,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         if (appointmentFunding.getEffectiveCSFTracker() == null || appointmentFunding.isAppointmentFundingDeleteIndicator()) {
             return;
         }
-        
+
         String adjustmentMeasurement = appointmentFunding.getAdjustmentMeasurement();
         if (BCConstants.SalaryAdjustmentMeasurement.PERCENT.measurement.equals(adjustmentMeasurement)) {
             salarySettingService.adjustRequestedSalaryByPercent(appointmentFunding);

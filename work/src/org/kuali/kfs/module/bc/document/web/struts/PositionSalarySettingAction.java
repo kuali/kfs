@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,18 +24,26 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
+/**
+ * the struts action for the salary setting for position
+ */
 public class PositionSalarySettingAction extends DetailSalarySettingAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingAction.class);
 
+    private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    private BudgetConstructionPositionService budgetConstructionPositionService = SpringContext.getBean(BudgetConstructionPositionService.class);
+
     /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#loadExpansionScreen(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#loadExpansionScreen(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -44,21 +51,26 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
 
         Map<String, Object> fieldValues = positionSalarySettingForm.getKeyMapOfSalarySettingItem();
         BudgetConstructionPosition budgetConstructionPosition = (BudgetConstructionPosition) businessObjectService.findByPrimaryKey(BudgetConstructionPosition.class, fieldValues);
-        
+
         if (budgetConstructionPosition == null) {
-            // TODO this is an RI error need to report it
+            String positionNumber = (String) fieldValues.get(KFSPropertyConstants.POSITION_NUMBER);
+            String fiscalYear = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_POSITION_NOT_FOUND, positionNumber, fiscalYear);
+
+            return this.returnToCaller(mapping, form, request, response);
         }
-        
+
         if (positionSalarySettingForm.isRefreshPositionBeforeSalarySetting()) {
-            SpringContext.getBean(BudgetConstructionPositionService.class).refreshPositionFromExternal(positionSalarySettingForm.getUniversityFiscalYear(), positionSalarySettingForm.getPositionNumber());
+            budgetConstructionPositionService.refreshPositionFromExternal(positionSalarySettingForm.getUniversityFiscalYear(), positionSalarySettingForm.getPositionNumber());
         }
 
         positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);
-        if(positionSalarySettingForm.isSingleAccountMode()) {
-            // TODO: Single account mode constrains the funding lines displayed to only those that are associated with the document the user has open.
+        if (positionSalarySettingForm.isSingleAccountMode()) {
+            // TODO: Single account mode constrains the funding lines displayed to only those that are associated with the document
+            // the user has open.
         }
-        
-        positionSalarySettingForm.populateBCAFLines();        
+
+        positionSalarySettingForm.populateBCAFLines();
         positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

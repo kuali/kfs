@@ -344,7 +344,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         Criteria criteriaB = new Criteria();
         Criteria criteriaC = new Criteria();
 
-        criteria.addEqualTo(CamsPropertyConstants.AssetPayment.ORIGINATION_CODE, CamsConstants.Depreciation.DEPRECIATION_ORIGINATION_CODE);
+        criteria.addEqualTo(CamsPropertyConstants.AssetPayment.ORIGINATION_CODE, KFSConstants.ORIGIN_CODE_KUALI); // should be 01
 
         // Begin ************
         criteriaB = new Criteria();

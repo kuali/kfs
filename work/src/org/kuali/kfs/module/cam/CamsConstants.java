@@ -86,7 +86,7 @@ public class CamsConstants extends JSTLConstants {
     }
 
     public static class Depreciation {
-        public static final String DEPRECIATION_ORIGINATION_CODE = "01"; // 01 -> Transaction Processing
+       // public static final String DEPRECIATION_ORIGINATION_CODE = "01"; // 01 -> Transaction Processing
         public static final String TRANSACTION_DESCRIPTION = "Batch Depreciation Asset ";
         public static final String DOCUMENT_DESCRIPTION = "Batch Depreciation Entry";
         public static final String REPORT_FILE_NAME = "DEPRECIATION_REPORT";

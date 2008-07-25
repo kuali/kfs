@@ -71,7 +71,7 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="financialDocumentInitiator"
               p:activeIndicatorAttributeName="activeForAnyModule"
-              p:attributeToHighlightOnFail="financialDocumentInitiator.personUserIdentifier" />              
+              p:attributeToHighlightOnFail="financialDocumentInitiator.personUserIdentifier" />                
       </list>
     </property>
     <property name="lockingKeys" >
@@ -115,7 +115,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="universityFiscalYear"
-              p:required="true"/>
+              p:required="true"/>         
         <bean parent="MaintainableFieldDefinition"
               p:name="universityFederalEmployerIdentificationNumber"
               p:required="true" />              
@@ -137,6 +137,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="lockboxNumber"
               p:required="true"  />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cashControlWorkgroup"/>                   
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />	
       </list>

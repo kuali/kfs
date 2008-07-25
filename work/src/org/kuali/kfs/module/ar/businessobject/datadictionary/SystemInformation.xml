@@ -454,14 +454,17 @@
   
   <bean id="SystemInformation-cashControlWorkgroup-parentBean" abstract="true" parent="AttributeDefinition" >
   	<property name="name" value="cashControlWorkgroup" />
-    <property name="label" value="Cash Control Workgroup" />
-    <property name="shortLabel" value="Cash Wrkgrp" />
+    <property name="label" value="Lockbox Workgroup" />
+    <property name="shortLabel" value="Lockbox Wrkgrp" />
     <property name="maxLength" value="70" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="70" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern"
+            p:allowUnderscore="true" />
     </property>
-  </bean>  
+    <property name="control" >
+      <bean parent="WorkflowWorkgroupControlDefinition" />
+    </property>
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -488,7 +491,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="financialDocumentInitiatorIdentifier" />                    
               <bean parent="FieldDefinition"
-                    p:attributeName="lockboxNumber" />
+                    p:attributeName="lockboxNumber" />        	  
+			  <bean parent="FieldDefinition"
+        	  		p:attributeName="cashControlWorkgroup" />                        
              </list>
           </property>
         </bean>                     
@@ -588,7 +593,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="processingOrganizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="lockboxNumber" />
+              p:attributeName="lockboxNumber" /> 	  
       </list>
     </property>
     <property name="resultFields" >

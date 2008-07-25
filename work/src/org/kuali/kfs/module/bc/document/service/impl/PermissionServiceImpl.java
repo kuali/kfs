@@ -65,39 +65,6 @@ public class PermissionServiceImpl implements PermissionService {
     private static final String ORG_REVIEW_RULE_ORG_CODE_NAME = "org_cd";
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrgReview(java.lang.String)
-     */
-    public List<Org> getOrgReview(String personUserIdentifier) throws Exception {
-        List<Org> orgReview = new ArrayList<Org>();
-
-        RuleReportCriteriaVO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(personUserIdentifier);
-        RuleVO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
-
-        for (RuleVO ruleVO : rules) {
-            String organizationCode = null;
-            String chartOfAccounts = null;
-
-            RuleExtensionVO[] ruleExtensionVOs = ruleVO.getRuleExtensions();
-            for (RuleExtensionVO extensionVO : ruleExtensionVOs) {
-                if (ORG_REVIEW_RULE_CHART_CODE_NAME.equals(extensionVO.getKey())) {
-                    chartOfAccounts = extensionVO.getValue();
-                }
-                else if (ORG_REVIEW_RULE_ORG_CODE_NAME.equals(extensionVO.getKey())) {
-                    organizationCode = extensionVO.getValue();
-                }
-            }
-
-            if (chartOfAccounts != null && organizationCode != null) {
-                Org org = organizationService.getByPrimaryId(chartOfAccounts, organizationCode);
-                if (org != null && !orgReview.contains(org)) {
-                    orgReview.add(org);
-                }
-            }
-        }
-        return orgReview;
-    }
-
-    /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrgReview(org.kuali.core.bo.user.UniversalUser)
      */
     public List<Org> getOrgReview(UniversalUser universalUser) throws Exception {
@@ -186,6 +153,42 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         return countOfAccountDelegate > 0;
+    }
+
+    /**
+     * collect the list of organizations where the user is a BC document approver
+     * 
+     * @param personUserIdentifier the specified person user identifier
+     * @return the list of organizations where the user is a BC document approver
+     */
+    private List<Org> getOrgReview(String personUserIdentifier) throws Exception {
+        List<Org> orgReview = new ArrayList<Org>();
+
+        RuleReportCriteriaVO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(personUserIdentifier);
+        RuleVO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
+
+        for (RuleVO ruleVO : rules) {
+            String organizationCode = null;
+            String chartOfAccounts = null;
+
+            RuleExtensionVO[] ruleExtensionVOs = ruleVO.getRuleExtensions();
+            for (RuleExtensionVO extensionVO : ruleExtensionVOs) {
+                if (ORG_REVIEW_RULE_CHART_CODE_NAME.equals(extensionVO.getKey())) {
+                    chartOfAccounts = extensionVO.getValue();
+                }
+                else if (ORG_REVIEW_RULE_ORG_CODE_NAME.equals(extensionVO.getKey())) {
+                    organizationCode = extensionVO.getValue();
+                }
+            }
+
+            if (chartOfAccounts != null && organizationCode != null) {
+                Org org = organizationService.getByPrimaryId(chartOfAccounts, organizationCode);
+                if (org != null && !orgReview.contains(org)) {
+                    orgReview.add(org);
+                }
+            }
+        }
+        return orgReview;
     }
 
     /**

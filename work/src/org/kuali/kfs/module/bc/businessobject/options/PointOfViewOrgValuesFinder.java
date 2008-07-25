@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
@@ -38,8 +39,9 @@ public class PointOfViewOrgValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
+        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
         try {
-            List<Org> pointOfViewOrgs = permissionService.getOrgReview(GlobalVariables.getUserSession().getNetworkId());
+            List<Org> pointOfViewOrgs = permissionService.getOrgReview(universalUser);
             pointOfViewOrgKeyLabels = new ArrayList();
             pointOfViewOrgKeyLabels.add(new KeyLabelPair("", ""));
             for (Iterator iter = pointOfViewOrgs.iterator(); iter.hasNext();) {

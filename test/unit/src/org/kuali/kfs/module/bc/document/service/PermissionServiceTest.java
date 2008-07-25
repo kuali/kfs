@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.DFOGLE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.HSOUCY;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.util.List;
@@ -43,7 +44,6 @@ public class PermissionServiceTest extends KualiTestBase {
         super.setUp();
         orgs = null;
         permissionService = SpringContext.getBean(PermissionService.class);
-
     }
 
     /**
@@ -59,14 +59,14 @@ public class PermissionServiceTest extends KualiTestBase {
         if (!runTests())
             return;
 
-        orgs = permissionService.getOrgReview(KHUNTLEY.name());
+        orgs = permissionService.getOrgReview(KHUNTLEY.getUniversalUser());
         assertEquals("Number of BC Approval Organizations returned is incorrect.", 1, orgs.size());
         if (orgs.size() == 1) {
             assertEquals("IU", orgs.get(0).getChartOfAccountsCode());
             assertEquals("UNIV", orgs.get(0).getOrganizationCode());
         }
         orgs = null;
-        orgs = permissionService.getOrgReview("hsoucy");
+        orgs = permissionService.getOrgReview(HSOUCY.getUniversalUser());
         assertEquals("Number of BC Approval Organizations returned is incorrect.", 2, orgs.size());
 
     }

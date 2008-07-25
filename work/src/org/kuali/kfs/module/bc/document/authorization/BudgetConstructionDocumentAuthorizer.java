@@ -127,8 +127,9 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
         Map editModeMap = new HashMap();
 
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
+        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
         try {
-            List<Org> pointOfViewOrgs = permissionService.getOrgReview(GlobalVariables.getUserSession().getNetworkId());
+            List<Org> pointOfViewOrgs = permissionService.getOrgReview(universalUser);
             if (pointOfViewOrgs.isEmpty()) {
                 // GlobalVariables.getErrorMap().putError("pointOfViewOrg","error.budget.userNotOrgApprover");
                 String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
@@ -145,7 +146,7 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
             // TODO for now just return unviewable
             // really should report the exception in some soft way - maybe another EditMode value
 
-            LOG.error("Could not get list of pointOfViewOrgs from permissionService.getOrgReview() for: "+GlobalVariables.getUserSession().getNetworkId(),e);
+            LOG.error("Could not get list of pointOfViewOrgs from permissionService.getOrgReview() for: " + universalUser, e);
             String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
             editModeMap.put(editMode, "TRUE");
         }

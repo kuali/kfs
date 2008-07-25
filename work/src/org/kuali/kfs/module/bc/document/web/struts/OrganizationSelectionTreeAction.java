@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.authorization.AuthorizationType;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
@@ -65,6 +66,8 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSelectionTreeAction.class);
+    
+    private PermissionService permissionService = SpringContext.getBean(PermissionService.class);
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
@@ -78,16 +81,16 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), adHocAuthorizationType, getKualiModuleService().getResponsibleModule(((KualiForm) form).getClass()));
         }
 
-        PermissionService permissionService = SpringContext.getBean(PermissionService.class);
+        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
         try {
-            List<Org> pointOfViewOrgs = permissionService.getOrgReview(GlobalVariables.getUserSession().getNetworkId());
+            List<Org> pointOfViewOrgs = permissionService.getOrgReview(universalUser);
             if (pointOfViewOrgs.isEmpty()) {
                 GlobalVariables.getErrorMap().putError("pointOfViewOrg", "error.budget.userNotOrgApprover");
             }
 
         }
         catch (Exception e) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), this.getClass().getName(), "Can't determine organization approver status.");
+            throw new AuthorizationException(universalUser.getPersonUserIdentifier(), this.getClass().getName(), "Can't determine organization approver status.");
         }
     }
 
@@ -101,9 +104,10 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
      */
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         OrganizationSelectionTreeForm orgSelTreeForm = (OrganizationSelectionTreeForm) form;
+        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
 
         // check if user has only one available point of view. if so, select that point of view and build selection
-        List<Org> pointOfViewOrgs = SpringContext.getBean(PermissionService.class).getOrgReview(GlobalVariables.getUserSession().getNetworkId());
+        List<Org> pointOfViewOrgs = permissionService.getOrgReview(universalUser);
         if (pointOfViewOrgs != null && pointOfViewOrgs.size() == 1) {
             orgSelTreeForm.setCurrentPointOfViewKeyCode(pointOfViewOrgs.get(0).getChartOfAccountsCode() + "-" + pointOfViewOrgs.get(0).getOrganizationCode());
 

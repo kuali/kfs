@@ -37,14 +37,6 @@ import org.kuali.kfs.coa.businessobject.Org;
 public interface PermissionService {
 
     /**
-     * collect the list of organizations where the user is a BC document approver
-     * 
-     * @param personUserIdentifier the specified person user identifier
-     * @return the list of organizations where the user is a BC document approver
-     */
-    public List<Org> getOrgReview(String personUserIdentifier) throws Exception;
-
-    /**
      * get a list of organizations where the user is a BC document approver
      * 
      * @param universalUser the specified user

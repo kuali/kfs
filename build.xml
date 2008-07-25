@@ -178,10 +178,6 @@
 		<delete failonerror="false">
 			<fileset dir="${appserver.deploy.dir}" includes="${ant.project.name}-*.war,${ant.project.name}-*/**" />
 		</delete>
-		<!-- commenting out cause it cause things are already slow and this makes them slower
-		<delete failonerror="false" includeemptydirs="true">
-			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**" />
-		</delete> -->
 	</target>
 
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-properties">
@@ -199,6 +195,10 @@
 	<target name="filter-project-rice" unless="no.filter.project.rice" depends="init-properties">
 		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
 		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
+		<delete failonerror="false" includeemptydirs="true">
+			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**/kr/**/*" />
+			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**/en/**/*" />
+		</delete>
 	</target>
 	
   	<target name="filter-project-spring-ide" unless="no.filter.project.spring.ide" depends="init-properties">

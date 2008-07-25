@@ -30,9 +30,12 @@
     <html:hidden name="KualiForm" property="universityFiscalYear" />
 	<kul:tabTop tabTitle="Payrate Import/Export" defaultOpen="true">
 		<div class="tab-container" align=center>
-			<h3>Payrate Export</h3>
-			<table bgcolor="#C0C0C0" cellpadding="30" >
-				<tr>
+			<table bgcolor="#C0C0C0" >
+			<tr>
+					<td width="90%" colspan="2"><h3>Payrate Export</h3></td>
+					<td width="10%" ><h3>Action</h3></td>
+				</tr>
+				<tr >
 					<td> 
 						<b>
 								<kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.positionUnionCode}" /></b>
@@ -41,13 +44,11 @@
 								lookupParameters="positionUnionCode:positionUnionCode" /> 
 								<kul:htmlControlAttribute property="positionUnionCode" readOnly="false" attributeEntry="${payrateImportExportAttributes.positionUnionCode}"/>
 					</td> 
-					<td> 
+					<td > 
 						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.csfFreezeDate}" /></b>
 						<kul:htmlControlAttribute property="csfFreezeDate" readOnly="false" attributeEntry="${payrateImportExportAttributes.csfFreezeDate}" datePicker="true" />
 					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
+					<td >
 						<div align="center">
 							<html:image property="methodToCall.performExport" src="kr/static/images/buttonsmall_submit.gif"  title="Export" alt="Export" styleClass="tinybutton" /> &nbsp;&nbsp;&nbsp;
 						</div>
@@ -57,18 +58,25 @@
 		</div>
 		<div class="tab-container" align=center>
 			<table bgcolor="#C0C0C0" cellpadding="30" >
-				<tr><h3>Payrate Import</h3></tr>
 				<tr>
+					<td width="90%"><h3>Payrate Import</h3></td>
+					<td width="10%"><h3>Action</h3></td>
+				</tr>
+				
+				<tr >
 					<td> 
 						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.fileName}" /></b>
 						<html:file property="file" />
 					</td> 
+					<td colspan="2">
+						<div align="center">
+							<html:image property="methodToCall.performImport" src="kr/static/images/buttonsmall_submit.gif"  title="Import" alt="Import" styleClass="tinybutton" /> &nbsp;&nbsp;&nbsp;
+						</div>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="3">
 						<div align="center">
-							<html:image property="methodToCall.performImport" src="kr/static/images/buttonsmall_submit.gif"  title="Import" alt="Import" styleClass="tinybutton" /> &nbsp;&nbsp;&nbsp;
-						
 							<html:image property="methodToCall.close" src="kr/static/images/buttonsmall_close.gif"  title="Import" alt="Import" styleClass="tinybutton" /> &nbsp;&nbsp;&nbsp;
 						</div>
 					</td>

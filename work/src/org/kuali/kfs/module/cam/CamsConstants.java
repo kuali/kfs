@@ -253,5 +253,6 @@ public class CamsConstants extends JSTLConstants {
         public static final String LINE_DESCRIPTION_PAYMENT_OFFSET = "Payment Offset";
         public static final String LINE_DESCRIPTION_CAPITALIZATION = "Capitalization";
         public static final String LINE_DESCRIPTION_CAPITALIZATION_OFFSET = "Capitalization Offset";
+        public static final String SECTION_ASSET_INFORMATION = "Asset Information";
     }
 }

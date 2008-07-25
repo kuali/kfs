@@ -5,12 +5,12 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="AssetGlobalMaintenanceDocument" parent="AssetGlobalMaintenanceDocument-parentBean" />
-
   <bean id="AssetGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetGlobal" />
     <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetGlobalMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
+      	<ref bean="AssetGlobalMaintenanceDocument-AssetInformation" />
         <ref bean="AssetGlobalMaintenanceDocument-AssetDetailInformation" />
         <ref bean="AssetGlobalMaintenanceDocument-CampusLocation" />
         <ref bean="AssetGlobalMaintenanceDocument-AddPayments" />
@@ -74,9 +74,21 @@
 
 <!-- Maintenance Section Definitions -->
 
+  <bean id="AssetGlobalMaintenanceDocument-AssetInformation" parent="AssetGlobalMaintenanceDocument-AssetInformation-parentBean" />
+  <bean id="AssetGlobalMaintenanceDocument-AssetInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Asset Information" />
+    <property name="title" value="Asset Information" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="separateSourceCapitalAsset.capitalAssetNumber"
+              p:readOnly="true" />
+      </list>
+    </property>
+  </bean>
+
 
   <bean id="AssetGlobalMaintenanceDocument-AssetDetailInformation" parent="AssetGlobalMaintenanceDocument-AssetDetailInformation-parentBean" />
-
   <bean id="AssetGlobalMaintenanceDocument-AssetDetailInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Asset Detail Information" />
     <property name="title" value="Asset Detail Information" />
@@ -160,8 +172,8 @@
       </list>
     </property>
   </bean>
+  
   <bean id="AssetGlobalMaintenanceDocument-CampusLocation" parent="AssetGlobalMaintenanceDocument-CampusLocation-parentBean" />
-
   <bean id="AssetGlobalMaintenanceDocument-CampusLocation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Location Information" />
     <property name="title" value="Location" />
@@ -264,8 +276,7 @@
                 <property name="summaryFields" >
                   <list>
                     <bean parent="MaintainableFieldDefinition"
-                          p:name="capitalAssetNumber" 
-                          />
+                          p:name="capitalAssetNumber" />
                   </list>
                 </property>
                 <property name="maintainableFields" >
@@ -305,8 +316,8 @@
       </list>
     </property>
   </bean>
+  
   <bean id="AssetGlobalMaintenanceDocument-AddPayments" parent="AssetGlobalMaintenanceDocument-AddPayments-parentBean" />
-
   <bean id="AssetGlobalMaintenanceDocument-AddPayments-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Add Payments" />
     <property name="title" value="Add Payments" />
@@ -315,6 +326,7 @@
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="assetPaymentDetails" />
           <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" />
+          <!-- <property name="includeAddLine" value="false" /> -->
           <property name="summaryTitle" value="Asset Payment" />
           <property name="summaryFields" >
             <list>
@@ -387,7 +399,7 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="newCollectionRecord" />      
+                    p:name="newCollectionRecord" />
             </list>
           </property>
         </bean>

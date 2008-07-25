@@ -400,4 +400,16 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         return isGLPostable;
     }
 
+    /**
+     * Validates if the document type is that of Asset Separate.
+     * 
+     * @param assetGlobal
+     * @return boolean
+     */
+    public boolean isAssetSeparateDocument(AssetGlobal assetGlobal){
+        if (ObjectUtils.isNotNull(assetGlobal.getFinancialDocumentTypeCode()) && assetGlobal.getFinancialDocumentTypeCode().equals(CamsConstants.DocumentTypeCodes.ASSET_SEPARATE)) {
+            return true;
+        }
+        return false;
+    }
 }

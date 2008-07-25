@@ -11,6 +11,7 @@
     <property name="objectLabel" value="Asset Global" />
     <property name="attributes" >
       <list>
+        <ref bean="AssetGlobal-separateSourceCapitalAsset.capitalAssetNumber" />
         <ref bean="AssetGlobal-organizationOwnerChartOfAccountsCode" />
         <ref bean="AssetGlobal-organizationOwnerAccountNumber" />
         <ref bean="AssetGlobal-organizationOwnerAccount.organizationCode" />
@@ -67,16 +68,18 @@
   </bean>
 
 <!-- Attribute Definitions -->
-
+  <bean id="AssetGlobal-separateSourceCapitalAsset.capitalAssetNumber" parent="AssetGlobal-separateSourceCapitalAsset.capitalAssetNumber-parentBean" />
+  <bean id="AssetGlobal-separateSourceCapitalAsset.capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
+    <property name="name" value="separateSourceCapitalAsset.capitalAssetNumber" />
+  </bean>
 
   <bean id="AssetGlobal-organizationOwnerChartOfAccountsCode" parent="AssetGlobal-organizationOwnerChartOfAccountsCode-parentBean" />
 
-  <bean id="AssetGlobal-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Asset-organizationOwnerChartOfAccountsCode">
-  </bean>
+  <bean id="AssetGlobal-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Asset-organizationOwnerChartOfAccountsCode" />
+  
   <bean id="AssetGlobal-organizationOwnerAccountNumber" parent="AssetGlobal-organizationOwnerAccountNumber-parentBean" />
 
-  <bean id="AssetGlobal-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Asset-organizationOwnerAccountNumber">
-  </bean>
+  <bean id="AssetGlobal-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Asset-organizationOwnerAccountNumber" />
 
   <bean id="AssetGlobal-organizationOwnerAccount.organizationCode" parent="AssetGlobal-organizationOwnerAccount.organizationCode-parentBean" />
   <bean id="AssetGlobal-organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
@@ -87,20 +90,20 @@
 
   <bean id="AssetGlobal-agencyNumber" parent="AssetGlobal-agencyNumber-parentBean" />
 
-  <bean id="AssetGlobal-agencyNumber-parentBean" abstract="true" parent="Asset-agencyNumber">
-  </bean>
+  <bean id="AssetGlobal-agencyNumber-parentBean" abstract="true" parent="Asset-agencyNumber" />
+
    <bean id="AssetGlobal-versionNumber" parent="AssetGlobal-versionNumber-parentBean" />
 
-  <bean id="AssetGlobal-versionNumber-parentBean" abstract="true" parent="Asset-versionNumber">
-  </bean>
+  <bean id="AssetGlobal-versionNumber-parentBean" abstract="true" parent="Asset-versionNumber" />
+
   <bean id="AssetGlobal-acquisitionTypeCode" parent="AssetGlobal-acquisitionTypeCode-parentBean" />
 
-  <bean id="AssetGlobal-acquisitionTypeCode-parentBean" abstract="true" parent="Asset-acquisitionTypeCode">
-  </bean>
+  <bean id="AssetGlobal-acquisitionTypeCode-parentBean" abstract="true" parent="Asset-acquisitionTypeCode" />
+
   <bean id="AssetGlobal-inventoryStatusCode" parent="AssetGlobal-inventoryStatusCode-parentBean" />
 
-  <bean id="AssetGlobal-inventoryStatusCode-parentBean" abstract="true" parent="Asset-inventoryStatusCode">
-  </bean>
+  <bean id="AssetGlobal-inventoryStatusCode-parentBean" abstract="true" parent="Asset-inventoryStatusCode" />
+
   <bean id="AssetGlobal-conditionCode" parent="AssetGlobal-conditionCode-parentBean" />
 
   <bean id="AssetGlobal-conditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
@@ -113,8 +116,8 @@
   </bean>
   <bean id="AssetGlobal-capitalAssetDescription" parent="AssetGlobal-capitalAssetDescription-parentBean" />
 
-  <bean id="AssetGlobal-capitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription">
-  </bean>
+  <bean id="AssetGlobal-capitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription" />
+
   <bean id="AssetGlobal-capitalAssetTypeCode" parent="AssetGlobal-capitalAssetTypeCode-parentBean" />
 
   <bean id="AssetGlobal-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetType-capitalAssetTypeCode">
@@ -122,20 +125,20 @@
   </bean>
   <bean id="AssetGlobal-vendorName" parent="AssetGlobal-vendorName-parentBean" />
 
-  <bean id="AssetGlobal-vendorName-parentBean" abstract="true" parent="Asset-vendorName">
-  </bean>
+  <bean id="AssetGlobal-vendorName-parentBean" abstract="true" parent="Asset-vendorName" />
+
   <bean id="AssetGlobal-manufacturerName" parent="AssetGlobal-manufacturerName-parentBean" />
 
-  <bean id="AssetGlobal-manufacturerName-parentBean" abstract="true" parent="Asset-manufacturerName">
-  </bean>
+  <bean id="AssetGlobal-manufacturerName-parentBean" abstract="true" parent="Asset-manufacturerName" />
+
   <bean id="AssetGlobal-manufacturerModelNumber" parent="AssetGlobal-manufacturerModelNumber-parentBean" />
 
-  <bean id="AssetGlobal-manufacturerModelNumber-parentBean" abstract="true" parent="Asset-manufacturerModelNumber">
-  </bean>
+  <bean id="AssetGlobal-manufacturerModelNumber-parentBean" abstract="true" parent="Asset-manufacturerModelNumber" />
+
   <bean id="AssetGlobal-organizationText" parent="AssetGlobal-organizationText-parentBean" />
 
-  <bean id="AssetGlobal-organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText">
-  </bean>
+  <bean id="AssetGlobal-organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText" />
+
   <bean id="AssetGlobal-representativeUniversalIdentifier" parent="AssetGlobal-representativeUniversalIdentifier-parentBean" />
 
   <bean id="AssetGlobal-representativeUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">

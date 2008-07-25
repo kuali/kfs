@@ -67,4 +67,12 @@ public interface AssetGlobalService {
      * @return
      */
     boolean isCapitablObjectCode(ObjectCode objectCode);
+    
+    /**
+     * Validates if the document type matches that of Asset Separate.
+     * 
+     * @param assetGlobal
+     * @return boolean
+     */
+    boolean isAssetSeparateDocument(AssetGlobal assetGlobal);
 }

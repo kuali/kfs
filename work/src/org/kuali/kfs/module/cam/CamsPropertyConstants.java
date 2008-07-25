@@ -72,12 +72,11 @@ public class CamsPropertyConstants {
         public static final String FINANCIAL_OBJECT_SUB_TYP_CODE = "financialObjectSubTypeCode";
         public static final String CONDITION_CODE = "conditionCode";
         public static final String INVENTORY_STATUS_CODE = "inventoryStatusCode";
-        
         public static final String REP_USER_AUTH_ID = "assetRepresentative.personUserIdentifier";
         public static final String LAND_COUNTRY_NAME = "landCountyName";
         public static final String LAND_ACREAGE_SIZE = "landAcreageSize";
         public static final String LAND_PARCEL_NUMBER = "landParcelNumber";
-
+        
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";
             public static final String STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";
@@ -87,7 +86,6 @@ public class CamsPropertyConstants {
             public static final String COUNTRY_CODE = "offCampusLocation.assetLocationCountryCode";
             public static final String VERSION_NUM = "offCampusLocation.versionNumber";
         }
-
     }
 
     public static class AssetObject {
@@ -114,7 +112,6 @@ public class CamsPropertyConstants {
         public static final String FINANCIAL_DOCUMENT_POSTING_YEAR = "financialDocumentPostingYear";
         public static final String FINANCIAL_DOCUMENT_POSTING_PERIOD_CODE = "financialDocumentPostingPeriodCode";
         public static final String ACCOUNT_CHARGE_AMOUNT = "accountChargeAmount";
-
         public static final String PRIMARY_DEPRECIATION_BASE_AMOUNT = "primaryDepreciationBaseAmount";
         public static final String ACCUMULATED_DEPRECIATION_AMOUNT = "accumulatedPrimaryDepreciationAmount";
         public static final String PREVIOUS_YEAR_DEPRECIATION_AMOUNT = "previousYearPrimaryDepreciationAmount";
@@ -133,6 +130,7 @@ public class CamsPropertyConstants {
     }
 
     public static class AssetPaymentDetail {
+        public static final String SEQUENCE_NUMBER = "sequenceNumber";
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String ACCOUNT_NUMBER = "accountNumber";
         public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
@@ -257,16 +255,16 @@ public class CamsPropertyConstants {
     }
 
     public static class AssetGlobal {
-
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
         public static final String ORGANIZATION_OWNER_CHART = "organizationOwnerChartOfAccounts";
-
         public static final String INVENTORY_STATUS_CODE = "inventoryStatusCode";
+        public static final String CAPITAL_ASSET_DESCRIPTION = "capitalAssetDescription";
         public static final String ASSET_SHARED_DETAILS = "assetSharedDetails";
         public static final String ORGANIZATION_OWNER_ACCOUNT_NUMBER = "organizationOwnerAccountNumber";
         public static final String VENDOR_NAME = "vendorName";
         public static final String MFR_NAME = "manufacturerName";
+        public static final String ORGANIZATION_TEXT = "organizationText";
         public static final String ACQUISITION_TYPE_CODE = "acquisitionTypeCode";
         public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS = "organizationOwnerChartOfAccountsCode";
         public static final String ORGANIZATION_OWNER_ACCT_NUMBER = "organizationOwnerAccountNumber";
@@ -275,7 +273,6 @@ public class CamsPropertyConstants {
         public static final String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
         public static final String VERSION_NUMBER = "versionNumber";
         public static final String SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER = "separateSourceCapitalAssetNumber";
-        public static final String ORGANIZATION_TEXT = "organizationText";
         public static final String CAPITAL_ASSET_DEPRECIATION_DATE = "capitalAssetDepreciationDate";
     }
 
@@ -298,7 +295,6 @@ public class CamsPropertyConstants {
         public static final String ASSET_UNIQUE_DETAILS = "assetGlobalUniqueDetails";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String DOCUMENT_NUMBER = "documentNumber";
-
     }
 
     public static class AssetDepreciationConvention {
@@ -327,12 +323,10 @@ public class CamsPropertyConstants {
         public static String BUILDING_ROOM_NUMBER="buildingRoomNumber"; 
         public static String BUILDING_SUBROOM_NUMBER="buildingSubRoomNumber"; 
         public static String ASSET_CONDITION_CODE="assetConditionCode";
-        
         public static String CAMPUS_REFERENCE="campus";
         public static String BUILDING_REFERENCE="building";
         public static String BUILDING_ROOM_REFERENCE="buildingRoom";
         public static String CONDITION_REFERENCE="condition";
-        
         public static final String BARCODE_INVENTORY_DETAIL = "barcodeInventoryErrorDetail";
     }
 }

@@ -723,6 +723,7 @@ public class LockServiceImpl implements LockService {
      * 
      * @param budgetConstructionPositionService The budgetConstructionPositionService to set.
      */
+    @NonTransactional
     public void setBudgetConstructionPositionService(BudgetConstructionPositionService budgetConstructionPositionService) {
         this.budgetConstructionPositionService = budgetConstructionPositionService;
     }

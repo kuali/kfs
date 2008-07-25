@@ -178,18 +178,18 @@
     </property>
     <property name="resultFields" >
       <list>
+      	<bean parent="FieldDefinition"
+              p:attributeName="certificationOrganizations" />
+        <bean parent="FieldDefinition"
+              p:attributeName="employee.personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emplid" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="universityFiscalYear" />
         <bean parent="FieldDefinition"
               p:attributeName="effortCertificationReportNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="certificationOrganizations" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="employee.personName" />
         <bean parent="FieldDefinition"
               p:attributeName="nextApprovers" />
       </list>

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
+import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,6 +34,7 @@ import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -124,8 +126,14 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         }
         
         //Setting the default asset payment row document number.
-        newSourceLine.setExpenditureFinancialDocumentNumber(worflowDocumentNumber);
-        
+        if (newSourceLine.getExpenditureFinancialDocumentNumber() == null || newSourceLine.getExpenditureFinancialDocumentNumber().trim().equals("")) {        
+            newSourceLine.setExpenditureFinancialDocumentNumber(worflowDocumentNumber);
+        }
+
+        //Setting the default asset payment row origination code.
+        if (newSourceLine.getExpenditureFinancialSystemOriginationCode() == null || newSourceLine.getExpenditureFinancialSystemOriginationCode().trim().equals("")) {        
+            newSourceLine.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
+        }        
         return (SourceAccountingLine) newSourceLine;
     }
 
@@ -134,6 +142,19 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
      */
     @Override
     public void populate(HttpServletRequest request) {
+      LOG.info("****************Request Parameters*************");
+      Enumeration paramNames;
+      paramNames = request.getParameterNames();
+      while (paramNames.hasMoreElements()) {
+          String name = (String) paramNames.nextElement();            
+          String[] values = request.getParameterValues(name);
+          
+          for (int x=0;x < values.length;x++)
+              LOG.info("******Request Parameters: "+name +"["+x+"]: "+values[x]);
+                      
+      }
+      LOG.info("**********************************************");                    
+        
         super.populate(request);
         //This would store the latest total cost of the asset into the asset payment document.
         if (this.getAssetPaymentDocument().getAsset() != null) {

@@ -24,6 +24,8 @@ import org.kuali.kfs.module.bc.exception.IncumbentNotFoundException;
 import org.kuali.kfs.module.bc.exception.PositionNotFoundException;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Bootstrap implementation of HumanResourcesPayrollService. Only implements the methods so that Budget will function. Data is not
@@ -39,6 +41,7 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
      * @TODO: This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
      * @see org.kuali.kfs.module.bc.service.HumanResourcesPayrollService#validatePositionUnionCode(java.lang.String)
      */
+    @NonTransactional
     public boolean validatePositionUnionCode(String positionUnionCode) {
         return true;
     }
@@ -47,6 +50,7 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
      * @TODO: This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
      * @see org.kuali.kfs.module.bc.service.HumanResourcesPayrollService#getPosition(java.lang.Integer, java.lang.String)
      */
+    @Transactional
     public Position getPosition(Integer universityFiscalYear, String positionNumber) throws PositionNotFoundException {
         Position position = humanResourcesPayrollDao.getPosition(universityFiscalYear, positionNumber);
 
@@ -61,6 +65,7 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
      * @TODO: This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
      * @see org.kuali.kfs.module.bc.service.HumanResourcesPayrollService#getIncumbent(java.lang.String)
      */
+    @Transactional
     public Incumbent getIncumbent(String emplid) throws IncumbentNotFoundException {
         UniversalUser user = financialSystemUserService.getUniversalUserByPersonPayrollIdentifier(emplid);
 
@@ -80,6 +85,7 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
      * 
      * @param humanResourcesPayrollDao The humanResourcesPayrollDao to set.
      */
+    @NonTransactional
     public void setHumanResourcesPayrollDao(HumanResourcesPayrollDao humanResourcesPayrollDao) {
         this.humanResourcesPayrollDao = humanResourcesPayrollDao;
     }
@@ -89,6 +95,7 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
      * 
      * @param financialSystemUserService The financialSystemUserService to set.
      */
+    @NonTransactional
     public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
         this.financialSystemUserService = financialSystemUserService;
     }

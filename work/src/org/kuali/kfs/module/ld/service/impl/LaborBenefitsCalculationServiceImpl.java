@@ -30,6 +30,7 @@ import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
 import org.kuali.kfs.module.ld.service.LaborPositionObjectBenefitService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,7 +80,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
         KualiDecimal fringeBenefit = KualiDecimal.ZERO;
 
-        if (salaryAmount.isZero() || ObjectUtils.isNull(laborLedgerObject)) {
+        if (salaryAmount == null || salaryAmount.isZero() || ObjectUtils.isNull(laborLedgerObject)) {
             return fringeBenefit;
         }
 
@@ -106,13 +107,13 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
      *      org.kuali.core.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(PositionObjectBenefit positionObjectBenefit, KualiDecimal salaryAmount) {
-        if (salaryAmount.isZero() || ObjectUtils.isNull(positionObjectBenefit)) {
+        if (salaryAmount == null || salaryAmount.isZero() || ObjectUtils.isNull(positionObjectBenefit)) {
             return KualiDecimal.ZERO;
         }
 
         // calculate the benefit amount (ledger amt * (benfit pct/100) )
         KualiDecimal fringeBenefitPercent = positionObjectBenefit.getBenefitsCalculation().getPositionFringeBenefitPercent();
-        return fringeBenefitPercent.multiply(salaryAmount).divide(new KualiDecimal(100));
+        return fringeBenefitPercent.multiply(salaryAmount).divide(KFSConstants.ONE_HUNDRED.kualiDecimalValue());
     }
 
     /**

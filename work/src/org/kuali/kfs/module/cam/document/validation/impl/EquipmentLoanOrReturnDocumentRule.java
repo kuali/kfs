@@ -82,7 +82,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         // validate if both loan return date and expected loan return date are valid
         valid &= validateLoanDate(equipmentLoanOrReturnDocument);
         // validate if borrower id is valid
-        valid &= validBorrowerId(equipmentLoanOrReturnDocument);
+        //valid &= validBorrowerId(equipmentLoanOrReturnDocument);
         // validate if borrower and storage state codes are avlid
         valid &= validStateCode(equipmentLoanOrReturnDocument);
 
@@ -138,15 +138,16 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
      * 
      * @param equipmentLoanOrReturnDocument the equipmentLoanOrReturn document to be validated
      * @return boolean false if the borrower id does not exist.
-     */
+     *
     private boolean validBorrowerId(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
-        boolean valid = true;
+        boolean valid = false;
         if (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerUniversalIdentifier())) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_UNIVERSAL_USER + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ID);
-            valid = false;
+        } else {
+            valid = true;
         }
         return valid;
-    }
+    }*/
 
 
     /**

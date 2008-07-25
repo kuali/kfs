@@ -35,7 +35,7 @@
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <cams:viewAssetDetails defaultTabHide="false" /> 
 
-	<kul:tab tabTitle="Equipment Loan" defaultOpen="true" tabErrorKey="document.borrowerUniversalUser.personUserIdentifier,document.loanDate,document.expectedReturnDate,document.loanReturnDate"> 
+	<kul:tab tabTitle="Equipment Loan" defaultOpen="true" tabErrorKey="document.borrowerUniversalIdentifier,document.borrowerUniversalUser.personUserIdentifier,document.loanDate,document.expectedReturnDate,document.loanReturnDate"> 
 	    <div class="tab-container" align="center">
 	      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 	      	<tr>
@@ -44,7 +44,9 @@
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" /></th>
 		      	<td class="grid" width="25%">
-		      	<kul:checkErrors keyMatch="document.borrowerUniversalUser.personUserIdentifier" />
+		      	
+		      	<!-- kul:checkErrors keyMatch="document.borrowerUniversalUser.personUserIdentifier" / -->
+		      	
 				<kul:user userIdFieldName="document.borrowerUniversalUser.personUserIdentifier" 
 					      userId="${KualiForm.document.borrowerUniversalUser.personUserIdentifier}" 
 				          universalIdFieldName="document.borrowerUniversalIdentifier" 

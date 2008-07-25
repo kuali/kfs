@@ -90,6 +90,18 @@
   <!-- Attribute Definitions -->
 
 
+  <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier" parent="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier-parentBean" />
+  <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="borrowerUniversalIdentifier" />
+    <property name="label" value="Borrower ID" />
+    <property name="shortLabel" value="Borrower ID" />
+    <property name="required" value="true" />
+    <!-- property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property -->
+    <property name="displayLabelAttribute" value="borrowerUniversalUser.personUserIdentifier" />
+ </bean>
+
   <bean id="EquipmentLoanOrReturnDocument-borrowerAddress" parent="EquipmentLoanOrReturnDocument-borrowerAddress-parentBean" />
 
   <bean id="EquipmentLoanOrReturnDocument-borrowerAddress-parentBean" abstract="true" parent="AttributeDefinition">
@@ -469,20 +481,7 @@
     <property name="description" value="signatureCode description..." />
   </bean>
   
-  <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier" parent="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier-parentBean" />
-
-  <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
-    <property name="name" value="borrowerUniversalIdentifier" />
-    <property name="label" value="Borrower ID" />
-    <property name="shortLabel" value="Borrower ID" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
-    </property>
-    <property name="displayLabelAttribute" value="borrowerUniversalUser.personUserIdentifier" />
- </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personUserIdentifier" parent="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personUserIdentifier-parentBean" />
-
   <bean id="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
     <property name="name" value="borrowerUniversalUser.personUserIdentifier" />
     <property name="label" value="Borrower ID" />

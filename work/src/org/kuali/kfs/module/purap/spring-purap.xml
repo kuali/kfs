@@ -42,6 +42,8 @@
 				<value>purchasingPreDisbursementImmediatesExtractJob</value>
 				<value>purchasingPreDisbursementExtractJob</value>
 				<value>receivingPaymentRequestJob</value>
+				<value>autoClosePurchaseOrdersJob</value>
+				<value>autoCloseRecurringOrdersJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -314,6 +316,9 @@
         <property name="universalUserService">
             <ref bean="universalUserService" />
         </property>  
+        <property name="mailService">
+            <ref bean="mailService" />
+        </property>          
 	</bean>
 
 	<bean id="negativePaymentRequestApprovalLimitService" 
@@ -439,6 +444,18 @@
 		</property>
     </bean>
     
+    <bean id="autoClosePurchaseOrdersStep" class="org.kuali.kfs.module.purap.batch.AutoClosePurchaseOrdersStep" parent="step">
+        <property name="purchaseOrderService">
+            <ref bean="purchaseOrderService" />
+        </property>
+    </bean>
+    
+    <bean id="autoCloseRecurringOrdersStep" class="org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep" parent="step">
+        <property name="purchaseOrderService">
+            <ref bean="purchaseOrderService" />
+        </property>
+    </bean>
+    
 	<bean id="purchasingPreDisbursementImmediatesExtractStep" class="org.kuali.kfs.module.purap.batch.ExtractPdpImmediatesStep" parent="step">
 		<property name="pdpExtractService">
 			<ref bean="pdpExtractService"/>
@@ -463,6 +480,22 @@
         </property>
     </bean>
     
+    <bean id="autoClosePurchaseOrdersJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="autoClosePurchaseOrdersStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="autoCloseRecurringOrdersJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="autoCloseRecurringOrdersStep" />
+            </list>
+        </property>
+    </bean>
+
 	<bean id="purchasingPreDisbursementImmediatesExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>

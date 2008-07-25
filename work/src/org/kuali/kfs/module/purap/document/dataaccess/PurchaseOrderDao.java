@@ -15,6 +15,10 @@
  */
 package org.kuali.kfs.module.purap.document.dataaccess;
 
+import java.util.List;
+
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
+
 
 
 /**
@@ -54,4 +58,24 @@ public interface PurchaseOrderDao {
      * @return
      */
     public boolean itemExistsOnPurchaseOrder(Integer poItemLineNumber, String docNumber);
+
+    /**
+     * This method gets all the PurchaseOrderAutoClose objects that relate to POs
+     * with no recurring payment type, status of 'OPEN', and total encumbrance
+     * of 0 that do not have any of the excluded vendor choice codes in the param
+     * 
+     * @param excludedVendorChoiceCodes - list of strings of excluded vendor choice codes
+     * @return List of PurchaseOrderAutoClose objects
+     */
+    public List<PurchaseOrderView> getAllOpenPurchaseOrders(List<String> excludedVendorChoiceCodes);    
+    
+    /**
+     * This method gets all the PurchaseOrderAutoClose objects that relate to POs
+     * with a recurring payment type, status of 'OPEN', and that do not have any 
+     * of the excluded vendor choice codes in the param
+     * 
+     * @param excludedVendorChoiceCodes - list of strings of excluded vendor choice codes
+     * @return List of PurchaseOrderAutoClose objects
+     */
+    public List<PurchaseOrderView> getAutoCloseRecurringPurchaseOrders(List<String> excludedVendorChoiceCodes);
 }

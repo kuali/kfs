@@ -3232,6 +3232,12 @@
     <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchaseOrderStatusCode" column="PO_STAT_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="recurringPaymentTypeCode" column="RECUR_PMT_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="recurringPaymentEndDate" column="PO_END_DT" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="totalEncumbrance" column="TOTAL_ENCUMBRANCE" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PaymentRequestView" table="AP_PMT_RQST_V">

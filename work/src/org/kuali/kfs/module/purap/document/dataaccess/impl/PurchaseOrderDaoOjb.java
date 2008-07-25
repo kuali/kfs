@@ -16,13 +16,18 @@
 package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TransactionalServiceUtils;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -126,4 +131,42 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         
         return existsInPo;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getAllOpenPurchaseOrders(java.util.List)
+     */
+    public List<PurchaseOrderView> getAllOpenPurchaseOrders(List<String> excludedVendorChoiceCodes) {
+        LOG.debug("getAllOpenPurchaseOrders() started");
+        Criteria criteria = new Criteria();
+        criteria.addIsNull("recurringPaymentTypeCode");
+        criteria.addEqualTo("purchaseOrderStatusCode", PurapConstants.PurchaseOrderStatuses.OPEN);
+        criteria.addEqualTo("totalEncumbrance", new KualiDecimal(0));
+        criteria.addEqualTo("purchaseOrderCurrentIndicator", true);
+        for (String excludeCode : excludedVendorChoiceCodes) {
+            criteria.addNotEqualTo("vendorChoiceCode", excludeCode);
+        }
+        QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderView.class, criteria);
+        LOG.debug("getAllOpenPurchaseOrders() Query criteria is " + criteria.toString());
+        List<PurchaseOrderView> l = (List<PurchaseOrderView>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        return l;
+    }    
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getAutoCloseRecurringPurchaseOrders(java.util.List)
+     */
+    public List<PurchaseOrderView> getAutoCloseRecurringPurchaseOrders(List<String> excludedVendorChoiceCodes) {
+        LOG.debug("getAutoCloseRecurringPurchaseOrders() started.");
+        Criteria criteria = new Criteria();
+        criteria.addNotNull("recurringPaymentTypeCode");
+        criteria.addEqualTo("purchaseOrderStatusCode", PurapConstants.PurchaseOrderStatuses.OPEN);
+        for (String excludeCode : excludedVendorChoiceCodes) {
+            criteria.addNotEqualTo("vendorChoiceCode", excludeCode);
+        }
+        QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderView.class, criteria);
+        LOG.debug("getAutoCloseRecurringPurchaseOrders() Query criteria is " + criteria.toString());
+        List<PurchaseOrderView> l = (List<PurchaseOrderView>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        LOG.debug("getAutoCloseRecurringPurchaseOrders() ended.");
+        return l;
+    }
+    
 }

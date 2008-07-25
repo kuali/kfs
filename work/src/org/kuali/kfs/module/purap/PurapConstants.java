@@ -155,6 +155,8 @@ public class PurapConstants extends JSTLConstants {
         public static final String SUBCONTRACT = "SUBC";
     }
 
+    public static String[] AUTO_CLOSE_EXCLUSION_VNDR_CHOICE_CODES = {VendorChoice.SUBCONTRACT};
+    
     public static Integer APO_CONTRACT_MANAGER = new Integer(99);
 
     // Requisition/Purchase Order Tab Errors

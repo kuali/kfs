@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.kuali.core.bo.Note;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -30,6 +32,13 @@ public class PurchaseOrderView extends AbstractRelatedView {
     private Boolean purchaseOrderCurrentIndicator;
     private List<Note> notes;
 
+    private String purchaseOrderStatusCode;
+    private String recurringPaymentTypeCode;
+    private String vendorChoiceCode;
+    private Timestamp recurringPaymentEndDate;
+    private KualiDecimal totalEncumbrance;
+    private KualiDecimal totalAmount;
+    
     public boolean isPurchaseOrderCurrentIndicator() {
         return purchaseOrderCurrentIndicator;
     }
@@ -40,6 +49,58 @@ public class PurchaseOrderView extends AbstractRelatedView {
 
     public void setPurchaseOrderCurrentIndicator(boolean purchaseOrderCurrentIndicator) {
         this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
+    }
+
+    public String getPurchaseOrderStatusCode() {
+        return purchaseOrderStatusCode;
+    }
+
+    public void setPurchaseOrderStatusCode(String purchaseOrderStatusCode) {
+        this.purchaseOrderStatusCode = purchaseOrderStatusCode;
+    }
+
+    public String getRecurringPaymentTypeCode() {
+        return recurringPaymentTypeCode;
+    }
+
+    public void setRecurringPaymentTypeCode(String recurringPaymentTypeCode) {
+        this.recurringPaymentTypeCode = recurringPaymentTypeCode;
+    }
+
+    public String getVendorChoiceCode() {
+        return vendorChoiceCode;
+    }
+
+    public void setVendorChoiceCode(String vendorChoiceCode) {
+        this.vendorChoiceCode = vendorChoiceCode;
+    }
+
+    public Timestamp getRecurringPaymentEndDate() {
+        return recurringPaymentEndDate;
+    }
+
+    public void setRecurringPaymentEndDate(Timestamp recurringPaymentEndDate) {
+        this.recurringPaymentEndDate = recurringPaymentEndDate;
+    }
+
+    public KualiDecimal getTotalEncumbrance() {
+        return totalEncumbrance;
+    }
+
+    public void setTotalEncumbrance(KualiDecimal totalEncumbrance) {
+        this.totalEncumbrance = totalEncumbrance;
+    }
+
+    public void setPurchaseOrderCurrentIndicator(Boolean purchaseOrderCurrentIndicator) {
+        this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
+    }
+    
+    public KualiDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(KualiDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     /**
@@ -93,4 +154,5 @@ public class PurchaseOrderView extends AbstractRelatedView {
     public String getUrl() {
         return super.getUrl();
     }
+    
 }

@@ -350,4 +350,31 @@ public interface PurchaseOrderService {
      * @param acmDoc An assign a contract manager document
      */
     public void processACMReq(ContractManagerAssignmentDocument acmDoc);
+    
+    /**
+     * This gets a list of Purchase Orders in Open status and checks to see if their
+     * line item encumbrances are all fully disencumbered and if so then the Purchase
+     * Order is closed and notes added to indicate the change occurred in batch
+     * 
+     * @return boolean true if the job is completed successfully and false otherwise.
+     */
+    public boolean autoCloseFullyDisencumberedOrders();
+    
+
+    /**
+     * Ripierce: there was not a use case for this, so here are the specs: 
+     * - PO status is OPEN - Recurring payment type code is not null 
+     * - Vendor Choice is not Sub-Contract 
+     * - PO End Date <= parm date (comes from app settings table) 
+     * - Verify that the app settings date entered is not greater than the current date minus three months.
+     *   If the date entered is invalid, the batch process will halt and an error will be generated.
+     * - Close and disencumber all recurring PO's that have end dates less than
+     *   the app settings date. 
+     * - Set the app settings date to mm/dd/yyyy after processing. 
+     * - Send email indicating that the job ran and which orders were closed. 
+     *   Mail it to the AUTO_CLOSE_RECURRING_PO_EMAIL_ADDRESSES in app settings.
+     *   
+     * @return boolean true if the job is completed successfully and false otherwise.
+     */
+    public boolean autoCloseRecurringOrders();
 }

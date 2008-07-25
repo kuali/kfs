@@ -27,6 +27,9 @@
 	<html:hidden property="document.nextCapitalAssetPaymentLineNumber"/>
 
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+
+    <cams:assetPayments /> 
+
     <cams:viewAssetDetails defaultTabHide="false" /> 
 	     
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"

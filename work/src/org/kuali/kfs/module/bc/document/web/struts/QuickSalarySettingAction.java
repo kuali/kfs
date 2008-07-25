@@ -34,6 +34,7 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -94,8 +95,8 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(KFSPropertyConstants.OBJECT_CODE, salarySettingForm.getFinancialObjectCode());
         parameters.put(KFSPropertyConstants.SUB_OBJECT_CODE, salarySettingForm.getFinancialSubObjectCode());
 
-        parameters.put(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION, "true");
-        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "true");
+        parameters.put(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION, Boolean.TRUE.toString());
+        parameters.put(BCPropertyConstants.ADD_LINE, Boolean.TRUE.toString());
 
         String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.INTENDED_INCUMBENT, BudgetConstructionIntendedIncumbent.class.getName(), parameters);
 
@@ -118,8 +119,8 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(KFSPropertyConstants.OBJECT_CODE, salarySettingForm.getFinancialObjectCode());
         parameters.put(KFSPropertyConstants.SUB_OBJECT_CODE, salarySettingForm.getFinancialSubObjectCode());
 
-        parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, "true");
-        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "true");
+        parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, Boolean.TRUE.toString());
+        parameters.put(BCPropertyConstants.ADD_LINE, Boolean.TRUE.toString());
 
         String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.BUDGET_POSITION_LOOKUP, BudgetConstructionPosition.class.getName(), parameters);
 
@@ -211,6 +212,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
+        
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, appointmentFunding.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, appointmentFunding.getChartOfAccountsCode());
         parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, appointmentFunding.getAccountNumber());
@@ -220,8 +222,8 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFunding.getPositionNumber());
         parameters.put(KFSPropertyConstants.EMPLID, appointmentFunding.getEmplid());
 
-        parameters.put(BCConstants.SINGLE_ACCOUNT_MODE, Boolean.TRUE.toString());
-        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, Boolean.FALSE.toString());
+        parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, Boolean.TRUE.toString());
+        parameters.put(BCPropertyConstants.ADD_LINE, Boolean.FALSE.toString());
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(salarySettingForm.getAnchor())) {

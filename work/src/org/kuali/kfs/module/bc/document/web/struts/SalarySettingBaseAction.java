@@ -68,8 +68,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         
         boolean isSuccessfullyProcessed = salarySettingForm.postProcessBCAFLines();
         if (!isSuccessfullyProcessed) {
-            // return super.returnToCaller(mapping, form, request, response);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            return this.returnToCaller(mapping, form, request, response);
         }
 
         return forward;

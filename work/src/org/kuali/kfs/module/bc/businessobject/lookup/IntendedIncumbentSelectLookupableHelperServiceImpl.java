@@ -25,6 +25,7 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentSelect;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -48,8 +49,8 @@ public class IntendedIncumbentSelectLookupableHelperServiceImpl extends SelectLo
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear[0]);
 
         parameters.put(KFSPropertyConstants.EMPLID, intendedIncumbentSelect.getEmplid());
-        parameters.put(BCConstants.SINGLE_ACCOUNT_MODE, "false");
-        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "false");
+        parameters.put(BCPropertyConstants.SINGLE_ACCOUNT_MODE, "false");
+        parameters.put(BCPropertyConstants.ADD_LINE, "false");
 
         String url = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
 

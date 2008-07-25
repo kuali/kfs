@@ -30,7 +30,6 @@
 <html:hidden property="financialSubObjectCode" />
 <html:hidden property="positionNumber" />
 <html:hidden property="budgetByAccountMode" />
-<html:hidden property="singleAccountMode" />
 <html:hidden property="addLine" />
 
 <kul:tabTop tabTitle="Position" defaultOpen="true">

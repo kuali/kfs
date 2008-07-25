@@ -219,7 +219,7 @@ public class TempListLookupAction extends KualiLookupAction {
         parameters.put(BCPropertyConstants.POSITION_GRADE_DEFAULT, fieldValues.get(BCPropertyConstants.GRADE));
 
         parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, "true");
-        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "false");
+        parameters.put(BCPropertyConstants.ADD_LINE, "false");
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_TEMP_LIST_LOOKUP, parameters);
 
@@ -318,7 +318,7 @@ public class TempListLookupAction extends KualiLookupAction {
         parameters.put(KFSPropertyConstants.PERSON_NAME, fieldValues.get(KFSPropertyConstants.PERSON_NAME));
 
         parameters.put(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION, "true");
-        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "false");
+        parameters.put(BCPropertyConstants.ADD_LINE, "false");
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_TEMP_LIST_LOOKUP, parameters);
 

@@ -395,9 +395,10 @@ public class BCConstants extends JSTLConstants {
     }
     
     public static final String PICK_LIST_MODE = "pickListMode";
-    public static final String SINGLE_ACCOUNT_MODE = "singleAccountMode";
     
     public static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
+    
+    //TODO: create application parameters for those
     public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR = BigDecimal.valueOf(40);
     public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR_AS_DECIMAL = STANDARD_WEEKLY_WORK_HOUR.divide(ONE_HUNDRED, 2, KualiDecimal.ROUND_BEHAVIOR);
     
@@ -409,7 +410,6 @@ public class BCConstants extends JSTLConstants {
     public static final String DASH_SUB_ACCOUNT_NUMBER = "-----";
     public static final String DASH_SUB_OBJECT_CODE = "---";
     
-    public static final String ADD_NEW_FUNDING_LINE = "addLine";
     public static final String SHOW_SALARY_BY_POSITION_ACTION = "showSalaryByPositionAction";
     public static final String REFRESH_POSITION_BEFORE_SALARY_SETTING = "refreshPositionBeforeSalarySetting";
     public static final String TEMP_LIST_REFRESH_POSITION_METHOD = "refreshPosition";

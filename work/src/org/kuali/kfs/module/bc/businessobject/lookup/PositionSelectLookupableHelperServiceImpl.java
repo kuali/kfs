@@ -42,8 +42,8 @@ public class PositionSelectLookupableHelperServiceImpl extends SelectLookupableH
 
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, positionSelect.getUniversityFiscalYear().toString());
         parameters.put(BCPropertyConstants.POSITION_NUMBER, positionSelect.getPositionNumber());
-        parameters.put(BCConstants.SINGLE_ACCOUNT_MODE, "false");
-        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "false");
+        parameters.put(BCPropertyConstants.SINGLE_ACCOUNT_MODE, "false");
+        parameters.put(BCPropertyConstants.ADD_LINE, "false");
 
         String url = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
 

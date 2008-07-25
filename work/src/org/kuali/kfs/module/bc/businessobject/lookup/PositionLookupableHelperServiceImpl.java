@@ -116,16 +116,16 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
 
         Map requestParameters = super.getParameters();
         boolean linkToNewWindow = true;
-        if (requestParameters.containsKey(BCConstants.ADD_NEW_FUNDING_LINE)) {
-            String[] requestParm = (String[]) requestParameters.get(BCConstants.ADD_NEW_FUNDING_LINE);
-            parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, requestParm[0]);
+        if (requestParameters.containsKey(BCPropertyConstants.ADD_LINE)) {
+            String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.ADD_LINE);
+            parameters.put(BCPropertyConstants.ADD_LINE, requestParm[0]);
             Boolean addNewFunding = (Boolean) (new BooleanFormatter()).convertFromPresentationFormat(requestParm[0]);
             if (addNewFunding) {
                 linkToNewWindow = false;
             }
         }
         else {
-            parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "false");
+            parameters.put(BCPropertyConstants.ADD_LINE, "false");
         }
         
         if (requestParameters.containsKey(KNSConstants.DOC_FORM_KEY)) {
@@ -163,12 +163,12 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
             parameters.put(KFSPropertyConstants.SUB_OBJECT_CODE, requestParm[0]);
         }
         
-        if (requestParameters.containsKey(BCConstants.SINGLE_ACCOUNT_MODE)) {
-            String[] requestParm = (String[]) requestParameters.get(BCConstants.SINGLE_ACCOUNT_MODE);
-            parameters.put(BCConstants.SINGLE_ACCOUNT_MODE, requestParm[0]);
+        if (requestParameters.containsKey(BCPropertyConstants.SINGLE_ACCOUNT_MODE)) {
+            String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.SINGLE_ACCOUNT_MODE);
+            parameters.put(BCPropertyConstants.SINGLE_ACCOUNT_MODE, requestParm[0]);
         }
         else {
-            parameters.put(BCConstants.SINGLE_ACCOUNT_MODE, "false");
+            parameters.put(BCPropertyConstants.SINGLE_ACCOUNT_MODE, "false");
         }
 
         parameters.put(BCConstants.REFRESH_POSITION_BEFORE_SALARY_SETTING, "false");

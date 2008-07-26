@@ -732,7 +732,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
         return newValue;
     }
 
-    private boolean update(boolean oldValue, boolean newValue) {
+    private boolean update(boolean newValue, boolean oldValue) {
         return newValue;
     }
 

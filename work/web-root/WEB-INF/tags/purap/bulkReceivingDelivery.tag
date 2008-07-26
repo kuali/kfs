@@ -19,12 +19,16 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="deliveryReadOnly" required="false"
               description="Boolean to indicate if delivery tab fields are read only" %>              
+
+<c:set var="notOtherDeliveryBuilding" value="${not KualiForm.document.deliveryBuildingOther}" />
               
 <kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${PurapConstants.BULK_RECEIVING_DELIVERY_TAB_ERRORS}">
     <div class="tab-container" align=center>
     
         <h3>Delivery Information</h3>
-
+        
+		<%--<html:hidden property="document.deliveryBuildingCode" />--%>
+		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Delivery Section">
         <%-- If PO available, display the delivery information from the PO --%>
         	<c:if test="${isPOAvailable}">
@@ -130,10 +134,10 @@
 	                    	attributeEntry="${documentAttributes.deliveryBuildingName}" 
 	                    	property="document.deliveryBuildingName"
 	                    	readOnly="true"/>&nbsp;
-	                    <c:if test="${fullEntryMode}">
+	                    <c:if test="${notOtherDeliveryBuilding && fullEntryMode}">
 	                    	<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
 	                    		lookupParameters="document.deliveryCampus:campusCode"
-	                    		fieldConversions="buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode"/>
+	                    		fieldConversions="buildingCode:document.deliveryBuildingCode,buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode"/>
 	                    </c:if>
 	                </td>           
 	                <th align=right valign=middle class="bord-l-b">
@@ -156,7 +160,7 @@
 	                    <kul:htmlControlAttribute 
 	                    	attributeEntry="${documentAttributes.deliveryCampusCode}" 
 	                    	property="document.deliveryCampusCode" 
-	                    	readOnly="${true}"/>                
+	                    	readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>                
 	                </td>           	
 	                <th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToPhoneNumber}"/></div>
@@ -173,7 +177,7 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine1Address}" 
-	                    	property="document.deliveryBuildingLine1Address"  readOnly="true"/>
+	                    	property="document.deliveryBuildingLine1Address"  readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
 	                </td>
 	                <th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToEmailAddress}"/></div>
@@ -200,7 +204,18 @@
 	                    	property="document.deliveryInstructionText" readOnly="${not (fullEntryMode)}"/>
 	                </td>
 				</tr>
-				
+				<tr>
+					<th align=right valign=middle class="bord-l-b">
+						<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingOther}"/></div>
+					</th>
+					<td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingOther}" 
+	                    						  property="document.deliveryBuildingOther"  readOnly="${not (fullEntryMode)}"/>&nbsp;
+	                    <c:if test="${fullEntryMode}">
+	                    	<html:image property="methodToCall.refreshDeliveryBuilding" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
+	                    </c:if>
+	                </td>
+	            </tr>    
 				<tr>
 					<th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}"/></div>
@@ -217,7 +232,7 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryCityName}" 
-	                    	property="document.deliveryCityName" readOnly="true"/>
+	                    	property="document.deliveryCityName" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
 	                </td>
 	            </tr>
 	            <tr>			
@@ -226,7 +241,11 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryStateCode}" 
-	                    	property="document.deliveryStateCode" readOnly="true"/>
+	                    	property="document.deliveryStateCode" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
+	                </td>
+	                <th align=right valign=middle class="bord-l-b">
+					</th>
+					<td align=left valign=middle class="datacell">
 	                </td>
 				</tr>
 				<tr>
@@ -235,11 +254,11 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryPostalCode}" 
-	                    	property="document.deliveryPostalCode" readOnly="true"/>
+	                    	property="document.deliveryPostalCode" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
 	                </td>
-	                <th align=right valign=middle class="bord-l-b">
-	                </th>
-	                <td align=left valign=middle class="datacell">
+	            	<th align=right valign=middle class="bord-l-b">
+					</th>
+					<td align=left valign=middle class="datacell">
 	                </td>
 				</tr>
 				

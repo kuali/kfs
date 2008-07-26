@@ -563,7 +563,7 @@ public class PrintServiceImpl implements PrintService {
             errors.add(pce.getMessage());
         }
 
-        LOG.debug("generateReceivingTicket() ended");
+        LOG.debug("generateBulkReceivingPDF() ended");
         return errors;
     }
     

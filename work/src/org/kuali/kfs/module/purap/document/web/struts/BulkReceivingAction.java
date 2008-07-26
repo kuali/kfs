@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -28,16 +29,28 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
+import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.kfs.vnd.service.PhoneNumberService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -93,6 +106,42 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         
     }
 
+    public ActionForward refreshDeliveryBuilding(ActionMapping mapping, 
+                                                 ActionForm form, 
+                                                 HttpServletRequest request, 
+                                                 HttpServletResponse response) 
+    throws Exception {
+    
+        BulkReceivingForm baseForm = (BulkReceivingForm) form;
+        BulkReceivingDocument document = (BulkReceivingDocument) baseForm.getDocument();
+        
+        if (ObjectUtils.isNotNull(document.isDeliveryBuildingOther())) {
+            if (document.isDeliveryBuildingOther()) {
+                document.setDeliveryBuildingName(PurapConstants.DELIVERY_BUILDING_OTHER);
+                document.setDeliveryBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
+                document.setDeliveryBuildingLine1Address(null);
+                document.setDeliveryBuildingLine2Address(null);
+                document.setDeliveryBuildingRoomNumber(null);
+                document.setDeliveryCityName(null);
+                document.setDeliveryStateCode(null);
+                document.setDeliveryCountryCode(null);
+                document.setDeliveryPostalCode(null);
+            } else {
+                document.setDeliveryBuildingName(null);
+                document.setDeliveryBuildingCode(null);
+                document.setDeliveryBuildingLine1Address(null);
+                document.setDeliveryBuildingLine2Address(null);
+                document.setDeliveryBuildingRoomNumber(null);
+                document.setDeliveryCityName(null);
+                document.setDeliveryStateCode(null);
+                document.setDeliveryCountryCode(null);
+                document.setDeliveryPostalCode(null);
+            }
+        }
+        
+        return refresh(mapping, form, request, response);
+    }
+    
     private ActionForward isDuplicateDocumentEntry(ActionMapping mapping, 
                                                    ActionForm form, 
                                                    HttpServletRequest request, 
@@ -197,7 +246,9 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         return mapping.findForward("printReceivingTicketPDF");
     }
     
-    private String getUrlForPrintReceivingTicket(String basePath, String docId, String methodToCall) {
+    private String getUrlForPrintReceivingTicket(String basePath, 
+                                                 String docId, 
+                                                 String methodToCall) {
         
         StringBuffer result = new StringBuffer(basePath);
         result.append("/purapBulkReceiving.do?methodToCall=");
@@ -208,4 +259,5 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
 
         return result.toString();
     }
+    
 }    

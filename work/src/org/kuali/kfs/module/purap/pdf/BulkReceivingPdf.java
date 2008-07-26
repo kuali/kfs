@@ -85,8 +85,8 @@ public class BulkReceivingPdf extends PurapPdf {
             
             // initialization of the font
             helv = BaseFont.createFont("Helvetica", BaseFont.WINANSI, false);
-        }
-        catch (Exception e) {
+            
+        }catch (Exception e) {
             throw new ExceptionConverter(e);
         }
     }

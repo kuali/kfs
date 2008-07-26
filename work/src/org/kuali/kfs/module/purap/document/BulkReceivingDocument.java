@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -31,10 +32,13 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
+import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
@@ -60,7 +64,7 @@ import edu.iu.uis.eden.exception.WorkflowRuntimeException;
 import edu.iu.uis.eden.user.UserService;
 import edu.iu.uis.eden.user.WorkflowUser;
 
-public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentBase {
+public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentBase implements ReceivingDocument{
 
     private static final Logger LOG = Logger.getLogger(BulkReceivingDocument.class);
     
@@ -152,6 +156,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private String goodsDeliveredVendorName;
     private String vendorContact;
     private Integer vendorAddressGeneratedIdentifier;
+    private boolean deliveryBuildingOther;
     
     
     public BulkReceivingDocument() {
@@ -852,6 +857,88 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
             relatedViews = new PurApRelatedViews(this.documentNumber, this.accountsPayablePurchasingDocumentLinkIdentifier);
         }
         return relatedViews;
+    }
+    
+    public void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public Date getDeliveryRequiredDate() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public DeliveryRequiredDateReason getDeliveryRequiredDateReason() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getDeliveryRequiredDateReasonCode() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public PurchaseOrderDocument getPurchaseOrderDocument() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public boolean isDeliveryBuildingOther() {
+
+        /**
+         * Since deliveryBuildingOther is not persisted, it's required to check the building code to decide when an already existing 
+         * doc is opened 
+         */
+        if (getDeliveryBuildingCode() != null){
+            return getDeliveryBuildingCode().equals(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
+        }
+        
+        return deliveryBuildingOther;
+    }
+
+    public void setDeliveryBuildingOther(boolean deliveryBuildingOther) {
+        this.deliveryBuildingOther = deliveryBuildingOther;
+    }
+
+    /**
+     * TODO: Have to discuss with Chris/Dan to move all these methods to somewhere else in the Receiving class hierarchy
+     * @see org.kuali.kfs.module.purap.document.ReceivingDocument#setDeliveryRequiredDate(java.sql.Date)
+     */
+    public void setDeliveryRequiredDate(Date deliveryRequiredDate) {
+        // TODO Auto-generated method stub
+    }
+
+    public void setDeliveryRequiredDateReasonCode(String deliveryRequiredDateReasonCode) {
+        // TODO Auto-generated method stub
+    }
+
+    public void setPurchaseOrderDocument(PurchaseOrderDocument po) {
+        // TODO Auto-generated method stub
+    }
+
+    public <T> T getItem(int pos) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Class getItemClass() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List getItems() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void setItems(List items) {
+        // TODO Auto-generated method stub
     }
     
     protected LinkedHashMap toStringMapper() {

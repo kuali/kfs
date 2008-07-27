@@ -261,24 +261,20 @@
               p:forceInquiry="true" />
         <bean parent="FieldDefinition"
               p:attributeName="parameterDetailType.parameterDetailTypeName"
+              p:maxLength="40"
               p:noInquiry="true" />
         <bean parent="FieldDefinition"
-              p:maxLength="60"
               p:attributeName="parameterName"
+              p:maxLength="40"
               p:forceInquiry="true" />
         <bean parent="FieldDefinition"
-              p:maxLength="40"
-              p:attributeName="parameterValue" />
+              p:attributeName="parameterDescription"
+              p:maxLength="40" />
+        <bean parent="FieldDefinition"
+              p:attributeName="parameterValue"
+              p:maxLength="40" />
         <bean parent="FieldDefinition"
               p:attributeName="parameterConstraintCode" />
-        <bean parent="FieldDefinition"
-              p:maxLength="40"
-              p:attributeName="parameterDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="parameterType.name"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="parameterWorkgroupName" />
       </list>
     </property>
   </bean>

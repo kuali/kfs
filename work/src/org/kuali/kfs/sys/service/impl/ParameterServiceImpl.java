@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,8 +34,7 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiModuleService;
-import org.kuali.core.util.cache.MethodCacheInterceptor;
-import org.kuali.core.util.cache.MethodCacheNoCopyInterceptor;
+import org.kuali.kfs.sys.KFSUtils;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
@@ -342,7 +340,7 @@ public class ParameterServiceImpl implements ParameterService {
                 return boe.getObjectLabel();
             }
             else {
-                return documentOrStepClass.getSimpleName();
+                return KFSUtils.getBusinessTitleForClass(documentOrStepClass);
             }
         }
         throw new IllegalArgumentException("The getDetailTypeName method of ParameterServiceImpl requires TransactionalDocument, BusinessObject, or Step class");

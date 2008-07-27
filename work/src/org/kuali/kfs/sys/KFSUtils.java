@@ -26,6 +26,23 @@ import org.kuali.core.util.KualiDecimal;
  * Miscalenious Utility Methods.
  */
 public class KFSUtils {
+    
+    public final static String getBusinessTitleForClass(Class clazz) {
+        if (clazz == null) {
+            throw new IllegalArgumentException("The getBusinessTitleForClass method of KFSUtils requires a non-null class");
+        }
+        String className = clazz.getSimpleName();
+    
+        StringBuffer label = new StringBuffer(className.substring(0, 1));
+        for (int i = 1; i < className.length(); i++) {
+            if (Character.isLowerCase(className.charAt(i))) {
+                label.append(className.charAt(i));
+            } else {
+                label.append(" ").append(className.charAt(i));
+            }
+        }
+        return label.toString().trim();
+    }
 
     /**
      * Picks off the filename from the full path. Takes care of different OS seperators.

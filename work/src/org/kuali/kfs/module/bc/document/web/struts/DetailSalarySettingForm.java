@@ -33,7 +33,6 @@ import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
@@ -52,11 +51,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingForm.class);
 
     private PendingBudgetConstructionAppointmentFunding newBCAFLine;
-
-    private List<PendingBudgetConstructionAppointmentFunding> lockedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
-    private List<BudgetConstructionPosition> lockedPositions = new ArrayList<BudgetConstructionPosition>();
-    private List<PendingBudgetConstructionAppointmentFunding> fundingsWithTransactionLocks = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
-
     private boolean addLine;
 
     private String positionNumber;
@@ -128,7 +122,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            boolean gotLocks = this.acquireLocks(appointmentFunding);
+            boolean gotLocks = this.acquirePositionAndFundingLocks(appointmentFunding);
 
             if (!gotLocks) {
                 return false;
@@ -145,43 +139,47 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * @param fieldsHolder the given field holder
      * @return true if the position and funding locks for the given appointment funding are acquired successfully, otherwise, false
      */
-    public boolean acquireLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
+    public boolean acquirePositionAndFundingLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        try {
+            SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
 
-        // update the access flags of the current funding line
-        boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.isSingleAccountMode(), universalUser);
-        if (!updated) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
-            this.releaseLocks(lockedPositions, lockedFundings, universalUser);
-            return false;
-        }
+            // update the access flags of the current funding line
+            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.isSingleAccountMode(), universalUser);
+            if (!updated) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
+                this.releasePositionAndFundingLocks();
+                return false;
+            }
 
-        // not to acquire any lock for the display-only funding line
-        if (appointmentFunding.isDisplayOnlyMode() || !appointmentFunding.isBudgetable()) {
-            return true;
-        }
+            // not to acquire any lock for the display-only funding line
+            if (appointmentFunding.isDisplayOnlyMode() || !appointmentFunding.isBudgetable()) {
+                return true;
+            }
 
-        // acquire position lock for the current funding line
-        BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
-        if (!lockedPositions.contains(position)) {
+            // acquire position lock for the current funding line
+            BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
             BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position.getPositionNumber(), position.getUniversityFiscalYear(), currentUserId);
             if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
-                this.releaseLocks(lockedPositions, lockedFundings, universalUser);
+                this.releasePositionAndFundingLocks();
                 return false;
             }
-            lockedPositions.add(position);
-        }
 
-        // acquire funding lock for the current funding line
-        BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
-        BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(header, currentUserId);
-        if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.toString());
-            this.releaseLocks(lockedPositions, lockedFundings, universalUser);
-            return false;
+            // acquire funding lock for the current funding line
+            BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
+            BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(header, currentUserId);
+            if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.toString());
+                this.releasePositionAndFundingLocks();
+                return false;
+            }
         }
-        lockedFundings.add(appointmentFunding);
+        catch (Exception e) {
+            this.releasePositionAndFundingLocks();
+            
+            LOG.error("Failed when acquiring position/funding lock for " + appointmentFunding + "." + e);
+            throw new RuntimeException("Failed when acquiring transaction lock for " + appointmentFunding + "." + e);
+        }
 
         return true;
     }
@@ -194,44 +192,54 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public boolean acquireTransactionLocks(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
         for (PendingBudgetConstructionAppointmentFunding fundingLine : appointmentFundings) {
-            BudgetConstructionLockStatus lockStatus = lockService.lockTransaction(fundingLine, universalUser);
+            try {
+                BudgetConstructionLockStatus lockStatus = lockService.lockTransaction(fundingLine, universalUser);
 
-            if (!LockStatus.SUCCESS.equals(lockStatus.getLockStatus())) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, fundingLine.toString());
-                
-                this.releaseTransactionLocks();
-                return false;
+                if (!LockStatus.SUCCESS.equals(lockStatus.getLockStatus())) {
+                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, fundingLine.toString());
+
+                    this.releaseTransactionLocks();
+                    return false;
+                }
             }
-            
-            fundingsWithTransactionLocks.add(fundingLine);
+            catch (Exception e) {
+                this.releaseTransactionLocks();
+                
+                LOG.error("Failed when acquiring transaction lock for " + fundingLine + "." + e);
+                throw new RuntimeException("Failed when acquiring transaction lock for " + fundingLine + "." + e);
+            }
         }
 
         return true;
     }
 
     /**
-     * release all the locks on the given position and fundings owns by the specified user
-     * 
-     * @param lockedPositions the locked position being released
-     * @param lockedFundings the locked funding being released
-     * @param universalUser the current user who owns the locks
+     * release all position and funding locks acquired in current action by the current user
      */
-    public void releaseLocks(List<BudgetConstructionPosition> lockedPositions, List<PendingBudgetConstructionAppointmentFunding> lockedFundings, UniversalUser universalUser) {
-        lockService.unlockFunding(lockedFundings, universalUser);
-        lockedFundings.clear();
-        
-        lockService.unlockPostion(lockedPositions, universalUser);
-        lockedPositions.clear();
+    public void releasePositionAndFundingLocks() {
+        List<PendingBudgetConstructionAppointmentFunding> lockedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+        lockedFundings.addAll(this.getAppointmentFundings());
+        lockService.unlockFunding(lockedFundings, this.universalUser);
+
+        Set<BudgetConstructionPosition> lockedPositionSet = new HashSet<BudgetConstructionPosition>();
+        for (PendingBudgetConstructionAppointmentFunding fundingLine : lockedFundings) {
+            lockedPositionSet.add(fundingLine.getBudgetConstructionPosition());
+        }
+
+        List<BudgetConstructionPosition> lockedPositions = new ArrayList<BudgetConstructionPosition>();
+        lockedPositions.addAll(lockedPositionSet);
+        lockService.unlockPostion(lockedPositions, this.universalUser);
     }
-    
+
     /**
-     * release all the transaction locks owns by the current user
+     * release all the transaction locks acquired in current action by the current user
      */
     public void releaseTransactionLocks() {
-        for(PendingBudgetConstructionAppointmentFunding appointmentFunding : fundingsWithTransactionLocks) {
-            lockService.unlockTransaction(appointmentFunding, universalUser);
+        List<PendingBudgetConstructionAppointmentFunding> fundingsWithTransactionLocks = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+        fundingsWithTransactionLocks.addAll(this.getAppointmentFundings());
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : fundingsWithTransactionLocks) {
+            lockService.unlockTransaction(appointmentFunding, this.universalUser);
         }
-        fundingsWithTransactionLocks.clear();
     }
 
     /**
@@ -244,7 +252,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
         // get the funding lines that can be saved
         for (PendingBudgetConstructionAppointmentFunding fundingLine : this.getAppointmentFundings()) {
-            if ((fundingLine.isAppointmentFundingDeleteIndicator() || fundingLine.isBudgetable()) && !fundingLine.isDisplayOnlyMode()) {
+            if (!fundingLine.isDisplayOnlyMode() && fundingLine.isBudgetable()) {
                 savableAppointmentFundings.add(fundingLine);
             }
         }
@@ -363,24 +371,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public void setPersonName(String personName) {
         this.personName = personName;
-    }
-
-    /**
-     * Gets the lockedFundings attribute.
-     * 
-     * @return Returns the lockedFundings.
-     */
-    public List<PendingBudgetConstructionAppointmentFunding> getLockedFundings() {
-        return lockedFundings;
-    }
-
-    /**
-     * Gets the lockedPositions attribute.
-     * 
-     * @return Returns the lockedPositions.
-     */
-    public List<BudgetConstructionPosition> getLockedPositions() {
-        return lockedPositions;
     }
 
     /**

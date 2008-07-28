@@ -66,7 +66,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
 
         // release all locks before closing the current expansion screen
-        salarySettingForm.releaseLocks(salarySettingForm.getLockedPositions(), salarySettingForm.getAppointmentFundings(), salarySettingForm.getUniversalUser());
+        salarySettingForm.releasePositionAndFundingLocks();
 
         // return to caller if the current salary setting is in the budget by account mode
         if (salarySettingForm.isBudgetByAccountMode()) {
@@ -124,11 +124,6 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         for (SalarySettingExpansion salarySettingExpansion : salarySettingExpansionSet) {
             salarySettingExpansion.refreshReferenceObject(BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING);
             salarySettingService.saveSalarySetting(salarySettingExpansion);
-        }
-        
-        // unlock the transactions after saving the changes
-        for (PendingBudgetConstructionAppointmentFunding fundingLine : savableAppointmentFundings) {            
-            lockService.unlockTransaction(fundingLine, salarySettingForm.getUniversalUser());
         }
         
         // release all transaction locks

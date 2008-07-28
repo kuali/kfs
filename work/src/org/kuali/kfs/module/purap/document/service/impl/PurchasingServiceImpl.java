@@ -15,14 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -92,4 +85,8 @@ public class PurchasingServiceImpl implements PurchasingService {
 //        PurchasingItemCapitalAsset camsItem = new PurchasingItemCapitalAsset(purapItem);
 //        return camsItem;
 //    }
+    
+    public void deleteCAMSItems(PurchasingDocument purDoc, PurchasingItem purItem, int itemIdentifier) {
+        //delete the corresponding CAMS items.
+    }
 }

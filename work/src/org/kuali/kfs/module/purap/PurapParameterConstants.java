@@ -74,6 +74,8 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         
         public static final String CAMS_DOC_ITEM_CREATION_TRAN_TYPES = "CAMS_DOC_ITEM_CREATION_TRAN_TYPES";
         public static final String CAMS_DOC_CAPITAL_OC_SUBTYPES = "CAMS_DOC_CAPITAL_OC_SUBTYPES";
+        
+        public static final String CAPITAL_ASSET_SUB_TYPES = "CAPITAL_ASSET_SUB_TYPES";
     }
 
     public static final String PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME = "PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME";

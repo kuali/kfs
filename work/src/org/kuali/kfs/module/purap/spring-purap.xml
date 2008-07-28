@@ -122,6 +122,10 @@
         <property name="vendorService" ref="vendorService"/>
     </bean>
     
+    <bean id="purchasingService" class="org.kuali.kfs.module.purap.document.service.PurchasingServiceImpl">
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
+    
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.kfs.module.purap.document.service.impl.PurApWorkflowIntegrationServiceImpl">
         <property name="kualiWorkflowInfo" ref="workflowInfoService"/>
         <property name="workflowDocumentService" ref="workflowDocumentService"/>

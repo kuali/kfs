@@ -64,6 +64,9 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private PermissionService permissionService = SpringContext.getBean(PermissionService.class);
     private LockService lockService = SpringContext.getBean(LockService.class);
 
+    private UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+    private String currentUserId = universalUser.getPersonUserIdentifier();
+
     /**
      * Constructs a DetailSalarySettingForm.java.
      */
@@ -118,52 +121,63 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             return false;
         }
 
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
-        String currentUserId = universalUser.getPersonUserIdentifier();
-
-        SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            if (appointmentFunding.isDisplayOnlyMode()) {
-                continue;
-            }
-
-            // TODO: give the fine-grained error messages
-
-            // acquire position lock for the current funding line
-            BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
-            if (!lockedPositions.contains(position)) {
-                BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position.getPositionNumber(), position.getUniversityFiscalYear(), currentUserId);
-                if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
-                    this.releaseLocks(lockedPositions, lockedFundings, universalUser);
-                    return false;
-                }
-                lockedPositions.add(position);
-            }
-
-            // update the access flags of the current funding line
-            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.isSingleAccountMode(), universalUser);
-            if (!updated) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
-                this.releaseLocks(lockedPositions, lockedFundings, universalUser);
+            boolean gotLocks = this.acquireLocks(appointmentFunding);
+            
+            if(!gotLocks) {
                 return false;
             }
-
-            // acquire funding lock for the current funding line
-            BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
-            BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(header, currentUserId);
-            if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.toString());
-                this.releaseLocks(lockedPositions, lockedFundings, universalUser);
-                return false;
-            }
-            lockedFundings.add(appointmentFunding);
         }
+
+        return true;
+    }
+
+    /**
+     * acquire position and funding locks for the given appointment funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @param fieldsHolder the given field holder
+     * @return true if the position and funding locks for the given appointment funding are acquired successfully, otherwise, false
+     */
+    public boolean acquireLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
         
-        LOG.info("position locks: " + lockedPositions.size() + " : " + lockedPositions);
-        LOG.info("Funding  locks: " + lockedFundings.size() + " : " + lockedFundings);
+        // update the access flags of the current funding line
+        boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.isSingleAccountMode(), universalUser);
+        if (!updated) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
+            this.releaseLocks(lockedPositions, lockedFundings, universalUser);
+            return false;
+        }
+
+        // not to acquire any lock for the display-only funding line
+        if (appointmentFunding.isDisplayOnlyMode() || !appointmentFunding.isBudgetable()) {
+            return true;
+        }
+
+        // acquire position lock for the current funding line
+        BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
+        if (!lockedPositions.contains(position)) {
+            BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position.getPositionNumber(), position.getUniversityFiscalYear(), currentUserId);
+            if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
+                this.releaseLocks(lockedPositions, lockedFundings, universalUser);
+                return false;
+            }
+            lockedPositions.add(position);
+        }
+
+        // acquire funding lock for the current funding line
+        BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
+        BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(header, currentUserId);
+        if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.toString());
+            this.releaseLocks(lockedPositions, lockedFundings, universalUser);
+            return false;
+        }
+        lockedFundings.add(appointmentFunding);
 
         return true;
     }

@@ -31,7 +31,6 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -46,7 +45,6 @@ import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
-import org.kuali.kfs.module.purap.PurapConstants.VendorChoice;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
@@ -57,11 +55,13 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
@@ -445,6 +445,16 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             items.add(new PurchaseOrderItem((RequisitionItem) reqItem, this));
         }
         this.setItems(items);
+        
+        //These are the steps to create the cams items for the po from the cams items for the req.
+        //When the real data structures have been created, this needs to be 
+        //renamed or do whatever to match the real data structures, then uncomment these.
+//        List<PurchaseOrderItemCapitalAsset> poCamsItems = new ArrayList<PurchaseOrderItemCapitalAsset>();
+//        for (RequisitionItemCapitalAsset reqCamsItem : requisitionDocument.getCamsItems()) {
+//            PurchaseOrderItemCapitalAsset poCamsItem = new PurchaseOrderItemCapitalAsset(reqCamsItem);
+//            poCamsItems.add(poCamsItem);
+//        }
+//        this.setCamsItems(poCamsItems);
     }
 
     /**

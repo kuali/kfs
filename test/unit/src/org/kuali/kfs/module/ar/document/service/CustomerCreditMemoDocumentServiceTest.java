@@ -25,6 +25,8 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
+import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -39,23 +41,31 @@ public class CustomerCreditMemoDocumentServiceTest extends KualiTestBase {
     /**
      * @see junit.framework.TestCase#setUp()
      */
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
+        
+        String documentNumber = CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER,
+                new CustomerInvoiceDetailFixture[]
+                {CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE,
+                 CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE},
+                null);
+        
         document = new CustomerCreditMemoDocument();
-        document.setFinancialDocumentReferenceInvoiceNumber("327608");
+        document.setFinancialDocumentReferenceInvoiceNumber(documentNumber);
         document.getInvoice();
         
         details = new TypedArrayList(CustomerCreditMemoDetail.class);
         
         CustomerCreditMemoDetail detail1 = new CustomerCreditMemoDetail();
-        detail1.setFinancialDocumentReferenceInvoiceNumber("327608");
+        detail1.setFinancialDocumentReferenceInvoiceNumber(documentNumber);
         detail1.setCreditMemoItemQuantity(new BigDecimal(0.5));
         detail1.setReferenceInvoiceItemNumber(new Integer(1));
         
         CustomerCreditMemoDetail detail2 = new CustomerCreditMemoDetail();
-        detail2.setFinancialDocumentReferenceInvoiceNumber("327608");
+        detail2.setFinancialDocumentReferenceInvoiceNumber(documentNumber);
         detail2.setReferenceInvoiceItemNumber(new Integer(2));
         
         details.add(detail1);
@@ -63,14 +73,16 @@ public class CustomerCreditMemoDocumentServiceTest extends KualiTestBase {
         
         document.setCreditMemoDetails(details);
         
-        testAmount = new KualiDecimal(61);
+        testAmount = new KualiDecimal(0.5);
         
         service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
     }
 
+
     /**
      * @see junit.framework.TestCase#tearDown()
      */
+
     @Override
     protected void tearDown() throws Exception {
         document = null;
@@ -83,6 +95,7 @@ public class CustomerCreditMemoDocumentServiceTest extends KualiTestBase {
      * This method tests if recalculateCustomerCreditMemoDocument recalculates CRM document correctly in case of submit or save event
      * No need to test recalculateCustomerCreditMemoDocument for blanket approve event as it does the same calculations skipping the calculations for document totals
      */
+
     public void testRecalculateCustomerCreditMemoDocument() {
         service.recalculateCustomerCreditMemoDocument(document,false);
         
@@ -106,4 +119,5 @@ public class CustomerCreditMemoDocumentServiceTest extends KualiTestBase {
         assertTrue(document.getCrmTotalTaxAmount().equals(KualiDecimal.ZERO));
         assertTrue(document.getCrmTotalAmount().equals(testAmount));
     }
+
 }

@@ -54,6 +54,10 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
         return getAmount().subtract(getAppliedAmount());
     }
     
+    public void setBalance(KualiDecimal balance){
+        //do nothing
+    }
+    
     public KualiDecimal getAppliedAmount() {
         KualiDecimal total = new KualiDecimal(0);
         

@@ -21,8 +21,11 @@ import junit.framework.TestSuite;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocumentGeneralLedgerPostingTest;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocumentTest;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentServiceTest;
+import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailServiceTest;
+import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentServiceTest;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailServiceTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CashControlDocumentRuleTest;
+import org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentRuleTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceBilledByChartOfAccountsCodeValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceBilledByOrganizationCodeValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceCustomerAddressValidationTest;
@@ -50,7 +53,7 @@ import org.kuali.kfs.module.ar.document.validation.impl.OrganizationAccountingDe
 import org.kuali.kfs.module.ar.document.validation.impl.SystemInformationRuleTest;
 
 /**
- * Runs all the tests in the GL test suite.
+ * Runs all the tests in the AR test suite.
  */
 public class AllAccountsReceivableTests {
 
@@ -91,7 +94,10 @@ public class AllAccountsReceivableTests {
         suite.addTestSuite(CustomerInvoiceReceivableFinancialObjectCodeValidationTest.class);
         suite.addTestSuite(CustomerInvoiceReceivableFinancialSubObjectCodeValidationTest.class);
         suite.addTestSuite(CustomerInvoiceReceivableProjectCodeValidationTest.class);
-        suite.addTestSuite(CustomerInvoiceReceivableSubAccountNumberValidationTest.class);        
+        suite.addTestSuite(CustomerInvoiceReceivableSubAccountNumberValidationTest.class);  
+        suite.addTestSuite(CustomerCreditMemoDetailServiceTest.class);
+        suite.addTestSuite(CustomerCreditMemoDocumentServiceTest.class);
+        suite.addTestSuite(CustomerCreditMemoDocumentRuleTest.class);
 
         return suite;
     }

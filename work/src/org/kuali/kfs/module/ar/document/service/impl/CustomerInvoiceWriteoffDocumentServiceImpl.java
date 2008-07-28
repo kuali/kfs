@@ -33,7 +33,15 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoiceWriteoffDocumentService {
+    
+    private ParameterService parameterService;
+    private UniversityDateService universityDateService;
+    private FinancialSystemUserService financialSystemUserService;
+    private BusinessObjectService businessObjectService;
 
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument)
+     */
     public void setupDefaultValuesForNewCustomerInvoiceWriteoffDocument( CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument) {
         
         //update status
@@ -41,19 +49,19 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         
         //if writeoffs are generated based on organization accounting default, populate those fields now
         
-        String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
+        String writeoffGenerationOption = parameterService.getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
         boolean isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals( writeoffGenerationOption ); 
         if( isUsingOrgAcctDefaultWriteoffFAU ){
             
-            Integer currentUniversityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-            ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+            Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
+            ChartOrgHolder currentUser = financialSystemUserService.getOrganizationByModuleId(KFSConstants.Modules.CHART);
             
             Map<String,Object> criteria = new HashMap<String,Object>();
             criteria.put("universityFiscalYear", currentUniversityFiscalYear);
             criteria.put("chartOfAccountsCode", currentUser.getChartOfAccountsCode());
             criteria.put("organizationCode", currentUser.getOrganizationCode());
             
-            OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+            OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault)businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
             if( ObjectUtils.isNotNull( organizationAccountingDefault ) ){
                 customerInvoiceWriteoffDocument.setChartOfAccountsCode(organizationAccountingDefault.getChartOfAccountsCode());
                 customerInvoiceWriteoffDocument.setAccountNumber(organizationAccountingDefault.getWriteoffAccountNumber());
@@ -65,5 +73,37 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             }
         } 
     }
+    
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+
+    public FinancialSystemUserService getFinancialSystemUserService() {
+        return financialSystemUserService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }    
 
 }

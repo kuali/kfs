@@ -334,15 +334,14 @@
 	<field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="postingPeriodCode" column="UNIV_FISCAL_PRD_CD " jdbc-type="VARCHAR"/>
 	<field-descriptor name="invoiceWriteoffAmount" column="AR_INV_WRTOFF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="chartOfAccountsCode" column="PMT_FIN_COA_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="accountNumber" column="PMT_ACCT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="subAccountNumber" column="PMT_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialObjectCode" column="PMT_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialSubObjectCode" column="PMT_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="projectCode" column="PMT_PROJECT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationReferenceIdentifier" column="PMT_ORG_REF_ID" jdbc-type="VARCHAR"/>	
-	<field-descriptor name="financialDocumentReferenceInvoiceNumber" column="FDOC_REF_INV_NBR" jdbc-type="VARCHAR"/>    
-
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationReferenceIdentifier" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR"/>	
+	<field-descriptor name="financialDocumentReferenceInvoiceNumber" column="FDOC_REF_INV_NBR" jdbc-type="VARCHAR"/>   
         
     <reference-descriptor name="customerInvoiceDocument" class-ref="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="financialDocumentReferenceInvoiceNumber" />

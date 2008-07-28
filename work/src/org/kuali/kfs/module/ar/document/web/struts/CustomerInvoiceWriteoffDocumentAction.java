@@ -24,7 +24,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
+import org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -82,7 +85,7 @@ public class CustomerInvoiceWriteoffDocumentAction extends FinancialSystemTransa
         //String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME;
         boolean rulePassed = true; //TODO Put rule...
         if (rulePassed){
-
+            SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class).setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(customerInvoiceWriteoffDocument);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

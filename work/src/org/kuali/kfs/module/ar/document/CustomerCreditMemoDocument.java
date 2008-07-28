@@ -357,49 +357,32 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     public void populateCustomerCreditMemoDetails() {
         CustomerCreditMemoDetail customerCreditMemoDetail;
         KualiDecimal invItemTaxAmount, invoiceUnitPrice, openInvoiceQuantity, openInvoiceAmount;
-        Integer itemLineNumber;
-        int ind = 0;
 
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
         setStatusCode(ArConstants.CustomerCreditMemoStatuses.IN_PROCESS);
 
-        //update discount references
-        invoice.updateDiscountAndParentLineReferences();
+        List<CustomerInvoiceDetail> customerInvoiceDetails = invoice.getCustomerInvoiceDetailsWithoutDiscounts();
+        for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
+            customerCreditMemoDetail = new CustomerCreditMemoDetail();
 
-        List<SourceAccountingLine> invoiceDetails = invoice.getSourceAccountingLines();
-        for (SourceAccountingLine invoiceDetail : invoiceDetails) {
-            if (!((CustomerInvoiceDetail) invoiceDetail).isDiscountLine()) {
-                customerCreditMemoDetail = new CustomerCreditMemoDetail();
-                
-                customerCreditMemoDetail.setAccountingLineIndexForCorrespondingInvoiceDetail(ind);
-
-                // populate invoice item 'Total Amount'
-                invItemTaxAmount = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemTaxAmount();
-                if (invItemTaxAmount == null) {
-                    invItemTaxAmount = KualiDecimal.ZERO;
-                    ((CustomerInvoiceDetail) invoiceDetail).setInvoiceItemTaxAmount(invItemTaxAmount);
-                }
-                customerCreditMemoDetail.setInvoiceLineTotalAmount(invItemTaxAmount, invoiceDetail.getAmount());
-
-                itemLineNumber = ((CustomerInvoiceDetail) invoiceDetail).getSequenceNumber();
-                customerCreditMemoDetail.setReferenceInvoiceItemNumber(itemLineNumber);
-
-                openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(itemLineNumber, (CustomerInvoiceDetail) invoiceDetail);
-                
-                /*
-                invoiceUnitPrice = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemUnitPrice();
-                openInvoiceQuantity = openInvoiceAmount.divide(invoiceUnitPrice);
-                customerCreditMemoDetail.setInvoiceOpenItemQuantity(openInvoiceQuantity);
-                */
-                
-                customerCreditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
-                customerCreditMemoDetail.setInvoiceOpenItemQuantity(getInvoiceOpenItemQuantity(customerCreditMemoDetail,(CustomerInvoiceDetail) invoiceDetail));
-                customerCreditMemoDetail.setDocumentNumber(this.documentNumber);
-                customerCreditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(this.financialDocumentReferenceInvoiceNumber);
-
-                creditMemoDetails.add(customerCreditMemoDetail);
+            if(ObjectUtils.isNull(customerInvoiceDetail.getInvoiceItemTaxAmount())){
+                customerInvoiceDetail.setInvoiceItemTaxAmount(KualiDecimal.ZERO);
             }
-            ind++;
+            customerCreditMemoDetail.setInvoiceLineTotalAmount(customerInvoiceDetail.getInvoiceItemTaxAmount(), customerInvoiceDetail.getAmount());
+            customerCreditMemoDetail.setReferenceInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
+            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(customerInvoiceDetail.getSequenceNumber(), customerInvoiceDetail);
+
+            /*
+             * invoiceUnitPrice = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemUnitPrice(); openInvoiceQuantity =
+             * openInvoiceAmount.divide(invoiceUnitPrice); customerCreditMemoDetail.setInvoiceOpenItemQuantity(openInvoiceQuantity);
+             */
+
+            customerCreditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
+            customerCreditMemoDetail.setInvoiceOpenItemQuantity(getInvoiceOpenItemQuantity(customerCreditMemoDetail, customerInvoiceDetail));
+            customerCreditMemoDetail.setDocumentNumber(this.documentNumber);
+            customerCreditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(this.financialDocumentReferenceInvoiceNumber);
+
+            creditMemoDetails.add(customerCreditMemoDetail);
         }
 
     }
@@ -407,54 +390,43 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     /**
      * This method populates credit memo details that aren't saved in database
      */
-    public void populateCustomerCreditMemoDetailsAfterLoad(){
-        
+    public void populateCustomerCreditMemoDetailsAfterLoad() {
+
         KualiDecimal invoiceUnitPrice, openInvoiceQuantity, openInvoiceAmount, invItemTaxAmount, creditMemoItemAmount, creditMemoTaxAmount, taxRate;
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
 
-        List<SourceAccountingLine> invoiceDetails = invoice.getSourceAccountingLines();
-        int index = 0;
         taxRate = getTaxRate();
-        for (SourceAccountingLine invoiceDetail : invoiceDetails) {
-           for( CustomerCreditMemoDetail creditMemoDetail : creditMemoDetails ){
-               if( invoiceDetail.getSequenceNumber().equals( creditMemoDetail.getReferenceInvoiceItemNumber() ) ){
+        List<CustomerInvoiceDetail> customerInvoiceDetails = invoice.getCustomerInvoiceDetailsWithoutDiscounts();
+        for (CustomerCreditMemoDetail creditMemoDetail : creditMemoDetails) {
 
-                   creditMemoDetail.setAccountingLineIndexForCorrespondingInvoiceDetail(index);
-                   openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(invoiceDetail.getSequenceNumber(), (CustomerInvoiceDetail) invoiceDetail);
-                   creditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
-                   
-                   /*
-                   invoiceUnitPrice = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemUnitPrice();
-                   openInvoiceQuantity = openInvoiceAmount.divide(invoiceUnitPrice);
-                   creditMemoDetail.setInvoiceOpenItemQuantity(openInvoiceQuantity);
-                   */
-                   creditMemoDetail.setInvoiceOpenItemQuantity(getInvoiceOpenItemQuantity(creditMemoDetail,(CustomerInvoiceDetail) invoiceDetail));
-                   
-                   creditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(this.financialDocumentReferenceInvoiceNumber);
-                   
-                   invItemTaxAmount = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemTaxAmount();
-                   if (invItemTaxAmount == null) {
-                       invItemTaxAmount = KualiDecimal.ZERO;
-                       ((CustomerInvoiceDetail) invoiceDetail).setInvoiceItemTaxAmount(invItemTaxAmount);
-                   }
-                   creditMemoDetail.setInvoiceLineTotalAmount(invItemTaxAmount, invoiceDetail.getAmount());
-                   
-                   creditMemoItemAmount = creditMemoDetail.getCreditMemoItemTotalAmount();
-                   creditMemoDetail.setDuplicateCreditMemoItemTotalAmount(creditMemoItemAmount);
-                   if (ObjectUtils.isNotNull(creditMemoItemAmount)){
-                       creditMemoTaxAmount = creditMemoItemAmount.multiply(taxRate);
-                       creditMemoDetail.setCreditMemoItemTaxAmount(creditMemoTaxAmount);
-                       creditMemoDetail.setCreditMemoLineTotalAmount(creditMemoItemAmount.add(creditMemoTaxAmount));
-                  
-                       crmTotalItemAmount = crmTotalItemAmount.add(creditMemoItemAmount);
-                       crmTotalTaxAmount = crmTotalTaxAmount.add(creditMemoTaxAmount);
-                       crmTotalAmount = crmTotalAmount.add(creditMemoItemAmount.add(creditMemoTaxAmount));
-                   }
-               }
-               
-           }
-           index++;
-        }      
+            creditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(this.financialDocumentReferenceInvoiceNumber);
+            CustomerInvoiceDetail customerInvoiceDetail = creditMemoDetail.getCustomerInvoiceDetail(); 
+            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(customerInvoiceDetail.getSequenceNumber(), customerInvoiceDetail);
+            creditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
+
+            /*
+             * invoiceUnitPrice = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemUnitPrice(); openInvoiceQuantity =
+             * openInvoiceAmount.divide(invoiceUnitPrice); creditMemoDetail.setInvoiceOpenItemQuantity(openInvoiceQuantity);
+             */
+            creditMemoDetail.setInvoiceOpenItemQuantity(getInvoiceOpenItemQuantity(creditMemoDetail, customerInvoiceDetail));
+
+            if(ObjectUtils.isNull(customerInvoiceDetail.getInvoiceItemTaxAmount())){
+                customerInvoiceDetail.setInvoiceItemTaxAmount(KualiDecimal.ZERO);
+            }
+            creditMemoDetail.setInvoiceLineTotalAmount(customerInvoiceDetail.getInvoiceItemTaxAmount(), customerInvoiceDetail.getAmount());
+
+            creditMemoItemAmount = creditMemoDetail.getCreditMemoItemTotalAmount();
+            creditMemoDetail.setDuplicateCreditMemoItemTotalAmount(creditMemoItemAmount);
+            if (ObjectUtils.isNotNull(creditMemoItemAmount)) {
+                creditMemoTaxAmount = creditMemoItemAmount.multiply(taxRate);
+                creditMemoDetail.setCreditMemoItemTaxAmount(creditMemoTaxAmount);
+                creditMemoDetail.setCreditMemoLineTotalAmount(creditMemoItemAmount.add(creditMemoTaxAmount));
+
+                crmTotalItemAmount = crmTotalItemAmount.add(creditMemoItemAmount);
+                crmTotalTaxAmount = crmTotalTaxAmount.add(creditMemoTaxAmount);
+                crmTotalAmount = crmTotalAmount.add(creditMemoItemAmount.add(creditMemoTaxAmount));
+            }
+        }
     }
     
     public KualiDecimal getInvoiceOpenItemQuantity(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerInvoiceDetail customerInvoiceDetail) {

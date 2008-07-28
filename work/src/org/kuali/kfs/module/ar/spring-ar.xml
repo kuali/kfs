@@ -170,6 +170,20 @@
 		</property>
 	</bean>	
 	
+	<bean id="customerInvoiceWriteoffDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl">		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>		
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService" />
+		</property>
+	</bean>		
 	
 	<bean id="customerInvoiceGLPEService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceGLPEServiceImpl">
 		<property name="generalLedgerPendingEntryService">

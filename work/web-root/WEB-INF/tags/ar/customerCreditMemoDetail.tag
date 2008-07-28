@@ -26,25 +26,26 @@
     description="indicates if display or not an orange flower for this detail line."%>
 <%@ attribute name="cssClass" required="true"%>
 <%@ attribute name="readOnly" required="true" %>
+<%@ attribute name="rowHeader" required="true"
+	description="The value of the header cell of this row.
+              It would be 'add:' or the number of this row's accounting line within its group."%>
 
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 <c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />
 
-<html:hidden property="${crmPropertyName}.accountingLineIndexForCorrespondingInvoiceDetail" />
 <html:hidden property="${crmPropertyName}.documentNumber" /> 
 <html:hidden property="${crmPropertyName}.financialDocumentReferenceInvoiceNumber" />
+<html:hidden property="${crmPropertyName}.referenceInvoiceItemNumber" />
+<html:hidden property="${crmPropertyName}.versionNumber" />
 
 <tr>
 	<!--  Line Number -->
-	<td class="${cssClass}" style="text-align:right" rowspan="4" >
+	<th class="${cssClass}" style="text-align:right" rowspan="4" >
 		<c:if test="${displayOrangeFlower}" >
 	    	<img src="${ConfigProperties.kr.externalizable.images.url}asterisk_orange.png" alt="changed"/>
 	    	&nbsp;
 	    </c:if>
-		<kul:htmlControlAttribute
-			attributeEntry="${customerCreditMemoDetailAttributes.referenceInvoiceItemNumber}"
-			property="${crmPropertyName}.referenceInvoiceItemNumber"
-			readOnly="true" />
+		${rowHeader}:
 			
 	<!--  Quantity -->	
 	<td class="${cssClass}" style="text-align:right" >

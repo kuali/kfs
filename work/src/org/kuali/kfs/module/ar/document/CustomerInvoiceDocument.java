@@ -1,9 +1,11 @@
 package org.kuali.kfs.module.ar.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,6 +35,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -108,6 +111,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	 */
 	public KualiDecimal getBalance() {
 	    return SpringContext.getBean(CustomerInvoiceDocumentService.class).getBalanceForCustomerInvoiceDocument(this);
+	}
+	
+	public void setBalance(KualiDecimal balance) {
+	    //do nothing
 	}
 	
 	/**
@@ -1289,11 +1296,34 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return null;
     }
 
+    /**
+     * This method returns the customer object for the invoice
+     * @return
+     */
     public Customer getCustomer() {
         if( ObjectUtils.isNotNull(accountsReceivableDocumentHeader)){
             return accountsReceivableDocumentHeader.getCustomer();
         }
         return null;
+    }
+    
+    /**
+     * This method will return all the customer invoice details excluding discount invoice detail lines.
+     * @return
+     */
+    public List<CustomerInvoiceDetail> getCustomerInvoiceDetailsWithoutDiscounts(){
+        List<CustomerInvoiceDetail> customerInvoiceDetailsWithoutDiscounts = new ArrayList<CustomerInvoiceDetail>();
+        
+        updateDiscountAndParentLineReferences();
+        
+        List<CustomerInvoiceDetail> customerInvoiceDetailsWithDiscounts = getSourceAccountingLines();
+        for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetailsWithDiscounts) {
+           if( !customerInvoiceDetail.isDiscountLine() ){
+               customerInvoiceDetailsWithoutDiscounts.add(customerInvoiceDetail);
+           }
+        }
+        
+        return customerInvoiceDetailsWithoutDiscounts;
     }
 }
 

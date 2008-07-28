@@ -28,6 +28,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.sys.KFSConstants;
 
 public class AssetLocationServiceImpl implements AssetLocationService {
 
@@ -179,7 +180,15 @@ public class AssetLocationServiceImpl implements AssetLocationService {
 
     private boolean validateOffCampusLocation(Map<LocationField, String> fieldMap, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode) {
         boolean valid = true;
+        boolean isCountryUS = false;
 
+        if (isBlank(fieldMap, LocationField.COUNTRY_CODE, countryCode)) {
+            putError(fieldMap, LocationField.COUNTRY_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_COUNTRY_REQUIRED);
+            valid &= false;
+        } else {
+            isCountryUS = countryCode.equals(KFSConstants.COUNTRY_CODE_UNITED_STATES);
+        }
+        
         if (isBlank(fieldMap, LocationField.CONTACT_NAME, contactName)) {
             putError(fieldMap, LocationField.CONTACT_NAME, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_CONTACT_REQUIRED);
             valid &= false;
@@ -193,17 +202,16 @@ public class AssetLocationServiceImpl implements AssetLocationService {
             putError(fieldMap, LocationField.CITY_NAME, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_CITY_REQUIRED);
             valid &= false;
         }
-        if (isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
-            putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_STATE_REQUIRED);
-            valid &= false;
-        }
-        if (isBlank(fieldMap, LocationField.ZIP_CODE, zipCode)) {
-            putError(fieldMap, LocationField.ZIP_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_ZIP_REQUIRED);
-            valid &= false;
-        }
-        if (isBlank(fieldMap, LocationField.COUNTRY_CODE, countryCode)) {
-            putError(fieldMap, LocationField.COUNTRY_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_COUNTRY_REQUIRED);
-            valid &= false;
+        
+        if (isCountryUS) {
+            if (isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
+                putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_STATE_REQUIRED);
+                valid &= false;
+            }
+            if (isBlank(fieldMap, LocationField.ZIP_CODE, zipCode)) {
+                putError(fieldMap, LocationField.ZIP_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_ZIP_REQUIRED);
+                valid &= false;
+            }
         }
         return valid;
     }

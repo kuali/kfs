@@ -220,6 +220,14 @@ public interface LockService {
     public BudgetConstructionLockStatus lockTransaction(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
 
     /**
+     * attemps to have a transaction lock based on the information provided by the given funding line
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @param universalUser the specified user
+     */
+    public BudgetConstructionLockStatus lockTransaction(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser);
+
+    /**
      * This checks the database for an existing transactionlock for the BC EDoc (account).
      * 
      * @param chartOfAccountsCode
@@ -253,6 +261,14 @@ public interface LockService {
      *         (BudgetConstructionHeader not found)
      */
     public LockStatus unlockTransaction(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear);
+    
+    /**
+     * attemps to unlock a transaction based on the information provided by the given funding line
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @param universalUser the specified user
+     */
+    public void unlockTransaction(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser);
 
     /**
      * Retrieves all current account locks for the given user (or all locks if user is null/empty).
@@ -321,7 +337,8 @@ public interface LockService {
     public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, UniversalUser universalUser);
 
     /**
-     * Retrieves account locks for funding records, for use in the payrate import process. Throws BudgetConstructionLockUnavailableException if new account lock is unavailable
+     * Retrieves account locks for funding records, for use in the payrate import process. Throws
+     * BudgetConstructionLockUnavailableException if new account lock is unavailable
      * 
      * @param fundingRecords
      * @param user
@@ -329,10 +346,11 @@ public interface LockService {
      * @throws BudgetConstructionLockUnavailableException
      */
     public List<PendingBudgetConstructionAppointmentFunding> lockPendingBudgetConstructionAppointmentFundingRecords(List<PendingBudgetConstructionAppointmentFunding> fundingRecords, UniversalUser user) throws BudgetConstructionLockUnavailableException;
-    
+
     /**
-     * Retrives an account lock (@see org.kuali.kfs.module.bc.document.service.LockService#lockAccount(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
-     *      java.lang.String) and commits the lock. Used by the request import process.
+     * Retrives an account lock (@see
+     * org.kuali.kfs.module.bc.document.service.LockService#lockAccount(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
+     * java.lang.String) and commits the lock. Used by the request import process.
      * 
      * @param bcHeader
      * @param personUniversalIdentifier

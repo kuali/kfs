@@ -17,7 +17,9 @@ package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,6 +33,7 @@ import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
@@ -52,6 +55,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     private List<PendingBudgetConstructionAppointmentFunding> lockedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
     private List<BudgetConstructionPosition> lockedPositions = new ArrayList<BudgetConstructionPosition>();
+    private List<PendingBudgetConstructionAppointmentFunding> fundingsWithTransactionLocks = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
 
     private boolean addLine;
 
@@ -125,8 +129,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             boolean gotLocks = this.acquireLocks(appointmentFunding);
-            
-            if(!gotLocks) {
+
+            if (!gotLocks) {
                 return false;
             }
         }
@@ -143,7 +147,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public boolean acquireLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
-        
+
         // update the access flags of the current funding line
         boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.isSingleAccountMode(), universalUser);
         if (!updated) {
@@ -183,6 +187,29 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     }
 
     /**
+     * acquire transaction locks for the given appointment fundings
+     * 
+     * @param appointmentFundings the given appointment fundings
+     * @return true if the transaction locks for all given appointment fundings are acquired successfully, otherwise, false
+     */
+    public boolean acquireTransactionLocks(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
+        for (PendingBudgetConstructionAppointmentFunding fundingLine : appointmentFundings) {
+            BudgetConstructionLockStatus lockStatus = lockService.lockTransaction(fundingLine, universalUser);
+
+            if (!LockStatus.SUCCESS.equals(lockStatus.getLockStatus())) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, fundingLine.toString());
+                
+                this.releaseTransactionLocks();
+                return false;
+            }
+            
+            fundingsWithTransactionLocks.add(fundingLine);
+        }
+
+        return true;
+    }
+
+    /**
      * release all the locks on the given position and fundings owns by the specified user
      * 
      * @param lockedPositions the locked position being released
@@ -191,7 +218,37 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public void releaseLocks(List<BudgetConstructionPosition> lockedPositions, List<PendingBudgetConstructionAppointmentFunding> lockedFundings, UniversalUser universalUser) {
         lockService.unlockFunding(lockedFundings, universalUser);
+        lockedFundings.clear();
+        
         lockService.unlockPostion(lockedPositions, universalUser);
+        lockedPositions.clear();
+    }
+    
+    /**
+     * release all the transaction locks owns by the current user
+     */
+    public void releaseTransactionLocks() {
+        for(PendingBudgetConstructionAppointmentFunding appointmentFunding : fundingsWithTransactionLocks) {
+            lockService.unlockTransaction(appointmentFunding, universalUser);
+        }
+        fundingsWithTransactionLocks.clear();
+    }
+
+    /**
+     * sets the default fields not setable by the user for added lines and any other required initialization
+     * 
+     * @param appointmentFunding the given appointment funding line
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> getSavableAppointmentFundings() {
+        List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+
+        // get the funding lines that can be saved
+        for (PendingBudgetConstructionAppointmentFunding fundingLine : this.getAppointmentFundings()) {
+            if ((fundingLine.isAppointmentFundingDeleteIndicator() || fundingLine.isBudgetable()) && !fundingLine.isDisplayOnlyMode()) {
+                savableAppointmentFundings.add(fundingLine);
+            }
+        }
+        return savableAppointmentFundings;
     }
 
     /**
@@ -352,5 +409,14 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         else {
             throw new RuntimeException("Access denied: not authorized to do the detail salary setting");
         }
+    }
+
+    /**
+     * Gets the universalUser attribute.
+     * 
+     * @return Returns the universalUser.
+     */
+    public UniversalUser getUniversalUser() {
+        return universalUser;
     }
 }

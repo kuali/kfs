@@ -52,7 +52,7 @@
 		<c:set var="isVacant" value="${fundingLine.emplid eq KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}" />
 		<c:set var="isNewLine" value="${fundingLine.newLineIndicator}" />
 		<c:set var="hidePercentAdjustment" value="${fundingLine.appointmentFundingDeleteIndicator || KualiForm.hideAdjustmentMeasurement || readOnly || empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
-		<c:set var="notEditable" value="${readOnly || fundingLine.persistedDeleteIndicator}"/>
+		<c:set var="notEditable" value="${readOnly || fundingLine.persistedDeleteIndicator || fundingLine.displayOnlyMode}"/>
 		<c:set var="canPurge" value="${not notEditable && empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
 		<c:set var="canDelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.appointmentFundingDeleteIndicator }" />
 		<c:set var="canUndelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.vacatable && fundingLine.appointmentFundingDeleteIndicator}" />		

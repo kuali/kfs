@@ -472,6 +472,20 @@ public class LockServiceImpl implements LockService {
         }
         return bcLockStatus;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockTransaction(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Transactional
+    public BudgetConstructionLockStatus lockTransaction(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser) {
+        String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
+        String accountNumber = appointmentFunding.getAccountNumber();
+        String subAccountNumber = appointmentFunding.getSubAccountNumber();
+        Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
+        String personUserIdentifier = universalUser.getPersonUserIdentifier();
+        
+        return this.lockTransaction(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier);        
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#isTransactionLocked(java.lang.String, java.lang.String,
@@ -537,6 +551,21 @@ public class LockServiceImpl implements LockService {
             lockStatus = LockStatus.NO_DOOR; // target not found
         }
         return lockStatus;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockTransaction(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.core.bo.user.UniversalUser)
+     */
+    public void unlockTransaction(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser) {
+        String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
+        String accountNumber = appointmentFunding.getAccountNumber();
+        String subAccountNumber = appointmentFunding.getSubAccountNumber();
+        Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
+        String personUserIdentifier = universalUser.getPersonUserIdentifier();
+        
+        if(this.isTransactionLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier)) {
+            this.unlockTransaction(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
+        }
     }
 
     /**

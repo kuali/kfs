@@ -19,7 +19,9 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class PurchasingServiceImpl implements PurchasingService {
 
     private ParameterService parameterService;

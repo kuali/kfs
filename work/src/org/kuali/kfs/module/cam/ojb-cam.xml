@@ -616,7 +616,6 @@
 	<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorName" column="VENDOR_NAME" jdbc-type="VARCHAR"/>
 	<field-descriptor name="assetTopsDescription" column="CPTLAST_TOPS_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationDescription" column="ORG_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationText" column="CPTLAST_ORG_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR"/>

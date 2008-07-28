@@ -96,11 +96,10 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationCode" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationDescription" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="organizationInventoryName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="personUniversal.personUserIdentifier" />
+              p:name="personUniversal.personUserIdentifier" 
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="personUniversal.personName"
               p:readOnly="true" />

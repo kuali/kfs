@@ -28,7 +28,6 @@
         <ref bean="Pretag-lineItemNumber" />
         <ref bean="Pretag-manufacturerModelNumber" />
         <ref bean="Pretag-manufacturerName" />
-        <ref bean="Pretag-organizationDescription" />
         <ref bean="Pretag-organizationInventoryName" />
         <ref bean="Pretag-organizationText" />
         <ref bean="Pretag-quantityInvoiced" />
@@ -220,26 +219,6 @@
     <property name="summary" value="manufacturerName" />
     <property name="description" value="manufacturerName description..." />
   </bean>
-  <bean id="Pretag-organizationDescription" parent="Pretag-organizationDescription-parentBean" />
-
-  <bean id="Pretag-organizationDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Organization Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="255" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
-    </property>
-    <property name="summary" value="organizationDescription" />
-    <property name="description" value="organizationDescription description..." />
-  </bean>
   <bean id="Pretag-organizationInventoryName" parent="Pretag-organizationInventoryName-parentBean" />
 
   <bean id="Pretag-organizationInventoryName-parentBean" abstract="true" parent="AttributeDefinition">
@@ -397,8 +376,6 @@
                     p:attributeName="vendorName" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationDescription" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationInventoryName" />
               <bean parent="FieldDefinition"

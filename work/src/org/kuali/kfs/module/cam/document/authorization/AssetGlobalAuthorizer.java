@@ -50,10 +50,10 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             LOG.info("getFieldAuthorizations type code: '" + assetGlobal.getFinancialDocumentTypeCode() + "'");
-            // set Asset Global Details info as read only
+
             setAssetGlobalDetailsFieldsReadOnlyAccessMode(auths, user);
-            // set Asset Payment Details as read only
-            setAssetPaymentDetailsFieldsReadOnlyAccessMode(auths, user);
+            // TODO does not work with Asset Global
+            //setAssetPaymentDetailsFieldsReadOnlyAccessMode(auths, user);
         }
 
         LOG.info("getFieldAuthorizations RETURN....");

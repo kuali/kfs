@@ -90,7 +90,7 @@
   <bean id="BudgetConstructionDuration-inquiryDefinition" parent="BudgetConstructionDuration-inquiryDefinition-parentBean" />
 
   <bean id="BudgetConstructionDuration-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Duration Inquiry" />
+    <property name="title" value="Duration Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -117,7 +117,7 @@
   <bean id="BudgetConstructionDuration-lookupDefinition" parent="BudgetConstructionDuration-lookupDefinition-parentBean" />
 
   <bean id="BudgetConstructionDuration-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Duration Lookup" />
+    <property name="title" value="Duration Lookup" />
     <property name="instructions" value="Look up a Budget Construction Duration" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

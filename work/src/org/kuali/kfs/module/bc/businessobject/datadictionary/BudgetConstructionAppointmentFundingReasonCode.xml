@@ -90,7 +90,7 @@
   <bean id="BudgetConstructionAppointmentFundingReasonCode-inquiryDefinition" parent="BudgetConstructionAppointmentFundingReasonCode-inquiryDefinition-parentBean" />
 
   <bean id="BudgetConstructionAppointmentFundingReasonCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Appointment Funding Reason Code Inquiry" />
+    <property name="title" value="Appointment Funding Reason Code Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -117,7 +117,7 @@
   <bean id="BudgetConstructionAppointmentFundingReasonCode-lookupDefinition" parent="BudgetConstructionAppointmentFundingReasonCode-lookupDefinition-parentBean" />
 
   <bean id="BudgetConstructionAppointmentFundingReasonCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Appointment Funding Reason Code Lookup" />
+    <property name="title" value="Appointment Funding Reason Code Lookup" />
     <property name="instructions" value="Look up a Budget Construction Appointment Funding Reason Code" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

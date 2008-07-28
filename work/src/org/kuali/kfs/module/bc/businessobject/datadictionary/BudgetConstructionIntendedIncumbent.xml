@@ -151,7 +151,7 @@
   <bean id="BudgetConstructionIntendedIncumbent-inquiryDefinition" parent="BudgetConstructionIntendedIncumbent-inquiryDefinition-parentBean" />
 
   <bean id="BudgetConstructionIntendedIncumbent-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Intended Incumbent Inquiry" />
+    <property name="title" value="Intended Incumbent Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -183,7 +183,7 @@
   <bean id="BudgetConstructionIntendedIncumbent-lookupDefinition" parent="BudgetConstructionIntendedIncumbent-lookupDefinition-parentBean" />
 
   <bean id="BudgetConstructionIntendedIncumbent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Intended Incumbent Lookup" />
+    <property name="title" value="Intended Incumbent Lookup" />
     <property name="lookupableID" value="budgetIntendedIncumbentLookupable" />
     <property name="instructions" value="Look up a Budget Construction Intended Incumbent" />
     <property name="defaultSort" >

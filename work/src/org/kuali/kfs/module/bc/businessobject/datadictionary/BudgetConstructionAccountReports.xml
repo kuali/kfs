@@ -89,7 +89,7 @@
   <bean id="BudgetConstructionAccountReports-inquiryDefinition" parent="BudgetConstructionAccountReports-inquiryDefinition-parentBean" />
 
   <bean id="BudgetConstructionAccountReports-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Account Reports Inquiry" />
+    <property name="title" value="Account Reports Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -120,7 +120,7 @@
   <bean id="BudgetConstructionAccountReports-lookupDefinition" parent="BudgetConstructionAccountReports-lookupDefinition-parentBean" />
 
   <bean id="BudgetConstructionAccountReports-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Account Reports Lookup" />
+    <property name="title" value="Account Reports Lookup" />
     <property name="instructions" value="Look up a Budget Construction Account Report" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

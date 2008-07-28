@@ -128,7 +128,7 @@
   <bean id="BudgetConstructionOrganizationReports-inquiryDefinition" parent="BudgetConstructionOrganizationReports-inquiryDefinition-parentBean" />
 
   <bean id="BudgetConstructionOrganizationReports-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Organization Reports Inquiry" />
+    <property name="title" value="Organization Reports Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -159,7 +159,7 @@
   <bean id="BudgetConstructionOrganizationReports-lookupDefinition" parent="BudgetConstructionOrganizationReports-lookupDefinition-parentBean" />
 
   <bean id="BudgetConstructionOrganizationReports-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Organization Reports Lookup" />
+    <property name="title" value="Organization Reports Lookup" />
     <property name="instructions" value="Look up Budget Construction Organization Reports" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

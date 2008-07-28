@@ -26,6 +26,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.Section;
@@ -106,22 +107,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     }
 
     /**
-     * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#setupNewFromExisting(org.kuali.core.document.MaintenanceDocument,
-     *      java.util.Map)
-     */
-    @Override
-    public void setupNewFromExisting(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.setupNewFromExisting(document, parameters);
-
-        // Setup default asset retirement date. <defaultValueFinderClass> defined in DD can NOT work at this point.
-        AssetRetirementGlobal assetRetirementGlobal = ((AssetRetirementGlobal) getBusinessObject());
-        java.sql.Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        assetRetirementGlobal.setRetirementDate(currentDate);
-    }
-
-    /**
-     * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.core.maintenance.Maintainable)
      */
     @Override
@@ -146,7 +131,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
 
     /**
-     * 
      * @see org.kuali.core.maintenance.KualiGlobalMaintainableImpl#prepareGlobalsForSave()
      */
     @Override
@@ -166,7 +150,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     }
 
     /**
-     * 
      * This method copies each attributes except capitalAssetNumber in AssetRetirementGlobalDetail from source to destination.
      * 
      * @param source
@@ -194,8 +177,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     }
 
     /**
-     * 
-     * 
      * @see org.kuali.core.maintenance.KualiGlobalMaintainableImpl#processGlobalsAfterRetrieve()
      */
     @Override
@@ -219,7 +200,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
 
     /**
-     * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.core.document.MaintenanceDocument)
      */
@@ -248,17 +228,23 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
             AssetRetirementGlobalDetail newDetail = (AssetRetirementGlobalDetail) newCollectionLines.get(CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS);
             assetService.setAssetSummaryFields(newDetail.getAsset());
         }
-
     }
 
     /**
-     * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.core.bo.DocumentHeader)
      */
     @Override
     public void handleRouteStatusChange(DocumentHeader documentHeader) {
         super.handleRouteStatusChange(documentHeader);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-        new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader)documentHeader).handleRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
+
+        // all approvals have been processed, the retirement date is set to the approval date
+        if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
+            assetRetirementGlobal.setRetirementDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal);
+        }
+
+        new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
+
     }
 }

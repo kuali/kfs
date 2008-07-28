@@ -122,7 +122,7 @@
         <property name="vendorService" ref="vendorService"/>
     </bean>
     
-    <bean id="purchasingService" class="org.kuali.kfs.module.purap.document.service.PurchasingServiceImpl">
+    <bean id="purchasingService" class="org.kuali.kfs.module.purap.document.service.impl.PurchasingServiceImpl">
         <property name="parameterService" ref="parameterService"/>
     </bean>
     

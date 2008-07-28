@@ -41,17 +41,12 @@
 
     <tr>
 	<th colspan="1" scope="row">&nbsp;
-    add:<input name="newSourceLine.postingYear" value="2009" type="hidden"><input name="newSourceLine.overrideCode" value="N" type="hidden"></th>
+    add:</th>
 
 <td class="infoline" colspan="10" valign="top">
     <span class="nowrap">
-    <input name="newSourceLine.accountNumber" maxlength="7" size="10" tabindex="0" value="" onchange="" onblur="loadAccountInfo( this.name, 'newSourceLine.account.accountName');" id="newSourceLine.accountNumber" style="" class="" title="* Account Number" type="text"><input tabindex="32767" name="methodToCall.performLookup.(!!org.kuali.kfs.coa.businessobject.Account!!).(((chartOfAccountsCode:newSourceLine.chartOfAccountsCode,accountNumber:newSourceLine.accountNumber))).((#newSourceLine.chartOfAccountsCode:chartOfAccountsCode#)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor" src="https://test.kuali.org/kuali-cnv/kr/static/images/searchicon.gif" class="tinybutton" valign="middle" alt="Search Account Number" title="Search Account Number" type="image" border="0"></span>
-
-<input name="newSourceLine.accountExpiredOverride" value="No" type="hidden"><input name="newSourceLine.accountExpiredOverrideNeeded" value="No" type="hidden"><input name="newSourceLine.nonFringeAccountOverride" value="No" type="hidden"><input name="newSourceLine.nonFringeAccountOverrideNeeded" value="No" type="hidden"><br>
-    <div id="newSourceLine.account.accountName.div" class="fineprint">
-    </div>
-
-<input name="newSourceLine.account.accountName" value="" type="hidden"></td>
+    <input name="temporarytestfield" maxlength="7" size="10" tabindex="0" value="" style="" class="" type="text"><input tabindex="32767" name="methodToCall.performLookup.(!!org.kuali.kfs.coa.businessobject.Account!!).(((chartOfAccountsCode:newSourceLine.chartOfAccountsCode,accountNumber:newSourceLine.accountNumber))).((#newSourceLine.chartOfAccountsCode:chartOfAccountsCode#)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor" src="https://test.kuali.org/kuali-cnv/kr/static/images/searchicon.gif" class="tinybutton" valign="middle" alt="Search Account Number" title="Search Account Number" type="image" border="0"></span>
+</td>
 
 <td class="infoline" rowspan="" nowrap="nowrap"><div align="center">
             <input name="methodToCall.insertSourceLine.anchoraccountingSourceAnchor" src="https://test.kuali.org/kuali-cnv/kr/static/images/tinybutton-add1.gif" class="tinybutton" title="Add an Accounting Line" alt="Add an Accounting Line" type="image"><br>
@@ -61,18 +56,17 @@
 </div>
         </td>
     </tr>
-<!--  baselineLine = baselineSourceAccountingLine[0] -->
-    <!-- Editable = true ; -->
+
     <tr>
 
 	<th rowspan="1" colspan="1" scope="row">&nbsp;
-    1:<input name="document.sourceAccountingLine[0].postingYear" value="2009" type="hidden"><input name="baselineSourceAccountingLine[0].postingYear" value="2009" type="hidden"><input name="document.sourceAccountingLine[0].overrideCode" value="N" type="hidden"><input name="baselineSourceAccountingLine[0].overrideCode" value="N" type="hidden"><input name="document.sourceAccountingLine[0].sequenceNumber" value="1" type="hidden"><input name="baselineSourceAccountingLine[0].sequenceNumber" value="1" type="hidden"><input name="document.sourceAccountingLine[0].versionNumber" value="" type="hidden"><input name="baselineSourceAccountingLine[0].versionNumber" value="" type="hidden"><input name="document.sourceAccountingLine[0].documentNumber" value="319112" type="hidden"><input name="baselineSourceAccountingLine[0].documentNumber" value="319112" type="hidden"><input name="document.sourceAccountingLine[0].budgetAdjustmentPeriodCode" value="" type="hidden"><input name="baselineSourceAccountingLine[0].budgetAdjustmentPeriodCode" value="" type="hidden"><input name="document.sourceAccountingLine[0].fringeBenefitIndicator" value="No" type="hidden"><input name="baselineSourceAccountingLine[0].fringeBenefitIndicator" value="No" type="hidden"></th>
+    1:</th>
 <td class="datacell" colspan="10" rowspan="1" valign="top">
 123456
 </td>
 <td class="datacell" rowspan="" nowrap="nowrap">
             <div align="center">
-                <input name="sourceLineDecorator[0].revertible" value="false" type="hidden"><input name="methodToCall.deleteSourceLine.line0.anchoraccountingSourceAnchor" src="https://test.kuali.org/kuali-cnv/kr/static/images/tinybutton-delete1.gif" class="tinybutton" title="Delete Accounting Line 1" alt="Delete Accounting Line 1" type="image">
+                <input name="methodToCall.deleteSourceLine.line0.anchoraccountingSourceAnchor" src="https://test.kuali.org/kuali-cnv/kr/static/images/tinybutton-delete1.gif" class="tinybutton" title="Delete Accounting Line 1" alt="Delete Accounting Line 1" type="image">
         </td>
     </tr>
 

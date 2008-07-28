@@ -23,6 +23,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
+import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,15 +45,20 @@ public class CustomerCreditMemoDetailServiceTest extends KualiTestBase {
         super.setUp();
         service = SpringContext.getBean(CustomerCreditMemoDetailService.class);
         
+        String documentNumber = CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER,
+                new CustomerInvoiceDetailFixture[]
+                {CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE},
+                null);
+        
         document = new CustomerCreditMemoDocument();
-        document.setFinancialDocumentReferenceInvoiceNumber("325855");
+        document.setFinancialDocumentReferenceInvoiceNumber(documentNumber);
         document.getInvoice();
         
         detail = new CustomerCreditMemoDetail();
         detail.setReferenceInvoiceItemNumber(new Integer(1));
-        detail.setFinancialDocumentReferenceInvoiceNumber("325855");
+        detail.setFinancialDocumentReferenceInvoiceNumber(documentNumber);
         
-        testAmount = new KualiDecimal(55.5);
+        testAmount = new KualiDecimal(0.5);
     }
 
     /**

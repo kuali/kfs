@@ -33,9 +33,11 @@
         			</div>
         		</th>
         		<td>
+					<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.document.financialDocumentReferenceInvoiceNumber}&command=displayDocSearchView" target="blank">
         			<kul:htmlControlAttribute attributeEntry="${documentAttributes.financialDocumentReferenceInvoiceNumber}"
         			                      	  property="document.financialDocumentReferenceInvoiceNumber"
         			                          readOnly="true" />	
+					</a>
         		</td>
         	</tr>
         

@@ -1,628 +1,608 @@
 /*
- * Created on Mar 9, 2005
- *
+ * Copyright 2006-2007 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.sql.Date;
+import java.util.LinkedHashMap;
 
-import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
-
-import org.kuali.kfs.module.purap.util.cxml.CxmlHeader;
+import org.kuali.core.bo.Campus;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * @author delyea
- *
+ * Electronic Invoice Header Information Business Object.
  */
-public class ElectronicInvoiceHeaderInformation {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceHeaderInformation.class);
+public class ElectronicInvoiceHeaderInformation extends PersistableBusinessObjectBase {
 
-  private static BigDecimal zero = new BigDecimal(0.00);
-  
-  public static String INVOICE_AMOUNT_TYPE_CODE_TAX = "TAX";
-  public static String INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING = "SPHD";
-  public static String INVOICE_AMOUNT_TYPE_CODE_SHIPPING = "SHIP";
-  public static String INVOICE_AMOUNT_TYPE_CODE_DISCOUNT = "DISC";
-  public static String INVOICE_AMOUNT_TYPE_CODE_DEPOSIT = "DPST";
-  public static String INVOICE_AMOUNT_TYPE_CODE_DUE = "DUE";
-  
-  public static boolean FILE_REJECTED = true;
-  public static boolean FILE_NOT_REJECTED = false;
-  public static boolean FILE_DOES_CONTAIN_REJECTS = true;
-  public static boolean FILE_DOES_NOT_CONTAIN_REJECTS = false;
-  
-  private CxmlHeader cxmlHeader;
-  private String customerNumber;
-  
-  private String fileName;
-  private String dunsNumber;
-  private Integer vendorHeaderID = null;
-  private Integer vendorDetailID = null;
-  private String vendorName= null;
-  private boolean fileRejected = FILE_NOT_REJECTED;
-  private boolean containsRejects = FILE_DOES_NOT_CONTAIN_REJECTS;
-  private List fileRejectReasons = new ArrayList();
-  
-  private ElectronicInvoiceDetailRequestHeader invoiceDetailRequestHeader;
-  private List invoiceDetailOrders = new ArrayList();
-  private ElectronicInvoiceDetailRequestSummary invoiceDetailRequestSummary;
-  
-  /**
-   * 
-   */
-  public ElectronicInvoiceHeaderInformation() {
-    super();
-  }
-  
-  private boolean containsLineLevelAmounts() {
-    return invoiceDetailRequestHeader.isShippingInLine() || invoiceDetailRequestHeader.isSpecialHandlingInLine() ||
-           invoiceDetailRequestHeader.isTaxInLine() || invoiceDetailRequestHeader.isDiscountInLine();
-  }
-  
-  public void addFileRejectReasonToList(ElectronicInvoiceRejectReason reason) {
-    this.fileRejectReasons.add(reason);
-  }
-  
-  /*
-   * ADDRESS METHODS
-   * 
-   */
-  public ElectronicInvoicePostalAddress getCxmlPostalAddress(ElectronicInvoiceOrder eio,String roleID,String addressName) {
-    if (this.invoiceDetailRequestHeader.isShippingInLine()) {
-      return eio.getCxmlPostalAddressByRoleID(roleID, addressName);
-    } else {
-      return this.invoiceDetailRequestHeader.getCxmlPostalAddressByRoleID(roleID, addressName);
-    }
-  }
-  
-  public ElectronicInvoiceContact getCxmlContact(ElectronicInvoiceOrder eio,String roleID) {
-	if (this.invoiceDetailRequestHeader.isShippingInLine()) {
-	  return eio.getCxmlContactByRoleID(roleID);
-	} else {
-	  return this.invoiceDetailRequestHeader.getCxmlContactByRoleID(roleID);
-	}
-  }
-  /*
-   * DATE DISPLAY TEXT METHODS
-   * 
-   */
-  private String getDateDisplayText(Date date) {
-    Calendar c = Calendar.getInstance();
-    c.setTime(date);
-    // we add one to the month below because January = 0, February = 1, March = 2, and so on
-    String useDate = (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DATE) + "/" + c.get(Calendar.YEAR);
-    String actualDate = (date != null) ? date.toString() : "empty given date"; 
-    LOG.info("getDateDisplayText() Returning Date '" + useDate + "' garnered from " + actualDate);
-    return useDate;
-  }
+    private Integer invoiceHeaderInformationIdentifier;
+    private Long accountsPayableElectronicInvoiceLoadSummaryIdentifier;
+    private Date invoiceProcessDate;
+    private String invoiceFileName;
+    private String vendorDunsNumber;
+    private Integer vendorHeaderGeneratedIdentifier;
+    private Integer vendorDetailAssignedIdentifier;
+    private String invoiceFileDate;
+    private String invoiceFileNumber;
+    private String invoiceFilePurposeIdentifier;
+    private String invoiceFileOperationIdentifier;
+    private String invoiceFileDeploymentModeValue;
+    private boolean invoiceFileHeaderTypeIndicator;
+    private boolean invoiceFileInformationOnlyIndicator;
+    private boolean invoiceFileTaxInLineIndicator;
+    private boolean invoiceFileSpecialHandlingInLineIndicator;
+    private boolean invoiceFileShippingInLineIndicator;
+    private boolean invoiceFileDiscountInLineIndicator;
+    private String invoiceOrderReferenceOrderIdentifier;
+    private String invoiceOrderReferenceDocumentReferencePayloadIdentifier;
+    private String invoiceOrderReferenceDocumentReferenceText;
+    private String invoiceOrderMasterAgreementReferenceIdentifier;
+    private String invoiceOrderMasterAgreementReferenceDate;
+    private String invoiceOrderMasterAgreementInformationIdentifier;
+    private String invoiceOrderMasterAgreementInformationDate;
+    private String invoiceOrderPurchaseOrderIdentifier;
+    private String invoiceOrderPurchaseOrderDate;
+    private String invoiceOrderSupplierOrderInformationIdentifier;
+    private Integer epicPurchaseOrderIdentifier;
+    private BigDecimal invoiceItemSubTotalAmount;
+    private String invoiceItemSubTotalCurrencyCode;
+    private BigDecimal invoiceItemSpecialHandlingAmount;
+    private String invoiceItemSpecialHandlingCurrencyCode;
+    private BigDecimal invoiceItemShippingAmount;
+    private String invoiceItemShippingCurrencyCode;
+    private String invoiceItemShippingDescription;
+    private BigDecimal invoiceItemTaxAmount;
+    private String invoiceItemTaxCurrencyCode;
+    private String invoiceItemTaxDescription;
+    private BigDecimal invoiceItemGrossAmount;
+    private String invoiceItemGrossCurrencyCode;
+    private BigDecimal invoiceItemDiscountAmount;
+    private String invoiceItemDiscountCurrencyCode;
+    private BigDecimal invoiceItemNetAmount;
+    private String invoiceItemNetCurrencyCode;
+    private Date invoiceRejectExtractDate;
+    private String epicPurchaseOrderDeliveryCampusCode;
+    private Date invoiceShipDate;
+    private String invoiceAddressName;
+    private String invoiceShipToLine1Address;
+    private String invoiceShipToLine2Address;
+    private String invoiceShipToLine3Address;
+    private String invoiceCustomerNumber;
+    private String invoiceShipToStateCode;
+    private String invoiceShipToCountryCode;
+    private String invoiceShipToCityName;
+    private String invoiceShipToPostalCode;
+    private String invoicePurchaseOrderNumber;
 
-  public String getShippingDateDisplayText(ElectronicInvoiceOrder eio) {
-    Date date = null;
-    String dateString = "";
-    if (this.invoiceDetailRequestHeader.isShippingInLine()) {
-      date = eio.getInvoiceShippingDate();
-      dateString = eio.getInvoiceShippingDateString();
-    } else {
-      date = this.invoiceDetailRequestHeader.getShippingDate();
-      dateString = this.invoiceDetailRequestHeader.getShippingDateString();
-    }
-    if (date != null) {
-      return this.getDateDisplayText(date);
-    } else {
-      return dateString;
-    }
-  }
-  
-  public String getMasterAgreementIDInfoDateDisplayText(ElectronicInvoiceOrder eio) {
-    Date date = eio.getMasterAgreementIDInfoDate();
-    if (date != null) {
-      return this.getDateDisplayText(date);
-    } else {
-      return eio.getMasterAgreementIDInfoDateString();
-    }
-  }
-  
-  public String getMasterAgreementReferenceDateDisplayText(ElectronicInvoiceOrder eio) {
-    Date date = eio.getMasterAgreementReferenceDate();
-    if (date != null) {
-      return this.getDateDisplayText(date);
-    } else {
-      return eio.getMasterAgreementReferenceDateString();
-    }
-  }
-  
-  public String getOrderIDInfoDateDisplayText(ElectronicInvoiceOrder eio) {
-    Date date = eio.getOrderIDInfoDate();
-    if (date != null) {
-      return this.getDateDisplayText(date);
-    } else {
-      return eio.getOrderIDInfoDateString();
-    }
-  }
-  
-  public String getInvoiceDateDisplayText() {
-    Date date = this.invoiceDetailRequestHeader.getInvoiceDate();
-    if (date != null) {
-      return this.getDateDisplayText(date);
-    } else {
-      return this.invoiceDetailRequestHeader.getInvoiceDateString();
-    }
-  }
-  
-  /*
-   * DESCRIPTION METHODS
-   * 
-   */
-  public String getInvoiceShippingDescription(ElectronicInvoiceOrder eio) {
-    if (this.invoiceDetailRequestHeader.isShippingInLine()) {
-      return eio.getInvoiceShippingDescription();
-    } else {
-      return invoiceDetailRequestSummary.getShippingDescription();
-    }
-  }
-  
-  public String getInvoiceTaxDescription(ElectronicInvoiceOrder eio) {
-    if (this.invoiceDetailRequestHeader.isTaxInLine()) {
-      return eio.getInvoiceTaxDescription();
-    } else {
-      return invoiceDetailRequestSummary.getTaxDescription();
-    }
-  }
-  
-  public String getInvoiceSpecialHandlingDescription(ElectronicInvoiceOrder eio) {
-    // if special handling is at the line level... no description can be entered
-    if (!(this.invoiceDetailRequestHeader.isSpecialHandlingInLine())) {
-      return invoiceDetailRequestSummary.getSpecialHandlingAmountDescription();
-    }
-    return "Amount Description Not Specified";
-  }
-    
-  /*
-   * AMOUNT METHODS
-   * 
-   */
-  public BigDecimal getFileTotalAmountForInLineItems(String invoiceLineItemType) {
-    BigDecimal total = zero;
-    for (Iterator orderIter = this.invoiceDetailOrders.iterator(); orderIter.hasNext();) {
-      ElectronicInvoiceOrder eio = (ElectronicInvoiceOrder) orderIter.next();
-      if (INVOICE_AMOUNT_TYPE_CODE_TAX.equalsIgnoreCase(invoiceLineItemType)) {
-        total = total.add(eio.getInvoiceTaxAmount());
-      } else if (INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING.equalsIgnoreCase(invoiceLineItemType)) {
-        total = total.add(eio.getInvoiceSpecialHandlingAmount());
-      } else if (INVOICE_AMOUNT_TYPE_CODE_SHIPPING.equalsIgnoreCase(invoiceLineItemType)) {
-        total = total.add(eio.getInvoiceShippingAmount());
-      } else if (INVOICE_AMOUNT_TYPE_CODE_DISCOUNT.equalsIgnoreCase(invoiceLineItemType)) {
-        total = total.add(eio.getInvoiceDiscountAmount());
-      }
-    }
-    return total;
-  }
-  
-  public BigDecimal getInvoiceSubtotalAmount(ElectronicInvoiceOrder eio) {
-    if (this.containsLineLevelAmounts()) {
-      return eio.getInvoiceSubtotalAmount();
-    } else {
-      return invoiceDetailRequestSummary.getInvoiceSubtotalAmount();
-    }
-  }
+    private ElectronicInvoiceRejectReason invoiceHeaderInformation;
+    private ElectronicInvoiceLoadSummary accountsPayableElectronicInvoiceLoadSummary;
+    private Campus epicPurchaseOrderDeliveryCampus;
 
-  public BigDecimal getInvoiceTaxAmount(ElectronicInvoiceOrder eio) {
-    if (this.invoiceDetailRequestHeader.isTaxInLine()) {
-      return eio.getInvoiceTaxAmount();
-    } else {
-      return invoiceDetailRequestSummary.getInvoiceTaxAmount();
+    /**
+     * Default constructor.
+     */
+    public ElectronicInvoiceHeaderInformation() {
+
     }
-  }
 
-  public BigDecimal getInvoiceSpecialHandlingAmount(ElectronicInvoiceOrder eio) {
-    if (this.invoiceDetailRequestHeader.isSpecialHandlingInLine()) {
-      return eio.getInvoiceSpecialHandlingAmount();
-    } else {
-      return invoiceDetailRequestSummary.getInvoiceSpecialHandlingAmount();
+    public ElectronicInvoiceLoadSummary getAccountsPayableElectronicInvoiceLoadSummary() {
+        return accountsPayableElectronicInvoiceLoadSummary;
     }
-  }
 
-  public BigDecimal getInvoiceShippingAmount(ElectronicInvoiceOrder eio) {
-    if (this.invoiceDetailRequestHeader.isShippingInLine()) {
-      return eio.getInvoiceShippingAmount();
-    } else {
-      return invoiceDetailRequestSummary.getInvoiceShippingAmount();
+    /**
+     * @deprecated
+     */
+    public void setAccountsPayableElectronicInvoiceLoadSummary(ElectronicInvoiceLoadSummary accountsPayableElectronicInvoiceLoadSummary) {
+        this.accountsPayableElectronicInvoiceLoadSummary = accountsPayableElectronicInvoiceLoadSummary;
     }
-  }
 
-  public BigDecimal getInvoiceGrossAmount(ElectronicInvoiceOrder eio) {
-    if (this.containsLineLevelAmounts()) {
-      return eio.getInvoiceGrossAmount();
-    } else {
-      return invoiceDetailRequestSummary.getInvoiceGrossAmount();
+    public Long getAccountsPayableElectronicInvoiceLoadSummaryIdentifier() {
+        return accountsPayableElectronicInvoiceLoadSummaryIdentifier;
     }
-  }
 
-  public BigDecimal getInvoiceDiscountAmount(ElectronicInvoiceOrder eio) {
-    if (this.invoiceDetailRequestHeader.isDiscountInLine()) {
-      return eio.getInvoiceDiscountAmount();
-    } else {
-      return invoiceDetailRequestSummary.getInvoiceDiscountAmount();
+    public void setAccountsPayableElectronicInvoiceLoadSummaryIdentifier(Long accountsPayableElectronicInvoiceLoadSummaryIdentifier) {
+        this.accountsPayableElectronicInvoiceLoadSummaryIdentifier = accountsPayableElectronicInvoiceLoadSummaryIdentifier;
     }
-  }
 
-  public BigDecimal getInvoiceNetAmount(ElectronicInvoiceOrder eio) {
-    if (this.containsLineLevelAmounts()) {
-      return eio.getInvoiceNetAmount();
-    } else {
-      return invoiceDetailRequestSummary.getInvoiceNetAmount();
+    public Campus getEpicPurchaseOrderDeliveryCampus() {
+        return epicPurchaseOrderDeliveryCampus;
     }
-  }
 
-  public BigDecimal getInvoiceDepositAmount() {
-    return invoiceDetailRequestSummary.getInvoiceDepositAmount();
-  }
+    /**
+     * @deprecated
+     */
+    public void setEpicPurchaseOrderDeliveryCampus(Campus epicPurchaseOrderDeliveryCampus) {
+        this.epicPurchaseOrderDeliveryCampus = epicPurchaseOrderDeliveryCampus;
+    }
 
-  public BigDecimal getInvoiceDueAmount() {
-    return invoiceDetailRequestSummary.getInvoiceDueAmount();
-  }
-  
-  /*
-   * CURRENCY METHODS
-   * 
-   */
-  public String getCodeOfLineItemThatContainsInvalidCurrency(String invoiceLineItemType) {
-    for (Iterator orderIter = this.invoiceDetailOrders.iterator(); orderIter.hasNext();) {
-      ElectronicInvoiceOrder eio = (ElectronicInvoiceOrder) orderIter.next();
-      for (Iterator itemIter = eio.getInvoiceItems().iterator(); itemIter.hasNext();) {
-        ElectronicInvoiceItem eii = (ElectronicInvoiceItem) itemIter.next();
-        if (INVOICE_AMOUNT_TYPE_CODE_TAX.equalsIgnoreCase(invoiceLineItemType)) {
-          if (!(this.isCodeValidCurrency(eii.getTaxAmountCurrency()))) {
-            return eii.getTaxAmountCurrency();
-          }
-        } else if (INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING.equalsIgnoreCase(invoiceLineItemType)) {
-          if (!(this.isCodeValidCurrency(eii.getInvoiceLineSpecialHandlingAmountCurrency()))) {
-            return eii.getInvoiceLineSpecialHandlingAmountCurrency();
-          }
-        } else if (INVOICE_AMOUNT_TYPE_CODE_SHIPPING.equalsIgnoreCase(invoiceLineItemType)) {
-          if (!(this.isCodeValidCurrency(eii.getInvoiceLineShippingAmountCurrency()))) {
-            return eii.getInvoiceLineShippingAmountCurrency();
-          }
-        } else if (INVOICE_AMOUNT_TYPE_CODE_DISCOUNT.equalsIgnoreCase(invoiceLineItemType)) {
-          if (!(this.isCodeValidCurrency(eii.getInvoiceLineDiscountAmountCurrency()))) {
-            return eii.getInvoiceLineDiscountAmountCurrency();
-          }
+    public String getEpicPurchaseOrderDeliveryCampusCode() {
+        return epicPurchaseOrderDeliveryCampusCode;
+    }
+
+    public void setEpicPurchaseOrderDeliveryCampusCode(String epicPurchaseOrderDeliveryCampusCode) {
+        this.epicPurchaseOrderDeliveryCampusCode = epicPurchaseOrderDeliveryCampusCode;
+    }
+
+    public Integer getEpicPurchaseOrderIdentifier() {
+        return epicPurchaseOrderIdentifier;
+    }
+
+    public void setEpicPurchaseOrderIdentifier(Integer epicPurchaseOrderIdentifier) {
+        this.epicPurchaseOrderIdentifier = epicPurchaseOrderIdentifier;
+    }
+
+    public String getInvoiceAddressName() {
+        return invoiceAddressName;
+    }
+
+    public void setInvoiceAddressName(String invoiceAddressName) {
+        this.invoiceAddressName = invoiceAddressName;
+    }
+
+    public String getInvoiceCustomerNumber() {
+        return invoiceCustomerNumber;
+    }
+
+    public void setInvoiceCustomerNumber(String invoiceCustomerNumber) {
+        this.invoiceCustomerNumber = invoiceCustomerNumber;
+    }
+
+    public String getInvoiceFileDate() {
+        return invoiceFileDate;
+    }
+
+    public void setInvoiceFileDate(String invoiceFileDate) {
+        this.invoiceFileDate = invoiceFileDate;
+    }
+
+    public String getInvoiceFileDeploymentModeValue() {
+        return invoiceFileDeploymentModeValue;
+    }
+
+    public void setInvoiceFileDeploymentModeValue(String invoiceFileDeploymentModeValue) {
+        this.invoiceFileDeploymentModeValue = invoiceFileDeploymentModeValue;
+    }
+
+    public boolean isInvoiceFileDiscountInLineIndicator() {
+        return invoiceFileDiscountInLineIndicator;
+    }
+
+    public void setInvoiceFileDiscountInLineIndicator(boolean invoiceFileDiscountInLineIndicator) {
+        this.invoiceFileDiscountInLineIndicator = invoiceFileDiscountInLineIndicator;
+    }
+
+    public boolean isInvoiceFileHeaderTypeIndicator() {
+        return invoiceFileHeaderTypeIndicator;
+    }
+
+    public void setInvoiceFileHeaderTypeIndicator(boolean invoiceFileHeaderTypeIndicator) {
+        this.invoiceFileHeaderTypeIndicator = invoiceFileHeaderTypeIndicator;
+    }
+
+    public boolean isInvoiceFileInformationOnlyIndicator() {
+        return invoiceFileInformationOnlyIndicator;
+    }
+
+    public void setInvoiceFileInformationOnlyIndicator(boolean invoiceFileInformationOnlyIndicator) {
+        this.invoiceFileInformationOnlyIndicator = invoiceFileInformationOnlyIndicator;
+    }
+
+    public String getInvoiceFileName() {
+        return invoiceFileName;
+    }
+
+    public void setInvoiceFileName(String invoiceFileName) {
+        this.invoiceFileName = invoiceFileName;
+    }
+
+    public String getInvoiceFileNumber() {
+        return invoiceFileNumber;
+    }
+
+    public void setInvoiceFileNumber(String invoiceFileNumber) {
+        this.invoiceFileNumber = invoiceFileNumber;
+    }
+
+    public String getInvoiceFileOperationIdentifier() {
+        return invoiceFileOperationIdentifier;
+    }
+
+    public void setInvoiceFileOperationIdentifier(String invoiceFileOperationIdentifier) {
+        this.invoiceFileOperationIdentifier = invoiceFileOperationIdentifier;
+    }
+
+    public String getInvoiceFilePurposeIdentifier() {
+        return invoiceFilePurposeIdentifier;
+    }
+
+    public void setInvoiceFilePurposeIdentifier(String invoiceFilePurposeIdentifier) {
+        this.invoiceFilePurposeIdentifier = invoiceFilePurposeIdentifier;
+    }
+
+    public boolean isInvoiceFileShippingInLineIndicator() {
+        return invoiceFileShippingInLineIndicator;
+    }
+
+    public void setInvoiceFileShippingInLineIndicator(boolean invoiceFileShippingInLineIndicator) {
+        this.invoiceFileShippingInLineIndicator = invoiceFileShippingInLineIndicator;
+    }
+
+    public boolean isInvoiceFileSpecialHandlingInLineIndicator() {
+        return invoiceFileSpecialHandlingInLineIndicator;
+    }
+
+    public void setInvoiceFileSpecialHandlingInLineIndicator(boolean invoiceFileSpecialHandlingInLineIndicator) {
+        this.invoiceFileSpecialHandlingInLineIndicator = invoiceFileSpecialHandlingInLineIndicator;
+    }
+
+    public boolean isInvoiceFileTaxInLineIndicator() {
+        return invoiceFileTaxInLineIndicator;
+    }
+
+    public void setInvoiceFileTaxInLineIndicator(boolean invoiceFileTaxInLineIndicator) {
+        this.invoiceFileTaxInLineIndicator = invoiceFileTaxInLineIndicator;
+    }
+
+    public ElectronicInvoiceRejectReason getInvoiceHeaderInformation() {
+        return invoiceHeaderInformation;
+    }
+
+    /**
+     * @deprecated
+     */
+    public void setInvoiceHeaderInformation(ElectronicInvoiceRejectReason invoiceHeaderInformation) {
+        this.invoiceHeaderInformation = invoiceHeaderInformation;
+    }
+
+    public Integer getInvoiceHeaderInformationIdentifier() {
+        return invoiceHeaderInformationIdentifier;
+    }
+
+    public void setInvoiceHeaderInformationIdentifier(Integer invoiceHeaderInformationIdentifier) {
+        this.invoiceHeaderInformationIdentifier = invoiceHeaderInformationIdentifier;
+    }
+
+    public BigDecimal getInvoiceItemDiscountAmount() {
+        return invoiceItemDiscountAmount;
+    }
+
+    public void setInvoiceItemDiscountAmount(BigDecimal invoiceItemDiscountAmount) {
+        this.invoiceItemDiscountAmount = invoiceItemDiscountAmount;
+    }
+
+    public String getInvoiceItemDiscountCurrencyCode() {
+        return invoiceItemDiscountCurrencyCode;
+    }
+
+    public void setInvoiceItemDiscountCurrencyCode(String invoiceItemDiscountCurrencyCode) {
+        this.invoiceItemDiscountCurrencyCode = invoiceItemDiscountCurrencyCode;
+    }
+
+    public BigDecimal getInvoiceItemGrossAmount() {
+        return invoiceItemGrossAmount;
+    }
+
+    public void setInvoiceItemGrossAmount(BigDecimal invoiceItemGrossAmount) {
+        this.invoiceItemGrossAmount = invoiceItemGrossAmount;
+    }
+
+    public String getInvoiceItemGrossCurrencyCode() {
+        return invoiceItemGrossCurrencyCode;
+    }
+
+    public void setInvoiceItemGrossCurrencyCode(String invoiceItemGrossCurrencyCode) {
+        this.invoiceItemGrossCurrencyCode = invoiceItemGrossCurrencyCode;
+    }
+
+    public BigDecimal getInvoiceItemNetAmount() {
+        return invoiceItemNetAmount;
+    }
+
+    public void setInvoiceItemNetAmount(BigDecimal invoiceItemNetAmount) {
+        this.invoiceItemNetAmount = invoiceItemNetAmount;
+    }
+
+    public String getInvoiceItemNetCurrencyCode() {
+        return invoiceItemNetCurrencyCode;
+    }
+
+    public void setInvoiceItemNetCurrencyCode(String invoiceItemNetCurrencyCode) {
+        this.invoiceItemNetCurrencyCode = invoiceItemNetCurrencyCode;
+    }
+
+    public BigDecimal getInvoiceItemShippingAmount() {
+        return invoiceItemShippingAmount;
+    }
+
+    public void setInvoiceItemShippingAmount(BigDecimal invoiceItemShippingAmount) {
+        this.invoiceItemShippingAmount = invoiceItemShippingAmount;
+    }
+
+    public String getInvoiceItemShippingCurrencyCode() {
+        return invoiceItemShippingCurrencyCode;
+    }
+
+    public void setInvoiceItemShippingCurrencyCode(String invoiceItemShippingCurrencyCode) {
+        this.invoiceItemShippingCurrencyCode = invoiceItemShippingCurrencyCode;
+    }
+
+    public String getInvoiceItemShippingDescription() {
+        return invoiceItemShippingDescription;
+    }
+
+    public void setInvoiceItemShippingDescription(String invoiceItemShippingDescription) {
+        this.invoiceItemShippingDescription = invoiceItemShippingDescription;
+    }
+
+    public BigDecimal getInvoiceItemSpecialHandlingAmount() {
+        return invoiceItemSpecialHandlingAmount;
+    }
+
+    public void setInvoiceItemSpecialHandlingAmount(BigDecimal invoiceItemSpecialHandlingAmount) {
+        this.invoiceItemSpecialHandlingAmount = invoiceItemSpecialHandlingAmount;
+    }
+
+    public String getInvoiceItemSpecialHandlingCurrencyCode() {
+        return invoiceItemSpecialHandlingCurrencyCode;
+    }
+
+    public void setInvoiceItemSpecialHandlingCurrencyCode(String invoiceItemSpecialHandlingCurrencyCode) {
+        this.invoiceItemSpecialHandlingCurrencyCode = invoiceItemSpecialHandlingCurrencyCode;
+    }
+
+    public BigDecimal getInvoiceItemSubTotalAmount() {
+        return invoiceItemSubTotalAmount;
+    }
+
+    public void setInvoiceItemSubTotalAmount(BigDecimal invoiceItemSubTotalAmount) {
+        this.invoiceItemSubTotalAmount = invoiceItemSubTotalAmount;
+    }
+
+    public String getInvoiceItemSubTotalCurrencyCode() {
+        return invoiceItemSubTotalCurrencyCode;
+    }
+
+    public void setInvoiceItemSubTotalCurrencyCode(String invoiceItemSubTotalCurrencyCode) {
+        this.invoiceItemSubTotalCurrencyCode = invoiceItemSubTotalCurrencyCode;
+    }
+
+    public BigDecimal getInvoiceItemTaxAmount() {
+        return invoiceItemTaxAmount;
+    }
+
+    public void setInvoiceItemTaxAmount(BigDecimal invoiceItemTaxAmount) {
+        this.invoiceItemTaxAmount = invoiceItemTaxAmount;
+    }
+
+    public String getInvoiceItemTaxCurrencyCode() {
+        return invoiceItemTaxCurrencyCode;
+    }
+
+    public void setInvoiceItemTaxCurrencyCode(String invoiceItemTaxCurrencyCode) {
+        this.invoiceItemTaxCurrencyCode = invoiceItemTaxCurrencyCode;
+    }
+
+    public String getInvoiceItemTaxDescription() {
+        return invoiceItemTaxDescription;
+    }
+
+    public void setInvoiceItemTaxDescription(String invoiceItemTaxDescription) {
+        this.invoiceItemTaxDescription = invoiceItemTaxDescription;
+    }
+
+    public String getInvoiceOrderMasterAgreementInformationDate() {
+        return invoiceOrderMasterAgreementInformationDate;
+    }
+
+    public void setInvoiceOrderMasterAgreementInformationDate(String invoiceOrderMasterAgreementInformationDate) {
+        this.invoiceOrderMasterAgreementInformationDate = invoiceOrderMasterAgreementInformationDate;
+    }
+
+    public String getInvoiceOrderMasterAgreementInformationIdentifier() {
+        return invoiceOrderMasterAgreementInformationIdentifier;
+    }
+
+    public void setInvoiceOrderMasterAgreementInformationIdentifier(String invoiceOrderMasterAgreementInformationIdentifier) {
+        this.invoiceOrderMasterAgreementInformationIdentifier = invoiceOrderMasterAgreementInformationIdentifier;
+    }
+
+    public String getInvoiceOrderMasterAgreementReferenceDate() {
+        return invoiceOrderMasterAgreementReferenceDate;
+    }
+
+    public void setInvoiceOrderMasterAgreementReferenceDate(String invoiceOrderMasterAgreementReferenceDate) {
+        this.invoiceOrderMasterAgreementReferenceDate = invoiceOrderMasterAgreementReferenceDate;
+    }
+
+    public String getInvoiceOrderMasterAgreementReferenceIdentifier() {
+        return invoiceOrderMasterAgreementReferenceIdentifier;
+    }
+
+    public void setInvoiceOrderMasterAgreementReferenceIdentifier(String invoiceOrderMasterAgreementReferenceIdentifier) {
+        this.invoiceOrderMasterAgreementReferenceIdentifier = invoiceOrderMasterAgreementReferenceIdentifier;
+    }
+
+    public String getInvoiceOrderPurchaseOrderDate() {
+        return invoiceOrderPurchaseOrderDate;
+    }
+
+    public void setInvoiceOrderPurchaseOrderDate(String invoiceOrderPurchaseOrderDate) {
+        this.invoiceOrderPurchaseOrderDate = invoiceOrderPurchaseOrderDate;
+    }
+
+    public String getInvoiceOrderPurchaseOrderIdentifier() {
+        return invoiceOrderPurchaseOrderIdentifier;
+    }
+
+    public void setInvoiceOrderPurchaseOrderIdentifier(String invoiceOrderPurchaseOrderIdentifier) {
+        this.invoiceOrderPurchaseOrderIdentifier = invoiceOrderPurchaseOrderIdentifier;
+    }
+
+    public String getInvoiceOrderReferenceDocumentReferencePayloadIdentifier() {
+        return invoiceOrderReferenceDocumentReferencePayloadIdentifier;
+    }
+
+    public void setInvoiceOrderReferenceDocumentReferencePayloadIdentifier(String invoiceOrderReferenceDocumentReferencePayloadIdentifier) {
+        this.invoiceOrderReferenceDocumentReferencePayloadIdentifier = invoiceOrderReferenceDocumentReferencePayloadIdentifier;
+    }
+
+    public String getInvoiceOrderReferenceDocumentReferenceText() {
+        return invoiceOrderReferenceDocumentReferenceText;
+    }
+
+    public void setInvoiceOrderReferenceDocumentReferenceText(String invoiceOrderReferenceDocumentReferenceText) {
+        this.invoiceOrderReferenceDocumentReferenceText = invoiceOrderReferenceDocumentReferenceText;
+    }
+
+    public String getInvoiceOrderReferenceOrderIdentifier() {
+        return invoiceOrderReferenceOrderIdentifier;
+    }
+
+    public void setInvoiceOrderReferenceOrderIdentifier(String invoiceOrderReferenceOrderIdentifier) {
+        this.invoiceOrderReferenceOrderIdentifier = invoiceOrderReferenceOrderIdentifier;
+    }
+
+    public String getInvoiceOrderSupplierOrderInformationIdentifier() {
+        return invoiceOrderSupplierOrderInformationIdentifier;
+    }
+
+    public void setInvoiceOrderSupplierOrderInformationIdentifier(String invoiceOrderSupplierOrderInformationIdentifier) {
+        this.invoiceOrderSupplierOrderInformationIdentifier = invoiceOrderSupplierOrderInformationIdentifier;
+    }
+
+    public Date getInvoiceProcessDate() {
+        return invoiceProcessDate;
+    }
+
+    public void setInvoiceProcessDate(Date invoiceProcessDate) {
+        this.invoiceProcessDate = invoiceProcessDate;
+    }
+
+    public String getInvoicePurchaseOrderNumber() {
+        return invoicePurchaseOrderNumber;
+    }
+
+    public void setInvoicePurchaseOrderNumber(String invoicePurchaseOrderNumber) {
+        this.invoicePurchaseOrderNumber = invoicePurchaseOrderNumber;
+    }
+
+    public Date getInvoiceRejectExtractDate() {
+        return invoiceRejectExtractDate;
+    }
+
+    public void setInvoiceRejectExtractDate(Date invoiceRejectExtractDate) {
+        this.invoiceRejectExtractDate = invoiceRejectExtractDate;
+    }
+
+    public Date getInvoiceShipDate() {
+        return invoiceShipDate;
+    }
+
+    public void setInvoiceShipDate(Date invoiceShipDate) {
+        this.invoiceShipDate = invoiceShipDate;
+    }
+
+    public String getInvoiceShipToCityName() {
+        return invoiceShipToCityName;
+    }
+
+    public void setInvoiceShipToCityName(String invoiceShipToCityName) {
+        this.invoiceShipToCityName = invoiceShipToCityName;
+    }
+
+    public String getInvoiceShipToCountryCode() {
+        return invoiceShipToCountryCode;
+    }
+
+    public void setInvoiceShipToCountryCode(String invoiceShipToCountryCode) {
+        this.invoiceShipToCountryCode = invoiceShipToCountryCode;
+    }
+
+    public String getInvoiceShipToLine1Address() {
+        return invoiceShipToLine1Address;
+    }
+
+    public void setInvoiceShipToLine1Address(String invoiceShipToLine1Address) {
+        this.invoiceShipToLine1Address = invoiceShipToLine1Address;
+    }
+
+    public String getInvoiceShipToLine2Address() {
+        return invoiceShipToLine2Address;
+    }
+
+    public void setInvoiceShipToLine2Address(String invoiceShipToLine2Address) {
+        this.invoiceShipToLine2Address = invoiceShipToLine2Address;
+    }
+
+    public String getInvoiceShipToLine3Address() {
+        return invoiceShipToLine3Address;
+    }
+
+    public void setInvoiceShipToLine3Address(String invoiceShipToLine3Address) {
+        this.invoiceShipToLine3Address = invoiceShipToLine3Address;
+    }
+
+    public String getInvoiceShipToPostalCode() {
+        return invoiceShipToPostalCode;
+    }
+
+    public void setInvoiceShipToPostalCode(String invoiceShipToPostalCode) {
+        this.invoiceShipToPostalCode = invoiceShipToPostalCode;
+    }
+
+    public String getInvoiceShipToStateCode() {
+        return invoiceShipToStateCode;
+    }
+
+    public void setInvoiceShipToStateCode(String invoiceShipToStateCode) {
+        this.invoiceShipToStateCode = invoiceShipToStateCode;
+    }
+
+    public Integer getVendorDetailAssignedIdentifier() {
+        return vendorDetailAssignedIdentifier;
+    }
+
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
+
+    public String getVendorDunsNumber() {
+        return vendorDunsNumber;
+    }
+
+    public void setVendorDunsNumber(String vendorDunsNumber) {
+        this.vendorDunsNumber = vendorDunsNumber;
+    }
+
+    public Integer getVendorHeaderGeneratedIdentifier() {
+        return vendorHeaderGeneratedIdentifier;
+    }
+
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        if (this.invoiceHeaderInformationIdentifier != null) {
+            m.put("invoiceHeaderInformationIdentifier", this.invoiceHeaderInformationIdentifier.toString());
         }
-      }
+        return m;
     }
-    return null;
-  }
-  
-  /**
-   * This method contains the mapping check for valid Currency Code(s)
-   */
-  public String checkCodeForValidCurrency(String code) {
-    if (!(this.isCodeValidCurrency(code))) {
-      return code;
-    } else {
-      return null;
-    }
-  }
-
-  /**
-   * This method contains the mapping check for valid Currency Code(s)
-   */
-  public boolean isCodeValidCurrency(String code) {
-    if (code != null) {
-      for (int i = 0; i < ElectronicInvoiceMappingService.CXML_VALID_CURRENCY_CODES.length; i++) {
-        String validCode = ElectronicInvoiceMappingService.CXML_VALID_CURRENCY_CODES[i];
-        if (code.equalsIgnoreCase(validCode)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  public String getInvoiceSubtotalCurrencyIfNotValid(ElectronicInvoiceOrder eio) {
-    if (this.containsLineLevelAmounts()) {
-      for (Iterator iter = eio.getInvoiceItems().iterator(); iter.hasNext();) {
-        ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
-        String currentCode = this.checkCodeForValidCurrency(eii.getSubtotalAmountCurrency());
-        if (currentCode != null) {
-          return currentCode;
-        }
-      }
-      return null;
-    } else {
-      return this.checkCodeForValidCurrency(invoiceDetailRequestSummary.getSubtotalAmountCurrency());
-    }
-  }
-
-  public String getInvoiceTaxCurrencyIfNotValid(ElectronicInvoiceOrder eio) {
-    if (this.invoiceDetailRequestHeader.isTaxInLine()) {
-      for (Iterator iter = eio.getInvoiceItems().iterator(); iter.hasNext();) {
-        ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
-        String currentCode = this.checkCodeForValidCurrency(eii.getTaxAmountCurrency());
-        if (currentCode != null) {
-          return currentCode;
-        }
-      }
-      return null;
-    } else {
-      return this.checkCodeForValidCurrency(invoiceDetailRequestSummary.getTaxAmountCurrency());
-    }
-  }
-
-  public String getInvoiceSpecialHandlingCurrencyIfNotValid(ElectronicInvoiceOrder eio) {
-    if (this.invoiceDetailRequestHeader.isSpecialHandlingInLine()) {
-      for (Iterator iter = eio.getInvoiceItems().iterator(); iter.hasNext();) {
-        ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
-        String currentCode = this.checkCodeForValidCurrency(eii.getInvoiceLineSpecialHandlingAmountCurrency());
-        if (currentCode != null) {
-          return currentCode;
-        }
-      }
-      return null;
-    } else {
-      return this.checkCodeForValidCurrency(invoiceDetailRequestSummary.getSpecialHandlingAmountCurrency());
-    }
-  }
-
-  public String getInvoiceShippingCurrencyIfNotValid(ElectronicInvoiceOrder eio) {
-    if (this.invoiceDetailRequestHeader.isShippingInLine()) {
-      for (Iterator iter = eio.getInvoiceItems().iterator(); iter.hasNext();) {
-        ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
-        String currentCode = this.checkCodeForValidCurrency(eii.getInvoiceLineShippingAmountCurrency());
-        if (currentCode != null) {
-          return currentCode;
-        }
-      }
-      return null;
-    } else {
-      return this.checkCodeForValidCurrency(invoiceDetailRequestSummary.getShippingAmountCurrency());
-    }
-  }
-
-  public String getInvoiceGrossCurrencyIfNotValid(ElectronicInvoiceOrder eio) {
-    if (this.containsLineLevelAmounts()) {
-      for (Iterator iter = eio.getInvoiceItems().iterator(); iter.hasNext();) {
-        ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
-        String currentCode = this.checkCodeForValidCurrency(eii.getInvoiceLineGrossAmountCurrency());
-        if (currentCode != null) {
-          return currentCode;
-        }
-      }
-      return null;
-    } else {
-      return this.checkCodeForValidCurrency(invoiceDetailRequestSummary.getGrossAmountCurrency());
-    }
-  }
-
-  public String getInvoiceDiscountCurrencyIfNotValid(ElectronicInvoiceOrder eio) {
-    if (this.invoiceDetailRequestHeader.isDiscountInLine()) {
-      for (Iterator iter = eio.getInvoiceItems().iterator(); iter.hasNext();) {
-        ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
-        String currentCode = this.checkCodeForValidCurrency(eii.getInvoiceLineDiscountAmountCurrency());
-        if (currentCode != null) {
-          return currentCode;
-        }
-      }
-      return null;
-    } else {
-      return this.checkCodeForValidCurrency(invoiceDetailRequestSummary.getDiscountAmountCurrency());
-    }
-  }
-
-  public String getInvoiceNetCurrencyIfNotValid(ElectronicInvoiceOrder eio) {
-    if (this.containsLineLevelAmounts()) {
-      for (Iterator iter = eio.getInvoiceItems().iterator(); iter.hasNext();) {
-        ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
-        String currentCode = this.checkCodeForValidCurrency(eii.getInvoiceLineNetAmountCurrency());
-        if (currentCode != null) {
-          return currentCode;
-        }
-      }
-      return null;
-    } else {
-      return this.checkCodeForValidCurrency(invoiceDetailRequestSummary.getNetAmountCurrency());
-    }
-  }
-
-  public String getInvoiceDepositCurrencyIfNotValid() {
-    return this.checkCodeForValidCurrency(invoiceDetailRequestSummary.getDepositAmountCurrency());
-  }
-
-  public String getInvoiceDueCurrencyIfNotValid() {
-    return this.checkCodeForValidCurrency(invoiceDetailRequestSummary.getDueAmountCurrency());
-  }
-  
-  /*
-   * GETTERS AND SETTERS
-   * 
-   */
-
-  /**
-   * @return Returns the containsRejects.
-   */
-  public boolean isContainsRejects() {
-    return containsRejects;
-  }
-  /**
-   * @param containsRejects The containsRejects to set.
-   */
-  public void setContainsRejects(boolean containsRejects) {
-    this.containsRejects = containsRejects;
-  }
-  /**
-   * @return Returns the customerNumber.
-   */
-  public String getCustomerNumber() {
-    return customerNumber;
-  }
-  /**
-   * @param customerNumber The customerNumber to set.
-   */
-  public void setCustomerNumber(String customerNumber) {
-    this.customerNumber = customerNumber;
-  }
-  /**
-   * @return Returns the cxmlHeader.
-   */
-  public CxmlHeader getCxmlHeader() {
-    return cxmlHeader;
-  }
-  /**
-   * @param cxmlHeader The cxmlHeader to set.
-   */
-  public void setCxmlHeader(CxmlHeader cxmlHeader) {
-    this.cxmlHeader = cxmlHeader;
-  }
-  /**
-   * @return Returns the dunsNumber.
-   */
-  public String getDunsNumber() {
-    return dunsNumber;
-  }
-  /**
-   * @param dunsNumber The dunsNumber to set.
-   */
-  public void setDunsNumber(String dunsNumber) {
-    this.dunsNumber = dunsNumber;
-  }
-  /**
-   * @return Returns the fileName.
-   */
-  public String getFileName() {
-    return fileName;
-  }
-  /**
-   * @param fileName The fileName to set.
-   */
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
-  }
-  /**
-   * @return Returns the fileRejected.
-   */
-  public boolean isFileRejected() {
-    return fileRejected;
-  }
-  /**
-   * @param fileRejected The fileRejected to set.
-   */
-  public void setFileRejected(boolean fileRejected) {
-    this.fileRejected = fileRejected;
-  }
-  /**
-   * @return Returns the fileRejectReasons.
-   */
-  public List getFileRejectReasons() {
-    return fileRejectReasons;
-  }
-  /**
-   * @param fileRejectReasons The fileRejectReasons to set.
-   */
-  public void setFileRejectReasons(List fileRejectReasons) {
-    this.fileRejectReasons = fileRejectReasons;
-  }
-  /**
-   * @return Returns the invoiceDetailOrders.
-   */
-  public List getInvoiceDetailOrders() {
-    return invoiceDetailOrders;
-  }
-  /**
-   * @param invoiceDetailOrders The invoiceDetailOrders to set.
-   */
-  public void setInvoiceDetailOrders(List invoiceDetailOrders) {
-    this.invoiceDetailOrders = invoiceDetailOrders;
-  }
-  /**
-   * @return Returns the invoiceDetailRequestHeader.
-   */
-  public ElectronicInvoiceDetailRequestHeader getInvoiceDetailRequestHeader() {
-    return invoiceDetailRequestHeader;
-  }
-  /**
-   * @param invoiceDetailRequestHeader The invoiceDetailRequestHeader to set.
-   */
-  public void setInvoiceDetailRequestHeader(
-      ElectronicInvoiceDetailRequestHeader invoiceDetailRequestHeader) {
-    this.invoiceDetailRequestHeader = invoiceDetailRequestHeader;
-  }
-  /**
-   * @return Returns the invoiceDetailRequestSummary.
-   */
-  public ElectronicInvoiceDetailRequestSummary getInvoiceDetailRequestSummary() {
-    return invoiceDetailRequestSummary;
-  }
-  /**
-   * @param invoiceDetailRequestSummary The invoiceDetailRequestSummary to set.
-   */
-  public void setInvoiceDetailRequestSummary(
-      ElectronicInvoiceDetailRequestSummary invoiceDetailRequestSummary) {
-    this.invoiceDetailRequestSummary = invoiceDetailRequestSummary;
-  }
-  /**
-   * @return Returns the vendorDetailID.
-   */
-  public Integer getVendorDetailID() {
-    return vendorDetailID;
-  }
-  /**
-   * @param vendorDetailID The vendorDetailID to set.
-   */
-  public void setVendorDetailID(Integer vendorDetailID) {
-    this.vendorDetailID = vendorDetailID;
-  }
-  /**
-   * @return Returns the vendorHeaderID.
-   */
-  public Integer getVendorHeaderID() {
-    return vendorHeaderID;
-  }
-  /**
-   * @param vendorHeaderID The vendorHeaderID to set.
-   */
-  public void setVendorHeaderID(Integer vendorHeaderID) {
-    this.vendorHeaderID = vendorHeaderID;
-  }
-  /**
-   * @return the vendorName
-   */
-  public String getVendorName() {
-    return vendorName;
-  }
-  /**
-   * @param vendorName the vendorName to set
-   */
-  public void setVendorName(String vendorName) {
-    this.vendorName = vendorName;
-  }
 }
-/*
-Copyright (c) 2004, 2005 The National Association of College and
-University Business Officers, Cornell University, Trustees of Indiana
-University, Michigan State University Board of Trustees, Trustees of San
-Joaquin Delta College, University of Hawai'i, The Arizona Board of
-Regents on behalf of the University of Arizona, and the r*smart group.
-
-Licensed under the Educational Community License Version 1.0 (the 
-"License"); By obtaining, using and/or copying this Original Work, you
-agree that you have read, understand, and will comply with the terms and
-conditions of the Educational Community License.
-
-You may obtain a copy of the License at:
-
-http://kualiproject.org/license.html
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE. 
-*/

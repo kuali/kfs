@@ -3811,7 +3811,7 @@
         <inverse-foreignkey field-ref="capitalAssetNumber" />
     </collection-descriptor>
     <collection-descriptor name="requisitionCapitalAssetLocations" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <inverse-foreignkey field-ref="capitalAssetSystemNumber" />
+        <inverse-foreignkey field-ref="capitalAssetSystemIdentifier" />
     </collection-descriptor>
 </class-descriptor>
 
@@ -3831,7 +3831,7 @@
         <inverse-foreignkey field-ref="capitalAssetNumber" />
     </collection-descriptor>
     <collection-descriptor name="purchaseOrderCapitalAssetLocations" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <inverse-foreignkey field-ref="capitalAssetSystemNumber" />
+        <inverse-foreignkey field-ref="capitalAssetSystemIdentifier" />
     </collection-descriptor>   
 </class-descriptor>
 
@@ -3892,6 +3892,12 @@
  	<field-descriptor name="capitalAssetSystemIdentifier" column="CPTL_AST_SYS_ID" jdbc-type="INTEGER" index="true"/>  	
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="capitalAssetTransactionTypeCode" />
+    </reference-descriptor> 
+    <reference-descriptor name="requisitionCapitalAssetSystem" class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="capitalAssetSystemIdentifier" />
+    </reference-descriptor>           
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem" table="PUR_PO_CPTL_AST_ITM_T">
@@ -3902,6 +3908,12 @@
  	<field-descriptor name="capitalAssetSystemIdentifier" column="CPTL_AST_SYS_ID" jdbc-type="INTEGER" index="true"/>  	
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>    
+    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="capitalAssetTransactionTypeCode" />
+    </reference-descriptor> 
+    <reference-descriptor name="requisitionCapitalAssetSystem" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="capitalAssetSystemIdentifier" />
+    </reference-descriptor> 
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.Threshold" table="PUR_THRSHLD_T">

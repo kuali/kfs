@@ -27,6 +27,9 @@ public class PurchaseOrderCapitalAssetItem extends PersistableBusinessObjectBase
     private String capitalAssetTransactionTypeCode;
     private Integer capitalAssetSystemIdentifier;
     
+    private CapitalAssetTransactionType capitalAssetTransactionType;
+    private RequisitionCapitalAssetSystem requisitionCapitalAssetSystem;
+    
     public Integer getCapitalAssetItemIdentifier() {
         return capitalAssetItemIdentifier;
     }
@@ -65,6 +68,22 @@ public class PurchaseOrderCapitalAssetItem extends PersistableBusinessObjectBase
 
     public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier) {
         this.capitalAssetSystemIdentifier = capitalAssetSystemIdentifier;
+    }
+    
+    public CapitalAssetTransactionType getCapitalAssetTransactionType() {
+        return capitalAssetTransactionType;
+    }
+
+    public void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType) {
+        this.capitalAssetTransactionType = capitalAssetTransactionType;
+    }
+
+    public RequisitionCapitalAssetSystem getRequisitionCapitalAssetSystem() {
+        return requisitionCapitalAssetSystem;
+    }
+
+    public void setRequisitionCapitalAssetSystem(RequisitionCapitalAssetSystem requisitionCapitalAssetSystem) {
+        this.requisitionCapitalAssetSystem = requisitionCapitalAssetSystem;
     }
 
     @Override

@@ -1,0 +1,82 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="RequisitionCapitalAssetItem" parent="RequisitionCapitalAssetItem-parentBean" />
+
+  <bean id="RequisitionCapitalAssetItem-parentBean" abstract="true" parent="BusinessObjectEntry"
+        p:businessObjectClass="org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem"
+        p:titleAttribute="Requisition Capital Asset Item"
+        p:objectLabel="Requisition Capital Asset Item">
+    <property name="attributes" >
+      <list>
+        <ref bean="RequisitionCapitalAssetItem-capitalAssetItemIdentifier" />
+        <ref bean="RequisitionCapitalAssetItem-capitalAssetSystemIdentifier" />
+        <ref bean="RequisitionCapitalAssetItem-capitalAssetTransactionTypeCode" />
+        <ref bean="RequisitionCapitalAssetItem-itemIdentifier" />
+        <ref bean="RequisitionCapitalAssetItem-purapDocumentIdentifier" />
+        <ref bean="RequisitionCapitalAssetItem-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="RequisitionCapitalAssetItem-capitalAssetItemIdentifier" parent="RequisitionCapitalAssetItem-capitalAssetItemIdentifier-parentBean" />
+  <bean id="RequisitionCapitalAssetItem-capitalAssetItemIdentifier-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="capitalAssetItemIdentifier"
+        p:forceUppercase="false"
+        p:label="Capital Asset Item Identifier"
+        p:shortLabel="Capital Asset Item Identifier"
+        p:maxLength="11"
+        p:required="false" >
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+
+  <bean id="RequisitionCapitalAssetItem-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetItem-capitalAssetSystemIdentifier-parentBean" />
+  <bean id="RequisitionCapitalAssetItem-capitalAssetSystemIdentifier-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="capitalAssetSystemIdentifier"
+        p:forceUppercase="false"
+        p:label="Capital Asset System Identifier"
+        p:shortLabel="Capital Asset System Identifier"
+        p:maxLength="11"
+        p:required="false" >
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
+
+  <bean id="RequisitionCapitalAssetItem-capitalAssetTransactionTypeCode" parent="RequisitionCapitalAssetItem-capitalAssetTransactionTypeCode-parentBean" />
+  <bean id="RequisitionCapitalAssetItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="CapitalAssetTransactionType-capitalAssetTransactionTypeCode">
+    <property name="name" value="capitalAssetTransactionTypeCode" />
+    <property name="label" value="Transaction Type" />
+  </bean>
+
+  <bean id="RequisitionCapitalAssetItem-itemIdentifier" parent="RequisitionCapitalAssetItem-itemIdentifier-parentBean" />
+  <bean id="RequisitionCapitalAssetItem-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
+    <property name="name" value="itemIdentifier" />
+    <property name="label" value="Item Identifier" />
+  </bean>
+
+  <bean id="RequisitionCapitalAssetItem-purapDocumentIdentifier" parent="RequisitionCapitalAssetItem-purapDocumentIdentifier-parentBean" />
+  <bean id="RequisitionCapitalAssetItem-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
+    <property name="label" value="Payment Request Nbr" />
+    <property name="shortLabel" value="PREQ Nbr" />
+  </bean>
+
+  <bean id="RequisitionCapitalAssetItem-versionNumber" parent="RequisitionCapitalAssetItem-versionNumber-parentBean" />
+  <bean id="RequisitionCapitalAssetItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" 
+        p:name="versionNumber"
+        p:required="false" />
+
+</beans>

@@ -20,7 +20,9 @@
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetManufacturerName" />
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetModelDescription" />
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator" />
+        <ref bean="RequisitionCapitalAssetSystem-capitalAssetNoteText" />     
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemDescription" />
+        <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier" />      
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemNumber" />
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetTypeCode" />
         <ref bean="RequisitionCapitalAssetSystem-requisitionIdentifier" />
@@ -94,6 +96,25 @@
     <property name="summary" value="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
     <property name="description" value="capitalAssetNotReceivedCurrentFiscalYearIndicator description..." />
   </bean>
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetNoteText" parent="RequisitionCapitalAssetSystem-capitalAssetNoteText-parentBean" />
+  
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetNoteText-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="capitalAssetNoteText"
+        p:forceUppercase="false"
+        p:label="Capital Asset Note Text"
+        p:shortLabel="Capital Asset Note Text"
+        p:maxLength="800"
+        p:required="false" >
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="50" />
+    </property>
+  </bean>  
   <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemDescription" parent="RequisitionCapitalAssetSystem-capitalAssetSystemDescription-parentBean" />
 
   <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemDescription-parentBean" abstract="true" parent="AttributeDefinition">
@@ -111,7 +132,25 @@
     </property>
     <property name="summary" value="capitalAssetSystemDescription" />
     <property name="description" value="capitalAssetSystemDescription description..." />
-  </bean>
+  </bean>  
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier-parentBean" />
+
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetSystemIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset System Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="capitalAssetSystemIdentifier" />
+    <property name="description" value="capitalAssetSystemIdentifier description..." />
+  </bean>  
   <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemNumber" parent="RequisitionCapitalAssetSystem-capitalAssetSystemNumber-parentBean" />
 
   <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemNumber-parentBean" abstract="true" parent="AttributeDefinition">

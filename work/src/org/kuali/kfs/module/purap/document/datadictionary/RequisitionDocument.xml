@@ -131,6 +131,8 @@
         <ref bean="RequisitionDocument-alternate3VendorName" />
         <ref bean="RequisitionDocument-alternate4VendorName" />
         <ref bean="RequisitionDocument-alternate5VendorName" />
+        <ref bean="RequisitionDocument-capitalAssetSystemStateCode" />
+        <ref bean="RequisitionDocument-capitalAssetSystemTypeCode" />        
       </list>
     </property>
   </bean>
@@ -862,6 +864,30 @@
     <property name="label" value="Vendor Name 5" />
     <property name="shortLabel" value="Name 5" />
   </bean>
+
+  <bean id="RequisitionDocument-capitalAssetSystemStateCode" parent="RequisitionDocument-capitalAssetSystemStateCode-parentBean" />
+  <bean id="RequisitionDocument-capitalAssetSystemStateCode-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="capitalAssetSystemStateCode"
+        p:forceUppercase="false"
+        p:label="Capital Asset System State Code"
+        p:shortLabel="System State Code"
+        p:maxLength="10"
+        p:required="false" >
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+
+  <bean id="RequisitionDocument-capitalAssetSystemTypeCode" parent="RequisitionDocument-capitalAssetSystemTypeCode-parentBean" />
+  <bean id="RequisitionDocument-capitalAssetSystemTypeCode-parentBean" abstract="true" parent="CapitalAssetSystemType-capitalAssetSystemTypeCode">
+  	<property name="name" value="capitalAssetSystemTypeCode"/>
+  	<property name="label" value="Capital Asset System Type Code"/>
+  	<property name="shortLabel" value="System Type Code"/>
+  </bean> 
 
 <!-- Exported Workflow Properties -->
 

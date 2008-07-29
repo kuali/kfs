@@ -12,8 +12,8 @@ import org.kuali.core.util.KualiDecimal;
 
 public class RequisitionCapitalAssetLocation extends PersistableBusinessObjectBase {
 
-	private Integer capitalAssetSystemIdentifier;
-	private Integer capitalAssetLocationIdentifier;
+    private Integer capitalAssetLocationIdentifier;
+	private Integer capitalAssetSystemIdentifier;	
 	private KualiDecimal itemQuantity;
 	private String campusCode;
 	private boolean offCampusIndicator;

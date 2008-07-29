@@ -11,6 +11,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 public class RequisitionCapitalAssetSystem extends PersistableBusinessObjectBase {
 
+    private Integer capitalAssetSystemIdentifier;
 	private Integer requisitionIdentifier;
 	private Integer capitalAssetSystemNumber;
 	private String capitalAssetSystemDescription;
@@ -19,7 +20,8 @@ public class RequisitionCapitalAssetSystem extends PersistableBusinessObjectBase
 	private boolean capitalAssetManufacturerIsVendorIndicator;
 	private String capitalAssetManufacturerName;
 	private String capitalAssetModelDescription;
-
+	private String capitalAssetNoteText;
+	
 	private List<RequisitionItemCapitalAsset> requisitionItemCapitalAssets;
 	private List<RequisitionCapitalAssetLocation> requisitionCapitalAssetLocations;
 	
@@ -110,6 +112,22 @@ public class RequisitionCapitalAssetSystem extends PersistableBusinessObjectBase
         this.requisitionCapitalAssetLocations = requisitionCapitalAssetLocations;
     }
 
+    public Integer getCapitalAssetSystemIdentifier() {
+        return capitalAssetSystemIdentifier;
+    }
+
+    public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier) {
+        this.capitalAssetSystemIdentifier = capitalAssetSystemIdentifier;
+    }
+
+    public String getCapitalAssetNoteText() {
+        return capitalAssetNoteText;
+    }
+
+    public void setCapitalAssetNoteText(String capitalAssetNoteText) {
+        this.capitalAssetNoteText = capitalAssetNoteText;
+    }
+
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
@@ -123,4 +141,5 @@ public class RequisitionCapitalAssetSystem extends PersistableBusinessObjectBase
         }
 	    return m;
     }
+
 }

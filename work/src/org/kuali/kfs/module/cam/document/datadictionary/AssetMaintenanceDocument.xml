@@ -84,6 +84,7 @@
         </bean>
       </list>
     </property>
+    <property name="additionalSectionsFile" value="/jsp/modules/cams/AssetMaintenancePayments.jsp"></property>
   </bean>
 
 <!-- Maintenance Section Definitions -->

@@ -1,6 +1,7 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
@@ -19,6 +20,9 @@ public class RequisitionCapitalAssetSystem extends PersistableBusinessObjectBase
 	private String capitalAssetManufacturerName;
 	private String capitalAssetModelDescription;
 
+	private List<RequisitionItemCapitalAsset> requisitionItemCapitalAssets;
+	private List<RequisitionCapitalAssetLocation> requisitionCapitalAssetLocations;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -88,6 +92,22 @@ public class RequisitionCapitalAssetSystem extends PersistableBusinessObjectBase
 
     public void setCapitalAssetModelDescription(String capitalAssetModelDescription) {
         this.capitalAssetModelDescription = capitalAssetModelDescription;
+    }
+
+    public List<RequisitionItemCapitalAsset> getRequisitionItemCapitalAssets() {
+        return requisitionItemCapitalAssets;
+    }
+
+    public void setRequisitionItemCapitalAssets(List<RequisitionItemCapitalAsset> requisitionItemCapitalAssets) {
+        this.requisitionItemCapitalAssets = requisitionItemCapitalAssets;
+    }
+
+    public List<RequisitionCapitalAssetLocation> getRequisitionCapitalAssetLocations() {
+        return requisitionCapitalAssetLocations;
+    }
+
+    public void setRequisitionCapitalAssetLocations(List<RequisitionCapitalAssetLocation> requisitionCapitalAssetLocations) {
+        this.requisitionCapitalAssetLocations = requisitionCapitalAssetLocations;
     }
 
     /**

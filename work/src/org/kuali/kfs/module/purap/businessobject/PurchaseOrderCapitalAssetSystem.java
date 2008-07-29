@@ -19,6 +19,9 @@ public class PurchaseOrderCapitalAssetSystem extends PersistableBusinessObjectBa
 	private String capitalAssetManufacturerName;
 	private String capitalAssetModelDescription;
 
+	private PurchaseOrderItemCapitalAsset purchaseOrderItemCapitalAsset;
+	private PurchaseOrderCapitalAssetLocation purchaseOrderCapitalAssetLocation;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -88,6 +91,22 @@ public class PurchaseOrderCapitalAssetSystem extends PersistableBusinessObjectBa
 
     public void setCapitalAssetModelDescription(String capitalAssetModelDescription) {
         this.capitalAssetModelDescription = capitalAssetModelDescription;
+    }
+
+    public PurchaseOrderItemCapitalAsset getPurchaseOrderItemCapitalAsset() {
+        return purchaseOrderItemCapitalAsset;
+    }
+
+    public void setPurchaseOrderItemCapitalAsset(PurchaseOrderItemCapitalAsset purchaseOrderItemCapitalAsset) {
+        this.purchaseOrderItemCapitalAsset = purchaseOrderItemCapitalAsset;
+    }
+
+    public PurchaseOrderCapitalAssetLocation getPurchaseOrderCapitalAssetLocation() {
+        return purchaseOrderCapitalAssetLocation;
+    }
+
+    public void setPurchaseOrderCapitalAssetLocation(PurchaseOrderCapitalAssetLocation purchaseOrderCapitalAssetLocation) {
+        this.purchaseOrderCapitalAssetLocation = purchaseOrderCapitalAssetLocation;
     }
 
     /**

@@ -23,12 +23,11 @@ import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -38,7 +37,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocumentBase implements GeneralLedgerPendingEntrySource {
+public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
 
@@ -623,6 +622,10 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         service.createDistrictSalesTaxGLPEs(this, customerCreditMemoDetail, sequenceHelper, isDebit, hasOffset, creditMemoDetailDistrictTaxAmount);
         //Add district sales tax receivable too
         */
+    }
+
+    public KualiDecimal getTotalDollarAmount() {
+        return crmTotalAmount;
     } 
 
 }

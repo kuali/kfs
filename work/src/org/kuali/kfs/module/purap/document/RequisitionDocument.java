@@ -43,8 +43,6 @@ import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
-import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState;
-import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
@@ -85,11 +83,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private String alternate4VendorName;
     private String alternate5VendorName;
     private KualiDecimal organizationAutomaticPurchaseOrderLimit;
-    private String capitalAssetSystemTypeCode;
-    private String capitalAssetSystemStateCode;
-    
-    private CapitalAssetSystemType capitalAssetSystemType;
-    private CapitalAssetSystemState capitalAssetSystemState;
     
     /**
      * Default constructor.
@@ -454,55 +447,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     public void setOrganizationAutomaticPurchaseOrderLimit(KualiDecimal organizationAutomaticPurchaseOrderLimit) {
         this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
-    }
-
-    /**
-     * Gets the capitalAssetSystemTypeCode attribute. 
-     * @return Returns the capitalAssetSystemTypeCode.
-     */
-    public String getCapitalAssetSystemTypeCode() {
-        return capitalAssetSystemTypeCode;
-    }
-
-    /**
-     * Sets the capitalAssetSystemTypeCode attribute value.
-     * @param capitalAssetSystemTypeCode The capitalAssetSystemTypeCode to set.
-     */
-    public void setCapitalAssetSystemTypeCode(String capitalAssetSystemTypeCode) {
-        this.capitalAssetSystemTypeCode = capitalAssetSystemTypeCode;
-    }
-
-    /**
-     * Gets the capitalAssetSystemType attribute. 
-     * @return Returns the capitalAssetSystemType.
-     */
-    public CapitalAssetSystemType getCapitalAssetSystemType() {
-        return capitalAssetSystemType;
-    }
-
-    /**
-     * Sets the capitalAssetSystemType attribute value.
-     * @param capitalAssetSystemType The capitalAssetSystemType to set.
-     * @deprecated
-     */
-    public void setCapitalAssetSystemType(CapitalAssetSystemType capitalAssetSystemType) {
-        this.capitalAssetSystemType = capitalAssetSystemType;
-    }
-        
-    public String getCapitalAssetSystemStateCode() {
-        return capitalAssetSystemStateCode;
-    }
-
-    public void setCapitalAssetSystemStateCode(String capitalAssetSystemStateCode) {
-        this.capitalAssetSystemStateCode = capitalAssetSystemStateCode;
-    }
-
-    public CapitalAssetSystemState getCapitalAssetSystemState() {
-        return capitalAssetSystemState;
-    }
-
-    public void setCapitalAssetSystemState(CapitalAssetSystemState capitalAssetSystemState) {
-        this.capitalAssetSystemState = capitalAssetSystemState;
     }
 
     /**

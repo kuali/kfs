@@ -122,8 +122,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private Integer contractManagerCode;
     private Date purchaseOrderQuoteInitializationDate;
     private Date purchaseOrderQuoteAwardedDate;
-    private String capitalAssetSystemTypeCode;
-    private String capitalAssetSystemStateCode;
     
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -146,8 +144,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private RecurringPaymentFrequency recurringPaymentFrequency;
     private ContractManager contractManager;
-    private CapitalAssetSystemType capitalAssetSystemType;
-    private CapitalAssetSystemState capitalAssetSystemState;
+
     
     /**
      * Default constructor.
@@ -953,24 +950,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void setPurchaseOrderQuoteInitializationDate(Date purchaseOrderQuoteInitializationDate) {
         this.purchaseOrderQuoteInitializationDate = purchaseOrderQuoteInitializationDate;
     }
-    
-    
-    /**
-     * Gets the capitalAssetSystemType attribute. 
-     * @return Returns the capitalAssetSystemType.
-     */
-    public CapitalAssetSystemType getCapitalAssetSystemType() {
-        return capitalAssetSystemType;
-    }
-
-    /**
-     * Sets the capitalAssetSystemType attribute value.
-     * @param capitalAssetSystemType The capitalAssetSystemType to set.
-     * @deprecated
-     */
-    public void setCapitalAssetSystemType(CapitalAssetSystemType capitalAssetSystemType) {
-        this.capitalAssetSystemType = capitalAssetSystemType;
-    }
 
     /**
      * Gets the alternateVendorNumber attribute.
@@ -1104,14 +1083,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     public void setPurchaseOrderQuoteListIdentifier(Integer purchaseOrderQuoteListIdentifier) {
         this.purchaseOrderQuoteListIdentifier = purchaseOrderQuoteListIdentifier;
-    }
-    
-    public String getCapitalAssetSystemTypeCode() {
-        return capitalAssetSystemTypeCode;
-    }
-
-    public void setCapitalAssetSystemTypeCode(String capitalAssetSystemTypeCode) {
-        this.capitalAssetSystemTypeCode = capitalAssetSystemTypeCode;
     }
 
     /**
@@ -1290,22 +1261,5 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         // don't think i should have to override this, but default isn't getting the right PO doc
         explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_DOCUMENT);
     }
-
-    public String getCapitalAssetSystemStateCode() {
-        return capitalAssetSystemStateCode;
-    }
-
-    public void setCapitalAssetSystemStateCode(String capitalAssetSystemStateCode) {
-        this.capitalAssetSystemStateCode = capitalAssetSystemStateCode;
-    }
-
-    public CapitalAssetSystemState getCapitalAssetSystemState() {
-        return capitalAssetSystemState;
-    }
-
-    public void setCapitalAssetSystemState(CapitalAssetSystemState capitalAssetSystemState) {
-        this.capitalAssetSystemState = capitalAssetSystemState;
-    }
-
     
 }

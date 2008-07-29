@@ -27,6 +27,8 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.businessobject.FundingSource;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -114,6 +116,9 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String vendorPaymentTermsCode;
     private String vendorShippingTitleCode;
     private String vendorShippingPaymentTermsCode;
+    private String capitalAssetSystemTypeCode;
+    private String capitalAssetSystemStateCode;
+    
 
     // NOT PERSISTED IN DB
     private String vendorContractName;
@@ -136,6 +141,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Account nonInstitutionFundAccount;
     private Chart nonInstitutionFundChartOfAccounts;
     private VendorContract vendorContract;
+    private CapitalAssetSystemType capitalAssetSystemType;
+    private CapitalAssetSystemState capitalAssetSystemState;
     
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
@@ -1002,6 +1009,38 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public void setCommodityCodesForRouting(List<CommodityCode> commodityCodesForRouting) {
         this.commodityCodesForRouting = commodityCodesForRouting;
+    }
+
+    public String getCapitalAssetSystemTypeCode() {
+        return capitalAssetSystemTypeCode;
+    }
+
+    public void setCapitalAssetSystemTypeCode(String capitalAssetSystemTypeCode) {
+        this.capitalAssetSystemTypeCode = capitalAssetSystemTypeCode;
+    }
+
+    public String getCapitalAssetSystemStateCode() {
+        return capitalAssetSystemStateCode;
+    }
+
+    public void setCapitalAssetSystemStateCode(String capitalAssetSystemStateCode) {
+        this.capitalAssetSystemStateCode = capitalAssetSystemStateCode;
+    }
+
+    public CapitalAssetSystemType getCapitalAssetSystemType() {
+        return capitalAssetSystemType;
+    }
+
+    public void setCapitalAssetSystemType(CapitalAssetSystemType capitalAssetSystemType) {
+        this.capitalAssetSystemType = capitalAssetSystemType;
+    }
+
+    public CapitalAssetSystemState getCapitalAssetSystemState() {
+        return capitalAssetSystemState;
+    }
+
+    public void setCapitalAssetSystemState(CapitalAssetSystemState capitalAssetSystemState) {
+        this.capitalAssetSystemState = capitalAssetSystemState;
     }
     
 }

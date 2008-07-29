@@ -863,7 +863,7 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-        
+    
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1092,7 +1092,7 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-        
+    
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1322,7 +1322,7 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-        
+    
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1551,7 +1551,7 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-        
+    
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1780,7 +1780,7 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-        
+    
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -2009,7 +2009,7 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-        
+    
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -3858,7 +3858,6 @@
 	<field-descriptor name="capitalAssetSystemDescription" column="CPTL_AST_SYS_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetNotReceivedCurrentFiscalYearIndicator" column="CPTLAST_NOTRCVD_CUR_FSCLYR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="capitalAssetManufacturerIsVendorIndicator" column="CPTL_AST_MFR_IS_VNDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="capitalAssetManufacturerName" column="CPTL_AST_MFR_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetModelDescription" column="CPTL_AST_MDL_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetNoteText" column="CPTL_AST_NTE_TXT" jdbc-type="VARCHAR"/>

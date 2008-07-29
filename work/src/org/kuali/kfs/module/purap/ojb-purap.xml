@@ -3871,7 +3871,7 @@
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor> -->
 
-<!-- <class-descriptor class="org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem" table="PUR_REQS_CPTL_AST_ITM_T">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem" table="PUR_REQS_CPTL_AST_ITM_T">
 	<field-descriptor name="capitalAssetItemIdentifier" column="CPTL_AST_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CPTL_AST_ITM_ID"/>
 	<field-descriptor name="purapDocumentIdentifier" column="REQS_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="itemIdentifier" column="REQS_ITM_ID" jdbc-type="INTEGER" index="true"/>
@@ -3879,7 +3879,7 @@
  	<field-descriptor name="capitalAssetSystemIdentifier" column="CPTL_AST_SYS_ID" jdbc-type="INTEGER" index="true"/>  	
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-</class-descriptor> -->
+</class-descriptor>
 
 <!-- <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem" table="PUR_PO_CPTL_AST_ITM_T">
 	<field-descriptor name="capitalAssetItemIdentifier" column="CPTL_AST_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CPTL_AST_ITM_ID"/>

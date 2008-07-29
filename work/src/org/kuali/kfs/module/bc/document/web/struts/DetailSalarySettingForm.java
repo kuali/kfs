@@ -210,11 +210,11 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * release all position and funding locks acquired in current action by the current user
      */
     public void releasePositionAndFundingLocks() {
-        List<PendingBudgetConstructionAppointmentFunding> lockedFundings = this.getReleasableAppointmentFundings();
-        lockService.unlockFunding(lockedFundings, this.universalUser);
+        List<PendingBudgetConstructionAppointmentFunding> releasableAppointmentFundings = this.getReleasableAppointmentFundings();
+        lockService.unlockFunding(releasableAppointmentFundings, this.universalUser);
 
         Set<BudgetConstructionPosition> lockedPositionSet = new HashSet<BudgetConstructionPosition>();
-        for (PendingBudgetConstructionAppointmentFunding fundingLine : lockedFundings) {
+        for (PendingBudgetConstructionAppointmentFunding fundingLine : releasableAppointmentFundings) {
             lockedPositionSet.add(fundingLine.getBudgetConstructionPosition());
         }
 
@@ -227,8 +227,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * release all the transaction locks acquired in current action by the current user
      */
     public void releaseTransactionLocks() {
-        List<PendingBudgetConstructionAppointmentFunding> fundingsWithTransactionLocks = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
-        fundingsWithTransactionLocks.addAll(this.getAppointmentFundings());
+        List<PendingBudgetConstructionAppointmentFunding> fundingsWithTransactionLocks = this.getReleasableAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : fundingsWithTransactionLocks) {
             lockService.unlockTransaction(appointmentFunding, this.universalUser);
         }
@@ -253,23 +252,11 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * get the appointment fundings for which the position or funding locks can be released
      */
     public List<PendingBudgetConstructionAppointmentFunding> getReleasableAppointmentFundings() {
-        List<PendingBudgetConstructionAppointmentFunding> releasableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = this.getSavableAppointmentFundings();
         
-        if(!this.isBudgetByAccountMode()) {
-            releasableAppointmentFundings.addAll(savableAppointmentFundings);
-            return releasableAppointmentFundings;
-        }
+        List<PendingBudgetConstructionAppointmentFunding> releasableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();        
+        releasableAppointmentFundings.addAll(savableAppointmentFundings);
         
-        List<String> keyFields = new ArrayList<String>();
-        keyFields.addAll(SalarySettingExpansion.getPrimaryKeyFields());
-        keyFields.remove(KFSPropertyConstants.DOCUMENT_NUMBER);
-        
-        for (PendingBudgetConstructionAppointmentFunding fundingLine : this.getSavableAppointmentFundings()) {
-            if (ObjectUtil.equals(fundingLine, this, keyFields)) {
-                releasableAppointmentFundings.add(fundingLine);
-            }
-        }
         return releasableAppointmentFundings;
     }
 
@@ -386,6 +373,15 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     public void setPersonName(String personName) {
         this.personName = personName;
     }
+    
+    /**
+     * Gets the universalUser attribute.
+     * 
+     * @return Returns the universalUser.
+     */
+    public UniversalUser getUniversalUser() {
+        return universalUser;
+    }
 
     /**
      * determine whether the editing mode for detail salary setting is in single account mode or not
@@ -413,14 +409,5 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         else {
             throw new RuntimeException("Access denied: not authorized to do the detail salary setting");
         }
-    }
-
-    /**
-     * Gets the universalUser attribute.
-     * 
-     * @return Returns the universalUser.
-     */
-    public UniversalUser getUniversalUser() {
-        return universalUser;
     }
 }

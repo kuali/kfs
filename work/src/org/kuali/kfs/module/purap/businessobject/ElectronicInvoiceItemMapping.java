@@ -1,5 +1,5 @@
 /*
- * Created on Mar 9, 2005
+ * Created on Feb 28, 2006
  *
  */
 package org.kuali.kfs.module.purap.businessobject;
@@ -11,68 +11,55 @@ import java.util.Date;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.pdp.businessobject.UserRequired;
+
+import edu.iu.uis.eden.user.UserService;
 
 /**
  * @author delyea
  *
  */
-public class ElectronicInvoiceRejectReason implements Serializable, PersistenceBrokerAware {
+public class ElectronicInvoiceItemMapping implements Serializable, PersistenceBrokerAware {
   
   private Integer id;
-  private Integer rejectHeaderId;
-  private String invoiceFileName;
-  private String electronicInvoiceRejectTypeCode;
-  private String invoiceRejectReasonDescription;
-  private Timestamp lastUpdateTimestamp; //lst_updt_ts
-  private Integer version; //ver_nbr
+  private Integer vendorHeaderGeneratedId;
+  private Integer vendorDetailAssignedId;
+  private String poItemTypeCode;
+  private String electronicInvoiceItemTypeCode;
+  private Timestamp lastUpdateTimestamp;
+  private Integer version;
   
-  private ElectronicInvoiceReject electronicInvoiceReject;
-  
+  private ItemType itemType;
   /**
    * 
    */
-  public ElectronicInvoiceRejectReason() {
+  public ElectronicInvoiceItemMapping() {
     super();
   }
   
-  public ElectronicInvoiceRejectReason(String electronicInvoiceRejectTypeCode, String invoiceFileName, String description) {
-    super();
-    this.electronicInvoiceRejectTypeCode = electronicInvoiceRejectTypeCode;
-    this.invoiceFileName = invoiceFileName;
-    this.invoiceRejectReasonDescription = description;
-  }
-  
-  public ElectronicInvoiceRejectReason(ElectronicInvoiceReject eir, String electronicInvoiceRejectTypeCode, String invoiceFileName, String description) {
-    super();
-    this.electronicInvoiceReject = eir;
-    this.electronicInvoiceRejectTypeCode = electronicInvoiceRejectTypeCode;
-    this.invoiceFileName = invoiceFileName;
-    this.invoiceRejectReasonDescription = description;
-  }
-  
   /**
-   * @return Returns the electronicInvoiceReject.
+   * @return Returns the electronicInvoiceItemTypeCode.
    */
-  public ElectronicInvoiceReject getElectronicInvoiceReject() {
-    return electronicInvoiceReject;
+  public String getElectronicInvoiceItemTypeCode() {
+    return electronicInvoiceItemTypeCode;
   }
   /**
-   * @param electronicInvoiceReject The electronicInvoiceReject to set.
+   * @param electronicInvoiceItemTypeCode The electronicInvoiceItemTypeCode to set.
    */
-  public void setElectronicInvoiceReject(ElectronicInvoiceReject electronicInvoiceReject) {
-    this.electronicInvoiceReject = electronicInvoiceReject;
+  public void setElectronicInvoiceItemTypeCode(String electronicInvoiceItemTypeCode) {
+    this.electronicInvoiceItemTypeCode = electronicInvoiceItemTypeCode;
   }
   /**
-   * @return Returns the electronicInvoiceRejectTypeCode.
+   * @return Returns the poItemTypeCode.
    */
-  public String getElectronicInvoiceRejectTypeCode() {
-    return electronicInvoiceRejectTypeCode;
+  public String getPoItemTypeCode() {
+    return poItemTypeCode;
   }
   /**
-   * @param electronicInvoiceRejectTypeCode The electronicInvoiceRejectTypeCode to set.
+   * @param poItemTypeCode The poItemTypeCode to set.
    */
-  public void setElectronicInvoiceRejectTypeCode(String electronicInvoiceRejectTypeCode) {
-    this.electronicInvoiceRejectTypeCode = electronicInvoiceRejectTypeCode;
+  public void setPoItemTypeCode(String epicItemTypeCode) {
+    this.poItemTypeCode = epicItemTypeCode;
   }
   /**
    * @return Returns the id.
@@ -87,28 +74,17 @@ public class ElectronicInvoiceRejectReason implements Serializable, PersistenceB
     this.id = id;
   }
   /**
-   * @return Returns the invoiceFileName.
+   * @return Returns the itemType.
    */
-  public String getInvoiceFileName() {
-    return invoiceFileName;
+  public ItemType getItemType() {
+    return itemType;
   }
   /**
-   * @param invoiceFileName The invoiceFileName to set.
+   * @param itemType The itemType to set.
    */
-  public void setInvoiceFileName(String invoiceFileName) {
-    this.invoiceFileName = invoiceFileName;
-  }
-  /**
-   * @return Returns the invoiceRejectReasonDescription.
-   */
-  public String getInvoiceRejectReasonDescription() {
-    return invoiceRejectReasonDescription;
-  }
-  /**
-   * @param invoiceRejectReasonDescription The invoiceRejectReasonDescription to set.
-   */
-  public void setInvoiceRejectReasonDescription(String invoiceRejectReasonDescription) {
-    this.invoiceRejectReasonDescription = invoiceRejectReasonDescription;
+  public void setItemType(ItemType itemType) {
+    this.itemType = itemType;
+    this.poItemTypeCode = itemType.getItemTypeCode();
   }
   /**
    * @return Returns the lastUpdateTimestamp.
@@ -123,16 +99,28 @@ public class ElectronicInvoiceRejectReason implements Serializable, PersistenceB
     this.lastUpdateTimestamp = lastUpdateTimestamp;
   }
   /**
-   * @return Returns the rejectHeaderId.
+   * @return Returns the vendorDetailAssignedId.
    */
-  public Integer getRejectHeaderId() {
-    return rejectHeaderId;
+  public Integer getVendorDetailAssignedId() {
+    return vendorDetailAssignedId;
   }
   /**
-   * @param rejectHeaderId The rejectHeaderId to set.
+   * @param vendorDetailAssignedId The vendorDetailAssignedId to set.
    */
-  public void setRejectHeaderId(Integer rejectHeaderId) {
-    this.rejectHeaderId = rejectHeaderId;
+  public void setVendorDetailAssignedId(Integer vendorDetailAssignedId) {
+    this.vendorDetailAssignedId = vendorDetailAssignedId;
+  }
+  /**
+   * @return Returns the vendorHeaderGeneratedId.
+   */
+  public Integer getVendorHeaderGeneratedId() {
+    return vendorHeaderGeneratedId;
+  }
+  /**
+   * @param vendorHeaderGeneratedId The vendorHeaderGeneratedId to set.
+   */
+  public void setVendorHeaderGeneratedId(Integer vendorHeaderGeneratedId) {
+    this.vendorHeaderGeneratedId = vendorHeaderGeneratedId;
   }
   /**
    * @return Returns the version.
@@ -146,6 +134,7 @@ public class ElectronicInvoiceRejectReason implements Serializable, PersistenceB
   public void setVersion(Integer version) {
     this.version = version;
   }
+
   //persistence broker aware methods + override
   public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
     // set last update timestamp

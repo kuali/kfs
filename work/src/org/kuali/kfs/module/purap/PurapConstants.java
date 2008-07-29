@@ -397,6 +397,7 @@ public class PurapConstants extends JSTLConstants {
         public static final String AWAITING_FISCAL_REVIEW = "AFOA"; // Waiting for Fiscal Officer approval
         public static final String AWAITING_ORG_REVIEW = "ACHA"; // Waiting for Chart/Org approval
         public static final String AWAITING_TAX_REVIEW = "ATAX"; // Waiting for Vendor Tax approval
+        public static final String PENDING_E_INVOICE = "PEIN";
 
         // keep these in the order of potential routing
         // Note it doesn't make much sense to compare auto_approved and dept_approved but this is
@@ -750,4 +751,31 @@ public class PurapConstants extends JSTLConstants {
         public static final String SYSTEM_SWITCHING_QUESTION = "SystemSwitchingQuestion";
     }
 
+    /**
+     * Electronic Invoice Constants
+     */
+    public static class ElectronicInvoice {
+        public static String NO_FILES_PROCESSED_EMAIL_MESSAGE = "No invoice files were processed today. " + "The developers will send notification if this was an error with the load process.";
+
+        // EPIC ELECTRONIC INVOICE REJECT REASON TYPE CODES
+        public static String REJECT_REASON_TYPE_FILE = "FILE";
+        public static String REJECT_REASON_TYPE_ORDER = "INVC";
+
+        /*
+         * Format below with 0's is so if vendor sends time information we will only check the year, month and date. The only
+         * requirement elsewhere in the code is that the year/month/date come at the beginning of the CXML date format.
+         */
+        public static String CXML_DATE_FORMAT = "0000-00-00";
+        public static String CXML_SIMPLE_DATE_FORMAT = "yyyy-MM-dd";
+
+        // ELECTRONIC INVOICE CXML DEPLOYMENT MODE CODE FOR PRODUCTION
+        public static String CXML_DEPLOYMENT_MODE_PRODUCTION = "production";
+
+        // ELECTRONIC INVOICE SHIPPING DESCRIPTION
+        public static String SHIPPING_DESCRIPTION = "Electronic Invoice Shipping";
+    }
+    
+    public static String PRODUCTION_ENVIRONMENT = "PRD";
+
+    
 }

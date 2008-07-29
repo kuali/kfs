@@ -1,112 +1,338 @@
 /*
- * Copyright 2006-2007 The Kuali Foundation.
- * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.opensource.org/licenses/ecl1.php
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Created on Feb 28, 2006
+ *
  */
-
 package org.kuali.kfs.module.purap.businessobject;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.LinkedHashMap;
+import java.sql.Timestamp;
+import java.util.Date;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerAware;
+import org.apache.ojb.broker.PersistenceBrokerException;
 
 /**
- * Electronic Invoice Invoice Load Summary Business Object.
+ * @author delyea
+ *
  */
-public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase {
+public class ElectronicInvoiceLoadSummary implements Serializable, PersistenceBrokerAware {
+  
+  private static final long serialVersionUID = -4414370076163428415L;
 
-    private Long accountsPayableElectronicInvoiceLoadSummaryIdentifier;
-    private String vendorDunsNumber;
-    private Date fileProcessDate;
-    private Integer invoiceLoadSuccessCount;
-    private BigDecimal invoiceLoadSuccessAmount;
-    private Integer invoiceLoadFailCount;
-    private BigDecimal invoiceLoadFailAmount;
+  // NOT NULL FIELDS
+  private Integer id;
+  private String vendorDunsNumber; // this is string constant if DUNS not found
+  private Integer epicVendorHeaderId;
+  private Integer epicVendorDetailId;
+  private String epicVendorName;
+  private Timestamp processTimestamp;
+  private Integer successCount = new Integer(0);
+  private BigDecimal successAmount = new BigDecimal(0.00);
+  private Integer failCount = new Integer(0);
+  private BigDecimal failAmount = new BigDecimal(0.00);
+  private Timestamp lastUpdateTimestamp; //lst_updt_ts
+  private Integer version; //ver_nbr
 
-    /**
-     * Default constructor.
-     */
-    public ElectronicInvoiceLoadSummary() {
-
+  private Boolean isEmpty = Boolean.TRUE;
+  /**
+   * 
+   */
+  public ElectronicInvoiceLoadSummary() {
+    super();
+  }
+  
+  public ElectronicInvoiceLoadSummary(String vendorDunsNumber) {
+    super();
+    this.vendorDunsNumber = vendorDunsNumber;
+  }
+  
+  public ElectronicInvoiceLoadSummary(Integer id, String vendorDunsNumber) {
+    super();
+    this.id = id;
+    this.vendorDunsNumber = vendorDunsNumber;
+  }
+  
+  public void addSuccessfulInvoiceOrder(BigDecimal amount, ElectronicInvoice ei) {
+    this.isEmpty = Boolean.FALSE;
+    this.successCount = new Integer(this.successCount.intValue() + 1);
+    this.processTimestamp = new Timestamp((new Date()).getTime());
+    if (amount != null) {
+      this.successAmount = this.successAmount.add(amount);
     }
-
-    public Long getAccountsPayableElectronicInvoiceLoadSummaryIdentifier() {
-        return accountsPayableElectronicInvoiceLoadSummaryIdentifier;
+    this.setupEpicVendorInformation(ei);
+  }
+  
+  public void addFailedInvoiceOrder(BigDecimal amount, ElectronicInvoice ei) {
+    this.isEmpty = Boolean.FALSE;
+    this.failCount = new Integer(this.failCount.intValue() + 1);
+    this.processTimestamp = new Timestamp((new Date()).getTime());
+    if (amount != null) {
+      this.failAmount = this.failAmount.add(amount);
     }
+    this.setupEpicVendorInformation(ei);
+  }
+  
+  public void addFailedInvoiceOrder(ElectronicInvoice ei) {
+    this.addFailedInvoiceOrder(new BigDecimal(0),ei);
+  }
+  
+  public void addFailedInvoiceOrder() {
+    this.addFailedInvoiceOrder(new BigDecimal(0),null);
+  }
 
-    public void setAccountsPayableElectronicInvoiceLoadSummaryIdentifier(Long accountsPayableElectronicInvoiceLoadSummaryIdentifier) {
-        this.accountsPayableElectronicInvoiceLoadSummaryIdentifier = accountsPayableElectronicInvoiceLoadSummaryIdentifier;
+  private void setupEpicVendorInformation(ElectronicInvoice ei) {
+    if ( (ei != null) && (this.getEpicVendorHeaderId() == null) && (this.getEpicVendorDetailId() == null) ) {
+      this.setEpicVendorHeaderId(ei.getVendorHeaderID());
+      this.setEpicVendorDetailId(ei.getVendorDetailID());
+      this.setEpicVendorName(ei.getVendorName());
     }
+  }
+  
+  public String getVendorDescriptor() {
+    String epicDescriptor = null;
+    if ( (this.epicVendorName != null) && (this.epicVendorHeaderId != null) && (this.epicVendorDetailId != null) ) {
+      epicDescriptor = "  (EPIC Match:  " + this.epicVendorName + "  ~  " + epicVendorHeaderId + "-" + epicVendorDetailId + ")";
+    } else if ( (this.epicVendorHeaderId != null) && (this.epicVendorDetailId != null) ) {
+      epicDescriptor = "  (EPIC Match:  " + epicVendorHeaderId + "-" + epicVendorDetailId + ")";
+    } else if (this.epicVendorName != null) {
+      epicDescriptor = "  (EPIC Match:  " + this.epicVendorName + ")";
+    }
+    return this.getVendorDunsNumber() + ((epicDescriptor != null) ? epicDescriptor : "");
+  }
 
-    public Date getFileProcessDate() {
-        return fileProcessDate;
-    }
+  /**
+   * @return the epicVendorDetailId
+   */
+  public Integer getEpicVendorDetailId() {
+    return epicVendorDetailId;
+  }
 
-    public void setFileProcessDate(Date fileProcessDate) {
-        this.fileProcessDate = fileProcessDate;
-    }
+  /**
+   * @param epicVendorDetailId the epicVendorDetailId to set
+   */
+  public void setEpicVendorDetailId(Integer epicVendorDetailId) {
+    this.epicVendorDetailId = epicVendorDetailId;
+  }
 
-    public BigDecimal getInvoiceLoadFailAmount() {
-        return invoiceLoadFailAmount;
-    }
+  /**
+   * @return the epicVendorHeaderId
+   */
+  public Integer getEpicVendorHeaderId() {
+    return epicVendorHeaderId;
+  }
 
-    public void setInvoiceLoadFailAmount(BigDecimal invoiceLoadFailAmount) {
-        this.invoiceLoadFailAmount = invoiceLoadFailAmount;
-    }
+  /**
+   * @param epicVendorHeaderId the epicVendorHeaderId to set
+   */
+  public void setEpicVendorHeaderId(Integer epicVendorHeaderId) {
+    this.epicVendorHeaderId = epicVendorHeaderId;
+  }
 
-    public Integer getInvoiceLoadFailCount() {
-        return invoiceLoadFailCount;
-    }
+  /**
+   * @return the epicVendorName
+   */
+  public String getEpicVendorName() {
+    return epicVendorName;
+  }
 
-    public void setInvoiceLoadFailCount(Integer invoiceLoadFailCount) {
-        this.invoiceLoadFailCount = invoiceLoadFailCount;
-    }
+  /**
+   * @param epicVendorName the epicVendorName to set
+   */
+  public void setEpicVendorName(String epicVendorName) {
+    this.epicVendorName = epicVendorName;
+  }
+  
+  /**
+   * @return the failAmount
+   */
+  public BigDecimal getFailAmount() {
+    return failAmount;
+  }
 
-    public BigDecimal getInvoiceLoadSuccessAmount() {
-        return invoiceLoadSuccessAmount;
-    }
+  /**
+   * @param failAmount the failAmount to set
+   */
+  public void setFailAmount(BigDecimal failAmount) {
+    this.failAmount = failAmount;
+  }
+  
+  /**
+   * @return the failCount
+   */
+  public Integer getFailCount() {
+    return failCount;
+  }
+  
+  /**
+   * @param failCount the failCount to set
+   */
+  public void setFailCount(Integer failCount) {
+    this.failCount = failCount;
+  }
 
-    public void setInvoiceLoadSuccessAmount(BigDecimal invoiceLoadSuccessAmount) {
-        this.invoiceLoadSuccessAmount = invoiceLoadSuccessAmount;
-    }
+  /**
+   * @return the id
+   */
+  public Integer getId() {
+    return id;
+  }
 
-    public Integer getInvoiceLoadSuccessCount() {
-        return invoiceLoadSuccessCount;
-    }
+  /**
+   * @param id the id to set
+   */
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public void setInvoiceLoadSuccessCount(Integer invoiceLoadSuccessCount) {
-        this.invoiceLoadSuccessCount = invoiceLoadSuccessCount;
-    }
+  /**
+   * @return the isEmpty
+   */
+  public Boolean getIsEmpty() {
+    return isEmpty;
+  }
 
-    public String getVendorDunsNumber() {
-        return vendorDunsNumber;
-    }
+  /**
+   * @param isEmpty the isEmpty to set
+   */
+  public void setIsEmpty(Boolean isEmpty) {
+    this.isEmpty = isEmpty;
+  }
 
-    public void setVendorDunsNumber(String vendorDunsNumber) {
-        this.vendorDunsNumber = vendorDunsNumber;
-    }
+  /**
+   * @return the lastUpdateTimestamp
+   */
+  public Timestamp getLastUpdateTimestamp() {
+    return lastUpdateTimestamp;
+  }
 
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        if (this.accountsPayableElectronicInvoiceLoadSummaryIdentifier != null) {
-            m.put("accountsPayableElectronicInvoiceLoadSummaryIdentifier", this.accountsPayableElectronicInvoiceLoadSummaryIdentifier.toString());
-        }
-        m.put("vendorDunsNumber", this.vendorDunsNumber);
-        return m;
-    }
+  /**
+   * @param lastUpdateTimestamp the lastUpdateTimestamp to set
+   */
+  public void setLastUpdateTimestamp(Timestamp lastUpdateTimestamp) {
+    this.lastUpdateTimestamp = lastUpdateTimestamp;
+  }
+
+  /**
+   * @return the processTimestamp
+   */
+  public Timestamp getProcessTimestamp() {
+    return processTimestamp;
+  }
+
+  /**
+   * @param processTimestamp the processTimestamp to set
+   */
+  public void setProcessTimestamp(Timestamp processTimestamp) {
+    this.processTimestamp = processTimestamp;
+  }
+
+  /**
+   * @return the successAmount
+   */
+  public BigDecimal getSuccessAmount() {
+    return successAmount;
+  }
+
+  /**
+   * @param successAmount the successAmount to set
+   */
+  public void setSuccessAmount(BigDecimal successAmount) {
+    this.successAmount = successAmount;
+  }
+
+  /**
+   * @return the successCount
+   */
+  public Integer getSuccessCount() {
+    return successCount;
+  }
+
+  /**
+   * @param successCount the successCount to set
+   */
+  public void setSuccessCount(Integer successCount) {
+    this.successCount = successCount;
+  }
+
+  /**
+   * @return the vendorDunsNumber
+   */
+  public String getVendorDunsNumber() {
+    return vendorDunsNumber;
+  }
+
+  /**
+   * @param vendorDunsNumber the vendorDunsNumber to set
+   */
+  public void setVendorDunsNumber(String vendorDunsNumber) {
+    this.vendorDunsNumber = vendorDunsNumber;
+  }
+
+  /**
+   * @return the version
+   */
+  public Integer getVersion() {
+    return version;
+  }
+
+  /**
+   * @param version the version to set
+   */
+  public void setVersion(Integer version) {
+    this.version = version;
+  }
+
+  //persistence broker aware methods + override
+  public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
+    // set last update timestamp
+    lastUpdateTimestamp = new Timestamp((new Date()).getTime());
+  }
+  
+  public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
+  }
+
+  public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
+    lastUpdateTimestamp = new Timestamp((new Date()).getTime());
+  }
+
+  public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
+  }
+
+  public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
+
+  }
+
+  public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
+
+  }
+
+  public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
+  }
 }
+/*
+Copyright (c) 2004, 2005 The National Association of College and
+University Business Officers, Cornell University, Trustees of Indiana
+University, Michigan State University Board of Trustees, Trustees of San
+Joaquin Delta College, University of Hawai'i, The Arizona Board of
+Regents on behalf of the University of Arizona, and the r*smart group.
+
+Licensed under the Educational Community License Version 1.0 (the 
+"License"); By obtaining, using and/or copying this Original Work, you
+agree that you have read, understand, and will comply with the terms and
+conditions of the Educational Community License.
+
+You may obtain a copy of the License at:
+
+http://kualiproject.org/license.html
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE. 
+*/

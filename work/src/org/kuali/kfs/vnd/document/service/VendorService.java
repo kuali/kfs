@@ -41,6 +41,13 @@ public interface VendorService {
     public VendorDetail getParentVendor(Integer vendorHeaderGeneratedIdentifier);
 
     /**
+     * Retrieves the VendorDetail using its vendorDunsNumber.
+     * @param vendorDunsNumber the vendor's DUN number.
+     * @return
+     */
+    public VendorDetail getVendorByDunsNumber(String vendorDunsNumber);
+    
+    /**
      * Gets the apo limit for the given parameters using the following logic:<br>
      * <br>
      * First it checks to see if an existing {@link org.kuali.kfs.vnd.businessobject.VendorContractOrganization} object exists for the

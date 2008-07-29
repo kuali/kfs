@@ -104,7 +104,7 @@
     </reference-descriptor>
 	<reference-descriptor name="commodityCode" class-ref="org.kuali.kfs.vnd.businessobject.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="purchasingCommodityCode" />
-	</reference-descriptor>   
+	</reference-descriptor>
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
@@ -2953,11 +2953,11 @@
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceHeaderInformation" table="AP_ELCTRNC_INV_HDR_INFO_T">
-    <field-descriptor name="invoiceHeaderInformationIdentifier" column="INV_HDR_INFO_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="INV_HDR_INFO_ID"/>
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceReject" table="AP_ELCTRNC_INV_HDR_INFO_T">
+    <field-descriptor name="invoiceRejectIdentifier" column="INV_HDR_INFO_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="INV_HDR_INFO_ID"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="accountsPayableElectronicInvoiceLoadSummaryIdentifier" column="AP_ELCTRNC_INV_LOAD_SUM_ID" jdbc-type="BIGINT" index="true"/>
+    <field-descriptor name="invoiceLoadSummaryIdentifier" column="AP_ELCTRNC_INV_LOAD_SUM_ID" jdbc-type="BIGINT" index="true"/>
     <field-descriptor name="invoiceProcessDate" column="INV_PROC_DT" jdbc-type="DATE"/>
     <field-descriptor name="invoiceFileName" column="INV_FL_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorDunsNumber" column="VNDR_DUNS_NBR" jdbc-type="VARCHAR" index="true"/>
@@ -3030,23 +3030,23 @@
     <field-descriptor name="invoiceRejectReasonIdentifier" column="INV_RJT_REAS_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="INV_RJT_REAS_ID"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="invoiceHeaderInformationIdentifier" column="INV_HDR_INFO_ID" jdbc-type="INTEGER" index="true"/>
+    <field-descriptor name="invoiceRejectIdentifier" column="INV_HDR_INFO_ID" jdbc-type="INTEGER" index="true"/>
     <field-descriptor name="invoiceRejectReasonTypeCode" column="INV_RJT_REAS_TYP_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="invoiceRejectReasonDescription" column="INV_RJT_REAS_DESC" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="invoiceHeaderInformation" class-ref="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceHeaderInformation" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="invoiceHeaderInformationIdentifier" />
+    <reference-descriptor name="invoiceReject" class-ref="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceReject" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="invoiceRejectIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="invoiceRejectReasonType" class-ref="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="invoiceRejectReasonType" class-ref="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="invoiceRejectReasonTypeCode" />
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectTypeCode" table="AP_ELCTRNC_INV_RJT_TYP_CD_T">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectType" table="AP_ELCTRNC_INV_RJT_TYP_CD_T">
     <field-descriptor name="invoiceRejectReasonTypeCode" column="INV_RJT_REAS_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="invoiceRejectReasonTypeDescription" column="INV_RJT_REAS_TYP_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary" table="AP_ELCTRNC_INV_LOAD_SUM_T">

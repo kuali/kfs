@@ -23,25 +23,25 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * Electronic Invoice Reject Reason Type Code Business Object.
  */
-public class ElectronicInvoiceRejectTypeCode extends PersistableBusinessObjectBase {
+public class ElectronicInvoiceRejectType extends PersistableBusinessObjectBase {
 
     private String invoiceRejectReasonTypeCode;
     private String invoiceRejectReasonTypeDescription;
-    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
      */
-    public ElectronicInvoiceRejectTypeCode() {
+    public ElectronicInvoiceRejectType() {
 
     }
 
-    public boolean isDataObjectMaintenanceCodeActiveIndicator() {
-        return dataObjectMaintenanceCodeActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    public void setActive(boolean dataObjectMaintenanceCodeActiveIndicator) {
+        this.active = dataObjectMaintenanceCodeActiveIndicator;
     }
 
     public String getInvoiceRejectReasonTypeCode() {

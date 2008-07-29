@@ -144,6 +144,21 @@ public class VendorServiceImpl implements VendorService {
         LOG.debug("Exiting getParentVendor normally.");
         return result;
     }
+    
+    /**
+     *  @see org.kuali.kfs.vnd.document.service.VendorService#getVendorByDunsNumber(String)
+     */
+    public VendorDetail getVendorByDunsNumber(String vendorDunsNumber) {
+        LOG.debug("Entering getVendorByDunsNumber for vendorDunsNumber:" + vendorDunsNumber);
+        Map criteria = new HashMap();
+        criteria.put(VendorPropertyConstants.VENDOR_DUNES_NUMBER, vendorDunsNumber);
+        List<VendorDetail> vds = (List) businessObjectService.findMatching(VendorDetail.class, criteria);
+        LOG.debug("Exiting getVendorByDunsNumber.");
+        if (vds.size()<1)
+            return null;
+        else
+            return vds.get(0);        
+    }
 
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(Integer, Integer, String, String)

@@ -1,0 +1,507 @@
+/*
+ * Created on Feb 13, 2006
+ *
+ */
+package org.kuali.kfs.module.purap.businessobject;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
+
+/**
+ * @author delyea
+ */
+public class ElectronicInvoiceOrder {
+  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceOrder.class);
+  
+  public static boolean INVOICE_ORDER_REJECTED = true;
+  public static boolean INVOICE_ORDER_NOT_REJECTED = false;
+  
+  private static BigDecimal zero = new BigDecimal(0.00);
+
+  // the following fields come from the <InvoiceDetailOrderInfo> tag
+  private String orderReferenceOrderID;
+  private String orderReferenceDocumentRefPayloadID;
+  private String orderReferenceDocumentRef;
+  private String masterAgreementReferenceID;
+  private Date masterAgreementReferenceDate;
+  private String masterAgreementReferenceDateString;
+  private String masterAgreementIDInfoID;
+  private Date masterAgreementIDInfoDate;
+  private String masterAgreementIDInfoDateString;
+  private String orderIDInfoID;
+  private Date orderIDInfoDate;
+  private String orderIDInfoDateString;
+  private String supplierOrderInfoID;
+  
+  private String invoicePurchaseOrderID;
+  private Integer purchaseOrderID = null;
+  private String purchaseOrderCampusCode;
+  
+  private boolean rejected = INVOICE_ORDER_NOT_REJECTED;
+  private List orderRejectReasons = new ArrayList();
+  
+  private List invoiceItems = new ArrayList();
+  
+  public ElectronicInvoiceOrder() {
+    super();
+  }
+  
+  public ElectronicInvoiceItem getElectronicInvoiceItemByPOLineNumber(Integer poLineNumber) {
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      if ((poLineNumber.compareTo(eii.getReferenceLineNumberInteger())) == 0) {
+        return eii;
+      }
+    }
+    return null;
+  }
+  
+  /**
+   * This method takes in a roleID string and an addressName (constants from mapping file)
+   * and returns a valid ElectronicInvoicePostalAddress or null if not found.  If the addressName string
+   * is null then the roleID is used to find the first available
+   * 
+   * @param roleID Cxml role id attribute value
+   * @param addressName Cxml name attribute of postaladdress tag
+   * @return CxmlPostal Address relating to given parameters
+   */
+  public ElectronicInvoicePostalAddress getCxmlPostalAddressByRoleID(String roleID,String addressName) {
+    if (roleID != null) {
+      ElectronicInvoiceContact contact = this.getCxmlContactByRoleID(roleID);
+      if (contact != null) {
+        for (Iterator iterator = contact.getPostalAddresses().iterator(); iterator.hasNext();) {
+          ElectronicInvoicePostalAddress cpa = (ElectronicInvoicePostalAddress) iterator.next();
+          if (addressName == null) {
+            return cpa;
+          } else {
+            if (addressName.equalsIgnoreCase(cpa.getName())) {
+              return cpa;
+            }
+          }
+        }
+      }
+    }
+    return null;
+  }
+  
+  public ElectronicInvoiceContact getCxmlContactByRoleID(String roleID) {
+	if (roleID != null) {
+	  for (Iterator itemIter = this.invoiceItems.iterator(); itemIter.hasNext();) {
+	    ElectronicInvoiceItem eii = (ElectronicInvoiceItem) itemIter.next();
+	    for (Iterator iter = eii.getInvoiceShippingContacts().iterator(); iter.hasNext();) {
+	      ElectronicInvoiceContact contact = (ElectronicInvoiceContact) iter.next();
+	      if (roleID.equalsIgnoreCase(contact.getRole())) {
+	        return contact;
+	      }
+	    }
+	  }
+	}
+	return null;
+  }
+  /**
+   * This method returns the first shipping date found in the list of items.  This 
+   * is called if shipping information is in line. Since EPIC only allows for one 
+   * shipping date per invoice-order we take the first date we find
+   * 
+   * @return  Date defining first shipping date found or null if none are found
+   */
+  public Date getInvoiceShippingDate() {
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      Date testDate = eii.getShippingDate();
+      if (testDate != null) {
+        return testDate;
+      }
+    }
+    return null;
+  }
+  
+  /**
+   * This method returns the first shipping date string found in the list of items.  This 
+   * is called if shipping information is in line. Since EPIC only allows for one shipping 
+   * date per invoice-order we take the first date string we find
+   * 
+   * @return  Date defining first shipping date found or null if none are found
+   */
+  public String getInvoiceShippingDateString() {
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      String testDateString = eii.getShippingDateString();
+      if ( (testDateString != null) && (!("".equals(testDateString))) ) {
+        return testDateString;
+      }
+    }
+    return null;
+  }
+  
+  public String getInvoiceTaxDescription() {
+    BigDecimal total = zero;
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      BigDecimal taxAmount = eii.getInvoiceLineTaxAmountBigDecimal(); 
+      if ( (taxAmount != null) && (zero.compareTo(taxAmount) != 0) ) {
+        return eii.getTaxDescription();
+      }
+    }
+    return null;
+  }
+
+  public String getInvoiceShippingDescription() {
+    BigDecimal total = zero;
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      BigDecimal shippingAmount = eii.getInvoiceLineShippingAmountBigDecimal(); 
+      if ( (shippingAmount != null) && (zero.compareTo(shippingAmount) != 0) ) {
+        return ElectronicInvoiceMappingService.E_INVOICE_SHIPPING_DESCRIPTION;
+      }
+    }
+    return null;
+  }
+
+  public BigDecimal getInvoiceSubtotalAmount() {
+    BigDecimal total = zero;
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      total = total.add(eii.getInvoiceLineSubtotalAmountBigDecimal());
+    }
+    return total;
+  }
+
+  public BigDecimal getInvoiceTaxAmount() {
+    BigDecimal total = zero;
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      total = total.add(eii.getInvoiceLineTaxAmountBigDecimal());
+    }
+    return total;
+  }
+
+  public BigDecimal getInvoiceSpecialHandlingAmount() {
+    BigDecimal total = zero;
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      total = total.add(eii.getInvoiceLineSpecialHandlingAmountBigDecimal());
+    }
+    return total;
+  }
+
+  public BigDecimal getInvoiceShippingAmount() {
+    BigDecimal total = zero;
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      total = total.add(eii.getInvoiceLineShippingAmountBigDecimal());
+    }
+    return total;
+  }
+
+  public BigDecimal getInvoiceGrossAmount() {
+    BigDecimal total = zero;
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      total = total.add(eii.getInvoiceLineGrossAmountBigDecimal());
+    }
+    return total;
+  }
+
+  public BigDecimal getInvoiceDiscountAmount() {
+    BigDecimal total = zero;
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      total = total.add(eii.getInvoiceLineDiscountAmountBigDecimal());
+    }
+    return total;
+  }
+
+  public BigDecimal getInvoiceNetAmount() {
+    BigDecimal total = zero;
+    for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+      total = total.add(eii.getInvoiceLineNetAmountBigDecimal());
+    }
+    return total;
+  }
+  
+  public void addRejectReasonToList(ElectronicInvoiceRejectReason reason) {
+    this.orderRejectReasons.add(reason);
+  }
+    
+  /**
+   * Altered for special circumstances
+   * 
+   * @param masterAgreementIDInfoDateString The masterAgreementIDInfoDateString to set.
+   */
+  public void setMasterAgreementIDInfoDateString(String masterAgreementIDInfoDateString) {
+    this.masterAgreementIDInfoDateString = masterAgreementIDInfoDateString;
+    if ( (masterAgreementIDInfoDateString != null) && (!("".equals(masterAgreementIDInfoDateString))) ) {
+      SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT, Locale.US);
+      try {
+        this.masterAgreementIDInfoDate = sdf.parse(masterAgreementIDInfoDateString);
+      } catch (ParseException e) {
+        // setting invoice date to null to identify problem
+        LOG.error("setInvoiceDateString() SimpleDateFormat parser error attempting to set invalid date string " + masterAgreementIDInfoDateString + " in masterAgreementIDInfoDate field... setting date to null");
+        this.masterAgreementIDInfoDate = null;
+      }
+    } else {
+      this.masterAgreementIDInfoDate = null;
+    }
+  }
+  /**
+   * Altered for special circumstances
+   * 
+   * @param masterAgreementReferenceDateString The masterAgreementReferenceDateString to set.
+   */
+  public void setMasterAgreementReferenceDateString(String masterAgreementReferenceDateString) {
+    this.masterAgreementReferenceDateString = masterAgreementReferenceDateString;
+    if ( (masterAgreementReferenceDateString != null) && (!("".equals(masterAgreementReferenceDateString))) ) {
+      SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT, Locale.US);
+      try {
+        this.masterAgreementReferenceDate = sdf.parse(masterAgreementReferenceDateString);
+      } catch (ParseException e) {
+        // setting invoice date to null to identify problem
+        LOG.error("setInvoiceDateString() SimpleDateFormat parser error attempting to set invalid date string " + masterAgreementReferenceDateString + " in masterAgreementReferenceDate field... setting date to null");
+        this.masterAgreementReferenceDate = null;
+      }
+    } else {
+      this.masterAgreementIDInfoDate = null;
+    }
+  }
+  /**
+   * Altered for special circumstances
+   * 
+   * @param orderIDInfoDateString The orderIDInfoDateString to set.
+   */
+  public void setOrderIDInfoDateString(String orderIDInfoDateString) {
+    this.orderIDInfoDateString = orderIDInfoDateString;
+    if ( (orderIDInfoDateString != null) && (!("".equals(orderIDInfoDateString))) ) {
+      SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT, Locale.US);
+      try {
+        this.orderIDInfoDate = sdf.parse(orderIDInfoDateString);
+      } catch (ParseException e) {
+        // setting invoice date to null to identify problem
+        LOG.error("setInvoiceDateString() SimpleDateFormat parser error attempting to set invalid date string " + orderIDInfoDateString + " in orderIDInfoDate field... setting date to null");
+        this.orderIDInfoDate = null;
+      }
+    } else {
+      this.orderIDInfoDate = null;
+    }
+  }
+  /**
+   * @return Returns the invoiceItems.
+   */
+  public List getInvoiceItems() {
+    return invoiceItems;
+  }
+  /**
+   * @param invoiceItems The invoiceItems to set.
+   */
+  public void setInvoiceItems(List invoiceItems) {
+    this.invoiceItems = invoiceItems;
+  }
+  /**
+   * @return Returns the invoicePurchaseOrderID.
+   */
+  public String getInvoicePurchaseOrderID() {
+    return invoicePurchaseOrderID;
+  }
+  /**
+   * @param invoicePurchaseOrderID The invoicePurchaseOrderID to set.
+   */
+  public void setInvoicePurchaseOrderID(String invoicePurchaseOrderID) {
+    this.invoicePurchaseOrderID = invoicePurchaseOrderID;
+  }
+  /**
+   * @return Returns the masterAgreementIDInfoDate.
+   */
+  public Date getMasterAgreementIDInfoDate() {
+    return masterAgreementIDInfoDate;
+  }
+  /**
+   * @param masterAgreementIDInfoDate The masterAgreementIDInfoDate to set.
+   */
+  public void setMasterAgreementIDInfoDate(Date masterAgreementIDInfoDate) {
+    this.masterAgreementIDInfoDate = masterAgreementIDInfoDate;
+  }
+  /**
+   * @return Returns the masterAgreementIDInfoID.
+   */
+  public String getMasterAgreementIDInfoID() {
+    return masterAgreementIDInfoID;
+  }
+  /**
+   * @param masterAgreementIDInfoID The masterAgreementIDInfoID to set.
+   */
+  public void setMasterAgreementIDInfoID(String masterAgreementIDInfoID) {
+    this.masterAgreementIDInfoID = masterAgreementIDInfoID;
+  }
+  /**
+   * @return Returns the masterAgreementReferenceDate.
+   */
+  public Date getMasterAgreementReferenceDate() {
+    return masterAgreementReferenceDate;
+  }
+  /**
+   * @param masterAgreementReferenceDate The masterAgreementReferenceDate to set.
+   */
+  public void setMasterAgreementReferenceDate(Date masterAgreementReferenceDate) {
+    this.masterAgreementReferenceDate = masterAgreementReferenceDate;
+  }
+  /**
+   * @return Returns the masterAgreementReferenceID.
+   */
+  public String getMasterAgreementReferenceID() {
+    return masterAgreementReferenceID;
+  }
+  /**
+   * @param masterAgreementReferenceID The masterAgreementReferenceID to set.
+   */
+  public void setMasterAgreementReferenceID(String masterAgreementReferenceID) {
+    this.masterAgreementReferenceID = masterAgreementReferenceID;
+  }
+  /**
+   * @return Returns the orderIDInfoDate.
+   */
+  public Date getOrderIDInfoDate() {
+    return orderIDInfoDate;
+  }
+  /**
+   * @param orderIDInfoDate The orderIDInfoDate to set.
+   */
+  public void setOrderIDInfoDate(Date orderIDInfoDate) {
+    this.orderIDInfoDate = orderIDInfoDate;
+  }
+  /**
+   * @return Returns the orderIDInfoID.
+   */
+  public String getOrderIDInfoID() {
+    return orderIDInfoID;
+  }
+  /**
+   * @param orderIDInfoID The orderIDInfoID to set.
+   */
+  public void setOrderIDInfoID(String orderIDInfoID) {
+    this.orderIDInfoID = orderIDInfoID;
+  }
+  /**
+   * @return Returns the orderReferenceDocumentRef.
+   */
+  public String getOrderReferenceDocumentRef() {
+    return orderReferenceDocumentRef;
+  }
+  /**
+   * @param orderReferenceDocumentRef The orderReferenceDocumentRef to set.
+   */
+  public void setOrderReferenceDocumentRef(String orderReferenceDocumentRef) {
+    this.orderReferenceDocumentRef = orderReferenceDocumentRef;
+  }
+  /**
+   * @return Returns the orderReferenceDocumentRefPayloadID.
+   */
+  public String getOrderReferenceDocumentRefPayloadID() {
+    return orderReferenceDocumentRefPayloadID;
+  }
+  /**
+   * @param orderReferenceDocumentRefPayloadID The orderReferenceDocumentRefPayloadID to set.
+   */
+  public void setOrderReferenceDocumentRefPayloadID(String orderReferenceDocumentRefPayloadID) {
+    this.orderReferenceDocumentRefPayloadID = orderReferenceDocumentRefPayloadID;
+  }
+  /**
+   * @return Returns the orderReferenceOrderID.
+   */
+  public String getOrderReferenceOrderID() {
+    return orderReferenceOrderID;
+  }
+  /**
+   * @param orderReferenceOrderID The orderReferenceOrderID to set.
+   */
+  public void setOrderReferenceOrderID(String orderReferenceOrderID) {
+    this.orderReferenceOrderID = orderReferenceOrderID;
+  }
+  /**
+   * @return Returns the orderRejectReasons.
+   */
+  public List getOrderRejectReasons() {
+    return orderRejectReasons;
+  }
+  /**
+   * @param orderRejectReasons The orderRejectReasons to set.
+   */
+  public void setOrderRejectReasons(List orderRejectReasons) {
+    this.orderRejectReasons = orderRejectReasons;
+  }
+  /**
+   * @return Returns the purchaseOrderCampusCode.
+   */
+  public String getPurchaseOrderCampusCode() {
+    return purchaseOrderCampusCode;
+  }
+  /**
+   * @param purchaseOrderCampusCode The purchaseOrderCampusCode to set.
+   */
+  public void setPurchaseOrderCampusCode(String purchaseOrderCampusCode) {
+    this.purchaseOrderCampusCode = purchaseOrderCampusCode;
+  }
+  /**
+   * @return Returns the purchaseOrderID.
+   */
+  public Integer getPurchaseOrderID() {
+    return purchaseOrderID;
+  }
+  /**
+   * @param purchaseOrderID The purchaseOrderID to set.
+   */
+  public void setPurchaseOrderID(Integer purchaseOrderID) {
+    this.purchaseOrderID = purchaseOrderID;
+  }
+  /**
+   * @return Returns the rejected.
+   */
+  public boolean isRejected() {
+    return rejected;
+  }
+  /**
+   * @param rejected The rejected to set.
+   */
+  public void setRejected(boolean rejected) {
+    this.rejected = rejected;
+  }
+  /**
+   * @return Returns the supplierOrderInfoID.
+   */
+  public String getSupplierOrderInfoID() {
+    return supplierOrderInfoID;
+  }
+  /**
+   * @param supplierOrderInfoID The supplierOrderInfoID to set.
+   */
+  public void setSupplierOrderInfoID(String supplierOrderInfoID) {
+    this.supplierOrderInfoID = supplierOrderInfoID;
+  }
+  /**
+   * @return Returns the masterAgreementIDInfoDateString.
+   */
+  public String getMasterAgreementIDInfoDateString() {
+    return masterAgreementIDInfoDateString;
+  }
+  /**
+   * @return Returns the masterAgreementReferenceDateString.
+   */
+  public String getMasterAgreementReferenceDateString() {
+    return masterAgreementReferenceDateString;
+  }
+  /**
+   * @return Returns the orderIDInfoDateString.
+   */
+  public String getOrderIDInfoDateString() {
+    return orderIDInfoDateString;
+  }
+}

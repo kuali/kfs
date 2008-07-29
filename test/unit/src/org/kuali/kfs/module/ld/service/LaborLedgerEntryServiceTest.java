@@ -85,9 +85,9 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
         ObjectUtil.populateBusinessObject(input2, properties, testTarget + "testData2", fieldNames, deliminator);
         try {
             laborLedgerEntryService.save(input2);
+            fail("The labor ledger entry should not be able to be updated again.");
         }
         catch (Exception e) {
-            fail("Failed to update the labor ledger entry: " + input1 + " with the new value " + input2);
         }
     }
 

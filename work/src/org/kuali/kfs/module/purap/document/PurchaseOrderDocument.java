@@ -47,6 +47,7 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
@@ -122,6 +123,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private Date purchaseOrderQuoteInitializationDate;
     private Date purchaseOrderQuoteAwardedDate;
     private String capitalAssetSystemTypeCode;
+    private String capitalAssetSystemStateCode;
     
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -145,6 +147,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private RecurringPaymentFrequency recurringPaymentFrequency;
     private ContractManager contractManager;
     private CapitalAssetSystemType capitalAssetSystemType;
+    private CapitalAssetSystemState capitalAssetSystemState;
     
     /**
      * Default constructor.
@@ -1288,4 +1291,21 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_DOCUMENT);
     }
 
+    public String getCapitalAssetSystemStateCode() {
+        return capitalAssetSystemStateCode;
+    }
+
+    public void setCapitalAssetSystemStateCode(String capitalAssetSystemStateCode) {
+        this.capitalAssetSystemStateCode = capitalAssetSystemStateCode;
+    }
+
+    public CapitalAssetSystemState getCapitalAssetSystemState() {
+        return capitalAssetSystemState;
+    }
+
+    public void setCapitalAssetSystemState(CapitalAssetSystemState capitalAssetSystemState) {
+        this.capitalAssetSystemState = capitalAssetSystemState;
+    }
+
+    
 }

@@ -545,6 +545,7 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="capitalAssetSystemStateCode" column="CPTL_AST_SYS_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
@@ -631,7 +632,9 @@
      <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="capitalAssetSystemStateCode" />
+    </reference-descriptor>
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -770,6 +773,7 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="capitalAssetSystemStateCode" column="CPTL_AST_SYS_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
@@ -856,7 +860,10 @@
     <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="capitalAssetSystemStateCode" />
+    </reference-descriptor>
+        
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -995,6 +1002,7 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="capitalAssetSystemStateCode" column="CPTL_AST_SYS_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
@@ -1081,7 +1089,10 @@
     <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="capitalAssetSystemStateCode" />
+    </reference-descriptor>
+        
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1220,6 +1231,7 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="capitalAssetSystemStateCode" column="CPTL_AST_SYS_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
@@ -1307,7 +1319,10 @@
     <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="capitalAssetSystemStateCode" />
+    </reference-descriptor>
+        
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1446,6 +1461,7 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="capitalAssetSystemStateCode" column="CPTL_AST_SYS_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
@@ -1532,7 +1548,10 @@
     <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="capitalAssetSystemStateCode" />
+    </reference-descriptor>
+        
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1671,6 +1690,7 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="capitalAssetSystemStateCode" column="CPTL_AST_SYS_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
@@ -1757,7 +1777,10 @@
     <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="capitalAssetSystemStateCode" />
+    </reference-descriptor>
+        
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1896,6 +1919,7 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="capitalAssetSystemStateCode" column="CPTL_AST_SYS_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
@@ -1982,7 +2006,10 @@
     <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="capitalAssetSystemStateCode" />
+    </reference-descriptor>
+        
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -2121,6 +2148,7 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="capitalAssetSystemStateCode" column="CPTL_AST_SYS_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
@@ -2206,6 +2234,9 @@
     </reference-descriptor>
     <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
+    </reference-descriptor>
+    <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
     
     <!-- SPECIFIC TO PO DOCUMENT -->
@@ -2346,6 +2377,7 @@
     <field-descriptor name="purchaseOrderQuoteInitializationDate" column="PO_QT_INITLZTN_DT" jdbc-type="DATE"/>
     <field-descriptor name="purchaseOrderQuoteAwardedDate" column="PO_QT_AWDED_DT" jdbc-type="DATE"/>
     <field-descriptor name="capitalAssetSystemTypeCode" column="CPTL_AST_SYS_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="capitalAssetSystemStateCode" column="CPTL_AST_SYS_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/> 
@@ -2431,6 +2463,9 @@
     </reference-descriptor>
      <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
+    </reference-descriptor>
+    <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
     
     <!-- SPECIFIC TO PO DOCUMENT -->

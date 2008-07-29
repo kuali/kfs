@@ -24,9 +24,6 @@ import java.util.LinkedHashMap;
 public class RequisitionItemCapitalAsset extends PurchasingItemCapitalAsset {
 
     private Integer requisitionItemCapitalAssetIdentifier;
-    private Integer itemIdentifier;
-
-    private RequisitionItem requisitionItem;
 
     /**
      * Default constructor.
@@ -48,28 +45,6 @@ public class RequisitionItemCapitalAsset extends PurchasingItemCapitalAsset {
 
     public void setRequisitionItemCapitalAssetIdentifier(Integer requisitionItemCapitalAssetIdentifier) {
         this.requisitionItemCapitalAssetIdentifier = requisitionItemCapitalAssetIdentifier;
-    }
-
-    public Integer getItemIdentifier() {
-        return itemIdentifier;
-    }
-
-    public void setItemIdentifier(Integer itemIdentifier) {
-        this.itemIdentifier = itemIdentifier;
-    }
-
-    public RequisitionItem getRequisitionItem() {
-        return requisitionItem;
-    }
-
-    /**
-     * Sets the requisitionItem attribute.
-     * 
-     * @param requisitionItem The requisitionItem to set.
-     * @deprecated
-     */
-    public void setRequisitionItem(RequisitionItem requisitionItem) {
-        this.requisitionItem = requisitionItem;
     }
 
     /**

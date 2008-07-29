@@ -37,6 +37,7 @@ public class PurchasingServiceImpl implements PurchasingService {
 //        
 //        for (PurApItem purapItem : purDoc.getItems()) {
 //            if (purapItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                  //TODO: If the purapItem.getItemIdentifier is null then we need to call sequence accessor.
 //                if ( doesItemNeedCAMS(purapItem) ) {
 //                    PurchasingItemCapitalAsset camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
 //                    if (camsItem == null) {

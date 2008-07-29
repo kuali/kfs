@@ -45,11 +45,11 @@
 
 <td class="infoline" colspan="10" valign="top">
     <span class="nowrap">
-    <input name="temporarytestfield" maxlength="7" size="10" tabindex="0" value="" style="" class="" type="text"><input tabindex="32767" name="methodToCall.performLookup.(!!org.kuali.kfs.coa.businessobject.Account!!).(((chartOfAccountsCode:newSourceLine.chartOfAccountsCode,accountNumber:newSourceLine.accountNumber))).((#newSourceLine.chartOfAccountsCode:chartOfAccountsCode#)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor" src="https://test.kuali.org/kuali-cnv/kr/static/images/searchicon.gif" class="tinybutton" valign="middle" alt="Search Account Number" title="Search Account Number" type="image" border="0"></span>
+    <input name="temporarytestfield" maxlength="7" size="10" tabindex="0" value="" style="" class="" type="text"><input tabindex="32767" name="methodToCall.performLookup.(!!org.kuali.kfs.coa.businessobject.Account!!).(((chartOfAccountsCode:newSourceLine.chartOfAccountsCode,accountNumber:newSourceLine.accountNumber))).((#newSourceLine.chartOfAccountsCode:chartOfAccountsCode#)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor" src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" class="tinybutton" valign="middle" alt="Search Account Number" title="Search Account Number" type="image" border="0"></span>
 </td>
 
 <td class="infoline" rowspan="" nowrap="nowrap"><div align="center">
-            <input name="methodToCall.insertSourceLine.anchoraccountingSourceAnchor" src="https://test.kuali.org/kuali-cnv/kr/static/images/tinybutton-add1.gif" class="tinybutton" title="Add an Accounting Line" alt="Add an Accounting Line" type="image"><br>
+            <input name="methodToCall.insertSourceLine.anchoraccountingSourceAnchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" class="tinybutton" title="Add an Accounting Line" alt="Add an Accounting Line" type="image"><br>
 
     <div id="..div" class="fineprint">
     </div>
@@ -66,7 +66,7 @@
 </td>
 <td class="datacell" rowspan="" nowrap="nowrap">
             <div align="center">
-                <input name="methodToCall.deleteSourceLine.line0.anchoraccountingSourceAnchor" src="https://test.kuali.org/kuali-cnv/kr/static/images/tinybutton-delete1.gif" class="tinybutton" title="Delete Accounting Line 1" alt="Delete Accounting Line 1" type="image">
+                <input name="methodToCall.deleteSourceLine.line0.anchoraccountingSourceAnchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" class="tinybutton" title="Delete Accounting Line 1" alt="Delete Accounting Line 1" type="image">
         </td>
     </tr>
 
@@ -77,7 +77,7 @@
         <table class="datatable" style="width: 100%;">
             <tbody><tr>
                 <td colspan="4" class="tab-subhead" style="border-right: medium none;">Information
-                  <input name="methodToCall.toggleTab.tabInformationLines-document-InformationLine0" src="https://test.kuali.org/kuali-cnv/kr/static/images/tinybutton-show.gif" onclick="javascript: return toggleTab(document, 'InformationLines-document-informationLine0'); " id="tab-InformationLines-document-informationLine0-imageToggle" class="tinybutton" title="toggle" alt="show" type="image"></td>
+                  <input name="methodToCall.toggleTab.tabInformationLines-document-InformationLine0" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" onclick="javascript: return toggleTab(document, 'InformationLines-document-informationLine0'); " id="tab-InformationLines-document-informationLine0-imageToggle" class="tinybutton" title="toggle" alt="show" type="image"></td>
             </tr>
         </tbody></table>    
             
@@ -128,7 +128,7 @@
         <table class="datatable" style="width: 100%;">
             <tbody><tr>
                 <td colspan="4" class="tab-subhead" style="border-right: medium none;">Payments
-                  <input name="methodToCall.toggleTab.tabPaymentLines-document-paymentLine0" src="https://test.kuali.org/kuali-cnv/kr/static/images/tinybutton-show.gif" onclick="javascript: return toggleTab(document, 'PaymentLines-document-paymentLine0'); " id="tab-PaymentLines-document-paymentLine0-imageToggle" class="tinybutton" title="toggle" alt="show" type="image"></td>
+                  <input name="methodToCall.toggleTab.tabPaymentLines-document-paymentLine0" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" onclick="javascript: return toggleTab(document, 'PaymentLines-document-paymentLine0'); " id="tab-PaymentLines-document-paymentLine0-imageToggle" class="tinybutton" title="toggle" alt="show" type="image"></td>
             </tr>
         </tbody></table>    
             

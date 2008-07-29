@@ -31,6 +31,7 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.ResponsibilityCenter;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -86,7 +87,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
      */
     public static BigDecimal getCalculatedBCPositionFTE(BigDecimal positionStandardHoursDefault, Integer iuNormalWorkMonths, Integer iuPayMonths) {
         if (iuPayMonths > 0) {
-            BigDecimal temp1 = positionStandardHoursDefault.divide(BCConstants.STANDARD_WEEKLY_WORK_HOUR, 4, KualiDecimal.ROUND_BEHAVIOR);
+            BigDecimal temp1 = positionStandardHoursDefault.divide(BudgetParameterFinder.getWeeklyWorkingHoursAsDecimal(), 4, KualiDecimal.ROUND_BEHAVIOR);
             BigDecimal temp2 = new BigDecimal(iuNormalWorkMonths).divide(new BigDecimal(iuPayMonths), 4, KualiDecimal.ROUND_BEHAVIOR);
             BigDecimal result = temp1.multiply(temp2);
             result = result.setScale(2, KualiDecimal.ROUND_BEHAVIOR);

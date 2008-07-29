@@ -117,5 +117,4 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
     public void setRefreshPositionBeforeSalarySetting(boolean refreshPositionBeforeSalarySetting) {
         this.refreshPositionBeforeSalarySetting = refreshPositionBeforeSalarySetting;
     }
-
 }

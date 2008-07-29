@@ -135,5 +135,6 @@ public class BCKeyConstants {
     public static final String ERROR_INCUMBENT_NOT_FOUND = "error.budget.incumbentNotFound";
     public static final String ERROR_POSITION_NOT_FOUND = "error.budget.positionNotFound";
     public static final String ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK = "error.budget.failToAcquireTransactionLock";
+    public static final String ERROR_SALARY_SETTING_EXPANSION_NOT_FOUND = "error.budget.salarySettingExpansionNotFound";
 }
 

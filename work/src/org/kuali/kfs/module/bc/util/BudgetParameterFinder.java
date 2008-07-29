@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.util;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -49,6 +50,28 @@ public class BudgetParameterFinder {
 
         return Integer.valueOf(StringUtils.trim(annualWorkingHours));
     }
+    
+    /**
+     * get the weekly working hours setup in system paremters for extract process
+     * 
+     * @return the weekly working hours setup in system paremters
+     */
+    public static Integer getWeeklyWorkingHours() {
+        String weeklyWorkingHours = parameterService.getParameterValue(BudgetConstructionDocument.class, BCParameterKeyConstants.WEEKLY_WORKING_HOURS);
+
+        return Integer.valueOf(StringUtils.trim(weeklyWorkingHours));
+    } 
+    
+    /**
+     * get the weekly working hours setup in system paremters for extract process
+     * 
+     * @return the weekly working hours setup in system paremters
+     */
+    public static BigDecimal getWeeklyWorkingHoursAsDecimal() {
+        Integer weeklyWorkingHours = 40; // TODO: getWeeklyWorkingHours();
+
+        return BigDecimal.valueOf(weeklyWorkingHours);
+    } 
 
     /**
      * get the sub fund group codes not allowed 2plg generation setup in system parameters

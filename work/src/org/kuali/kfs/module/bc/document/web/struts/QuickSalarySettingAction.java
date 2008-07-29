@@ -81,9 +81,6 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
     /**
      * Forwards to budget incumbent lookup passing parameters for new funding line.
-     * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward addIncumbent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
@@ -105,9 +102,6 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
     /**
      * Forwards to budget position lookup passing parameters for new funding line.
-     * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward addPosition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
@@ -139,8 +133,8 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         SalarySettingExpansion salarySettingExpansion = (SalarySettingExpansion) businessObjectService.findByPrimaryKey(SalarySettingExpansion.class, keyMap);
 
         if (salarySettingExpansion == null) {
-            // TODO need to figure out what to do (if anything) under edit and view mode cases
-            // probably nothing, the create new by incumbent or position links would still be shown in edit mode
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_SALARY_SETTING_EXPANSION_NOT_FOUND);
+            return this.returnToCaller(mapping, form, request, response);
         }
 
         salarySettingForm.setSalarySettingExpansion(salarySettingExpansion);

@@ -71,6 +71,12 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
 
         incumbentSalarySettingForm.populateBCAFLines();
         incumbentSalarySettingForm.setNewBCAFLine(incumbentSalarySettingForm.createNewAppointmentFundingLine());
+        
+        //acquire position and funding locks for the associated funding lines
+        boolean gotLocks = incumbentSalarySettingForm.acquirePositionAndFundingLocks();
+        if (!gotLocks) {
+            return this.returnToCaller(mapping, form, request, response);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

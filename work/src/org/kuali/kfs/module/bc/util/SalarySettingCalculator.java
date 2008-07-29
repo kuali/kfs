@@ -36,7 +36,7 @@ public class SalarySettingCalculator {
      * @return the standard working hour calculated from the given time percent
      */
     public static BigDecimal getStandarHours(BigDecimal timePercent) {
-        BigDecimal standarHours = timePercent.multiply(BCConstants.STANDARD_WEEKLY_WORK_HOUR_AS_DECIMAL);
+        BigDecimal standarHours = timePercent.multiply(BudgetParameterFinder.getWeeklyWorkingHoursAsDecimal()).divide(BCConstants.ONE_HUNDRED, 2, KualiDecimal.ROUND_BEHAVIOR);
         return standarHours;
     }
 

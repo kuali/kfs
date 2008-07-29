@@ -231,7 +231,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     /**
      * adjust the requested salary amount of the given appointment funding line
      */
-    private void adjustSalary(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public void adjustSalary(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         if (appointmentFunding.getEffectiveCSFTracker() == null || appointmentFunding.isAppointmentFundingDeleteIndicator()) {
             return;
         }

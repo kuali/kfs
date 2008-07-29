@@ -22,16 +22,17 @@ import org.kuali.kfs.sys.ParameterKeyConstants;
  */
 public class BCParameterKeyConstants implements ParameterKeyConstants {
 
-    public static final String REVENUE_OBJECT_TYPES = "REVENUE_OBJECT_TYPES";
-    public static final String EXPENDITURE_OBJECT_TYPES = "EXPENDITURE_OBJECT_TYPES";
-    public static final String BUDGET_AGGREGATION_CODES = "BUDGET_AGGREGATION_CODES";
-    public static final String FRINGE_BENEFIT_DESIGNATOR_CODES = "FRINGE_BENEFIT_DESIGNATOR_CODES";
-    public static final String SALARY_SETTING_FUND_GROUPS = "SALARY_SETTING_FUND_GROUPS";
-    public static final String SALARY_SETTING_SUB_FUND_GROUPS = "SALARY_SETTING_SUB_FUND_GROUPS";
-    public static final String BIWEEKLY_PAY_TYPE_CODES = "BIWEEKLY_PAY_TYPE_CODES";
     public static final String ANNUAL_WORKING_HOURS = "ANNUAL_WORKING_HOURS";
     public static final String BIWEEKLY_PAY_OBJECT_CODES = "BIWEEKLY_PAY_OBJECT_CODES";
-    public static final String GENERATE_2PLG_SUB_FUND_GROUPS = "GENERATE_2PLG_SUB_FUND_GROUPS";
-    public static final String EXTERNAL_POSITION_FEED_IND = "EXTERNAL_POSITION_FEED_IND";
+    public static final String BIWEEKLY_PAY_TYPE_CODES = "BIWEEKLY_PAY_TYPE_CODES";
+    public static final String BUDGET_AGGREGATION_CODES = "BUDGET_AGGREGATION_CODES";
+    public static final String EXPENDITURE_OBJECT_TYPES = "EXPENDITURE_OBJECT_TYPES";
     public static final String EXTERNAL_INCUMBENT_FEED_IND = "EXTERNAL_INCUMBENT_FEED_IND";
+    public static final String EXTERNAL_POSITION_FEED_IND = "EXTERNAL_POSITION_FEED_IND";
+    public static final String FRINGE_BENEFIT_DESIGNATOR_CODES = "FRINGE_BENEFIT_DESIGNATOR_CODES";
+    public static final String GENERATE_2PLG_SUB_FUND_GROUPS = "GENERATE_2PLG_SUB_FUND_GROUPS";
+    public static final String REVENUE_OBJECT_TYPES = "REVENUE_OBJECT_TYPES";
+    public static final String SALARY_SETTING_FUND_GROUPS = "SALARY_SETTING_FUND_GROUPS";
+    public static final String SALARY_SETTING_SUB_FUND_GROUPS = "SALARY_SETTING_SUB_FUND_GROUPS";
+    public static final String WEEKLY_WORKING_HOURS = "WEEKLY_WORKING_HOURS";
 }

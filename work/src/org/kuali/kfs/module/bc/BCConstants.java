@@ -399,8 +399,8 @@ public class BCConstants extends JSTLConstants {
     public static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     
     //TODO: create application parameters for those
-    public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR = BigDecimal.valueOf(40);
-    public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR_AS_DECIMAL = STANDARD_WEEKLY_WORK_HOUR.divide(ONE_HUNDRED, 2, KualiDecimal.ROUND_BEHAVIOR);
+    //public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR = BigDecimal.valueOf(40);
+    //public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR_AS_DECIMAL = STANDARD_WEEKLY_WORK_HOUR.divide(ONE_HUNDRED, 2, KualiDecimal.ROUND_BEHAVIOR);
     
     // constants for lock monitor
     public static final String TEMP_LIST_UNLOCK_METHOD = "unlock";

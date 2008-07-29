@@ -105,7 +105,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getSavableAppointmentFundings();
         
         // acquire transaction lock for each funding line
-        boolean transactionLocked = salarySettingForm.acquireTransactionLocks(savableAppointmentFundings);
+        boolean transactionLocked = salarySettingForm.acquireTransactionLocks();
         if(!transactionLocked) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -142,9 +142,13 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
         this.applyDefaultValuesIfEmpty(newAppointmentFunding);
-        appointmentFundings.add(newAppointmentFunding);
+        
+        boolean gotLocks = salarySettingForm.acquirePositionAndFundingLocks(newAppointmentFunding);
+        if(!gotLocks) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
 
-        salarySettingForm.populateBCAFLines();
+        appointmentFundings.add(newAppointmentFunding);
         salarySettingForm.setNewBCAFLine(salarySettingForm.createNewAppointmentFundingLine());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

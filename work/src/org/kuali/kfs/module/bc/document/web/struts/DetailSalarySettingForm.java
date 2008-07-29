@@ -30,10 +30,8 @@ import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
@@ -42,7 +40,6 @@ import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLockStatu
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -65,7 +62,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private LockService lockService = SpringContext.getBean(LockService.class);
 
     private UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
-    private String currentUserId = universalUser.getPersonUserIdentifier();
 
     /**
      * Constructs a DetailSalarySettingForm.java.
@@ -152,7 +148,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
             // acquire position lock for the current funding line
             BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
-            BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position.getPositionNumber(), position.getUniversityFiscalYear(), currentUserId);
+            BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position, universalUser);
             if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
                 this.releasePositionAndFundingLocks();
@@ -160,8 +156,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             }
 
             // acquire funding lock for the current funding line
-            BudgetConstructionHeader header = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
-            BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(header, currentUserId);
+            BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(appointmentFunding, universalUser);
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.toString());
                 this.releasePositionAndFundingLocks();
@@ -247,16 +242,16 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         }
         return savableAppointmentFundings;
     }
-    
+
     /**
      * get the appointment fundings for which the position or funding locks can be released
      */
     public List<PendingBudgetConstructionAppointmentFunding> getReleasableAppointmentFundings() {
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = this.getSavableAppointmentFundings();
-        
-        List<PendingBudgetConstructionAppointmentFunding> releasableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();        
+
+        List<PendingBudgetConstructionAppointmentFunding> releasableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         releasableAppointmentFundings.addAll(savableAppointmentFundings);
-        
+
         return releasableAppointmentFundings;
     }
 
@@ -282,6 +277,34 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
 
         return appointmentFunding;
+    }
+
+    /**
+     * determine whether the editing mode for detail salary setting is in single account mode or not
+     */
+    private boolean resetSingleAccountModeFlag() {
+        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+
+        if (this.isBudgetByAccountMode()) {
+            Account account = new Account();
+            account.setAccountNumber(this.getAccountNumber());
+            account.setChartOfAccountsCode(this.getChartOfAccountsCode());
+            account.refreshReferenceObject(KFSPropertyConstants.ORGANIZATION);
+
+            // instruct the detail salary setting by single account mode if current user is an account approver or delegate
+            if (permissionService.isAccountManagerOrDelegate(account, universalUser)) {
+                return true;
+            }
+        }
+
+        // instruct the detail salary setting by multiple account mode if current user is an organization level approver
+        List<Org> organizationReviewHierachy = permissionService.getOrganizationReviewHierachy(universalUser);
+        if (organizationReviewHierachy != null && !organizationReviewHierachy.isEmpty()) {
+            return false;
+        }
+        else {
+            throw new RuntimeException("Access denied: not authorized to do the detail salary setting");
+        }
     }
 
     /**
@@ -373,7 +396,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     public void setPersonName(String personName) {
         this.personName = personName;
     }
-    
+
     /**
      * Gets the universalUser attribute.
      * 
@@ -381,33 +404,5 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public UniversalUser getUniversalUser() {
         return universalUser;
-    }
-
-    /**
-     * determine whether the editing mode for detail salary setting is in single account mode or not
-     */
-    private boolean resetSingleAccountModeFlag() {
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
-
-        if (this.isBudgetByAccountMode()) {
-            Account account = new Account();
-            account.setAccountNumber(this.getAccountNumber());
-            account.setChartOfAccountsCode(this.getChartOfAccountsCode());
-            account.refreshReferenceObject(KFSPropertyConstants.ORGANIZATION);
-
-            // instruct the detail salary setting by single account mode if current user is an account approver or delegate
-            if (permissionService.isAccountManagerOrDelegate(account, universalUser)) {
-                return true;
-            }
-        }
-
-        // instruct the detail salary setting by multiple account mode if current user is an organization level approver
-        List<Org> organizationReviewHierachy = permissionService.getOrganizationReviewHierachy(universalUser);
-        if (organizationReviewHierachy != null && !organizationReviewHierachy.isEmpty()) {
-            return false;
-        }
-        else {
-            throw new RuntimeException("Access denied: not authorized to do the detail salary setting");
-        }
     }
 }

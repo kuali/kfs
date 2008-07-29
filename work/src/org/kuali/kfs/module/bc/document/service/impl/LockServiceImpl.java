@@ -233,6 +233,22 @@ public class LockServiceImpl implements LockService {
         }
         return bcLockStatus;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.core.bo.user.UniversalUser)
+     */
+    @NonTransactional
+    public BudgetConstructionLockStatus lockFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser) {
+        BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
+        
+        if (this.isAccountLockedByUser(budgetConstructionHeader, universalUser)) {
+            BudgetConstructionLockStatus bcLockStatus = new BudgetConstructionLockStatus();
+            bcLockStatus.setLockStatus(LockStatus.SUCCESS);
+            return bcLockStatus;
+        }
+        
+        return this.lockFunding(budgetConstructionHeader, universalUser.getPersonUserIdentifier());
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#unlockFunding(java.lang.String, java.lang.String, java.lang.String,
@@ -320,6 +336,18 @@ public class LockServiceImpl implements LockService {
             bcLockStatus.setLockStatus(LockStatus.NO_DOOR);
             return bcLockStatus; // position not found
         }
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockPosition(org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Transactional
+    public BudgetConstructionLockStatus lockPosition(BudgetConstructionPosition position, UniversalUser universalUser) {
+        String positionNumber = position.getPositionNumber();
+        Integer fiscalYear = position.getUniversityFiscalYear();
+        String personUserIdentifier = universalUser.getPersonUserIdentifier();
+        
+        return this.lockPosition(positionNumber, fiscalYear, personUserIdentifier);
     }
 
     /**

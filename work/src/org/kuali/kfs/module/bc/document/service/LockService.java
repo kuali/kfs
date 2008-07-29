@@ -101,6 +101,14 @@ public interface LockService {
     public BudgetConstructionLockStatus lockFunding(BudgetConstructionHeader bcHeader, String personUniversalIdentifier);
 
     /**
+     * acquire a lock for the given appointment funding
+     * @param appointmentFunding the given appointment funding
+     * @param universalUser the specified user
+     * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, BY_OTHER (accountlock found)
+     */
+    public BudgetConstructionLockStatus lockFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser);
+    
+    /**
      * This removes the fundinglock for the account and user
      * 
      * @param chartOfAccountsCode
@@ -143,6 +151,16 @@ public interface LockService {
      *         positionLockOwner), NO_DOOR (BudgetConstructionPosition found)
      */
     public BudgetConstructionLockStatus lockPosition(String positionNumber, Integer fiscalYear, String personUniversalIdentifier);
+
+    /**
+     * acquire a lock for the given budget position
+     * 
+     * @param position the given position
+     * @param universalUser the specified user
+     * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, OPTIMISTIC_EX (lost optimistic lock), BY_OTHER (also sets
+     *         positionLockOwner), NO_DOOR (BudgetConstructionPosition found)
+     */
+    public BudgetConstructionLockStatus lockPosition(BudgetConstructionPosition position, UniversalUser universalUser);
 
     /**
      * This checks the database for an existing positionlock
@@ -261,7 +279,7 @@ public interface LockService {
      *         (BudgetConstructionHeader not found)
      */
     public LockStatus unlockTransaction(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear);
-    
+
     /**
      * attemps to unlock a transaction based on the information provided by the given funding line
      * 

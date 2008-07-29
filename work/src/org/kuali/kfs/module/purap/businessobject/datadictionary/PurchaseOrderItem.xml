@@ -27,13 +27,10 @@
         <ref bean="PurchaseOrderItem-itemTypeCode" />
         <ref bean="PurchaseOrderItem-itemCatalogNumber" />
         <ref bean="PurchaseOrderItem-itemDescription" />
-        <ref bean="PurchaseOrderItem-capitalAssetTransactionTypeCode" />
-        <ref bean="PurchaseOrderItem-itemCapitalAssetNoteText" />
         <ref bean="PurchaseOrderItem-itemAuxiliaryPartIdentifier" />
         <ref bean="PurchaseOrderItem-externalOrganizationB2bProductReferenceNumber" />
         <ref bean="PurchaseOrderItem-externalOrganizationB2bProductTypeName" />
         <ref bean="PurchaseOrderItem-itemQuantity" />
-        <ref bean="PurchaseOrderItem-addCapitalAssetNumber" />
         <ref bean="PurchaseOrderItem-commodityCode" />
         <ref bean="PurchaseOrderItem-itemActiveIndicator" />
         <ref bean="PurchaseOrderItem-itemInvoicedTotalAmount" />
@@ -187,40 +184,7 @@
             p:cols="20" />
     </property>
   </bean>
-  <bean id="PurchaseOrderItem-capitalAssetTransactionTypeCode" parent="PurchaseOrderItem-capitalAssetTransactionTypeCode-parentBean" />
 
-  <bean id="PurchaseOrderItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetTransactionTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Transaction Type" />
-    <property name="shortLabel" value="Asset Tran Type" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetTransactionTypeValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-  </bean>
-  <bean id="PurchaseOrderItem-itemCapitalAssetNoteText" parent="PurchaseOrderItem-itemCapitalAssetNoteText-parentBean" />
-
-  <bean id="PurchaseOrderItem-itemCapitalAssetNoteText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemCapitalAssetNoteText" />
-    <property name="label" value="Capital Asset Comments" />
-    <property name="shortLabel" value="Comments" />
-    <property name="maxLength" value="800" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="40" />
-    </property>
-  </bean>
   <bean id="PurchaseOrderItem-itemAuxiliaryPartIdentifier" parent="PurchaseOrderItem-itemAuxiliaryPartIdentifier-parentBean" />
 
   <bean id="PurchaseOrderItem-itemAuxiliaryPartIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
@@ -276,22 +240,7 @@
     <property name="name" value="itemQuantity" />
     <property name="exclusiveMin" value="0" />
   </bean>
-  <bean id="PurchaseOrderItem-addCapitalAssetNumber" parent="PurchaseOrderItem-addCapitalAssetNumber-parentBean" />
 
-  <bean id="PurchaseOrderItem-addCapitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="addCapitalAssetNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Add Asset Number" />
-    <property name="shortLabel" value="Add Asset #" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
-    </property>
-  </bean>
   <bean id="PurchaseOrderItem-commodityCode" parent="PurchaseOrderItem-commodityCode-parentBean" />
 
   <bean id="PurchaseOrderItem-commodityCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -395,8 +344,6 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetTransactionTypeCode" />
-              <bean parent="FieldDefinition"
                     p:attributeName="externalOrganizationB2bProductReferenceNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="externalOrganizationB2bProductTypeName" />
@@ -406,8 +353,6 @@
                     p:attributeName="itemAssignedToTradeInIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="itemAuxiliaryPartIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemCapitalAssetNoteText" />
               <bean parent="FieldDefinition"
                     p:attributeName="itemCatalogNumber" />
               <bean parent="FieldDefinition"
@@ -456,8 +401,6 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTransactionTypeCode" />
-        <bean parent="FieldDefinition"
               p:attributeName="externalOrganizationB2bProductReferenceNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="externalOrganizationB2bProductTypeName" />
@@ -467,8 +410,6 @@
               p:attributeName="itemAssignedToTradeInIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="itemAuxiliaryPartIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemCapitalAssetNoteText" />
         <bean parent="FieldDefinition"
               p:attributeName="itemCatalogNumber" />
         <bean parent="FieldDefinition"
@@ -500,8 +441,6 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTransactionTypeCode" />
-        <bean parent="FieldDefinition"
               p:attributeName="externalOrganizationB2bProductReferenceNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="externalOrganizationB2bProductTypeName" />
@@ -511,8 +450,6 @@
               p:attributeName="itemAssignedToTradeInIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="itemAuxiliaryPartIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemCapitalAssetNoteText" />
         <bean parent="FieldDefinition"
               p:attributeName="itemCatalogNumber" />
         <bean parent="FieldDefinition"

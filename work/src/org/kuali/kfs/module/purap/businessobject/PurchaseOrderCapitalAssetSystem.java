@@ -11,14 +11,14 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 public class PurchaseOrderCapitalAssetSystem extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
-	private Integer capitalAssetSystemNumber;
+	private Integer capitalAssetSystemIdentifier;
 	private String capitalAssetSystemDescription;
 	private boolean capitalAssetNotReceivedCurrentFiscalYearIndicator;
 	private String capitalAssetTypeCode;
-	private boolean capitalAssetManufacturerIsVendorIndicator;
 	private String capitalAssetManufacturerName;
 	private String capitalAssetModelDescription;
-
+    private String capitalAssetNoteText;
+    
 	private PurchaseOrderItemCapitalAsset purchaseOrderItemCapitalAsset;
 	private PurchaseOrderCapitalAssetLocation purchaseOrderCapitalAssetLocation;
 	
@@ -35,14 +35,6 @@ public class PurchaseOrderCapitalAssetSystem extends PersistableBusinessObjectBa
 
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
-    }
-
-    public Integer getCapitalAssetSystemNumber() {
-        return capitalAssetSystemNumber;
-    }
-
-    public void setCapitalAssetSystemNumber(Integer capitalAssetSystemNumber) {
-        this.capitalAssetSystemNumber = capitalAssetSystemNumber;
     }
 
     public String getCapitalAssetSystemDescription() {
@@ -67,14 +59,6 @@ public class PurchaseOrderCapitalAssetSystem extends PersistableBusinessObjectBa
 
     public void setCapitalAssetTypeCode(String capitalAssetTypeCode) {
         this.capitalAssetTypeCode = capitalAssetTypeCode;
-    }
-
-    public boolean isCapitalAssetManufacturerIsVendorIndicator() {
-        return capitalAssetManufacturerIsVendorIndicator;
-    }
-
-    public void setCapitalAssetManufacturerIsVendorIndicator(boolean capitalAssetManufacturerIsVendorIndicator) {
-        this.capitalAssetManufacturerIsVendorIndicator = capitalAssetManufacturerIsVendorIndicator;
     }
 
     public String getCapitalAssetManufacturerName() {
@@ -109,14 +93,30 @@ public class PurchaseOrderCapitalAssetSystem extends PersistableBusinessObjectBa
         this.purchaseOrderCapitalAssetLocation = purchaseOrderCapitalAssetLocation;
     }
 
+    public Integer getCapitalAssetSystemIdentifier() {
+        return capitalAssetSystemIdentifier;
+    }
+
+    public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier) {
+        this.capitalAssetSystemIdentifier = capitalAssetSystemIdentifier;
+    }
+
+    public String getCapitalAssetNoteText() {
+        return capitalAssetNoteText;
+    }
+
+    public void setCapitalAssetNoteText(String capitalAssetNoteText) {
+        this.capitalAssetNoteText = capitalAssetNoteText;
+    }
+
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("documentNumber", this.documentNumber);
-        if (this.capitalAssetSystemNumber != null) {
-            m.put("capitalAssetSystemNumber", this.capitalAssetSystemNumber.toString());
+        if (this.capitalAssetSystemIdentifier != null) {
+            m.put("capitalAssetSystemIdentifier", this.capitalAssetSystemIdentifier.toString());
         }
 	    return m;
     }

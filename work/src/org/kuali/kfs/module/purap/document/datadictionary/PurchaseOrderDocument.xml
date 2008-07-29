@@ -153,6 +153,8 @@
         <ref bean="PurchaseOrderDocument-statusChange" />
         <ref bean="PurchaseOrderDocument-internalPurchasingLimit" />
         <ref bean="PurchaseOrderDocument-copyingNotesWhenSplitting"/>
+        <ref bean="PurchaseOrderDocument-capitalAssetSystemTypeCode"/>
+        <ref bean="PurchaseOrderDocument-capitalAssetSystemStateCode"/>
       </list>
     </property>
   </bean>
@@ -1091,6 +1093,20 @@
     <property name="name" value="vendorCityName" />
     <property name="required" value="true" />
   </bean>
+  
+  <bean id="PurchaseOrderDocument-capitalAssetSystemTypeCode" parent="PurchaseOrderDocument-capitalAssetSystemTypeCode-parentBean" />
+
+  <bean id="PurchaseOrderDocument-capitalAssetSystemTypeCode-parentBean" abstract="true" parent="CapitalAssetSystemType-capitalAssetSystemTypeCode">
+    <property name="name" value="capitalAssetSystemTypeCode" />
+  </bean>
+
+  <bean id="PurchaseOrderDocument-capitalAssetSystemStateCode" parent="PurchaseOrderDocument-capitalAssetSystemStateCode-parentBean" />
+
+  <bean id="PurchaseOrderDocument-capitalAssetSystemStateCode-parentBean" abstract="true" parent="CapitalAssetSystemType-capitalAssetSystemTypeCode">
+    <property name="name" value="capitalAssetSystemStateCode" />
+    <property name="required" value="false" />
+  </bean>
+  
   <bean id="PurchaseOrderDocument-vendorCountryCode" parent="PurchaseOrderDocument-vendorCountryCode-parentBean" />
 
   <bean id="PurchaseOrderDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">

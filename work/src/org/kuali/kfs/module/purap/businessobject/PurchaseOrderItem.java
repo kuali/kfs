@@ -44,12 +44,10 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     private KualiDecimal itemOutstandingEncumberedAmount;
     private boolean itemActiveIndicator = true;
     private KualiDecimal itemDamagedTotalQuantity;
-    private Integer capitalAssetManagementSystemNumber;    
     
     private List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets;
 
     private PurchaseOrderDocument purchaseOrder;
-    private RequisitionCapitalAssetSystem capitalAssetManagementSystem;
     
     // Not persisted to DB
     private boolean itemSelectedForRetransmitIndicator;
@@ -209,27 +207,6 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.purchaseOrderItemCapitalAssets = purchaseOrderItemCapitalAssets;
     }
 
-    public Integer getCapitalAssetManagementSystemNumber() {
-        return capitalAssetManagementSystemNumber;
-    }
-
-    public void setCapitalAssetManagementSystemNumber(Integer capitalAssetManagementSystemNumber) {
-        this.capitalAssetManagementSystemNumber = capitalAssetManagementSystemNumber;
-    }
-
-    public RequisitionCapitalAssetSystem getCapitalAssetManagementSystem() {
-        return capitalAssetManagementSystem;
-    }
-
-    /**
-     * Sets the capitalAssetManagementSystem attribute value.
-     * @param capitalAssetManagementSystem The capitalAssetManagementSystem to set.
-     * @deprecated
-     */
-    public void setCapitalAssetManagementSystem(RequisitionCapitalAssetSystem capitalAssetManagementSystem) {
-        this.capitalAssetManagementSystem = capitalAssetManagementSystem;
-    }
-    
     public boolean isMovingToSplit() {
         return movingToSplit;
     }

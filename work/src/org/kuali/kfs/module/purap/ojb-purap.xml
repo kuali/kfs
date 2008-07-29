@@ -2864,9 +2864,6 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" index="true"/>
-    <reference-descriptor name="requisitionItem" class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionItem" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="itemIdentifier" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.RestrictedMaterial" table="PUR_RSTRC_MTRL_T">

@@ -22,13 +22,12 @@
         <ref bean="RequisitionCapitalAssetLocation-capitalAssetCityName" />
         <ref bean="RequisitionCapitalAssetLocation-capitalAssetCountryCode" />
         <ref bean="RequisitionCapitalAssetLocation-capitalAssetLine1Address" />
-        <ref bean="RequisitionCapitalAssetLocation-capitalAssetLocationNumber" />
+        <ref bean="RequisitionCapitalAssetLocation-capitalAssetLocationIdentifier" />
         <ref bean="RequisitionCapitalAssetLocation-capitalAssetPostalCode" />
         <ref bean="RequisitionCapitalAssetLocation-capitalAssetStateCode" />
-        <ref bean="RequisitionCapitalAssetLocation-capitalAssetSystemNumber" />
+        <ref bean="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier" />
         <ref bean="RequisitionCapitalAssetLocation-itemQuantity" />
         <ref bean="RequisitionCapitalAssetLocation-offCampusIndicator" />
-        <ref bean="RequisitionCapitalAssetLocation-requisitionIdentifier" />
         <ref bean="RequisitionCapitalAssetLocation-versionNumber" />
       </list>
     </property>
@@ -143,10 +142,10 @@
     <property name="summary" value="capitalAssetLine1Address" />
     <property name="description" value="capitalAssetLine1Address description..." />
   </bean>
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetLocationNumber" parent="RequisitionCapitalAssetLocation-capitalAssetLocationNumber-parentBean" />
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetLocationIdentifier" parent="RequisitionCapitalAssetLocation-capitalAssetLocationIdentifier-parentBean" />
 
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetLocationNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetLocationNumber" />
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetLocationIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetLocationIdentifier" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset Location Number" />
     <property name="shortLabel" value="Number" />
@@ -158,8 +157,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="capitalAssetLocationNumber" />
-    <property name="description" value="capitalAssetLocationNumber description..." />
+    <property name="summary" value="capitalAssetLocationIdentifier" />
+    <property name="description" value="capitalAssetLocationIdentifier description..." />
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode" parent="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" />
 
@@ -197,10 +196,10 @@
     <property name="summary" value="capitalAssetStateCode" />
     <property name="description" value="capitalAssetStateCode description..." />
   </bean>
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetSystemNumber" parent="RequisitionCapitalAssetLocation-capitalAssetSystemNumber-parentBean" />
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier-parentBean" />
 
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetSystemNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetSystemNumber" />
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetSystemIdentifier" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset System Number" />
     <property name="shortLabel" value="Number" />
@@ -212,8 +211,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="capitalAssetSystemNumber" />
-    <property name="description" value="capitalAssetSystemNumber description..." />
+    <property name="summary" value="capitalAssetSystemIdentifier" />
+    <property name="description" value="capitalAssetSystemIdentifier description..." />
   </bean>
   <bean id="RequisitionCapitalAssetLocation-itemQuantity" parent="RequisitionCapitalAssetLocation-itemQuantity-parentBean" />
 
@@ -247,24 +246,7 @@
     <property name="summary" value="offCampusIndicator" />
     <property name="description" value="offCampusIndicator description..." />
   </bean>
-  <bean id="RequisitionCapitalAssetLocation-requisitionIdentifier" parent="RequisitionCapitalAssetLocation-requisitionIdentifier-parentBean" />
 
-  <bean id="RequisitionCapitalAssetLocation-requisitionIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="requisitionIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Requisition Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="requisitionIdentifier" />
-    <property name="description" value="requisitionIdentifier description..." />
-  </bean>
   <bean id="RequisitionCapitalAssetLocation-versionNumber" parent="RequisitionCapitalAssetLocation-versionNumber-parentBean" />
 
   <bean id="RequisitionCapitalAssetLocation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -297,19 +279,17 @@
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetLine1Address" />
               <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetLocationNumber" />
+                    p:attributeName="capitalAssetLocationIdentifier" />
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetPostalCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetStateCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetSystemNumber" />
+                    p:attributeName="capitalAssetSystemIdentifier" />
               <bean parent="FieldDefinition"
                     p:attributeName="itemQuantity" />
               <bean parent="FieldDefinition"
                     p:attributeName="offCampusIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="requisitionIdentifier" />
             </list>
           </property>
         </bean>
@@ -344,19 +324,17 @@
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetLine1Address" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetLocationNumber" />
+              p:attributeName="capitalAssetLocationIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetPostalCode" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetStateCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetSystemNumber" />
+              p:attributeName="capitalAssetSystemIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="itemQuantity" />
         <bean parent="FieldDefinition"
               p:attributeName="offCampusIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="requisitionIdentifier" />
       </list>
     </property>
     <property name="resultFields" >
@@ -374,19 +352,17 @@
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetLine1Address" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetLocationNumber" />
+              p:attributeName="capitalAssetLocationIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetPostalCode" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetStateCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetSystemNumber" />
+              p:attributeName="capitalAssetSystemIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="itemQuantity" />
         <bean parent="FieldDefinition"
               p:attributeName="offCampusIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="requisitionIdentifier" />
       </list>
     </property>
   </bean>

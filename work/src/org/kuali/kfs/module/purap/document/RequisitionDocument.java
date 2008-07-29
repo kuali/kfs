@@ -30,7 +30,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -44,6 +43,7 @@ import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
@@ -54,6 +54,7 @@ import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -85,8 +86,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private String alternate5VendorName;
     private KualiDecimal organizationAutomaticPurchaseOrderLimit;
     private String capitalAssetSystemTypeCode;
+    private String capitalAssetSystemStateCode;
     
     private CapitalAssetSystemType capitalAssetSystemType;
+    private CapitalAssetSystemState capitalAssetSystemState;
     
     /**
      * Default constructor.
@@ -484,6 +487,22 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     public void setCapitalAssetSystemType(CapitalAssetSystemType capitalAssetSystemType) {
         this.capitalAssetSystemType = capitalAssetSystemType;
+    }
+        
+    public String getCapitalAssetSystemStateCode() {
+        return capitalAssetSystemStateCode;
+    }
+
+    public void setCapitalAssetSystemStateCode(String capitalAssetSystemStateCode) {
+        this.capitalAssetSystemStateCode = capitalAssetSystemStateCode;
+    }
+
+    public CapitalAssetSystemState getCapitalAssetSystemState() {
+        return capitalAssetSystemState;
+    }
+
+    public void setCapitalAssetSystemState(CapitalAssetSystemState capitalAssetSystemState) {
+        this.capitalAssetSystemState = capitalAssetSystemState;
     }
 
     /**

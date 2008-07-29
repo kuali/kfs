@@ -12,9 +12,8 @@ import org.kuali.core.util.KualiDecimal;
 
 public class RequisitionCapitalAssetLocation extends PersistableBusinessObjectBase {
 
-	private Integer requisitionIdentifier;
-	private Integer capitalAssetSystemNumber;
-	private Integer capitalAssetLocationNumber;
+	private Integer capitalAssetSystemIdentifier;
+	private Integer capitalAssetLocationIdentifier;
 	private KualiDecimal itemQuantity;
 	private String campusCode;
 	private boolean offCampusIndicator;
@@ -35,28 +34,20 @@ public class RequisitionCapitalAssetLocation extends PersistableBusinessObjectBa
 
 	}
 
-	public Integer getRequisitionIdentifier() {
-        return requisitionIdentifier;
+    public Integer getCapitalAssetSystemIdentifier() {
+        return capitalAssetSystemIdentifier;
     }
 
-    public void setRequisitionIdentifier(Integer requisitionIdentifier) {
-        this.requisitionIdentifier = requisitionIdentifier;
+    public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier) {
+        this.capitalAssetSystemIdentifier = capitalAssetSystemIdentifier;
     }
 
-    public Integer getCapitalAssetSystemNumber() {
-        return capitalAssetSystemNumber;
+    public Integer getCapitalAssetLocationIdentifier() {
+        return capitalAssetLocationIdentifier;
     }
 
-    public void setCapitalAssetSystemNumber(Integer capitalAssetSystemNumber) {
-        this.capitalAssetSystemNumber = capitalAssetSystemNumber;
-    }
-
-    public Integer getCapitalAssetLocationNumber() {
-        return capitalAssetLocationNumber;
-    }
-
-    public void setCapitalAssetLocationNumber(Integer capitalAssetLocationNumber) {
-        this.capitalAssetLocationNumber = capitalAssetLocationNumber;
+    public void setCapitalAssetLocationIdentifier(Integer capitalAssetLocationIdentifier) {
+        this.capitalAssetLocationIdentifier = capitalAssetLocationIdentifier;
     }
 
     public KualiDecimal getItemQuantity() {
@@ -164,14 +155,11 @@ public class RequisitionCapitalAssetLocation extends PersistableBusinessObjectBa
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.requisitionIdentifier != null) {
-            m.put("requisitionIdentifier", this.requisitionIdentifier.toString());
+        if (this.capitalAssetSystemIdentifier != null) {
+            m.put("capitalAssetSystemIdentifier", this.capitalAssetSystemIdentifier.toString());
         }
-        if (this.capitalAssetSystemNumber != null) {
-            m.put("capitalAssetSystemNumber", this.capitalAssetSystemNumber.toString());
-        }
-        if (this.capitalAssetLocationNumber != null) {
-            m.put("capitalAssetLocationNumber", this.capitalAssetLocationNumber.toString());
+        if (this.capitalAssetLocationIdentifier != null) {
+            m.put("capitalAssetLocationIdentifier", this.capitalAssetLocationIdentifier.toString());
         }
 	    return m;
     }

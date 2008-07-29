@@ -111,10 +111,10 @@
               p:name="csfFullTimeEmploymentQuantity"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="csfFundingStatusCode"
+              p:name="csfTimePercent"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="csfTimePercent"
+              p:name="csfFundingStatusCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="csfDeleteCode" />

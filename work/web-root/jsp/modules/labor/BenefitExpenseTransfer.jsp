@@ -58,11 +58,11 @@
 			<tr>
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
-					horizontal="true" width="35%"  forceRequired="true"/>
+					horizontal="true" width="35%"  labelFor="universityFiscalYear" forceRequired="true"/>
 
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
-					property="universityFiscalYear" readOnly="${readOnly}" /> 
+					property="universityFiscalYear" forceRequired="true" readOnly="${readOnly}" /> 
 					<c:if test="${!readOnly}">
 						<kul:lookup	boClassName="org.kuali.kfs.sys.businessobject.Options"
 						lookupParameters="universityFiscalYear:universityFiscalYear"
@@ -74,13 +74,12 @@
 			<tr>
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
-					horizontal="true" forceRequired="true" />
+					horizontal="true" labelFor="chartOfAccountsCode" forceRequired="true" />
 
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
-					property="chartOfAccountsCode" readOnly="${disabled}" /> 
-					
-					<c:if test="${!disabled}">
+					property="chartOfAccountsCode" forceRequired="true" readOnly="${disabled}" />
+										<c:if test="${!disabled}">
 						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.Chart"
 						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.chartOfAccountsCode.label}" />
@@ -92,13 +91,12 @@
 			<tr>			 
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${balanceInquiryAttributes.accountNumber}"
-					horizontal="true" forceRequired="true"/>
+					horizontal="true" labelFor="accountNumber" forceRequired="true"/>
 					
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.accountNumber}"
-					property="accountNumber" readOnly="${disabled}" />
-					
-					<c:if test="${!disabled}">
+					property="accountNumber" forceRequired="true" readOnly="${disabled}" />
+										<c:if test="${!disabled}">
 						 <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account"
 						lookupParameters="accountNumber:accountNumber,chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.accountNumber.label}" />
@@ -109,11 +107,11 @@
 			<tr>
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${balanceInquiryAttributes.subAccountNumber}"
-					horizontal="true" forceRequired="false"  hideRequiredAsterisk="true"/>
+					horizontal="true" labelFor="subAccountNumber" forceRequired="false"  hideRequiredAsterisk="true"/>
 					
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.subAccountNumber}"
-					property="subAccountNumber" readOnly="${disabled}" /> 
+					property="subAccountNumber" forceRequired="true" readOnly="${disabled}" /> 
 					<c:if test="${!disabled}">
 						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.SubAccount"
 						lookupParameters="accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode"

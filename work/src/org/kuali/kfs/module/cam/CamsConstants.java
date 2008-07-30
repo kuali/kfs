@@ -25,6 +25,8 @@ import org.kuali.rice.util.JSTLConstants;
 public class CamsConstants extends JSTLConstants {
     // public static final String SYSTEM_NAME = "Capital Assets Management System";
 
+    public static final int ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY = 10;
+    
     public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE = "SV";
     public static final String DEPRECIATION_METHOD_STRAIGHT_LINE_CODE = "SL";
     public static final String TRANSFER_PAYMENT_CODE_N = "N";

@@ -1632,7 +1632,8 @@
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Payment Information" />
+          <property name="id" value="paymentInformation" />
+          <property name="title" value="Payments" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

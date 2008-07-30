@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.module.cam.businessobject.inquiry;
 
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.ui.Section;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
@@ -65,4 +68,24 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
         return asset;
     }
 
+    /**
+     * Hide payments if there are more then the allowable number.
+     * 
+     * @see org.kuali.core.inquiry.KualiInquirableImpl#getSections(org.kuali.core.bo.BusinessObject)
+     */
+    @Override
+    public List<Section> getSections(BusinessObject businessObject) {
+        List<Section> sections = super.getSections(businessObject);
+
+        Asset asset = (Asset) businessObject;
+        for (Section section : sections) {
+            if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() > CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY) {
+                // Hide the payment section if there are more then CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY
+                section.setHidden(true);
+            }
+        }
+
+        return sections;
+    }
+    
 }

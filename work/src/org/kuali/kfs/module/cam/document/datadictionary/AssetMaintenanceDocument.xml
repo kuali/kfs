@@ -84,7 +84,7 @@
         </bean>
       </list>
     </property>
-    <property name="additionalSectionsFile" value="/jsp/modules/cams/AssetMaintenancePayments.jsp"></property>
+    <property name="additionalSectionsFile" value="/jsp/modules/cams/AssetPaymentsLookupLink.jsp"></property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -288,14 +288,14 @@
 
   <bean id="AssetMaintenanceDocument-PaymentInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="paymentInformation" />
-    <property name="title" value="Payment Information" />
+    <property name="title" value="Payments" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="assetPayments" />
           <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPayment" />
           <property name="includeAddLine" value="false" />
-          <property name="summaryTitle" value="Payment Information" />
+          <property name="summaryTitle" value="Payments" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"

@@ -83,7 +83,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
     }
 
     /**
-     * Hide a few sections if this is a create new (fabrication request)
+     * Hide a few sections if this is a create new (fabrication request) or vice versa. Also hide payments if there are more then the allowable number.
      * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.core.document.MaintenanceDocument)
@@ -115,6 +115,9 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
                 }
                 if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() == 0) {
                     section.setSectionTitle(section.getSectionTitle() + CamsConstants.Asset.SECTION_TITLE_NO_PAYMENT + asset.getCapitalAssetNumber());
+                } else if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() > CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY) {
+                    // Hide the payment section if there are more then CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY
+                    section.setHidden(true);
                 }
                 // If asset is not loaned, hide the section
                 if (CamsConstants.Asset.SECTION_ID_LOAN_INFORMATION.equals(section.getSectionId()) && (asset.getExpectedReturnDate() == null || asset.getLoanReturnDate() != null)) {

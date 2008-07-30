@@ -14,19 +14,20 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<%@ attribute name="assetPayments" type="java.util.List" required="true" description="Asset payments list" %>
+<%@ attribute name="assetPayments" type="java.util.List" required="true" description="Payments list" %>
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>
 <%@ attribute name="assetValueObj" type="java.lang.String" required="false" description="Asset object name" %>
 
 <%@ attribute name="assetValue" type="org.kuali.kfs.module.cam.businessobject.Asset" required="false" description="Asset object value" %>
 
+<c:if test="${fn:length(assetPayments) <= CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY}">
 	<c:if test="${assetValueObj==null}">
 		<c:set var="assetValueObj" value="document.asset" />
 		<c:set var="assetValue" value="${KualiForm.document.asset}" />
 	</c:if>
 	<c:set var="assetPaymentAttributes" value="${DataDictionary.AssetPayment.attributes}" />
 	<c:set var="pos" value="-1" />
-<kul:tab tabTitle="Asset Payments" defaultOpen="${!defaultTabHide}">
+<kul:tab tabTitle="Payments" defaultOpen="${!defaultTabHide}">
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
 			<tr>
@@ -84,3 +85,6 @@
 		</table>
 		</div>
 </kul:tab>
+</c:if>
+
+<cams:assetPaymentsLookupLink capitalAssetNumber="${KualiForm.document.asset.capitalAssetNumber}"/>

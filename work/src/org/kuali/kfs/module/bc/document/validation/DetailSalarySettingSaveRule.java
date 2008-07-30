@@ -30,9 +30,24 @@ public interface DetailSalarySettingSaveRule extends BusinessRule {
     /**
      * Process save business rules for the detail salary setting screen.
      * 
-     * @param budgetConstructionPosition the detail position record
      * @param appointmentFunding the appointment funding lines associated with position
      * @return boolean true if rules were ok, false if errors were found
      */
-    public boolean processSave(BudgetConstructionPosition budgetConstructionPosition, Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding);
+    public boolean processSave(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding);
+    
+    /**
+     * Process save business rules for the detail salary setting screen.
+     * 
+     * @param appointmentFunding the appointment funding lines associated with position
+     * @return boolean true if rules were ok, false if errors were found
+     */
+    public boolean processAdjustSalaraySettingLinePercent(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding);
+    
+    /**
+     * Process save business rules for the detail salary setting screen.
+     * 
+     * @param appointmentFunding the appointment funding lines associated with position
+     * @return boolean true if rules were ok, false if errors were found
+     */
+    public boolean processNormalizePayrateAndAmount(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding);
 }

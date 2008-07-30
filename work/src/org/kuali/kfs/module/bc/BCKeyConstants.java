@@ -136,5 +136,12 @@ public class BCKeyConstants {
     public static final String ERROR_POSITION_NOT_FOUND = "error.budget.positionNotFound";
     public static final String ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK = "error.budget.failToAcquireTransactionLock";
     public static final String ERROR_SALARY_SETTING_EXPANSION_NOT_FOUND = "error.budget.salarySettingExpansionNotFound";
+    public static final String ERROR_ADJUSTMENT_AMOUNT_REQUIRED = "error.budget.adjustmentAmountRequired";
+    public static final String ERROR_ADJUSTMENT_PERCENT_REQUIRED = "error.budget.adjustmentPercentRequired";
+    public static final String ERROR_PAYRATE_AMOUNT_REQUIRED = "error.budget.adjustmentPayrateAmountRequired";
+    public static final String ERROR_REQUESTED_AMOUNT_REQUIRED = "error.budget.requestedSalaryAmountRequired";
+    public static final String ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED = "error.budget.requestedSalaryIsNonnegative";
+    public static final String ERROR_FTE_GREATER_THAN_ZERO_REQUIRED = "error.budget.fteAmountGreaterThanZero";
+    
 }
 

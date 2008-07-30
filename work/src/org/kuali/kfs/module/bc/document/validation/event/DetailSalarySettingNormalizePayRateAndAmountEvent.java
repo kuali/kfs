@@ -26,14 +26,12 @@ import org.kuali.kfs.module.bc.document.validation.DetailSalarySettingSaveRule;
 /**
  * Event triggered when the detail salary setting screen is saved.
  */
-public class DetailSalarySettingSaveEvent extends BudgetExpansionEvent {
-    BudgetConstructionPosition budgetConstructionPosition;
+public class DetailSalarySettingNormalizePayRateAndAmountEvent extends BudgetExpansionEvent {
     Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding;
 
 
-    public DetailSalarySettingSaveEvent(String errorPathPrefix, BudgetConstructionPosition budgetConstructionPosition, Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding) {
+    public DetailSalarySettingNormalizePayRateAndAmountEvent(String errorPathPrefix, Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding) {
         super(errorPathPrefix);
-        this.budgetConstructionPosition = budgetConstructionPosition;
         this.appointmentFunding = appointmentFunding;
     }
 
@@ -44,7 +42,7 @@ public class DetailSalarySettingSaveEvent extends BudgetExpansionEvent {
 
     @Override
     public boolean invokeExpansionRuleMethod(BusinessRule rule) {
-        return ((DetailSalarySettingSaveRule) rule).processSave(appointmentFunding);
+        return ((DetailSalarySettingSaveRule) rule).processNormalizePayrateAndAmount(appointmentFunding);
     }
 
 }

@@ -15,23 +15,45 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.springframework.transaction.annotation.Transactional;
 
-public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService {
+@Transactional
+public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<AppliedPayment> {
 
     private BusinessObjectService businessObjectService;
     private UniversityDateService universityDateService;
+    
+    public void saveInvoicePaidApplied(AppliedPayment appliedPayment, Integer paidAppliedItemNumber) {
+        InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
+        invoicePaidApplied.setDocumentNumber(appliedPayment.getDocumentNumber());
+        invoicePaidApplied.setPaidAppliedItemNumber(paidAppliedItemNumber);
+        invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(appliedPayment.getInvoiceReferenceNumber());
+        invoicePaidApplied.setInvoiceItemNumber(appliedPayment.getInvoiceItemNumber());
+        invoicePaidApplied.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
+        invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+        invoicePaidApplied.setInvoiceItemAppliedAmount(appliedPayment.getAmountToApply());
+        businessObjectService.save(invoicePaidApplied);
+    }
+
+    public void saveInvoicePaidApplieds(List<AppliedPayment> appliedPayments) {
+        int i = 0;
+        for( AppliedPayment appliedPayment : appliedPayments ){
+            saveInvoicePaidApplied(appliedPayment, i);
+            i++;
+        }
+    }    
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
@@ -43,39 +65,18 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
         criteria.put("financialDocumentReferenceInvoiceNumber", customerInvoiceDetail.getDocumentNumber());
         return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
     }
+    
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#saveInvoicePaidAppliedForDiscounts(java.util.List)
-     */
-    public void saveInvoicePaidAppliedForDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails, CustomerInvoiceDocument document) {
+    
+    public Integer getNumberOfInvoicePaidAppliedsForInvoiceDetail(String financialDocumentReferenceInvoiceNumber, Integer invoiceItemNumber){
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put("financialDocumentReferenceInvoiceNumber", financialDocumentReferenceInvoiceNumber);
+        criteria.put("invoiceItemNumber", invoiceItemNumber);
         
-        List<InvoicePaidApplied> invoicePaidAppliedAmounts = new ArrayList<InvoicePaidApplied>();
-        
-        InvoicePaidApplied invoicePaidApplied;
-        CustomerInvoiceDetail discount;
-        
-        String referenceDocumentNumber = document.isInvoiceReversal() ? document.getDocumentHeader().getFinancialDocumentInErrorNumber() : document.getDocumentNumber();
-        
-        for( CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails ){
-            if ( customerInvoiceDetail.isDiscountLineParent() ){
-                discount = customerInvoiceDetail.getDiscountCustomerInvoiceDetail();
-                
-                invoicePaidApplied = new InvoicePaidApplied();
-                invoicePaidApplied.setDocumentNumber(customerInvoiceDetail.getDocumentNumber());
-                invoicePaidApplied.setPaidAppliedItemNumber(invoicePaidAppliedAmounts.size());
-                invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(referenceDocumentNumber);
-                invoicePaidApplied.setInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
-                invoicePaidApplied.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
-                invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
-                invoicePaidApplied.setInvoiceItemAppliedAmount(discount.getAmount().negated());
-                invoicePaidAppliedAmounts.add(invoicePaidApplied);
-            }
-            
-        }
-        
-        businessObjectService.save(invoicePaidAppliedAmounts);
-
+        return businessObjectService.countMatching(InvoicePaidApplied.class, criteria);
     }
+    
+    
     
     /**
      * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#doesInvoiceHaveAppliedAmounts(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
@@ -126,7 +127,4 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
-
-
-
 }

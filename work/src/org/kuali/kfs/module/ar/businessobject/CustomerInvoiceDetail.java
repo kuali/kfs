@@ -5,13 +5,16 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class represents a customer invoice detail on the customer invoice document. This class extends SourceAccountingLine since
@@ -19,7 +22,7 @@ import org.kuali.kfs.sys.context.SpringContext;
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerInvoiceDetail extends SourceAccountingLine {
+public class CustomerInvoiceDetail extends SourceAccountingLine implements AppliedPayment {
 
     // private Integer invoiceItemNumber; using SourceAccountingLine.sequenceNumber
     private BigDecimal invoiceItemQuantity;
@@ -39,6 +42,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     private SubObjCd accountsReceivableSubObject;
     private ObjectCode accountsReceivableObject;
     
+    private CustomerInvoiceDocument customerInvoiceDocument;
     private CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail;
     private CustomerInvoiceDetail discountCustomerInvoiceDetail;
     private Collection<InvoicePaidApplied> invoicePaidApplieds;
@@ -49,6 +53,14 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     public CustomerInvoiceDetail() {
         super();
     }
+    
+    public CustomerInvoiceDocument getCustomerInvoiceDocument() {
+        return customerInvoiceDocument;
+    }
+
+    public void setCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
+        this.customerInvoiceDocument = customerInvoiceDocument;
+    }    
 
     public KualiDecimal getBalance() {
         return getAmount().subtract(getAppliedAmount());
@@ -424,4 +436,26 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
         this.discountCustomerInvoiceDetail = discountCustomerInvoiceDetail;
     }
 
+    /**
+     * This should only apply amounts if this invoice detail is a discount.  
+     *
+     * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getAmountToApply()
+     */
+    public KualiDecimal getAmountToApply() {
+        return getAmount().negated();
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getInvoiceItemNumber()
+     */
+    public Integer getInvoiceItemNumber() {
+        return parentDiscountCustomerInvoiceDetail.getSequenceNumber();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getInvoiceReferenceNumber()
+     */
+    public String getInvoiceReferenceNumber() {
+      return customerInvoiceDocument.isInvoiceReversal() ? customerInvoiceDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() : customerInvoiceDocument.getDocumentNumber();
+    }
 }

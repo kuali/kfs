@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -22,6 +23,7 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -33,6 +35,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDocumentServiceImpl;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -1075,7 +1078,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
 
     /**
-     * When document is processed, set the billingDate to today's date.
+     * When document is processed do the following:
+     * 1) Set the billingDate to today's date.
+     * 2) If there are discounts, create corresponding invoice paid applied rows
+     * 3) If the document is a reversal, in addition to reversing paid applied rows, update the open paid applied indicator
      *
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
      */
@@ -1084,13 +1090,29 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         super.handleRouteStatusChange();
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
-
-            //setup discount line references
-            updateDiscountAndParentLineReferences();
-
-            //save invoice paid applied lines
-            //TODO maybe this should be done somewhere else? should there be a list of discount lines??
-            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidAppliedForDiscounts(getSourceAccountingLines(), this);
+            
+            // apply amounts
+            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(this.getDiscounts());
+            if( this.isInvoiceReversal() ){
+                try{
+                    CustomerInvoiceDocument correctedCustomerInvoiceDocument = (CustomerInvoiceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentHeader().getFinancialDocumentInErrorNumber());
+                    SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(correctedCustomerInvoiceDocument);
+                } catch (WorkflowException e){
+                    throw new RuntimeException("Cannot find customer invoice document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
+                }                
+            }
+        }
+    }
+    
+    /**
+     * If this invoice is a reversal, set the open indicator to false
+     * 
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#prepareForSave()
+     */
+    @Override
+    public void prepareForSave(){
+        if( this.isInvoiceReversal() ){
+            setOpenInvoiceIndicator(false);
         }
     }
 
@@ -1319,12 +1341,33 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         List<CustomerInvoiceDetail> customerInvoiceDetailsWithDiscounts = getSourceAccountingLines();
         for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetailsWithDiscounts) {
            if( !customerInvoiceDetail.isDiscountLine() ){
+               customerInvoiceDetail.setCustomerInvoiceDocument(this);
                customerInvoiceDetailsWithoutDiscounts.add(customerInvoiceDetail);
            }
         }
         
         return customerInvoiceDetailsWithoutDiscounts;
     }
+    
+    /**
+     * This method will return all the customer invoice details that are discounts
+     * @return
+     */
+    public List<CustomerInvoiceDetail> getDiscounts(){
+        List<CustomerInvoiceDetail> discounts = new ArrayList<CustomerInvoiceDetail>();
+        
+        updateDiscountAndParentLineReferences();
+        
+        List<CustomerInvoiceDetail> customerInvoiceDetailsWithDiscounts = getSourceAccountingLines();
+        for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetailsWithDiscounts) {
+           if( customerInvoiceDetail.isDiscountLine() ){
+               customerInvoiceDetail.setCustomerInvoiceDocument(this);
+               discounts.add(customerInvoiceDetail);
+           }
+        }
+        
+        return discounts;
+    }    
 }
 
 

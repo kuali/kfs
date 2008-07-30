@@ -18,19 +18,24 @@ package org.kuali.kfs.module.ar.document.service;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
-public interface InvoicePaidAppliedService {
-    
+public interface InvoicePaidAppliedService<A extends AppliedPayment> {
     
     /**
-     * This method persists the corresponding invoice paid applied rows for discounts when an invoice is created
-     * @param customerInvoiceDetails
+     * This method takes a list of invoice paid applied moves and uses them to save invoicePaidAppliedMoves
+     * @param invoicePaidAppliedMoves
      */
-    public void saveInvoicePaidAppliedForDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails, CustomerInvoiceDocument document);
+    public void saveInvoicePaidApplieds(List<A> appliedPayments);
     
+    /**
+     * This method saves one paid applied
+     * @param appliedPayment
+     */
+    public void saveInvoicePaidApplied(A appliedPayment, Integer paidAppliedItemNumber);
     
     /**
      * This method returns true if invoice has applied amounts (i.e. from application, credit memo, etc), not including

@@ -103,7 +103,7 @@ public class RequisitionItem extends PurchasingItemBase {
             setPurchasingItemCapitalAssets(new ArrayList());
         }
         if (ObjectUtils.isNotNull(this.getAddCapitalAssetNumber())) {
-            RequisitionItemCapitalAsset asset = new RequisitionItemCapitalAsset(new Long(this.getAddCapitalAssetNumber()));
+            PurchasingItemCapitalAssetBase asset = new RequisitionItemCapitalAsset(new Long(this.getAddCapitalAssetNumber()));
             getPurchasingItemCapitalAssets().add(asset);
         }
     }

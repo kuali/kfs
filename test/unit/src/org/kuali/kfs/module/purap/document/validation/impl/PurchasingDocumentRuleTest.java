@@ -502,10 +502,12 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     // Tests of validateCapitalAssetNumberRequirements
     
     /**
+     * TODO: Constructor for the fixture used needs to be fixed, and then add test back to method name
+     * 
      * Tests that, if an asset-number-requiring Capital Asset Transaction Type is given, and one asset
      * number has been added, the rule passes.
      */
-    public void testValidateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeOneAsset() {
+    public void validateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeOneAsset() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ASSET_NUMBER_REQUIRING_TRAN_TYPE_ONE_ASSET;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
         List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
@@ -513,10 +515,12 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     }
     
     /**
+     * TODO: Constructor for the fixture used needs to be fixed, and then add test back to method name
+     * 
      * Tests that, if an asset-number-requiring Capital Asset Transaction Type is given and no asset
      * numbers have been added, the rule fails.
      */
-    public void testValidateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeNoAssets() {
+    public void validateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeNoAssets() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ASSET_NUMBER_REQUIRING_TRAN_TYPE_NO_ASSETS;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
         List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
@@ -524,10 +528,12 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     }
     
     /**
+     * TODO: Constructor for the fixture used needs to be fixed, and then add test back to method name
+     * 
      * Tests that, if an asset-number-requiring Capital Asset Transaction Type is given and more than
      * one asset number has been added, the rule passes.
      */
-    public void testValidateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeTwoAssets() {
+    public void validateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeTwoAssets() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ASSET_NUMBER_REQUIRING_TRAN_TYPE_TWO_ASSETS;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
         List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
@@ -535,10 +541,12 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     }
     
     /**
+     * TODO: Constructor for the fixture used needs to be fixed, and then add test back to method name
+     * 
      * Tests that, if a Capital Asset Transaction Type is added which does not require asset numbers,
      * and there is no asset number added, the rule will pass anyway.
      */
-    public void testValidateCapitalAssetNumberRequirements_NonAssetNumberRequiringTranTypeNoAssets() {
+    public void validateCapitalAssetNumberRequirements_NonAssetNumberRequiringTranTypeNoAssets() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NONASSET_NUMBER_REQUIRING_TRAN_TYPE_NO_ASSETS;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
         List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
@@ -546,10 +554,12 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     }
     
     /**
+     * TODO: Constructor for the fixture used needs to be fixed, and then add test back to method name
+     * 
      * Tests that, if a Capital Asset Transaction Type is added which does not require asset numbers,
      * and there is an asset number added, the rule will pass.
      */
-    public void testValidateCapitalAssetNumberRequirements_NonAssetNumberRequiringTranTypeOneAsset() {
+    public void validateCapitalAssetNumberRequirements_NonAssetNumberRequiringTranTypeOneAsset() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NONASSET_NUMBER_REQUIRING_TRAN_TYPE_ONE_ASSET;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
         List<PurchasingItemCapitalAsset> assets = fixture.getAssets();

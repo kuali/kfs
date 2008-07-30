@@ -11,7 +11,7 @@
     <property name="attributes" >
       <list>
         <ref bean="RequisitionItemCapitalAsset-capitalAssetNumber" />
-        <ref bean="RequisitionItemCapitalAsset-requisitionItemCapitalAssetIdentifier" />
+        <ref bean="RequisitionItemCapitalAsset-itemCapitalAssetIdentifier" />
         <ref bean="RequisitionItemCapitalAsset-versionNumber" />
       </list>
     </property>
@@ -37,10 +37,10 @@
     </property>
   </bean>
 
-  <bean id="RequisitionItemCapitalAsset-requisitionItemCapitalAssetIdentifier" parent="RequisitionItemCapitalAsset-requisitionItemCapitalAssetIdentifier-parentBean" />
+  <bean id="RequisitionItemCapitalAsset-itemCapitalAssetIdentifier" parent="RequisitionItemCapitalAsset-itemCapitalAssetIdentifier-parentBean" />
 
-  <bean id="RequisitionItemCapitalAsset-requisitionItemCapitalAssetIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="requisitionItemCapitalAssetIdentifier" />
+  <bean id="RequisitionItemCapitalAsset-itemCapitalAssetIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemCapitalAssetIdentifier" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Requisition Item Capital Asset Identifier" />
     <property name="shortLabel" value="Identifier" />

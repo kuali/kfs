@@ -16,37 +16,20 @@
 
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * Item Type Business Object. Defines various types of items.
  */
-public class RequisitionCapitalAssetItem extends PersistableBusinessObjectBase {
+public class RequisitionCapitalAssetItem extends PurchasingCapitalAssetItemBase {
 
-    private Integer capitalAssetItemIdentifier;
     private Integer purapDocumentIdentifier;
-    private Integer itemIdentifier;
-    private String capitalAssetTransactionTypeCode;
-    private Integer capitalAssetSystemIdentifier;
     
-    private CapitalAssetTransactionType capitalAssetTransactionType;
-    private RequisitionCapitalAssetSystem requisitionCapitalAssetSystem;
-
     /**
      * Default constructor.
      */
     public RequisitionCapitalAssetItem() {
 
-    }
-
-    public Integer getCapitalAssetItemIdentifier() {
-        return capitalAssetItemIdentifier;
-    }
-
-    public void setCapitalAssetItemIdentifier(Integer capitalAssetItemIdentifier) {
-        this.capitalAssetItemIdentifier = capitalAssetItemIdentifier;
     }
 
     public Integer getPurapDocumentIdentifier() {
@@ -55,54 +38,5 @@ public class RequisitionCapitalAssetItem extends PersistableBusinessObjectBase {
 
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
-    }
-
-    public Integer getItemIdentifier() {
-        return itemIdentifier;
-    }
-
-    public void setItemIdentifier(Integer itemIdentifier) {
-        this.itemIdentifier = itemIdentifier;
-    }
-
-    public String getCapitalAssetTransactionTypeCode() {
-        return capitalAssetTransactionTypeCode;
-    }
-
-    public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
-        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
-    }
-
-    public Integer getCapitalAssetSystemIdentifier() {
-        return capitalAssetSystemIdentifier;
-    }
-
-    public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier) {
-        this.capitalAssetSystemIdentifier = capitalAssetSystemIdentifier;
-    }
-
-    public CapitalAssetTransactionType getCapitalAssetTransactionType() {
-        return capitalAssetTransactionType;
-    }
-
-    public void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType) {
-        this.capitalAssetTransactionType = capitalAssetTransactionType;
-    }
-
-    public RequisitionCapitalAssetSystem getRequisitionCapitalAssetSystem() {
-        return requisitionCapitalAssetSystem;
-    }
-
-    public void setRequisitionCapitalAssetSystem(RequisitionCapitalAssetSystem requisitionCapitalAssetSystem) {
-        this.requisitionCapitalAssetSystem = requisitionCapitalAssetSystem;
-    }
-
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("capitalAssetItemIdentifier", this.capitalAssetItemIdentifier);
-        return m;
     }
 }

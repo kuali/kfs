@@ -21,22 +21,19 @@ import java.util.LinkedHashMap;
 /**
  * Purchase Order Item Capital Asset Business Object.
  */
-public class PurchaseOrderItemCapitalAsset extends PurchasingItemCapitalAsset {
+public class PurchaseOrderItemCapitalAsset extends PurchasingItemCapitalAssetBase {
 
     private String documentNumber;
-    private Integer purchaseOrderItemCapitalAssetIdentifier;
+
     /**
      * Default constructor.
      */
     public PurchaseOrderItemCapitalAsset() {
+        super();
     }
-    
-    /**
-     * Constructs a PurchaseOrderItemCapitalAsset.
-     * @param capitalAssetNumber
-     */
-    public PurchaseOrderItemCapitalAsset(Long capitalAssetNumber){
-        this.setCapitalAssetNumber(capitalAssetNumber);
+
+    public PurchaseOrderItemCapitalAsset(Long capitalAssetNumber) {
+        super(capitalAssetNumber);
     }
 
     public String getDocumentNumber() {
@@ -45,26 +42,6 @@ public class PurchaseOrderItemCapitalAsset extends PurchasingItemCapitalAsset {
 
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
-    }
-
-    public Integer getPurchaseOrderItemCapitalAssetIdentifier() {
-        return purchaseOrderItemCapitalAssetIdentifier;
-    }
-
-    public void setPurchaseOrderItemCapitalAssetIdentifier(Integer purchaseOrderItemCapitalAssetIdentifier) {
-        this.purchaseOrderItemCapitalAssetIdentifier = purchaseOrderItemCapitalAssetIdentifier;
-    }
-
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("documentNumber", this.documentNumber);
-        if (this.purchaseOrderItemCapitalAssetIdentifier != null) {
-            m.put("purchaseOrderItemCapitalAssetIdentifier", this.purchaseOrderItemCapitalAssetIdentifier.toString());
-        }
-        return m;
     }
 
 }

@@ -22,6 +22,7 @@ import java.util.List;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -33,6 +34,8 @@ import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.businessobject.FundingSource;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
@@ -143,6 +146,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private VendorContract vendorContract;
     private CapitalAssetSystemType capitalAssetSystemType;
     private CapitalAssetSystemState capitalAssetSystemState;
+    private PurchasingCapitalAssetSystem purchasingCapitalAssetSystem;
+    private List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems;
     
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
@@ -154,6 +159,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     public PurchasingDocumentBase() {
         super();
+        
+        purchasingCapitalAssetItems = new TypedArrayList(getPurchasingCapitalAssetItemClass());
     }
 
     /**
@@ -1042,5 +1049,15 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public void setCapitalAssetSystemState(CapitalAssetSystemState capitalAssetSystemState) {
         this.capitalAssetSystemState = capitalAssetSystemState;
     }
+
+    public PurchasingCapitalAssetSystem getPurchasingCapitalAssetSystem() {
+        return purchasingCapitalAssetSystem;
+    }
+
+    public void setPurchasingCapitalAssetSystem(PurchasingCapitalAssetSystem purchasingCapitalAssetSystem) {
+        this.purchasingCapitalAssetSystem = purchasingCapitalAssetSystem;
+    }
+
+    public abstract Class getPurchasingCapitalAssetItemClass();
     
 }

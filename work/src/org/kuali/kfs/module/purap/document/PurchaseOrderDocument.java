@@ -55,11 +55,13 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
@@ -1260,6 +1262,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
         // don't think i should have to override this, but default isn't getting the right PO doc
         explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_DOCUMENT);
+    }
+
+    @Override
+    public Class getPurchasingCapitalAssetItemClass() {
+        return PurchaseOrderCapitalAssetItem.class;
     }
     
 }

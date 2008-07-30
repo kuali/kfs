@@ -59,7 +59,8 @@
   <bean id="RequisitionCapitalAssetItem-capitalAssetTransactionTypeCode" parent="RequisitionCapitalAssetItem-capitalAssetTransactionTypeCode-parentBean" />
   <bean id="RequisitionCapitalAssetItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="CapitalAssetTransactionType-capitalAssetTransactionTypeCode">
     <property name="name" value="capitalAssetTransactionTypeCode" />
-    <property name="label" value="Transaction Type" />
+    <property name="label" value="Capital Asset Transaction Type" />
+    <property name="shortLabel" value="Capital Asset Transaction Type" />
   </bean>
 
   <bean id="RequisitionCapitalAssetItem-itemIdentifier" parent="RequisitionCapitalAssetItem-itemIdentifier-parentBean" />

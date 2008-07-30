@@ -16,46 +16,21 @@
 
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.util.LinkedHashMap;
 
 /**
  * Requisition Item Capital Asset Business Object.
  */
-public class RequisitionItemCapitalAsset extends PurchasingItemCapitalAsset {
-
-    private Integer requisitionItemCapitalAssetIdentifier;
+public class RequisitionItemCapitalAsset extends PurchasingItemCapitalAssetBase {
 
     /**
      * Default constructor.
      */
     public RequisitionItemCapitalAsset() {
-    }
+        super();
+    }    
     
-    /**
-     * Constructs a RequisitionItemCapitalAsset.
-     * @param capitalAssetNumber
-     */
-    public RequisitionItemCapitalAsset(Long capitalAssetNumber){
-        this.setCapitalAssetNumber(capitalAssetNumber);
-    }
-
-    public Integer getRequisitionItemCapitalAssetIdentifier() {
-        return requisitionItemCapitalAssetIdentifier;
-    }
-
-    public void setRequisitionItemCapitalAssetIdentifier(Integer requisitionItemCapitalAssetIdentifier) {
-        this.requisitionItemCapitalAssetIdentifier = requisitionItemCapitalAssetIdentifier;
-    }
-
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        if (this.requisitionItemCapitalAssetIdentifier != null) {
-            m.put("requisitionItemCapitalAssetIdentifier", this.requisitionItemCapitalAssetIdentifier.toString());
-        }
-        return m;
+    public RequisitionItemCapitalAsset(Long capitalAssetNumber) {
+        super(capitalAssetNumber);
     }
 
 }

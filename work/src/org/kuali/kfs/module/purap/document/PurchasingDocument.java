@@ -24,10 +24,14 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.businessobject.FundingSource;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.businessobject.RequisitionSource;
@@ -481,5 +485,26 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     public boolean isPaymentRequestPositiveApprovalIndicator();
     
     public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator);
+
+    public String getCapitalAssetSystemTypeCode();
+   
+    public void setCapitalAssetSystemTypeCode(String capitalAssetSystemTypeCode);
+  
+    public String getCapitalAssetSystemStateCode();
+   
+    public void setCapitalAssetSystemStateCode(String capitalAssetSystemStateCode);
+
+    public CapitalAssetSystemType getCapitalAssetSystemType();
+
+    public void setCapitalAssetSystemType(CapitalAssetSystemType capitalAssetSystemType);
+
+    public CapitalAssetSystemState getCapitalAssetSystemState();
+
+    public void setCapitalAssetSystemState(CapitalAssetSystemState capitalAssetSystemState);
+
+    public PurchasingCapitalAssetSystem getPurchasingCapitalAssetSystem();
     
+    public void setPurchasingCapitalAssetSystem(PurchasingCapitalAssetSystem purchasingCapitalAssetSystem);
+
+    public abstract Class getPurchasingCapitalAssetItemClass();
 }

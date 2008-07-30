@@ -24,6 +24,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.purap.PurapConstants.CAMSValidationStrings;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PurCams;
 
@@ -114,7 +115,8 @@ public enum PurchasingCapitalAssetFixture {
         if ( capitalAssetNumbers != null ) {
             this.assets = new ArrayList<PurchasingItemCapitalAsset>();
             for( Long capitalAssetNumber : capitalAssetNumbers ) {
-                this.assets.add(new PurchasingItemCapitalAsset(capitalAssetNumber));
+                //TODO: Fix this
+                //this.assets.add(new PurchasingItemCapitalAssetBase(capitalAssetNumber));
             }
         }
     }

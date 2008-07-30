@@ -16,18 +16,30 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 
-public interface PurchasingItemCapitalAsset {
+public interface PurchasingCapitalAssetItem {
 
-    public Long getCapitalAssetNumber();
+    public Integer getCapitalAssetItemIdentifier();
 
-    public void setCapitalAssetNumber(Long capitalAssetNumber);
+    public void setCapitalAssetItemIdentifier(Integer capitalAssetItemIdentifier);
+
+    public Integer getItemIdentifier();
+
+    public void setItemIdentifier(Integer itemIdentifier);
+
+    public String getCapitalAssetTransactionTypeCode();
+
+    public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode);
 
     public Integer getCapitalAssetSystemIdentifier();
 
     public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier);
 
-    public Integer getItemCapitalAssetIdentifier();
+    public CapitalAssetTransactionType getCapitalAssetTransactionType();
 
-    public void setItemCapitalAssetIdentifier(Integer itemCapitalAssetIdentifier);
+    public void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType);
+
+    public PurchasingCapitalAssetSystem getPurchasingCapitalAssetSystem();
+
+    public void setRequisitionCapitalAssetSystem(RequisitionCapitalAssetSystem requisitionCapitalAssetSystem);
 
 }

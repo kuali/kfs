@@ -19,32 +19,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
-public class PurchaseOrderCapitalAssetItem extends PersistableBusinessObjectBase {
+public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBase {
 
-    private Integer capitalAssetItemIdentifier;
-    private Integer itemIdentifier;
     private String documentNumber;
-    private String capitalAssetTransactionTypeCode;
-    private Integer capitalAssetSystemIdentifier;
-    
-    private CapitalAssetTransactionType capitalAssetTransactionType;
-    private PurchaseOrderCapitalAssetSystem purchaseOrderCapitalAssetSystem;
-    
-    public Integer getCapitalAssetItemIdentifier() {
-        return capitalAssetItemIdentifier;
-    }
-
-    public void setCapitalAssetItemIdentifier(Integer capitalAssetItemIdentifier) {
-        this.capitalAssetItemIdentifier = capitalAssetItemIdentifier;
-    }
-
-    public Integer getItemIdentifier() {
-        return itemIdentifier;
-    }
-
-    public void setItemIdentifier(Integer itemIdentifier) {
-        this.itemIdentifier = itemIdentifier;
-    }
+        
 
     public String getDocumentNumber() {
         return documentNumber;
@@ -53,47 +31,15 @@ public class PurchaseOrderCapitalAssetItem extends PersistableBusinessObjectBase
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
-
-    public String getCapitalAssetTransactionTypeCode() {
-        return capitalAssetTransactionTypeCode;
-    }
-
-    public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
-        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
-    }
-
-    public Integer getCapitalAssetSystemIdentifier() {
-        return capitalAssetSystemIdentifier;
-    }
-
-    public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier) {
-        this.capitalAssetSystemIdentifier = capitalAssetSystemIdentifier;
-    }
-    
-    public CapitalAssetTransactionType getCapitalAssetTransactionType() {
-        return capitalAssetTransactionType;
-    }
-
-    public void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType) {
-        this.capitalAssetTransactionType = capitalAssetTransactionType;
-    }
-
-    public PurchaseOrderCapitalAssetSystem getPurchaseorderCapitalAssetSystem() {
-        return purchaseOrderCapitalAssetSystem;
-    }
-
-    public void setPurchaseOrderCapitalAssetSystem(PurchaseOrderCapitalAssetSystem purchaseOrderCapitalAssetSystem) {
-        this.purchaseOrderCapitalAssetSystem = purchaseOrderCapitalAssetSystem;
-    }
-
+   
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        if( this.capitalAssetItemIdentifier != null) {
-            m.put("capitalAssetItemIdentifier", this.capitalAssetItemIdentifier.toString());
+        if( this.getCapitalAssetItemIdentifier() != null) {
+            m.put("capitalAssetItemIdentifier", this.getCapitalAssetItemIdentifier().toString());
         }
-        if( this.itemIdentifier != null ) {
-            m.put("itemIdentifier", this.itemIdentifier.toString());
+        if( this.getItemIdentifier() != null ) {
+            m.put("itemIdentifier", this.getItemIdentifier().toString());
         }
         if( this.documentNumber != null) {
             m.put("documentNumber", this.documentNumber);

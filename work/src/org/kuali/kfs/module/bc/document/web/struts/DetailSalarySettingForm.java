@@ -107,7 +107,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     /**
      * acquire position and funding locks for the given appointment funding
      */
-    public boolean acquirePositionAndFundingLocks() {
+    public boolean acquirePositionAndFundingLocks() {       
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             boolean gotLocks = this.acquirePositionAndFundingLocks(appointmentFunding);
@@ -127,6 +127,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * @return true if the position and funding locks for the given appointment funding are acquired successfully, otherwise, false
      */
     public boolean acquirePositionAndFundingLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.info("acquirePositionAndFundingLocks() started");
+        
         try {
             SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
 

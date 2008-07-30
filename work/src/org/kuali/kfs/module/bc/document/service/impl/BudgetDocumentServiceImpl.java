@@ -433,11 +433,11 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isBudgetableAccount(java.lang.Integer,
-     *      org.kuali.kfs.coa.businessobject.Account, org.kuali.kfs.coa.businessobject.SubAccount)
+     *      org.kuali.kfs.coa.businessobject.Account)
      */
     @NonTransactional
-    public boolean isBudgetableAccount(Integer budgetYear, Account account, SubAccount subAccount) {
-        if (budgetYear == null || account == null || subAccount == null) {
+    public boolean isBudgetableAccount(Integer budgetYear, Account account) {
+        if (budgetYear == null || account == null) {
             return false;
         }
 
@@ -455,8 +455,17 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             return false;
         }
 
-        if (subAccount == null) {
-            return false;
+        return true;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isBudgetableSubAccount(org.kuali.kfs.coa.businessobject.SubAccount,
+     *      java.lang.String)
+     */
+    @NonTransactional
+    public boolean isBudgetableSubAccount(SubAccount subAccount, String subAccountNumber) {
+        if (StringUtils.isNotEmpty(subAccountNumber) || StringUtils.equals(subAccountNumber, KFSConstants.getDashSubAccountNumber())) {
+            return true;
         }
 
         if (!subAccount.isSubAccountActiveIndicator()) {

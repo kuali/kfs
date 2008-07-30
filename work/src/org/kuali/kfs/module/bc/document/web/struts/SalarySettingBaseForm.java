@@ -112,12 +112,12 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
             boolean vacatable = salarySettingService.canBeVacant(appointmentFundings, appointmentFunding);
             appointmentFunding.setVacatable(vacatable);
 
+            Account account = appointmentFunding.getAccount();           
+            SubAccount subAccount = appointmentFunding.getSubAccount();
             String subAccountNumber = appointmentFunding.getSubAccountNumber();
-            boolean isEmptyOrDashedSubAccountNumber = StringUtils.isNotEmpty(subAccountNumber) || StringUtils.equals(subAccountNumber, KFSConstants.getDashSubAccountNumber());
-            SubAccount subAccount = isEmptyOrDashedSubAccountNumber ? null : appointmentFunding.getSubAccount();
-
-            Account account = appointmentFunding.getAccount();
-            boolean budgetable = budgetDocumentService.isBudgetableAccount(fiscalYear, account, subAccount);
+            
+            boolean budgetable = budgetDocumentService.isBudgetableAccount(fiscalYear, account);
+            budgetable = budgetable && budgetDocumentService.isBudgetableSubAccount(subAccount, subAccountNumber);
             appointmentFunding.setBudgetable(budgetable);
 
             String chartCode = appointmentFunding.getChartOfAccountsCode();

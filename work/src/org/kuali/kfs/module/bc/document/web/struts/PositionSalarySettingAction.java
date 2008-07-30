@@ -70,7 +70,7 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             // the user has open.
         }
 
-        positionSalarySettingForm.populateBCAFLines();
+        boolean isSuccessfullyProcessed = positionSalarySettingForm.postProcessBCAFLines();
         positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
         
         //acquire position and funding locks for the associated funding lines

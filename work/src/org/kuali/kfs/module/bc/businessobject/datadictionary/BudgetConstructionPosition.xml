@@ -557,6 +557,8 @@
                     p:attributeName="iuDefaultObjectCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="iuPositionType" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionLockUserIdentifier" />      
             </list>
           </property>
         </bean>

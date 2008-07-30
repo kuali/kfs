@@ -119,8 +119,8 @@ public interface BudgetDocumentService {
 
     /**
      * Version of getAccessMode that uses a passed in BudgetConstructionHeader, instead of getting it directly from the database.
-     * Cases of using this method include testing what the access mode would be at another level without actually moving
-     * (setting new level and storing) the document in the database.
+     * Cases of using this method include testing what the access mode would be at another level without actually moving (setting
+     * new level and storing) the document in the database.
      * 
      * @param bcHeader
      * @param u
@@ -178,20 +178,30 @@ public interface BudgetDocumentService {
      * @return the budget document with the information provided by the given appointment funding
      */
     public BudgetConstructionHeader getBudgetConstructionHeader(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
-    /** 
-     * determine whether the given account and subaccount are budgetable for the specified budget year
+
+    /**
+     * determine whether the given account is budgetable for the specified budget year
+     * 
      * @param budgetYear the specified budget year
      * @param account the given account
-     * @param subAccount the given subaccount
-     * @return true if the given account and subaccount are budgetable for the specified budget year; otherwise, false
+     * @return true if the given account is budgetable for the specified budget year; otherwise, false
      */
-    public boolean isBudgetableAccount(Integer budgetYear, Account account, SubAccount subAccount);
-    
+    public boolean isBudgetableAccount(Integer budgetYear, Account account);
+
+    /**
+     * determine whether the given subaccount is budgetable
+     * 
+     * @param subAccount the given subaccount
+     * @param subAccountNumber the sub account number associated with the given sub account. If sub account is null, the number can be empty or the defualt.
+     * @return true if the given subaccount is budgetable; otherwise, false
+     */
+    public boolean isBudgetableSubAccount(SubAccount subAccount, String subAccountNumber);
+
     /**
      * retrieve all pending budget construction GL records associated with the given budget contruction header
      * 
-     * @param budgetConstructionHeader the budget construction header associated with the pending budget construction GL records to be retrieved
+     * @param budgetConstructionHeader the budget construction header associated with the pending budget construction GL records to
+     *        be retrieved
      * @return all pending budget construction GL records associated with the given budget contruction header
      */
     public Collection<PendingBudgetConstructionGeneralLedger> retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader);

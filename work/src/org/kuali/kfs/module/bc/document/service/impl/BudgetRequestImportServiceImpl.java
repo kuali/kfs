@@ -40,6 +40,7 @@ import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.BCConstants.RequestImportFileType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;

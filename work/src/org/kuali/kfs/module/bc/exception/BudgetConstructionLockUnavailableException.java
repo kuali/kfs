@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.bc.exception;
 
 import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLockStatus;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 
 /**
  * Thrown when an account lock is unavailable for the account

@@ -21,10 +21,10 @@ import java.util.SortedSet;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableException;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 

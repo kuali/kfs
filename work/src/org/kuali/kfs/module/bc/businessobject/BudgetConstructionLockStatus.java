@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.bc.document.service.impl;
+package org.kuali.kfs.module.bc.businessobject;
 
+import java.util.LinkedHashMap;
 import java.util.SortedSet;
 
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.core.bo.TransientBusinessObjectBase;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 
 /**
@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
  * with the uid associated with the lock. LockStatus.FLOCK_FOUND usually means the set of fundingLocks is also defined. See the
  * LockService methods JavaDoc for more details.
  */
-public class BudgetConstructionLockStatus {
+public class BudgetConstructionLockStatus extends TransientBusinessObjectBase{
 
     private LockStatus lockStatus;
     private String accountLockOwner;
@@ -153,5 +153,22 @@ public class BudgetConstructionLockStatus {
      */
     public void setBudgetConstructionHeader(BudgetConstructionHeader budgetConstructionHeader) {
         this.budgetConstructionHeader = budgetConstructionHeader;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap<String,Object> mapper = new LinkedHashMap<String,Object>();
+        
+        mapper.put("lockStatus", this.lockStatus);
+        mapper.put("accountLockOwner", this.accountLockOwner);
+        mapper.put("positionLockOwner", this.positionLockOwner);
+        mapper.put("transactionLockOwner", this.transactionLockOwner);
+        mapper.put("fundingLocks", this.fundingLocks);
+        mapper.put("budgetConstructionHeader", this.budgetConstructionHeader);
+
+        return mapper;
     }
 }

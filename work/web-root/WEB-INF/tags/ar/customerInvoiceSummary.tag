@@ -32,11 +32,11 @@
             </tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.financialDocumentReferenceInvoiceNumber}" forceRequired="true" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.financialDocumentReferenceInvoiceNumber}" forceRequired="true" labelFor="document.financialDocumentReferenceInvoiceNumber" /></div>
                 </th>
                 <td align=left valign=middle class="datacell" style="width: 25%;">
 					<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.document.financialDocumentReferenceInvoiceNumber}&command=displayDocSearchView" target="blank">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.financialDocumentReferenceInvoiceNumber}" property="document.financialDocumentReferenceInvoiceNumber" readOnly="true"/>
+                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.financialDocumentReferenceInvoiceNumber}" property="document.financialDocumentReferenceInvoiceNumber" readOnly="true" forceRequired="true"/>
 					</a>
                 </td>			
                 <th align=right valign=middle class="bord-l-b" style="width: 25%;"> 

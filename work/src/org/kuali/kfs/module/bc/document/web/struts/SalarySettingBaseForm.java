@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +71,8 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+
+    private UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
 
     /**
      * get the refresh caller name of the current form
@@ -626,5 +627,14 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         }
 
         return salarySettingFieldsHolder;
+    }
+
+    /**
+     * Gets the universalUser attribute.
+     * 
+     * @return Returns the universalUser.
+     */
+    public UniversalUser getUniversalUser() {
+        return universalUser;
     }
 }

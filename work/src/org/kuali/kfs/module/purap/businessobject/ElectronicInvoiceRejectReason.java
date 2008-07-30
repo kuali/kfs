@@ -19,14 +19,16 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 public class ElectronicInvoiceRejectReason implements Serializable, PersistenceBrokerAware {
   
   private Integer id;
-  private Integer rejectHeaderId;
+  private Integer purapDocumentIdentifier;
   private String invoiceFileName;
-  private String electronicInvoiceRejectTypeCode;
+  private String invoiceRejectReasonTypeCode;
   private String invoiceRejectReasonDescription;
   private Timestamp lastUpdateTimestamp; //lst_updt_ts
   private Integer version; //ver_nbr
   
   private ElectronicInvoiceReject electronicInvoiceReject;
+  
+  private ElectronicInvoiceRejectReasonType invoiceRejectReasonType;
   
   /**
    * 
@@ -37,7 +39,7 @@ public class ElectronicInvoiceRejectReason implements Serializable, PersistenceB
   
   public ElectronicInvoiceRejectReason(String electronicInvoiceRejectTypeCode, String invoiceFileName, String description) {
     super();
-    this.electronicInvoiceRejectTypeCode = electronicInvoiceRejectTypeCode;
+    this.invoiceRejectReasonTypeCode = electronicInvoiceRejectTypeCode;
     this.invoiceFileName = invoiceFileName;
     this.invoiceRejectReasonDescription = description;
   }
@@ -45,7 +47,7 @@ public class ElectronicInvoiceRejectReason implements Serializable, PersistenceB
   public ElectronicInvoiceRejectReason(ElectronicInvoiceReject eir, String electronicInvoiceRejectTypeCode, String invoiceFileName, String description) {
     super();
     this.electronicInvoiceReject = eir;
-    this.electronicInvoiceRejectTypeCode = electronicInvoiceRejectTypeCode;
+    this.invoiceRejectReasonTypeCode = electronicInvoiceRejectTypeCode;
     this.invoiceFileName = invoiceFileName;
     this.invoiceRejectReasonDescription = description;
   }
@@ -63,16 +65,16 @@ public class ElectronicInvoiceRejectReason implements Serializable, PersistenceB
     this.electronicInvoiceReject = electronicInvoiceReject;
   }
   /**
-   * @return Returns the electronicInvoiceRejectTypeCode.
+   * @return Returns the invoiceRejectReasonTypeCode.
    */
-  public String getElectronicInvoiceRejectTypeCode() {
-    return electronicInvoiceRejectTypeCode;
+  public String getInvoiceRejectReasonTypeCode() {
+    return invoiceRejectReasonTypeCode;
   }
   /**
-   * @param electronicInvoiceRejectTypeCode The electronicInvoiceRejectTypeCode to set.
+   * @param invoiceRejectReasonTypeCode The invoiceRejectReasonTypeCode to set.
    */
-  public void setElectronicInvoiceRejectTypeCode(String electronicInvoiceRejectTypeCode) {
-    this.electronicInvoiceRejectTypeCode = electronicInvoiceRejectTypeCode;
+  public void setInvoiceRejectReasonTypeCode(String electronicInvoiceRejectTypeCode) {
+    this.invoiceRejectReasonTypeCode = electronicInvoiceRejectTypeCode;
   }
   /**
    * @return Returns the id.
@@ -123,16 +125,16 @@ public class ElectronicInvoiceRejectReason implements Serializable, PersistenceB
     this.lastUpdateTimestamp = lastUpdateTimestamp;
   }
   /**
-   * @return Returns the rejectHeaderId.
+   * @return Returns the purapDocumentIdentifier.
    */
-  public Integer getRejectHeaderId() {
-    return rejectHeaderId;
+  public Integer getPurapDocumentIdentifier() {
+    return purapDocumentIdentifier;
   }
   /**
-   * @param rejectHeaderId The rejectHeaderId to set.
+   * @param purapDocumentIdentifier The purapDocumentIdentifier to set.
    */
-  public void setRejectHeaderId(Integer rejectHeaderId) {
-    this.rejectHeaderId = rejectHeaderId;
+  public void setPurapDocumentIdentifier(Integer rejectHeaderId) {
+    this.purapDocumentIdentifier = rejectHeaderId;
   }
   /**
    * @return Returns the version.
@@ -172,6 +174,14 @@ public class ElectronicInvoiceRejectReason implements Serializable, PersistenceB
 
   public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
   }
+
+public ElectronicInvoiceRejectReasonType getInvoiceRejectReasonType() {
+    return invoiceRejectReasonType;
+}
+
+public void setInvoiceRejectReasonType(ElectronicInvoiceRejectReasonType invoiceRejectReasonType) {
+    this.invoiceRejectReasonType = invoiceRejectReasonType;
+}
 }
 /*
 Copyright (c) 2004, 2005 The National Association of College and

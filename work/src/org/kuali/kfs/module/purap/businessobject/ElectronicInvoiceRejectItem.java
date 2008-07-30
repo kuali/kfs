@@ -24,7 +24,7 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
 
   // NOT NULL FIELDS
   private Integer invoiceRejectItemIdentifier;
-  private Integer invoiceHeaderInformationIdentifier;
+  private Integer purapDocumentIdentifier;
   
   
   private Integer rejectHeaderId;
@@ -603,12 +603,12 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
   public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
   }
 
-public Integer getInvoiceHeaderInformationIdentifier() {
-    return invoiceHeaderInformationIdentifier;
+public Integer getPurapDocumentIdentifier() {
+    return purapDocumentIdentifier;
 }
 
-public void setInvoiceHeaderInformationIdentifier(Integer invoiceHeaderInformationIdentifier) {
-    this.invoiceHeaderInformationIdentifier = invoiceHeaderInformationIdentifier;
+public void setPurapDocumentIdentifier(Integer invoiceHeaderInformationIdentifier) {
+    this.purapDocumentIdentifier = invoiceHeaderInformationIdentifier;
 }
 }
 /*

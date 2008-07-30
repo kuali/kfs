@@ -21,28 +21,30 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.document.validation.DetailSalarySettingSaveRule;
+import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 
 /**
  * Event triggered when the detail salary setting screen is saved.
  */
-public class DetailSalarySettingNormalizePayRateAndAmountEvent extends BudgetExpansionEvent {
+public class SalarySettingSaveEvent extends BudgetExpansionEvent {
+    BudgetConstructionPosition budgetConstructionPosition;
     Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding;
 
 
-    public DetailSalarySettingNormalizePayRateAndAmountEvent(String errorPathPrefix, Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding) {
+    public SalarySettingSaveEvent(String errorPathPrefix, BudgetConstructionPosition budgetConstructionPosition, Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding) {
         super(errorPathPrefix);
+        this.budgetConstructionPosition = budgetConstructionPosition;
         this.appointmentFunding = appointmentFunding;
     }
 
     @Override
     public Class getExpansionRuleInterfaceClass() {
-        return DetailSalarySettingSaveRule.class;
+        return SalarySettingRule.class;
     }
 
     @Override
     public boolean invokeExpansionRuleMethod(BusinessRule rule) {
-        return ((DetailSalarySettingSaveRule) rule).processNormalizePayrateAndAmount(appointmentFunding);
+        return ((SalarySettingRule) rule).processSave(appointmentFunding);
     }
 
 }

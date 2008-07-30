@@ -23,9 +23,9 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 
 /**
- * Rule interface for <code>DetailSalarySettingSaveEvent<code>. Rule classes wishing to respond to that event should implement this interface.
+ * Rule interface for <code>SalarySettingSaveEvent<code>. Rule classes wishing to respond to that event should implement this interface.
  */
-public interface DetailSalarySettingSaveRule extends BusinessRule {
+public interface SalarySettingRule extends BusinessRule {
 
     /**
      * Process save business rules for the detail salary setting screen.

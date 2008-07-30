@@ -23,13 +23,13 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.document.validation.DetailSalarySettingSaveRule;
+import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 
-public class SalarySettingRules implements DetailSalarySettingSaveRule {
+public class SalarySettingRules implements SalarySettingRule {
     
     /**
      * 
-     * @see org.kuali.kfs.module.bc.document.validation.DetailSalarySettingSaveRule#processSave(java.util.Collection)
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSave(java.util.Collection)
      */
     public boolean processSave(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFundingRecords) {
         boolean isValid = true;
@@ -52,7 +52,7 @@ public class SalarySettingRules implements DetailSalarySettingSaveRule {
     
     /**
      * 
-     * @see org.kuali.kfs.module.bc.document.validation.DetailSalarySettingSaveRule#processAdjustSalaraySettingLinePercent(java.util.Collection)
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustSalaraySettingLinePercent(java.util.Collection)
      */
     public boolean processAdjustSalaraySettingLinePercent(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFundingRecords) {
         boolean isValid = true;
@@ -69,7 +69,7 @@ public class SalarySettingRules implements DetailSalarySettingSaveRule {
     
     /**
      * 
-     * @see org.kuali.kfs.module.bc.document.validation.DetailSalarySettingSaveRule#processNormalizePayrateAndAmount(java.util.Collection)
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processNormalizePayrateAndAmount(java.util.Collection)
      */
     public boolean processNormalizePayrateAndAmount(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFundingRecords) {
         boolean isValid = true;

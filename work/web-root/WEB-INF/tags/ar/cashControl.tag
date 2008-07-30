@@ -62,7 +62,7 @@
 			<tr>
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${documentAttributes.customerPaymentMediumCode}"
-					horizontal="true" forceRequired="true" />
+					horizontal="true" forceRequired="true" labelFor="document.customerPaymentMediumCode" />
 
 				<td class="datacell-nowrap">
 					<c:choose>
@@ -70,7 +70,7 @@
 							<kul:htmlControlAttribute
 								attributeEntry="${documentAttributes.customerPaymentMediumCode}"
 								property="document.customerPaymentMediumCode"
-								onchange="submitForm()" />
+								onchange="submitForm()" forceRequired="true" />
 						</c:when>
 						<c:otherwise>
 							<html:hidden property="document.customerPaymentMediumCode" />

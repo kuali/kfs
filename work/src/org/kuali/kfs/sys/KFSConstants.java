@@ -190,6 +190,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String GENERIC_CODE_PROPERTY_NAME = "code";
     public static final String GL_BALANCE_INQUIRY_FLAG = "inquiryFlag";
     public static final String GL_ACCOUNT_BALANCE_BY_CONSOLIDATION_LOOKUP_ACTION = "glAccountBalanceByConsolidationLookup.do";
+    public static final String AR_CUSTOMER_AGING_REPORT_LOOKUP_ACTION = "arCustomerAgingReportLookup.do";
     public static final String GL_BALANCE_INQUIRY_ACTION = "glBalanceInquiry.do";
     public static final String GL_MODIFIED_INQUIRY_ACTION = "glModifiedInquiry.do";
     public static final String GL_PE_OFFSET_STRING = "TP Generated Offset";

@@ -532,6 +532,7 @@
 	<field-descriptor name="defaultUnitOfMeasureCode" column="AR_DFLT_UOM_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="itemDefaultQuantity" column="AR_ITM_DFLT_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="taxableIndicator" column="AR_INV_ITM_TXBL_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />

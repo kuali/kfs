@@ -34,6 +34,15 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
 	private String defaultUnitOfMeasureCode;
 	private BigDecimal itemDefaultQuantity;
 	private boolean active;
+	private boolean taxableIndicator;
+
+    public boolean isTaxableIndicator() {
+        return taxableIndicator;
+    }
+
+    public void setTaxableIndicator(boolean taxableIndicator) {
+        this.taxableIndicator = taxableIndicator;
+    }
 
     private Chart chartOfAccounts;
 	private Org organization;

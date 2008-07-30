@@ -241,9 +241,6 @@
 	</bean>	
 	
 	<bean id="budgetPositionLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionLookupableHelperServiceImpl" parent="lookupableHelperService" singleton="false">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>	
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -255,10 +252,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="budgetIntendedIncumbentLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentLookupableHelperServiceImpl" parent="lookupableHelperService" singleton="false">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>	
+	<bean id="budgetIntendedIncumbentLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentLookupableHelperServiceImpl" parent="lookupableHelperService" singleton="false">	
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>

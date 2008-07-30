@@ -56,12 +56,12 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.document.validation.AddPendingBudgetGeneralLedgerLineRule;
 import org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule;
 import org.kuali.kfs.module.bc.document.validation.DeletePendingBudgetGeneralLedgerLineRule;
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument> {
@@ -69,17 +69,16 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     // some services used here - other service refs are from parent classes
     // if this class is extended we may need to create protected getters
-    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static BudgetParameterService budgetParameterService = SpringContext.getBean(BudgetParameterService.class);
     private static AccountingLineRuleHelperService accountingLineRuleHelper = SpringContext.getBean(AccountingLineRuleHelperService.class);
     private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
 
-    private List revenueObjectTypesParamValues;
-    private List expenditureObjectTypesParamValues;
-    private List budgetAggregationCodesParamValues;
-    private List fringeBenefitDesignatorCodesParamValues;
-    private List salarySettingFundGroupsParamValues;
-    private List salarySettingSubFundGroupsParamValues;
+    private List<String> revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
+    private List<String> expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
+    private List<String> budgetAggregationCodesParamValues = BudgetParameterFinder.getBudgetAggregationCodes();
+    private List<String> fringeBenefitDesignatorCodesParamValues = BudgetParameterFinder.getFringeBenefitDesignatorCodes();
+    private List<String> salarySettingFundGroupsParamValues = BudgetParameterFinder.getSalarySettingFundGroups();
+    private List<String> salarySettingSubFundGroupsParamValues = BudgetParameterFinder.getSalarySettingSubFundGroups();
 
     // this field is highlighted for any errors found on an existing line
     private static final String TARGET_ERROR_PROPERTY_NAME = KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT;
@@ -119,8 +118,8 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         LOG.debug("processSaveDocument(Document) - end");
         return isValid;
     }
-    
-    public boolean processDeleteMonthlySpreadRules(BudgetConstructionDocument budgetConstructionDocument, MonthSpreadDeleteType monthSpreadDeleteType){
+
+    public boolean processDeleteMonthlySpreadRules(BudgetConstructionDocument budgetConstructionDocument, MonthSpreadDeleteType monthSpreadDeleteType) {
         LOG.debug("processDeleteRevenueMonthlySpreadRules(Document) - start");
 
         boolean isValid = true;
@@ -137,7 +136,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         LOG.debug("processDeleteRevenueMonthlySpreadRules(Document) - end");
         return isValid;
-        
+
     }
 
     /**
@@ -157,17 +156,6 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         int originalErrorCount;
         int currentErrorCount;
 
-        Class docClass = budgetConstructionDocument.getClass();
-
-        // TODO move this to a method and replace call
-        // get the system parameters we will use here
-        revenueObjectTypesParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.REVENUE_OBJECT_TYPES);
-        expenditureObjectTypesParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES);
-        budgetAggregationCodesParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.BUDGET_AGGREGATION_CODES);
-        fringeBenefitDesignatorCodesParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
-        salarySettingFundGroupsParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.SALARY_SETTING_FUND_GROUPS);
-        salarySettingSubFundGroupsParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.SALARY_SETTING_SUB_FUND_GROUPS);
-
         // TODO move this to a method and replace with call
         // refresh only the doc refs we need
         List refreshFields = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.ACCOUNT, KFSPropertyConstants.SUB_ACCOUNT }));
@@ -175,12 +163,13 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         // budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
 
         errors.addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
-        
-        if (monthSpreadDeleteType == MonthSpreadDeleteType.REVENUE){
+
+        if (monthSpreadDeleteType == MonthSpreadDeleteType.REVENUE) {
             doRevMonthRICheck = false;
             doExpMonthRICheck = true;
-        } else {
-            if (monthSpreadDeleteType == MonthSpreadDeleteType.EXPENDITURE){
+        }
+        else {
+            if (monthSpreadDeleteType == MonthSpreadDeleteType.EXPENDITURE) {
                 doRevMonthRICheck = true;
                 doExpMonthRICheck = false;
             }
@@ -211,17 +200,6 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         // List refreshFields;
         ErrorMap errors = GlobalVariables.getErrorMap();
         boolean isValid = true;
-
-        Class docClass = budgetConstructionDocument.getClass();
-
-        // TODO move this to a method and replace with a call
-        // get the system parameters we will use here
-        revenueObjectTypesParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.REVENUE_OBJECT_TYPES);
-        expenditureObjectTypesParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES);
-        budgetAggregationCodesParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.BUDGET_AGGREGATION_CODES);
-        fringeBenefitDesignatorCodesParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
-        salarySettingFundGroupsParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.SALARY_SETTING_FUND_GROUPS);
-        salarySettingSubFundGroupsParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.SALARY_SETTING_SUB_FUND_GROUPS);
 
         int originalErrorCount = errors.getErrorCount();
 
@@ -270,11 +248,6 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         ErrorMap errors = GlobalVariables.getErrorMap();
         boolean isValid = true;
-        Class docClass = budgetConstructionDocument.getClass();
-
-        // TODO move this to a method and replace with a call
-        // get the system parameters we will use here
-        fringeBenefitDesignatorCodesParamValues = budgetParameterService.getParameterValues(docClass, BCParameterKeyConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
 
         // no delete allowed if base exists, the delete button shouldn't even exist in this case, but checking anyway
         if (pendingBudgetConstructionGeneralLedger.getFinancialBeginningBalanceLineAmount().isZero()) {
@@ -292,9 +265,9 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             // again the delete button shouldn't even exist
             isValid &= isNotFringeBenefitObject(fringeBenefitDesignatorCodesParamValues, pendingBudgetConstructionGeneralLedger, errors, false);
 
-            // no deletion if salary setting option is turned on 
+            // no deletion if salary setting option is turned on
             // and the line is a salary detail line and detail recs exist
-            if (!SpringContext.getBean(SalarySettingService.class).isSalarySettingDisabled()){
+            if (!SpringContext.getBean(SalarySettingService.class).isSalarySettingDisabled()) {
                 if (pendingBudgetConstructionGeneralLedger.getLaborObject() != null) {
                     if (pendingBudgetConstructionGeneralLedger.getLaborObject().isDetailPositionRequiredIndicator()) {
                         if (pendingBudgetConstructionGeneralLedger.isPendingBudgetConstructionAppointmentFundingExists()) {
@@ -305,17 +278,17 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                     }
                 }
             }
-            if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()){
+            if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()) {
 
                 // benefits calc is turned on, if the line is valid to remove and the request is not zero, set to calc benefits
-                if (isValid && pendingBudgetConstructionGeneralLedger.getPositionObjectBenefit() != null && !pendingBudgetConstructionGeneralLedger.getPositionObjectBenefit().isEmpty()){
+                if (isValid && pendingBudgetConstructionGeneralLedger.getPositionObjectBenefit() != null && !pendingBudgetConstructionGeneralLedger.getPositionObjectBenefit().isEmpty()) {
                     budgetConstructionDocument.setBenefitsCalcNeeded(true);
-                    
+
                     // test if the line has monthly budgets
                     // this assumes business rule of non-zero monthly budget not allowed to sum to a zero annual amount
                     // that is, if annual amount is zero, the monthly record contains all zeros
-                    if (pendingBudgetConstructionGeneralLedger.getBudgetConstructionMonthly() != null && !pendingBudgetConstructionGeneralLedger.getBudgetConstructionMonthly().isEmpty()){
-                        budgetConstructionDocument.setMonthlyBenefitsCalcNeeded(true);                        
+                    if (pendingBudgetConstructionGeneralLedger.getBudgetConstructionMonthly() != null && !pendingBudgetConstructionGeneralLedger.getBudgetConstructionMonthly().isEmpty()) {
+                        budgetConstructionDocument.setMonthlyBenefitsCalcNeeded(true);
                     }
                 }
             }
@@ -392,12 +365,12 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             if (isReqAmountValid && !element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())) {
 
                 // check monthly for all rows
-                if (doMonthRICheck){
+                if (doMonthRICheck) {
                     if (element.getBudgetConstructionMonthly() != null && !element.getBudgetConstructionMonthly().isEmpty()) {
 
                         BudgetConstructionMonthly budgetConstructionMonthly = element.getBudgetConstructionMonthly().get(0);
                         if (budgetConstructionMonthly != null) {
-                            KualiInteger monthSum = KualiInteger.ZERO; 
+                            KualiInteger monthSum = KualiInteger.ZERO;
                             monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth1LineAmount());
                             monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth2LineAmount());
                             monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth3LineAmount());
@@ -410,8 +383,8 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                             monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth10LineAmount());
                             monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth11LineAmount());
                             monthSum = monthSum.add(budgetConstructionMonthly.getFinancialDocumentMonth12LineAmount());
-                            
-                            if (!monthSum.equals(element.getAccountLineAnnualBalanceAmount())){
+
+                            if (!monthSum.equals(element.getAccountLineAnnualBalanceAmount())) {
                                 isValid &= false;
                                 String pkeyVal = element.getFinancialObjectCode() + "," + element.getFinancialSubObjectCode();
                                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_MONTHLY_SUM_REQUEST_NOT_EQUAL, pkeyVal, monthSum.toString(), element.getAccountLineAnnualBalanceAmount().toString());
@@ -422,13 +395,13 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
                 // check salary setting detail sum if expenditure line is a ss detail line
                 // and salary setting option is turned on
-                if (!SpringContext.getBean(SalarySettingService.class).isSalarySettingDisabled()){
+                if (!SpringContext.getBean(SalarySettingService.class).isSalarySettingDisabled()) {
                     if (element.getLaborObject() != null) {
                         if (element.getLaborObject().isDetailPositionRequiredIndicator()) {
-                            
+
                             // sum the detail lines and compare against the accounting line request amount
                             KualiInteger salarySum = KualiInteger.ZERO;
-                            
+
                             // if salary setting detail exists, sum it otherwise default to zero
                             if (element.isPendingBudgetConstructionAppointmentFundingExists()) {
 
@@ -437,7 +410,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
                             }
 
-                            if (!salarySum.equals(element.getAccountLineAnnualBalanceAmount())){
+                            if (!salarySum.equals(element.getAccountLineAnnualBalanceAmount())) {
                                 isValid &= false;
                                 String pkeyVal = element.getFinancialObjectCode() + "," + element.getFinancialSubObjectCode();
                                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_SALARY_SUM_REQUEST_NOT_EQUAL, pkeyVal, salarySum.toString(), element.getAccountLineAnnualBalanceAmount().toString());
@@ -445,13 +418,13 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                         }
                     }
                 }
-                // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save 
-                if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()){
+                // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save
+                if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()) {
                     // retest for added errors since testing this line started - if none, test if benefits calc required
                     currentErrorCount = errors.getErrorCount();
                     isReqAmountValid = (currentErrorCount == originalErrorCount);
 
-                    if (isReqAmountValid && element.getPositionObjectBenefit() != null && !element.getPositionObjectBenefit().isEmpty()){
+                    if (isReqAmountValid && element.getPositionObjectBenefit() != null && !element.getPositionObjectBenefit().isEmpty()) {
                         budgetConstructionDocument.setBenefitsCalcNeeded(true);
                     }
                 }
@@ -773,24 +746,25 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         // check if account belongs to a fund or subfund that only allows salary setting lines
         AccountSalarySettingOnlyCause retVal = budgetParameterService.isSalarySettingOnlyAccount(budgetConstructionDocument);
-        if (retVal != AccountSalarySettingOnlyCause.MISSING_PARAM){
-            if (retVal != AccountSalarySettingOnlyCause.NONE){
-                
-              // the line must use an object that is a detail salary labor object
-              if (isRevenue || accountingLine.getLaborObject() == null || !accountingLine.getLaborObject().isDetailPositionRequiredIndicator()) {
+        if (retVal != AccountSalarySettingOnlyCause.MISSING_PARAM) {
+            if (retVal != AccountSalarySettingOnlyCause.NONE) {
 
-                  isAllowed = false;
-                  if (retVal == AccountSalarySettingOnlyCause.FUND || retVal == AccountSalarySettingOnlyCause.FUND_AND_SUBFUND) {
-                      this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_SALARY_SETTING_OBJECT_ONLY, isAdd, "fund " + budgetConstructionDocument.getAccount().getSubFundGroup().getFundGroupCode());
+                // the line must use an object that is a detail salary labor object
+                if (isRevenue || accountingLine.getLaborObject() == null || !accountingLine.getLaborObject().isDetailPositionRequiredIndicator()) {
 
-                  }
-                  if (retVal == AccountSalarySettingOnlyCause.SUBFUND || retVal == AccountSalarySettingOnlyCause.FUND_AND_SUBFUND) {
-                      this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_SALARY_SETTING_OBJECT_ONLY, isAdd, "subfund " + budgetConstructionDocument.getAccount().getSubFundGroup().getSubFundGroupCode());
-                  }
-              }
+                    isAllowed = false;
+                    if (retVal == AccountSalarySettingOnlyCause.FUND || retVal == AccountSalarySettingOnlyCause.FUND_AND_SUBFUND) {
+                        this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_SALARY_SETTING_OBJECT_ONLY, isAdd, "fund " + budgetConstructionDocument.getAccount().getSubFundGroup().getFundGroupCode());
+
+                    }
+                    if (retVal == AccountSalarySettingOnlyCause.SUBFUND || retVal == AccountSalarySettingOnlyCause.FUND_AND_SUBFUND) {
+                        this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_SALARY_SETTING_OBJECT_ONLY, isAdd, "subfund " + budgetConstructionDocument.getAccount().getSubFundGroup().getSubFundGroupCode());
+                    }
+                }
             }
-            
-        } else {
+
+        }
+        else {
             // TODO need error message for this
             // missing system parameter
             isAllowed = false;

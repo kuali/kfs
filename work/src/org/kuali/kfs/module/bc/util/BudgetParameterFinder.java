@@ -20,7 +20,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -89,5 +91,75 @@ public class BudgetParameterFinder {
      */
     public static List<String> getBiweeklyPayObjectCodes() {
         return parameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES);
+    }
+
+    /**
+     * get the revenue object types allowed in budget setup in system parameters
+     * 
+     * @return the revenue object types allowed in budget setup in system parameters
+     */
+    public static List<String> getRevenueObjectTypes() {
+        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.REVENUE_OBJECT_TYPES);
+    }
+
+    /**
+     * get the expenditure object types allowed in budget setup in system parameters
+     * 
+     * @return the expenditure object types allowed in budget setup in system parameters
+     */
+    public static List<String> getExpenditureObjectTypes() {
+        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES);
+    }
+
+    /**
+     * get the budget aggregation codes setup in system parameters
+     * 
+     * @return the budget aggregation codes setup in system parameters
+     */
+    public static List<String> getBudgetAggregationCodes() {
+        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.BUDGET_AGGREGATION_CODES);
+    }
+
+    /**
+     * get the fringe benefit designator codes setup in system parameters
+     * 
+     * @return the fringe benefit designator codes setup in system parameters
+     */
+    public static List<String> getFringeBenefitDesignatorCodes() {
+        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
+    }
+
+    /**
+     * get the salary setting fund groups setup in system parameters
+     * 
+     * @return the salary setting fund groups setup in system parameters
+     */
+    public static List<String> getSalarySettingFundGroups() {
+        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.SALARY_SETTING_FUND_GROUPS);
+    }
+
+    /**
+     * get the salary setting sub fund groups setup in system parameters
+     * 
+     * @return the salary setting sub fund groups setup in system parameters
+     */
+    public static List<String> getSalarySettingSubFundGroups() {
+        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.SALARY_SETTING_SUB_FUND_GROUPS);
+    }
+
+    /**
+     * indicates whether the data for the budget construction intended incumbent table is populated from an external system or is
+     * maintained within the KFS.
+     */
+    public static boolean getPayrollIncumbentFeedIndictor() {
+        return parameterService.getIndicatorParameter(BudgetConstructionIntendedIncumbent.class, BCParameterKeyConstants.EXTERNAL_INCUMBENT_FEED_IND);
+    }
+
+    /**
+     * Indicates whether the data for the budget construction position table is populated from an external system or is maintained
+     * within the KFS.
+     */
+    public static boolean getPayrollPositionFeedIndicator() {
+        return parameterService.getIndicatorParameter(BudgetConstructionPosition.class, BCParameterKeyConstants.EXTERNAL_POSITION_FEED_IND);
     }
 }

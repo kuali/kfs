@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.service.ParameterService;
 
 
@@ -131,7 +132,8 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
             IllegalArgumentException ioex = new IllegalArgumentException("parameter "+BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES+" does not exist");
             throw (ioex);
         }
-        ArrayList<String> expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
+        
+        List<String> expenditureObjectTypes = BudgetParameterFinder.getExpenditureObjectTypes();
         if (expenditureObjectTypes.isEmpty())
         {
             LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
@@ -154,7 +156,7 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
             IllegalArgumentException ioex = new IllegalArgumentException("parameter "+BCParameterKeyConstants.REVENUE_OBJECT_TYPES+" does not exist");
             throw (ioex);
         }
-        ArrayList<String>revenueObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
+        List<String> revenueObjectTypes = BudgetParameterFinder.getRevenueObjectTypes();
         if (revenueObjectTypes.isEmpty())
         {
             LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.REVENUE_OBJECT_TYPES));

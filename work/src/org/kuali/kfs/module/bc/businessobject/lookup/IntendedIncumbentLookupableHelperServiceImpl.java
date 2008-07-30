@@ -27,6 +27,7 @@ import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -36,7 +37,6 @@ import org.kuali.rice.kns.util.KNSConstants;
  * Lookupable helper service implementation for the intended incumbent lookup..
  */
 public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupableHelperServiceImpl {
-    public ParameterService parameterService;
     public KualiConfigurationService kualiConfigurationService;
 
     /**
@@ -70,7 +70,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
     public String getMaintenanceUrls(BusinessObject businessObject) {
         BudgetConstructionIntendedIncumbent intendedIncumbent = (BudgetConstructionIntendedIncumbent) businessObject;
 
-        boolean payrollIncumbentFeed = parameterService.getIndicatorParameter(BudgetConstructionIntendedIncumbent.class, BCParameterKeyConstants.EXTERNAL_INCUMBENT_FEED_IND);
+        boolean payrollIncumbentFeed = BudgetParameterFinder.getPayrollIncumbentFeedIndictor();
         if (payrollIncumbentFeed) {
             String imageDirectory = kualiConfigurationService.getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
@@ -91,7 +91,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
      */
     @Override
     public boolean allowsMaintenanceNewOrCopyAction() {
-        boolean payrollIncumbentFeed = parameterService.getIndicatorParameter(BudgetConstructionIntendedIncumbent.class, BCParameterKeyConstants.EXTERNAL_INCUMBENT_FEED_IND);
+        boolean payrollIncumbentFeed = BudgetParameterFinder.getPayrollIncumbentFeedIndictor();
         if (payrollIncumbentFeed) {
             return false;
         }
@@ -191,15 +191,6 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
         url2 += "title=\"Incmbnt Salset w/sync\">Incmbnt Salset w/sync</a>  ";
 
         return url + "<br/>" + url2;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * 
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 
     /**

@@ -20,11 +20,8 @@ import java.util.List;
 
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
-import org.kuali.kfs.module.bc.BCParameterKeyConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * Action Form for budget special lookup screens.
@@ -57,7 +54,7 @@ public class TempListLookupForm extends LookupForm {
      */
     public boolean isGetNewPositionEnabled() {
         // check if position data is maintained externally
-        boolean positionDataExternal = SpringContext.getBean(ParameterService.class).getIndicatorParameter(BudgetConstructionPosition.class, BCParameterKeyConstants.EXTERNAL_POSITION_FEED_IND);
+        boolean positionDataExternal = BudgetParameterFinder.getPayrollPositionFeedIndicator();
         if (!positionDataExternal) {
             return false;
         }
@@ -77,7 +74,7 @@ public class TempListLookupForm extends LookupForm {
      */
     public boolean isGetNewIncumbentEnabled() {
         // check if incumbent data is maintained externally
-        boolean incumbentDataExternal = SpringContext.getBean(ParameterService.class).getIndicatorParameter(BudgetConstructionIntendedIncumbent.class, BCParameterKeyConstants.EXTERNAL_INCUMBENT_FEED_IND);
+        boolean incumbentDataExternal = BudgetParameterFinder.getPayrollIncumbentFeedIndictor();
         if (!incumbentDataExternal) {
             return false;
         }

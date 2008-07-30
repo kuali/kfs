@@ -52,6 +52,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetRequestImportService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.service.ImportRequestFileParsingHelper;
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
@@ -145,8 +146,8 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 budgetConstructionRequestMove.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             }
             //set object type code
-            List revenueObjectTypesParamValues = budgetParameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.REVENUE_OBJECT_TYPES);
-            List expenditureObjectTypesParamValues = budgetParameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES);
+            List revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
+            List expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
             ObjectCode objectCode = getObjectCode(budgetConstructionRequestMove, budgetYear);
             if (objectCode != null) {
                 if ( expenditureObjectTypesParamValues.contains(objectCode.getFinancialObjectTypeCode()) ) {

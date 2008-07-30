@@ -25,11 +25,8 @@ import org.apache.ojb.broker.accesslayer.QueryCustomizer;
 import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.kfs.module.bc.BCParameterKeyConstants;
-import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * This customizer constrains the relationship to PendingBudgetConstructionGeneralLedger so as to fetch expenditure or revenue lines
@@ -70,16 +67,14 @@ public class OjbPBGLQueryCustomizer implements QueryCustomizer {
      *      org.apache.ojb.broker.query.QueryByCriteria)
      */
     public Query customizeQuery(Object arg0, PersistenceBroker arg1, CollectionDescriptor arg2, QueryByCriteria arg3) {
-        BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) arg0;
-        
-        List paramValues; 
+        List paramValues;
 
-        // these parameter service calls will throw an IllegalArgumentException exception if the parameter doesn't exist 
+        // these parameter service calls will throw an IllegalArgumentException exception if the parameter doesn't exist
         if ("TRUE".equals(getAttribute(revenueAttributeName))) {
-            paramValues = SpringContext.getBean(ParameterService.class).getParameterValues(budgetConstructionDocument.getClass(),BCParameterKeyConstants.REVENUE_OBJECT_TYPES);
+            paramValues = BudgetParameterFinder.getRevenueObjectTypes();
         }
         else {
-            paramValues = SpringContext.getBean(ParameterService.class).getParameterValues(budgetConstructionDocument.getClass(),BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES);
+            paramValues = BudgetParameterFinder.getExpenditureObjectTypes();
         }
         revObjs.addAll(paramValues);
         arg3.getCriteria().addIn(objectCodeTypeField, revObjs);

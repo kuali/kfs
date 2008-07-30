@@ -63,7 +63,6 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     private String borrowerStorageCountryCode;
     private String borrowerStoragePhoneNumber;
     private Integer insuranceCode;
-    private boolean signatureCode;
     private Long capitalAssetNumber;
 
     private Chart insuranceChartOfAccounts;
@@ -679,24 +678,6 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("documentNumber", this.documentNumber);
         return m;
-    }
-
-    /**
-     * Gets the signatureCode attribute.
-     * 
-     * @return Returns the signatureCode
-     */
-    public boolean isSignatureCode() {
-        return signatureCode;
-    }
-
-    /**
-     * Sets the signatureCode attribute.
-     * 
-     * @param signatureCode The signatureCode to set.
-     */
-    public void setSignatureCode(boolean signatureCode) {
-        this.signatureCode = signatureCode;
     }
 
     /**

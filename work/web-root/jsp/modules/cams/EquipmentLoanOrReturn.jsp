@@ -98,10 +98,6 @@
 			    </c:choose>
 
        		</tr>		    
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.signatureCode}" readOnly="true"/></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.signatureCode" attributeEntry="${eqipAttributes.signatureCode}" readOnly="${readOnly}" /></td>								
-			</tr>
 		</table>
 		</div>
 	</kul:tab>

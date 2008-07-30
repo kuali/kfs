@@ -139,7 +139,6 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
         equipmentLoanOrReturnDocument.setLoanDate(newAsset.getLoanDate());
         equipmentLoanOrReturnDocument.setLoanReturnDate(newAsset.getLoanReturnDate());
         equipmentLoanOrReturnDocument.setExpectedReturnDate(newAsset.getExpectedReturnDate());
-        equipmentLoanOrReturnDocument.setSignatureCode(newAsset.isSignatureCode());
         // populate borrower address
         AssetLocation borrowerLocation = new AssetLocation();
         borrowerLocation.setCapitalAssetNumber(newAsset.getCapitalAssetNumber());

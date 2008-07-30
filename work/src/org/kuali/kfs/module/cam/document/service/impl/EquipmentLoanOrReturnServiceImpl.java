@@ -47,7 +47,6 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
         updateAsset.setExpectedReturnDate(document.getExpectedReturnDate());
         updateAsset.setLoanDate(document.getLoanDate());
         updateAsset.setLoanReturnDate(document.getLoanReturnDate());
-        updateAsset.setSignatureCode(document.isSignatureCode());
         updateBorrowerLocation(document, updateAsset);
         updateStoreAtLocation(document, updateAsset);
 

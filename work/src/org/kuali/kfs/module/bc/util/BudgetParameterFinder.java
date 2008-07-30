@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -50,7 +49,7 @@ public class BudgetParameterFinder {
 
         return Integer.valueOf(StringUtils.trim(annualWorkingHours));
     }
-    
+
     /**
      * get the weekly working hours setup in system paremters for extract process
      * 
@@ -60,18 +59,18 @@ public class BudgetParameterFinder {
         String weeklyWorkingHours = parameterService.getParameterValue(BudgetConstructionDocument.class, BCParameterKeyConstants.WEEKLY_WORKING_HOURS);
 
         return Integer.valueOf(StringUtils.trim(weeklyWorkingHours));
-    } 
-    
+    }
+
     /**
      * get the weekly working hours setup in system paremters for extract process
      * 
      * @return the weekly working hours setup in system paremters
      */
     public static BigDecimal getWeeklyWorkingHoursAsDecimal() {
-        Integer weeklyWorkingHours = 40; // TODO: getWeeklyWorkingHours();
+        Integer weeklyWorkingHours = getWeeklyWorkingHours();
 
         return BigDecimal.valueOf(weeklyWorkingHours);
-    } 
+    }
 
     /**
      * get the sub fund group codes not allowed 2plg generation setup in system parameters
@@ -79,7 +78,7 @@ public class BudgetParameterFinder {
      * @return the sub fund group codes not allowed 2plg generation setup in system parameters
      */
     public static List<String> getNotGenerate2PlgSubFundGroupCodes() {
-        return parameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.GENERATE_2PLG_SUB_FUND_GROUPS);
+        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.GENERATE_2PLG_SUB_FUND_GROUPS);
     }
 
     /**
@@ -88,6 +87,6 @@ public class BudgetParameterFinder {
      * @return the biweekly pay object codes setup in system parameters
      */
     public static List<String> getBiweeklyPayObjectCodes() {
-        return parameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES);
+        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES);
     }
 }

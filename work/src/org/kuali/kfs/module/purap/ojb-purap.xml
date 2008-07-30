@@ -3020,31 +3020,8 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER" autoincrement="true" sequence-name="AP_PUR_DOC_LNK_ID"/>
 
-	<field-descriptor column="INV_SHP_TO_CNTRY_NM" jdbc-type="VARCHAR" name="shipToAddressCountryName"/>
-	<field-descriptor column="INV_SHP_TO_ADDR_TYP_NM" jdbc-type="VARCHAR" name="shipToAddressType"/>
-	
-	<field-descriptor column="INV_BILL_TO_ADDR_NM" jdbc-type="VARCHAR" name="billToAddressName"/>
-	<field-descriptor column="INV_BILL_TO_LN1_ADDR" jdbc-type="VARCHAR" name="billToAddressLine1"/>
-	<field-descriptor column="INV_BILL_TO_LN2_ADDR" jdbc-type="VARCHAR" name="billToAddressLine2"/>
-    <field-descriptor column="INV_BILL_TO_LN3_ADDR" jdbc-type="VARCHAR" name="billToAddressLine3"/>
-    <field-descriptor column="INV_BILL_TO_CTY_NM" jdbc-type="VARCHAR" name="billToAddressCityName"/>
-    <field-descriptor column="INV_BILL_TO_ST_CD" jdbc-type="VARCHAR" name="billToAddressStateCode"/>
-    <field-descriptor column="INV_BILL_TO_PSTL_CD" jdbc-type="VARCHAR" name="billToAddressPostalCode"/>
-    <field-descriptor column="INV_BILL_TO_CNTRY_CD" jdbc-type="VARCHAR" name="billToAddressCountryCode"/>
-    <field-descriptor column="INV_BILL_TO_CNTRY_NM" jdbc-type="VARCHAR" name="billToAddressCountryName"/>
-    <field-descriptor column="INV_BILL_TO_ADDR_TYP_NM" jdbc-type="VARCHAR" name="billToAddressType"/>
-
-	<field-descriptor column="INV_RMT_TO_ADDR_NM" jdbc-type="VARCHAR" name="remitToAddressName"/>
-    <field-descriptor column="INV_RMT_TO_ADDR_TYP_NM" jdbc-type="VARCHAR" name="remitToAddressType"/>
-    <field-descriptor column="INV_RMT_TO_LN1_ADDR" jdbc-type="VARCHAR" name="remitToAddressLine1"/>
-    <field-descriptor column="INV_RMT_TO_LN2_ADDR" jdbc-type="VARCHAR" name="remitToAddressLine2"/>
-    <field-descriptor column="INV_RMT_TO_LN3_ADDR" jdbc-type="VARCHAR" name="remitToAddressLine3"/>
-    <field-descriptor column="INV_RMT_TO_CTY_NM" jdbc-type="VARCHAR" name="remitToAddressCityName"/>
-    <field-descriptor column="INV_RMT_TO_ST_CD" jdbc-type="VARCHAR" name="remitToAddressStateCode"/>
-    <field-descriptor column="INV_RMT_TO_PSTL_CD" jdbc-type="VARCHAR" name="remitToAddressPostalCode"/>
-    <field-descriptor column="INV_RMT_TO_CNTRY_CD" jdbc-type="VARCHAR" name="remitToAddressCountryCode"/>
-    <field-descriptor column="INV_RMT_TO_CNTRY_NM" jdbc-type="VARCHAR" name="remitToAddressCountryName"/>
-	
+    <field-descriptor name="purchaseOrderId" column="PO_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="purchaseOrderDeliveryCampusCode" column="PO_DLVY_CMP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceLoadSummaryIdentifier" column="INV_LOAD_SUM_ID" jdbc-type="BIGINT" index="true"/>
     
     <field-descriptor name="invoiceProcessDate" column="INV_PROC_DT" jdbc-type="DATE"/>
@@ -3076,7 +3053,6 @@
     <field-descriptor name="invoiceOrderPurchaseOrderDate" column="INV_ORD_PO_ORD_DT" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceOrderSupplierOrderInformationIdentifier" column="INV_ORD_SUPP_ORD_INFO_ID" jdbc-type="VARCHAR"/>
 
-    <field-descriptor name="purchaseOrderId" column="PO_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="invoiceItemSubTotalAmount" column="INV_ITM_SUB_TOT_AMT" jdbc-type="DECIMAL"/>
     <field-descriptor name="invoiceItemSubTotalCurrencyCode" column="INV_ITM_SUB_TOT_CRNCY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceItemSpecialHandlingAmount" column="INV_ITM_SPCL_HANDLG_AMT" jdbc-type="DECIMAL"/>
@@ -3095,8 +3071,6 @@
     <field-descriptor name="invoiceItemNetCurrencyCode" column="INV_ITM_NET_CRNCY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceRejectExtractDate" column="INV_RJT_EXTRT_DT" jdbc-type="DATE"/>
 
-    <field-descriptor name="purchaseOrderDeliveryCampusCode" column="PO_DLVY_CMP_CD" jdbc-type="VARCHAR"/>
-
     <field-descriptor name="invoiceShipDate" column="INV_SHP_DT" jdbc-type="DATE"/>
     <field-descriptor name="invoiceAddressName" column="INV_ADDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceShipToLine1Address" column="INV_SHP_TO_LN1_ADDR" jdbc-type="VARCHAR"/>
@@ -3107,7 +3081,33 @@
     <field-descriptor name="invoiceShipToCountryCode" column="INV_SHP_TO_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceShipToCityName" column="INV_SHP_TO_CTY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceShipToPostalCode" column="INV_SHP_TO_PSTL_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="shipToAddressCountryName" column="INV_SHP_TO_CNTRY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="shipToAddressType" column="INV_SHP_TO_ADDR_TYP_NM" jdbc-type="VARCHAR"/>
+	
+	<field-descriptor name="billToAddressName" column="INV_BILL_TO_ADDR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="billToAddressLine1" column="INV_BILL_TO_LN1_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="billToAddressLine2" column="INV_BILL_TO_LN2_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="billToAddressLine3" column="INV_BILL_TO_LN3_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="billToAddressCityName" column="INV_BILL_TO_CTY_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="billToAddressStateCode" column="INV_BILL_TO_ST_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="billToAddressPostalCode" column="INV_BILL_TO_PSTL_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="billToAddressCountryCode" column="INV_BILL_TO_CNTRY_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="billToAddressCountryName" column="INV_BILL_TO_CNTRY_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="billToAddressType" column="INV_BILL_TO_ADDR_TYP_NM" jdbc-type="VARCHAR"/>
+    
+    <field-descriptor name="remitToAddressName" column="INV_RMT_TO_ADDR_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="remitToAddressType" column="INV_RMT_TO_ADDR_TYP_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="remitToAddressLine1" column="INV_RMT_TO_LN1_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="remitToAddressLine2" column="INV_RMT_TO_LN2_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="remitToAddressLine3" column="INV_RMT_TO_LN3_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="remitToAddressCityName" column="INV_RMT_TO_CTY_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="remitToAddressStateCode" column="INV_RMT_TO_ST_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="remitToAddressPostalCode" column="INV_RMT_TO_PSTL_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="remitToAddressCountryCode" column="INV_RMT_TO_CNTRY_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="remitToAddressCountryName" column="INV_RMT_TO_CNTRY_NM" jdbc-type="VARCHAR"/>
+    
     <field-descriptor name="invoicePurchaseOrderNumber" column="INV_PO_NBR" jdbc-type="VARCHAR"/>
+
     <reference-descriptor name="invoiceHeaderInformation" class-ref="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="invoiceHeaderInformationIdentifier" />
     </reference-descriptor>
@@ -3145,7 +3145,6 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="invoiceRejectReasonTypeDescription" column="INV_RJT_REAS_TYP_DESC" jdbc-type="VARCHAR"/>
-    <!--<field-descriptor name="invoiceRejectReasonDescription" column="INV_RJT_REAS_DESC" jdbc-type="VARCHAR"/>-->
     <field-descriptor name="invoiceFailureIndicator" column="INV_FAIL_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="performMatchingIndicator" column="INV_RJT_REAS_PERF_MTCH_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>

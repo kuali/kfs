@@ -1058,6 +1058,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.purchasingCapitalAssetSystem = purchasingCapitalAssetSystem;
     }
 
+    public List<PurchasingCapitalAssetItem> getPurchasingCapitalAssetItems() {
+        return purchasingCapitalAssetItems;
+    }
+
+    public void setPurchasingCapitalAssetItems(List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems) {
+        this.purchasingCapitalAssetItems = purchasingCapitalAssetItems;
+    }
+
     public abstract Class getPurchasingCapitalAssetItemClass();
     
 }

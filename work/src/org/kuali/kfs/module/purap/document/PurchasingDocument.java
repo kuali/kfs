@@ -506,5 +506,9 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     
     public void setPurchasingCapitalAssetSystem(PurchasingCapitalAssetSystem purchasingCapitalAssetSystem);
 
+    public List<PurchasingCapitalAssetItem> getPurchasingCapitalAssetItems();
+
+    public void setPurchasingCapitalAssetItems(List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems);
+
     public abstract Class getPurchasingCapitalAssetItemClass();
 }

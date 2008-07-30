@@ -607,6 +607,7 @@ public class LockServiceImpl implements LockService {
      * @see org.kuali.kfs.module.bc.document.service.LockService#unlockTransaction(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.bo.user.UniversalUser)
      */
+    @Transactional
     public void unlockTransaction(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser) {
         String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
         String accountNumber = appointmentFunding.getAccountNumber();

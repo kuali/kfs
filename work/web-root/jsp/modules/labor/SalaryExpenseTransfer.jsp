@@ -62,11 +62,11 @@
 			<tr>
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
-					horizontal="true" width="35%"  forceRequired="true"/>
+					horizontal="true" width="35%"  labelFor="universityFiscalYear" forceRequired="true"/>
 
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
-					property="universityFiscalYear" readOnly="${readOnly}" /> 
+					property="universityFiscalYear" forceRequired="true" readOnly="${readOnly}" /> 
 					
 					<c:if test="${!readOnly}">
 						<kul:lookup	boClassName="org.kuali.kfs.sys.businessobject.Options"
@@ -80,10 +80,10 @@
                <kul:htmlAttributeHeaderCell
                    attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
                    horizontal="true"
-                   forceRequired="true"
+                   forceRequired="true" labelFor="emplid"
                    />
                <td>
-                     <kfs:employee userIdFieldName="emplid" 
+                     <kfs:employee userIdFieldName="emplid" forceRequired="true"
                                  userNameFieldName="user.personName" 
                                  fieldConversions="personPayrollIdentifier:emplid"
                                  lookupParameters="emplid:personPayrollIdentifier,universityFiscalYear:universityFiscalYear"

@@ -16,14 +16,12 @@
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="RequisitionCapitalAssetSystem-capitalAssetManufacturerIsVendorIndicator" />
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetManufacturerName" />
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetModelDescription" />
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator" />
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetNoteText" />     
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemDescription" />
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier" />      
-        <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemNumber" />
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetTypeCode" />
         <ref bean="RequisitionCapitalAssetSystem-requisitionIdentifier" />
         <ref bean="RequisitionCapitalAssetSystem-versionNumber" />
@@ -33,21 +31,6 @@
 
 <!-- Attribute Definitions -->
 
-
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetManufacturerIsVendorIndicator" parent="RequisitionCapitalAssetSystem-capitalAssetManufacturerIsVendorIndicator-parentBean" />
-
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetManufacturerIsVendorIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetManufacturerIsVendorIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Manufacturer Is Vendor Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
-    <property name="summary" value="capitalAssetManufacturerIsVendorIndicator" />
-    <property name="description" value="capitalAssetManufacturerIsVendorIndicator description..." />
-  </bean>
   <bean id="RequisitionCapitalAssetSystem-capitalAssetManufacturerName" parent="RequisitionCapitalAssetSystem-capitalAssetManufacturerName-parentBean" />
 
   <bean id="RequisitionCapitalAssetSystem-capitalAssetManufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
@@ -151,24 +134,6 @@
     <property name="summary" value="capitalAssetSystemIdentifier" />
     <property name="description" value="capitalAssetSystemIdentifier description..." />
   </bean>  
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemNumber" parent="RequisitionCapitalAssetSystem-capitalAssetSystemNumber-parentBean" />
-
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetSystemNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset System Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
-    <property name="summary" value="capitalAssetSystemNumber" />
-    <property name="description" value="capitalAssetSystemNumber description..." />
-  </bean>
   <bean id="RequisitionCapitalAssetSystem-capitalAssetTypeCode" parent="RequisitionCapitalAssetSystem-capitalAssetTypeCode-parentBean" />
 
   <bean id="RequisitionCapitalAssetSystem-capitalAssetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -225,8 +190,6 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetManufacturerIsVendorIndicator" />
-              <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetManufacturerName" />
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetModelDescription" />
@@ -234,8 +197,6 @@
                     p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetSystemDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetSystemNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetTypeCode" />
               <bean parent="FieldDefinition"
@@ -262,8 +223,6 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetManufacturerIsVendorIndicator" />
-        <bean parent="FieldDefinition"
               p:attributeName="capitalAssetManufacturerName" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetModelDescription" />
@@ -271,8 +230,6 @@
               p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetSystemDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetSystemNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetTypeCode" />
         <bean parent="FieldDefinition"
@@ -282,8 +239,6 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetManufacturerIsVendorIndicator" />
-        <bean parent="FieldDefinition"
               p:attributeName="capitalAssetManufacturerName" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetModelDescription" />
@@ -291,8 +246,6 @@
               p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetSystemDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetSystemNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetTypeCode" />
         <bean parent="FieldDefinition"

@@ -13,11 +13,9 @@ public class RequisitionCapitalAssetSystem extends PersistableBusinessObjectBase
 
     private Integer capitalAssetSystemIdentifier;
 	private Integer requisitionIdentifier;
-	private Integer capitalAssetSystemNumber;
 	private String capitalAssetSystemDescription;
 	private boolean capitalAssetNotReceivedCurrentFiscalYearIndicator;
 	private String capitalAssetTypeCode;
-	private boolean capitalAssetManufacturerIsVendorIndicator;
 	private String capitalAssetManufacturerName;
 	private String capitalAssetModelDescription;
 	private String capitalAssetNoteText;
@@ -38,14 +36,6 @@ public class RequisitionCapitalAssetSystem extends PersistableBusinessObjectBase
 
     public void setRequisitionIdentifier(Integer requisitionIdentifier) {
         this.requisitionIdentifier = requisitionIdentifier;
-    }
-
-    public Integer getCapitalAssetSystemNumber() {
-        return capitalAssetSystemNumber;
-    }
-
-    public void setCapitalAssetSystemNumber(Integer capitalAssetSystemNumber) {
-        this.capitalAssetSystemNumber = capitalAssetSystemNumber;
     }
 
     public String getCapitalAssetSystemDescription() {
@@ -70,14 +60,6 @@ public class RequisitionCapitalAssetSystem extends PersistableBusinessObjectBase
 
     public void setCapitalAssetTypeCode(String capitalAssetTypeCode) {
         this.capitalAssetTypeCode = capitalAssetTypeCode;
-    }
-
-    public boolean isCapitalAssetManufacturerIsVendorIndicator() {
-        return capitalAssetManufacturerIsVendorIndicator;
-    }
-
-    public void setCapitalAssetManufacturerIsVendorIndicator(boolean capitalAssetManufacturerIsVendorIndicator) {
-        this.capitalAssetManufacturerIsVendorIndicator = capitalAssetManufacturerIsVendorIndicator;
     }
 
     public String getCapitalAssetManufacturerName() {
@@ -136,8 +118,8 @@ public class RequisitionCapitalAssetSystem extends PersistableBusinessObjectBase
         if (this.requisitionIdentifier != null) {
             m.put("requisitionIdentifier", this.requisitionIdentifier.toString());
         }
-        if (this.capitalAssetSystemNumber != null) {
-            m.put("capitalAssetSystemNumber", this.capitalAssetSystemNumber.toString());
+        if (this.capitalAssetSystemIdentifier != null) {
+            m.put("capitalAssetSystemIdentifier", this.capitalAssetSystemIdentifier.toString());
         }
 	    return m;
     }

@@ -22,6 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 public class PurchasingItemCapitalAsset extends PersistableBusinessObjectBase {
 
     private Long capitalAssetNumber;
+    private Integer capitalAssetSystemIdentifier;
     
     /**
      * Default constructor
@@ -54,5 +55,13 @@ public class PurchasingItemCapitalAsset extends PersistableBusinessObjectBase {
             m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
         }
         return m;
+    }
+
+    public Integer getCapitalAssetSystemIdentifier() {
+        return capitalAssetSystemIdentifier;
+    }
+
+    public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier) {
+        this.capitalAssetSystemIdentifier = capitalAssetSystemIdentifier;
     }
 }

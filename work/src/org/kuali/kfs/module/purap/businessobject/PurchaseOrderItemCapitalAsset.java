@@ -25,9 +25,6 @@ public class PurchaseOrderItemCapitalAsset extends PurchasingItemCapitalAsset {
 
     private String documentNumber;
     private Integer purchaseOrderItemCapitalAssetIdentifier;
-    private Integer capitalAssetSystemIdentifier;
-    
-
     /**
      * Default constructor.
      */
@@ -56,14 +53,6 @@ public class PurchaseOrderItemCapitalAsset extends PurchasingItemCapitalAsset {
 
     public void setPurchaseOrderItemCapitalAssetIdentifier(Integer purchaseOrderItemCapitalAssetIdentifier) {
         this.purchaseOrderItemCapitalAssetIdentifier = purchaseOrderItemCapitalAssetIdentifier;
-    }
-
-    public Integer getCapitalAssetSystemIdentifier() {
-        return capitalAssetSystemIdentifier;
-    }
-
-    public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier) {
-        this.capitalAssetSystemIdentifier = capitalAssetSystemIdentifier;
     }
 
     /**

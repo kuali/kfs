@@ -1,6 +1,7 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
@@ -19,8 +20,8 @@ public class PurchaseOrderCapitalAssetSystem extends PersistableBusinessObjectBa
 	private String capitalAssetModelDescription;
     private String capitalAssetNoteText;
     
-	private PurchaseOrderItemCapitalAsset purchaseOrderItemCapitalAsset;
-	private PurchaseOrderCapitalAssetLocation purchaseOrderCapitalAssetLocation;
+	private List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets;
+	private List<PurchaseOrderCapitalAssetLocation> purchaseOrderCapitalAssetLocations;
 	
 	/**
 	 * Default constructor.
@@ -77,20 +78,20 @@ public class PurchaseOrderCapitalAssetSystem extends PersistableBusinessObjectBa
         this.capitalAssetModelDescription = capitalAssetModelDescription;
     }
 
-    public PurchaseOrderItemCapitalAsset getPurchaseOrderItemCapitalAsset() {
-        return purchaseOrderItemCapitalAsset;
+    public List<PurchaseOrderItemCapitalAsset> getPurchaseOrderItemCapitalAssets() {
+        return purchaseOrderItemCapitalAssets;
     }
 
-    public void setPurchaseOrderItemCapitalAsset(PurchaseOrderItemCapitalAsset purchaseOrderItemCapitalAsset) {
-        this.purchaseOrderItemCapitalAsset = purchaseOrderItemCapitalAsset;
+    public void setPurchaseOrderItemCapitalAssets(List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets) {
+        this.purchaseOrderItemCapitalAssets = purchaseOrderItemCapitalAssets;
     }
 
-    public PurchaseOrderCapitalAssetLocation getPurchaseOrderCapitalAssetLocation() {
-        return purchaseOrderCapitalAssetLocation;
+    public List<PurchaseOrderCapitalAssetLocation> getPurchaseOrderCapitalAssetLocations() {
+        return purchaseOrderCapitalAssetLocations;
     }
 
-    public void setPurchaseOrderCapitalAssetLocation(PurchaseOrderCapitalAssetLocation purchaseOrderCapitalAssetLocation) {
-        this.purchaseOrderCapitalAssetLocation = purchaseOrderCapitalAssetLocation;
+    public void setPurchaseOrderCapitalAssetLocations(List<PurchaseOrderCapitalAssetLocation> purchaseOrderCapitalAssetLocations) {
+        this.purchaseOrderCapitalAssetLocations = purchaseOrderCapitalAssetLocations;
     }
 
     public Integer getCapitalAssetSystemIdentifier() {

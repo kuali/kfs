@@ -298,7 +298,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
             setPurchasingItemCapitalAssets(new ArrayList());
         }
         if (ObjectUtils.isNotNull(this.getAddCapitalAssetNumber())) {
-            PurchaseOrderItemCapitalAsset asset = new PurchaseOrderItemCapitalAsset(new Long(this.getAddCapitalAssetNumber()));
+            PurchasingItemCapitalAsset asset = new PurchaseOrderItemCapitalAsset(new Long(this.getAddCapitalAssetNumber()));
             getPurchasingItemCapitalAssets().add(asset);
         }
     }

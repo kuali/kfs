@@ -22,7 +22,7 @@ public class ElectronicInvoiceLoadSummary implements Serializable, PersistenceBr
   private static final long serialVersionUID = -4414370076163428415L;
 
   // NOT NULL FIELDS
-  private Integer id;
+  private Integer invoiceLoadSummaryIdentifier;
   private String vendorDunsNumber; // this is string constant if DUNS not found
   private Integer epicVendorHeaderId;
   private Integer epicVendorDetailId;
@@ -50,7 +50,7 @@ public class ElectronicInvoiceLoadSummary implements Serializable, PersistenceBr
   
   public ElectronicInvoiceLoadSummary(Integer id, String vendorDunsNumber) {
     super();
-    this.id = id;
+    this.invoiceLoadSummaryIdentifier = id;
     this.vendorDunsNumber = vendorDunsNumber;
   }
   
@@ -173,17 +173,17 @@ public class ElectronicInvoiceLoadSummary implements Serializable, PersistenceBr
   }
 
   /**
-   * @return the id
+   * @return the invoiceLoadSummaryIdentifier
    */
-  public Integer getId() {
-    return id;
+  public Integer getInvoiceLoadSummaryIdentifier() {
+    return invoiceLoadSummaryIdentifier;
   }
 
   /**
-   * @param id the id to set
+   * @param invoiceLoadSummaryIdentifier the invoiceLoadSummaryIdentifier to set
    */
-  public void setId(Integer id) {
-    this.id = id;
+  public void setInvoiceLoadSummaryIdentifier(Integer id) {
+    this.invoiceLoadSummaryIdentifier = id;
   }
 
   /**

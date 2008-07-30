@@ -156,7 +156,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
       String dunsNumber = (String)iter.next();
       ElectronicInvoiceLoadSummary eils = (ElectronicInvoiceLoadSummary)eil.getInvoiceLoadSummaries().get(dunsNumber);
       if (currentLoadSummaryId != null) {
-        eils.setId(currentLoadSummaryId);
+        eils.setInvoiceLoadSummaryIdentifier(currentLoadSummaryId);
       }
       if ( (!(UNKNOWN_DUNS_IDENTIFIER.equals(dunsNumber))) || 
            ( (UNKNOWN_DUNS_IDENTIFIER.equals(dunsNumber)) && !(eils.getIsEmpty().booleanValue()) ) ) {
@@ -166,7 +166,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         summaryMessage.append("     " + eils.getSuccessCount() + " successfully processed invoices for a total of $ " + eils.getSuccessAmount().doubleValue() + "\n");
         summaryMessage.append("     " + eils.getFailCount() + " rejected invoices for an approximate total of $ " + eils.getFailAmount().doubleValue() + "\n");
         summaryMessage.append("\n\n");
-        currentLoadSummaryId = currentLoadSummary.getId();
+        currentLoadSummaryId = currentLoadSummary.getInvoiceLoadSummaryIdentifier();
         savedLoadSummariesMap.put(currentLoadSummary.getVendorDunsNumber(), eils);
       } else {
         LOG.info("runLoadSave() Not saving Load Summary for DUNS '" + dunsNumber + 
@@ -436,6 +436,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
     }
     
     // peform reject scenario
+    //FIXME this should be ElectronicInvoiceRejectDocument
     ElectronicInvoiceReject eir = new ElectronicInvoiceReject(ei,eio);
     message.append("An Invoice from file '" + ei.getFileName() + "' has been rejected due to the following errors:\n");
     for (Iterator iter = eir.getElectronicInvoiceRejectReasons().iterator(); iter.hasNext();) {
@@ -450,7 +451,8 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
     
     // updated load object
     eil.insertInvoiceLoadSummary(eils);
-    eil.addInvoiceReject(eir);
+    //FIXME this should be better once eir is changed to be the documetn class
+//    eil.addInvoiceReject(eir);
     LOG.debug("rejectSingleElectronicInvoiceOrderDetail() ending");
   }
   
@@ -477,7 +479,8 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
       }
       message.append("\n");
       eils.addFailedInvoiceOrder(eir.getTotalAmount(),ei);
-      eil.addInvoiceReject(eir);
+      //FIXME this will be fixed one eir is changed to be the document class
+//      eil.addInvoiceReject(eir);
     }
     emailTextErrorList.append(message);
 //    this.writeToEmailFileEnd(message.toString(), emailFilename);

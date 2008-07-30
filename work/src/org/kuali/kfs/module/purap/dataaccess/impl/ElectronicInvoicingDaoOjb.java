@@ -101,7 +101,7 @@ public class ElectronicInvoicingDaoOjb extends PersistenceBrokerDaoSupport imple
 
     for (Iterator iter = itemMappings.iterator(); iter.hasNext();) {
       ElectronicInvoiceItemMapping  mapping = (ElectronicInvoiceItemMapping) iter.next();
-      hm.put(mapping.getElectronicInvoiceItemTypeCode(), mapping);
+      hm.put(mapping.getInvoiceItemTypeCode(), mapping);
     }
     return hm;
   }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,16 +23,18 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * Electronic Invoice Reject Reason Type Code Business Object.
  */
-public class ElectronicInvoiceRejectType extends PersistableBusinessObjectBase {
+public class ElectronicInvoiceRejectReasonType extends PersistableBusinessObjectBase {
 
     private String invoiceRejectReasonTypeCode;
     private String invoiceRejectReasonTypeDescription;
+    private boolean invoiceFailureIndicator;
+    private boolean performMatchingIndicator;
     private boolean active;
 
     /**
      * Default constructor.
      */
-    public ElectronicInvoiceRejectType() {
+    public ElectronicInvoiceRejectReasonType() {
 
     }
 
@@ -60,6 +62,22 @@ public class ElectronicInvoiceRejectType extends PersistableBusinessObjectBase {
         this.invoiceRejectReasonTypeDescription = invoiceRejectReasonTypeDescription;
     }
 
+    public boolean isInvoiceFailureIndicator() {
+        return invoiceFailureIndicator;
+    }
+
+    public void setInvoiceFailureIndicator(boolean invoiceFailureIndicator) {
+        this.invoiceFailureIndicator = invoiceFailureIndicator;
+    }
+
+    public boolean isPerformMatchingIndicator() {
+        return performMatchingIndicator;
+    }
+
+    public void setPerformMatchingIndicator(boolean performMatchingIndicator) {
+        this.performMatchingIndicator = performMatchingIndicator;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

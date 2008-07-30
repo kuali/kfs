@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+
 /**
  * @author delyea
  *
@@ -22,7 +24,7 @@ public class ElectronicInvoiceLoad {
   private List electronicInvoiceRejects;
   
   /**
-   * 
+   *
    */
   public ElectronicInvoiceLoad() {
     super();
@@ -46,7 +48,7 @@ public class ElectronicInvoiceLoad {
     this.rejectFilesToMove.put(file,directory);
   }
   
-  public void addInvoiceReject(ElectronicInvoiceReject eir) {
+  public void addInvoiceReject(ElectronicInvoiceRejectDocument eir) {
     this.electronicInvoiceRejects.add(eir);
   }
   
@@ -94,7 +96,7 @@ University, Michigan State University Board of Trustees, Trustees of San
 Joaquin Delta College, University of Hawai'i, The Arizona Board of
 Regents on behalf of the University of Arizona, and the r*smart group.
 
-Licensed under the Educational Community License Version 1.0 (the 
+Licensed under the Educational Community License Version 1.0 (the
 "License"); By obtaining, using and/or copying this Original Work, you
 agree that you have read, understand, and will comply with the terms and
 conditions of the Educational Community License.
@@ -110,5 +112,5 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE. 
+DEALINGS IN THE SOFTWARE.
 */

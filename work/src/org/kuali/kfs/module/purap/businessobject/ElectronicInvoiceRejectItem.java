@@ -12,6 +12,7 @@ import java.util.Date;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 
 /**
  * @author delyea
@@ -22,7 +23,10 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
   private static BigDecimal zero = new BigDecimal(0);
 
   // NOT NULL FIELDS
-  private Integer id;
+  private Integer invoiceRejectItemIdentifier;
+  private Integer invoiceHeaderInformationIdentifier;
+  
+  
   private Integer rejectHeaderId;
   private Integer itemLineNumber;
   private BigDecimal invoiceItemQuantity;
@@ -71,7 +75,12 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
     super();
   }
   
-  /**
+  public ElectronicInvoiceRejectItem(ElectronicInvoiceRejectDocument electronicInvoiceReject, ElectronicInvoiceItem eii) {
+      //FIXME the other constructor should be using this document class
+      super();
+  }
+
+   /**
    * 
    */
   public ElectronicInvoiceRejectItem(ElectronicInvoiceReject electronicInvoiceReject, ElectronicInvoiceItem eii) {
@@ -148,16 +157,16 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
     this.electronicInvoiceReject = electronicInvoiceReject;
   }
   /**
-   * @return Returns the id.
+   * @return Returns the invoiceRejectItemIdentifier.
    */
-  public Integer getId() {
-    return id;
+  public Integer getInvoiceRejectItemIdentifier() {
+    return invoiceRejectItemIdentifier;
   }
   /**
-   * @param id The id to set.
+   * @param invoiceRejectItemIdentifier The invoiceRejectItemIdentifier to set.
    */
-  public void setId(Integer id) {
-    this.id = id;
+  public void setInvoiceRejectItemIdentifier(Integer id) {
+    this.invoiceRejectItemIdentifier = id;
   }
   /**
    * @return Returns the invoiceCatalogNumber.
@@ -593,6 +602,14 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
 
   public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
   }
+
+public Integer getInvoiceHeaderInformationIdentifier() {
+    return invoiceHeaderInformationIdentifier;
+}
+
+public void setInvoiceHeaderInformationIdentifier(Integer invoiceHeaderInformationIdentifier) {
+    this.invoiceHeaderInformationIdentifier = invoiceHeaderInformationIdentifier;
+}
 }
 /*
 Copyright (c) 2004, 2005 The National Association of College and

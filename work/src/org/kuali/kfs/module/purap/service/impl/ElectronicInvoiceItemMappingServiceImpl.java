@@ -45,8 +45,8 @@ public class ElectronicInvoiceItemMappingServiceImpl implements ElectronicInvoic
     SERVICELOG.debug("save() started");
     //Before saving, if the id is empty, we are supposed to check whether the item mapping has existed in the database. 
     //If so, we should display an error to the user, if not, then continue with the saving.
-    ElectronicInvoiceItemMapping existing = electronicInvoiceItemMappingDao.getByUniqueKeys(ei.getVendorHeaderGeneratedId(), ei.getVendorDetailAssignedId(), ei.getElectronicInvoiceItemTypeCode());
-    if ((existing != null && ei.getId() == null) ||	(ei.getId() != null && !existing.getId().equals(ei.getId()))) {
+    ElectronicInvoiceItemMapping existing = electronicInvoiceItemMappingDao.getByUniqueKeys(ei.getVendorHeaderGeneratedIdentifier(), ei.getVendorDetailAssignedIdentifier(), ei.getInvoiceItemTypeCode());
+    if ((existing != null && ei.getElectronicInvoiceMapIdentifier() == null) ||	(ei.getElectronicInvoiceMapIdentifier() != null && !existing.getElectronicInvoiceMapIdentifier().equals(ei.getElectronicInvoiceMapIdentifier()))) {
         /* FIXME need to record the errors as reject reasons and put those in route log somehow
           se.setTab("error");
           se.setMessageKey("errors.einvoice.item.mapping.duplicate.rows");
@@ -63,7 +63,7 @@ public class ElectronicInvoiceItemMappingServiceImpl implements ElectronicInvoic
     ElectronicInvoiceItemMapping ei = getById(id);
     //If both the vendor ids are null, then we set service error with appropriate tab 
     //and message key, otherwise, do the delete.
-    if (ei.getVendorDetailAssignedId() == null && ei.getVendorHeaderGeneratedId() == null) {
+    if (ei.getVendorDetailAssignedIdentifier() == null && ei.getVendorHeaderGeneratedIdentifier() == null) {
         /* FIXME need to record the errors as reject reasons and put those in route log somehow
           se.setTab("error");
           se.setMessageKey("errors.einvoice.item.mapping.null.vendor.id.deletion");

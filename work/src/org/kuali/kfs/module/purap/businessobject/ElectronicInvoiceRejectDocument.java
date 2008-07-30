@@ -21,8 +21,8 @@ import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
  * @author delyea
  *
  */
-public class ElectronicInvoiceReject implements Serializable, PersistenceBrokerAware {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceReject.class);
+public class ElectronicInvoiceRejectDocument implements Serializable, PersistenceBrokerAware {
+  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceRejectDocument.class);
   private static BigDecimal zero = new BigDecimal(0);
   
   // NOT NULL FIELDS
@@ -121,11 +121,11 @@ public class ElectronicInvoiceReject implements Serializable, PersistenceBrokerA
   /**
    * 
    */
-  public ElectronicInvoiceReject() {
+  public ElectronicInvoiceRejectDocument() {
     super();
   }
   
-  public ElectronicInvoiceReject(ElectronicInvoice ei, ElectronicInvoiceOrder eio) {
+  public ElectronicInvoiceRejectDocument(ElectronicInvoice ei, ElectronicInvoiceOrder eio) {
     super();
     this.setFileLevelData(ei);
     this.setInvoiceOrderLevelData(ei, eio);
@@ -153,7 +153,7 @@ public class ElectronicInvoiceReject implements Serializable, PersistenceBrokerA
 
     for (Iterator fileReasonIter = ei.getFileRejectReasons().iterator(); fileReasonIter.hasNext();) {
       ElectronicInvoiceRejectReason eirr = (ElectronicInvoiceRejectReason) fileReasonIter.next();
-      eirr.setElectronicInvoiceReject(this);
+//      eirr.setElectronicInvoiceReject(this);
       this.electronicInvoiceRejectReasons.add(eirr);
     }
   }
@@ -278,17 +278,17 @@ public class ElectronicInvoiceReject implements Serializable, PersistenceBrokerA
       this.invoiceNetAmountCurrency = "INVALID AMOUNT";
     }
     
-    for (Iterator rejectItemIter = eio.getInvoiceItems().iterator(); rejectItemIter.hasNext();) {
-      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) rejectItemIter.next();
-      ElectronicInvoiceRejectItem eiri = new ElectronicInvoiceRejectItem(this,eii);
-      this.electronicInvoiceRejectItems.add(eiri);
-    }
-    
-    for (Iterator invoiceReasonIter = eio.getOrderRejectReasons().iterator(); invoiceReasonIter.hasNext();) {
-      ElectronicInvoiceRejectReason eirr = (ElectronicInvoiceRejectReason) invoiceReasonIter.next();
-      eirr.setElectronicInvoiceReject(this);
-      this.electronicInvoiceRejectReasons.add(eirr);
-    }
+//    for (Iterator rejectItemIter = eio.getInvoiceItems().iterator(); rejectItemIter.hasNext();) {
+//      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) rejectItemIter.next();
+//      ElectronicInvoiceRejectItem eiri = new ElectronicInvoiceRejectItem(this,eii);
+//      this.electronicInvoiceRejectItems.add(eiri);
+//    }
+//    
+//    for (Iterator invoiceReasonIter = eio.getOrderRejectReasons().iterator(); invoiceReasonIter.hasNext();) {
+//      ElectronicInvoiceRejectReason eirr = (ElectronicInvoiceRejectReason) invoiceReasonIter.next();
+//      eirr.setElectronicInvoiceReject(this);
+//      this.electronicInvoiceRejectReasons.add(eirr);
+//    }
   }
   
   private ElectronicInvoicePostalAddress getCxmlPostalAddressByAddressName(ElectronicInvoiceContact contact, String addressName) {

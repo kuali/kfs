@@ -21,15 +21,17 @@ import edu.iu.uis.eden.user.UserService;
  */
 public class ElectronicInvoiceItemMapping implements Serializable, PersistenceBrokerAware {
   
-  private Integer id;
-  private Integer vendorHeaderGeneratedId;
-  private Integer vendorDetailAssignedId;
+  private Integer electronicInvoiceMapIdentifier;
+  private Integer vendorHeaderGeneratedIdentifier;
+  private Integer vendorDetailAssignedIdentifier;
+  
   private String poItemTypeCode;
-  private String electronicInvoiceItemTypeCode;
+  private String invoiceItemTypeCode;
   private Timestamp lastUpdateTimestamp;
   private Integer version;
   
   private ItemType itemType;
+  private ItemType invoiceItemType;
   /**
    * 
    */
@@ -38,16 +40,16 @@ public class ElectronicInvoiceItemMapping implements Serializable, PersistenceBr
   }
   
   /**
-   * @return Returns the electronicInvoiceItemTypeCode.
+   * @return Returns the invoiceItemTypeCode.
    */
-  public String getElectronicInvoiceItemTypeCode() {
-    return electronicInvoiceItemTypeCode;
+  public String getInvoiceItemTypeCode() {
+    return invoiceItemTypeCode;
   }
   /**
-   * @param electronicInvoiceItemTypeCode The electronicInvoiceItemTypeCode to set.
+   * @param invoiceItemTypeCode The invoiceItemTypeCode to set.
    */
-  public void setElectronicInvoiceItemTypeCode(String electronicInvoiceItemTypeCode) {
-    this.electronicInvoiceItemTypeCode = electronicInvoiceItemTypeCode;
+  public void setInvoiceItemTypeCode(String electronicInvoiceItemTypeCode) {
+    this.invoiceItemTypeCode = electronicInvoiceItemTypeCode;
   }
   /**
    * @return Returns the poItemTypeCode.
@@ -62,16 +64,16 @@ public class ElectronicInvoiceItemMapping implements Serializable, PersistenceBr
     this.poItemTypeCode = epicItemTypeCode;
   }
   /**
-   * @return Returns the id.
+   * @return Returns the electronicInvoiceMapIdentifier.
    */
-  public Integer getId() {
-    return id;
+  public Integer getElectronicInvoiceMapIdentifier() {
+    return electronicInvoiceMapIdentifier;
   }
   /**
-   * @param id The id to set.
+   * @param electronicInvoiceMapIdentifier The electronicInvoiceMapIdentifier to set.
    */
-  public void setId(Integer id) {
-    this.id = id;
+  public void setElectronicInvoiceMapIdentifier(Integer id) {
+    this.electronicInvoiceMapIdentifier = id;
   }
   /**
    * @return Returns the itemType.
@@ -99,28 +101,28 @@ public class ElectronicInvoiceItemMapping implements Serializable, PersistenceBr
     this.lastUpdateTimestamp = lastUpdateTimestamp;
   }
   /**
-   * @return Returns the vendorDetailAssignedId.
+   * @return Returns the vendorDetailAssignedIdentifier.
    */
-  public Integer getVendorDetailAssignedId() {
-    return vendorDetailAssignedId;
+  public Integer getVendorDetailAssignedIdentifier() {
+    return vendorDetailAssignedIdentifier;
   }
   /**
-   * @param vendorDetailAssignedId The vendorDetailAssignedId to set.
+   * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
    */
-  public void setVendorDetailAssignedId(Integer vendorDetailAssignedId) {
-    this.vendorDetailAssignedId = vendorDetailAssignedId;
+  public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedId) {
+    this.vendorDetailAssignedIdentifier = vendorDetailAssignedId;
   }
   /**
-   * @return Returns the vendorHeaderGeneratedId.
+   * @return Returns the vendorHeaderGeneratedIdentifier.
    */
-  public Integer getVendorHeaderGeneratedId() {
-    return vendorHeaderGeneratedId;
+  public Integer getVendorHeaderGeneratedIdentifier() {
+    return vendorHeaderGeneratedIdentifier;
   }
   /**
-   * @param vendorHeaderGeneratedId The vendorHeaderGeneratedId to set.
+   * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
    */
-  public void setVendorHeaderGeneratedId(Integer vendorHeaderGeneratedId) {
-    this.vendorHeaderGeneratedId = vendorHeaderGeneratedId;
+  public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedId) {
+    this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedId;
   }
   /**
    * @return Returns the version.
@@ -161,6 +163,7 @@ public class ElectronicInvoiceItemMapping implements Serializable, PersistenceBr
 
   public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
   }
+
 }
 /*
 Copyright (c) 2004, 2005 The National Association of College and

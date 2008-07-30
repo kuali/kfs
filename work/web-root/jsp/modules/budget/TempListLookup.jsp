@@ -56,11 +56,17 @@
 	<html-el:hidden name="KualiForm" property="reportConsolidation" />
 	<html-el:hidden name="KualiForm" property="tempListLookupMode" />
 	<html-el:hidden name="KualiForm" property="forceToAccountListScreen" />
+
+<%--
+FIXME: gwp - not sure why these are here but they conflict with
+       actual search criteria fields in account select modes
+       probably should put them down in mode 6, but only the ones not displayed??
 	<html-el:hidden name="KualiForm" property="chartOfAccountsCode" />
 	<html-el:hidden name="KualiForm" property="accountNumber" />
 	<html-el:hidden name="KualiForm" property="subAccountNumber" />
 	<html-el:hidden name="KualiForm" property="objectCode" />
 	<html-el:hidden name="KualiForm" property="subObjectCode" />
+--%>
 	<html-el:hidden name="KualiForm" property="showSalaryByPositionAction" />
 	<html-el:hidden name="KualiForm" property="addLine" />
 	<html-el:hidden name="KualiForm" property="showSalaryByIncumbentAction" />
@@ -197,12 +203,20 @@
 				
 			</table>
 			</div>
-			<c:if test="${KualiForm.tempListLookupMode == 6}" >
+			<c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.CSF_TRACKER_POSITION_LOOKUP}" >
 				<br>
 				<table bgcolor="#C0C0C0" cellpadding="30" >
 					
 					<tr>
 						<td> 
+<!--
+FIXME: These property names don't match the table property names
+financialObjectCode and financialSubObjectCode??
+-->
+                            <!-- hiddens for search criteria merging -->
+                            <html-el:hidden name="KualiForm" property="objectCode" />
+                            <html-el:hidden name="KualiForm" property="subObjectCode" />
+                            
 							<b><kul:htmlAttributeLabel attributeEntry="${csfTrackerAttributes.universityFiscalYear}" /></b>
 								<kul:htmlControlAttribute property="universityFiscalYear" readOnly="true" attributeEntry="${csfTrackerAttributes.universityFiscalYear}"/>
 						</td> 

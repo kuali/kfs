@@ -41,7 +41,12 @@
 		</property>
 		<property name="jobNames">
 			<list>
-				<!-- value>preAssetTaggingJob</value-->				
+				<value>cabExtractJob</value>						
+			</list>
+		</property>
+		<property name="triggerNames">
+			<list>
+				<value>cabExtractJobTrigger</value>
 			</list>
 		</property>		
 	</bean>
@@ -97,4 +102,28 @@
 		</property>
 	</bean>
 <!-- *********  End of pre-asset tagging batch beans ********** -->	
+	<bean id="cabExtractDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.CabExtractDaoOjb" />
+	<bean id="cabBatchExtractService" class="org.kuali.kfs.module.cab.batch.service.impl.CabBatchExtractServiceImpl">
+		<property name="cabExtractDao" ref="cabExtractDao" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	 <bean id="cabExtractStep" class="org.kuali.kfs.module.cab.batch.CabExtractStep" parent="step">
+	 	<property name="cabBatchExtractService" ref="cabBatchExtractService" />
+	 	<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+	<bean id="cabExtractJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="cabExtractStep"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cabExtractJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="cabExtractJob" />
+		<!--  it will run every day at 7 AM -->
+		<property name="cronExpression" value="0 0 7 * * * *" />
+	</bean>	
 </beans>

@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.collections.list.TypedList;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
@@ -31,6 +30,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
@@ -73,6 +73,34 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     public GeneralLedgerEntry() {
         this.generalLedgerEntryAssets = new TypedArrayList(GeneralLedgerEntryAsset.class);
+    }
+
+    public GeneralLedgerEntry(Entry entry) {
+        this.generalLedgerEntryAssets = new TypedArrayList(GeneralLedgerEntryAsset.class);
+        this.setUniversityFiscalYear(entry.getUniversityFiscalYear());
+        this.setChartOfAccountsCode(entry.getChartOfAccountsCode());
+        this.setAccountNumber(entry.getAccountNumber());
+        this.setSubAccountNumber(entry.getSubAccountNumber());
+        this.setFinancialObjectCode(entry.getFinancialObjectCode());
+        this.setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
+        this.setFinancialBalanceTypeCode(entry.getFinancialBalanceTypeCode());
+        this.setFinancialObjectTypeCode(entry.getFinancialObjectTypeCode());
+        this.setUniversityFiscalPeriodCode(entry.getUniversityFiscalPeriodCode());
+        this.setFinancialDocumentTypeCode(entry.getFinancialDocumentTypeCode());
+        this.setFinancialSystemOriginationCode(entry.getFinancialSystemOriginationCode());
+        this.setDocumentNumber(entry.getDocumentNumber());
+        this.setTransactionLedgerEntrySequenceNumber(entry.getTransactionLedgerEntrySequenceNumber());
+        this.setTransactionLedgerEntryDescription(entry.getTransactionLedgerEntryDescription());
+        this.setTransactionLedgerEntryAmount(entry.getTransactionLedgerEntryAmount());
+        this.setOrganizationReferenceId(entry.getOrganizationReferenceId());
+        this.setReferenceFinancialSystemOriginationCode(entry.getReferenceFinancialSystemOriginationCode());
+        this.setReferenceFinancialDocumentNumber(entry.getReferenceFinancialDocumentNumber());
+        this.setTransactionDebitCreditCode(entry.getTransactionDebitCreditCode());
+        this.setOrganizationDocumentNumber(entry.getOrganizationDocumentNumber());
+        this.setProjectCode(entry.getProjectCode());
+        this.setTransactionPostingDate(entry.getTransactionPostingDate());
+        this.setTransactionDateTimeStamp(entry.getTransactionDateTimeStamp());
+        this.setActive(true);
     }
 
     @Override

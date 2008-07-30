@@ -96,6 +96,8 @@
 			type="org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceDocumentForm" />
 		<form-bean name="CustomerInvoiceWriteoffDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceWriteoffDocumentForm" />
+        		<form-bean name="CustomerAgingReportForm" 
+        			type="org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm" />			
 
 		<!-- Labor Distribution Bean Definitions -->
 		<form-bean name="LaborSalaryExpenseTransferForm"

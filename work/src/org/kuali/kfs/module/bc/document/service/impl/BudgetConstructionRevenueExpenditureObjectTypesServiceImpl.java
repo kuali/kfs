@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
@@ -38,20 +39,21 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
     
     private Logger LOG = Logger.getLogger(BudgetConstructionRevenueExpenditureObjectTypesService.class);
     
-    private static ArrayList<String> expenditureObjectTypes;
-    private static ArrayList<String> revenueObjectTypes;
-    private static ArrayList<String> expenditureReportObjectTypes;
-    private static ArrayList<String> revenueReportObjectTypes;
+    private static List<String> expenditureObjectTypes;
+    private static List<String> revenueObjectTypes;
+    private static List<String> expenditureReportObjectTypes;
+    private static List<String> revenueReportObjectTypes;
     
     private static String expenditureObjectTypesINList;
     private static String revenueObjectTypesINList;
     
+    // TODO: please avoid constructor injection
     public BudgetConstructionRevenueExpenditureObjectTypesServiceImpl(ParameterService parameterService)
     {
         // use the parameter service to access the DB and build the ObjectType variables
         this.parameterService = parameterService;
-        expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
-        revenueObjectTypes     = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
+        expenditureObjectTypes = parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES);
+        revenueObjectTypes     = parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES);
 
         // reporting object types add liabilities to expenditure, and assets to revenue
         expenditureReportObjectTypes = new ArrayList<String>(expenditureObjectTypes);
@@ -66,7 +68,7 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
      * 
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionExpenditureObjectTypes()
      */
-    public ArrayList<String> getBudgetConstructionExpenditureObjectTypes() {
+    public List<String> getBudgetConstructionExpenditureObjectTypes() {
         return expenditureObjectTypes;
     }
 
@@ -82,7 +84,7 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
      * 
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionRevenueObjectTypes()
      */
-    public ArrayList<String> getBudgetConstructionRevenueObjectTypes() {
+    public List<String> getBudgetConstructionRevenueObjectTypes() {
         return revenueObjectTypes;
     }
 
@@ -98,12 +100,12 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
      * 
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionExpenditureReportObjectTypes()
      */
-    public ArrayList<String> getBudgetConstructionExpenditureReportObjectTypes() {
+    public List<String> getBudgetConstructionExpenditureReportObjectTypes() {
         return expenditureReportObjectTypes;
     }
 
 
-    private String inString (ArrayList<String> inListValues)
+    private String inString (List<String> inListValues)
     {
         // the delimiter for strings in the DB is assumed to be a single quote.
         // this is the ANSI-92 standard.
@@ -128,7 +130,7 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
     // temporary test method to verify everything works 
     public void testMethod()
     {
-        ArrayList<String> testArray = new ArrayList<String>();
+        List<String> testArray = new ArrayList<String>();
         LOG.warn(String.format("\n\nreturned for a null list     : %s",inString(testArray)));
         LOG.warn(String.format("\nexpenditureObjectTypes       : %s",this.getBudgetConstructionExpenditureObjectTypesINList()));
         LOG.warn(String.format("\nrevenueObjectTypes           : %s",this.getBudgetConstructionRevenueObjectTypesINList()));

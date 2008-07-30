@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -31,7 +31,7 @@ public interface BudgetConstructionRevenueExpenditureObjectTypesService {
      * fetch the object types for expenditure which can be used in monthly budgets
      * @return an ArrayList of these
      */
-    public ArrayList<String> getBudgetConstructionExpenditureObjectTypes();
+    public List<String> getBudgetConstructionExpenditureObjectTypes();
     
     /**
      * 
@@ -45,7 +45,7 @@ public interface BudgetConstructionRevenueExpenditureObjectTypesService {
      * fetch the object types for revenue which can be used in monthly budgets
      * @return an ArrayList of these
      */
-    public ArrayList<String> getBudgetConstructionRevenueObjectTypes();
+    public List<String> getBudgetConstructionRevenueObjectTypes();
     
     /**
      * 

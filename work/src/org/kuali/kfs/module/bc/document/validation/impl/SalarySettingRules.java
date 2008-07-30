@@ -35,7 +35,6 @@ public class SalarySettingRules implements DetailSalarySettingSaveRule {
         boolean isValid = true;
         
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundingRecords) {
-            //requested amount required
             if (!SalarySettingRuleUtil.appointmentRequestedAmountIsNotEmpty(appointmentFunding)) {
                 GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_REQUIRED, new String[]{null});
                 isValid = false;

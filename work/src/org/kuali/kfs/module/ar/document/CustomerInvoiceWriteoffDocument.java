@@ -29,7 +29,6 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffCustomerInvoiceDetail;
@@ -39,12 +38,13 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 
-public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource{
+public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling {
 
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -189,7 +189,17 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         this.customerInvoiceDocument = customerInvoiceDocument;
     }
 
+    /**
+     * This method returns the total amount to be written off
+     * @return
+     */
     public KualiDecimal getInvoiceWriteoffAmount() {
+        if (ObjectUtils.isNull(invoiceWriteoffAmount) && ObjectUtils.isNotNull(customerInvoiceDocument)) {
+            invoiceWriteoffAmount = new KualiDecimal(0);
+            for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts()) {
+                invoiceWriteoffAmount = invoiceWriteoffAmount.add(customerInvoiceDetail.getBalance());
+            }
+        }
         return invoiceWriteoffAmount;
     }
 
@@ -348,7 +358,11 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // TODO Auto-generated method stub
         return false;
-    }    
+    }   
+    
+    public KualiDecimal getTotalDollarAmount() {
+        return getInvoiceWriteoffAmount();
+    }       
     
     //METHODS NEEDED TO GET ACCOUNTING LINES TO SHOW UP CORRECTLY
     
@@ -369,5 +383,5 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      */
     public String getSourceAccountingLinesSectionTitle() {
         return KFSConstants.SOURCE;
-    }    
+    }
 }

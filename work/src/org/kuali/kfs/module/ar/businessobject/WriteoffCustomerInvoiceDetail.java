@@ -22,12 +22,14 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -38,12 +40,15 @@ public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
     private CustomerInvoiceDetail postable;
     private CustomerInvoiceWriteoffDocument poster;
     private boolean isUsingOrgAcctDefaultWriteoffFAU;
+    private boolean isUsingChartForWriteoff;
     
     public WriteoffCustomerInvoiceDetail(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster){
         this.postable = postable;
         
         String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
-        isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals( writeoffGenerationOption ); 
+        isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals( writeoffGenerationOption );
+        isUsingChartForWriteoff = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_CHART.equals( writeoffGenerationOption );
+        
         if( isUsingOrgAcctDefaultWriteoffFAU ){
             this.poster.refreshReferenceObject("account");
             this.poster.refreshReferenceObject("chartOfAccounts");
@@ -99,31 +104,35 @@ public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
     }
 
    @Override
-    public String getFinancialObjectCode() {
-        if ( isUsingOrgAcctDefaultWriteoffFAU ){
-            return poster.getFinancialObjectCode();
-        } else {
-            return postable.getAccountsReceivableObjectCode();
-        }   
-    }
-   
-   @Override
-    public String getFinancialSubObjectCode() {
-        if ( isUsingOrgAcctDefaultWriteoffFAU ){
-            return poster.getFinancialSubObjectCode();
-        } else {
-            return postable.getAccountsReceivableSubObjectCode();
-        }         
-    }
-
-   @Override
-    public ObjectCode getObjectCode() {
+   public String getFinancialObjectCode() {
        if ( isUsingOrgAcctDefaultWriteoffFAU ){
-           return poster.getFinancialObject();
+           return poster.getFinancialObjectCode();
+       } else if ( true ) {
+           //TODO change which object code is returned
+           //return postable.getChart().getFinAccountsPayableObjectCode();
+           return postable.getFinancialObjectCode();
        } else {
-           return postable.getAccountsReceivableObject();
-       }
-    }
+           return postable.getAccountsReceivableObjectCode();
+       }   
+   }
+
+  @Override
+   public ObjectCode getObjectCode() {
+      if ( isUsingOrgAcctDefaultWriteoffFAU ){
+          return poster.getFinancialObject();
+      } else if (true) {
+          //return postable.getChart().getFinAccountsPayableObject();
+          //TODO change which object code is returned
+          return postable.getObjectCode();          
+      } else {
+          return postable.getAccountsReceivableObject();
+      }
+   }
+  
+  @Override
+  public String getFinancialSubObjectCode() {
+      return GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode(); 
+  }
 
    @Override
     public String getOrganizationReferenceId() {

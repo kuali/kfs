@@ -61,7 +61,7 @@ public class CustomerInvoiceDocumentGeneralLedgerPostingTest extends KualiTestBa
         String receivableAccountNumber = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentAccountNumber;
         String receivableSubAccountNumber = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentSubAccountNumber; 
         String receivableFinancialObjectCode = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentFinancialObjectCode;
-        String receivableFinancialSubObjectCode = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentFinancialSubObjectCode;
+        String receivableFinancialSubObjectCode = GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode(); //TODO What should this value really be?
         String receivableProjectCode = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentProjectCode;
         String receivableOrgRefId = CustomerInvoiceDocumentFixture.CIDOC_WITH_FAU_RECEIVABLE.paymentOrganizationReferenceIdentifier;
         

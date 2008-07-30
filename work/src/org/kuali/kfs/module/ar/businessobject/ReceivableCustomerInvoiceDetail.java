@@ -21,6 +21,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.ParameterService;
 
 public class ReceivableCustomerInvoiceDetail extends CustomerInvoiceDetail {
@@ -99,15 +100,6 @@ public class ReceivableCustomerInvoiceDetail extends CustomerInvoiceDetail {
             return postable.getAccountsReceivableObjectCode();
         }   
     }
-   
-   @Override
-    public String getFinancialSubObjectCode() {
-        if ( isUsingReceivableFAU ){
-            return poster.getPaymentFinancialSubObjectCode();
-        } else {
-            return postable.getAccountsReceivableSubObjectCode();
-        }         
-    }
 
    @Override
     public ObjectCode getObjectCode() {
@@ -117,6 +109,11 @@ public class ReceivableCustomerInvoiceDetail extends CustomerInvoiceDetail {
            return postable.getAccountsReceivableObject();
        }
     }
+   
+   @Override
+   public String getFinancialSubObjectCode() {
+       return GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode(); 
+   }
 
    @Override
     public String getOrganizationReferenceId() {

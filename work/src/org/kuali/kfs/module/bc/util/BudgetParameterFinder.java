@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -87,6 +88,6 @@ public class BudgetParameterFinder {
      * @return the biweekly pay object codes setup in system parameters
      */
     public static List<String> getBiweeklyPayObjectCodes() {
-        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES);
+        return parameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES);
     }
 }

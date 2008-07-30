@@ -394,7 +394,38 @@
 	</bean>	
 	
 	<bean id="accountsReceivableReportService" class="org.kuali.kfs.module.ar.report.service.impl.AccountsReceivableReportServiceImpl"/>
+
+
+
+	<bean id="arCustomerAgingReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerAgingReportLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<!--property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+			</property-->
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
 	
+	<bean id="arCustomerAgingReportLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="arCustomerAgingReportLookupableHelperService" />
+		</property>
+	</bean>
+	
+	
+		
 	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />
 	<import resource="document/validation/configuration/CustomerInvoiceValidation.xml" />
 </beans>

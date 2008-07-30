@@ -105,7 +105,6 @@
 
   <bean id="PurchasingAccountsPayableLineAssetAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="CAB Purchasing Accounts Payable Line Asset Account Lookup" />
-    <property name="lookupableID" value="cabPurApLineAssetAccountLookupable" />
     <property name="instructions" value="Lookup Purchasing Accounts Payable Line Asset Account" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

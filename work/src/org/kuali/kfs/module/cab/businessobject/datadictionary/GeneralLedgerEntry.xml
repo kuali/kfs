@@ -39,6 +39,7 @@
         <ref bean="GeneralLedgerEntry-projectCode" />
         <ref bean="GeneralLedgerEntry-referenceFinancialDocumentNumber" />
         <ref bean="GeneralLedgerEntry-transactionPostingDate" />
+        <ref bean="GeneralLedgerEntry-transactionDate" />
         <ref bean="GeneralLedgerEntry-transactionDateTimeStamp" />
         <ref bean="GeneralLedgerEntry-versionNumber" />
       </list>
@@ -242,7 +243,13 @@
   <bean id="GeneralLedgerEntry-transactionPostingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="transactionPostingDate" />
   </bean>
+  
+  <bean id="GeneralLedgerEntry-transactionDate" parent="GeneralLedgerEntry-transactionDate-parentBean" />
 
+  <bean id="GeneralLedgerEntry-transactionDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="transactionDate" />
+  </bean>
+  
  <bean id="GeneralLedgerEntry-transactionDateTimeStamp" parent="GeneralLedgerEntry-transactionDateTimeStamp-parentBean" />
 
   <bean id="GeneralLedgerEntry-transactionDateTimeStamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">

@@ -16,8 +16,11 @@ public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusine
     private Integer capitalAssetBuilderLineNumber;
     private Long generalLedgerAccountIdentifier;
     private KualiDecimal itemAccountTotalAmount;
+    private boolean active;
 
+    // References
     GeneralLedgerEntry generalLedgerEntry;
+    PurchasingAccountsPayableItemAsset purchasingAccountsPayableItemAsset;
 
     public String getDocumentNumber() {
         return documentNumber;
@@ -65,6 +68,23 @@ public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusine
 
     public void setGeneralLedgerEntry(GeneralLedgerEntry generalLedgerEntry) {
         this.generalLedgerEntry = generalLedgerEntry;
+    }
+    
+    public boolean isActive() {
+        return active;
+    }
+    
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
+
+    public PurchasingAccountsPayableItemAsset getPurchasingAccountsPayableItemAsset() {
+        return purchasingAccountsPayableItemAsset;
+    }
+
+    public void setPurchasingAccountsPayableItemAsset(PurchasingAccountsPayableItemAsset purchasingAccountsPayableItemAsset) {
+        this.purchasingAccountsPayableItemAsset = purchasingAccountsPayableItemAsset;
     }
 
     /**

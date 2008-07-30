@@ -101,6 +101,7 @@
 			<ref bean="dateTimeService" />
 		</property>
 	</bean>
+	
 <!-- *********  End of pre-asset tagging batch beans ********** -->	
 	<bean id="cabExtractDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.CabExtractDaoOjb" />
 	<bean id="cabBatchExtractService" class="org.kuali.kfs.module.cab.batch.service.impl.CabBatchExtractServiceImpl">
@@ -126,4 +127,14 @@
 		<!--  it will run every day at 7 AM -->
 		<property name="cronExpression" value="0 0 7 * * * *" />
 	</bean>	
+<!-- **** Begin of Lookupable beans **** -->
+	<bean id="cabPurApDocumentLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.CabPurApDocumentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+    </bean>
+
+    <bean id="cabPurApDocumentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="cabPurApDocumentLookupableHelperService" />
+        </property>
+    </bean>
+<!-- **** End of Lookupable beans **** -->
 </beans>

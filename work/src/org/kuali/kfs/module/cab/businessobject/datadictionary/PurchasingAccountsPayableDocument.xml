@@ -20,7 +20,11 @@
         <ref bean="PurchasingAccountsPayableDocument-purapDocumentIdentifier" />
         <ref bean="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" />
         <ref bean="PurchasingAccountsPayableDocument-active" />
+        <ref bean="PurchasingAccountsPayableDocument-documentTypeCode" />
         <ref bean="PurchasingAccountsPayableDocument-versionNumber" />
+        <ref bean="PurchasingAccountsPayableDocument-universityFiscalYear" />
+        <ref bean="PurchasingAccountsPayableDocument-chartOfAccountsCode" />
+        <ref bean="PurchasingAccountsPayableDocument-accountNumber" />
       </list>
     </property>
   </bean>
@@ -28,19 +32,22 @@
 <!-- Attribute Definitions -->
   <bean id="PurchasingAccountsPayableDocument-documentNumber" parent="PurchasingAccountsPayableDocument-documentNumber-parentBean" />
 
-  <bean id="PurchasingAccountsPayableDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber" />
+  <bean id="PurchasingAccountsPayableDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber" >
+  	<property name="label" value="PurAp Document/Notification Id" />
+    <property name="shortLabel" value="Document/Notification Id" />
+  </bean>
   <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier" parent="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" />
 
   <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier" >
     <property name="name" value="purapDocumentIdentifier" />
-  	<property name="label" value="PurAp Document Identifier" />
-    <property name="shortLabel" value="PurAp Document Identifier" />
+  	<property name="label" value="Payment Request Nbr/ Credit Memo Nbr" />
+    <property name="shortLabel" value="Payment Request Nbr/ Credit Memo Nbr" />
   </bean>
   <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" parent="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" />
 
   <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="name" value="purchaseOrderIdentifier" />
-  	<property name="label" value="PO ID" />
+  	<property name="label" value="Purchase Order Nbr" />
     <property name="shortLabel" value="PO Identifier" />
   </bean>
   <bean id="PurchasingAccountsPayableDocument-active" parent="PurchasingAccountsPayableDocument-active-parentBean" />
@@ -51,6 +58,26 @@
   <bean id="PurchasingAccountsPayableDocument-versionNumber" parent="PurchasingAccountsPayableDocument-versionNumber-parentBean" />
 
   <bean id="PurchasingAccountsPayableDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  <bean id="PurchasingAccountsPayableDocument-documentTypeCode" parent="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+  	<property name="name" value="documentTypeCode" />
+  </bean>
+  <bean id="PurchasingAccountsPayableDocument-universityFiscalYear" parent="PurchasingAccountsPayableDocument-universityFiscalYear-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+  	<property name="name" value="universityFiscalYear" />
+  </bean>
+  <bean id="PurchasingAccountsPayableDocument-chartOfAccountsCode" parent="PurchasingAccountsPayableDocument-chartOfAccountsCode-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  	<property name="name" value="chartOfAccountsCode" />
+  </bean>
+  <bean id="PurchasingAccountsPayableDocument-accountNumber" parent="PurchasingAccountsPayableDocument-accountNumber-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="name" value="accountNumber" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->
@@ -100,11 +127,19 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="documentNumber"  />
+              p:attributeName="purchaseOrderIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="purapDocumentIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderIdentifier" />
+              p:attributeName="documentNumber"  />
+        <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear"  />
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode"  />
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber"  />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -112,11 +147,11 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="documentNumber"  />
+              p:attributeName="purchaseOrderIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="purapDocumentIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderIdentifier" />
+              p:attributeName="documentNumber"  />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

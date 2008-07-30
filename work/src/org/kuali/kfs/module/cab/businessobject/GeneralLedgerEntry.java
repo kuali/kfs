@@ -57,6 +57,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     private String organizationDocumentNumber;
     private String projectCode;
     private Date transactionPostingDate;
+    private Date transactionDate;
     private Timestamp transactionDateTimeStamp;
     private boolean active;
 
@@ -709,5 +710,13 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     public void setGeneralLedgerEntryAssets(List<GeneralLedgerEntryAsset> generalLedgerEntryAssets) {
         this.generalLedgerEntryAssets = generalLedgerEntryAssets;
+    }
+
+    public Date getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
     }
 }

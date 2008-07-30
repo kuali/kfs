@@ -2,6 +2,7 @@ package org.kuali.kfs.module.cab.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 
@@ -13,9 +14,17 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     private String documentNumber;
     private Integer purapDocumentIdentifier;
     private Integer purchaseOrderIdentifier;
+    private String documentTypeCode;
     private boolean active;
 
+    // References
+    private DocumentType documentType;
     private FinancialSystemDocumentHeader documentHeader;
+
+    // non-persistent
+    private Integer universityFiscalYear;
+    private String chartOfAccountsCode;
+    private String accountNumber;
 
     public String getDocumentNumber() {
         return documentNumber;
@@ -55,6 +64,46 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
     public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
         this.documentHeader = documentHeader;
+    }
+
+    public String getDocumentTypeCode() {
+        return documentTypeCode;
+    }
+
+    public void setDocumentTypeCode(String documentTypeCode) {
+        this.documentTypeCode = documentTypeCode;
+    }
+
+    public DocumentType getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
+    }
+
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     /**

@@ -183,7 +183,7 @@ referenced.
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
-                    <xsd:attribute name="required" type="xsd:boolean" default="false">
+                    <xsd:attribute name="required" type="xsd:boolean">
                         <xsd:annotation>
                             <xsd:documentation>
 Whether this field is required to be filled in when performing a
@@ -357,14 +357,14 @@ The name of the bean property on the business object being maintained.
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
-                    <xsd:attribute name="required" type="xsd:boolean" default="false">
+                    <xsd:attribute name="required" type="xsd:boolean">
                         <xsd:annotation>
                             <xsd:documentation>
 Whether this field is required to be filled in on the maintenance document.
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
-                    <xsd:attribute name="readOnly" type="xsd:boolean" default="false">
+                    <xsd:attribute name="readOnly" type="xsd:boolean">
                         <xsd:annotation>
                             <xsd:documentation>
 Whether this field should be read-only on the maintenance document.
@@ -710,7 +710,7 @@ A shorter label that can be used when necessary.
             </xsd:documentation>
         </xsd:annotation>
       </xsd:attribute>
-      <xsd:attribute name="required" type="xsd:boolean" default="false">
+      <xsd:attribute name="required" type="xsd:boolean">
         <xsd:annotation>
             <xsd:documentation>
 Whether this property is required when validating this business object.  This is
@@ -719,7 +719,7 @@ maintenance documents.
             </xsd:documentation>
         </xsd:annotation>
       </xsd:attribute>
-      <xsd:attribute name="forceUppercase" type="xsd:boolean" default="false">
+      <xsd:attribute name="forceUppercase" type="xsd:boolean">
         <xsd:annotation>
             <xsd:documentation>
 Whether to force the data in this attribute to upper-case during validation.
@@ -880,7 +880,7 @@ the BO class to use for the displayed labels in the list.
                         </xsd:documentation>
                     </xsd:annotation>
                 </xsd:attribute>
-                <xsd:attribute name="includeKeyInLabel" type="xsd:boolean" use="optional" default="false">
+                <xsd:attribute name="includeKeyInLabel" type="xsd:boolean" use="optional">
                     <xsd:annotation>
                         <xsd:documentation>
 If the valuesFinderClass is a PersistableBusinessObjectValuesFinder, whether to 

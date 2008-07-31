@@ -101,7 +101,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
      */
     public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String documentNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("documentNumber", documentNumber);
+        criteria.put("financialDocumentReferenceInvoiceNumber", documentNumber);
         return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
     }
 

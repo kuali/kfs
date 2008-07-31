@@ -417,8 +417,8 @@
 
     <collection-descriptor name="invoicePaidApplieds" element-class-ref="org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <orderby name="paidAppliedItemNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="invoiceItemNumber" />
         <inverse-foreignkey field-ref="financialDocumentReferenceInvoiceNumber" />
+        <inverse-foreignkey field-ref="invoiceItemNumber" />
     </collection-descriptor>
     
     <!--

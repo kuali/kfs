@@ -195,10 +195,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      */
     public KualiDecimal getInvoiceWriteoffAmount() {
         if (ObjectUtils.isNull(invoiceWriteoffAmount) && ObjectUtils.isNotNull(customerInvoiceDocument)) {
-            invoiceWriteoffAmount = new KualiDecimal(0);
-            for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts()) {
-                invoiceWriteoffAmount = invoiceWriteoffAmount.add(customerInvoiceDetail.getBalance());
-            }
+            invoiceWriteoffAmount = customerInvoiceDocument.getBalance();
         }
         return invoiceWriteoffAmount;
     }
@@ -362,26 +359,5 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     
     public KualiDecimal getTotalDollarAmount() {
         return getInvoiceWriteoffAmount();
-    }       
-    
-    //METHODS NEEDED TO GET ACCOUNTING LINES TO SHOW UP CORRECTLY
-    
-    public List getSourceAccountingLines(){
-        return customerInvoiceDocument.getSourceAccountingLines();
-    }
-    
-    public SourceAccountingLine getSourceAccountingLine(int index){
-        return customerInvoiceDocument.getSourceAccountingLine(index);
-    }
-    
-    public String getSourceAccountingLineEntryName(){
-        return customerInvoiceDocument.getSourceAccountingLineEntryName();
-    }
-    
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
-     */
-    public String getSourceAccountingLinesSectionTitle() {
-        return KFSConstants.SOURCE;
     }
 }

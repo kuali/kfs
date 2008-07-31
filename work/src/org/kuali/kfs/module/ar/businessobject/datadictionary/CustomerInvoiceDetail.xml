@@ -31,6 +31,7 @@
         <ref bean="CustomerInvoiceDetail-invoiceItemUnitPrice" />
         <ref bean="CustomerInvoiceDetail-invoiceItemTaxAmount" />
         <ref bean="CustomerInvoiceDetail-taxableIndicator" />
+        <ref bean="CustomerInvoiceDetail-balance" />
       </list>
     </property>
   </bean>
@@ -89,6 +90,16 @@
     <property name="required" value="false" />
     <property name="description" value="The total dollar amount of check or batch of checks." />
   </bean>
+  
+  <bean id="CustomerInvoiceDetail-balance" parent="CustomerInvoiceDetail-balance-parentBean" />
+
+  <bean id="CustomerInvoiceDetail-balance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="balance" />
+    <property name="label" value="Balance" />
+    <property name="shortLabel" value="Balance" />    
+    <property name="required" value="false" />
+    <property name="description" value="The total dollar balance of check or batch of checks." />
+  </bean>  
   <bean id="CustomerInvoiceDetail-subAccountNumber" parent="CustomerInvoiceDetail-subAccountNumber-parentBean" />
 
   <bean id="CustomerInvoiceDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">

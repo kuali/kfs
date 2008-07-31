@@ -72,7 +72,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     
     public KualiDecimal getAppliedAmount() {
         KualiDecimal total = new KualiDecimal(0);
-        
         for(InvoicePaidApplied paidApplied : getInvoicePaidApplieds()) {
             total = total.add(paidApplied.getInvoiceItemAppliedAmount());
         }

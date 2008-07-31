@@ -43,17 +43,8 @@
 			customerAttributes="${DataDictionary.Customer.attributes}"
 			customerAddressAttributes="${DataDictionary.CustomerAddress.attributes}"
 		 /> 
-
-		<fin:accountingLines
-				sourceLinesReadOnly="true"
-			    editingMode="${KualiForm.editingMode}"
-			    editableAccounts="${KualiForm.editableAccounts}"
-			    optionalFields="invoiceItemCode,invoiceItemQuantity,invoiceItemDescription,invoiceItemServiceDate,invoiceItemUnitOfMeasureCode,invoiceItemUnitPrice,taxableIndicator,invoiceItemTaxAmount"
-			    extraHiddenFields=",accountsReceivableObjectCode,invoiceItemDiscountLineNumber"
-			    isOptionalFieldsInNewRow="true"
-			    sourceAccountingLinesOnly="true"
-			    />
-
+	
+		<ar:customerInvoiceWriteoffDetails />
 
       	<gl:generalLedgerPendingEntries />
     	<kul:notes />

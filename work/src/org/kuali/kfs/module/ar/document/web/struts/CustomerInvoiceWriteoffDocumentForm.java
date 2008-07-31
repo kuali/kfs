@@ -39,11 +39,6 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 public class CustomerInvoiceWriteoffDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
     
-    private boolean hideDetails;
-    protected FormFile sourceFile;
-    private List baselineSourceAccountingLines;
-    private Map forcedLookupOptionalFields;
-
     public CustomerInvoiceWriteoffDocumentForm() {
         super();
         setDocument(new CustomerInvoiceWriteoffDocument());
@@ -65,9 +60,6 @@ public class CustomerInvoiceWriteoffDocumentForm extends FinancialSystemTransact
         if(StringUtils.isNotEmpty(customerInvoiceNumber)){
             customerInvoiceWriteoffDocument.refreshReferenceObject("customerInvoiceDocument");
         }        
-        
-        //Doing this to display source accounting lines
-        baselineSourceAccountingLines = new ArrayList();
     }
 
     /**
@@ -108,142 +100,5 @@ public class CustomerInvoiceWriteoffDocumentForm extends FinancialSystemTransact
         newButton.setExtraButtonAltText(altText);
 
         extraButtons.add(newButton);
-    }    
-    
-    /**
-     * @return current Map of editableAccounts
-     */
-    public Map getEditableAccounts() {
-        return new HashMap();
     }
-    
-    /**
-     * @return String
-     */
-    public String getAccountingLineImportInstructionsUrl() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.FinancialApcParms.ACCOUNTING_LINE_IMPORT_HELP);
-    }
-    
-    
-    /**
-     * @return hideDetails attribute
-     */
-    public boolean isHideDetails() {
-        return hideDetails;
-    }
-
-    /**
-     * @return hideDetails attribute
-     * @see #isHideDetails()
-     */
-    public boolean getHideDetails() {
-        return isHideDetails();
-    }
-
-    /**
-     * @param hideDetails
-     */
-    public void setHideDetails(boolean hideDetails) {
-        this.hideDetails = hideDetails;
-    }
-    
-    /**
-     * @return Returns the sourceFile.
-     */
-    public FormFile getSourceFile() {
-        return sourceFile;
-    }
-
-    /**
-     * @param sourceFile The sourceFile to set.
-     */
-    public void setSourceFile(FormFile sourceFile) {
-        this.sourceFile = sourceFile;
-    }    
-    
-    /**
-     * @return current List of baseline SourceAccountingLines for use in update-event generation
-     */
-    public List getBaselineSourceAccountingLines() {
-        return baselineSourceAccountingLines;
-    }
-
-    /**
-     * Sets the current List of baseline SourceAccountingLines to the given List
-     * 
-     * @param baselineSourceAccountingLines
-     */
-    public void setBaselineSourceAccountingLines(List baselineSourceAccountingLines) {
-        this.baselineSourceAccountingLines = baselineSourceAccountingLines;
-    }
-
-    /**
-     * @param index
-     * @return true if a baselineSourceAccountingLine with the given index exists
-     */
-    public boolean hasBaselineSourceAccountingLine(int index) {
-        boolean has = false;
-
-        if ((index >= 0) && (index <= baselineSourceAccountingLines.size())) {
-            has = true;
-        }
-
-        return has;
-    }
-
-    /**
-     * Implementation creates empty SourceAccountingLines as a side-effect, so that Struts' efforts to set fields of lines which
-     * haven't been created will succeed rather than causing a NullPointerException.
-     * 
-     * @param index
-     * @return baseline SourceAccountingLine at the given index
-     */
-    public SourceAccountingLine getBaselineSourceAccountingLine(int index) {
-        try {
-            while (baselineSourceAccountingLines.size() <= index) {
-                
-                AccountingDocument customerInvoiceDocument = ((CustomerInvoiceWriteoffDocument)getDocument()).getCustomerInvoiceDocument();
-                baselineSourceAccountingLines.add(customerInvoiceDocument.getSourceAccountingLineClass().newInstance());
-            }
-        }
-        catch (InstantiationException e) {
-            throw new RuntimeException("Unable to get new source line instance for document" + e.getMessage());
-        }
-        catch (IllegalAccessException e) {
-            throw new RuntimeException("Unable to get new source line instance for document" + e.getMessage());
-        }
-
-        return (SourceAccountingLine) baselineSourceAccountingLines.get(index);
-    }   
-    
-    
-    /**
-     * A <code>{@link Map}</code> of names of optional accounting line fields that require a quickfinder.
-     * 
-     * @return a Map of fields
-     */
-    public void setForcedLookupOptionalFields(Map fieldMap) {
-        forcedLookupOptionalFields = fieldMap;
-    }
-
-    /**
-     * A <code>{@link Map}</code> of names of optional accounting line fields that require a quickfinder.
-     * 
-     * @return a Map of fields
-     */
-    public Map getForcedLookupOptionalFields() {
-        return forcedLookupOptionalFields;
-    }    
-    
-    
-    /**
-     * Retrieves the source accounting lines total in a currency format with commas.
-     * 
-     * @return String
-     */
-    public String getCurrencyFormattedSourceTotal() {
-        AccountingDocument customerInvoiceDocument = ((CustomerInvoiceWriteoffDocument)getDocument()).getCustomerInvoiceDocument();
-        return (String) new CurrencyFormatter().format(customerInvoiceDocument.getSourceTotal());
-    }
-
 }

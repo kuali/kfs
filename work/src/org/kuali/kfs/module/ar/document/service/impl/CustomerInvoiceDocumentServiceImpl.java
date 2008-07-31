@@ -111,7 +111,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             return null;
         }
         KualiDecimal total = new KualiDecimal(0);
-        for (CustomerInvoiceDetail detail : customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(invoice)) {
+        for (CustomerInvoiceDetail detail : invoice.getCustomerInvoiceDetailsWithoutDiscounts()) {
             total = total.add(detail.getAmount());
         }
         return total;

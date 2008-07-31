@@ -1,4 +1,4 @@
-#! /usr/bin/perl  -w
+#! /usr/bin/perl  -d -w
 
 open ATTRIB, "Attributes.xml";
 $hdrx = <<END;
@@ -14,6 +14,7 @@ END
 
 $flag=0;
 $tempPage="";
+$name="blank";
 while ($_ = <ATTRIB>){
 	if (/\<ruleAttribute\>/) {
 		$flag=1;

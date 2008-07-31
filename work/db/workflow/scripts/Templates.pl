@@ -14,6 +14,7 @@ END
 
 $flag=0;
 $tempPage="";
+$name="blank"
 while ($_ = <ATTRIB>){
 	if (/\<ruleTemplate\>/) {
 		$flag=1;

@@ -22,14 +22,6 @@ import java.sql.Date;
  * Object representation of collector xml input.
  */
 public class BarcodeInventory implements Serializable {
-    // way to distinguish this batch from others
-    //private String batchName;
-
-/*  Scan Codes:
-    1 = hand entered
-    0 = scanned
-*/
-
     private String campusTagNumber;
     private String inventoryScannedCode;
     private Date   createDate;
@@ -119,31 +111,4 @@ public class BarcodeInventory implements Serializable {
     public void setInventoryStatusCode(String inventoryStatusCode) {
         this.inventoryStatusCode = inventoryStatusCode;
     }
-
-
-    /**
-     * Uppercases the appropriate fields in the batch, if told to do so by the data dictionary
-     *
-    public void prepareDataForStorage() {
-        BusinessObjectDictionaryService businessObjectDictionaryService = SpringContext.getBean(BusinessObjectDictionaryService.class);
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-
-        // uppercase the data used to generate the collector header
-        if (dataDictionaryService.getAttributeForceUppercase(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
-            setChartOfAccountsCode(getChartOfAccountsCode().toUpperCase());
-        }
-        if (dataDictionaryService.getAttributeForceUppercase(Org.class, KFSPropertyConstants.ORGANIZATION_CODE)) {
-            setOrganizationCode(getOrganizationCode().toUpperCase());
-        }
-
-        // now uppercase all of the origin entry data
-        for (OriginEntryFull entry : originEntries) {
-            businessObjectDictionaryService.performForceUppercase(entry);
-        }
-
-        // uppercase the id billing entries
-        for (CollectorDetail collectorDetail : collectorDetails) {
-            businessObjectDictionaryService.performForceUppercase(collectorDetail);
-        }
-    }*/
 }

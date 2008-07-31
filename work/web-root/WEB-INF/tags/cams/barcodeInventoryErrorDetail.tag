@@ -59,7 +59,7 @@
                             Deleted
                         </c:when>
                         <c:when test="${status == CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED}">
-                            Validated
+                            Corrected
                         </c:when>
                         <c:when test="${status == CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR}">
                             Error

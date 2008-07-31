@@ -85,9 +85,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
 
         Long lineNumber = new Long(0);
         for (BarcodeInventoryErrorDetail barcodeInventoryErrorDetail : barcodeInventoryErrorDetails) {
-//            if (barcodeInventoryErrorDetail.getAssetTagNumber().equals("IU011029")) {
-//                lineNumber = lineNumber;
-//            }
+            barcodeInventoryErrorDetail.setErrorDescription("");                    
             if (barcodeInventoryErrorDetail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR)) {
                 valid = true;
                 errorPath = CamsConstants.DOCUMENT_PATH + "." + CamsPropertyConstants.BarcodeInventory.BARCODE_INVENTORY_DETAIL + "[" + (lineNumber.intValue()) + "]";
@@ -114,7 +112,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             }
             lineNumber++;
         }
-        
+
         deleteLockErrorMessages();
         return true;
     }
@@ -320,8 +318,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         }
         return (StringUtils.isEmpty(message) ? message : message.substring(2));
     }
-    
-    
+
+
     /**
      * 
      * Deletes the asset locking error messages from the GlobalVariables.
@@ -329,8 +327,13 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      */
     private void deleteLockErrorMessages() {
         //Finding locking error messages
-        List<ErrorMessage> el = new ArrayList<ErrorMessage>();                    
-        for (Iterator<ErrorMessage> iterator = GlobalVariables.getErrorMap().getMessages(KFSConstants.GLOBAL_ERRORS).iterator(); iterator.hasNext();) {                        
+        List<ErrorMessage> el = new ArrayList<ErrorMessage>();
+
+        if (GlobalVariables.getErrorMap().getMessages(KFSConstants.GLOBAL_ERRORS) == null) {
+            return;
+        }
+
+        for (Iterator<ErrorMessage> iterator = GlobalVariables.getErrorMap().getMessages(KFSConstants.GLOBAL_ERRORS).iterator(); iterator.hasNext();) {
             ErrorMessage errorMessage= (ErrorMessage)iterator.next();
             if (errorMessage.getErrorKey().equals(KFSKeyConstants.ERROR_MAINTENANCE_LOCKED)) {
                 el.add(errorMessage);                        
@@ -342,5 +345,4 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().getMessages(KFSConstants.GLOBAL_ERRORS).remove(em);
         }        
     }
-    
 }

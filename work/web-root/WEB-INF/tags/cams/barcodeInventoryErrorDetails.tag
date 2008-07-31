@@ -58,7 +58,7 @@
             		<c:set var="lineNumber" value="${lineNumber + 1}"/>
             	</c:if>
 
-					<cams:barcodeInventoryErrorDetail
+				<cams:barcodeInventoryErrorDetail
 						barcodeInventoryDetailAttributes="${bcieDetailAttributes}"					
 						propertyName="document.barcodeInventoryErrorDetail[${ctr}]"
 						readOnly="${readOnly}" 
@@ -66,14 +66,11 @@
 						lineNumber="${lineNumber}" 
 						rowNumber="${detail.uploadRowNumber}"
 						status="${status}"
-						/>
+				/>
             	
 <!--  We don't need to display the error message text on a page because they are being already displayed in a textbox.-->
 				<c:set var="keyMatch" value="document.barcodeInventoryErrorDetail[${ctr}]*"/>            	            	
 				<c:forEach items="${ErrorPropertyList}" var="key">
-
-				<!-- c:out value="${key}"/-->
-				
 				  <c:if test="${not KualiForm.displayedErrors[key]}">            	            	
 		              <c:forEach items="${fn:split(keyMatch,',')}" var="prefix">
 			                <c:if test="${(fn:endsWith(prefix,'*') && fn:startsWith(key,fn:replace(prefix,'*',''))) || (key == prefix)}">
@@ -126,10 +123,6 @@
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetTagNumber}" property="currentTagNumber"/>
 					</td>
 	
-			        <!-- th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetTagNumber}" readOnly="true"/></div></th>				
-					<td align=left class="${cssClass}">&nbsp
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetTagNumber}" property="newTagNumber"/>
-					</td-->
 			        <th align=right valign=middle class="grid"><div align="right">&nbsp</div></th>				
 					<td align=left class="${cssClass}">&nbsp</td>
 	
@@ -141,12 +134,7 @@
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" property="currentScanCode"/>
 					</td>
 			        <th align=right valign=middle class="grid"><div align="right">&nbsp</div></th>				
-					<td align=left class="${cssClass}">&nbsp</td>
-	
-			        <!-- th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" readOnly="true"/></div></th>				
-					<td align=left class="${cssClass}">&nbsp
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" property="newScanCode"/>
-					</td-->
+					<td align=left class="${cssClass}">&nbsp</td>	
 				</tr>				
 	
 				<tr>

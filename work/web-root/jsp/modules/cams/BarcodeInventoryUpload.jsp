@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:page showDocumentInfo="false"
-	headerTitle="Barcode Inventory file Upload" docTitle="" renderMultipart="true"
+	headerTitle="Barcode Inventory Process" docTitle="" renderMultipart="true"
 	transactionalDocument="false" htmlFormAction="uploadBarcodeInventoryFile" errorKey="foo">
 	<html:hidden property="batchUpload.batchInputTypeName" />
 	<html:hidden property="supressDoneFileCreation"/>

@@ -36,10 +36,15 @@ import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 
+/**
+ * 
+ * Action form for the asset barcode inventory error document
+ */
 public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorForm.class);
     private int[] rowCheckbox; 
     private boolean selectAllCheckbox;
+    
     
     //global replace - search fields
     //*** Old values **************
@@ -61,6 +66,10 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
     private String newConditionCode;
     
     
+    /**
+     * 
+     * Constructs a BarcodeInventoryErrorForm.java.
+     */
     public BarcodeInventoryErrorForm() {
         super();
         setDocument(new BarcodeInventoryErrorDocument());
@@ -71,31 +80,35 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
     }
 
 
-    public void populate(HttpServletRequest request) {
-//        LOG.info("****************Request Parameters*************");
-//        Enumeration paramNames;
-//        paramNames = request.getParameterNames();
-//        while (paramNames.hasMoreElements()) {
-//            String name = (String) paramNames.nextElement();            
-//            String[] values = request.getParameterValues(name);
-//            
-//            for (int x=0;x < values.length;x++)
-//                LOG.info("******Request Parameters: "+name +"["+x+"]: "+values[x]);
-//                        
-//        }
-//        LOG.info("**********************************************");                    
+/*    public void populate(HttpServletRequest request) {
+        LOG.info("****************Request Parameters*************");
+        Enumeration paramNames;
+        paramNames = request.getParameterNames();
+        while (paramNames.hasMoreElements()) {
+            String name = (String) paramNames.nextElement();            
+            String[] values = request.getParameterValues(name);
+            
+            for (int x=0;x < values.length;x++)
+                LOG.info("******Request Parameters: "+name +"["+x+"]: "+values[x]);
+                        
+        }
+        LOG.info("**********************************************");                    
         
         
         super.populate(request);
 
-//        BarcodeInventoryErrorDocument document = getBarcodeInventoryErrorDocument();
-//        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
-//
-//        for(BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
-//                LOG.info("*******AFTER TIMESTAMP!!! :"+detail.getUploadScanTimestamp());
-//        }
-    }
+        BarcodeInventoryErrorDocument document = getBarcodeInventoryErrorDocument();
+        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
+
+        for(BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
+                LOG.info("*******AFTER TIMESTAMP!!! :"+detail.getUploadScanTimestamp());
+        }
+    }*/
+
     
+    /**
+     *  @returns BCIE document 
+     */
     public BarcodeInventoryErrorDocument getBarcodeInventoryErrorDocument() {
         return (BarcodeInventoryErrorDocument) getDocument();
     }
@@ -266,7 +279,11 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
         this.newConditionCode = newConditionCode;
     }
 
-
+    
+    /**
+     * 
+     * Sets the global search fields with empty string
+     */
     public void resetSearchFields() {
         currentTagNumber="";
         currentScanCode="";
@@ -284,6 +301,11 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
         newConditionCode="";        
     }
     
+    
+    /**
+     * 
+     * Reset the BCIE document checkboxes. 
+     */
     public void resetCheckBoxes() {
         this.rowCheckbox = new int[rowCheckbox.length];
         this.selectAllCheckbox = false;

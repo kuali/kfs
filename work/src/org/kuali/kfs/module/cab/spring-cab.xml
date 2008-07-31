@@ -125,7 +125,7 @@
 	<bean id="cabExtractJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="cabExtractJob" />
 		<!--  it will run every day at 7 AM -->
-		<property name="cronExpression" value="0 0 7 * * * *" />
+		<property name="cronExpression" value="0 0 7 ? * *" />
 	</bean>	
 <!-- **** Begin of Lookupable beans **** -->
 	<bean id="cabPurApDocumentLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.CabPurApDocumentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">

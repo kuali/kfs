@@ -31,6 +31,7 @@
 
 <%@ attribute name="highlight" required="false"
               description="boolean indicating if this field is rendered as highlighted (to indicate old/new value change)" %>
+               <%@ attribute name="forceRequired" required="false" %>
                
 <script language="JavaScript" type="text/javascript" src="dwr/interface/FinancialSystemUserService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
@@ -40,7 +41,7 @@
 	<c:set var="textStyle" value="border-color: red" />
 </c:if>
 <kul:htmlControlAttribute property="${userIdFieldName}" 
-                    attributeEntry="${DataDictionary['UniversalUser'].attributes.personPayrollIdentifier}"
+                    attributeEntry="${DataDictionary['UniversalUser'].attributes.personPayrollIdentifier}" forceRequired="${forceRequired}"
                     onblur="loadEmplInfo( '${userIdFieldName}', '${userNameFieldName}' );${onblur}" readOnly="${readOnly}"/>
 
 <c:if test="${!readOnly}">

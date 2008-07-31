@@ -38,14 +38,15 @@
 
 <kul:tab tabTitle="Salary Setting by Incumbent" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_INCUMBENT_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align=center>
-
-	<kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Add Funding">      
-		<bc:appointmentFundingLineForIncumbent fundingLine="${KualiForm.newBCAFLine}" fundingLineName="newBCAFLine" countOfMajorColumns="11" hasBeenAdded="false">
-			<html:image property="methodToCall.insertSalarySettingLine.anchorsalarynewLineLineAnchor" 
-		       	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
-		       	title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>
-		</bc:appointmentFundingLineForIncumbent>
-	</kul:subtab>
+	<c:if test="${not readOnly}">
+		<kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Add Funding">      
+			<bc:appointmentFundingLineForIncumbent fundingLine="${KualiForm.newBCAFLine}" fundingLineName="newBCAFLine" countOfMajorColumns="11" hasBeenAdded="false">
+				<html:image property="methodToCall.insertSalarySettingLine.anchorsalarynewLineLineAnchor" 
+			       	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
+			       	title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>
+			</bc:appointmentFundingLineForIncumbent>
+		</kul:subtab>
+	</c:if>
         		
     <c:forEach items="${KualiForm.budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
 		<c:set var="fundingLineName" value="budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>

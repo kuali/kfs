@@ -83,19 +83,4 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#save(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward saveAction = super.save(mapping, form, request, response);
-        
-        PositionSalarySettingForm salarySettingForm = (PositionSalarySettingForm) form;
-        salarySettingForm.getBudgetConstructionPosition().refresh();
-        
-        return saveAction;
-    }
-
 }

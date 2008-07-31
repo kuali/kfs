@@ -40,17 +40,18 @@
     
 <kul:tab tabTitle="Position Funding" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_POSITION_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align="center">
-     ${KualiForm.newBCAFLine.appointmentFundingMonth}   
-	<kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Add Funding">      
-		<bc:appointmentFundingLineForPosition fundingLine="${KualiForm.newBCAFLine}" fundingLineName="newBCAFLine" hasBeenAdded="false" countOfMajorColumns="9">
-			<html:image property="methodToCall.insertSalarySettingLine.anchorsalarynewLineLineAnchor" 
-		       	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
-		       	title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>
-		    
-		    <html:hidden property="newBCAFLine.budgetConstructionPosition.iuPayMonths" />
-			<html:hidden property="newBCAFLine.budgetConstructionPosition.iuNormalWorkMonths" />   	
-		</bc:appointmentFundingLineForPosition>
-	</kul:subtab>
+	<c:if test="${not readOnly}">   
+		<kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Add Funding">      
+			<bc:appointmentFundingLineForPosition fundingLine="${KualiForm.newBCAFLine}" fundingLineName="newBCAFLine" hasBeenAdded="false" countOfMajorColumns="9">
+				<html:image property="methodToCall.insertSalarySettingLine.anchorsalarynewLineLineAnchor" 
+			       	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
+			       	title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>
+			    
+			    <html:hidden property="newBCAFLine.budgetConstructionPosition.iuPayMonths" />
+				<html:hidden property="newBCAFLine.budgetConstructionPosition.iuNormalWorkMonths" />   	
+			</bc:appointmentFundingLineForPosition>
+		</kul:subtab>
+	</c:if>
         		
     <c:forEach items="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
 		<c:set var="fundingLineName" value="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>

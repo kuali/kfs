@@ -112,7 +112,8 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         List<String> messageList = GlobalVariables.getMessageList();
         
         // return to the calller directly 
-        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;        
+        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form; 
+        
         if(salarySettingForm.isViewOnlyEntry()) {
             messageList.add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
             return this.returnToCaller(mapping, form, request, response);
@@ -130,11 +131,11 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         if (StringUtils.equals(KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, question) && StringUtils.equals(ConfirmationQuestion.YES, buttonClicked)) {
             ActionForward saveAction = this.save(mapping, form, request, response);
 
-            if (messageList.contains(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED)) {
+            if (!messageList.contains(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED)) {
                 messageList.add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
             }
 
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            return saveAction;
         }
 
         messageList.add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);

@@ -15,8 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
-<c:set var="readOnly" value="${false}" />
+<c:set var="readOnly" value="${KualiForm.viewOnlyEntry}" />
 
 <c:if test="${KualiForm.orgSalSetClose}">
 <kul:page showDocumentInfo="false"
@@ -48,10 +47,10 @@
         <c:if test="${not readOnly}">
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" 
 	        	styleClass="globalbuttons" property="methodToCall.save" title="save" alt="save"/>
-	    
-	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" 
-	        	styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>
         </c:if>
+    	    
+        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" 
+        	styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>
     </div>
 
 <%-- Need these here to override and initialize vars used by objectinfo.js to BC specific --%>

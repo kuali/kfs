@@ -30,10 +30,10 @@ import javax.xml.xpath.XPathConstants;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.lookup.keyvalues.CampusValuesFinder;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.RestrictedMaterial;
+import org.kuali.kfs.module.purap.businessobject.options.CampusWithBlankValuesFinder;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -89,7 +89,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
      */
     public KualiPurApCommodityCodeAttribute() {
         ruleRows = new ArrayList();
-        Map<String, String> campusMap  = (new CampusValuesFinder()).getKeyLabelMap();
+        Map<String, String> campusMap  = (new CampusWithBlankValuesFinder()).getKeyLabelMap();
         ruleRows.add(KualiWorkflowUtils.buildDropdownRow(DELIVERY_CAMPUS_CLASS, DELIVERY_CAMPUS_CODE_PROPERTY, DLVY_CMP_CD, campusMap, false));
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(COMMODITY_CODE_FIELD_CLASS, PURCHASING_COMMODITY_CODE_FIELD_PROPERTY, PUR_COMM_CD));
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(RESTRICTED_MATERIAL_FIELD_CLASS, RESTRICTED_MATERIAL_CODE_FIELD_PROPERTY, RSTRC_MTRL_CD));
@@ -221,7 +221,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         
         if (!doesDeliveryCampusExist()) {
             // Delivery Campus Code must exists in the database
-            String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(DELIVERY_CAMPUS_CLASS, DELIVERY_CAMPUS_CODE_PROPERTY) + " must exists in the database. ";
+            String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(DELIVERY_CAMPUS_CLASS, DELIVERY_CAMPUS_CODE_PROPERTY) + " is required ";
             errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
         }
         if (StringUtils.isNotBlank(getPurchasingCommodityCode())) {

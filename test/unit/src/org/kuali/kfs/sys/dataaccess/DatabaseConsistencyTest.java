@@ -22,27 +22,31 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
 @ConfigureContext
 public class DatabaseConsistencyTest extends KualiTestBase {
-    Connection dbCon = null;
-    Statement dbAsk;
-    StringBuffer queryString;
-    ResultSet dbAnswer;
+    private static final Logger LOG = Logger.getLogger(DatabaseConsistencyTest.class);
+    private Connection dbCon = null;
+    private Statement dbAsk;
+    private StringBuffer queryString;
+    private ResultSet dbAnswer;
+    private String dbType;
 
     public void setUp() throws Exception {
         super.setUp();
         DataSource mySource = SpringContext.getBean(DataSource.class);
         
-        try {
-
+        try {            
             dbCon = mySource.getConnection();
+            dbType =  dbCon.getMetaData().getDatabaseProductName().toLowerCase();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            LOG.error( "Unable to establish connection to database.", e );
+            throw e;
         }
         
     }
@@ -51,27 +55,35 @@ public class DatabaseConsistencyTest extends KualiTestBase {
             try {
                 dbCon.close();
             }
-            catch (SQLException sqle2) {
-                sqle2.printStackTrace();
+            catch (SQLException e) {
+                LOG.error( "Unable to establish close to database.", e );
             }
        
     }
-    public void testNumber(){
-        oracleNumberTest();
+    public void testNumber() throws Exception {
+        System.err.println( "dbType: " + dbType );
+        
+        if ( dbType.contains("oracle") ) {
+            System.err.println( "Running Oracle Test" );
+            oracleNumberTest();
+        }
     }
         
-    public void oracleNumberTest(){
+    public void oracleNumberTest() throws Exception {
         try{
             dbAsk = dbCon.createStatement();
-            queryString = new StringBuffer("select table_name, column_name");
-            queryString.append(" from all_tab_columns");
-            queryString.append(" where data_type = 'NUMBER'");
-            queryString.append(" and data_precision = 22");
-            queryString.append(" and (data_scale is null or data_scale = 0)");
-            queryString.append(" and owner = (select user from dual)");
-            queryString.append(" and table_name not like '%$%'");
-            queryString.append(" and (table_name != 'EN_DOC_HDR_EXT_LONG_T'");
-            queryString.append(" or column_name != 'DOC_HDR_EXT_VAL' )");
+            queryString = new StringBuffer("select table_name, column_name\n");
+            queryString.append(" from user_tab_columns\n");
+            queryString.append(" where data_type = 'NUMBER'\n");
+            queryString.append(" and data_precision = 22\n");
+            queryString.append(" and NVL(data_scale,0) = 0\n");
+            //queryString.append(" AND owner = (SELECT user FROM dual)\n" );
+            queryString.append(" and table_name not like '%$%'\n");
+            queryString.append(" and table_name NOT IN ( 'EN_DOC_HDR_EXT_LONG_T','DOC_HDR_EXT_VAL' )\n");
+            // ignore these tables for now - when these tables are replaced
+            // their names won't match these patterns any more
+            queryString.append(" and table_name NOT LIKE 'KCB%'\n");
+            queryString.append(" and table_name NOT LIKE 'NOTIFICATION%'\n");
             dbAnswer = dbAsk.executeQuery(queryString.toString());
             String tempString="";
             boolean testFailed=false;
@@ -81,8 +93,9 @@ public class DatabaseConsistencyTest extends KualiTestBase {
                 testFailed=true;
             }
             assertFalse(tempString,testFailed);
-        }catch (SQLException sqle){
-            sqle.printStackTrace();
+        }catch (Exception e){
+            LOG.error( "Exception running test.  SQL:\n" + queryString.toString(), e);
+            throw e;
         }
     }
 

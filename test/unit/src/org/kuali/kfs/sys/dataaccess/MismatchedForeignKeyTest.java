@@ -61,7 +61,9 @@ public class MismatchedForeignKeyTest extends KualiTestBase {
         "AND rcc.position = cc.position AND cols.table_name = c.table_name AND cols.column_name = cc.column_name " + 
         "AND rc.constraint_name = c.r_constraint_name AND rcols.table_name = rc.table_name AND rcols.column_name = rcc.column_name " + 
         "AND ( cols.data_type <> rcols.data_type OR NVL( cols.data_length, 0 ) <> NVL( rcols.data_length, 0 ) " + 
-        "OR NVL( cols.data_precision, 0 ) <> NVL( rcols.data_precision, 0 ) OR NVL( cols.data_scale, 0 ) <> NVL( rcols.data_scale, 0 ))"); 
+        "OR NVL( cols.data_precision, 0 ) <> NVL( rcols.data_precision, 0 ) OR NVL( cols.data_scale, 0 ) <> NVL( rcols.data_scale, 0 ))\n" +
+        "AND c.table_name NOT LIKE 'NOTIFICATION%'"
+        ); 
 
         StringBuffer failureMessage = new StringBuffer("Foreign Key Mismatches: ");
         

@@ -107,7 +107,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     /**
      * acquire position and funding locks for the given appointment funding
      */
-    public boolean acquirePositionAndFundingLocks() {       
+    public boolean acquirePositionAndFundingLocks() {         
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             boolean gotLocks = this.acquirePositionAndFundingLocks(appointmentFunding);

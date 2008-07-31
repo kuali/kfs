@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +42,7 @@ import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocument
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
@@ -106,16 +108,22 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+        List<String> messageList = GlobalVariables.getMessageList();
+        
+        // return to the calller directly 
+        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;        
+        if(salarySettingForm.isViewOnlyEntry()) {
+            messageList.add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
+            return this.returnToCaller(mapping, form, request, response);
+        }
 
         // ask the question unless it has not been answered
+        String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (StringUtils.isBlank(question)) {
             String questionText = kualiConfiguration.getPropertyString(KFSKeyConstants.QUESTION_SAVE_BEFORE_CLOSE);
             return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
         }
-
-        List<String> messageList = GlobalVariables.getMessageList();
 
         // save the salary setting if the user answers to the question with "Yes"
         String buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -126,11 +134,11 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
                 messageList.add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
             }
 
-            return this.returnToCaller(mapping, form, request, response);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         messageList.add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return this.returnToCaller(mapping, form, request, response);
     }
 
     /**

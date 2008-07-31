@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,17 +26,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -66,11 +62,8 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
 
         // release all locks before closing the current expansion screen
-        salarySettingForm.releasePositionAndFundingLocks();
-
-        // return to caller if the current salary setting is in the budget by account mode
-        if (salarySettingForm.isBudgetByAccountMode()) {
-            return this.returnToCaller(mapping, form, request, response);
+        if(!salarySettingForm.isViewOnlyEntry()) {
+            salarySettingForm.releasePositionAndFundingLocks();
         }
 
         salarySettingForm.setOrgSalSetClose(true);
@@ -104,7 +97,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getSavableAppointmentFundings();
         
-        // acquire transaction lock for each funding line
+        // acquire transaction locks for all funding lines
         boolean transactionLocked = salarySettingForm.acquireTransactionLocks();
         if(!transactionLocked) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -143,6 +136,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
         this.applyDefaultValuesIfEmpty(newAppointmentFunding);
         
+        // acquire a lock for the new appointment funding line
         boolean gotLocks = salarySettingForm.acquirePositionAndFundingLocks(newAppointmentFunding);
         if(!gotLocks) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);

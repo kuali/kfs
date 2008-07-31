@@ -69,14 +69,16 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             // TODO: Single account mode constrains the funding lines displayed to only those that are associated with the document
             // the user has open.
         }
-
-        boolean isSuccessfullyProcessed = positionSalarySettingForm.postProcessBCAFLines();
-        positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
         
         //acquire position and funding locks for the associated funding lines
-        boolean gotLocks = positionSalarySettingForm.acquirePositionAndFundingLocks();
-        if (!gotLocks) {
-            return this.returnToCaller(mapping, form, request, response);
+        if(!positionSalarySettingForm.isViewOnlyEntry()) {
+            boolean isSuccessfullyProcessed = positionSalarySettingForm.postProcessBCAFLines();
+            positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
+            
+            boolean gotLocks = positionSalarySettingForm.acquirePositionAndFundingLocks();
+            if (!gotLocks) {
+                return this.returnToCaller(mapping, form, request, response);
+            }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

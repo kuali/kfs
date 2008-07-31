@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
@@ -37,8 +36,8 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -112,10 +111,10 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
             boolean vacatable = salarySettingService.canBeVacant(appointmentFundings, appointmentFunding);
             appointmentFunding.setVacatable(vacatable);
 
-            Account account = appointmentFunding.getAccount();           
+            Account account = appointmentFunding.getAccount();
             SubAccount subAccount = appointmentFunding.getSubAccount();
             String subAccountNumber = appointmentFunding.getSubAccountNumber();
-            
+
             boolean budgetable = budgetDocumentService.isBudgetableAccount(fiscalYear, account);
             budgetable = budgetable && budgetDocumentService.isBudgetableSubAccount(subAccount, subAccountNumber);
             appointmentFunding.setBudgetable(budgetable);
@@ -636,5 +635,30 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public UniversalUser getUniversalUser() {
         return universalUser;
+    }
+
+    /**
+     * Gets the readOnlyEntry attribute.
+     * 
+     * @return Returns the readOnlyEntry.
+     */
+    public boolean isViewOnlyEntry() {
+        boolean viewOnly = false;
+        if(editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+            viewOnly = Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
+        }
+        
+        if(viewOnly) {
+            return true;
+        }
+        
+        if(editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+            viewOnly = !Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY));
+        }
+        else {
+            viewOnly = true;
+        }
+        
+        return viewOnly;
     }
 }

@@ -81,7 +81,7 @@ public class BudgetParameterFinder {
      * @return the sub fund group codes not allowed 2plg generation setup in system parameters
      */
     public static List<String> getNotGenerate2PlgSubFundGroupCodes() {
-        return parameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.GENERATE_2PLG_SUB_FUND_GROUPS);
+        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.GENERATE_2PLG_SUB_FUND_GROUPS);
     }
 
     /**

@@ -25,6 +25,7 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -81,4 +82,29 @@ public class RequisitionAction extends PurchasingActionBase {
         item.addAsset();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    public ActionForward selectSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RequisitionForm rqForm = (RequisitionForm) form;
+        RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
+        
+        SpringContext.getBean(PurchasingService.class).setupCAMSItems(document);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward changeSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RequisitionForm rqForm = (RequisitionForm) form;
+        RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward updateCamsView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RequisitionForm rqForm = (RequisitionForm) form;
+        RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
+        
+        SpringContext.getBean(PurchasingService.class).setupCAMSItems(document);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 }

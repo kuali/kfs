@@ -364,6 +364,15 @@
 			attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/ar/{1}.jsp" />
+		</action>	
+
+		<action path="/arCustomerAgingReportLookup"
+			name="CustomerAgingReportForm" scope="request" attribute="KualiForm"
+			parameter="methodToCall"
+			type="org.kuali.kfs.module.ar.web.struts.CustomerAgingReportAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/modules/ar/CustomerAgingReportLookup.jsp" />
 		</action>
 
 		<action path="/uploadBarcodeInventoryFile"

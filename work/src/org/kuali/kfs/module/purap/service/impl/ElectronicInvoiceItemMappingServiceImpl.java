@@ -46,7 +46,7 @@ public class ElectronicInvoiceItemMappingServiceImpl implements ElectronicInvoic
     //Before saving, if the id is empty, we are supposed to check whether the item mapping has existed in the database. 
     //If so, we should display an error to the user, if not, then continue with the saving.
     ElectronicInvoiceItemMapping existing = electronicInvoiceItemMappingDao.getByUniqueKeys(ei.getVendorHeaderGeneratedIdentifier(), ei.getVendorDetailAssignedIdentifier(), ei.getInvoiceItemTypeCode());
-    if ((existing != null && ei.getElectronicInvoiceMapIdentifier() == null) ||	(ei.getElectronicInvoiceMapIdentifier() != null && !existing.getElectronicInvoiceMapIdentifier().equals(ei.getElectronicInvoiceMapIdentifier()))) {
+    if ((existing != null && ei.getInvoiceMapIdentifier() == null) ||	(ei.getInvoiceMapIdentifier() != null && !existing.getInvoiceMapIdentifier().equals(ei.getInvoiceMapIdentifier()))) {
         /* FIXME need to record the errors as reject reasons and put those in route log somehow
           se.setTab("error");
           se.setMessageKey("errors.einvoice.item.mapping.duplicate.rows");

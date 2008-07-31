@@ -4,34 +4,27 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.LinkedHashMap;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.kfs.pdp.businessobject.UserRequired;
-
-import edu.iu.uis.eden.user.UserService;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 /**
  * @author delyea
  *
  */
-public class ElectronicInvoiceItemMapping implements Serializable, PersistenceBrokerAware {
+public class ElectronicInvoiceItemMapping extends PersistableBusinessObjectBase {
   
-  private Integer electronicInvoiceMapIdentifier;
+  private Integer invoiceMapIdentifier;
   private Integer vendorHeaderGeneratedIdentifier;
-  private Integer vendorDetailAssignedIdentifier;
-  
-  private String poItemTypeCode;
+  private Integer vendorDetailAssignedIdentifier;  
+  private String itemTypeCode;
   private String invoiceItemTypeCode;
-  private Timestamp lastUpdateTimestamp;
-  private Integer version;
   
   private ItemType itemType;
   private ItemType invoiceItemType;
+  VendorDetail vendorDetail;
+  
   /**
    * 
    */
@@ -39,6 +32,19 @@ public class ElectronicInvoiceItemMapping implements Serializable, PersistenceBr
     super();
   }
   
+  /**
+   * @return Returns the invoiceMapIdentifier.
+   */
+  public Integer getInvoiceMapIdentifier() {
+    return invoiceMapIdentifier;
+  }
+  /**
+   * @param invoiceMapIdentifier The invoiceMapIdentifier to set.
+   */
+  public void setInvoiceMapIdentifier(Integer id) {
+    this.invoiceMapIdentifier = id;
+  }
+
   /**
    * @return Returns the invoiceItemTypeCode.
    */
@@ -52,28 +58,16 @@ public class ElectronicInvoiceItemMapping implements Serializable, PersistenceBr
     this.invoiceItemTypeCode = electronicInvoiceItemTypeCode;
   }
   /**
-   * @return Returns the poItemTypeCode.
+   * @return Returns the itemTypeCode.
    */
-  public String getPoItemTypeCode() {
-    return poItemTypeCode;
+  public String getItemTypeCode() {
+    return itemTypeCode;
   }
   /**
-   * @param poItemTypeCode The poItemTypeCode to set.
+   * @param itemTypeCode The itemTypeCode to set.
    */
-  public void setPoItemTypeCode(String epicItemTypeCode) {
-    this.poItemTypeCode = epicItemTypeCode;
-  }
-  /**
-   * @return Returns the electronicInvoiceMapIdentifier.
-   */
-  public Integer getElectronicInvoiceMapIdentifier() {
-    return electronicInvoiceMapIdentifier;
-  }
-  /**
-   * @param electronicInvoiceMapIdentifier The electronicInvoiceMapIdentifier to set.
-   */
-  public void setElectronicInvoiceMapIdentifier(Integer id) {
-    this.electronicInvoiceMapIdentifier = id;
+  public void setItemTypeCode(String epicItemTypeCode) {
+    this.itemTypeCode = epicItemTypeCode;
   }
   /**
    * @return Returns the itemType.
@@ -86,20 +80,17 @@ public class ElectronicInvoiceItemMapping implements Serializable, PersistenceBr
    */
   public void setItemType(ItemType itemType) {
     this.itemType = itemType;
-    this.poItemTypeCode = itemType.getItemTypeCode();
+    this.itemTypeCode = itemType.getItemTypeCode();
   }
-  /**
-   * @return Returns the lastUpdateTimestamp.
-   */
-  public Timestamp getLastUpdateTimestamp() {
-    return lastUpdateTimestamp;
+  
+  public ItemType getInvoiceItemType() {
+    return invoiceItemType;
   }
-  /**
-   * @param lastUpdateTimestamp The lastUpdateTimestamp to set.
-   */
-  public void setLastUpdateTimestamp(Timestamp lastUpdateTimestamp) {
-    this.lastUpdateTimestamp = lastUpdateTimestamp;
+
+  public void setInvoiceItemType(ItemType invoiceItemType) {
+    this.invoiceItemType = invoiceItemType;
   }
+
   /**
    * @return Returns the vendorDetailAssignedIdentifier.
    */
@@ -124,69 +115,21 @@ public class ElectronicInvoiceItemMapping implements Serializable, PersistenceBr
   public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedId) {
     this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedId;
   }
-  /**
-   * @return Returns the version.
-   */
-  public Integer getVersion() {
-    return version;
-  }
-  /**
-   * @param version The version to set.
-   */
-  public void setVersion(Integer version) {
-    this.version = version;
-  }
-
-  //persistence broker aware methods + override
-  public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-    // set last update timestamp
-    lastUpdateTimestamp = new Timestamp((new Date()).getTime());
-  }
   
-  public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
+  public VendorDetail getVendorDetail() {
+    return vendorDetail;
   }
 
-  public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-    lastUpdateTimestamp = new Timestamp((new Date()).getTime());
+  public void setVendorDetail(VendorDetail vendorDetail) {
+    this.vendorDetail = vendorDetail;
   }
 
-  public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
+  /**
+   * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+   */
+  protected LinkedHashMap toStringMapper() {
+      LinkedHashMap m = new LinkedHashMap();
+      m.put("invoiceMapIdentifier", this.invoiceMapIdentifier);
+      return m;
   }
-
-  public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-  }
-
-  public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-  }
-
-  public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-  }
-
 }
-/*
-Copyright (c) 2004, 2005 The National Association of College and
-University Business Officers, Cornell University, Trustees of Indiana
-University, Michigan State University Board of Trustees, Trustees of San
-Joaquin Delta College, University of Hawai'i, The Arizona Board of
-Regents on behalf of the University of Arizona, and the r*smart group.
-
-Licensed under the Educational Community License Version 1.0 (the 
-"License"); By obtaining, using and/or copying this Original Work, you
-agree that you have read, understand, and will comply with the terms and
-conditions of the Educational Community License.
-
-You may obtain a copy of the License at:
-
-http://kualiproject.org/license.html
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE. 
-*/

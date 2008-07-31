@@ -4,21 +4,18 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.LinkedHashMap;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+
 
 /**
  * @author delyea
  *
  */
-public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBrokerAware {
+public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
 
   private static BigDecimal zero = new BigDecimal(0);
 
@@ -26,32 +23,30 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
   private Integer invoiceRejectItemIdentifier;
   private Integer purapDocumentIdentifier;
   
-  
-  private Integer rejectHeaderId;
-  private Integer itemLineNumber;
+  private Integer invoiceItemLineNumber;
   private BigDecimal invoiceItemQuantity;
   private String invoiceItemUnitOfMeasureCode;
-  private String invoiceCatalogNumber;
+  private String invoiceItemCatalogNumber;
   
-  private String invoiceUnitPriceCurrency;
-  private String invoiceSubtotalAmountCurrency;
-  private String invoiceSpecialHandlingAmountCurrency;
-  private String invoiceShippingAmountCurrency;
-  private String invoiceShippingDescription;
-  private String invoiceTaxAmountCurrency;
-  private String invoiceTaxDescription;
-  private String invoiceGrossAmountCurrency;
-  private String invoiceDiscountAmountCurrency;
-  private String invoiceNetAmountCurrency;
+  private String invoiceItemUnitPriceCurrency;
+  private String invoiceItemSubtotalAmountCurrency;
+  private String invoiceItemSpecialHandlingAmountCurrency;
+  private String invoiceItemShippingAmountCurrency;
+  private String invoiceItemShippingDescription;
+  private String invoiceItemTaxAmountCurrency;
+  private String invoiceItemTaxDescription;
+  private String invoiceItemGrossAmountCurrency;
+  private String invoiceItemDiscountAmountCurrency;
+  private String invoiceItemNetAmountCurrency;
   
-  private BigDecimal invoiceUnitPrice;
-  private BigDecimal invoiceSubtotalAmount;
-  private BigDecimal invoiceSpecialHandlingAmount;
-  private BigDecimal invoiceShippingAmount;
-  private BigDecimal invoiceTaxAmount;
-  private BigDecimal invoiceGrossAmount;
-  private BigDecimal invoiceDiscountAmount;
-  private BigDecimal invoiceNetAmount;
+  private BigDecimal invoiceItemUnitPrice;
+  private BigDecimal invoiceItemSubtotalAmount;
+  private BigDecimal invoiceItemSpecialHandlingAmount;
+  private BigDecimal invoiceItemShippingAmount;
+  private BigDecimal invoiceItemTaxAmount;
+  private BigDecimal invoiceItemGrossAmount;
+  private BigDecimal invoiceItemDiscountAmount;
+  private BigDecimal invoiceItemNetAmount;
   
   private Integer itemReferenceLineNumber;
   private String itemReferenceSerialNumber;
@@ -63,10 +58,8 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
   private String itemReferenceCountryCode;
   private String itemReferenceCountryName;
   
-  private Timestamp lastUpdateTimestamp; //lst_updt_ts
-  private Integer version; //ver_nbr
-  
-  private ElectronicInvoiceReject electronicInvoiceReject;
+  private ElectronicInvoiceRejectDocument electronicInvoiceRejectDocument;
+
   
   /**
    * 
@@ -74,25 +67,20 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
   public ElectronicInvoiceRejectItem() {
     super();
   }
-  
-  public ElectronicInvoiceRejectItem(ElectronicInvoiceRejectDocument electronicInvoiceReject, ElectronicInvoiceItem eii) {
-      //FIXME the other constructor should be using this document class
-      super();
-  }
 
-   /**
+  /**
    * 
    */
-  public ElectronicInvoiceRejectItem(ElectronicInvoiceReject electronicInvoiceReject, ElectronicInvoiceItem eii) {
+  public ElectronicInvoiceRejectItem(ElectronicInvoiceRejectDocument electronicInvoiceRejectDocument, ElectronicInvoiceItem eii) {
     super();
     
-    this.electronicInvoiceReject = electronicInvoiceReject;
+    this.electronicInvoiceRejectDocument = electronicInvoiceRejectDocument;
     try {
-      this.itemLineNumber = new Integer(Integer.parseInt(eii.getInvoiceLineNumber()));
+      this.invoiceItemLineNumber = new Integer(Integer.parseInt(eii.getInvoiceLineNumber()));
     } catch (NumberFormatException n) {
-      this.itemLineNumber = null;
+      this.invoiceItemLineNumber = null;
     }
-    this.invoiceCatalogNumber = eii.getCatalogNumber();
+    this.invoiceItemCatalogNumber = eii.getCatalogNumber();
     this.invoiceItemQuantity = eii.getInvoiceLineQuantityBigDecimal();
     this.invoiceItemUnitOfMeasureCode = eii.getUnitOfMeasure();
     this.itemReferenceLineNumber = eii.getReferenceLineNumberInteger();
@@ -105,56 +93,56 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
     this.itemReferenceCountryCode = eii.getReferenceCountryCode();
     this.itemReferenceCountryName = eii.getReferenceCountryName();
     
-    this.invoiceUnitPriceCurrency = eii.getUnitPriceCurrency();
-    this.invoiceSubtotalAmountCurrency = eii.getSubtotalAmountCurrency();
-    this.invoiceSpecialHandlingAmountCurrency = eii.getInvoiceLineSpecialHandlingAmountCurrency();
-    this.invoiceShippingAmountCurrency = eii.getInvoiceLineShippingAmountCurrency();
-    this.invoiceShippingDescription = eii.getInvoiceLineShippingDescription();
-    this.invoiceTaxAmountCurrency = eii.getTaxAmountCurrency();
-    this.invoiceTaxDescription = eii.getTaxDescription();
-    this.invoiceGrossAmountCurrency = eii.getInvoiceLineGrossAmountCurrency();
-    this.invoiceDiscountAmountCurrency = eii.getInvoiceLineDiscountAmountCurrency();
-    this.invoiceNetAmountCurrency = eii.getInvoiceLineNetAmountCurrency();
+    this.invoiceItemUnitPriceCurrency = eii.getUnitPriceCurrency();
+    this.invoiceItemSubtotalAmountCurrency = eii.getSubtotalAmountCurrency();
+    this.invoiceItemSpecialHandlingAmountCurrency = eii.getInvoiceLineSpecialHandlingAmountCurrency();
+    this.invoiceItemShippingAmountCurrency = eii.getInvoiceLineShippingAmountCurrency();
+    this.invoiceItemShippingDescription = eii.getInvoiceLineShippingDescription();
+    this.invoiceItemTaxAmountCurrency = eii.getTaxAmountCurrency();
+    this.invoiceItemTaxDescription = eii.getTaxDescription();
+    this.invoiceItemGrossAmountCurrency = eii.getInvoiceLineGrossAmountCurrency();
+    this.invoiceItemDiscountAmountCurrency = eii.getInvoiceLineDiscountAmountCurrency();
+    this.invoiceItemNetAmountCurrency = eii.getInvoiceLineNetAmountCurrency();
     
-    this.invoiceUnitPrice = eii.getInvoiceLineUnitCostBigDecimal();
-    this.invoiceSubtotalAmount = eii.getInvoiceLineSubtotalAmountBigDecimal();
-    this.invoiceSpecialHandlingAmount = eii.getInvoiceLineSpecialHandlingAmountBigDecimal();
-    this.invoiceShippingAmount = eii.getInvoiceLineShippingAmountBigDecimal();
-    this.invoiceTaxAmount = eii.getInvoiceLineTaxAmountBigDecimal();
-    this.invoiceGrossAmount = eii.getInvoiceLineGrossAmountBigDecimal();
-    this.invoiceDiscountAmount = eii.getInvoiceLineDiscountAmountBigDecimal();
-    this.invoiceNetAmount = eii.getInvoiceLineNetAmountBigDecimal();
+    this.invoiceItemUnitPrice = eii.getInvoiceLineUnitCostBigDecimal();
+    this.invoiceItemSubtotalAmount = eii.getInvoiceLineSubtotalAmountBigDecimal();
+    this.invoiceItemSpecialHandlingAmount = eii.getInvoiceLineSpecialHandlingAmountBigDecimal();
+    this.invoiceItemShippingAmount = eii.getInvoiceLineShippingAmountBigDecimal();
+    this.invoiceItemTaxAmount = eii.getInvoiceLineTaxAmountBigDecimal();
+    this.invoiceItemGrossAmount = eii.getInvoiceLineGrossAmountBigDecimal();
+    this.invoiceItemDiscountAmount = eii.getInvoiceLineDiscountAmountBigDecimal();
+    this.invoiceItemNetAmount = eii.getInvoiceLineNetAmountBigDecimal();
     
     // setup the sub total amount so that the reject prints to the files correctly
     if ( ( (eii.getSubtotalAmount() == null) || ("".equals(eii.getSubtotalAmount())) ) ) {
       // the sub total amount of this electronic invoice item was not given
       if ( ( (this.invoiceItemQuantity != null) && ((zero.compareTo(this.invoiceItemQuantity)) != 0) ) &&
-           ( (this.invoiceUnitPrice != null) && ((zero.compareTo(this.invoiceUnitPrice)) != 0) ) ) {
+           ( (this.invoiceItemUnitPrice != null) && ((zero.compareTo(this.invoiceItemUnitPrice)) != 0) ) ) {
         // unit price and quantity are valid... calculate subtotal
-        this.invoiceSubtotalAmount = this.invoiceItemQuantity.multiply(this.invoiceUnitPrice);
+        this.invoiceItemSubtotalAmount = this.invoiceItemQuantity.multiply(this.invoiceItemUnitPrice);
       } else if ( ( (this.invoiceItemQuantity == null) || ("".equals(this.invoiceItemQuantity)) ) &&
-                  ( (this.invoiceUnitPrice != null) && ((zero.compareTo(this.invoiceUnitPrice)) != 0) ) ) {
+                  ( (this.invoiceItemUnitPrice != null) && ((zero.compareTo(this.invoiceItemUnitPrice)) != 0) ) ) {
         // quantity is empty but unit cost exists... use it
-        this.invoiceSubtotalAmount = this.invoiceUnitPrice;
+        this.invoiceItemSubtotalAmount = this.invoiceItemUnitPrice;
       } else {
-        this.invoiceSubtotalAmount = null;
+        this.invoiceItemSubtotalAmount = null;
       }
     } else {
-      this.invoiceSubtotalAmount = eii.getInvoiceLineSubtotalAmountBigDecimal();
+      this.invoiceItemSubtotalAmount = eii.getInvoiceLineSubtotalAmountBigDecimal();
     }
   }
   
   /**
-   * @return Returns the electronicInvoiceReject.
+   * @return Returns the electronicInvoiceRejectDocument.
    */
-  public ElectronicInvoiceReject getElectronicInvoiceReject() {
-    return electronicInvoiceReject;
+  public ElectronicInvoiceRejectDocument getElectronicInvoiceRejectDocument() {
+    return electronicInvoiceRejectDocument;
   }
   /**
-   * @param electronicInvoiceReject The electronicInvoiceReject to set.
+   * @param electronicInvoiceRejectDocument The electronicInvoiceRejectDocument to set.
    */
-  public void setElectronicInvoiceReject(ElectronicInvoiceReject electronicInvoiceReject) {
-    this.electronicInvoiceReject = electronicInvoiceReject;
+  public void setElectronicInvoiceRejectDocument(ElectronicInvoiceRejectDocument electronicInvoiceRejectDocument) {
+    this.electronicInvoiceRejectDocument = electronicInvoiceRejectDocument;
   }
   /**
    * @return Returns the invoiceRejectItemIdentifier.
@@ -169,64 +157,64 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
     this.invoiceRejectItemIdentifier = id;
   }
   /**
-   * @return Returns the invoiceCatalogNumber.
+   * @return Returns the invoiceItemCatalogNumber.
    */
-  public String getInvoiceCatalogNumber() {
-    return invoiceCatalogNumber;
+  public String getInvoiceItemCatalogNumber() {
+    return invoiceItemCatalogNumber;
   }
   /**
-   * @param invoiceCatalogNumber The invoiceCatalogNumber to set.
+   * @param invoiceItemCatalogNumber The invoiceItemCatalogNumber to set.
    */
-  public void setInvoiceCatalogNumber(String invoiceCatalogNumber) {
-    this.invoiceCatalogNumber = invoiceCatalogNumber;
+  public void setInvoiceItemCatalogNumber(String invoiceCatalogNumber) {
+    this.invoiceItemCatalogNumber = invoiceCatalogNumber;
   }
   /**
-   * @return Returns the invoiceDiscountAmount.
+   * @return Returns the invoiceItemDiscountAmount.
    */
-  public BigDecimal getInvoiceDiscountAmount() {
-    return invoiceDiscountAmount;
+  public BigDecimal getInvoiceItemDiscountAmount() {
+    return invoiceItemDiscountAmount;
   }
   /**
-   * @param invoiceDiscountAmount The invoiceDiscountAmount to set.
+   * @param invoiceItemDiscountAmount The invoiceItemDiscountAmount to set.
    */
-  public void setInvoiceDiscountAmount(BigDecimal invoiceDiscountAmount) {
-    this.invoiceDiscountAmount = invoiceDiscountAmount;
+  public void setInvoiceItemDiscountAmount(BigDecimal invoiceDiscountAmount) {
+    this.invoiceItemDiscountAmount = invoiceDiscountAmount;
   }
   /**
-   * @return Returns the invoiceDiscountAmountCurrency.
+   * @return Returns the invoiceItemDiscountAmountCurrency.
    */
-  public String getInvoiceDiscountAmountCurrency() {
-    return invoiceDiscountAmountCurrency;
+  public String getInvoiceItemDiscountAmountCurrency() {
+    return invoiceItemDiscountAmountCurrency;
   }
   /**
-   * @param invoiceDiscountAmountCurrency The invoiceDiscountAmountCurrency to set.
+   * @param invoiceItemDiscountAmountCurrency The invoiceItemDiscountAmountCurrency to set.
    */
-  public void setInvoiceDiscountAmountCurrency(String invoiceDiscountAmountCurrency) {
-    this.invoiceDiscountAmountCurrency = invoiceDiscountAmountCurrency;
+  public void setInvoiceItemDiscountAmountCurrency(String invoiceDiscountAmountCurrency) {
+    this.invoiceItemDiscountAmountCurrency = invoiceDiscountAmountCurrency;
   }
   /**
-   * @return Returns the invoiceGrossAmount.
+   * @return Returns the invoiceItemGrossAmount.
    */
-  public BigDecimal getInvoiceGrossAmount() {
-    return invoiceGrossAmount;
+  public BigDecimal getInvoiceItemGrossAmount() {
+    return invoiceItemGrossAmount;
   }
   /**
-   * @param invoiceGrossAmount The invoiceGrossAmount to set.
+   * @param invoiceItemGrossAmount The invoiceItemGrossAmount to set.
    */
-  public void setInvoiceGrossAmount(BigDecimal invoiceGrossAmount) {
-    this.invoiceGrossAmount = invoiceGrossAmount;
+  public void setInvoiceItemGrossAmount(BigDecimal invoiceGrossAmount) {
+    this.invoiceItemGrossAmount = invoiceGrossAmount;
   }
   /**
-   * @return Returns the invoiceGrossAmountCurrency.
+   * @return Returns the invoiceItemGrossAmountCurrency.
    */
-  public String getInvoiceGrossAmountCurrency() {
-    return invoiceGrossAmountCurrency;
+  public String getInvoiceItemGrossAmountCurrency() {
+    return invoiceItemGrossAmountCurrency;
   }
   /**
-   * @param invoiceGrossAmountCurrency The invoiceGrossAmountCurrency to set.
+   * @param invoiceItemGrossAmountCurrency The invoiceItemGrossAmountCurrency to set.
    */
-  public void setInvoiceGrossAmountCurrency(String invoiceGrossAmountCurrency) {
-    this.invoiceGrossAmountCurrency = invoiceGrossAmountCurrency;
+  public void setInvoiceItemGrossAmountCurrency(String invoiceGrossAmountCurrency) {
+    this.invoiceItemGrossAmountCurrency = invoiceGrossAmountCurrency;
   }
   /**
    * @return Returns the invoiceItemQuantity.
@@ -253,184 +241,184 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
     this.invoiceItemUnitOfMeasureCode = invoiceItemUnitOfMeasureCode;
   }
   /**
-   * @return Returns the invoiceNetAmount.
+   * @return Returns the invoiceItemNetAmount.
    */
-  public BigDecimal getInvoiceNetAmount() {
-    return invoiceNetAmount;
+  public BigDecimal getInvoiceItemNetAmount() {
+    return invoiceItemNetAmount;
   }
   /**
-   * @param invoiceNetAmount The invoiceNetAmount to set.
+   * @param invoiceItemNetAmount The invoiceItemNetAmount to set.
    */
-  public void setInvoiceNetAmount(BigDecimal invoiceNetAmount) {
-    this.invoiceNetAmount = invoiceNetAmount;
+  public void setInvoiceItemNetAmount(BigDecimal invoiceNetAmount) {
+    this.invoiceItemNetAmount = invoiceNetAmount;
   }
   /**
-   * @return Returns the invoiceNetAmountCurrency.
+   * @return Returns the invoiceItemNetAmountCurrency.
    */
-  public String getInvoiceNetAmountCurrency() {
-    return invoiceNetAmountCurrency;
+  public String getInvoiceItemNetAmountCurrency() {
+    return invoiceItemNetAmountCurrency;
   }
   /**
-   * @param invoiceNetAmountCurrency The invoiceNetAmountCurrency to set.
+   * @param invoiceItemNetAmountCurrency The invoiceItemNetAmountCurrency to set.
    */
-  public void setInvoiceNetAmountCurrency(String invoiceNetAmountCurrency) {
-    this.invoiceNetAmountCurrency = invoiceNetAmountCurrency;
+  public void setInvoiceItemNetAmountCurrency(String invoiceNetAmountCurrency) {
+    this.invoiceItemNetAmountCurrency = invoiceNetAmountCurrency;
   }
   /**
-   * @return Returns the invoiceShippingAmount.
+   * @return Returns the invoiceItemShippingAmount.
    */
-  public BigDecimal getInvoiceShippingAmount() {
-    return invoiceShippingAmount;
+  public BigDecimal getInvoiceItemShippingAmount() {
+    return invoiceItemShippingAmount;
   }
   /**
-   * @param invoiceShippingAmount The invoiceShippingAmount to set.
+   * @param invoiceItemShippingAmount The invoiceItemShippingAmount to set.
    */
-  public void setInvoiceShippingAmount(BigDecimal invoiceShippingAmount) {
-    this.invoiceShippingAmount = invoiceShippingAmount;
+  public void setInvoiceItemShippingAmount(BigDecimal invoiceShippingAmount) {
+    this.invoiceItemShippingAmount = invoiceShippingAmount;
   }
   /**
-   * @return Returns the invoiceShippingAmountCurrency.
+   * @return Returns the invoiceItemShippingAmountCurrency.
    */
-  public String getInvoiceShippingAmountCurrency() {
-    return invoiceShippingAmountCurrency;
+  public String getInvoiceItemShippingAmountCurrency() {
+    return invoiceItemShippingAmountCurrency;
   }
   /**
-   * @param invoiceShippingAmountCurrency The invoiceShippingAmountCurrency to set.
+   * @param invoiceItemShippingAmountCurrency The invoiceItemShippingAmountCurrency to set.
    */
-  public void setInvoiceShippingAmountCurrency(String invoiceShippingAmountCurrency) {
-    this.invoiceShippingAmountCurrency = invoiceShippingAmountCurrency;
+  public void setInvoiceItemShippingAmountCurrency(String invoiceShippingAmountCurrency) {
+    this.invoiceItemShippingAmountCurrency = invoiceShippingAmountCurrency;
   }
   /**
-   * @return Returns the invoiceShippingDescription.
+   * @return Returns the invoiceItemShippingDescription.
    */
-  public String getInvoiceShippingDescription() {
-    return invoiceShippingDescription;
+  public String getInvoiceItemShippingDescription() {
+    return invoiceItemShippingDescription;
   }
   /**
-   * @param invoiceShippingDescription The invoiceShippingDescription to set.
+   * @param invoiceItemShippingDescription The invoiceItemShippingDescription to set.
    */
-  public void setInvoiceShippingDescription(String invoiceShippingDescription) {
-    this.invoiceShippingDescription = invoiceShippingDescription;
+  public void setInvoiceItemShippingDescription(String invoiceShippingDescription) {
+    this.invoiceItemShippingDescription = invoiceShippingDescription;
   }
   /**
-   * @return Returns the invoiceSpecialHandlingAmount.
+   * @return Returns the invoiceItemSpecialHandlingAmount.
    */
-  public BigDecimal getInvoiceSpecialHandlingAmount() {
-    return invoiceSpecialHandlingAmount;
+  public BigDecimal getInvoiceItemSpecialHandlingAmount() {
+    return invoiceItemSpecialHandlingAmount;
   }
   /**
-   * @param invoiceSpecialHandlingAmount The invoiceSpecialHandlingAmount to set.
+   * @param invoiceItemSpecialHandlingAmount The invoiceItemSpecialHandlingAmount to set.
    */
-  public void setInvoiceSpecialHandlingAmount(BigDecimal invoiceSpecialHandlingAmount) {
-    this.invoiceSpecialHandlingAmount = invoiceSpecialHandlingAmount;
+  public void setInvoiceItemSpecialHandlingAmount(BigDecimal invoiceSpecialHandlingAmount) {
+    this.invoiceItemSpecialHandlingAmount = invoiceSpecialHandlingAmount;
   }
   /**
-   * @return Returns the invoiceSpecialHandlingAmountCurrency.
+   * @return Returns the invoiceItemSpecialHandlingAmountCurrency.
    */
-  public String getInvoiceSpecialHandlingAmountCurrency() {
-    return invoiceSpecialHandlingAmountCurrency;
+  public String getInvoiceItemSpecialHandlingAmountCurrency() {
+    return invoiceItemSpecialHandlingAmountCurrency;
   }
   /**
-   * @param invoiceSpecialHandlingAmountCurrency The invoiceSpecialHandlingAmountCurrency to set.
+   * @param invoiceItemSpecialHandlingAmountCurrency The invoiceItemSpecialHandlingAmountCurrency to set.
    */
-  public void setInvoiceSpecialHandlingAmountCurrency(String invoiceSpecialHandlingAmountCurrency) {
-    this.invoiceSpecialHandlingAmountCurrency = invoiceSpecialHandlingAmountCurrency;
+  public void setInvoiceItemSpecialHandlingAmountCurrency(String invoiceSpecialHandlingAmountCurrency) {
+    this.invoiceItemSpecialHandlingAmountCurrency = invoiceSpecialHandlingAmountCurrency;
   }
   /**
-   * @return Returns the invoiceSubtotalAmount.
+   * @return Returns the invoiceItemSubtotalAmount.
    */
-  public BigDecimal getInvoiceSubtotalAmount() {
-    return invoiceSubtotalAmount;
+  public BigDecimal getInvoiceItemSubtotalAmount() {
+    return invoiceItemSubtotalAmount;
   }
   /**
-   * @param invoiceSubtotalAmount The invoiceSubtotalAmount to set.
+   * @param invoiceItemSubtotalAmount The invoiceItemSubtotalAmount to set.
    */
-  public void setInvoiceSubtotalAmount(BigDecimal invoiceSubtotalAmount) {
-    this.invoiceSubtotalAmount = invoiceSubtotalAmount;
+  public void setInvoiceItemSubtotalAmount(BigDecimal invoiceSubtotalAmount) {
+    this.invoiceItemSubtotalAmount = invoiceSubtotalAmount;
   }
   /**
-   * @return Returns the invoiceSubtotalAmountCurrency.
+   * @return Returns the invoiceItemSubtotalAmountCurrency.
    */
-  public String getInvoiceSubtotalAmountCurrency() {
-    return invoiceSubtotalAmountCurrency;
+  public String getInvoiceItemSubtotalAmountCurrency() {
+    return invoiceItemSubtotalAmountCurrency;
   }
   /**
-   * @param invoiceSubtotalAmountCurrency The invoiceSubtotalAmountCurrency to set.
+   * @param invoiceItemSubtotalAmountCurrency The invoiceItemSubtotalAmountCurrency to set.
    */
-  public void setInvoiceSubtotalAmountCurrency(String invoiceSubtotalAmountCurrency) {
-    this.invoiceSubtotalAmountCurrency = invoiceSubtotalAmountCurrency;
+  public void setInvoiceItemSubtotalAmountCurrency(String invoiceSubtotalAmountCurrency) {
+    this.invoiceItemSubtotalAmountCurrency = invoiceSubtotalAmountCurrency;
   }
   /**
-   * @return Returns the invoiceTaxAmount.
+   * @return Returns the invoiceItemTaxAmount.
    */
-  public BigDecimal getInvoiceTaxAmount() {
-    return invoiceTaxAmount;
+  public BigDecimal getInvoiceItemTaxAmount() {
+    return invoiceItemTaxAmount;
   }
   /**
-   * @param invoiceTaxAmount The invoiceTaxAmount to set.
+   * @param invoiceItemTaxAmount The invoiceItemTaxAmount to set.
    */
-  public void setInvoiceTaxAmount(BigDecimal invoiceTaxAmount) {
-    this.invoiceTaxAmount = invoiceTaxAmount;
+  public void setInvoiceItemTaxAmount(BigDecimal invoiceTaxAmount) {
+    this.invoiceItemTaxAmount = invoiceTaxAmount;
   }
   /**
-   * @return Returns the invoiceTaxAmountCurrency.
+   * @return Returns the invoiceItemTaxAmountCurrency.
    */
-  public String getInvoiceTaxAmountCurrency() {
-    return invoiceTaxAmountCurrency;
+  public String getInvoiceItemTaxAmountCurrency() {
+    return invoiceItemTaxAmountCurrency;
   }
   /**
-   * @param invoiceTaxAmountCurrency The invoiceTaxAmountCurrency to set.
+   * @param invoiceItemTaxAmountCurrency The invoiceItemTaxAmountCurrency to set.
    */
-  public void setInvoiceTaxAmountCurrency(String invoiceTaxAmountCurrency) {
-    this.invoiceTaxAmountCurrency = invoiceTaxAmountCurrency;
+  public void setInvoiceItemTaxAmountCurrency(String invoiceTaxAmountCurrency) {
+    this.invoiceItemTaxAmountCurrency = invoiceTaxAmountCurrency;
   }
   /**
-   * @return Returns the invoiceTaxDescription.
+   * @return Returns the invoiceItemTaxDescription.
    */
-  public String getInvoiceTaxDescription() {
-    return invoiceTaxDescription;
+  public String getInvoiceItemTaxDescription() {
+    return invoiceItemTaxDescription;
   }
   /**
-   * @param invoiceTaxDescription The invoiceTaxDescription to set.
+   * @param invoiceItemTaxDescription The invoiceItemTaxDescription to set.
    */
-  public void setInvoiceTaxDescription(String invoiceTaxDescription) {
-    this.invoiceTaxDescription = invoiceTaxDescription;
+  public void setInvoiceItemTaxDescription(String invoiceTaxDescription) {
+    this.invoiceItemTaxDescription = invoiceTaxDescription;
   }
   /**
-   * @return Returns the invoiceUnitPrice.
+   * @return Returns the invoiceItemUnitPrice.
    */
-  public BigDecimal getInvoiceUnitPrice() {
-    return invoiceUnitPrice;
+  public BigDecimal getInvoiceItemUnitPrice() {
+    return invoiceItemUnitPrice;
   }
   /**
-   * @param invoiceUnitPrice The invoiceUnitPrice to set.
+   * @param invoiceItemUnitPrice The invoiceItemUnitPrice to set.
    */
-  public void setInvoiceUnitPrice(BigDecimal invoiceUnitPrice) {
-    this.invoiceUnitPrice = invoiceUnitPrice;
+  public void setInvoiceItemUnitPrice(BigDecimal invoiceUnitPrice) {
+    this.invoiceItemUnitPrice = invoiceUnitPrice;
   }
   /**
-   * @return Returns the invoiceUnitPriceCurrency.
+   * @return Returns the invoiceItemUnitPriceCurrency.
    */
-  public String getInvoiceUnitPriceCurrency() {
-    return invoiceUnitPriceCurrency;
+  public String getInvoiceItemUnitPriceCurrency() {
+    return invoiceItemUnitPriceCurrency;
   }
   /**
-   * @param invoiceUnitPriceCurrency The invoiceUnitPriceCurrency to set.
+   * @param invoiceItemUnitPriceCurrency The invoiceItemUnitPriceCurrency to set.
    */
-  public void setInvoiceUnitPriceCurrency(String invoiceUnitPriceCurrency) {
-    this.invoiceUnitPriceCurrency = invoiceUnitPriceCurrency;
+  public void setInvoiceItemUnitPriceCurrency(String invoiceUnitPriceCurrency) {
+    this.invoiceItemUnitPriceCurrency = invoiceUnitPriceCurrency;
   }
   /**
-   * @return Returns the itemLineNumber.
+   * @return Returns the invoiceItemLineNumber.
    */
-  public Integer getItemLineNumber() {
-    return itemLineNumber;
+  public Integer getInvoiceItemLineNumber() {
+    return invoiceItemLineNumber;
   }
   /**
-   * @param itemLineNumber The itemLineNumber to set.
+   * @param invoiceItemLineNumber The invoiceItemLineNumber to set.
    */
-  public void setItemLineNumber(Integer itemLineNumber) {
-    this.itemLineNumber = itemLineNumber;
+  public void setInvoiceItemLineNumber(Integer itemLineNumber) {
+    this.invoiceItemLineNumber = itemLineNumber;
   }
   /**
    * @return Returns the itemReferenceCountryCode.
@@ -541,98 +529,12 @@ public class ElectronicInvoiceRejectItem implements Serializable, PersistenceBro
     this.itemReferenceSupplierPartId = itemReferenceSupplierPartId;
   }
   /**
-   * @return Returns the lastUpdateTimestamp.
+   * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
    */
-  public Timestamp getLastUpdateTimestamp() {
-    return lastUpdateTimestamp;
+  protected LinkedHashMap toStringMapper() {
+      LinkedHashMap m = new LinkedHashMap();
+      m.put("invoiceRejectItemIdentifier", this.invoiceRejectItemIdentifier);
+      return m;
   }
-  /**
-   * @param lastUpdateTimestamp The lastUpdateTimestamp to set.
-   */
-  public void setLastUpdateTimestamp(Timestamp lastUpdateTimestamp) {
-    this.lastUpdateTimestamp = lastUpdateTimestamp;
-  }
-  /**
-   * @return Returns the rejectHeaderId.
-   */
-  public Integer getRejectHeaderId() {
-    return rejectHeaderId;
-  }
-  /**
-   * @param rejectHeaderId The rejectHeaderId to set.
-   */
-  public void setRejectHeaderId(Integer rejectHeaderId) {
-    this.rejectHeaderId = rejectHeaderId;
-  }
-  /**
-   * @return Returns the version.
-   */
-  public Integer getVersion() {
-    return version;
-  }
-  /**
-   * @param version The version to set.
-   */
-  public void setVersion(Integer version) {
-    this.version = version;
-  }
-  //persistence broker aware methods + override
-  public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-    // set last update timestamp
-    lastUpdateTimestamp = new Timestamp((new Date()).getTime());
-  }
-  
-  public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-  }
-
-  public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-    lastUpdateTimestamp = new Timestamp((new Date()).getTime());
-  }
-
-  public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-  }
-
-  public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-  }
-
-  public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-  }
-
-  public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-  }
-
-public Integer getPurapDocumentIdentifier() {
-    return purapDocumentIdentifier;
 }
 
-public void setPurapDocumentIdentifier(Integer invoiceHeaderInformationIdentifier) {
-    this.purapDocumentIdentifier = invoiceHeaderInformationIdentifier;
-}
-}
-/*
-Copyright (c) 2004, 2005 The National Association of College and
-University Business Officers, Cornell University, Trustees of Indiana
-University, Michigan State University Board of Trustees, Trustees of San
-Joaquin Delta College, University of Hawai'i, The Arizona Board of
-Regents on behalf of the University of Arizona, and the r*smart group.
-
-Licensed under the Educational Community License Version 1.0 (the 
-"License"); By obtaining, using and/or copying this Original Work, you
-agree that you have read, understand, and will comply with the terms and
-conditions of the Educational Community License.
-
-You may obtain a copy of the License at:
-
-http://kualiproject.org/license.html
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE. 
-*/

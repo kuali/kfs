@@ -29,12 +29,12 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoicePostalAddress;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceReject;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.dataaccess.ElectronicInvoicingDao;
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
@@ -131,7 +131,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     return eils;
   }
 
-  public void saveElectronicInvoiceReject(ElectronicInvoiceReject eir) {
+  public void saveElectronicInvoiceReject(ElectronicInvoiceRejectDocument eir) {
     SERVICELOG.debug("saveElectronicInvoiceReject() started");
     electronicInvoicingDao.saveElectronicInvoiceReject(eir);
     SERVICELOG.debug("saveElectronicInvoiceReject() ended");
@@ -1230,7 +1230,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   private String getEpicItemTypeCodeForInvoiceCode(String invoiceItemType,Map itemTypeMappings) {
     if (itemTypeMappings.containsKey(invoiceItemType)) {
       ElectronicInvoiceItemMapping itemMapping = (ElectronicInvoiceItemMapping)itemTypeMappings.get(invoiceItemType);
-      return itemMapping.getPoItemTypeCode();
+      return itemMapping.getItemTypeCode();
     } else {
       LOG.error("Invoice Item Mapping Table does not have record for Invoice Item Type Code '" + invoiceItemType + "'");
       throw new PurError("Invoice Item Mapping Table does not have record for Invoice Item Type Code '" + invoiceItemType + "'");

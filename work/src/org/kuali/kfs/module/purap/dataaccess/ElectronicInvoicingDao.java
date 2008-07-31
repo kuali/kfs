@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceReject;
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 
 /**
  * @author delyea
@@ -17,7 +17,7 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceReject;
 public interface ElectronicInvoicingDao {
   public ElectronicInvoiceLoadSummary getElectronicInvoiceLoadSummary(Integer loadId,String vendorDunsNumber);
   public ElectronicInvoiceLoadSummary saveElectronicInvoiceLoadSummary(ElectronicInvoiceLoadSummary loadSummary);
-  public ElectronicInvoiceReject saveElectronicInvoiceReject(ElectronicInvoiceReject reject);
+  public ElectronicInvoiceRejectDocument saveElectronicInvoiceReject(ElectronicInvoiceRejectDocument reject);
   public List getPendingElectronicInvoices();
   public Map getDefaultItemMappingMap();
   public Map getItemMappingMap(Integer vendorHeaderId, Integer vendorDetailId);

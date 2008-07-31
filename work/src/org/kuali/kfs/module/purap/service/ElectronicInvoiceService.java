@@ -9,7 +9,7 @@ import java.util.Map;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceReject;
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors;
 
@@ -29,7 +29,7 @@ public interface ElectronicInvoiceService {
   
   public ElectronicInvoiceLoadSummary saveElectronicInvoiceLoadSummary(ElectronicInvoiceLoadSummary eils);
 
-  public void saveElectronicInvoiceReject(ElectronicInvoiceReject eir);
+  public void saveElectronicInvoiceReject(ElectronicInvoiceRejectDocument eir);
 
   public void routePendingElectronicInvoices();
   

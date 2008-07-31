@@ -1,17 +1,6 @@
 /*
- * Copyright 2008 The Kuali Foundation.
- * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.opensource.org/licenses/ecl1.php
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Created on Feb 28, 2006
+ *
  */
 package org.kuali.kfs.module.purap.document;
 
@@ -24,7 +13,6 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.Campus;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceContact;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItem;
@@ -35,1600 +23,1355 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectItem;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
+/**
+ * @author delyea
+ *
+ */
 public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactionalDocumentBase {
+  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceRejectDocument.class);
+  private static BigDecimal zero = new BigDecimal(0);
+  
+  // NOT NULL FIELDS
+  private Integer purapDocumentIdentifier;
+  private Integer accountsPayablePurchasingDocumentLinkIdentifier;
+  private Integer invoiceLoadSummaryIdentifier;
+  private Timestamp invoiceProcessDate;
+  private Boolean invoiceFileHeaderTypeIndicator = Boolean.FALSE;
+  private Boolean invoiceFileInformationOnlyIndicator = Boolean.FALSE;
+  private Boolean invoiceFileTaxInLineIndicator = Boolean.FALSE;
+  private Boolean invoiceFileSpecHandlingInLineIndicator = Boolean.FALSE;
+  private Boolean invoiceFileShippingInLineIndicator = Boolean.FALSE;
+  private Boolean InvoiceFileDiscountInLineIndicator = Boolean.FALSE;
+  
+  private String invoiceFileName;
+  private String vendorDunsNumber;
+  private Integer vendorHeaderGeneratedIdentifier;
+  private Integer vendorDetailAssignedIdentifier;
+  private String invoiceFileDate;
+  private String invoiceFileNumber;
+  private String invoiceFilePurposeIdentifier;
+  private String invoiceFileOperationIdentifier;
+  private String invoiceFileDeploymentModeValue;
+  private String invoiceOrderReferenceOrderIdentifier;
+  private String invoiceOrderReferenceDocumentReferencePayloadIdentifier;
+  private String invoiceOrderReferenceDocumentReferenceText;
+  private String invoiceOrderMasterAgreementReferenceIdentifier;
+  private String invoiceOrderMasterAgreementReferenceDate;
+  private String invoiceOrderMasterAgreementInformationIdentifier;
+  private String invoiceOrderMasterAgreementInformationDate;
+  private String invoiceOrderPurchaseOrderIdentifier;
+  private String invoiceOrderPurchaseOrderDate;
+  private String invoiceOrderSupplierOrderInformationIdentifier;
+  private String invoiceShipDate;
+  private String invoiceShipToAddressName;
+  private String invoiceShipToAddressType;
+  private String invoiceShipToAddressLine1;
+  private String invoiceShipToAddressLine2;
+  private String invoiceShipToAddressLine3;
+  private String invoiceShipToAddressCityName;
+  private String invoiceShipToAddressStateCode;
+  private String invoiceShipToAddressPostalCode;
+  private String invoiceShipToAddressCountryCode;
+  private String invoiceShipToAddressCountryName;
+  private String invoiceBillToAddressName;
+  private String invoiceBillToAddressType;
+  private String invoiceBillToAddressLine1;
+  private String invoiceBillToAddressLine2;
+  private String invoiceBillToAddressLine3;
+  private String invoiceBillToAddressCityName;
+  private String invoiceBillToAddressStateCode;
+  private String invoiceBillToAddressPostalCode;
+  private String invoiceBillToAddressCountryCode;
+  private String invoiceBillToAddressCountryName;
+  private String invoiceRemitToAddressName;
+  private String invoiceRemitToAddressType;
+  private String invoiceRemitToAddressLine1;
+  private String invoiceRemitToAddressLine2;
+  private String invoiceRemitToAddressLine3;
+  private String invoiceRemitToAddressCityName;
+  private String invoiceRemitToAddressStateCode;
+  private String invoiceRemitToAddressPostalCode;
+  private String invoiceRemitToAddressCountryCode;
+  private String invoiceRemitToAddressCountryName;
+  
+  private String invoiceCustomerNumber;
+  private String invoicePurchaseOrderNumber;
+  private Integer purchaseOrderId;
+  private String purchaseOrderDeliveryCampusCode;
+  
+  private String invoiceItemSubtotalCurrencyCode;
+  private String invoiceItemSpecialHandlingCurrencyCode;
+  private String invoiceItemSpecialHandlingDescription;
+  private String invoiceItemShippingCurrencyCode;
+  private String invoiceItemShippingDescription;
+  private String invoiceItemTaxCurrencyCode;
+  private String invoiceItemTaxDescription;
+  private String invoiceItemGrossCurrencyCode;
+  private String invoiceItemDiscountCurrencyCode;
+  private String invoiceItemNetCurrencyCode;
+  
+  private BigDecimal invoiceItemSubtotalAmount;
+  private BigDecimal invoiceItemSpecialHandlingAmount;
+  private BigDecimal invoiceItemShippingAmount;
+  private BigDecimal invoiceItemTaxAmount;
+  private BigDecimal invoiceItemGrossAmount;
+  private BigDecimal invoiceItemDiscountAmount;
+  private BigDecimal invoiceItemNetAmount;
+  
+  private ElectronicInvoiceLoadSummary invoiceLoadSummary;
+  private List invoiceRejectItems = new ArrayList();
+  private List invoiceRejectReasons = new ArrayList();
+  
+  /**
+   * 
+   */
+  public ElectronicInvoiceRejectDocument() {
+    super();
+  }
+  
+  public ElectronicInvoiceRejectDocument(ElectronicInvoice ei, ElectronicInvoiceOrder eio) {
+    super();
+    this.setFileLevelData(ei);
+    this.setInvoiceOrderLevelData(ei, eio);
+  }
+  
+  private void setFileLevelData(ElectronicInvoice ei) {
+    this.invoiceProcessDate = new Timestamp((new Date()).getTime());
+    this.invoiceFileHeaderTypeIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isHeaderInvoiceIndicator());
+    this.invoiceFileInformationOnlyIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isInformationOnly());
+    this.invoiceFileTaxInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isTaxInLine());
+    this.invoiceFileSpecHandlingInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isSpecialHandlingInLine());
+    this.invoiceFileShippingInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isShippingInLine());
+    this.InvoiceFileDiscountInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isDiscountInLine());
+    
+    this.invoiceFileName = ei.getFileName();
+    this.vendorDunsNumber = ei.getDunsNumber();
+    this.vendorHeaderGeneratedIdentifier = ei.getVendorHeaderID();
+    this.vendorDetailAssignedIdentifier = ei.getVendorDetailID();
+    this.invoiceFileDate = ei.getInvoiceDateDisplayText();
+    this.invoiceFileNumber = ei.getInvoiceDetailRequestHeader().getInvoiceId();
+    this.invoiceFilePurposeIdentifier = ei.getInvoiceDetailRequestHeader().getPurpose();
+    this.invoiceFileOperationIdentifier = ei.getInvoiceDetailRequestHeader().getOperation();
+    this.invoiceFileDeploymentModeValue = ei.getInvoiceDetailRequestHeader().getDeploymentMode();
+    this.invoiceCustomerNumber = ei.getCustomerNumber();
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceRejectDocument.class);
-    private static BigDecimal zero = new BigDecimal(0);
+    for (Iterator fileReasonIter = ei.getFileRejectReasons().iterator(); fileReasonIter.hasNext();) {
+      ElectronicInvoiceRejectReason eirr = (ElectronicInvoiceRejectReason) fileReasonIter.next();
+      eirr.setElectronicInvoiceRejectDocument(this);
+      this.invoiceRejectReasons.add(eirr);
+    }
+  }
+  
+  private void setInvoiceOrderLevelData(ElectronicInvoice ei,ElectronicInvoiceOrder eio) {
+    this.invoiceOrderReferenceOrderIdentifier = eio.getOrderReferenceOrderID();
+    this.invoiceOrderReferenceDocumentReferencePayloadIdentifier = eio.getOrderReferenceDocumentRefPayloadID();
+    this.invoiceOrderReferenceDocumentReferenceText = eio.getOrderReferenceDocumentRef();
+    this.invoiceOrderMasterAgreementReferenceIdentifier = eio.getMasterAgreementReferenceID();
+    this.invoiceOrderMasterAgreementReferenceDate = ei.getMasterAgreementReferenceDateDisplayText(eio);
+    this.invoiceOrderMasterAgreementInformationIdentifier = eio.getMasterAgreementIDInfoID();
+    this.invoiceOrderMasterAgreementInformationDate = ei.getMasterAgreementIDInfoDateDisplayText(eio);
+    this.invoiceOrderPurchaseOrderIdentifier = eio.getOrderIDInfoID();
+    this.invoiceOrderPurchaseOrderDate = ei.getOrderIDInfoDateDisplayText(eio);
+    this.invoiceOrderSupplierOrderInformationIdentifier = eio.getSupplierOrderInfoID();
+    this.invoiceShipDate = ei.getShippingDateDisplayText(eio);
+    
+    ElectronicInvoiceContact shipToContact = ei.getCxmlContact(eio, ElectronicInvoiceMappingService.CXML_ADDRESS_SHIP_TO_ROLE_ID);
+    ElectronicInvoicePostalAddress shipToAddress = this.getCxmlPostalAddressByAddressName(shipToContact,ElectronicInvoiceMappingService.CXML_ADDRESS_SHIP_TO_NAME);
+//    ElectronicInvoicePostalAddress shipToAddress = ei.getCxmlPostalAddress(eio,ElectronicInvoiceMappingService.CXML_ADDRESS_SHIP_TO_ROLE_ID,
+//        ElectronicInvoiceMappingService.CXML_ADDRESS_SHIP_TO_NAME);
+    if (shipToAddress != null) {
+      this.invoiceShipToAddressName = shipToContact.getName();
+      this.invoiceShipToAddressType = shipToAddress.getType();
+      this.invoiceShipToAddressLine1 = shipToAddress.getLine1();
+      this.invoiceShipToAddressLine2 = shipToAddress.getLine2();
+      this.invoiceShipToAddressLine3 = shipToAddress.getLine3();
+      this.invoiceShipToAddressCityName = shipToAddress.getCityName();
+      this.invoiceShipToAddressStateCode = shipToAddress.getStateCode();
+      this.invoiceShipToAddressPostalCode = shipToAddress.getPostalCode();
+      this.invoiceShipToAddressCountryCode = shipToAddress.getCountryCode();
+      this.invoiceShipToAddressCountryName = shipToAddress.getCountryName();
+    }
+    
+    ElectronicInvoiceContact billToContact = ei.getCxmlContact(eio, ElectronicInvoiceMappingService.CXML_ADDRESS_BILL_TO_ROLE_ID);
+    ElectronicInvoicePostalAddress billToAddress = this.getCxmlPostalAddressByAddressName(billToContact,ElectronicInvoiceMappingService.CXML_ADDRESS_BILL_TO_NAME);
+//    ElectronicInvoicePostalAddress billToAddress = ei.getCxmlPostalAddress(eio,ElectronicInvoiceMappingService.CXML_ADDRESS_BILL_TO_ROLE_ID,
+//        ElectronicInvoiceMappingService.CXML_ADDRESS_BILL_TO_NAME);
+    if (billToAddress != null) {
+      this.invoiceBillToAddressName = billToContact.getName();
+      this.invoiceBillToAddressType = billToAddress.getType();
+      this.invoiceBillToAddressLine1 = billToAddress.getLine1();
+      this.invoiceBillToAddressLine2 = billToAddress.getLine2();
+      this.invoiceBillToAddressLine3 = billToAddress.getLine3();
+      this.invoiceBillToAddressCityName = billToAddress.getCityName();
+      this.invoiceBillToAddressStateCode = billToAddress.getStateCode();
+      this.invoiceBillToAddressPostalCode = billToAddress.getPostalCode();
+      this.invoiceBillToAddressCountryCode = billToAddress.getCountryCode();
+      this.invoiceBillToAddressCountryName = billToAddress.getCountryName();
+    }    
 
-    // NOT NULL FIELDS
-    private Integer purapDocumentIdentifier;
-    private Integer invoiceLoadSummaryIdentifier;
-    private Timestamp invoiceProcessTimestamp;
-    private Boolean fileHeaderTypeIndicator = Boolean.FALSE;
-    private Boolean fileInformationOnlyIndicator = Boolean.FALSE;
-    private Boolean fileTaxInLineIndicator = Boolean.FALSE;
-    private Boolean fileSpecHandlingInLineIndicator = Boolean.FALSE;
-    private Boolean fileShippingInLineIndicator = Boolean.FALSE;
-    private Boolean fileDiscountInLineIndicator = Boolean.FALSE;
-
-    private String invoiceFileName;
-    private String vendorDunsNumber;
-    private Integer vendorHeaderID;
-    private Integer vendorDetailID;
-    private java.sql.Date invoiceDate;
-    private String invoiceNumber;
-    private String filePurposeId;
-    private String fileOperationId;
-    private String deploymentMode;
-    private String referenceOrderId;
-    private String referenceDocumentRefPayloadId;
-    private String referenceDocumentRefText;
-    private String masterAgreementReferenceId;
-    private String masterAgreementReferenceDate;
-    private String masterAgreementInfoId;
-    private String masterAgreementInfoDate;
-    private String invoiceOrderId;
-    private String invoiceOrderDate;
-    private String supplierOrderInfoId;
-    private String invoiceShipDate;
-    private String shipToAddressName;
-    private String shipToAddressType;
-    private String shipToAddressLine1;
-    private String shipToAddressLine2;
-    private String shipToAddressLine3;
-    private String shipToAddressCityName;
-    private String shipToAddressStateCode;
-    private String shipToAddressPostalCode;
-    private String shipToAddressCountryCode;
-    private String shipToAddressCountryName;
-    private String billToAddressName;
-    private String billToAddressType;
-    private String billToAddressLine1;
-    private String billToAddressLine2;
-    private String billToAddressLine3;
-    private String billToAddressCityName;
-    private String billToAddressStateCode;
-    private String billToAddressPostalCode;
-    private String billToAddressCountryCode;
-    private String billToAddressCountryName;
-    private String remitToAddressName;
-    private String remitToAddressType;
-    private String remitToAddressLine1;
-    private String remitToAddressLine2;
-    private String remitToAddressLine3;
-    private String remitToAddressCityName;
-    private String remitToAddressStateCode;
-    private String remitToAddressPostalCode;
-    private String remitToAddressCountryCode;
-    private String remitToAddressCountryName;
-
-    private String invoiceCustomerNumber;
-    private String invoiceOrderPurchaseOrderId;
-    private Integer purchaseOrderId;
-    private String purchaseOrderDeliveryCampusCode;
-
-    private String invoiceSubtotalAmountCurrency;
-    private String invoiceSpecialHandlingAmountCurrency;
-    private String invoiceSpecialHandlingDescription;
-    private String invoiceShippingAmountCurrency;
-    private String invoiceShippingDescription;
-    private String invoiceTaxAmountCurrency;
-    private String invoiceTaxDescription;
-    private String invoiceGrossAmountCurrency;
-    private String invoiceDiscountAmountCurrency;
-    private String invoiceNetAmountCurrency;
-
-    private BigDecimal invoiceSubtotalAmount;
-    private BigDecimal invoiceSpecialHandlingAmount;
-    private BigDecimal invoiceShippingAmount;
-    private BigDecimal invoiceTaxAmount;
-    private BigDecimal invoiceGrossAmount;
-    private BigDecimal invoiceDiscountAmount;
-    private BigDecimal invoiceNetAmount;
-
-    private Timestamp lastUpdateTimestamp; // lst_updt_ts
-    private Integer version; // ver_nbr
-
-    private ElectronicInvoiceLoadSummary invoiceLoadSummary;
-    private Campus purchaseOrderDeliveryCampus;
-    private List<ElectronicInvoiceRejectItem> electronicInvoiceRejectItems = new ArrayList<ElectronicInvoiceRejectItem>();
-    private List<ElectronicInvoiceRejectReason> electronicInvoiceRejectReasons = new ArrayList<ElectronicInvoiceRejectReason>();
-
-    private VendorDetail vendorDetail;
-    private PurchaseOrderDocument purchaseOrderDocument;
-    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
-
-
-    public void setFileLevelData(ElectronicInvoice ei) {
-        this.invoiceProcessTimestamp = new Timestamp((new Date()).getTime());
-        this.fileHeaderTypeIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isHeaderInvoiceIndicator());
-        this.fileInformationOnlyIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isInformationOnly());
-        this.fileTaxInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isTaxInLine());
-        this.fileSpecHandlingInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isSpecialHandlingInLine());
-        this.fileShippingInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isShippingInLine());
-        this.fileDiscountInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isDiscountInLine());
-
-        this.invoiceFileName = ei.getFileName();
-        this.vendorDunsNumber = ei.getDunsNumber();
-        this.vendorHeaderID = ei.getVendorHeaderID();
-        this.vendorDetailID = ei.getVendorDetailID();
-        // TODO this.invoiceDate = ei.getInvoiceDateDisplayText();
-        this.invoiceNumber = ei.getInvoiceDetailRequestHeader().getInvoiceId();
-        this.filePurposeId = ei.getInvoiceDetailRequestHeader().getPurpose();
-        this.fileOperationId = ei.getInvoiceDetailRequestHeader().getOperation();
-        this.deploymentMode = ei.getInvoiceDetailRequestHeader().getDeploymentMode();
-        this.invoiceCustomerNumber = ei.getCustomerNumber();
-
-        for (Iterator<ElectronicInvoiceRejectReason> fileReasonIter = ei.getFileRejectReasons().iterator(); fileReasonIter.hasNext();) {
-            ElectronicInvoiceRejectReason eirr = fileReasonIter.next();
-            //FIXME fix this as part of fixing the reject document
-//            eirr.setElectronicInvoiceReject(this);
-            this.electronicInvoiceRejectReasons.add(eirr);
+    ElectronicInvoiceContact remitToContact = ei.getCxmlContact(eio, ElectronicInvoiceMappingService.CXML_ADDRESS_REMIT_TO_ROLE_ID);
+    ElectronicInvoicePostalAddress remitToAddress = this.getCxmlPostalAddressByAddressName(remitToContact,ElectronicInvoiceMappingService.CXML_ADDRESS_REMIT_TO_NAME);
+//    ElectronicInvoicePostalAddress remitToAddress = ei.getCxmlPostalAddress(eio,ElectronicInvoiceMappingService.CXML_ADDRESS_REMIT_TO_ROLE_ID,
+//        ElectronicInvoiceMappingService.CXML_ADDRESS_REMIT_TO_NAME);
+    if (remitToAddress != null) {
+      this.invoiceRemitToAddressName = remitToContact.getName();
+      this.invoiceRemitToAddressType = remitToAddress.getType();
+      this.invoiceRemitToAddressLine1 = remitToAddress.getLine1();
+      this.invoiceRemitToAddressLine2 = remitToAddress.getLine2();
+      this.invoiceRemitToAddressLine3 = remitToAddress.getLine3();
+      this.invoiceRemitToAddressCityName = remitToAddress.getCityName();
+      this.invoiceRemitToAddressStateCode = remitToAddress.getStateCode();
+      this.invoiceRemitToAddressPostalCode = remitToAddress.getPostalCode();
+      this.invoiceRemitToAddressCountryCode = remitToAddress.getCountryCode();
+      this.invoiceRemitToAddressCountryName = remitToAddress.getCountryName();
+    }    
+    this.invoicePurchaseOrderNumber = eio.getInvoicePurchaseOrderID();
+    this.purchaseOrderId = eio.getPurchaseOrderID();
+    this.purchaseOrderDeliveryCampusCode = eio.getPurchaseOrderCampusCode();
+    
+    try {
+      this.invoiceItemSubtotalAmount = ei.getInvoiceSubtotalAmount(eio);
+      this.invoiceItemSubtotalCurrencyCode = ei.getInvoiceSubtotalCurrencyIfNotValid(eio);
+    } catch (Exception e) {
+      this.invoiceItemSubtotalAmount = null;
+      this.invoiceItemSubtotalCurrencyCode = "INVALID Amount";
+    }
+    try {
+      this.invoiceItemSpecialHandlingAmount = ei.getInvoiceSpecialHandlingAmount(eio);
+      this.invoiceItemSpecialHandlingCurrencyCode = ei.getInvoiceSpecialHandlingCurrencyIfNotValid(eio);
+    } catch (Exception e) {
+      this.invoiceItemSpecialHandlingAmount = null;
+      this.invoiceItemSpecialHandlingCurrencyCode = "INVALID AMOUNT";
+    }
+    this.invoiceItemSpecialHandlingDescription = ei.getInvoiceSpecialHandlingDescription(eio);
+    try {
+      this.invoiceItemShippingAmount = ei.getInvoiceShippingAmount(eio);
+      this.invoiceItemShippingCurrencyCode = ei.getInvoiceShippingCurrencyIfNotValid(eio);
+    } catch (Exception e) {
+      this.invoiceItemShippingAmount = null;
+      this.invoiceItemShippingCurrencyCode = "INVALID AMOUNT";
+    }
+    this.invoiceItemShippingDescription = ei.getInvoiceShippingDescription(eio);
+    try {
+      this.invoiceItemTaxAmount = ei.getInvoiceTaxAmount(eio);
+      this.invoiceItemTaxCurrencyCode = ei.getInvoiceTaxCurrencyIfNotValid(eio);
+    } catch (Exception e) {
+      this.invoiceItemTaxAmount = null;
+      this.invoiceItemTaxCurrencyCode = "INVALID AMOUNT";
+    }
+    this.invoiceItemTaxDescription = ei.getInvoiceTaxDescription(eio);
+    try {
+      this.invoiceItemGrossAmount = ei.getInvoiceGrossAmount(eio);
+      this.invoiceItemGrossCurrencyCode = ei.getInvoiceGrossCurrencyIfNotValid(eio);
+    } catch (Exception e) {
+      this.invoiceItemGrossAmount = null;
+      this.invoiceItemGrossCurrencyCode = "INVALID AMOUNT";
+    }
+    try {
+      this.invoiceItemDiscountAmount = ei.getInvoiceDiscountAmount(eio);
+      this.invoiceItemDiscountCurrencyCode = ei.getInvoiceDiscountCurrencyIfNotValid(eio);
+    } catch (Exception e) {
+      this.invoiceItemDiscountAmount = null;
+      this.invoiceItemDiscountCurrencyCode = "INVALID AMOUNT";
+    }
+    try {
+      this.invoiceItemNetAmount = ei.getInvoiceNetAmount(eio);
+      this.invoiceItemNetCurrencyCode = ei.getInvoiceNetCurrencyIfNotValid(eio);
+    } catch (Exception e) {
+      this.invoiceItemNetAmount = null;
+      this.invoiceItemNetCurrencyCode = "INVALID AMOUNT";
+    }
+    
+    for (Iterator rejectItemIter = eio.getInvoiceItems().iterator(); rejectItemIter.hasNext();) {
+      ElectronicInvoiceItem eii = (ElectronicInvoiceItem) rejectItemIter.next();
+      ElectronicInvoiceRejectItem eiri = new ElectronicInvoiceRejectItem(this,eii);
+      this.invoiceRejectItems.add(eiri);
+    }
+    
+    for (Iterator invoiceReasonIter = eio.getOrderRejectReasons().iterator(); invoiceReasonIter.hasNext();) {
+      ElectronicInvoiceRejectReason eirr = (ElectronicInvoiceRejectReason) invoiceReasonIter.next();
+      eirr.setElectronicInvoiceRejectDocument(this);
+      this.invoiceRejectReasons.add(eirr);
+    }
+  }
+  
+  private ElectronicInvoicePostalAddress getCxmlPostalAddressByAddressName(ElectronicInvoiceContact contact, String addressName) {
+    if (contact != null) {
+      for (Iterator iterator = contact.getPostalAddresses().iterator(); iterator.hasNext();) {
+        ElectronicInvoicePostalAddress cpa = (ElectronicInvoicePostalAddress) iterator.next();
+        if (addressName == null) {
+          return cpa;
+        } else {
+          if (addressName.equalsIgnoreCase(cpa.getName())) {
+            return cpa;
+          }
         }
+      }
     }
-
-    public void setInvoiceOrderLevelData(ElectronicInvoice ei, ElectronicInvoiceOrder eio) {
-        this.referenceOrderId = eio.getOrderReferenceOrderID();
-        this.referenceDocumentRefPayloadId = eio.getOrderReferenceDocumentRefPayloadID();
-        this.referenceDocumentRefText = eio.getOrderReferenceDocumentRef();
-        this.masterAgreementReferenceId = eio.getMasterAgreementReferenceID();
-        this.masterAgreementReferenceDate = ei.getMasterAgreementReferenceDateDisplayText(eio);
-        this.masterAgreementInfoId = eio.getMasterAgreementIDInfoID();
-        this.masterAgreementInfoDate = ei.getMasterAgreementIDInfoDateDisplayText(eio);
-        this.invoiceOrderId = eio.getOrderIDInfoID();
-        this.invoiceOrderDate = ei.getOrderIDInfoDateDisplayText(eio);
-        this.supplierOrderInfoId = eio.getSupplierOrderInfoID();
-        this.invoiceShipDate = ei.getShippingDateDisplayText(eio);
-
-        ElectronicInvoiceContact shipToContact = ei.getCxmlContact(eio, ElectronicInvoiceMappingService.CXML_ADDRESS_SHIP_TO_ROLE_ID);
-        ElectronicInvoicePostalAddress shipToAddress = this.getCxmlPostalAddressByAddressName(shipToContact, ElectronicInvoiceMappingService.CXML_ADDRESS_SHIP_TO_NAME);
-        // ElectronicInvoicePostalAddress shipToAddress =
-        // ei.getCxmlPostalAddress(eio,ElectronicInvoiceMappingService.CXML_ADDRESS_SHIP_TO_ROLE_ID,
-        // ElectronicInvoiceMappingService.CXML_ADDRESS_SHIP_TO_NAME);
-        if (shipToAddress != null) {
-            this.shipToAddressName = shipToContact.getName();
-            this.shipToAddressType = shipToAddress.getType();
-            this.shipToAddressLine1 = shipToAddress.getLine1();
-            this.shipToAddressLine2 = shipToAddress.getLine2();
-            this.shipToAddressLine3 = shipToAddress.getLine3();
-            this.shipToAddressCityName = shipToAddress.getCityName();
-            this.shipToAddressStateCode = shipToAddress.getStateCode();
-            this.shipToAddressPostalCode = shipToAddress.getPostalCode();
-            this.shipToAddressCountryCode = shipToAddress.getCountryCode();
-            this.shipToAddressCountryName = shipToAddress.getCountryName();
+    return null;
+  }
+  
+  public BigDecimal getTotalAmount() {
+    BigDecimal returnValue = zero;
+    try {
+      for (Iterator iter = this.invoiceRejectItems.iterator(); iter.hasNext();) {
+        ElectronicInvoiceRejectItem eiri = (ElectronicInvoiceRejectItem) iter.next();
+        BigDecimal toAddAmount = zero;
+        if ( (eiri.getInvoiceItemNetAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemNetAmount())) != 0) ) {
+          toAddAmount = eiri.getInvoiceItemNetAmount();
+        } else if ( (eiri.getInvoiceItemGrossAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemGrossAmount())) != 0) ) {
+          toAddAmount = eiri.getInvoiceItemGrossAmount();
+        } else if ( (eiri.getInvoiceItemSubtotalAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemSubtotalAmount())) != 0) ) {
+          toAddAmount = eiri.getInvoiceItemSubtotalAmount();
+        } else if ( (eiri.getInvoiceItemUnitPrice() != null) && ((zero.compareTo(eiri.getInvoiceItemUnitPrice())) != 0) ) {
+          if (eiri.getInvoiceItemQuantity() != null) {
+            toAddAmount = eiri.getInvoiceItemUnitPrice().multiply(eiri.getInvoiceItemQuantity());
+          } else {
+            toAddAmount = eiri.getInvoiceItemUnitPrice();
+          }
         }
-
-        ElectronicInvoiceContact billToContact = ei.getCxmlContact(eio, ElectronicInvoiceMappingService.CXML_ADDRESS_BILL_TO_ROLE_ID);
-        // ElectronicInvoicePostalAddress billToAddress =
-        // this.getCxmlPostalAddressByAddressName(billToContact,ElectronicInvoiceMappingService.CXML_ADDRESS_BILL_TO_NAME);
-        ElectronicInvoicePostalAddress billToAddress = ei.getCxmlPostalAddress(eio, ElectronicInvoiceMappingService.CXML_ADDRESS_BILL_TO_ROLE_ID, ElectronicInvoiceMappingService.CXML_ADDRESS_BILL_TO_NAME);
-        if (billToAddress != null) {
-            this.billToAddressName = billToContact.getName();
-            this.billToAddressType = billToAddress.getType();
-            this.billToAddressLine1 = billToAddress.getLine1();
-            this.billToAddressLine2 = billToAddress.getLine2();
-            this.billToAddressLine3 = billToAddress.getLine3();
-            this.billToAddressCityName = billToAddress.getCityName();
-            this.billToAddressStateCode = billToAddress.getStateCode();
-            this.billToAddressPostalCode = billToAddress.getPostalCode();
-            this.billToAddressCountryCode = billToAddress.getCountryCode();
-            this.billToAddressCountryName = billToAddress.getCountryName();
-        }
-
-        ElectronicInvoiceContact remitToContact = ei.getCxmlContact(eio, ElectronicInvoiceMappingService.CXML_ADDRESS_REMIT_TO_ROLE_ID);
-        ElectronicInvoicePostalAddress remitToAddress = this.getCxmlPostalAddressByAddressName(remitToContact, ElectronicInvoiceMappingService.CXML_ADDRESS_REMIT_TO_NAME);
-        // ElectronicInvoicePostalAddress remitToAddress =
-        // ei.getCxmlPostalAddress(eio,ElectronicInvoiceMappingService.CXML_ADDRESS_REMIT_TO_ROLE_ID,
-        // ElectronicInvoiceMappingService.CXML_ADDRESS_REMIT_TO_NAME);
-        if (remitToAddress != null) {
-            this.remitToAddressName = remitToContact.getName();
-            this.remitToAddressType = remitToAddress.getType();
-            this.remitToAddressLine1 = remitToAddress.getLine1();
-            this.remitToAddressLine2 = remitToAddress.getLine2();
-            this.remitToAddressLine3 = remitToAddress.getLine3();
-            this.remitToAddressCityName = remitToAddress.getCityName();
-            this.remitToAddressStateCode = remitToAddress.getStateCode();
-            this.remitToAddressPostalCode = remitToAddress.getPostalCode();
-            this.remitToAddressCountryCode = remitToAddress.getCountryCode();
-            this.remitToAddressCountryName = remitToAddress.getCountryName();
-        }
-        this.invoiceOrderPurchaseOrderId = eio.getInvoicePurchaseOrderID();
-        this.purchaseOrderId = eio.getPurchaseOrderID();
-        this.purchaseOrderDeliveryCampusCode = eio.getPurchaseOrderCampusCode();
-
-        try {
-            this.invoiceSubtotalAmount = ei.getInvoiceSubtotalAmount(eio);
-            this.invoiceSubtotalAmountCurrency = ei.getInvoiceSubtotalCurrencyIfNotValid(eio);
-        }
-        catch (Exception e) {
-            this.invoiceSubtotalAmount = null;
-            this.invoiceSubtotalAmountCurrency = "INVALID Amount";
-        }
-        try {
-            this.invoiceSpecialHandlingAmount = ei.getInvoiceSpecialHandlingAmount(eio);
-            this.invoiceSpecialHandlingAmountCurrency = ei.getInvoiceSpecialHandlingCurrencyIfNotValid(eio);
-        }
-        catch (Exception e) {
-            this.invoiceSpecialHandlingAmount = null;
-            this.invoiceSpecialHandlingAmountCurrency = "INVALID AMOUNT";
-        }
-        this.invoiceSpecialHandlingDescription = ei.getInvoiceSpecialHandlingDescription(eio);
-        try {
-            this.invoiceShippingAmount = ei.getInvoiceShippingAmount(eio);
-            this.invoiceShippingAmountCurrency = ei.getInvoiceShippingCurrencyIfNotValid(eio);
-        }
-        catch (Exception e) {
-            this.invoiceShippingAmount = null;
-            this.invoiceShippingAmountCurrency = "INVALID AMOUNT";
-        }
-        this.invoiceShippingDescription = ei.getInvoiceShippingDescription(eio);
-        try {
-            this.invoiceTaxAmount = ei.getInvoiceTaxAmount(eio);
-            this.invoiceTaxAmountCurrency = ei.getInvoiceTaxCurrencyIfNotValid(eio);
-        }
-        catch (Exception e) {
-            this.invoiceTaxAmount = null;
-            this.invoiceTaxAmountCurrency = "INVALID AMOUNT";
-        }
-        this.invoiceTaxDescription = ei.getInvoiceTaxDescription(eio);
-        try {
-            this.invoiceGrossAmount = ei.getInvoiceGrossAmount(eio);
-            this.invoiceGrossAmountCurrency = ei.getInvoiceGrossCurrencyIfNotValid(eio);
-        }
-        catch (Exception e) {
-            this.invoiceGrossAmount = null;
-            this.invoiceGrossAmountCurrency = "INVALID AMOUNT";
-        }
-        try {
-            this.invoiceDiscountAmount = ei.getInvoiceDiscountAmount(eio);
-            this.invoiceDiscountAmountCurrency = ei.getInvoiceDiscountCurrencyIfNotValid(eio);
-        }
-        catch (Exception e) {
-            this.invoiceDiscountAmount = null;
-            this.invoiceDiscountAmountCurrency = "INVALID AMOUNT";
-        }
-        try {
-            this.invoiceNetAmount = ei.getInvoiceNetAmount(eio);
-            this.invoiceNetAmountCurrency = ei.getInvoiceNetCurrencyIfNotValid(eio);
-        }
-        catch (Exception e) {
-            this.invoiceNetAmount = null;
-            this.invoiceNetAmountCurrency = "INVALID AMOUNT";
-        }
-
-        for (Iterator<ElectronicInvoiceItem> rejectItemIter = eio.getInvoiceItems().iterator(); rejectItemIter.hasNext();) {
-            ElectronicInvoiceItem eii = rejectItemIter.next();
-            ElectronicInvoiceRejectItem eiri = new ElectronicInvoiceRejectItem(this, eii);
-            this.electronicInvoiceRejectItems.add(eiri);
-        }
-
-        for (Iterator<ElectronicInvoiceRejectReason> invoiceReasonIter = eio.getOrderRejectReasons().iterator(); invoiceReasonIter.hasNext();) {
-            ElectronicInvoiceRejectReason eirr = invoiceReasonIter.next();
-            //FIXME fix this as part of fixing the reject document
-//            eirr.setElectronicInvoiceReject(this);
-            this.electronicInvoiceRejectReasons.add(eirr);
-        }
-    }
-
-    private ElectronicInvoicePostalAddress getCxmlPostalAddressByAddressName(ElectronicInvoiceContact contact, String addressName) {
-        if (contact != null) {
-            for (Iterator<ElectronicInvoicePostalAddress> iterator = contact.getPostalAddresses().iterator(); iterator.hasNext();) {
-                ElectronicInvoicePostalAddress cpa = iterator.next();
-                if (addressName == null) {
-                    return cpa;
-                }
-                else {
-                    if (addressName.equalsIgnoreCase(cpa.getName())) {
-                        return cpa;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    public BigDecimal getTotalAmount() {
-        BigDecimal returnValue = zero;
-        try {
-            for (Iterator<ElectronicInvoiceRejectItem> iter = this.electronicInvoiceRejectItems.iterator(); iter.hasNext();) {
-                ElectronicInvoiceRejectItem eiri = iter.next();
-                BigDecimal toAddAmount = zero;
-                if ((eiri.getInvoiceNetAmount() != null) && ((zero.compareTo(eiri.getInvoiceNetAmount())) != 0)) {
-                    toAddAmount = eiri.getInvoiceNetAmount();
-                }
-                else if ((eiri.getInvoiceGrossAmount() != null) && ((zero.compareTo(eiri.getInvoiceGrossAmount())) != 0)) {
-                    toAddAmount = eiri.getInvoiceGrossAmount();
-                }
-                else if ((eiri.getInvoiceSubtotalAmount() != null) && ((zero.compareTo(eiri.getInvoiceSubtotalAmount())) != 0)) {
-                    toAddAmount = eiri.getInvoiceSubtotalAmount();
-                }
-                else if ((eiri.getInvoiceUnitPrice() != null) && ((zero.compareTo(eiri.getInvoiceUnitPrice())) != 0)) {
-                    if (eiri.getInvoiceItemQuantity() != null) {
-                        toAddAmount = eiri.getInvoiceUnitPrice().multiply(eiri.getInvoiceItemQuantity());
-                    }
-                    else {
-                        toAddAmount = eiri.getInvoiceUnitPrice();
-                    }
-                }
-                LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
-                returnValue = returnValue.add(toAddAmount);
-            }
-            LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
-            return returnValue;
-        }
-        catch (NumberFormatException n) {
-            // do nothing this is already rejected
-            LOG.error("getTotalAmount() Error attempting to calculate total amount for invoice with filename " + this.invoiceFileName);
-            return zero;
-        }
-    }
-
-    /**
-     * @return Returns the invoiceLoadSummaryIdentifier.
-     */
-    public Integer getInvoiceLoadSummaryIdentifier() {
-        return invoiceLoadSummaryIdentifier;
-    }
-
-    /**
-     * @param invoiceLoadSummaryIdentifier The invoiceLoadSummaryIdentifier to set.
-     */
-    public void setInvoiceLoadSummaryIdentifier(Integer loadSummaryId) {
-        this.invoiceLoadSummaryIdentifier = loadSummaryId;
-    }
-
-    /**
-     * @return Returns the invoiceLoadSummary.
-     */
-    public ElectronicInvoiceLoadSummary getInvoiceLoadSummary() {
-        return invoiceLoadSummary;
-    }
-
-    /**
-     * @param invoiceLoadSummary The invoiceLoadSummary to set.
-     */
-    public void setInvoiceLoadSummary(ElectronicInvoiceLoadSummary electronicInvoiceLoadSummary) {
-        this.invoiceLoadSummary = electronicInvoiceLoadSummary;
-        this.invoiceLoadSummaryIdentifier = electronicInvoiceLoadSummary.getInvoiceLoadSummaryIdentifier();
-    }
-
-    /**
-     * @return Returns the billToAddressCityName.
-     */
-    public String getBillToAddressCityName() {
-        return billToAddressCityName;
-    }
-
-    /**
-     * @param billToAddressCityName The billToAddressCityName to set.
-     */
-    public void setBillToAddressCityName(String billToAddressCityName) {
-        this.billToAddressCityName = billToAddressCityName;
-    }
-
-    /**
-     * @return Returns the billToAddressCountryCode.
-     */
-    public String getBillToAddressCountryCode() {
-        return billToAddressCountryCode;
-    }
-
-    /**
-     * @param billToAddressCountryCode The billToAddressCountryCode to set.
-     */
-    public void setBillToAddressCountryCode(String billToAddressCountryCode) {
-        this.billToAddressCountryCode = billToAddressCountryCode;
-    }
-
-    /**
-     * @return Returns the billToAddressCountryName.
-     */
-    public String getBillToAddressCountryName() {
-        return billToAddressCountryName;
-    }
-
-    /**
-     * @param billToAddressCountryName The billToAddressCountryName to set.
-     */
-    public void setBillToAddressCountryName(String billToAddressCountryName) {
-        this.billToAddressCountryName = billToAddressCountryName;
-    }
-
-    /**
-     * @return Returns the billToAddressLine1.
-     */
-    public String getBillToAddressLine1() {
-        return billToAddressLine1;
-    }
-
-    /**
-     * @param billToAddressLine1 The billToAddressLine1 to set.
-     */
-    public void setBillToAddressLine1(String billToAddressLine1) {
-        this.billToAddressLine1 = billToAddressLine1;
-    }
-
-    /**
-     * @return Returns the billToAddressLine2.
-     */
-    public String getBillToAddressLine2() {
-        return billToAddressLine2;
-    }
-
-    /**
-     * @param billToAddressLine2 The billToAddressLine2 to set.
-     */
-    public void setBillToAddressLine2(String billToAddressLine2) {
-        this.billToAddressLine2 = billToAddressLine2;
-    }
-
-    /**
-     * @return Returns the billToAddressLine3.
-     */
-    public String getBillToAddressLine3() {
-        return billToAddressLine3;
-    }
-
-    /**
-     * @param billToAddressLine3 The billToAddressLine3 to set.
-     */
-    public void setBillToAddressLine3(String billToAddressLine3) {
-        this.billToAddressLine3 = billToAddressLine3;
-    }
-
-    /**
-     * @return Returns the billToAddressName.
-     */
-    public String getBillToAddressName() {
-        return billToAddressName;
-    }
-
-    /**
-     * @param billToAddressName The billToAddressName to set.
-     */
-    public void setBillToAddressName(String billToAddressName) {
-        this.billToAddressName = billToAddressName;
-    }
-
-    /**
-     * @return Returns the billToAddressPostalCode.
-     */
-    public String getBillToAddressPostalCode() {
-        return billToAddressPostalCode;
-    }
-
-    /**
-     * @param billToAddressPostalCode The billToAddressPostalCode to set.
-     */
-    public void setBillToAddressPostalCode(String billToAddressPostalCode) {
-        this.billToAddressPostalCode = billToAddressPostalCode;
-    }
-
-    /**
-     * @return Returns the billToAddressStateCode.
-     */
-    public String getBillToAddressStateCode() {
-        return billToAddressStateCode;
-    }
-
-    /**
-     * @param billToAddressStateCode The billToAddressStateCode to set.
-     */
-    public void setBillToAddressStateCode(String billToAddressStateCode) {
-        this.billToAddressStateCode = billToAddressStateCode;
-    }
-
-    /**
-     * @return Returns the billToAddressType.
-     */
-    public String getBillToAddressType() {
-        return billToAddressType;
-    }
-
-    /**
-     * @param billToAddressType The billToAddressType to set.
-     */
-    public void setBillToAddressType(String billToAddressType) {
-        this.billToAddressType = billToAddressType;
-    }
-
-    /**
-     * @return Returns the deploymentMode.
-     */
-    public String getDeploymentMode() {
-        return deploymentMode;
-    }
-
-    /**
-     * @param deploymentMode The deploymentMode to set.
-     */
-    public void setDeploymentMode(String deploymentMode) {
-        this.deploymentMode = deploymentMode;
-    }
-
-    /**
-     * @return Returns the electronicInvoiceRejectItems.
-     */
-    public List<ElectronicInvoiceRejectItem> getElectronicInvoiceRejectItems() {
-        return electronicInvoiceRejectItems;
-    }
-
-    /**
-     * @param electronicInvoiceRejectItems The electronicInvoiceRejectItems to set.
-     */
-    public void setElectronicInvoiceRejectItems(List<ElectronicInvoiceRejectItem> electronicInvoiceRejectItems) {
-        this.electronicInvoiceRejectItems = electronicInvoiceRejectItems;
-    }
-
-    /**
-     * @return Returns the electronicInvoiceRejectReasons.
-     */
-    public List<ElectronicInvoiceRejectReason> getElectronicInvoiceRejectReasons() {
-        return electronicInvoiceRejectReasons;
-    }
-
-    /**
-     * @param electronicInvoiceRejectReasons The electronicInvoiceRejectReasons to set.
-     */
-    public void setElectronicInvoiceRejectReasons(List<ElectronicInvoiceRejectReason> electronicInvoiceRejectReasons) {
-        this.electronicInvoiceRejectReasons = electronicInvoiceRejectReasons;
-    }
-
-    /**
-     * @return Returns the purchaseOrderDeliveryCampusCode.
-     */
-    public String getPurchaseOrderDeliveryCampusCode() {
-        return purchaseOrderDeliveryCampusCode;
-    }
-
-    /**
-     * @param purchaseOrderDeliveryCampusCode The purchaseOrderDeliveryCampusCode to set.
-     */
-    public void setPurchaseOrderDeliveryCampusCode(String epicPODeliveryCampusCode) {
-        this.purchaseOrderDeliveryCampusCode = epicPODeliveryCampusCode;
-    }
-
-    /**
-     * @return Returns the purchaseOrderId.
-     */
-    public Integer getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    /**
-     * @param purchaseOrderId The purchaseOrderId to set.
-     */
-    public void setPurchaseOrderId(Integer epicPurchaseOrderId) {
-        this.purchaseOrderId = epicPurchaseOrderId;
-    }
-
-    /**
-     * @return Returns the fileDiscountInLineIndicator.
-     */
-    public Boolean getFileDiscountInLineIndicator() {
-        return fileDiscountInLineIndicator;
-    }
-
-    /**
-     * @param fileDiscountInLineIndicator The fileDiscountInLineIndicator to set.
-     */
-    public void setFileDiscountInLineIndicator(Boolean fileDiscountInLineIndicator) {
-        this.fileDiscountInLineIndicator = fileDiscountInLineIndicator;
-    }
-
-    /**
-     * @return Returns the fileHeaderTypeIndicator.
-     */
-    public Boolean getFileHeaderTypeIndicator() {
-        return fileHeaderTypeIndicator;
-    }
-
-    /**
-     * @param fileHeaderTypeIndicator The fileHeaderTypeIndicator to set.
-     */
-    public void setFileHeaderTypeIndicator(Boolean fileHeaderTypeIndicator) {
-        this.fileHeaderTypeIndicator = fileHeaderTypeIndicator;
-    }
-
-    /**
-     * @return Returns the fileInformationOnlyIndicator.
-     */
-    public Boolean getFileInformationOnlyIndicator() {
-        return fileInformationOnlyIndicator;
-    }
-
-    /**
-     * @param fileInformationOnlyIndicator The fileInformationOnlyIndicator to set.
-     */
-    public void setFileInformationOnlyIndicator(Boolean fileInformationOnlyIndicator) {
-        this.fileInformationOnlyIndicator = fileInformationOnlyIndicator;
-    }
-
-    /**
-     * @return Returns the fileOperationId.
-     */
-    public String getFileOperationId() {
-        return fileOperationId;
-    }
-
-    /**
-     * @param fileOperationId The fileOperationId to set.
-     */
-    public void setFileOperationId(String fileOperationId) {
-        this.fileOperationId = fileOperationId;
-    }
-
-    /**
-     * @return Returns the filePurposeId.
-     */
-    public String getFilePurposeId() {
-        return filePurposeId;
-    }
-
-    /**
-     * @param filePurposeId The filePurposeId to set.
-     */
-    public void setFilePurposeId(String filePurposeId) {
-        this.filePurposeId = filePurposeId;
-    }
-
-    /**
-     * @return Returns the fileShippingInLineIndicator.
-     */
-    public Boolean getFileShippingInLineIndicator() {
-        return fileShippingInLineIndicator;
-    }
-
-    /**
-     * @param fileShippingInLineIndicator The fileShippingInLineIndicator to set.
-     */
-    public void setFileShippingInLineIndicator(Boolean fileShippingInLineIndicator) {
-        this.fileShippingInLineIndicator = fileShippingInLineIndicator;
-    }
-
-    /**
-     * @return Returns the fileSpecHandlingInLineIndicator.
-     */
-    public Boolean getFileSpecHandlingInLineIndicator() {
-        return fileSpecHandlingInLineIndicator;
-    }
-
-    /**
-     * @param fileSpecHandlingInLineIndicator The fileSpecHandlingInLineIndicator to set.
-     */
-    public void setFileSpecHandlingInLineIndicator(Boolean fileSpecHandlingInLineIndicator) {
-        this.fileSpecHandlingInLineIndicator = fileSpecHandlingInLineIndicator;
-    }
-
-    /**
-     * @return Returns the fileTaxInLineIndicator.
-     */
-    public Boolean getFileTaxInLineIndicator() {
-        return fileTaxInLineIndicator;
-    }
-
-    /**
-     * @param fileTaxInLineIndicator The fileTaxInLineIndicator to set.
-     */
-    public void setFileTaxInLineIndicator(Boolean fileTaxInLineIndicator) {
-        this.fileTaxInLineIndicator = fileTaxInLineIndicator;
-    }
-
-    /**
-     * @return Returns the purapDocumentIdentifier.
-     */
-    public Integer getPurapDocumentIdentifier() {
-        return purapDocumentIdentifier;
-    }
-
-    /**
-     * @param purapDocumentIdentifier The purapDocumentIdentifier to set.
-     */
-    public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
-        this.purapDocumentIdentifier = purapDocumentIdentifier;
-    }
-
-    /**
-     * @return Returns the invoiceCustomerNumber.
-     */
-    public String getInvoiceCustomerNumber() {
-        return invoiceCustomerNumber;
-    }
-
-    /**
-     * @param invoiceCustomerNumber The invoiceCustomerNumber to set.
-     */
-    public void setInvoiceCustomerNumber(String invoiceCustomerNumber) {
-        this.invoiceCustomerNumber = invoiceCustomerNumber;
-    }
-
-    /**
-     * @return Returns the invoiceDate.
-     */
-    public java.sql.Date getInvoiceDate() {
-        return invoiceDate;
-    }
-
-    /**
-     * @param invoiceDate The invoiceDate to set.
-     */
-    public void setInvoiceDate(java.sql.Date invoiceDate) {
-        this.invoiceDate = invoiceDate;
-    }
-
-    /**
-     * @return Returns the invoiceDiscountAmount.
-     */
-    public BigDecimal getInvoiceDiscountAmount() {
-        return invoiceDiscountAmount;
-    }
-
-    /**
-     * @param invoiceDiscountAmount The invoiceDiscountAmount to set.
-     */
-    public void setInvoiceDiscountAmount(BigDecimal invoiceDiscountAmount) {
-        this.invoiceDiscountAmount = invoiceDiscountAmount;
-    }
-
-    /**
-     * @return Returns the invoiceDiscountAmountCurrency.
-     */
-    public String getInvoiceDiscountAmountCurrency() {
-        return invoiceDiscountAmountCurrency;
-    }
-
-    /**
-     * @param invoiceDiscountAmountCurrency The invoiceDiscountAmountCurrency to set.
-     */
-    public void setInvoiceDiscountAmountCurrency(String invoiceDiscountAmountCurrency) {
-        this.invoiceDiscountAmountCurrency = invoiceDiscountAmountCurrency;
-    }
-
-    /**
-     * @return Returns the invoiceFileName.
-     */
-    public String getInvoiceFileName() {
-        return invoiceFileName;
-    }
-
-    /**
-     * @param invoiceFileName The invoiceFileName to set.
-     */
-    public void setInvoiceFileName(String invoiceFileName) {
-        this.invoiceFileName = invoiceFileName;
-    }
-
-    /**
-     * @return Returns the invoiceGrossAmount.
-     */
-    public BigDecimal getInvoiceGrossAmount() {
-        return invoiceGrossAmount;
-    }
-
-    /**
-     * @param invoiceGrossAmount The invoiceGrossAmount to set.
-     */
-    public void setInvoiceGrossAmount(BigDecimal invoiceGrossAmount) {
-        this.invoiceGrossAmount = invoiceGrossAmount;
-    }
-
-    /**
-     * @return Returns the invoiceGrossAmountCurrency.
-     */
-    public String getInvoiceGrossAmountCurrency() {
-        return invoiceGrossAmountCurrency;
-    }
-
-    /**
-     * @param invoiceGrossAmountCurrency The invoiceGrossAmountCurrency to set.
-     */
-    public void setInvoiceGrossAmountCurrency(String invoiceGrossAmountCurrency) {
-        this.invoiceGrossAmountCurrency = invoiceGrossAmountCurrency;
-    }
-
-    /**
-     * @return Returns the invoiceNetAmount.
-     */
-    public BigDecimal getInvoiceNetAmount() {
-        return invoiceNetAmount;
-    }
-
-    /**
-     * @param invoiceNetAmount The invoiceNetAmount to set.
-     */
-    public void setInvoiceNetAmount(BigDecimal invoiceNetAmount) {
-        this.invoiceNetAmount = invoiceNetAmount;
-    }
-
-    /**
-     * @return Returns the invoiceNetAmountCurrency.
-     */
-    public String getInvoiceNetAmountCurrency() {
-        return invoiceNetAmountCurrency;
-    }
-
-    /**
-     * @param invoiceNetAmountCurrency The invoiceNetAmountCurrency to set.
-     */
-    public void setInvoiceNetAmountCurrency(String invoiceNetAmountCurrency) {
-        this.invoiceNetAmountCurrency = invoiceNetAmountCurrency;
-    }
-
-    /**
-     * @return Returns the invoiceNumber.
-     */
-    public String getInvoiceNumber() {
-        return invoiceNumber;
-    }
-
-    /**
-     * @param invoiceNumber The invoiceNumber to set.
-     */
-    public void setInvoiceNumber(String invoiceNumber) {
-        this.invoiceNumber = invoiceNumber;
-    }
-
-    /**
-     * @return Returns the invoiceOrderDate.
-     */
-    public String getInvoiceOrderDate() {
-        return invoiceOrderDate;
-    }
-
-    /**
-     * @param invoiceOrderDate The invoiceOrderDate to set.
-     */
-    public void setInvoiceOrderDate(String invoiceOrderDate) {
-        this.invoiceOrderDate = invoiceOrderDate;
-    }
-
-    /**
-     * @return Returns the invoiceOrderId.
-     */
-    public String getInvoiceOrderId() {
-        return invoiceOrderId;
-    }
-
-    /**
-     * @param invoiceOrderId The invoiceOrderId to set.
-     */
-    public void setInvoiceOrderId(String invoiceOrderId) {
-        this.invoiceOrderId = invoiceOrderId;
-    }
-
-    /**
-     * @return Returns the invoiceProcessTimestamp.
-     */
-    public Timestamp getInvoiceProcessTimestamp() {
-        return invoiceProcessTimestamp;
-    }
-
-    /**
-     * @param invoiceProcessTimestamp The invoiceProcessTimestamp to set.
-     */
-    public void setInvoiceProcessTimestamp(Timestamp invoiceProcessTimestamp) {
-        this.invoiceProcessTimestamp = invoiceProcessTimestamp;
-    }
-
-    /**
-     * @return Returns the invoiceOrderPurchaseOrderId.
-     */
-    public String getInvoiceOrderPurchaseOrderId() {
-        return invoiceOrderPurchaseOrderId;
-    }
-
-    /**
-     * @param invoiceOrderPurchaseOrderId The invoiceOrderPurchaseOrderId to set.
-     */
-    public void setInvoiceOrderPurchaseOrderId(String invoicePurchaseOrderId) {
-        this.invoiceOrderPurchaseOrderId = invoicePurchaseOrderId;
-    }
-
-    /**
-     * @return Returns the invoiceShipDate.
-     */
-    public String getInvoiceShipDate() {
-        return invoiceShipDate;
-    }
-
-    /**
-     * @param invoiceShipDate The invoiceShipDate to set.
-     */
-    public void setInvoiceShipDate(String invoiceShipDate) {
-        this.invoiceShipDate = invoiceShipDate;
-    }
-
-    /**
-     * @return Returns the invoiceShippingAmount.
-     */
-    public BigDecimal getInvoiceShippingAmount() {
-        return invoiceShippingAmount;
-    }
-
-    /**
-     * @param invoiceShippingAmount The invoiceShippingAmount to set.
-     */
-    public void setInvoiceShippingAmount(BigDecimal invoiceShippingAmount) {
-        this.invoiceShippingAmount = invoiceShippingAmount;
-    }
-
-    /**
-     * @return Returns the invoiceShippingAmountCurrency.
-     */
-    public String getInvoiceShippingAmountCurrency() {
-        return invoiceShippingAmountCurrency;
-    }
-
-    /**
-     * @param invoiceShippingAmountCurrency The invoiceShippingAmountCurrency to set.
-     */
-    public void setInvoiceShippingAmountCurrency(String invoiceShippingAmountCurrency) {
-        this.invoiceShippingAmountCurrency = invoiceShippingAmountCurrency;
-    }
-
-    /**
-     * @return Returns the invoiceShippingDescription.
-     */
-    public String getInvoiceShippingDescription() {
-        return invoiceShippingDescription;
-    }
-
-    /**
-     * @param invoiceShippingDescription The invoiceShippingDescription to set.
-     */
-    public void setInvoiceShippingDescription(String invoiceShippingDescription) {
-        this.invoiceShippingDescription = invoiceShippingDescription;
-    }
-
-    /**
-     * @return Returns the invoiceSpecialHandlingAmount.
-     */
-    public BigDecimal getInvoiceSpecialHandlingAmount() {
-        return invoiceSpecialHandlingAmount;
-    }
-
-    /**
-     * @param invoiceSpecialHandlingAmount The invoiceSpecialHandlingAmount to set.
-     */
-    public void setInvoiceSpecialHandlingAmount(BigDecimal invoiceSpecialHandlingAmount) {
-        this.invoiceSpecialHandlingAmount = invoiceSpecialHandlingAmount;
-    }
-
-    /**
-     * @return Returns the invoiceSpecialHandlingAmountCurrency.
-     */
-    public String getInvoiceSpecialHandlingAmountCurrency() {
-        return invoiceSpecialHandlingAmountCurrency;
-    }
-
-    /**
-     * @param invoiceSpecialHandlingAmountCurrency The invoiceSpecialHandlingAmountCurrency to set.
-     */
-    public void setInvoiceSpecialHandlingAmountCurrency(String invoiceSpecialHandlingAmountCurrency) {
-        this.invoiceSpecialHandlingAmountCurrency = invoiceSpecialHandlingAmountCurrency;
-    }
-
-    /**
-     * @return the invoiceSpecialHandlingDescription
-     */
-    public String getInvoiceSpecialHandlingDescription() {
-        return invoiceSpecialHandlingDescription;
-    }
-
-    /**
-     * @param invoiceSpecialHandlingDescription the invoiceSpecialHandlingDescription to set
-     */
-    public void setInvoiceSpecialHandlingDescription(String invoiceSpecialHandlingDescription) {
-        this.invoiceSpecialHandlingDescription = invoiceSpecialHandlingDescription;
-    }
-
-    /**
-     * @return Returns the invoiceSubtotalAmount.
-     */
-    public BigDecimal getInvoiceSubtotalAmount() {
-        return invoiceSubtotalAmount;
-    }
-
-    /**
-     * @param invoiceSubtotalAmount The invoiceSubtotalAmount to set.
-     */
-    public void setInvoiceSubtotalAmount(BigDecimal invoiceSubtotalAmount) {
-        this.invoiceSubtotalAmount = invoiceSubtotalAmount;
-    }
-
-    /**
-     * @return Returns the invoiceSubtotalAmountCurrency.
-     */
-    public String getInvoiceSubtotalAmountCurrency() {
-        return invoiceSubtotalAmountCurrency;
-    }
-
-    /**
-     * @param invoiceSubtotalAmountCurrency The invoiceSubtotalAmountCurrency to set.
-     */
-    public void setInvoiceSubtotalAmountCurrency(String invoiceSubtotalAmountCurrency) {
-        this.invoiceSubtotalAmountCurrency = invoiceSubtotalAmountCurrency;
-    }
-
-    /**
-     * @return Returns the invoiceTaxAmount.
-     */
-    public BigDecimal getInvoiceTaxAmount() {
-        return invoiceTaxAmount;
-    }
-
-    /**
-     * @param invoiceTaxAmount The invoiceTaxAmount to set.
-     */
-    public void setInvoiceTaxAmount(BigDecimal invoiceTaxAmount) {
-        this.invoiceTaxAmount = invoiceTaxAmount;
-    }
-
-    /**
-     * @return Returns the invoiceTaxAmountCurrency.
-     */
-    public String getInvoiceTaxAmountCurrency() {
-        return invoiceTaxAmountCurrency;
-    }
-
-    /**
-     * @param invoiceTaxAmountCurrency The invoiceTaxAmountCurrency to set.
-     */
-    public void setInvoiceTaxAmountCurrency(String invoiceTaxAmountCurrency) {
-        this.invoiceTaxAmountCurrency = invoiceTaxAmountCurrency;
-    }
-
-    /**
-     * @return Returns the invoiceTaxDescription.
-     */
-    public String getInvoiceTaxDescription() {
-        return invoiceTaxDescription;
-    }
-
-    /**
-     * @param invoiceTaxDescription The invoiceTaxDescription to set.
-     */
-    public void setInvoiceTaxDescription(String invoiceTaxDescription) {
-        this.invoiceTaxDescription = invoiceTaxDescription;
-    }
-
-    /**
-     * @return Returns the lastUpdateTimestamp.
-     */
-    public Timestamp getLastUpdateTimestamp() {
-        return lastUpdateTimestamp;
-    }
-
-    /**
-     * @param lastUpdateTimestamp The lastUpdateTimestamp to set.
-     */
-    public void setLastUpdateTimestamp(Timestamp lastUpdateTimestamp) {
-        this.lastUpdateTimestamp = lastUpdateTimestamp;
-    }
-
-    /**
-     * @return Returns the masterAgreementInfoDate.
-     */
-    public String getMasterAgreementInfoDate() {
-        return masterAgreementInfoDate;
-    }
-
-    /**
-     * @param masterAgreementInfoDate The masterAgreementInfoDate to set.
-     */
-    public void setMasterAgreementInfoDate(String masterAgreementInfoDate) {
-        this.masterAgreementInfoDate = masterAgreementInfoDate;
-    }
-
-    /**
-     * @return Returns the masterAgreementInfoId.
-     */
-    public String getMasterAgreementInfoId() {
-        return masterAgreementInfoId;
-    }
-
-    /**
-     * @param masterAgreementInfoId The masterAgreementInfoId to set.
-     */
-    public void setMasterAgreementInfoId(String masterAgreementInfoId) {
-        this.masterAgreementInfoId = masterAgreementInfoId;
-    }
-
-    /**
-     * @return Returns the masterAgreementReferenceDate.
-     */
-    public String getMasterAgreementReferenceDate() {
-        return masterAgreementReferenceDate;
-    }
-
-    /**
-     * @param masterAgreementReferenceDate The masterAgreementReferenceDate to set.
-     */
-    public void setMasterAgreementReferenceDate(String masterAgreementReferenceDate) {
-        this.masterAgreementReferenceDate = masterAgreementReferenceDate;
-    }
-
-    /**
-     * @return Returns the masterAgreementReferenceId.
-     */
-    public String getMasterAgreementReferenceId() {
-        return masterAgreementReferenceId;
-    }
-
-    /**
-     * @param masterAgreementReferenceId The masterAgreementReferenceId to set.
-     */
-    public void setMasterAgreementReferenceId(String masterAgreementReferenceId) {
-        this.masterAgreementReferenceId = masterAgreementReferenceId;
-    }
-
-    /**
-     * @return Returns the referenceDocumentRefPayloadId.
-     */
-    public String getReferenceDocumentRefPayloadId() {
-        return referenceDocumentRefPayloadId;
-    }
-
-    /**
-     * @param referenceDocumentRefPayloadId The referenceDocumentRefPayloadId to set.
-     */
-    public void setReferenceDocumentRefPayloadId(String referenceDocumentRefPayloadId) {
-        this.referenceDocumentRefPayloadId = referenceDocumentRefPayloadId;
-    }
-
-    /**
-     * @return Returns the referenceDocumentRefText.
-     */
-    public String getReferenceDocumentRefText() {
-        return referenceDocumentRefText;
-    }
-
-    /**
-     * @param referenceDocumentRefText The referenceDocumentRefText to set.
-     */
-    public void setReferenceDocumentRefText(String referenceDocumentRefText) {
-        this.referenceDocumentRefText = referenceDocumentRefText;
-    }
-
-    /**
-     * @return Returns the referenceOrderId.
-     */
-    public String getReferenceOrderId() {
-        return referenceOrderId;
-    }
-
-    /**
-     * @param referenceOrderId The referenceOrderId to set.
-     */
-    public void setReferenceOrderId(String referenceOrderId) {
-        this.referenceOrderId = referenceOrderId;
-    }
-
-    /**
-     * @return Returns the remitToAddressCityName.
-     */
-    public String getRemitToAddressCityName() {
-        return remitToAddressCityName;
-    }
-
-    /**
-     * @param remitToAddressCityName The remitToAddressCityName to set.
-     */
-    public void setRemitToAddressCityName(String remitToAddressCityName) {
-        this.remitToAddressCityName = remitToAddressCityName;
-    }
-
-    /**
-     * @return Returns the remitToAddressCountryCode.
-     */
-    public String getRemitToAddressCountryCode() {
-        return remitToAddressCountryCode;
-    }
-
-    /**
-     * @param remitToAddressCountryCode The remitToAddressCountryCode to set.
-     */
-    public void setRemitToAddressCountryCode(String remitToAddressCountryCode) {
-        this.remitToAddressCountryCode = remitToAddressCountryCode;
-    }
-
-    /**
-     * @return Returns the remitToAddressCountryName.
-     */
-    public String getRemitToAddressCountryName() {
-        return remitToAddressCountryName;
-    }
-
-    /**
-     * @param remitToAddressCountryName The remitToAddressCountryName to set.
-     */
-    public void setRemitToAddressCountryName(String remitToAddressCountryName) {
-        this.remitToAddressCountryName = remitToAddressCountryName;
-    }
-
-    /**
-     * @return Returns the remitToAddressLine1.
-     */
-    public String getRemitToAddressLine1() {
-        return remitToAddressLine1;
-    }
-
-    /**
-     * @param remitToAddressLine1 The remitToAddressLine1 to set.
-     */
-    public void setRemitToAddressLine1(String remitToAddressLine1) {
-        this.remitToAddressLine1 = remitToAddressLine1;
-    }
-
-    /**
-     * @return Returns the remitToAddressLine2.
-     */
-    public String getRemitToAddressLine2() {
-        return remitToAddressLine2;
-    }
-
-    /**
-     * @param remitToAddressLine2 The remitToAddressLine2 to set.
-     */
-    public void setRemitToAddressLine2(String remitToAddressLine2) {
-        this.remitToAddressLine2 = remitToAddressLine2;
-    }
-
-    /**
-     * @return Returns the remitToAddressLine3.
-     */
-    public String getRemitToAddressLine3() {
-        return remitToAddressLine3;
-    }
-
-    /**
-     * @param remitToAddressLine3 The remitToAddressLine3 to set.
-     */
-    public void setRemitToAddressLine3(String remitToAddressLine3) {
-        this.remitToAddressLine3 = remitToAddressLine3;
-    }
-
-    /**
-     * @return Returns the remitToAddressName.
-     */
-    public String getRemitToAddressName() {
-        return remitToAddressName;
-    }
-
-    /**
-     * @param remitToAddressName The remitToAddressName to set.
-     */
-    public void setRemitToAddressName(String remitToAddressName) {
-        this.remitToAddressName = remitToAddressName;
-    }
-
-    /**
-     * @return Returns the remitToAddressPostalCode.
-     */
-    public String getRemitToAddressPostalCode() {
-        return remitToAddressPostalCode;
-    }
-
-    /**
-     * @param remitToAddressPostalCode The remitToAddressPostalCode to set.
-     */
-    public void setRemitToAddressPostalCode(String remitToAddressPostalCode) {
-        this.remitToAddressPostalCode = remitToAddressPostalCode;
-    }
-
-    /**
-     * @return Returns the remitToAddressStateCode.
-     */
-    public String getRemitToAddressStateCode() {
-        return remitToAddressStateCode;
-    }
-
-    /**
-     * @param remitToAddressStateCode The remitToAddressStateCode to set.
-     */
-    public void setRemitToAddressStateCode(String remitToAddressStateCode) {
-        this.remitToAddressStateCode = remitToAddressStateCode;
-    }
-
-    /**
-     * @return Returns the remitToAddressType.
-     */
-    public String getRemitToAddressType() {
-        return remitToAddressType;
-    }
-
-    /**
-     * @param remitToAddressType The remitToAddressType to set.
-     */
-    public void setRemitToAddressType(String remitToAddressType) {
-        this.remitToAddressType = remitToAddressType;
-    }
-
-    /**
-     * @return Returns the shipToAddressCityName.
-     */
-    public String getShipToAddressCityName() {
-        return shipToAddressCityName;
-    }
-
-    /**
-     * @param shipToAddressCityName The shipToAddressCityName to set.
-     */
-    public void setShipToAddressCityName(String shipToAddressCityName) {
-        this.shipToAddressCityName = shipToAddressCityName;
-    }
-
-    /**
-     * @return Returns the shipToAddressCountryCode.
-     */
-    public String getShipToAddressCountryCode() {
-        return shipToAddressCountryCode;
-    }
-
-    /**
-     * @param shipToAddressCountryCode The shipToAddressCountryCode to set.
-     */
-    public void setShipToAddressCountryCode(String shipToAddressCountryCode) {
-        this.shipToAddressCountryCode = shipToAddressCountryCode;
-    }
-
-    /**
-     * @return Returns the shipToAddressCountryName.
-     */
-    public String getShipToAddressCountryName() {
-        return shipToAddressCountryName;
-    }
-
-    /**
-     * @param shipToAddressCountryName The shipToAddressCountryName to set.
-     */
-    public void setShipToAddressCountryName(String shipToAddressCountryName) {
-        this.shipToAddressCountryName = shipToAddressCountryName;
-    }
-
-    /**
-     * @return Returns the shipToAddressLine1.
-     */
-    public String getShipToAddressLine1() {
-        return shipToAddressLine1;
-    }
-
-    /**
-     * @param shipToAddressLine1 The shipToAddressLine1 to set.
-     */
-    public void setShipToAddressLine1(String shipToAddressLine1) {
-        this.shipToAddressLine1 = shipToAddressLine1;
-    }
-
-    /**
-     * @return Returns the shipToAddressLine2.
-     */
-    public String getShipToAddressLine2() {
-        return shipToAddressLine2;
-    }
-
-    /**
-     * @param shipToAddressLine2 The shipToAddressLine2 to set.
-     */
-    public void setShipToAddressLine2(String shipToAddressLine2) {
-        this.shipToAddressLine2 = shipToAddressLine2;
-    }
-
-    /**
-     * @return Returns the shipToAddressLine3.
-     */
-    public String getShipToAddressLine3() {
-        return shipToAddressLine3;
-    }
-
-    /**
-     * @param shipToAddressLine3 The shipToAddressLine3 to set.
-     */
-    public void setShipToAddressLine3(String shipToAddressLine3) {
-        this.shipToAddressLine3 = shipToAddressLine3;
-    }
-
-    /**
-     * @return Returns the shipToAddressName.
-     */
-    public String getShipToAddressName() {
-        return shipToAddressName;
-    }
-
-    /**
-     * @param shipToAddressName The shipToAddressName to set.
-     */
-    public void setShipToAddressName(String shipToAddressName) {
-        this.shipToAddressName = shipToAddressName;
-    }
-
-    /**
-     * @return Returns the shipToAddressPostalCode.
-     */
-    public String getShipToAddressPostalCode() {
-        return shipToAddressPostalCode;
-    }
-
-    /**
-     * @param shipToAddressPostalCode The shipToAddressPostalCode to set.
-     */
-    public void setShipToAddressPostalCode(String shipToAddressPostalCode) {
-        this.shipToAddressPostalCode = shipToAddressPostalCode;
-    }
-
-    /**
-     * @return Returns the shipToAddressStateCode.
-     */
-    public String getShipToAddressStateCode() {
-        return shipToAddressStateCode;
-    }
-
-    /**
-     * @param shipToAddressStateCode The shipToAddressStateCode to set.
-     */
-    public void setShipToAddressStateCode(String shipToAddressStateCode) {
-        this.shipToAddressStateCode = shipToAddressStateCode;
-    }
-
-    /**
-     * @return Returns the shipToAddressType.
-     */
-    public String getShipToAddressType() {
-        return shipToAddressType;
-    }
-
-    /**
-     * @param shipToAddressType The shipToAddressType to set.
-     */
-    public void setShipToAddressType(String shipToAddressType) {
-        this.shipToAddressType = shipToAddressType;
-    }
-
-    /**
-     * @return Returns the supplierOrderInfoId.
-     */
-    public String getSupplierOrderInfoId() {
-        return supplierOrderInfoId;
-    }
-
-    /**
-     * @param supplierOrderInfoId The supplierOrderInfoId to set.
-     */
-    public void setSupplierOrderInfoId(String supplierOrderInfoId) {
-        this.supplierOrderInfoId = supplierOrderInfoId;
-    }
-
-    /**
-     * @return Returns the vendorDetailID.
-     */
-    public Integer getVendorDetailID() {
-        return vendorDetailID;
-    }
-
-    /**
-     * @param vendorDetailID The vendorDetailID to set.
-     */
-    public void setVendorDetailID(Integer vendorDetailID) {
-        this.vendorDetailID = vendorDetailID;
-    }
-
-    /**
-     * @return Returns the vendorDunsNumber.
-     */
-    public String getVendorDunsNumber() {
-        return vendorDunsNumber;
-    }
-
-    /**
-     * @param vendorDunsNumber The vendorDunsNumber to set.
-     */
-    public void setVendorDunsNumber(String vendorDunsNumber) {
-        this.vendorDunsNumber = vendorDunsNumber;
-    }
-
-    /**
-     * @return Returns the vendorHeaderID.
-     */
-    public Integer getVendorHeaderID() {
-        return vendorHeaderID;
-    }
-
-    /**
-     * @param vendorHeaderID The vendorHeaderID to set.
-     */
-    public void setVendorHeaderID(Integer vendorHeaderID) {
-        this.vendorHeaderID = vendorHeaderID;
-    }
-
-    /**
-     * @return Returns the version.
-     */
-    public Integer getVersion() {
-        return version;
-    }
-
-    /**
-     * @param version The version to set.
-     */
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public PurchaseOrderDocument getPurchaseOrderDocument() {
-        return purchaseOrderDocument;
-    }
-
-    public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
-        this.purchaseOrderDocument = purchaseOrderDocument;
-    }
-
-    public VendorDetail getVendorDetail() {
-        return vendorDetail;
-    }
-
-    public void setVendorDetail(VendorDetail vendorDetail) {
-        this.vendorDetail = vendorDetail;
-    }
-
-    // persistence broker aware methods + override
-    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-        // set last update timestamp
-        lastUpdateTimestamp = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-    }
-
-    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdateTimestamp = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-    }
-
-    public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-    }
-
-    public void initiateDocument() {
-        // TODO Auto-generated method stub
-    }
-
-    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
-        return accountsPayablePurchasingDocumentLinkIdentifier;
-    }
-
-    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
-        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
-    }
-
-    public Campus getPurchaseOrderDeliveryCampus() {
-        return purchaseOrderDeliveryCampus;
-    }
-
-    public void setPurchaseOrderDeliveryCampus(Campus purchaseOrderDeliveryCampus) {
-        this.purchaseOrderDeliveryCampus = purchaseOrderDeliveryCampus;
-    }
-
+        LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+        returnValue = returnValue.add(toAddAmount);
+      }
+      LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+      return returnValue;
+    } catch (NumberFormatException n) {
+      // do nothing this is already rejected
+      LOG.error("getTotalAmount() Error attempting to calculate total amount for invoice with filename " + this.invoiceFileName);
+      return zero;
+    }
+  }
+  
+  /**
+   * @return Returns the invoiceLoadSummaryIdentifier.
+   */
+  public Integer getInvoiceLoadSummaryIdentifier() {
+    return invoiceLoadSummaryIdentifier;
+  }
+  /**
+   * @param invoiceLoadSummaryIdentifier The invoiceLoadSummaryIdentifier to set.
+   */
+  public void setInvoiceLoadSummaryIdentifier(Integer loadSummaryId) {
+    this.invoiceLoadSummaryIdentifier = loadSummaryId;
+  }
+  /**
+   * @return Returns the invoiceLoadSummary.
+   */
+  public ElectronicInvoiceLoadSummary getInvoiceLoadSummary() {
+    return invoiceLoadSummary;
+  }
+  /**
+   * @param invoiceLoadSummary The invoiceLoadSummary to set.
+   */
+  public void setInvoiceLoadSummary(
+      ElectronicInvoiceLoadSummary electronicInvoiceLoadSummary) {
+    this.invoiceLoadSummary = electronicInvoiceLoadSummary;
+    this.invoiceLoadSummaryIdentifier = electronicInvoiceLoadSummary.getInvoiceLoadSummaryIdentifier();
+  }
+  /**
+   * @return Returns the invoiceBillToAddressCityName.
+   */
+  public String getInvoiceBillToAddressCityName() {
+    return invoiceBillToAddressCityName;
+  }
+  /**
+   * @param invoiceBillToAddressCityName The invoiceBillToAddressCityName to set.
+   */
+  public void setInvoiceBillToAddressCityName(String billToAddressCityName) {
+    this.invoiceBillToAddressCityName = billToAddressCityName;
+  }
+  /**
+   * @return Returns the invoiceBillToAddressCountryCode.
+   */
+  public String getInvoiceBillToAddressCountryCode() {
+    return invoiceBillToAddressCountryCode;
+  }
+  /**
+   * @param invoiceBillToAddressCountryCode The invoiceBillToAddressCountryCode to set.
+   */
+  public void setInvoiceBillToAddressCountryCode(String billToAddressCountryCode) {
+    this.invoiceBillToAddressCountryCode = billToAddressCountryCode;
+  }
+  /**
+   * @return Returns the invoiceBillToAddressCountryName.
+   */
+  public String getInvoiceBillToAddressCountryName() {
+    return invoiceBillToAddressCountryName;
+  }
+  /**
+   * @param invoiceBillToAddressCountryName The invoiceBillToAddressCountryName to set.
+   */
+  public void setInvoiceBillToAddressCountryName(String billToAddressCountryName) {
+    this.invoiceBillToAddressCountryName = billToAddressCountryName;
+  }
+  /**
+   * @return Returns the invoiceBillToAddressLine1.
+   */
+  public String getInvoiceBillToAddressLine1() {
+    return invoiceBillToAddressLine1;
+  }
+  /**
+   * @param invoiceBillToAddressLine1 The invoiceBillToAddressLine1 to set.
+   */
+  public void setInvoiceBillToAddressLine1(String billToAddressLine1) {
+    this.invoiceBillToAddressLine1 = billToAddressLine1;
+  }
+  /**
+   * @return Returns the invoiceBillToAddressLine2.
+   */
+  public String getInvoiceBillToAddressLine2() {
+    return invoiceBillToAddressLine2;
+  }
+  /**
+   * @param invoiceBillToAddressLine2 The invoiceBillToAddressLine2 to set.
+   */
+  public void setInvoiceBillToAddressLine2(String billToAddressLine2) {
+    this.invoiceBillToAddressLine2 = billToAddressLine2;
+  }
+  /**
+   * @return Returns the invoiceBillToAddressLine3.
+   */
+  public String getInvoiceBillToAddressLine3() {
+    return invoiceBillToAddressLine3;
+  }
+  /**
+   * @param invoiceBillToAddressLine3 The invoiceBillToAddressLine3 to set.
+   */
+  public void setInvoiceBillToAddressLine3(String billToAddressLine3) {
+    this.invoiceBillToAddressLine3 = billToAddressLine3;
+  }
+  /**
+   * @return Returns the invoiceBillToAddressName.
+   */
+  public String getInvoiceBillToAddressName() {
+    return invoiceBillToAddressName;
+  }
+  /**
+   * @param invoiceBillToAddressName The invoiceBillToAddressName to set.
+   */
+  public void setInvoiceBillToAddressName(String billToAddressName) {
+    this.invoiceBillToAddressName = billToAddressName;
+  }
+  /**
+   * @return Returns the invoiceBillToAddressPostalCode.
+   */
+  public String getInvoiceBillToAddressPostalCode() {
+    return invoiceBillToAddressPostalCode;
+  }
+  /**
+   * @param invoiceBillToAddressPostalCode The invoiceBillToAddressPostalCode to set.
+   */
+  public void setInvoiceBillToAddressPostalCode(String billToAddressPostalCode) {
+    this.invoiceBillToAddressPostalCode = billToAddressPostalCode;
+  }
+  /**
+   * @return Returns the invoiceBillToAddressStateCode.
+   */
+  public String getInvoiceBillToAddressStateCode() {
+    return invoiceBillToAddressStateCode;
+  }
+  /**
+   * @param invoiceBillToAddressStateCode The invoiceBillToAddressStateCode to set.
+   */
+  public void setInvoiceBillToAddressStateCode(String billToAddressStateCode) {
+    this.invoiceBillToAddressStateCode = billToAddressStateCode;
+  }
+  /**
+   * @return Returns the invoiceBillToAddressType.
+   */
+  public String getInvoiceBillToAddressType() {
+    return invoiceBillToAddressType;
+  }
+  /**
+   * @param invoiceBillToAddressType The invoiceBillToAddressType to set.
+   */
+  public void setInvoiceBillToAddressType(String billToAddressType) {
+    this.invoiceBillToAddressType = billToAddressType;
+  }
+  /**
+   * @return Returns the invoiceFileDeploymentModeValue.
+   */
+  public String getInvoiceFileDeploymentModeValue() {
+    return invoiceFileDeploymentModeValue;
+  }
+  /**
+   * @param invoiceFileDeploymentModeValue The invoiceFileDeploymentModeValue to set.
+   */
+  public void setInvoiceFileDeploymentModeValue(String deploymentMode) {
+    this.invoiceFileDeploymentModeValue = deploymentMode;
+  }
+  /**
+   * @return Returns the invoiceRejectItems.
+   */
+  public List getInvoiceRejectItems() {
+    return invoiceRejectItems;
+  }
+  /**
+   * @param invoiceRejectItems The invoiceRejectItems to set.
+   */
+  public void setInvoiceRejectItems(List electronicInvoiceRejectItems) {
+    this.invoiceRejectItems = electronicInvoiceRejectItems;
+  }
+  /**
+   * @return Returns the invoiceRejectReasons.
+   */
+  public List getInvoiceRejectReasons() {
+    return invoiceRejectReasons;
+  }
+  /**
+   * @param invoiceRejectReasons The invoiceRejectReasons to set.
+   */
+  public void setInvoiceRejectReasons(List electronicInvoiceRejectReasons) {
+    this.invoiceRejectReasons = electronicInvoiceRejectReasons;
+  }
+  /**
+   * @return Returns the purchaseOrderDeliveryCampusCode.
+   */
+  public String getPurchaseOrderDeliveryCampusCode() {
+    return purchaseOrderDeliveryCampusCode;
+  }
+  /**
+   * @param purchaseOrderDeliveryCampusCode The purchaseOrderDeliveryCampusCode to set.
+   */
+  public void setPurchaseOrderDeliveryCampusCode(String epicPODeliveryCampusCode) {
+    this.purchaseOrderDeliveryCampusCode = epicPODeliveryCampusCode;
+  }
+  /**
+   * @return Returns the purchaseOrderId.
+   */
+  public Integer getPurchaseOrderId() {
+    return purchaseOrderId;
+  }
+  /**
+   * @param purchaseOrderId The purchaseOrderId to set.
+   */
+  public void setPurchaseOrderId(Integer epicPurchaseOrderId) {
+    this.purchaseOrderId = epicPurchaseOrderId;
+  }
+  /**
+   * @return Returns the InvoiceFileDiscountInLineIndicator.
+   */
+  public Boolean getInvoiceFileDiscountInLineIndicator() {
+    return InvoiceFileDiscountInLineIndicator;
+  }
+  /**
+   * @param InvoiceFileDiscountInLineIndicator The InvoiceFileDiscountInLineIndicator to set.
+   */
+  public void setInvoiceFileDiscountInLineIndicator(Boolean fileDiscountInLineIndicator) {
+    this.InvoiceFileDiscountInLineIndicator = fileDiscountInLineIndicator;
+  }
+  /**
+   * @return Returns the invoiceFileHeaderTypeIndicator.
+   */
+  public Boolean getInvoiceFileHeaderTypeIndicator() {
+    return invoiceFileHeaderTypeIndicator;
+  }
+  /**
+   * @param invoiceFileHeaderTypeIndicator The invoiceFileHeaderTypeIndicator to set.
+   */
+  public void setInvoiceFileHeaderTypeIndicator(Boolean fileHeaderTypeIndicator) {
+    this.invoiceFileHeaderTypeIndicator = fileHeaderTypeIndicator;
+  }
+  /**
+   * @return Returns the invoiceFileInformationOnlyIndicator.
+   */
+  public Boolean getInvoiceFileInformationOnlyIndicator() {
+    return invoiceFileInformationOnlyIndicator;
+  }
+  /**
+   * @param invoiceFileInformationOnlyIndicator The invoiceFileInformationOnlyIndicator to set.
+   */
+  public void setInvoiceFileInformationOnlyIndicator(Boolean fileInformationOnlyIndicator) {
+    this.invoiceFileInformationOnlyIndicator = fileInformationOnlyIndicator;
+  }
+  /**
+   * @return Returns the invoiceFileOperationIdentifier.
+   */
+  public String getInvoiceFileOperationIdentifier() {
+    return invoiceFileOperationIdentifier;
+  }
+  /**
+   * @param invoiceFileOperationIdentifier The invoiceFileOperationIdentifier to set.
+   */
+  public void setInvoiceFileOperationIdentifier(String fileOperationId) {
+    this.invoiceFileOperationIdentifier = fileOperationId;
+  }
+  /**
+   * @return Returns the invoiceFilePurposeIdentifier.
+   */
+  public String getInvoiceFilePurposeIdentifier() {
+    return invoiceFilePurposeIdentifier;
+  }
+  /**
+   * @param invoiceFilePurposeIdentifier The invoiceFilePurposeIdentifier to set.
+   */
+  public void setInvoiceFilePurposeIdentifier(String filePurposeId) {
+    this.invoiceFilePurposeIdentifier = filePurposeId;
+  }
+  /**
+   * @return Returns the invoiceFileShippingInLineIndicator.
+   */
+  public Boolean getInvoiceFileShippingInLineIndicator() {
+    return invoiceFileShippingInLineIndicator;
+  }
+  /**
+   * @param invoiceFileShippingInLineIndicator The invoiceFileShippingInLineIndicator to set.
+   */
+  public void setInvoiceFileShippingInLineIndicator(Boolean fileShippingInLineIndicator) {
+    this.invoiceFileShippingInLineIndicator = fileShippingInLineIndicator;
+  }
+  /**
+   * @return Returns the invoiceFileSpecHandlingInLineIndicator.
+   */
+  public Boolean getInvoiceFileSpecHandlingInLineIndicator() {
+    return invoiceFileSpecHandlingInLineIndicator;
+  }
+  /**
+   * @param invoiceFileSpecHandlingInLineIndicator The invoiceFileSpecHandlingInLineIndicator to set.
+   */
+  public void setInvoiceFileSpecHandlingInLineIndicator(Boolean fileSpecHandlingInLineIndicator) {
+    this.invoiceFileSpecHandlingInLineIndicator = fileSpecHandlingInLineIndicator;
+  }
+  /**
+   * @return Returns the invoiceFileTaxInLineIndicator.
+   */
+  public Boolean getInvoiceFileTaxInLineIndicator() {
+    return invoiceFileTaxInLineIndicator;
+  }
+  /**
+   * @param invoiceFileTaxInLineIndicator The invoiceFileTaxInLineIndicator to set.
+   */
+  public void setInvoiceFileTaxInLineIndicator(Boolean fileTaxInLineIndicator) {
+    this.invoiceFileTaxInLineIndicator = fileTaxInLineIndicator;
+  }
+  /**
+   * @return Returns the purapDocumentIdentifier.
+   */
+  public Integer getPurapDocumentIdentifier() {
+    return purapDocumentIdentifier;
+  }
+  /**
+   * @param purapDocumentIdentifier The purapDocumentIdentifier to set.
+   */
+  public void setPurapDocumentIdentifier(Integer id) {
+    this.purapDocumentIdentifier = id;
+  }
+  
+  public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
+    return accountsPayablePurchasingDocumentLinkIdentifier;
+  }
+  public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+    this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
+  }
+  
+  /**
+   * @return Returns the invoiceCustomerNumber.
+   */
+  public String getInvoiceCustomerNumber() {
+    return invoiceCustomerNumber;
+  }
+  /**
+   * @param invoiceCustomerNumber The invoiceCustomerNumber to set.
+   */
+  public void setInvoiceCustomerNumber(String invoiceCustomerNumber) {
+    this.invoiceCustomerNumber = invoiceCustomerNumber;
+  }
+  /**
+   * @return Returns the invoiceFileDate.
+   */
+  public String getInvoiceFileDate() {
+    return invoiceFileDate;
+  }
+  /**
+   * @param invoiceFileDate The invoiceFileDate to set.
+   */
+  public void setInvoiceFileDate(String invoiceDate) {
+    this.invoiceFileDate = invoiceDate;
+  }
+  /**
+   * @return Returns the invoiceItemDiscountAmount.
+   */
+  public BigDecimal getInvoiceItemDiscountAmount() {
+    return invoiceItemDiscountAmount;
+  }
+  /**
+   * @param invoiceItemDiscountAmount The invoiceItemDiscountAmount to set.
+   */
+  public void setInvoiceItemDiscountAmount(BigDecimal invoiceDiscountAmount) {
+    this.invoiceItemDiscountAmount = invoiceDiscountAmount;
+  }
+  /**
+   * @return Returns the invoiceItemDiscountCurrencyCode.
+   */
+  public String getInvoiceItemDiscountCurrencyCode() {
+    return invoiceItemDiscountCurrencyCode;
+  }
+  /**
+   * @param invoiceItemDiscountCurrencyCode The invoiceItemDiscountCurrencyCode to set.
+   */
+  public void setInvoiceItemDiscountCurrencyCode(String invoiceDiscountAmountCurrency) {
+    this.invoiceItemDiscountCurrencyCode = invoiceDiscountAmountCurrency;
+  }
+  /**
+   * @return Returns the invoiceFileName.
+   */
+  public String getInvoiceFileName() {
+    return invoiceFileName;
+  }
+  /**
+   * @param invoiceFileName The invoiceFileName to set.
+   */
+  public void setInvoiceFileName(String invoiceFileName) {
+    this.invoiceFileName = invoiceFileName;
+  }
+  /**
+   * @return Returns the invoiceItemGrossAmount.
+   */
+  public BigDecimal getInvoiceItemGrossAmount() {
+    return invoiceItemGrossAmount;
+  }
+  /**
+   * @param invoiceItemGrossAmount The invoiceItemGrossAmount to set.
+   */
+  public void setInvoiceItemGrossAmount(BigDecimal invoiceGrossAmount) {
+    this.invoiceItemGrossAmount = invoiceGrossAmount;
+  }
+  /**
+   * @return Returns the invoiceItemGrossCurrencyCode.
+   */
+  public String getInvoiceItemGrossCurrencyCode() {
+    return invoiceItemGrossCurrencyCode;
+  }
+  /**
+   * @param invoiceItemGrossCurrencyCode The invoiceItemGrossCurrencyCode to set.
+   */
+  public void setInvoiceItemGrossCurrencyCode(String invoiceGrossAmountCurrency) {
+    this.invoiceItemGrossCurrencyCode = invoiceGrossAmountCurrency;
+  }
+  /**
+   * @return Returns the invoiceItemNetAmount.
+   */
+  public BigDecimal getInvoiceItemNetAmount() {
+    return invoiceItemNetAmount;
+  }
+  /**
+   * @param invoiceItemNetAmount The invoiceItemNetAmount to set.
+   */
+  public void setInvoiceItemNetAmount(BigDecimal invoiceNetAmount) {
+    this.invoiceItemNetAmount = invoiceNetAmount;
+  }
+  /**
+   * @return Returns the invoiceItemNetCurrencyCode.
+   */
+  public String getInvoiceItemNetCurrencyCode() {
+    return invoiceItemNetCurrencyCode;
+  }
+  /**
+   * @param invoiceItemNetCurrencyCode The invoiceItemNetCurrencyCode to set.
+   */
+  public void setInvoiceItemNetCurrencyCode(String invoiceNetAmountCurrency) {
+    this.invoiceItemNetCurrencyCode = invoiceNetAmountCurrency;
+  }
+  /**
+   * @return Returns the invoiceFileNumber.
+   */
+  public String getInvoiceFileNumber() {
+    return invoiceFileNumber;
+  }
+  /**
+   * @param invoiceFileNumber The invoiceFileNumber to set.
+   */
+  public void setInvoiceFileNumber(String invoiceNumber) {
+    this.invoiceFileNumber = invoiceNumber;
+  }
+  /**
+   * @return Returns the invoiceOrderPurchaseOrderDate.
+   */
+  public String getInvoiceOrderPurchaseOrderDate() {
+    return invoiceOrderPurchaseOrderDate;
+  }
+  /**
+   * @param invoiceOrderPurchaseOrderDate The invoiceOrderPurchaseOrderDate to set.
+   */
+  public void setInvoiceOrderPurchaseOrderDate(String invoiceOrderDate) {
+    this.invoiceOrderPurchaseOrderDate = invoiceOrderDate;
+  }
+  /**
+   * @return Returns the invoiceOrderPurchaseOrderIdentifier.
+   */
+  public String getInvoiceOrderPurchaseOrderIdentifier() {
+    return invoiceOrderPurchaseOrderIdentifier;
+  }
+  /**
+   * @param invoiceOrderPurchaseOrderIdentifier The invoiceOrderPurchaseOrderIdentifier to set.
+   */
+  public void setInvoiceOrderPurchaseOrderIdentifier(String invoiceOrderId) {
+    this.invoiceOrderPurchaseOrderIdentifier = invoiceOrderId;
+  }
+  /**
+   * @return Returns the invoiceProcessDate.
+   */
+  public Timestamp getInvoiceProcessDate() {
+    return invoiceProcessDate;
+  }
+  /**
+   * @param invoiceProcessDate The invoiceProcessDate to set.
+   */
+  public void setInvoiceProcessDate(Timestamp invoiceProcessTimestamp) {
+    this.invoiceProcessDate = invoiceProcessTimestamp;
+  }
+  /**
+   * @return Returns the invoicePurchaseOrderNumber.
+   */
+  public String getInvoicePurchaseOrderNumber() {
+    return invoicePurchaseOrderNumber;
+  }
+  /**
+   * @param invoicePurchaseOrderNumber The invoicePurchaseOrderNumber to set.
+   */
+  public void setInvoicePurchaseOrderNumber(String invoicePurchaseOrderId) {
+    this.invoicePurchaseOrderNumber = invoicePurchaseOrderId;
+  }
+  /**
+   * @return Returns the invoiceShipDate.
+   */
+  public String getInvoiceShipDate() {
+    return invoiceShipDate;
+  }
+  /**
+   * @param invoiceShipDate The invoiceShipDate to set.
+   */
+  public void setInvoiceShipDate(String invoiceShipDate) {
+    this.invoiceShipDate = invoiceShipDate;
+  }
+  /**
+   * @return Returns the invoiceItemShippingAmount.
+   */
+  public BigDecimal getInvoiceItemShippingAmount() {
+    return invoiceItemShippingAmount;
+  }
+  /**
+   * @param invoiceItemShippingAmount The invoiceItemShippingAmount to set.
+   */
+  public void setInvoiceItemShippingAmount(BigDecimal invoiceShippingAmount) {
+    this.invoiceItemShippingAmount = invoiceShippingAmount;
+  }
+  /**
+   * @return Returns the invoiceItemShippingCurrencyCode.
+   */
+  public String getInvoiceItemShippingCurrencyCode() {
+    return invoiceItemShippingCurrencyCode;
+  }
+  /**
+   * @param invoiceItemShippingCurrencyCode The invoiceItemShippingCurrencyCode to set.
+   */
+  public void setInvoiceItemShippingCurrencyCode(String invoiceShippingAmountCurrency) {
+    this.invoiceItemShippingCurrencyCode = invoiceShippingAmountCurrency;
+  }
+  /**
+   * @return Returns the invoiceItemShippingDescription.
+   */
+  public String getInvoiceItemShippingDescription() {
+    return invoiceItemShippingDescription;
+  }
+  /**
+   * @param invoiceItemShippingDescription The invoiceItemShippingDescription to set.
+   */
+  public void setInvoiceItemShippingDescription(String invoiceShippingDescription) {
+    this.invoiceItemShippingDescription = invoiceShippingDescription;
+  }
+  /**
+   * @return Returns the invoiceItemSpecialHandlingAmount.
+   */
+  public BigDecimal getInvoiceItemSpecialHandlingAmount() {
+    return invoiceItemSpecialHandlingAmount;
+  }
+  /**
+   * @param invoiceItemSpecialHandlingAmount The invoiceItemSpecialHandlingAmount to set.
+   */
+  public void setInvoiceItemSpecialHandlingAmount(BigDecimal invoiceSpecialHandlingAmount) {
+    this.invoiceItemSpecialHandlingAmount = invoiceSpecialHandlingAmount;
+  }
+  /**
+   * @return Returns the invoiceItemSpecialHandlingCurrencyCode.
+   */
+  public String getInvoiceItemSpecialHandlingCurrencyCode() {
+    return invoiceItemSpecialHandlingCurrencyCode;
+  }
+  /**
+   * @param invoiceItemSpecialHandlingCurrencyCode The invoiceItemSpecialHandlingCurrencyCode to set.
+   */
+  public void setInvoiceItemSpecialHandlingCurrencyCode(String invoiceSpecialHandlingAmountCurrency) {
+    this.invoiceItemSpecialHandlingCurrencyCode = invoiceSpecialHandlingAmountCurrency;
+  }
+  /**
+   * @return the invoiceItemSpecialHandlingDescription
+   */
+  public String getInvoiceItemSpecialHandlingDescription() {
+    return invoiceItemSpecialHandlingDescription;
+  }
+  /**
+   * @param invoiceItemSpecialHandlingDescription the invoiceItemSpecialHandlingDescription to set
+   */
+  public void setInvoiceItemSpecialHandlingDescription(String invoiceSpecialHandlingDescription) {
+    this.invoiceItemSpecialHandlingDescription = invoiceSpecialHandlingDescription;
+  }
+  /**
+   * @return Returns the invoiceItemSubtotalAmount.
+   */
+  public BigDecimal getInvoiceItemSubtotalAmount() {
+    return invoiceItemSubtotalAmount;
+  }
+  /**
+   * @param invoiceItemSubtotalAmount The invoiceItemSubtotalAmount to set.
+   */
+  public void setInvoiceItemSubtotalAmount(BigDecimal invoiceSubtotalAmount) {
+    this.invoiceItemSubtotalAmount = invoiceSubtotalAmount;
+  }
+  /**
+   * @return Returns the invoiceItemSubtotalCurrencyCode.
+   */
+  public String getInvoiceItemSubtotalCurrencyCode() {
+    return invoiceItemSubtotalCurrencyCode;
+  }
+  /**
+   * @param invoiceItemSubtotalCurrencyCode The invoiceItemSubtotalCurrencyCode to set.
+   */
+  public void setInvoiceItemSubtotalCurrencyCode(String invoiceSubtotalAmountCurrency) {
+    this.invoiceItemSubtotalCurrencyCode = invoiceSubtotalAmountCurrency;
+  }
+  /**
+   * @return Returns the invoiceItemTaxAmount.
+   */
+  public BigDecimal getInvoiceItemTaxAmount() {
+    return invoiceItemTaxAmount;
+  }
+  /**
+   * @param invoiceItemTaxAmount The invoiceItemTaxAmount to set.
+   */
+  public void setInvoiceItemTaxAmount(BigDecimal invoiceTaxAmount) {
+    this.invoiceItemTaxAmount = invoiceTaxAmount;
+  }
+  /**
+   * @return Returns the invoiceItemTaxCurrencyCode.
+   */
+  public String getInvoiceItemTaxCurrencyCode() {
+    return invoiceItemTaxCurrencyCode;
+  }
+  /**
+   * @param invoiceItemTaxCurrencyCode The invoiceItemTaxCurrencyCode to set.
+   */
+  public void setInvoiceItemTaxCurrencyCode(String invoiceTaxAmountCurrency) {
+    this.invoiceItemTaxCurrencyCode = invoiceTaxAmountCurrency;
+  }
+  /**
+   * @return Returns the invoiceItemTaxDescription.
+   */
+  public String getInvoiceItemTaxDescription() {
+    return invoiceItemTaxDescription;
+  }
+  /**
+   * @param invoiceItemTaxDescription The invoiceItemTaxDescription to set.
+   */
+  public void setInvoiceItemTaxDescription(String invoiceTaxDescription) {
+    this.invoiceItemTaxDescription = invoiceTaxDescription;
+  }
+  /**
+   * @return Returns the invoiceOrderMasterAgreementInformationDate.
+   */
+  public String getInvoiceOrderMasterAgreementInformationDate() {
+    return invoiceOrderMasterAgreementInformationDate;
+  }
+  /**
+   * @param invoiceOrderMasterAgreementInformationDate The invoiceOrderMasterAgreementInformationDate to set.
+   */
+  public void setInvoiceOrderMasterAgreementInformationDate(String masterAgreementInfoDate) {
+    this.invoiceOrderMasterAgreementInformationDate = masterAgreementInfoDate;
+  }
+  /**
+   * @return Returns the invoiceOrderMasterAgreementInformationIdentifier.
+   */
+  public String getInvoiceOrderMasterAgreementInformationIdentifier() {
+    return invoiceOrderMasterAgreementInformationIdentifier;
+  }
+  /**
+   * @param invoiceOrderMasterAgreementInformationIdentifier The invoiceOrderMasterAgreementInformationIdentifier to set.
+   */
+  public void setInvoiceOrderMasterAgreementInformationIdentifier(String masterAgreementInfoId) {
+    this.invoiceOrderMasterAgreementInformationIdentifier = masterAgreementInfoId;
+  }
+  /**
+   * @return Returns the invoiceOrderMasterAgreementReferenceDate.
+   */
+  public String getInvoiceOrderMasterAgreementReferenceDate() {
+    return invoiceOrderMasterAgreementReferenceDate;
+  }
+  /**
+   * @param invoiceOrderMasterAgreementReferenceDate The invoiceOrderMasterAgreementReferenceDate to set.
+   */
+  public void setInvoiceOrderMasterAgreementReferenceDate(String masterAgreementReferenceDate) {
+    this.invoiceOrderMasterAgreementReferenceDate = masterAgreementReferenceDate;
+  }
+  /**
+   * @return Returns the invoiceOrderMasterAgreementReferenceIdentifier.
+   */
+  public String getInvoiceOrderMasterAgreementReferenceIdentifier() {
+    return invoiceOrderMasterAgreementReferenceIdentifier;
+  }
+  /**
+   * @param invoiceOrderMasterAgreementReferenceIdentifier The invoiceOrderMasterAgreementReferenceIdentifier to set.
+   */
+  public void setInvoiceOrderMasterAgreementReferenceIdentifier(String masterAgreementReferenceId) {
+    this.invoiceOrderMasterAgreementReferenceIdentifier = masterAgreementReferenceId;
+  }
+  /**
+   * @return Returns the invoiceOrderReferenceDocumentReferencePayloadIdentifier.
+   */
+  public String getInvoiceOrderReferenceDocumentReferencePayloadIdentifier() {
+    return invoiceOrderReferenceDocumentReferencePayloadIdentifier;
+  }
+  /**
+   * @param invoiceOrderReferenceDocumentReferencePayloadIdentifier The invoiceOrderReferenceDocumentReferencePayloadIdentifier to set.
+   */
+  public void setInvoiceOrderReferenceDocumentReferencePayloadIdentifier(String referenceDocumentRefPayloadId) {
+    this.invoiceOrderReferenceDocumentReferencePayloadIdentifier = referenceDocumentRefPayloadId;
+  }
+  /**
+   * @return Returns the invoiceOrderReferenceDocumentReferenceText.
+   */
+  public String getInvoiceOrderReferenceDocumentReferenceText() {
+    return invoiceOrderReferenceDocumentReferenceText;
+  }
+  /**
+   * @param invoiceOrderReferenceDocumentReferenceText The invoiceOrderReferenceDocumentReferenceText to set.
+   */
+  public void setInvoiceOrderReferenceDocumentReferenceText(String referenceDocumentRefText) {
+    this.invoiceOrderReferenceDocumentReferenceText = referenceDocumentRefText;
+  }
+  /**
+   * @return Returns the invoiceOrderReferenceOrderIdentifier.
+   */
+  public String getInvoiceOrderReferenceOrderIdentifier() {
+    return invoiceOrderReferenceOrderIdentifier;
+  }
+  /**
+   * @param invoiceOrderReferenceOrderIdentifier The invoiceOrderReferenceOrderIdentifier to set.
+   */
+  public void setInvoiceOrderReferenceOrderIdentifier(String referenceOrderId) {
+    this.invoiceOrderReferenceOrderIdentifier = referenceOrderId;
+  }
+  /**
+   * @return Returns the invoiceRemitToAddressCityName.
+   */
+  public String getInvoiceRemitToAddressCityName() {
+    return invoiceRemitToAddressCityName;
+  }
+  /**
+   * @param invoiceRemitToAddressCityName The invoiceRemitToAddressCityName to set.
+   */
+  public void setInvoiceRemitToAddressCityName(String remitToAddressCityName) {
+    this.invoiceRemitToAddressCityName = remitToAddressCityName;
+  }
+  /**
+   * @return Returns the invoiceRemitToAddressCountryCode.
+   */
+  public String getInvoiceRemitToAddressCountryCode() {
+    return invoiceRemitToAddressCountryCode;
+  }
+  /**
+   * @param invoiceRemitToAddressCountryCode The invoiceRemitToAddressCountryCode to set.
+   */
+  public void setInvoiceRemitToAddressCountryCode(String remitToAddressCountryCode) {
+    this.invoiceRemitToAddressCountryCode = remitToAddressCountryCode;
+  }
+  /**
+   * @return Returns the invoiceRemitToAddressCountryName.
+   */
+  public String getInvoiceRemitToAddressCountryName() {
+    return invoiceRemitToAddressCountryName;
+  }
+  /**
+   * @param invoiceRemitToAddressCountryName The invoiceRemitToAddressCountryName to set.
+   */
+  public void setInvoiceRemitToAddressCountryName(String remitToAddressCountryName) {
+    this.invoiceRemitToAddressCountryName = remitToAddressCountryName;
+  }
+  /**
+   * @return Returns the invoiceRemitToAddressLine1.
+   */
+  public String getInvoiceRemitToAddressLine1() {
+    return invoiceRemitToAddressLine1;
+  }
+  /**
+   * @param invoiceRemitToAddressLine1 The invoiceRemitToAddressLine1 to set.
+   */
+  public void setInvoiceRemitToAddressLine1(String remitToAddressLine1) {
+    this.invoiceRemitToAddressLine1 = remitToAddressLine1;
+  }
+  /**
+   * @return Returns the invoiceRemitToAddressLine2.
+   */
+  public String getInvoiceRemitToAddressLine2() {
+    return invoiceRemitToAddressLine2;
+  }
+  /**
+   * @param invoiceRemitToAddressLine2 The invoiceRemitToAddressLine2 to set.
+   */
+  public void setInvoiceRemitToAddressLine2(String remitToAddressLine2) {
+    this.invoiceRemitToAddressLine2 = remitToAddressLine2;
+  }
+  /**
+   * @return Returns the invoiceRemitToAddressLine3.
+   */
+  public String getInvoiceRemitToAddressLine3() {
+    return invoiceRemitToAddressLine3;
+  }
+  /**
+   * @param invoiceRemitToAddressLine3 The invoiceRemitToAddressLine3 to set.
+   */
+  public void setInvoiceRemitToAddressLine3(String remitToAddressLine3) {
+    this.invoiceRemitToAddressLine3 = remitToAddressLine3;
+  }
+  /**
+   * @return Returns the invoiceRemitToAddressName.
+   */
+  public String getInvoiceRemitToAddressName() {
+    return invoiceRemitToAddressName;
+  }
+  /**
+   * @param invoiceRemitToAddressName The invoiceRemitToAddressName to set.
+   */
+  public void setInvoiceRemitToAddressName(String remitToAddressName) {
+    this.invoiceRemitToAddressName = remitToAddressName;
+  }
+  /**
+   * @return Returns the invoiceRemitToAddressPostalCode.
+   */
+  public String getInvoiceRemitToAddressPostalCode() {
+    return invoiceRemitToAddressPostalCode;
+  }
+  /**
+   * @param invoiceRemitToAddressPostalCode The invoiceRemitToAddressPostalCode to set.
+   */
+  public void setInvoiceRemitToAddressPostalCode(String remitToAddressPostalCode) {
+    this.invoiceRemitToAddressPostalCode = remitToAddressPostalCode;
+  }
+  /**
+   * @return Returns the invoiceRemitToAddressStateCode.
+   */
+  public String getInvoiceRemitToAddressStateCode() {
+    return invoiceRemitToAddressStateCode;
+  }
+  /**
+   * @param invoiceRemitToAddressStateCode The invoiceRemitToAddressStateCode to set.
+   */
+  public void setInvoiceRemitToAddressStateCode(String remitToAddressStateCode) {
+    this.invoiceRemitToAddressStateCode = remitToAddressStateCode;
+  }
+  /**
+   * @return Returns the invoiceRemitToAddressType.
+   */
+  public String getInvoiceRemitToAddressType() {
+    return invoiceRemitToAddressType;
+  }
+  /**
+   * @param invoiceRemitToAddressType The invoiceRemitToAddressType to set.
+   */
+  public void setInvoiceRemitToAddressType(String remitToAddressType) {
+    this.invoiceRemitToAddressType = remitToAddressType;
+  }
+  /**
+   * @return Returns the invoiceShipToAddressCityName.
+   */
+  public String getInvoiceShipToAddressCityName() {
+    return invoiceShipToAddressCityName;
+  }
+  /**
+   * @param invoiceShipToAddressCityName The invoiceShipToAddressCityName to set.
+   */
+  public void setInvoiceShipToAddressCityName(String shipToAddressCityName) {
+    this.invoiceShipToAddressCityName = shipToAddressCityName;
+  }
+  /**
+   * @return Returns the invoiceShipToAddressCountryCode.
+   */
+  public String getInvoiceShipToAddressCountryCode() {
+    return invoiceShipToAddressCountryCode;
+  }
+  /**
+   * @param invoiceShipToAddressCountryCode The invoiceShipToAddressCountryCode to set.
+   */
+  public void setInvoiceShipToAddressCountryCode(String shipToAddressCountryCode) {
+    this.invoiceShipToAddressCountryCode = shipToAddressCountryCode;
+  }
+  /**
+   * @return Returns the invoiceShipToAddressCountryName.
+   */
+  public String getInvoiceShipToAddressCountryName() {
+    return invoiceShipToAddressCountryName;
+  }
+  /**
+   * @param invoiceShipToAddressCountryName The invoiceShipToAddressCountryName to set.
+   */
+  public void setInvoiceShipToAddressCountryName(String shipToAddressCountryName) {
+    this.invoiceShipToAddressCountryName = shipToAddressCountryName;
+  }
+  /**
+   * @return Returns the invoiceShipToAddressLine1.
+   */
+  public String getInvoiceShipToAddressLine1() {
+    return invoiceShipToAddressLine1;
+  }
+  /**
+   * @param invoiceShipToAddressLine1 The invoiceShipToAddressLine1 to set.
+   */
+  public void setInvoiceShipToAddressLine1(String shipToAddressLine1) {
+    this.invoiceShipToAddressLine1 = shipToAddressLine1;
+  }
+  /**
+   * @return Returns the invoiceShipToAddressLine2.
+   */
+  public String getInvoiceShipToAddressLine2() {
+    return invoiceShipToAddressLine2;
+  }
+  /**
+   * @param invoiceShipToAddressLine2 The invoiceShipToAddressLine2 to set.
+   */
+  public void setInvoiceShipToAddressLine2(String shipToAddressLine2) {
+    this.invoiceShipToAddressLine2 = shipToAddressLine2;
+  }
+  /**
+   * @return Returns the invoiceShipToAddressLine3.
+   */
+  public String getInvoiceShipToAddressLine3() {
+    return invoiceShipToAddressLine3;
+  }
+  /**
+   * @param invoiceShipToAddressLine3 The invoiceShipToAddressLine3 to set.
+   */
+  public void setInvoiceShipToAddressLine3(String shipToAddressLine3) {
+    this.invoiceShipToAddressLine3 = shipToAddressLine3;
+  }
+  /**
+   * @return Returns the invoiceShipToAddressName.
+   */
+  public String getInvoiceShipToAddressName() {
+    return invoiceShipToAddressName;
+  }
+  /**
+   * @param invoiceShipToAddressName The invoiceShipToAddressName to set.
+   */
+  public void setInvoiceShipToAddressName(String shipToAddressName) {
+    this.invoiceShipToAddressName = shipToAddressName;
+  }
+  /**
+   * @return Returns the invoiceShipToAddressPostalCode.
+   */
+  public String getInvoiceShipToAddressPostalCode() {
+    return invoiceShipToAddressPostalCode;
+  }
+  /**
+   * @param invoiceShipToAddressPostalCode The invoiceShipToAddressPostalCode to set.
+   */
+  public void setInvoiceShipToAddressPostalCode(String shipToAddressPostalCode) {
+    this.invoiceShipToAddressPostalCode = shipToAddressPostalCode;
+  }
+  /**
+   * @return Returns the invoiceShipToAddressStateCode.
+   */
+  public String getInvoiceShipToAddressStateCode() {
+    return invoiceShipToAddressStateCode;
+  }
+  /**
+   * @param invoiceShipToAddressStateCode The invoiceShipToAddressStateCode to set.
+   */
+  public void setInvoiceShipToAddressStateCode(String shipToAddressStateCode) {
+    this.invoiceShipToAddressStateCode = shipToAddressStateCode;
+  }
+  /**
+   * @return Returns the invoiceShipToAddressType.
+   */
+  public String getInvoiceShipToAddressType() {
+    return invoiceShipToAddressType;
+  }
+  /**
+   * @param invoiceShipToAddressType The invoiceShipToAddressType to set.
+   */
+  public void setInvoiceShipToAddressType(String shipToAddressType) {
+    this.invoiceShipToAddressType = shipToAddressType;
+  }
+  /**
+   * @return Returns the invoiceOrderSupplierOrderInformationIdentifier.
+   */
+  public String getInvoiceOrderSupplierOrderInformationIdentifier() {
+    return invoiceOrderSupplierOrderInformationIdentifier;
+  }
+  /**
+   * @param invoiceOrderSupplierOrderInformationIdentifier The invoiceOrderSupplierOrderInformationIdentifier to set.
+   */
+  public void setInvoiceOrderSupplierOrderInformationIdentifier(String supplierOrderInfoId) {
+    this.invoiceOrderSupplierOrderInformationIdentifier = supplierOrderInfoId;
+  }
+  /**
+   * @return Returns the vendorDetailAssignedIdentifier.
+   */
+  public Integer getVendorDetailAssignedIdentifier() {
+    return vendorDetailAssignedIdentifier;
+  }
+  /**
+   * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
+   */
+  public void setVendorDetailAssignedIdentifier(Integer vendorDetailID) {
+    this.vendorDetailAssignedIdentifier = vendorDetailID;
+  }
+  /**
+   * @return Returns the vendorDunsNumber.
+   */
+  public String getVendorDunsNumber() {
+    return vendorDunsNumber;
+  }
+  /**
+   * @param vendorDunsNumber The vendorDunsNumber to set.
+   */
+  public void setVendorDunsNumber(String vendorDunsNumber) {
+    this.vendorDunsNumber = vendorDunsNumber;
+  }
+  /**
+   * @return Returns the vendorHeaderGeneratedIdentifier.
+   */
+  public Integer getVendorHeaderGeneratedIdentifier() {
+    return vendorHeaderGeneratedIdentifier;
+  }
+  /**
+   * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
+   */
+  public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderID) {
+    this.vendorHeaderGeneratedIdentifier = vendorHeaderID;
+  }
 }
 /*
- * Copyright (c) 2004, 2005 The National Association of College and University Business Officers, Cornell University, Trustees of
- * Indiana University, Michigan State University Board of Trustees, Trustees of San Joaquin Delta College, University of Hawai'i,
- * The Arizona Board of Regents on behalf of the University of Arizona, and the rsmart group. Licensed under the Educational
- * Community License Version 1.0 (the "License"); By obtaining, using and/or copying this Original Work, you agree that you have
- * read, understand, and will comply with the terms and conditions of the Educational Community License. You may obtain a copy of
- * the License at: http://kualiproject.org/license.html THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
- * NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+Copyright (c) 2004, 2005 The National Association of College and
+University Business Officers, Cornell University, Trustees of Indiana
+University, Michigan State University Board of Trustees, Trustees of San
+Joaquin Delta College, University of Hawai'i, The Arizona Board of
+Regents on behalf of the University of Arizona, and the r*smart group.
+
+Licensed under the Educational Community License Version 1.0 (the 
+"License"); By obtaining, using and/or copying this Original Work, you
+agree that you have read, understand, and will comply with the terms and
+conditions of the Educational Community License.
+
+You may obtain a copy of the License at:
+
+http://kualiproject.org/license.html
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE. 
+*/

@@ -14,8 +14,8 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceReject;
 import org.kuali.kfs.module.purap.dataaccess.ElectronicInvoicingDao;
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.pdp.businessobject.UserRequired;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -58,7 +58,7 @@ public class ElectronicInvoicingDaoOjb extends PersistenceBrokerDaoSupport imple
     return loadSummary;
   }
   
-  public ElectronicInvoiceReject saveElectronicInvoiceReject(ElectronicInvoiceReject reject) {
+  public ElectronicInvoiceRejectDocument saveElectronicInvoiceReject(ElectronicInvoiceRejectDocument reject) {
     LOG.debug("saveElectronicInvoiceReject() started");
     getPersistenceBrokerTemplate().store(reject);
     getPersistenceBroker(true).retrieveAllReferences(reject);

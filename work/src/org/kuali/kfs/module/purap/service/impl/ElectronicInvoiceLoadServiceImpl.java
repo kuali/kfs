@@ -18,8 +18,8 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoad;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceReject;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.exception.CxmlParseError;
 import org.kuali.kfs.module.purap.exception.CxmlParseException;
@@ -163,8 +163,8 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         LOG.info("runLoadSave() Saving Load Summary for DUNS '" + dunsNumber + "'");
         ElectronicInvoiceLoadSummary currentLoadSummary = electronicInvoiceService.saveElectronicInvoiceLoadSummary(eils);
         summaryMessage.append("DUNS Number - " + eils.getVendorDescriptor() + ":\n");
-        summaryMessage.append("     " + eils.getSuccessCount() + " successfully processed invoices for a total of $ " + eils.getSuccessAmount().doubleValue() + "\n");
-        summaryMessage.append("     " + eils.getFailCount() + " rejected invoices for an approximate total of $ " + eils.getFailAmount().doubleValue() + "\n");
+        summaryMessage.append("     " + eils.getInvoiceLoadSuccessCount() + " successfully processed invoices for a total of $ " + eils.getInvoiceLoadSuccessAmount().doubleValue() + "\n");
+        summaryMessage.append("     " + eils.getInvoiceLoadFailCount() + " rejected invoices for an approximate total of $ " + eils.getInvoiceLoadFailAmount().doubleValue() + "\n");
         summaryMessage.append("\n\n");
         currentLoadSummaryId = currentLoadSummary.getInvoiceLoadSummaryIdentifier();
         savedLoadSummariesMap.put(currentLoadSummary.getVendorDunsNumber(), eils);
@@ -176,12 +176,12 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
     summaryMessage.append("\n\n");
     // save the reject information
     for (Iterator rejectIter = eil.getElectronicInvoiceRejects().iterator(); rejectIter.hasNext();) {
-      ElectronicInvoiceReject eir = (ElectronicInvoiceReject) rejectIter.next();
+      ElectronicInvoiceRejectDocument eir = (ElectronicInvoiceRejectDocument) rejectIter.next();
       LOG.info("runLoadSave() Saving Invoice Reject for DUNS '" + eir.getVendorDunsNumber() + "'");
       if (savedLoadSummariesMap.containsKey(eir.getVendorDunsNumber())) {
-        eir.setElectronicInvoiceLoadSummary((ElectronicInvoiceLoadSummary)savedLoadSummariesMap.get(eir.getVendorDunsNumber()));
+        eir.setInvoiceLoadSummary((ElectronicInvoiceLoadSummary)savedLoadSummariesMap.get(eir.getVendorDunsNumber()));
       } else {
-        eir.setElectronicInvoiceLoadSummary((ElectronicInvoiceLoadSummary)savedLoadSummariesMap.get(UNKNOWN_DUNS_IDENTIFIER));
+        eir.setInvoiceLoadSummary((ElectronicInvoiceLoadSummary)savedLoadSummariesMap.get(UNKNOWN_DUNS_IDENTIFIER));
       }
       electronicInvoiceService.saveElectronicInvoiceReject(eir);
     }
@@ -437,9 +437,9 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
     
     // peform reject scenario
     //FIXME this should be ElectronicInvoiceRejectDocument
-    ElectronicInvoiceReject eir = new ElectronicInvoiceReject(ei,eio);
+    ElectronicInvoiceRejectDocument eir = new ElectronicInvoiceRejectDocument(ei,eio);
     message.append("An Invoice from file '" + ei.getFileName() + "' has been rejected due to the following errors:\n");
-    for (Iterator iter = eir.getElectronicInvoiceRejectReasons().iterator(); iter.hasNext();) {
+    for (Iterator iter = eir.getInvoiceRejectReasons().iterator(); iter.hasNext();) {
       ElectronicInvoiceRejectReason reason = (ElectronicInvoiceRejectReason) iter.next();
       message.append("    - " + reason.getInvoiceRejectReasonDescription() + "\n");
     }
@@ -472,8 +472,8 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
     message.append("Invoice File with Filename '" + ei.getFileName() + "' has been rejected (the entire file) for the following errors:\n");
     for (Iterator itemIter = ei.getInvoiceDetailOrders().iterator(); itemIter.hasNext();) {
       ElectronicInvoiceOrder eio = (ElectronicInvoiceOrder) itemIter.next();
-      ElectronicInvoiceReject eir = new ElectronicInvoiceReject(ei,eio);
-      for (Iterator iter = eir.getElectronicInvoiceRejectReasons().iterator(); iter.hasNext();) {
+      ElectronicInvoiceRejectDocument eir = new ElectronicInvoiceRejectDocument(ei,eio);
+      for (Iterator iter = eir.getInvoiceRejectReasons().iterator(); iter.hasNext();) {
         ElectronicInvoiceRejectReason reason = (ElectronicInvoiceRejectReason) iter.next();
         message.append("    - " + reason.getInvoiceRejectReasonDescription() + "\n");
       }

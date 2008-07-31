@@ -27,6 +27,9 @@ public class ElectronicInvoiceRejectReasonType extends PersistableBusinessObject
 
     private String invoiceRejectReasonTypeCode;
     private String invoiceRejectReasonTypeDescription;
+    /*
+     * Indicates whether this reject reason will cause a INVOICE (if true) or a FILE (if false) reject document.
+     */
     private boolean invoiceFailureIndicator;
     private boolean performMatchingIndicator;
     private boolean active;
@@ -87,3 +90,4 @@ public class ElectronicInvoiceRejectReasonType extends PersistableBusinessObject
         return m;
     }
 }
+

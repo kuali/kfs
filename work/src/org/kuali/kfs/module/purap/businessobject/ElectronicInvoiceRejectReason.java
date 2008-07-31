@@ -4,30 +4,23 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.LinkedHashMap;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 
 /**
  * @author delyea
  *
  */
-public class ElectronicInvoiceRejectReason implements Serializable, PersistenceBrokerAware {
+public class ElectronicInvoiceRejectReason extends PersistableBusinessObjectBase {
   
-  private Integer id;
+  private Integer invoiceRejectReasonIdentifier;
   private Integer purapDocumentIdentifier;
   private String invoiceFileName;
   private String invoiceRejectReasonTypeCode;
   private String invoiceRejectReasonDescription;
-  private Timestamp lastUpdateTimestamp; //lst_updt_ts
-  private Integer version; //ver_nbr
-  
-  private ElectronicInvoiceReject electronicInvoiceReject;
-  
+  private ElectronicInvoiceRejectDocument electronicInvoiceRejectDocument;
   private ElectronicInvoiceRejectReasonType invoiceRejectReasonType;
   
   /**
@@ -44,26 +37,28 @@ public class ElectronicInvoiceRejectReason implements Serializable, PersistenceB
     this.invoiceRejectReasonDescription = description;
   }
   
-  public ElectronicInvoiceRejectReason(ElectronicInvoiceReject eir, String electronicInvoiceRejectTypeCode, String invoiceFileName, String description) {
+  public ElectronicInvoiceRejectReason(ElectronicInvoiceRejectDocument eir, String electronicInvoiceRejectTypeCode, String invoiceFileName, String description) {
     super();
-    this.electronicInvoiceReject = eir;
+    this.electronicInvoiceRejectDocument = eir;
     this.invoiceRejectReasonTypeCode = electronicInvoiceRejectTypeCode;
     this.invoiceFileName = invoiceFileName;
     this.invoiceRejectReasonDescription = description;
   }
   
   /**
-   * @return Returns the electronicInvoiceReject.
+   * @return Returns the electronicInvoiceRejectDocument.
    */
-  public ElectronicInvoiceReject getElectronicInvoiceReject() {
-    return electronicInvoiceReject;
+  public ElectronicInvoiceRejectDocument getElectronicInvoiceRejectDocument() {
+    return electronicInvoiceRejectDocument;
   }
+  
   /**
-   * @param electronicInvoiceReject The electronicInvoiceReject to set.
+   * @param electronicInvoiceRejectDocument The electronicInvoiceRejectDocument to set.
    */
-  public void setElectronicInvoiceReject(ElectronicInvoiceReject electronicInvoiceReject) {
-    this.electronicInvoiceReject = electronicInvoiceReject;
+  public void setElectronicInvoiceRejectDocument(ElectronicInvoiceRejectDocument electronicInvoiceRejectDocument) {
+    this.electronicInvoiceRejectDocument = electronicInvoiceRejectDocument;
   }
+  
   /**
    * @return Returns the invoiceRejectReasonTypeCode.
    */
@@ -76,54 +71,57 @@ public class ElectronicInvoiceRejectReason implements Serializable, PersistenceB
   public void setInvoiceRejectReasonTypeCode(String electronicInvoiceRejectTypeCode) {
     this.invoiceRejectReasonTypeCode = electronicInvoiceRejectTypeCode;
   }
+  
   /**
-   * @return Returns the id.
+   * @return Returns the invoiceRejectReasonIdentifier.
    */
-  public Integer getId() {
-    return id;
+  public Integer getInvoiceRejectReasonIdentifier() {
+    return invoiceRejectReasonIdentifier;
   }
+  
   /**
-   * @param id The id to set.
+   * @param invoiceRejectReasonIdentifier The invoiceRejectReasonIdentifier to set.
    */
-  public void setId(Integer id) {
-    this.id = id;
+  public void setInvoiceRejectReasonIdentifier(Integer id) {
+    this.invoiceRejectReasonIdentifier = id;
   }
+  
   /**
    * @return Returns the invoiceFileName.
    */
   public String getInvoiceFileName() {
     return invoiceFileName;
   }
+  
   /**
    * @param invoiceFileName The invoiceFileName to set.
    */
   public void setInvoiceFileName(String invoiceFileName) {
     this.invoiceFileName = invoiceFileName;
   }
+  
   /**
    * @return Returns the invoiceRejectReasonDescription.
    */
   public String getInvoiceRejectReasonDescription() {
     return invoiceRejectReasonDescription;
   }
+  
   /**
    * @param invoiceRejectReasonDescription The invoiceRejectReasonDescription to set.
    */
   public void setInvoiceRejectReasonDescription(String invoiceRejectReasonDescription) {
     this.invoiceRejectReasonDescription = invoiceRejectReasonDescription;
   }
-  /**
-   * @return Returns the lastUpdateTimestamp.
-   */
-  public Timestamp getLastUpdateTimestamp() {
-    return lastUpdateTimestamp;
+  
+  public ElectronicInvoiceRejectReasonType getInvoiceRejectReasonType() {
+    return invoiceRejectReasonType;
   }
-  /**
-   * @param lastUpdateTimestamp The lastUpdateTimestamp to set.
-   */
-  public void setLastUpdateTimestamp(Timestamp lastUpdateTimestamp) {
-    this.lastUpdateTimestamp = lastUpdateTimestamp;
+
+  public void setInvoiceRejectReasonType(ElectronicInvoiceRejectReasonType invoiceRejectReasonType) {
+    this.invoiceRejectReasonType = invoiceRejectReasonType;
   }
+
   /**
    * @return Returns the purapDocumentIdentifier.
    */
@@ -136,75 +134,13 @@ public class ElectronicInvoiceRejectReason implements Serializable, PersistenceB
   public void setPurapDocumentIdentifier(Integer rejectHeaderId) {
     this.purapDocumentIdentifier = rejectHeaderId;
   }
-  /**
-   * @return Returns the version.
-   */
-  public Integer getVersion() {
-    return version;
-  }
-  /**
-   * @param version The version to set.
-   */
-  public void setVersion(Integer version) {
-    this.version = version;
-  }
-  //persistence broker aware methods + override
-  public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-    // set last update timestamp
-    lastUpdateTimestamp = new Timestamp((new Date()).getTime());
-  }
   
-  public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
+  /**
+   * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+   */
+  protected LinkedHashMap toStringMapper() {
+      LinkedHashMap m = new LinkedHashMap();
+      m.put("invoiceRejectReasonIdentifier", this.invoiceRejectReasonIdentifier);
+      return m;
   }
-
-  public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-    lastUpdateTimestamp = new Timestamp((new Date()).getTime());
-  }
-
-  public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-  }
-
-  public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-  }
-
-  public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-  }
-
-  public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-  }
-
-public ElectronicInvoiceRejectReasonType getInvoiceRejectReasonType() {
-    return invoiceRejectReasonType;
 }
-
-public void setInvoiceRejectReasonType(ElectronicInvoiceRejectReasonType invoiceRejectReasonType) {
-    this.invoiceRejectReasonType = invoiceRejectReasonType;
-}
-}
-/*
-Copyright (c) 2004, 2005 The National Association of College and
-University Business Officers, Cornell University, Trustees of Indiana
-University, Michigan State University Board of Trustees, Trustees of San
-Joaquin Delta College, University of Hawai'i, The Arizona Board of
-Regents on behalf of the University of Arizona, and the r*smart group.
-
-Licensed under the Educational Community License Version 1.0 (the 
-"License"); By obtaining, using and/or copying this Original Work, you
-agree that you have read, understand, and will comply with the terms and
-conditions of the Educational Community License.
-
-You may obtain a copy of the License at:
-
-http://kualiproject.org/license.html
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE. 
-*/

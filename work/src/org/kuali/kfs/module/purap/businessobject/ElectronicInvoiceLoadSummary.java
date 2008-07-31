@@ -4,38 +4,32 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * @author delyea
  *
  */
-public class ElectronicInvoiceLoadSummary implements Serializable, PersistenceBrokerAware {
+public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase {
   
-  private static final long serialVersionUID = -4414370076163428415L;
-
   // NOT NULL FIELDS
   private Integer invoiceLoadSummaryIdentifier;
   private String vendorDunsNumber; // this is string constant if DUNS not found
-  private Integer epicVendorHeaderId;
-  private Integer epicVendorDetailId;
-  private String epicVendorName;
-  private Timestamp processTimestamp;
-  private Integer successCount = new Integer(0);
-  private BigDecimal successAmount = new BigDecimal(0.00);
-  private Integer failCount = new Integer(0);
-  private BigDecimal failAmount = new BigDecimal(0.00);
-  private Timestamp lastUpdateTimestamp; //lst_updt_ts
-  private Integer version; //ver_nbr
-
+  private Integer vendorHeaderGeneratedIdentifier;
+  private Integer vendorDetailAssignedIdentifier;
+  private String vendorName;
+  private Integer invoiceLoadSuccessCount = new Integer(0);
+  private BigDecimal invoiceLoadSuccessAmount = new BigDecimal(0.00);
+  private Integer invoiceLoadFailCount = new Integer(0);
+  private BigDecimal invoiceLoadFailAmount = new BigDecimal(0.00);
   private Boolean isEmpty = Boolean.TRUE;
+  private Timestamp fileProcessDate;
+  
   /**
    * 
    */
@@ -56,20 +50,20 @@ public class ElectronicInvoiceLoadSummary implements Serializable, PersistenceBr
   
   public void addSuccessfulInvoiceOrder(BigDecimal amount, ElectronicInvoice ei) {
     this.isEmpty = Boolean.FALSE;
-    this.successCount = new Integer(this.successCount.intValue() + 1);
-    this.processTimestamp = new Timestamp((new Date()).getTime());
+    this.invoiceLoadSuccessCount = new Integer(this.invoiceLoadSuccessCount.intValue() + 1);
+    this.fileProcessDate = new Timestamp((new Date()).getTime());
     if (amount != null) {
-      this.successAmount = this.successAmount.add(amount);
+      this.invoiceLoadSuccessAmount = this.invoiceLoadSuccessAmount.add(amount);
     }
     this.setupEpicVendorInformation(ei);
   }
   
   public void addFailedInvoiceOrder(BigDecimal amount, ElectronicInvoice ei) {
     this.isEmpty = Boolean.FALSE;
-    this.failCount = new Integer(this.failCount.intValue() + 1);
-    this.processTimestamp = new Timestamp((new Date()).getTime());
+    this.invoiceLoadFailCount = new Integer(this.invoiceLoadFailCount.intValue() + 1);
+    this.fileProcessDate = new Timestamp((new Date()).getTime());
     if (amount != null) {
-      this.failAmount = this.failAmount.add(amount);
+      this.invoiceLoadFailAmount = this.invoiceLoadFailAmount.add(amount);
     }
     this.setupEpicVendorInformation(ei);
   }
@@ -83,93 +77,93 @@ public class ElectronicInvoiceLoadSummary implements Serializable, PersistenceBr
   }
 
   private void setupEpicVendorInformation(ElectronicInvoice ei) {
-    if ( (ei != null) && (this.getEpicVendorHeaderId() == null) && (this.getEpicVendorDetailId() == null) ) {
-      this.setEpicVendorHeaderId(ei.getVendorHeaderID());
-      this.setEpicVendorDetailId(ei.getVendorDetailID());
-      this.setEpicVendorName(ei.getVendorName());
+    if ( (ei != null) && (this.getVendorHeaderGeneratedIdentifier() == null) && (this.getVendorDetailAssignedIdentifier() == null) ) {
+      this.setVendorHeaderGeneratedIdentifier(ei.getVendorHeaderID());
+      this.setVendorDetailAssignedIdentifier(ei.getVendorDetailID());
+      this.setVendorName(ei.getVendorName());
     }
   }
   
   public String getVendorDescriptor() {
     String epicDescriptor = null;
-    if ( (this.epicVendorName != null) && (this.epicVendorHeaderId != null) && (this.epicVendorDetailId != null) ) {
-      epicDescriptor = "  (EPIC Match:  " + this.epicVendorName + "  ~  " + epicVendorHeaderId + "-" + epicVendorDetailId + ")";
-    } else if ( (this.epicVendorHeaderId != null) && (this.epicVendorDetailId != null) ) {
-      epicDescriptor = "  (EPIC Match:  " + epicVendorHeaderId + "-" + epicVendorDetailId + ")";
-    } else if (this.epicVendorName != null) {
-      epicDescriptor = "  (EPIC Match:  " + this.epicVendorName + ")";
+    if ( (this.vendorName != null) && (this.vendorHeaderGeneratedIdentifier != null) && (this.vendorDetailAssignedIdentifier != null) ) {
+      epicDescriptor = "  (EPIC Match:  " + this.vendorName + "  ~  " + vendorHeaderGeneratedIdentifier + "-" + vendorDetailAssignedIdentifier + ")";
+    } else if ( (this.vendorHeaderGeneratedIdentifier != null) && (this.vendorDetailAssignedIdentifier != null) ) {
+      epicDescriptor = "  (EPIC Match:  " + vendorHeaderGeneratedIdentifier + "-" + vendorDetailAssignedIdentifier + ")";
+    } else if (this.vendorName != null) {
+      epicDescriptor = "  (EPIC Match:  " + this.vendorName + ")";
     }
     return this.getVendorDunsNumber() + ((epicDescriptor != null) ? epicDescriptor : "");
   }
 
   /**
-   * @return the epicVendorDetailId
+   * @return the vendorDetailAssignedIdentifier
    */
-  public Integer getEpicVendorDetailId() {
-    return epicVendorDetailId;
+  public Integer getVendorDetailAssignedIdentifier() {
+    return vendorDetailAssignedIdentifier;
   }
 
   /**
-   * @param epicVendorDetailId the epicVendorDetailId to set
+   * @param vendorDetailAssignedIdentifier the vendorDetailAssignedIdentifier to set
    */
-  public void setEpicVendorDetailId(Integer epicVendorDetailId) {
-    this.epicVendorDetailId = epicVendorDetailId;
+  public void setVendorDetailAssignedIdentifier(Integer epicVendorDetailId) {
+    this.vendorDetailAssignedIdentifier = epicVendorDetailId;
   }
 
   /**
-   * @return the epicVendorHeaderId
+   * @return the vendorHeaderGeneratedIdentifier
    */
-  public Integer getEpicVendorHeaderId() {
-    return epicVendorHeaderId;
+  public Integer getVendorHeaderGeneratedIdentifier() {
+    return vendorHeaderGeneratedIdentifier;
   }
 
   /**
-   * @param epicVendorHeaderId the epicVendorHeaderId to set
+   * @param vendorHeaderGeneratedIdentifier the vendorHeaderGeneratedIdentifier to set
    */
-  public void setEpicVendorHeaderId(Integer epicVendorHeaderId) {
-    this.epicVendorHeaderId = epicVendorHeaderId;
+  public void setVendorHeaderGeneratedIdentifier(Integer epicVendorHeaderId) {
+    this.vendorHeaderGeneratedIdentifier = epicVendorHeaderId;
   }
 
   /**
-   * @return the epicVendorName
+   * @return the vendorName
    */
-  public String getEpicVendorName() {
-    return epicVendorName;
+  public String getVendorName() {
+    return vendorName;
   }
 
   /**
-   * @param epicVendorName the epicVendorName to set
+   * @param vendorName the vendorName to set
    */
-  public void setEpicVendorName(String epicVendorName) {
-    this.epicVendorName = epicVendorName;
+  public void setVendorName(String epicVendorName) {
+    this.vendorName = epicVendorName;
   }
   
   /**
-   * @return the failAmount
+   * @return the invoiceLoadFailAmount
    */
-  public BigDecimal getFailAmount() {
-    return failAmount;
+  public BigDecimal getInvoiceLoadFailAmount() {
+    return invoiceLoadFailAmount;
   }
 
   /**
-   * @param failAmount the failAmount to set
+   * @param invoiceLoadFailAmount the invoiceLoadFailAmount to set
    */
-  public void setFailAmount(BigDecimal failAmount) {
-    this.failAmount = failAmount;
+  public void setInvoiceLoadFailAmount(BigDecimal failAmount) {
+    this.invoiceLoadFailAmount = failAmount;
   }
   
   /**
-   * @return the failCount
+   * @return the invoiceLoadFailCount
    */
-  public Integer getFailCount() {
-    return failCount;
+  public Integer getInvoiceLoadFailCount() {
+    return invoiceLoadFailCount;
   }
   
   /**
-   * @param failCount the failCount to set
+   * @param invoiceLoadFailCount the invoiceLoadFailCount to set
    */
-  public void setFailCount(Integer failCount) {
-    this.failCount = failCount;
+  public void setInvoiceLoadFailCount(Integer failCount) {
+    this.invoiceLoadFailCount = failCount;
   }
 
   /**
@@ -201,59 +195,31 @@ public class ElectronicInvoiceLoadSummary implements Serializable, PersistenceBr
   }
 
   /**
-   * @return the lastUpdateTimestamp
+   * @return the invoiceLoadSuccessAmount
    */
-  public Timestamp getLastUpdateTimestamp() {
-    return lastUpdateTimestamp;
+  public BigDecimal getInvoiceLoadSuccessAmount() {
+    return invoiceLoadSuccessAmount;
   }
 
   /**
-   * @param lastUpdateTimestamp the lastUpdateTimestamp to set
+   * @param invoiceLoadSuccessAmount the invoiceLoadSuccessAmount to set
    */
-  public void setLastUpdateTimestamp(Timestamp lastUpdateTimestamp) {
-    this.lastUpdateTimestamp = lastUpdateTimestamp;
+  public void setInvoiceLoadSuccessAmount(BigDecimal successAmount) {
+    this.invoiceLoadSuccessAmount = successAmount;
   }
 
   /**
-   * @return the processTimestamp
+   * @return the invoiceLoadSuccessCount
    */
-  public Timestamp getProcessTimestamp() {
-    return processTimestamp;
+  public Integer getInvoiceLoadSuccessCount() {
+    return invoiceLoadSuccessCount;
   }
 
   /**
-   * @param processTimestamp the processTimestamp to set
+   * @param invoiceLoadSuccessCount the invoiceLoadSuccessCount to set
    */
-  public void setProcessTimestamp(Timestamp processTimestamp) {
-    this.processTimestamp = processTimestamp;
-  }
-
-  /**
-   * @return the successAmount
-   */
-  public BigDecimal getSuccessAmount() {
-    return successAmount;
-  }
-
-  /**
-   * @param successAmount the successAmount to set
-   */
-  public void setSuccessAmount(BigDecimal successAmount) {
-    this.successAmount = successAmount;
-  }
-
-  /**
-   * @return the successCount
-   */
-  public Integer getSuccessCount() {
-    return successCount;
-  }
-
-  /**
-   * @param successCount the successCount to set
-   */
-  public void setSuccessCount(Integer successCount) {
-    this.successCount = successCount;
+  public void setInvoiceLoadSuccessCount(Integer successCount) {
+    this.invoiceLoadSuccessCount = successCount;
   }
 
   /**
@@ -270,69 +236,20 @@ public class ElectronicInvoiceLoadSummary implements Serializable, PersistenceBr
     this.vendorDunsNumber = vendorDunsNumber;
   }
 
-  /**
-   * @return the version
+  public Timestamp getFileProcessDate() {
+      return fileProcessDate;
+  }
+
+  public void setFileProcessDate(Timestamp fileProcessDate) {
+      this.fileProcessDate = fileProcessDate;
+  }
+
+/**
+   * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
    */
-  public Integer getVersion() {
-    return version;
-  }
-
-  /**
-   * @param version the version to set
-   */
-  public void setVersion(Integer version) {
-    this.version = version;
-  }
-
-  //persistence broker aware methods + override
-  public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-    // set last update timestamp
-    lastUpdateTimestamp = new Timestamp((new Date()).getTime());
-  }
-  
-  public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-  }
-
-  public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-    lastUpdateTimestamp = new Timestamp((new Date()).getTime());
-  }
-
-  public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-  }
-
-  public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-  }
-
-  public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-  }
-
-  public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
+  protected LinkedHashMap toStringMapper() {
+      LinkedHashMap m = new LinkedHashMap();
+      m.put("invoiceLoadSummaryIdentifier", this.invoiceLoadSummaryIdentifier);
+      return m;
   }
 }
-/*
-Copyright (c) 2004, 2005 The National Association of College and
-University Business Officers, Cornell University, Trustees of Indiana
-University, Michigan State University Board of Trustees, Trustees of San
-Joaquin Delta College, University of Hawai'i, The Arizona Board of
-Regents on behalf of the University of Arizona, and the r*smart group.
-
-Licensed under the Educational Community License Version 1.0 (the 
-"License"); By obtaining, using and/or copying this Original Work, you
-agree that you have read, understand, and will comply with the terms and
-conditions of the Educational Community License.
-
-You may obtain a copy of the License at:
-
-http://kualiproject.org/license.html
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE. 
-*/

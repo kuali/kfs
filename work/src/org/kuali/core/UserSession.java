@@ -53,6 +53,23 @@ public class UserSession implements Serializable {
     private UserVO backdoorWorkflowUser;
     private int nextObjectKey;
     private Map objectMap;
+    private String kualiSessionId;
+
+    /**
+     * Gets the kualiSessionId attribute. 
+     * @return Returns the kualiSessionId.
+     */
+    public String getKualiSessionId() {
+        return kualiSessionId;
+    }
+
+    /**
+     * Sets the kualiSessionId attribute value.
+     * @param kualiSessionId The kualiSessionId to set.
+     */
+    public void setKualiSessionId(String kualiSessionId) {
+        this.kualiSessionId = kualiSessionId;
+    }
 
     private transient Map workflowDocMap = new HashMap();
 

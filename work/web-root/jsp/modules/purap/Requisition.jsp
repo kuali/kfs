@@ -47,6 +47,10 @@
     	accountingLineAttributes="${DataDictionary.RequisitionAccount.attributes}" 
     	displayRequisitionFields="true"/>
 
+	<purap:camsItems documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
+		itemAttributes="${DataDictionary.RequisitionItem.attributes}" 
+		camsItemAttributes="${DataDictionary.RequisitionCapitalAssetItem.attributes}" />
+
     <purap:paymentinfo
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}" />
 

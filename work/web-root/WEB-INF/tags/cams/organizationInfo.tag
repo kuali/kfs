@@ -38,7 +38,7 @@
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.assetOrganization.organizationTagNumber" attributeEntry="${assetOrganizationAttributes.organizationTagNumber}" readOnly="true"/></td>
 			</tr>		
 			<tr>
-				<th class="grid" width="25%" align="right">Organization Asset Type:</th> 
+				<th class="grid" width="25%" align="right">Organization Asset Type Identifier:</th> 
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.assetOrganization.organizationAssetTypeIdentifier" attributeEntry="${assetOrganizationAttributes.organizationAssetTypeIdentifier}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right" colspan="2"></th>
             </tr>

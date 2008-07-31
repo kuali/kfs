@@ -23,7 +23,6 @@
         <ref bean="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode" />
         <ref bean="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode" />
         <ref bean="PurchaseOrderCapitalAssetLocation-capitalAssetSystemIdentifier" />
-        <ref bean="PurchaseOrderCapitalAssetLocation-documentNumber" />
         <ref bean="PurchaseOrderCapitalAssetLocation-itemQuantity" />
         <ref bean="PurchaseOrderCapitalAssetLocation-offCampusIndicator" />
         <ref bean="PurchaseOrderCapitalAssetLocation-versionNumber" />
@@ -211,24 +210,6 @@
     </property>
   </bean>
 
-  <bean id="PurchaseOrderCapitalAssetLocation-documentNumber" parent="PurchaseOrderCapitalAssetLocation-documentNumber-parentBean" />
-  <bean id="PurchaseOrderCapitalAssetLocation-documentNumber-parentBean" parent="AttributeDefinition" abstract="true"
-        p:name="documentNumber"
-        p:forceUppercase="false"
-        p:label="Document Number"
-        p:shortLabel="Document Number"
-        p:maxLength="10"
-        p:required="false" >
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-  </bean>
-
   <bean id="PurchaseOrderCapitalAssetLocation-itemQuantity" parent="PurchaseOrderCapitalAssetLocation-itemQuantity-parentBean" />
   <bean id="PurchaseOrderCapitalAssetLocation-itemQuantity-parentBean" parent="AttributeDefinition" abstract="true"
         p:name="itemQuantity"
@@ -278,7 +259,6 @@
               <bean parent="FieldDefinition" p:attributeName="capitalAssetPostalCode" />
               <bean parent="FieldDefinition" p:attributeName="capitalAssetStateCode" />
               <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
-              <bean parent="FieldDefinition" p:attributeName="documentNumber" />
               <bean parent="FieldDefinition" p:attributeName="itemQuantity" />
               <bean parent="FieldDefinition" p:attributeName="offCampusIndicator" />
               <bean parent="FieldDefinition" p:attributeName="versionNumber" />
@@ -316,7 +296,6 @@
         <bean parent="FieldDefinition" p:attributeName="capitalAssetPostalCode" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetStateCode" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
-        <bean parent="FieldDefinition" p:attributeName="documentNumber" />
         <bean parent="FieldDefinition" p:attributeName="itemQuantity" />
         <bean parent="FieldDefinition" p:attributeName="offCampusIndicator" />
         <bean parent="FieldDefinition" p:attributeName="versionNumber" />
@@ -334,7 +313,6 @@
         <bean parent="FieldDefinition" p:attributeName="capitalAssetPostalCode" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetStateCode" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
-        <bean parent="FieldDefinition" p:attributeName="documentNumber" />
         <bean parent="FieldDefinition" p:attributeName="itemQuantity" />
         <bean parent="FieldDefinition" p:attributeName="offCampusIndicator" />
         <bean parent="FieldDefinition" p:attributeName="versionNumber" />

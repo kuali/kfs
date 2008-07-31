@@ -38,11 +38,9 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
     private Integer itemIdentifier;
     private Integer itemLineNumber;
-    private String capitalAssetTransactionTypeCode;
     private String itemUnitOfMeasureCode;
     private String itemCatalogNumber;
     private String itemDescription;
-    private String itemCapitalAssetNoteText;
     private BigDecimal itemUnitPrice;
     private String itemTypeCode;
     private String itemAuxiliaryPartIdentifier;
@@ -55,7 +53,6 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     private transient List<PurApAccountingLine> baselineSourceAccountingLines;
     private transient PurApAccountingLine newSourceLine;
 
-    private CapitalAssetTransactionType capitalAssetTransactionType;
     private ItemType itemType;
     private Integer purapDocumentIdentifier;
     private KualiDecimal itemQuantity;
@@ -97,14 +94,6 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         this.itemLineNumber = itemLineNumber;
     }
 
-    public String getCapitalAssetTransactionTypeCode() {
-        return capitalAssetTransactionTypeCode;
-    }
-
-    public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
-        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
-    }
-
     public String getItemUnitOfMeasureCode() {
         return itemUnitOfMeasureCode;
     }
@@ -127,14 +116,6 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
     public void setItemDescription(String itemDescription) {
         this.itemDescription = itemDescription;
-    }
-
-    public String getItemCapitalAssetNoteText() {
-        return itemCapitalAssetNoteText;
-    }
-
-    public void setItemCapitalAssetNoteText(String itemCapitalAssetNoteText) {
-        this.itemCapitalAssetNoteText = itemCapitalAssetNoteText;
     }
 
     public BigDecimal getItemUnitPrice() {
@@ -201,20 +182,6 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
     public void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator) {
         this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
-    }
-
-    public CapitalAssetTransactionType getCapitalAssetTransactionType() {
-        return capitalAssetTransactionType;
-    }
-
-    /**
-     * Sets the capitalAssetTransactionType attribute.
-     * 
-     * @param capitalAssetTransactionType The capitalAssetTransactionType to set.
-     * @deprecated
-     */
-    public void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType) {
-        this.capitalAssetTransactionType = capitalAssetTransactionType;
     }
 
     public ItemType getItemType() {

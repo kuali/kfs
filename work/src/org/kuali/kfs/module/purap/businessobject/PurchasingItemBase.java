@@ -28,12 +28,11 @@ import org.kuali.kfs.vnd.businessobject.CommodityCode;
  */
 public abstract class PurchasingItemBase extends PurApItemBase implements PurchasingItem {
     
-    private static List<PurchasingItemCapitalAsset> purchasingItemCapitalAssets;
-    private String addCapitalAssetNumber;
     private String purchasingCommodityCode;
+    private PurchasingCapitalAssetItem capitalAssetItem; // not persisted in db
     
     private CommodityCode commodityCode;
-    
+       
     /**
      * @see org.kuali.kfs.module.purap.businessobject.PurApItem#isConsideredEntered()
      */
@@ -59,7 +58,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
      * @return boolean - true if item is empty, false if conditions show its not empty.
      */
     public boolean isEmpty() {
-        return !(StringUtils.isNotEmpty(getItemUnitOfMeasureCode()) || StringUtils.isNotEmpty(getItemCatalogNumber()) || StringUtils.isNotEmpty(getItemDescription()) || StringUtils.isNotEmpty(getItemCapitalAssetNoteText()) || StringUtils.isNotEmpty(getItemAuxiliaryPartIdentifier()) || ObjectUtils.isNotNull(getItemQuantity()) || (ObjectUtils.isNotNull(getItemUnitPrice()) && (getItemUnitPrice().compareTo(BigDecimal.ZERO) != 0)) || ObjectUtils.isNotNull(getCapitalAssetTransactionType()) || (!this.isAccountListEmpty()));
+        return !(StringUtils.isNotEmpty(getItemUnitOfMeasureCode()) || StringUtils.isNotEmpty(getItemCatalogNumber()) || StringUtils.isNotEmpty(getItemDescription()) || StringUtils.isNotEmpty(getItemAuxiliaryPartIdentifier()) || ObjectUtils.isNotNull(getItemQuantity()) || (ObjectUtils.isNotNull(getItemUnitPrice()) && (getItemUnitPrice().compareTo(BigDecimal.ZERO) != 0)) || (!this.isAccountListEmpty()));
     }
 
     /**
@@ -75,22 +74,6 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
         empty &= StringUtils.isEmpty(getItemDescription());
         empty &= ObjectUtils.isNull(getItemUnitPrice()) || (getItemUnitPrice().compareTo(BigDecimal.ZERO) == 0);
         return empty;
-    }
-
-    public List<PurchasingItemCapitalAsset> getPurchasingItemCapitalAssets() {
-        return purchasingItemCapitalAssets;
-    }
-
-    public void setPurchasingItemCapitalAssets(List<PurchasingItemCapitalAsset> purchasingItemCapitalAssets) {
-        this.purchasingItemCapitalAssets = purchasingItemCapitalAssets;
-    }
-
-    public String getAddCapitalAssetNumber() {
-        return addCapitalAssetNumber;
-    }
-
-    public void setAddCapitalAssetNumber(String addCapitalAssetNumber) {
-        this.addCapitalAssetNumber = addCapitalAssetNumber;
     }
 
     public CommodityCode getCommodityCode() {
@@ -111,4 +94,12 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     public void setPurchasingCommodityCode(String purchasingCommodityCode) {
         this.purchasingCommodityCode = purchasingCommodityCode;
     }
+
+    public PurchasingCapitalAssetItem getCapitalAssetItem() {
+        return capitalAssetItem;
+    }
+
+    public void setCapitalAssetItem(PurchasingCapitalAssetItem capitalAssetItem) {
+        this.capitalAssetItem = capitalAssetItem;
+    }    
 }

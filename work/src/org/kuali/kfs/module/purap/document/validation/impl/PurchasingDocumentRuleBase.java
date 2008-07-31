@@ -839,9 +839,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean validateItemCapitalAssetWithErrors(PurchasingAccountsPayableDocument purapDocument, PurApItem item, boolean apoCheck) {
         PurchasingDocument purDocument = (PurchasingDocument)purapDocument;
         PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
-        //FIXME CAMS - hiding this validation for now until the CAMS tab is created (hjs)
-//        return validateItemCapitalAsset(purDocument, purchasingItem, false);
-        return true;
+        return validateItemCapitalAsset(purDocument, purchasingItem, false);
     }
     
     /**
@@ -858,9 +856,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean validateItemCapitalAssetWithWarnings(PurchasingAccountsPayableDocument purapDocument, PurApItem item) {
         PurchasingDocument purDocument = (PurchasingDocument)purapDocument;
         PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
-        //FIXME CAMS - hiding this validation for now until the CAMS tab is created (hjs)
-//        return validateItemCapitalAsset(purDocument, purchasingItem, true);
-        return true;
+        return validateItemCapitalAsset(purDocument, purchasingItem, true);
     }
     
     /**
@@ -881,12 +877,13 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         KualiDecimal itemQuantity = item.getItemQuantity();       
         HashSet<String> capitalOrExpenseSet = new HashSet<String>(); // For the first validation on every accounting line.
         
-        String capitalAssetTransactionTypeCode = item.getCapitalAssetTransactionTypeCode();
+        String capitalAssetTransactionTypeCode = "";
         CapitalAssetTransactionType capitalAssetTransactionType = null;
-        if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
-            item.refreshReferenceObject(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE);
-            capitalAssetTransactionType = item.getCapitalAssetTransactionType();
-        }
+        if( item.getCapitalAssetItem() != null ) {
+            capitalAssetTransactionTypeCode = item.getCapitalAssetItem().getCapitalAssetTransactionTypeCode();
+            capitalAssetTransactionType = item.getCapitalAssetItem().getCapitalAssetTransactionType();
+        }       
+
         // Do the checks that depend on Accounting Line information.
         for( PurApAccountingLine accountingLine : item.getSourceAccountingLines() ) {
             // Because of ObjectCodeCurrent, we had to refresh this.
@@ -905,11 +902,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             
             // Do the checks involving capital asset transaction type.
             if (StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
-                valid &= validateCapitalAssetTransactionTypeIsRequired(objectCode, warn, itemIdentifier);
+                //valid &= validateCapitalAssetTransactionTypeIsRequired(objectCode, warn, itemIdentifier);
             }
             else {
                 valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, warn, itemIdentifier);
-                valid &= validateQuantityVersusObjectCode(capitalAssetTransactionType, itemQuantity, objectCode, warn, itemIdentifier);
+                //valid &= validateQuantityVersusObjectCode(capitalAssetTransactionType, itemQuantity, objectCode, warn, itemIdentifier);
             }
         }
         // These checks do not depend on Accounting Line information, but do depend on transaction type.
@@ -917,7 +914,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 purDocument.refreshReferenceObject(PurapPropertyConstants.RECURRING_PAYMENT_TYPE);
                 RecurringPaymentType recurringPaymentType = purDocument.getRecurringPaymentType(); 
                 valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);                
-                valid &= validateCapitalAssetNumberRequirements(capitalAssetTransactionType, item.getPurchasingItemCapitalAssets(), warn, itemIdentifier);
+                //valid &= validateCapitalAssetNumberRequirements(capitalAssetTransactionType, item.getPurchasingItemCapitalAssets(), warn, itemIdentifier);
             }
         return valid;
     }
@@ -1006,6 +1003,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
+     * @TODO: This method is obsolete after the work to move code to the new CAMS tag.
+     * 
      * Capital Asset validation: If the item has no transaction type code, check whether any of the object codes 
      * on the item's associated accounting lines are of a sub-type which indicates that a transaction type code 
      * should be present.
@@ -1090,6 +1089,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
+     * @TODO: This method is obsolete after the work to move code to the new CAMS tag.
+     * 
      * Capital Asset validation: If there is a capital asset transaction type, and the transaction does not indicate 
      * association with a service item, and if the object code sub-types of the object codes on any of the item's associated 
      * accounting lines are in a specific set of object codes for quantity items, the item must have a quantity.
@@ -1232,6 +1233,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
+     * @TODO: This method is obsolete after the work to move code to the new CAMS tag.
+     * 
      * Capital Asset validation: If the item has a transaction type and the transaction type is one of a specific set 
      * of transaction types, the item should have an asset number.
      * 

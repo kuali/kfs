@@ -23,8 +23,6 @@ import java.util.LinkedHashMap;
  */
 public class PurchaseOrderItemCapitalAsset extends PurchasingItemCapitalAssetBase {
 
-    private String documentNumber;
-
     /**
      * Default constructor.
      */
@@ -34,14 +32,6 @@ public class PurchaseOrderItemCapitalAsset extends PurchasingItemCapitalAssetBas
 
     public PurchaseOrderItemCapitalAsset(Long capitalAssetNumber) {
         super(capitalAssetNumber);
-    }
-
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
     }
 
 }

@@ -36,10 +36,6 @@ public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerA
 
     public abstract void setItemLineNumber(Integer itemLineNumber);
 
-    public abstract String getCapitalAssetTransactionTypeCode();
-
-    public abstract void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode);
-
     public abstract String getItemUnitOfMeasureCode();
 
     public abstract void setItemUnitOfMeasureCode(String itemUnitOfMeasureCode);
@@ -51,10 +47,6 @@ public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerA
     public abstract String getItemDescription();
 
     public abstract void setItemDescription(String itemDescription);
-
-    public abstract String getItemCapitalAssetNoteText();
-
-    public abstract void setItemCapitalAssetNoteText(String itemCapitalAssetNoteText);
 
     public abstract BigDecimal getItemUnitPrice();
 
@@ -79,16 +71,6 @@ public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerA
     public abstract boolean getItemAssignedToTradeInIndicator();
 
     public abstract void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator);
-
-    public abstract CapitalAssetTransactionType getCapitalAssetTransactionType();
-
-    /**
-     * Sets the capitalAssetTransactionType attribute.
-     * 
-     * @param capitalAssetTransactionType The capitalAssetTransactionType to set.
-     * @deprecated
-     */
-    public abstract void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType);
 
     public abstract ItemType getItemType();
 

@@ -27,8 +27,6 @@
         <ref bean="PaymentRequestItem-itemTypeCode" />
         <ref bean="PaymentRequestItem-itemCatalogNumber" />
         <ref bean="PaymentRequestItem-itemDescription" />
-        <ref bean="PaymentRequestItem-capitalAssetTransactionTypeCode" />
-        <ref bean="PaymentRequestItem-itemCapitalAssetNoteText" />
         <ref bean="PaymentRequestItem-itemAuxiliaryPartIdentifier" />
         <ref bean="PaymentRequestItem-externalOrganizationB2bProductReferenceNumber" />
         <ref bean="PaymentRequestItem-externalOrganizationB2bProductTypeName" />
@@ -183,40 +181,7 @@
             p:cols="20" />
     </property>
   </bean>
-  <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode" parent="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean" />
 
-  <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetTransactionTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Transaction Type" />
-    <property name="shortLabel" value="Asset Tran Type" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetTransactionTypeValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-  </bean>
-  <bean id="PaymentRequestItem-itemCapitalAssetNoteText" parent="PaymentRequestItem-itemCapitalAssetNoteText-parentBean" />
-
-  <bean id="PaymentRequestItem-itemCapitalAssetNoteText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemCapitalAssetNoteText" />
-    <property name="label" value="Capital Asset Comments" />
-    <property name="shortLabel" value="Comments" />
-    <property name="maxLength" value="800" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="40" />
-    </property>
-  </bean>
   <bean id="PaymentRequestItem-itemAuxiliaryPartIdentifier" parent="PaymentRequestItem-itemAuxiliaryPartIdentifier-parentBean" />
 
   <bean id="PaymentRequestItem-itemAuxiliaryPartIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
@@ -330,13 +295,9 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetTransactionTypeCode" />
-              <bean parent="FieldDefinition"
                     p:attributeName="itemAssignedToTradeInIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="itemAuxiliaryPartIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemCapitalAssetNoteText" />
               <bean parent="FieldDefinition"
                     p:attributeName="itemCatalogNumber" />
               <bean parent="FieldDefinition"
@@ -385,13 +346,9 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTransactionTypeCode" />
-        <bean parent="FieldDefinition"
               p:attributeName="itemAssignedToTradeInIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="itemAuxiliaryPartIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemCapitalAssetNoteText" />
         <bean parent="FieldDefinition"
               p:attributeName="itemCatalogNumber" />
         <bean parent="FieldDefinition"
@@ -423,13 +380,9 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTransactionTypeCode" />
-        <bean parent="FieldDefinition"
               p:attributeName="itemAssignedToTradeInIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="itemAuxiliaryPartIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemCapitalAssetNoteText" />
         <bean parent="FieldDefinition"
               p:attributeName="itemCatalogNumber" />
         <bean parent="FieldDefinition"

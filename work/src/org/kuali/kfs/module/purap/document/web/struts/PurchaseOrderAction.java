@@ -1616,7 +1616,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm)form;
         PurchaseOrderDocument document = (PurchaseOrderDocument)poForm.getDocument();
         PurchaseOrderItem item = (PurchaseOrderItem)document.getItemByLineNumber(getSelectedLine(request) + 1);
-        item.addAsset();
+        //TODO: Add a new way to add assets to the system.
+        //item.addAsset();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

@@ -45,8 +45,6 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     private boolean itemActiveIndicator = true;
     private KualiDecimal itemDamagedTotalQuantity;
     
-    private List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets;
-
     private PurchaseOrderDocument purchaseOrder;
     
     // Not persisted to DB
@@ -76,7 +74,6 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setItemQuantity(ri.getItemQuantity());
         this.setItemCatalogNumber(ri.getItemCatalogNumber());
         this.setItemDescription(ri.getItemDescription());
-        this.setItemCapitalAssetNoteText(ri.getItemCapitalAssetNoteText());
         this.setItemUnitPrice(ri.getItemUnitPrice());
         this.setItemAuxiliaryPartIdentifier(ri.getItemAuxiliaryPartIdentifier());
         this.setItemAssignedToTradeInIndicator(ri.getItemAssignedToTradeInIndicator());
@@ -87,7 +84,6 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setItemReceivedTotalQuantity(ZERO);
         this.setItemDamagedTotalQuantity(ZERO);
         
-        this.setCapitalAssetTransactionTypeCode(ri.getCapitalAssetTransactionTypeCode());
         this.setItemTypeCode(ri.getItemTypeCode());
 
         if (ri.getSourceAccountingLines() != null && ri.getSourceAccountingLines().size() > 0) {
@@ -199,14 +195,6 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.itemSelectedForRetransmitIndicator = itemSelectedForRetransmitIndicator;
     }    
 
-    public List<PurchaseOrderItemCapitalAsset> getPurchaseOrderItemCapitalAssets() {
-        return purchaseOrderItemCapitalAssets;
-    }
-
-    public void setPurchaseOrderItemCapitalAssets(List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets) {
-        this.purchaseOrderItemCapitalAssets = purchaseOrderItemCapitalAssets;
-    }
-
     public boolean isMovingToSplit() {
         return movingToSplit;
     }
@@ -257,18 +245,18 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         KualiDecimal totalEncumberance = this.getExtendedPrice();
 
         ItemType iT = this.getItemType();
-        // if service add the po outstanding amount to outstandingamount
+        // if service add the po outstanding amount to outstanding amount
         if (!iT.isQuantityBasedGeneralLedgerIndicator()) {
             outstandingAmount = outstandingAmount.add(this.getItemOutstandingEncumberedAmount());
         }
         else {
-            // else add outstanding quantity * unitprice
+            // else add outstanding quantity * unit price
             BigDecimal qty = new BigDecimal(this.getOutstandingQuantity().toString());
             outstandingAmount = outstandingAmount.add(new KualiDecimal(this.getItemUnitPrice().multiply(qty)));
         }
 
 
-        // return the total encumberance subtracted by the outstandingamount from above
+        // return the total encumbrance subtracted by the outstanding amount from above
         return totalEncumberance.subtract(outstandingAmount);
     }
     
@@ -288,21 +276,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         }
         return false;
     }
-    
-    /**
-     * Constructs a new PurchasingItemCapitalAsset from the number stored in the addCapitalAsset field and adds it to
-     * the Collection.
-     */
-    public void addAsset(){
-        if (ObjectUtils.isNull(this.getPurchasingItemCapitalAssets())) {
-            setPurchasingItemCapitalAssets(new ArrayList());
-        }
-        if (ObjectUtils.isNotNull(this.getAddCapitalAssetNumber())) {
-            PurchasingItemCapitalAssetBase asset = new PurchaseOrderItemCapitalAsset(new Long(this.getAddCapitalAssetNumber()));
-            getPurchasingItemCapitalAssets().add(asset);
-        }
-    }
-    
+        
     /**
      * Override the method in PurApItemBase so that if the item is
      * not eligible to be displayed in the account summary tab,

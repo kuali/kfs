@@ -24,11 +24,9 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 public enum PurApItemFixture {
     BASIC_QTY_ITEM_1(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description1", // itemDescription
-            "", // itemCapitalAssetNoteText
             new BigDecimal(1), // itemUnitPrice
             "ITEM", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -39,11 +37,9 @@ public enum PurApItemFixture {
             new KualiDecimal(1) // itemQuantity
     ), BASIC_QTY_ITEM_2(null, // itemIdentifier
             new Integer(2), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description2", // itemDescription
-            "", // itemCapitalAssetNoteText
             new BigDecimal(1), // itemUnitPrice
             "ITEM", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -54,11 +50,9 @@ public enum PurApItemFixture {
             new KualiDecimal(1) // itemQuantity
     ), APO_QTY_ITEM_1(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description", // itemDescription
-            "", // itemCapitalAssetNoteText
             new BigDecimal(1.99), // itemUnitPrice
             "ITEM", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -69,11 +63,9 @@ public enum PurApItemFixture {
             new KualiDecimal(500) // itemQuantity
     ), APO_SERVICE_ITEM_1(null, // itemIdentifier
             new Integer(2), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             "", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description", // itemDescription
-            "", // itemCapitalAssetNoteText
             new BigDecimal(239.99), // itemUnitPrice
             "SRVC", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -84,11 +76,9 @@ public enum PurApItemFixture {
             null // itemQuantity
     ), APO_FREIGHT_ITEM_1(null, // itemIdentifier
             new Integer(3), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             "", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "freight", // itemDescription
-            "", // itemCapitalAssetNoteText
             new BigDecimal(12.49), // itemUnitPrice
             "FRHT", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -99,11 +89,9 @@ public enum PurApItemFixture {
             null // itemQuantity
     ), BASIC_QTY_ITEM_NO_APO(null, // itemIdentifier
             new Integer(2), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description", // itemDescription
-            "", // itemCapitalAssetNoteText
             new BigDecimal(100), // itemUnitPrice
             "ITEM", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -114,11 +102,9 @@ public enum PurApItemFixture {
             new KualiDecimal(100) // itemQuantity
     ), REQ_MULTI_ITEM_QUANTITY(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "P10M980", // itemCatalogNumber
             "Copy Paper - 8 1/2 x 11, White, 92, 20lb", // itemDescription
-            "", // itemCapitalAssetNoteText
             new BigDecimal(30.20), // itemUnitPrice
             "ITEM", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -129,11 +115,9 @@ public enum PurApItemFixture {
             new KualiDecimal(20) // itemQuantity
     ), REQ_MULTI_ITEM_NON_QUANTITY(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             "", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "consulting", // itemDescription
-            "", // itemCapitalAssetNoteText
             new BigDecimal(5000), // itemUnitPrice
             "SRVC", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -145,11 +129,9 @@ public enum PurApItemFixture {
     ),
     BASIC_QTY_ITEM_NO_APO_TOTAL_NOT_GREATER_THAN_ZERO(null, // itemIdentifier
             new Integer(2), // itemLineNumber
-            "", // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description", // itemDescription
-            "", // itemCapitalAssetNoteText
             new BigDecimal(-10), // itemUnitPrice
             "ITEM", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -161,11 +143,9 @@ public enum PurApItemFixture {
     ),
     BASIC_QTY_ITEM_NULL_UNIT_PRICE(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description", // itemDescription
-            "", // itemCapitalAssetNoteText
             null, // itemUnitPrice
             "ITEM", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -177,11 +157,9 @@ public enum PurApItemFixture {
     ),
     INVALID_QTY_ITEM_NULL_QUANTITY(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description", // itemDescription
-            "", // itemCapitalAssetNoteText
             new BigDecimal(100), // itemUnitPrice
             "ITEM", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -193,11 +171,9 @@ public enum PurApItemFixture {
     ),    
     VALID_FREIGHT_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Freight description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -209,11 +185,9 @@ public enum PurApItemFixture {
     ),   
     VALID_SHIPPING_AND_HANDLING_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Shipping and Handling description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -225,11 +199,9 @@ public enum PurApItemFixture {
     ),    
     POSITIVE_DISC_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "DISC description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -241,11 +213,9 @@ public enum PurApItemFixture {
     ),
     POSITIVE_RSTO_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "RSTO description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -257,11 +227,9 @@ public enum PurApItemFixture {
     ),
     POSITIVE_MSCR_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "MSCR description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -273,11 +241,9 @@ public enum PurApItemFixture {
     ),
     POSITIVE_ORDS_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "ORDS description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -289,11 +255,9 @@ public enum PurApItemFixture {
     ),
     POSITIVE_TRDI_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "TRDI description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -305,11 +269,9 @@ public enum PurApItemFixture {
     ),
     POSITIVE_FDTX_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "FDTX description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -321,11 +283,9 @@ public enum PurApItemFixture {
     ),
     POSITIVE_STTX_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "STTX description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -337,11 +297,9 @@ public enum PurApItemFixture {
     ),
     VALID_MISC_CREDIT_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Miscellaneous Credit description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -353,11 +311,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_FREIGHT_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Freight description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -369,11 +325,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_SHIPPING_AND_HANDLING_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Shipping and Handling description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -385,11 +339,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_MIN_ORDER_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Min Order description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -401,11 +353,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_FED_GROSS_CODE_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Fed Gross Code description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -417,11 +367,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_STATE_GROSS_CODE_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "State Gross Code description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -433,11 +381,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_MISC_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Misc description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -449,11 +395,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_DISC_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "DISC description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -465,11 +409,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_RSTO_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "RSTO description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -481,11 +423,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_MSCR_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "MSCR description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -497,11 +437,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_ORDS_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "ORDS description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -513,11 +451,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_TRDI_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "TRDI description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -529,11 +465,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_FDTX_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "FDTX description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -545,11 +479,9 @@ public enum PurApItemFixture {
     ),
     NEGATIVE_STTX_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "STTX description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -561,11 +493,9 @@ public enum PurApItemFixture {
     ),
     ZERO_FREIGHT_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Freight description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -577,11 +507,9 @@ public enum PurApItemFixture {
     ),  
     ZERO_SHIPPING_AND_HANDLING_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Shipping and Handling description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -593,11 +521,9 @@ public enum PurApItemFixture {
     ),
     ZERO_MIN_ORDER_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Min Order description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -609,11 +535,9 @@ public enum PurApItemFixture {
     ),
     ZERO_MISC_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Misc description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -625,11 +549,9 @@ public enum PurApItemFixture {
     ),
     ZERO_DISC_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Payment Term Disc description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -641,11 +563,9 @@ public enum PurApItemFixture {
     ),
     ZERO_RSTO_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Restock Fee description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -657,11 +577,9 @@ public enum PurApItemFixture {
     ),
     ZERO_FED_GROSS_CODE_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Fed Gross Code description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -673,11 +591,9 @@ public enum PurApItemFixture {
     ),
     ZERO_STATE_GROSS_CODE_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "State Gross Code description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -689,11 +605,9 @@ public enum PurApItemFixture {
     ),
     ZERO_MSCR_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "MSCR description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -705,8 +619,6 @@ public enum PurApItemFixture {
     ),
     ZERO_ORDS_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
-            null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "ORDS description", // itemDescription
             null, // itemCapitalAssetNoteText
@@ -721,11 +633,9 @@ public enum PurApItemFixture {
     ),
     ZERO_TRDI_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "TRDI description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -737,11 +647,9 @@ public enum PurApItemFixture {
     ),
     ZERO_FDTX_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "FDTX description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -753,11 +661,9 @@ public enum PurApItemFixture {
     ),
     ZERO_STTX_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "STTX description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE,  // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -769,11 +675,9 @@ public enum PurApItemFixture {
     ),
     FREIGHT_ITEM_NO_DESC(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -785,11 +689,9 @@ public enum PurApItemFixture {
     ),  
     SHIPPING_AND_HANDLING_ITEM_NO_DESC(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -801,11 +703,9 @@ public enum PurApItemFixture {
     ),
     MISC_ITEM_NO_DESC(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -817,11 +717,9 @@ public enum PurApItemFixture {
     ),  
     VALID_MIN_ORDER_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Minimum Order description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -833,11 +731,9 @@ public enum PurApItemFixture {
     ),  
     VALID_MISC_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Miscellaneous description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -849,11 +745,9 @@ public enum PurApItemFixture {
     ),  
     VALID_FED_GROSS_CODE_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "Fed Gross description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -865,11 +759,9 @@ public enum PurApItemFixture {
     ),  
     VALID_STATE_GROSS_CODE_ITEM(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             null, // itemUnitOfMeasureCode
             null, // itemCatalogNumber
             "State Gross description", // itemDescription
-            null, // itemCapitalAssetNoteText
             null, // itemUnitPrice
             PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE, // itemTypeCode
             null, // itemAuxiliaryPartIdentifier
@@ -880,11 +772,9 @@ public enum PurApItemFixture {
             null // itemQuantity
     ),ITEM_FOR_THRESHOLD_CHECK(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description1", // itemDescription
-            "", // itemCapitalAssetNoteText
             new BigDecimal(10), // itemUnitPrice
             "ITEM", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
@@ -898,11 +788,9 @@ public enum PurApItemFixture {
 
     private Integer itemIdentifier;
     private Integer itemLineNumber;
-    private String capitalAssetTransactionTypeCode;
     private String itemUnitOfMeasureCode;
     private String itemCatalogNumber;
     private String itemDescription;
-    private String itemCapitalAssetNoteText;
     private BigDecimal itemUnitPrice;
     private String itemTypeCode;
     private String itemAuxiliaryPartIdentifier;
@@ -913,14 +801,12 @@ public enum PurApItemFixture {
     private KualiDecimal itemQuantity;
 
 
-    private PurApItemFixture(Integer itemIdentifier, Integer itemLineNumber, String capitalAssetTransactionTypeCode, String itemUnitOfMeasureCode, String itemCatalogNumber, String itemDescription, String itemCapitalAssetNoteText, BigDecimal itemUnitPrice, String itemTypeCode, String itemAuxiliaryPartIdentifier, String externalOrganizationB2bProductReferenceNumber, String externalOrganizationB2bProductTypeName, boolean itemAssignedToTradeInIndicator, KualiDecimal extendedPrice, KualiDecimal itemQuantity) {
+    private PurApItemFixture(Integer itemIdentifier, Integer itemLineNumber, String itemUnitOfMeasureCode, String itemCatalogNumber, String itemDescription, BigDecimal itemUnitPrice, String itemTypeCode, String itemAuxiliaryPartIdentifier, String externalOrganizationB2bProductReferenceNumber, String externalOrganizationB2bProductTypeName, boolean itemAssignedToTradeInIndicator, KualiDecimal extendedPrice, KualiDecimal itemQuantity) {
         this.itemIdentifier = itemIdentifier;
         this.itemLineNumber = itemLineNumber;
-        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
         this.itemUnitOfMeasureCode = itemUnitOfMeasureCode;
         this.itemCatalogNumber = itemCatalogNumber;
         this.itemDescription = itemDescription;
-        this.itemCapitalAssetNoteText = itemCapitalAssetNoteText;
         this.itemUnitPrice = itemUnitPrice;
         this.itemTypeCode = itemTypeCode;
         this.itemAuxiliaryPartIdentifier = itemAuxiliaryPartIdentifier;
@@ -946,11 +832,9 @@ public enum PurApItemFixture {
         }
         item.setItemIdentifier(itemIdentifier);
         item.setItemLineNumber(itemLineNumber);
-        item.setCapitalAssetTransactionTypeCode(capitalAssetTransactionTypeCode);
         item.setItemUnitOfMeasureCode(itemUnitOfMeasureCode);
         item.setItemCatalogNumber(itemCatalogNumber);
         item.setItemDescription(itemDescription);
-        item.setItemCapitalAssetNoteText(itemCapitalAssetNoteText);
         item.setItemUnitPrice(itemUnitPrice);
         item.setItemTypeCode(itemTypeCode);
         item.setItemAuxiliaryPartIdentifier(itemAuxiliaryPartIdentifier);

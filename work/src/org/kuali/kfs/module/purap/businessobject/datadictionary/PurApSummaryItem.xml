@@ -21,8 +21,6 @@
         <ref bean="PurApSummaryItem-itemTypeCode" />
         <ref bean="PurApSummaryItem-itemCatalogNumber" />
         <ref bean="PurApSummaryItem-itemDescription" />
-        <ref bean="PurApSummaryItem-capitalAssetTransactionTypeCode" />
-        <ref bean="PurApSummaryItem-itemCapitalAssetNoteText" />
         <ref bean="PurApSummaryItem-itemAuxiliaryPartIdentifier" />
         <ref bean="PurApSummaryItem-externalOrganizationB2bProductReferenceNumber" />
         <ref bean="PurApSummaryItem-externalOrganizationB2bProductTypeName" />
@@ -171,40 +169,7 @@
             p:cols="20" />
     </property>
   </bean>
-  <bean id="PurApSummaryItem-capitalAssetTransactionTypeCode" parent="PurApSummaryItem-capitalAssetTransactionTypeCode-parentBean" />
 
-  <bean id="PurApSummaryItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetTransactionTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Transaction Type" />
-    <property name="shortLabel" value="Asset Tran Type" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetTransactionTypeValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-  </bean>
-  <bean id="PurApSummaryItem-itemCapitalAssetNoteText" parent="PurApSummaryItem-itemCapitalAssetNoteText-parentBean" />
-
-  <bean id="PurApSummaryItem-itemCapitalAssetNoteText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemCapitalAssetNoteText" />
-    <property name="label" value="Capital Asset Comments" />
-    <property name="shortLabel" value="Comments" />
-    <property name="maxLength" value="800" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="40" />
-    </property>
-  </bean>
   <bean id="PurApSummaryItem-itemAuxiliaryPartIdentifier" parent="PurApSummaryItem-itemAuxiliaryPartIdentifier-parentBean" />
 
   <bean id="PurApSummaryItem-itemAuxiliaryPartIdentifier-parentBean" abstract="true" parent="AttributeDefinition">

@@ -79,7 +79,8 @@ public class RequisitionAction extends PurchasingActionBase {
         RequisitionForm rqForm = (RequisitionForm) form;
         RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
         RequisitionItem item = (RequisitionItem)document.getItemByLineNumber(getSelectedLine(request) + 1);
-        item.addAsset();
+        //TODO: Add a new way to add assets to the system.
+        //item.addAsset();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     

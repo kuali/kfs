@@ -27,9 +27,6 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 public class RequisitionItem extends PurchasingItemBase {
 
     private boolean itemRestrictedIndicator;
-    private Integer capitalAssetManagementSystemNumber;
-    
-    private RequisitionCapitalAssetSystem capitalAssetManagementSystem;
     
     /**
      * Default constructor.
@@ -45,22 +42,6 @@ public class RequisitionItem extends PurchasingItemBase {
         this.itemRestrictedIndicator = itemRestrictedIndicator;
     }   
 
-    /**
-     * Gets the capitalAssetManagementSystemNumber attribute. 
-     * @return Returns the capitalAssetManagementSystemNumber.
-     */
-    public Integer getCapitalAssetManagementSystemNumber() {
-        return capitalAssetManagementSystemNumber;
-    }
-
-    /**
-     * Sets the capitalAssetManagementSystemNumber attribute value.
-     * @param capitalAssetManagementSystemNumber The capitalAssetManagementSystemNumber to set.
-     */
-    public void setCapitalAssetManagementSystemNumber(Integer capitalAssetManagementSystemNumber) {
-        this.capitalAssetManagementSystemNumber = capitalAssetManagementSystemNumber;
-    }    
-    
     public RequisitionDocument getRequisition() {
         return super.getPurapDocument();
     }
@@ -69,22 +50,7 @@ public class RequisitionItem extends PurchasingItemBase {
         setPurapDocument(requisition);
     }
 
-    /**
-     * Gets the capitalAssetManagementSystem attribute. 
-     * @return Returns the capitalAssetManagementSystem.
-     */
-    public RequisitionCapitalAssetSystem getCapitalAssetManagementSystem() {
-        return capitalAssetManagementSystem;
-    }
 
-    /**
-     * Sets the capitalAssetManagementSystem attribute value.
-     * @param capitalAssetManagementSystem The capitalAssetManagementSystem to set.
-     * @deprecated
-     */
-    public void setCapitalAssetManagementSystem(RequisitionCapitalAssetSystem capitalAssetManagementSystem) {
-        this.capitalAssetManagementSystem = capitalAssetManagementSystem;
-    }
 
     /**
      * @see org.kuali.kfs.module.purap.businessobject.PurchasingItemBase#getAccountingLineClass()
@@ -94,17 +60,4 @@ public class RequisitionItem extends PurchasingItemBase {
         return RequisitionAccount.class;
     }
     
-    /**
-     * Constructs a new PurchasingItemCapitalAsset from the number stored in the addCapitalAsset field and adds it to
-     * the Collection.
-     */
-    public void addAsset(){
-        if (ObjectUtils.isNull(this.getPurchasingItemCapitalAssets())) {
-            setPurchasingItemCapitalAssets(new ArrayList());
-        }
-        if (ObjectUtils.isNotNull(this.getAddCapitalAssetNumber())) {
-            PurchasingItemCapitalAssetBase asset = new RequisitionItemCapitalAsset(new Long(this.getAddCapitalAssetNumber()));
-            getPurchasingItemCapitalAssets().add(asset);
-        }
-    }
 }

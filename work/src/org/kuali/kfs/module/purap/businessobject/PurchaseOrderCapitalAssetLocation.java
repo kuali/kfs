@@ -7,8 +7,6 @@ package org.kuali.kfs.module.purap.businessobject;
 
 public class PurchaseOrderCapitalAssetLocation extends PurchasingCapitalAssetLocationBase {
 
-	private String documentNumber;
-	
     private PurchasingCapitalAssetSystem purchaseOrderCapitalAssetSystem;
 
 	/**
@@ -17,14 +15,6 @@ public class PurchaseOrderCapitalAssetLocation extends PurchasingCapitalAssetLoc
 	public PurchaseOrderCapitalAssetLocation() {
 
 	}
-
-	public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
-    }
 	
 	public PurchasingCapitalAssetSystem getPurchaseOrderCapitalAssetSystem() {
         return purchaseOrderCapitalAssetSystem;

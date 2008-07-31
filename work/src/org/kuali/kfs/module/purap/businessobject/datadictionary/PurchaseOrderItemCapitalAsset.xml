@@ -15,7 +15,6 @@
       <list>
         <ref bean="PurchaseOrderItemCapitalAsset-capitalAssetNumber" />
         <ref bean="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier" />
-        <ref bean="PurchaseOrderItemCapitalAsset-documentNumber" />
         <ref bean="PurchaseOrderItemCapitalAsset-itemCapitalAssetIdentifier" />
         <ref bean="PurchaseOrderItemCapitalAsset-versionNumber" />
       </list>
@@ -46,24 +45,6 @@
         p:forceUppercase="false"
         p:label="Capital Asset System Identifier"
         p:shortLabel="Capital Asset System Identifier"
-        p:maxLength="10"
-        p:required="false" >
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-  </bean>
-
-  <bean id="PurchaseOrderItemCapitalAsset-documentNumber" parent="PurchaseOrderItemCapitalAsset-documentNumber-parentBean" />
-  <bean id="PurchaseOrderItemCapitalAsset-documentNumber-parentBean" parent="AttributeDefinition" abstract="true"
-        p:name="documentNumber"
-        p:forceUppercase="false"
-        p:label="Document Number"
-        p:shortLabel="Document Number"
         p:maxLength="10"
         p:required="false" >
     <property name="validationPattern" >
@@ -112,7 +93,6 @@
             <list>
               <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" />
               <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
-              <bean parent="FieldDefinition" p:attributeName="documentNumber" />
               <bean parent="FieldDefinition" p:attributeName="itemCapitalAssetIdentifier" />
               <bean parent="FieldDefinition" p:attributeName="versionNumber" />
             </list>
@@ -141,7 +121,6 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
-        <bean parent="FieldDefinition" p:attributeName="documentNumber" />
         <bean parent="FieldDefinition" p:attributeName="itemCapitalAssetIdentifier" />
         <bean parent="FieldDefinition" p:attributeName="versionNumber" />
       </list>
@@ -150,7 +129,6 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
-        <bean parent="FieldDefinition" p:attributeName="documentNumber" />
         <bean parent="FieldDefinition" p:attributeName="itemCapitalAssetIdentifier" />
         <bean parent="FieldDefinition" p:attributeName="versionNumber" />
       </list>

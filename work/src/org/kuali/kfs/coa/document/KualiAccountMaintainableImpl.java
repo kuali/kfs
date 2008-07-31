@@ -18,13 +18,27 @@ package org.kuali.kfs.coa.document;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.core.web.struts.form.KualiMaintenanceForm;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.SubAccountTrickleDownInactivationService;
+import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KNSConstants;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class overrides the saveBusinessObject() method which is called during post process from the KualiPostProcessor so that it
@@ -32,6 +46,8 @@ import org.kuali.kfs.sys.context.SpringContext;
  * specific fields that shouldn't be copied to default values {@link KualiPostProcessor}
  */
 public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
+    private static final Logger LOG = Logger.getLogger(KualiAccountMaintainableImpl.class);
+    
     /**
      * Automatically deactivates {@link SubAccount}s after saving the {@link Account}
      * 
@@ -39,17 +55,15 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void saveBusinessObject() {
+        boolean isClosingAccount = isClosingAccount();
+        
         // make sure we save account first
         super.saveBusinessObject();
-        Account acct = (Account) businessObject;
-
-        // deactivate any indicated BOs
-        List<PersistableBusinessObject> bosToDeactivate = acct.generateDeactivationsToPersist();
-        if (bosToDeactivate != null) {
-            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-            if (!bosToDeactivate.isEmpty()) {
-                boService.save(bosToDeactivate);
-            }
+        
+        // if we're closing the account, then rely on the trickle-down inactivation services to trickle-down inactivate the sub-accounts
+        if (isClosingAccount) {
+            SpringContext.getBean(SubAccountTrickleDownInactivationService.class).trickleDownInactivateSubAccounts((Account) getBusinessObject(), documentNumber);
+            SpringContext.getBean(SubObjectTrickleDownInactivationService.class).trickleDownInactivateSubObjects((Account) getBusinessObject(), documentNumber);
         }
     }
 
@@ -67,5 +81,35 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
         super.processAfterCopy( document, parameters );
     }
 
+    @Override
+    public List<MaintenanceLock> generateMaintenanceLocks() {
+        List<MaintenanceLock> maintenanceLocks = super.generateMaintenanceLocks();
+        boolean isClosingAccount = false;
+        
+        if (isClosingAccount()) {
+            maintenanceLocks.addAll(SpringContext.getBean(SubAccountTrickleDownInactivationService.class).generateTrickleDownMaintenanceLocks((Account) getBusinessObject(), documentNumber));
+            maintenanceLocks.addAll(SpringContext.getBean(SubObjectTrickleDownInactivationService.class).generateTrickleDownMaintenanceLocks((Account) getBusinessObject(), documentNumber));
+        }
+        return maintenanceLocks;
+    }
 
+    protected Account retrieveExistingAccountFromDB() {
+        Account newAccount = (Account) getBusinessObject();
+        Account oldAccount = SpringContext.getBean(AccountService.class).getByPrimaryId(newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber());
+        return oldAccount;
+    }
+    
+    protected boolean isClosingAccount() {
+        // the account has to be closed on the new side when editing in order for it to be possible that we are closing the account
+        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && ((Account) getBusinessObject()).isAccountClosedIndicator()) {
+            Account existingAccountFromDB = retrieveExistingAccountFromDB();
+            if (ObjectUtils.isNotNull(existingAccountFromDB)) {
+                // now see if the original account was not closed, in which case, we are closing the account
+                if (!existingAccountFromDB.isAccountClosedIndicator()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

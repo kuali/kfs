@@ -585,4 +585,74 @@
           </set>
         </property>
     </bean>
+    
+        
+    <bean name="subAccountTrickleDownInactivationService" class="org.kuali.kfs.coa.service.impl.SubAccountTrickleDownInactivationServiceImpl">
+    	<property name="maintenanceDocumentDictionaryService">
+    		<ref bean="maintenanceDocumentDictionaryService"/>
+    	</property>
+    	<property name="maintenanceDocumentDao">
+    		<ref bean="maintenanceDocumentDao"/>
+    	</property>
+    	<property name="noteService">
+    		<ref bean="noteService"/>
+    	</property>
+    	<property name="kualiConfigurationService">
+    		<ref bean="kualiConfigurationService"/>
+    	</property>
+    	<property name="documentHeaderService">
+			<ref bean="documentHeaderService" />
+		</property>
+    </bean>
+    
+    <bean name="subObjectTrickleDownInactivationService" class="org.kuali.kfs.coa.service.impl.SubObjectTrickleDownInactivationServiceImpl">
+    	<property name="businessObjectService">
+    		<ref bean="businessObjectService"/>
+    	</property>
+    	<property name="maintenanceDocumentDictionaryService">
+    		<ref bean="maintenanceDocumentDictionaryService"/>
+    	</property>
+    	<property name="maintenanceDocumentDao">
+    		<ref bean="maintenanceDocumentDao"/>
+    	</property>
+    	<property name="noteService">
+    		<ref bean="noteService"/>
+    	</property>
+    	<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+		<property name="documentHeaderService">
+			<ref bean="documentHeaderService" />
+		</property>
+    	<property name="kualiConfigurationService">
+    		<ref bean="kualiConfigurationService"/>
+    	</property>
+    </bean>
+    
+    <bean name="indirectCostRecoveryRateDetailInactivationBlockingDetectionService" class="org.kuali.kfs.coa.service.impl.IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceImpl">
+    	<property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="businessObjectService">
+    		<ref bean="businessObjectService"/>
+    	</property>
+    	<property name="persistenceService">
+            <ref bean="persistenceService" />
+        </property>
+    </bean>
+    
+    <bean name="objectCodeCurrentInactivationBlockingDetectionService" class="org.kuali.kfs.coa.service.impl.ObjectCodeCurrentInactivationBlockingDetectionServiceImpl">
+    	<property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="businessObjectService">
+    		<ref bean="businessObjectService"/>
+    	</property>
+    	<property name="businessObjectMetaDataService">
+    		<ref bean="businessObjectMetaDataService"/>
+    	</property>
+    	<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+    </bean>
 </beans>

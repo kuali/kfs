@@ -374,7 +374,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                     // for ObjectCode, we don't want any invalid objects--UNLESS they
                     // are the dummy object used in budget construction
                     Criteria criteriaID = new Criteria();
-                    criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_ACTIVE_CODE, true);
+                    criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE, true);
                     Criteria criteriaBdg = new Criteria();
                     criteriaBdg.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BudgetConstructionConstants.OBJECT_CODE_2PLG);
                     criteriaID.addOrCriteria(criteriaBdg);

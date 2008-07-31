@@ -24,7 +24,7 @@
         <ref bean="Chart-finCoaManagerUniversal.personUserIdentifier" />
         <ref bean="Chart-finCoaManagerUniversal.personName" />
         <ref bean="Chart-finChartOfAccountDescription" />
-        <ref bean="Chart-finChartOfAccountActiveIndicator" />
+        <ref bean="Chart-active" />
         <ref bean="Chart-financialCashObjectCode" />
         <ref bean="Chart-finAccountsPayableObjectCode" />
         <ref bean="Chart-incBdgtEliminationsFinObjCd" />
@@ -63,6 +63,43 @@
             </list>
           </property>
         </bean>
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="finAccountsPayableObject"
+          p:relationshipLabel="Accounts Payable Object"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="incBdgtEliminationsFinObj"
+          p:relationshipLabel="Income Budget Elimination Object"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="expBdgtEliminationsFinObj"
+          p:relationshipLabel="Expense Budget Elimination Object"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="finExternalEncumbranceObj"
+          p:relationshipLabel="External Encumbrances Object"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="finInternalEncumbranceObj"
+          p:relationshipLabel="Internal Encumbrances Object"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="finPreEncumbranceObject"
+          p:relationshipLabel="Pre Encumbrances Object"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="financialCashObject"
+          p:relationshipLabel="Cash Object"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="icrIncomeFinancialObject"
+          p:relationshipLabel="Indirect Cost Recovery Income Object"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="icrExpenseFinancialObject"
+          p:relationshipLabel="Indirect Cost Recovery Expense"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="finAccountsReceivableObj"
+          p:relationshipLabel="Accounts Receivable Object"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="fundBalanceObject"
+          p:relationshipLabel="Fund Balance Object"/>
       </list>
     </property>
   </bean>
@@ -147,10 +184,10 @@
             p:size="40" />
     </property>
   </bean>
-  <bean id="Chart-finChartOfAccountActiveIndicator" parent="Chart-finChartOfAccountActiveIndicator-parentBean" />
+  <bean id="Chart-active" parent="Chart-active-parentBean" />
 
-  <bean id="Chart-finChartOfAccountActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="finChartOfAccountActiveIndicator" />
+  <bean id="Chart-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
     <property name="label" value="Chart Active Indicator" />
     <property name="shortLabel" value="ChartActive" />
     <property name="required" value="false" />
@@ -276,7 +313,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="finChartOfAccountDescription" />
               <bean parent="FieldDefinition"
-                    p:attributeName="finChartOfAccountActiveIndicator" />
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialCashObjectCode" />
               <bean parent="FieldDefinition"
@@ -334,7 +371,7 @@
               p:attributeName="finChartOfAccountDescription" />
         <bean parent="FieldDefinition"
               p:defaultValue="Y"
-              p:attributeName="finChartOfAccountActiveIndicator" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="financialCashObjectCode" />
         <bean parent="FieldDefinition"
@@ -348,7 +385,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="finChartOfAccountDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="finChartOfAccountActiveIndicator" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="financialCashObjectCode" />
         <bean parent="FieldDefinition"

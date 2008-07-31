@@ -21,7 +21,7 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="chart"
-              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="chartOfAccountsCode"
               p:displayFieldName="Chart Code" />
         <bean parent="ReferenceDefinition"
@@ -32,7 +32,7 @@
               p:displayFieldName="Account Number" />
         <bean parent="ReferenceDefinition"
               p:attributeName="financialReportChart"
-              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="financialReportChartCode"
               p:displayFieldName="Financial Reporting Chart Code" />
         <bean parent="ReferenceDefinition"

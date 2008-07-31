@@ -56,6 +56,17 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     }
 
     /**
+     * @see org.kuali.kfs.coa.dataaccess.ChartDao#getAllUniversityCharts()
+     */
+    public Collection getAllUniversityCharts() {
+        Criteria criteria = new Criteria();
+        criteria.addEqualToField("FIN_COA_CD", "RPTS_TO_FIN_COA_CD");
+        Collection charts = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria));
+        List chartList = new ArrayList(charts);
+        return chartList;
+    }
+
+    /**
      * @see org.kuali.kfs.coa.dataaccess.ChartDao#getByPrimaryId(java.lang.String)
      */
     public Chart getByPrimaryId(String chartOfAccountsCode) {

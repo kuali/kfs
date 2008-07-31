@@ -23,7 +23,7 @@
               p:attributeToHighlightOnFail="universityFiscalYear" />
         <bean parent="ReferenceDefinition"
               p:attributeName="budgetReversionChartOfAccounts"
-              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="budgetReversionChartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="budgetReversionAccount"
@@ -32,7 +32,7 @@
               p:attributeToHighlightOnFail="budgetReversionAccountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cashReversionFinancialChartOfAccounts"
-              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="cashReversionFinancialChartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cashReversionAccount"

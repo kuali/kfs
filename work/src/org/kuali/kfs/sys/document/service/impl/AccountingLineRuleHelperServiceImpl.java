@@ -226,7 +226,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         }
 
         // make sure it's active for usage
-        if (!chart.isFinChartOfAccountActiveIndicator()) {
+        if (!chart.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }

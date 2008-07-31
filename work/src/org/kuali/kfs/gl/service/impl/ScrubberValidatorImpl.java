@@ -675,7 +675,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CHART_NOT_FOUND) + " (" + originEntry.getChartOfAccountsCode() + ")", Message.TYPE_FATAL);
         }
 
-        if (!originEntryChart.isFinChartOfAccountActiveIndicator()) {
+        if (!originEntryChart.isActive()) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CHART_NOT_ACTIVE) + " (" + originEntry.getChartOfAccountsCode() + ")", Message.TYPE_FATAL);
         }
 

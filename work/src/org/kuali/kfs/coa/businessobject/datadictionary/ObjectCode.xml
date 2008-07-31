@@ -29,12 +29,24 @@
         <ref bean="ObjectCode-financialObjectTypeCode" />
         <ref bean="ObjectCode-financialObjectSubTypeCode" />
         <ref bean="ObjectCode-historicalFinancialObjectCode" />
-        <ref bean="ObjectCode-financialObjectActiveCode" />
+        <ref bean="ObjectCode-active" />
         <ref bean="ObjectCode-financialBudgetAggregationCd" />
         <ref bean="ObjectCode-finObjMandatoryTrnfrelimCd" />
         <ref bean="ObjectCode-financialFederalFundedCode" />
         <ref bean="ObjectCode-nextYearFinancialObjectCode" />
         <ref bean="ObjectCode-versionNumber" />
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="chartOfAccounts"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="financialFederalFunded"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="financialObjectLevel"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="reportsToFinancialObject"/>
       </list>
     </property>
   </bean>
@@ -216,10 +228,10 @@
             p:size="4" />
     </property>
   </bean>
-  <bean id="ObjectCode-financialObjectActiveCode" parent="ObjectCode-financialObjectActiveCode-parentBean" />
+  <bean id="ObjectCode-active" parent="ObjectCode-active-parentBean" />
 
-  <bean id="ObjectCode-financialObjectActiveCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectActiveCode" />
+  <bean id="ObjectCode-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Active Code" />
     <property name="shortLabel" value="Ac." />
@@ -330,7 +342,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="historicalFinancialObjectCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectActiveCode" />
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialBudgetAggregationCd" />
               <bean parent="FieldDefinition"
@@ -390,7 +402,7 @@
               p:attributeName="financialBudgetAggregationCd" />
         <bean parent="FieldDefinition"
               p:defaultValue="Y"
-              p:attributeName="financialObjectActiveCode" />
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -416,7 +428,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialBudgetAggregationCd" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialObjectActiveCode" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

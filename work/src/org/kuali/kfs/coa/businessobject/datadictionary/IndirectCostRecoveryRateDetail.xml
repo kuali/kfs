@@ -31,6 +31,19 @@
         <ref bean="IndirectCostRecoveryRateDetail-active" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedBusinessObjectClass="org.kuali.kfs.coa.businessobject.Account"
+          p:inactivationBlockingDetectionServiceBeanName="indirectCostRecoveryRateDetailInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedBusinessObjectClass="org.kuali.kfs.coa.businessobject.ObjectCode"
+          p:inactivationBlockingDetectionServiceBeanName="indirectCostRecoveryRateDetailInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedBusinessObjectClass="org.kuali.kfs.coa.businessobject.SubObjCd"
+          p:inactivationBlockingDetectionServiceBeanName="indirectCostRecoveryRateDetailInactivationBlockingDetectionService"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

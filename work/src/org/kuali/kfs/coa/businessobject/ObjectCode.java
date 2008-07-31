@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Summarizable;
 import org.kuali.core.service.BusinessObjectService;
@@ -30,7 +31,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 /**
  * 
  */
-public class ObjectCode extends PersistableBusinessObjectBase implements Summarizable {
+public class ObjectCode extends PersistableBusinessObjectBase implements Summarizable, Inactivateable {
 
 
     static {
@@ -46,7 +47,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
     private String financialObjectCodeName;
     private String financialObjectCodeShortName;
     private String historicalFinancialObjectCode;
-    private boolean financialObjectActiveCode;
+    private boolean active;
     private String financialObjectLevelCode;
     private String reportsToChartOfAccountsCode;
     private String reportsToFinancialObjectCode;
@@ -91,7 +92,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
         this.universityFiscalYear = fiscalYear;
         this.chartOfAccountsCode = chart;
         this.financialObjectCode = financialObjectCode;
-        this.financialObjectActiveCode = true;
+        this.active = true;
     }
 
     /**
@@ -218,7 +219,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      * @return Returns the financialObjectActiveCode
      */
     public boolean isFinancialObjectActiveCode() {
-        return financialObjectActiveCode;
+        return active;
     }
 
     /**
@@ -226,8 +227,8 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
      * 
      * @param financialObjectActiveCode The financialObjectActiveCode to set.
      */
-    public void setFinancialObjectActiveCode(boolean financialObjectActiveCode) {
-        this.financialObjectActiveCode = financialObjectActiveCode;
+    public void setFinancialObjectActiveCode(boolean active) {
+        this.active = active;
     }
 
     /**
@@ -583,11 +584,11 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
     }
 
     public boolean isActive() {
-        return this.financialObjectActiveCode;
+        return this.active;
     }
 
     public void setActive(boolean a) {
-        this.financialObjectActiveCode = a;
+        this.active = a;
     }
 
     public void setCode(String code) {

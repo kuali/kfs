@@ -17,6 +17,8 @@ package org.kuali.kfs.coa.dataaccess;
 
 import java.util.Collection;
 
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
+
 /**
  * This interface defines the data access methods for {@link IndirectCostRecoveryRateDetail}
  */
@@ -32,5 +34,5 @@ public interface IndirectCostRecoveryRateDetailDao {
      * @return collection of
      * @{link IndirectCostRecoveryRateDetail}s that match these criteria
      */
-    public Collection getEntriesBySeries(Integer universityFiscalYear, String financialSeriesId);
+    public Collection<IndirectCostRecoveryRateDetail> getEntriesBySeries(Integer universityFiscalYear, String financialSeriesId);
 }

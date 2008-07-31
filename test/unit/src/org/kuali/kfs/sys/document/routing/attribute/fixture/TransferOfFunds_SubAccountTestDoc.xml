@@ -171,7 +171,7 @@
         <subAccountNumber>BLDG</subAccountNumber>
         <chart class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--df4b5c89">
           <finChartOfAccountDescription>BLOOMINGTON</finChartOfAccountDescription>
-          <finChartOfAccountActiveIndicator>true</finChartOfAccountActiveIndicator>
+          <active>true</active>
           <finCoaManagerUniversalId>1872708343</finCoaManagerUniversalId>
           <reportsToChartOfAccountsCode>IU</reportsToChartOfAccountsCode>
           <chartOfAccountsCode>BL</chartOfAccountsCode>

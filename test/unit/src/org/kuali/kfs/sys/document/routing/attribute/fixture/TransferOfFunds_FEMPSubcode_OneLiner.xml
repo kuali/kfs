@@ -54,7 +54,7 @@
                         </universalUser>
                         <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--c2bbb1f5">
                             <finChartOfAccountDescription>UNIV ADMIN</finChartOfAccountDescription>
-                            <finChartOfAccountActiveIndicator>true</finChartOfAccountActiveIndicator>
+                            <active>true</active>
                             <finCoaManagerUniversalId>1271304676</finCoaManagerUniversalId>
                             <reportsToChartOfAccountsCode>IU</reportsToChartOfAccountsCode>
                             <chartOfAccountsCode>UA</chartOfAccountsCode>
@@ -224,7 +224,7 @@
                             </finCoaManagerUniversal>
                             <reportsToChartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--c2bbb1f5">
                                 <finChartOfAccountDescription>INDIANA UNIV</finChartOfAccountDescription>
-                                <finChartOfAccountActiveIndicator>true</finChartOfAccountActiveIndicator>
+                                <active>true</active>
                                 <finCoaManagerUniversalId>1739701101</finCoaManagerUniversalId>
                                 <reportsToChartOfAccountsCode>IU</reportsToChartOfAccountsCode>
                                 <chartOfAccountsCode>IU</chartOfAccountsCode>
@@ -440,7 +440,7 @@
                                 <string>TX</string>
                                 <org.kuali.kfs.coa.businessobject.Chart>
                                     <finChartOfAccountDescription>test</finChartOfAccountDescription>
-                                    <finChartOfAccountActiveIndicator>false</finChartOfAccountActiveIndicator>
+                                    <active>false</active>
                                     <finCoaManagerUniversalId>6162502038</finCoaManagerUniversalId>
                                     <reportsToChartOfAccountsCode>BL</reportsToChartOfAccountsCode>
                                     <chartOfAccountsCode>TX</chartOfAccountsCode>
@@ -457,7 +457,7 @@
                                     <finCoaManagerUniversal class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" reference="../../../../universalUser" />
                                     <reportsToChartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--c2bbb1f5">
                                         <finChartOfAccountDescription>BLOOMINGTON</finChartOfAccountDescription>
-                                        <finChartOfAccountActiveIndicator>true</finChartOfAccountActiveIndicator>
+                                        <active>true</active>
                                         <finCoaManagerUniversalId>1872708343</finCoaManagerUniversalId>
                                         <reportsToChartOfAccountsCode>IU</reportsToChartOfAccountsCode>
                                         <chartOfAccountsCode>BL</chartOfAccountsCode>

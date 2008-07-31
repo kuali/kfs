@@ -18,7 +18,7 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="chartOfAccounts"
-              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="chartOfAccountsCode"
               p:displayFieldName="Chart Of Accounts Code" />
         <bean parent="ReferenceDefinition"
@@ -28,7 +28,7 @@
               p:displayFieldName="Organization Code" />
         <bean parent="ReferenceDefinition"
               p:attributeName="reportsToChartOfAccounts"
-              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="reportsToChartOfAccountsCode"
               p:displayFieldName="Reports To Chart Of Accounts Code" />
         <bean parent="ReferenceDefinition"

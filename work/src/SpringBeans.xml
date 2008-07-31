@@ -97,6 +97,9 @@
 				<value>businessObjectMetaDataService</value>
 				<value>businessObjectDictionaryService</value>
 
+				<value>inactivationBlockingDetectionService</value>
+				<value>inactivationBlockingDisplayService</value>
+
 				<value>documentTypeService</value>
 				<value>documentService</value>
 				<value>documentDao</value>
@@ -767,6 +770,30 @@
 	<bean id="noteDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.NoteDaoOjb" />
 
 	<bean id="businessObjectDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.BusinessObjectDaoOjb">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+	</bean>
+
+	<bean id="inactivationBlockingDetectionService" class="org.kuali.core.service.impl.InactivationBlockingDetectionServiceImpl">
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService"/>
+		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
+	<bean id="inactivationBlockingDisplayService" class="org.kuali.core.service.impl.InactivationBlockingDisplayServiceImpl">
+		<property name="persistenceService">
+			<ref bean="persistenceService"/>
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService"/>
+		</property>
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>

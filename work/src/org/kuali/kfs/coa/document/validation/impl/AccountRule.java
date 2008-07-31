@@ -141,7 +141,8 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
         success &= checkEmptyValues(document);
         success &= checkGeneralRules(document);
-        success &= checkCloseAccount(document);
+        // TODO: uncomment code because i commented it out for testing
+        // success &= checkCloseAccount(document);
         success &= checkContractsAndGrants(document);
         success &= checkExpirationDate(document);
         success &= checkFundGroup(document);

@@ -1832,7 +1832,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private void readBaseYearInactiveObjects(Integer BaseYear) {
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
-        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_ACTIVE_CODE, false);
+        criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE, false);
         baseYearInactiveObjects = new HashMap<String, String[]>(hashObjectSize(ObjectCode.class, criteriaID));
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.FINANCIAL_OBJECT_CODE };
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(ObjectCode.class, queryAttr, criteriaID);

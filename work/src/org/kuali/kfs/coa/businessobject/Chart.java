@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Summarizable;
 import org.kuali.core.bo.user.UniversalUser;
@@ -26,12 +27,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 /**
  * 
  */
-public class Chart extends PersistableBusinessObjectBase implements Summarizable {
+public class Chart extends PersistableBusinessObjectBase implements Summarizable, Inactivateable {
 
     private static final long serialVersionUID = 4129020803214027609L;
 
     private String finChartOfAccountDescription;
-    private boolean finChartOfAccountActiveIndicator;
+    private boolean active;
     private String finCoaManagerUniversalId;
     private String reportsToChartOfAccountsCode;
     private String chartOfAccountsCode;
@@ -87,21 +88,21 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
     }
 
     /**
-     * Gets the finChartOfAccountActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the finChartOfAccountActiveIndicator
+     * @return Returns the active
      */
-    public boolean isFinChartOfAccountActiveIndicator() {
-        return finChartOfAccountActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the finChartOfAccountActiveIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param finChartOfAccountActiveIndicator The finChartOfAccountActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setFinChartOfAccountActiveIndicator(boolean finChartOfAccountActiveIndicator) {
-        this.finChartOfAccountActiveIndicator = finChartOfAccountActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 

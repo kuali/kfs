@@ -43,7 +43,7 @@ public class SimpleChartValuesFinder extends KeyValuesBase {
         chartKeyLabels.add(new KeyLabelPair("", ""));
         for (Iterator iter = chartCodes.iterator(); iter.hasNext();) {
             Chart element = (Chart) iter.next();
-            if (element.isFinChartOfAccountActiveIndicator()) { // only show active charts
+            if (element.isActive()) { // only show active charts
                 chartKeyLabels.add(new KeyLabelPair(element.getChartOfAccountsCode(), element.getChartOfAccountsCode()));
             }
         }

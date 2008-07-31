@@ -290,7 +290,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="finCoaManagerUniversalId" column="FIN_COA_MGRUNVL_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="finChartOfAccountDescription" column="FIN_COA_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="finChartOfAccountActiveIndicator" column="FIN_COA_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="active" column="FIN_COA_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="financialCashObjectCode" column="FIN_CASH_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="finAccountsPayableObjectCode" column="FIN_AP_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="incBdgtEliminationsFinObjCd" column="INCBDGT_ELIMOBJ_CD" jdbc-type="VARCHAR" />
@@ -364,7 +364,7 @@
     <field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialObjectSubTypeCode" column="FIN_OBJ_SUB_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="historicalFinancialObjectCode" column="HIST_FIN_OBJECT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialObjectActiveCode" column="FIN_OBJ_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="active" column="FIN_OBJ_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="financialBudgetAggregationCd" column="FOBJ_BDGT_AGGR_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="finObjMandatoryTrnfrelimCd" column="FOBJ_MNXFR_ELIM_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialFederalFundedCode" column="FIN_FED_FUNDED_CD" jdbc-type="VARCHAR" />
@@ -418,7 +418,7 @@
     <field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialObjectSubTypeCode" column="FIN_OBJ_SUB_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="historicalFinancialObjectCode" column="HIST_FIN_OBJECT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialObjectActiveCode" column="FIN_OBJ_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="active" column="FIN_OBJ_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="financialBudgetAggregationCd" column="FOBJ_BDGT_AGGR_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="finObjMandatoryTrnfrelimCd" column="FOBJ_MNXFR_ELIM_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialFederalFundedCode" column="FIN_FED_FUNDED_CD" jdbc-type="VARCHAR" />
@@ -634,7 +634,7 @@
     <field-descriptor name="financialObjectLevelName" column="FIN_OBJ_LEVEL_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="financialObjectLevelShortNm" column="FIN_OBJLVL_SHRT_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="financialConsolidationObjectCode" column="FIN_CONS_OBJ_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialObjectLevelActiveIndicator" column="FIN_OBJLVL_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="active" column="FIN_OBJLVL_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="financialReportingSortCode" column="FIN_REPORT_SORT_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -1099,6 +1099,7 @@
     <field-descriptor name="awardIndrCostRcvyRatePct" column="AWRD_ICR_RATE_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="active" column="ACCT_ICR_RATE_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>

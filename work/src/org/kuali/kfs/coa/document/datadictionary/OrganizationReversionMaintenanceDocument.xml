@@ -19,7 +19,7 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="chartOfAccounts"
-              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="chartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="universityFiscal"
@@ -30,7 +30,7 @@
               p:attributeToHighlightOnFail="organizationCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="budgetReversionChartOfAccounts"
-              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="budgetReversionChartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="budgetReversionAccount"
@@ -39,7 +39,7 @@
               p:attributeToHighlightOnFail="budgetReversionAccountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cashReversionFinancialChartOfAccounts"
-              p:activeIndicatorAttributeName="finChartOfAccountActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="cashReversionFinancialChartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cashReversionAccount"

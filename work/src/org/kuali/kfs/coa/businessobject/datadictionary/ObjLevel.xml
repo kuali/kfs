@@ -23,7 +23,7 @@
         <ref bean="ObjLevel-financialObjectLevelName" />
         <ref bean="ObjLevel-financialObjectLevelShortNm" />
         <ref bean="ObjLevel-financialConsolidationObjectCode" />
-        <ref bean="ObjLevel-financialObjectLevelActiveIndicator" />
+        <ref bean="ObjLevel-active" />
         <ref bean="ObjLevel-financialReportingSortCode" />
         <ref bean="ObjLevel-versionNumber" />
       </list>
@@ -97,10 +97,10 @@
     <property name="name" value="financialConsolidationObjectCode" />
     <property name="shortLabel" value="Consolidation Code" />
   </bean>
-  <bean id="ObjLevel-financialObjectLevelActiveIndicator" parent="ObjLevel-financialObjectLevelActiveIndicator-parentBean" />
+  <bean id="ObjLevel-active" parent="ObjLevel-active-parentBean" />
 
-  <bean id="ObjLevel-financialObjectLevelActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="financialObjectLevelActiveIndicator" />
+  <bean id="ObjLevel-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
     <property name="required" value="true" />
   </bean>
   <bean id="ObjLevel-financialReportingSortCode" parent="ObjLevel-financialReportingSortCode-parentBean" />
@@ -151,7 +151,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="financialConsolidationObjectCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectLevelActiveIndicator" />
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialReportingSortCode" />
             </list>
@@ -193,7 +193,7 @@
               p:attributeName="financialConsolidationObjectCode" />
         <bean parent="FieldDefinition"
               p:defaultValue="Y"
-              p:attributeName="financialObjectLevelActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -209,7 +209,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialConsolidationObjectCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialObjectLevelActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

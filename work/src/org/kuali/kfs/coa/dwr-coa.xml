@@ -29,7 +29,7 @@
 	    	<include method="getByPrimaryIdWithCaching" />
 	    </create>
 	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.Chart">
-	   		<param name="include" value="chartOfAccountCode,finChartOfAccountDescription,reportsToChartOfAccountsCode,finChartOfAccountActiveIndicator" />
+	   		<param name="include" value="chartOfAccountCode,finChartOfAccountDescription,reportsToChartOfAccountsCode,active" />
 	   	</convert>
 	    <create creator="spring" javascript="ChartService">
 	    	<param name="beanName" value="chartService" />
@@ -46,7 +46,7 @@
 	   		<param name="include" value="code,name,active" />
 	   	</convert>
 	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.ObjLevel">
-	   		<param name="include" value="chartOfAccountCode,financialObjectLevelCode,financialObjectLevelName,financialObjectLevelShortNm,financialConsolidationObjectCode,financialObjectLevelActiveIndicator" />
+	   		<param name="include" value="chartOfAccountCode,financialObjectLevelCode,financialObjectLevelName,financialObjectLevelShortNm,financialConsolidationObjectCode,active" />
 	   	</convert>
 	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.ObjectCode">
 	   		<param name="include" value="chartOfAccountCode,financialObjectCode,universityFiscalYear,financialObjectCodeName,financialObjectCodeShortName,financialObjectActiveCode,financialObjectLevelCode,financialObjectLevel,financialObjectTypeCode,financialObjectSubTypeCode,financialObjectType" />

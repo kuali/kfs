@@ -16,16 +16,26 @@
 package org.kuali.kfs.coa.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.bo.GlobalBusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobalDetail;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class provides some specific functionality for the {@link ObjectCodeGlobal} maintenance document refresh - sets the current
@@ -104,7 +114,8 @@ public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImp
     public List<MaintenanceLock> generateMaintenanceLocks() {
         ObjectCodeGlobal objectCodeGlobal = (ObjectCodeGlobal) getBusinessObject();
         List<MaintenanceLock> maintenanceLocks = new ArrayList();
-
+        SubObjectTrickleDownInactivationService subObjectTrickleDownInactivationService = SpringContext.getBean(SubObjectTrickleDownInactivationService.class);
+        
         for (ObjectCodeGlobalDetail detail : objectCodeGlobal.getObjectCodeGlobalDetails()) {
             MaintenanceLock maintenanceLock = new MaintenanceLock();
             StringBuffer lockrep = new StringBuffer();
@@ -120,7 +131,97 @@ public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImp
             maintenanceLock.setDocumentNumber(objectCodeGlobal.getDocumentNumber());
             maintenanceLock.setLockingRepresentation(lockrep.toString());
             maintenanceLocks.add(maintenanceLock);
+            
+            ObjectCode objectCode = new ObjectCode();
+            objectCode.setUniversityFiscalYear(detail.getUniversityFiscalYear());
+            objectCode.setChartOfAccountsCode(detail.getChartOfAccountsCode());
+            objectCode.setFinancialObjectCode(detail.getFinancialObjectCode());
+            objectCode.setActive(objectCodeGlobal.isFinancialObjectActiveIndicator());
+            
+            if (isInactivatingObjectCode(objectCode)) {
+                // if it turns out that the object code does not have associated sub-objects (either because the object code doesn't exist or doesn't have sub-objects)
+                // then the generateTrickleDownMaintenanceLocks method returns an empty list 
+                maintenanceLocks.addAll(subObjectTrickleDownInactivationService.generateTrickleDownMaintenanceLocks(objectCode, documentNumber));
+            }
         }
         return maintenanceLocks;
+    }
+    
+    /**
+     * @see org.kuali.core.maintenance.Maintainable#saveBusinessObject()
+     */
+    @Override
+    public void saveBusinessObject() {
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        
+        GlobalBusinessObject gbo = (GlobalBusinessObject) businessObject;
+
+        // delete any indicated BOs
+        List<PersistableBusinessObject> bosToDeactivate = gbo.generateDeactivationsToPersist();
+        if (bosToDeactivate != null) {
+            if (!bosToDeactivate.isEmpty()) {
+                boService.save(bosToDeactivate);
+            }
+        }
+        
+        // OJB caches the any ObjectCodes that are retrieved from the database.  If multiple queries return the same row (identified by the PK
+        // values), OJB will return the same instance of the ObjectCode.  However, in generateGlobalChangesToPersist(), the ObjectCode returned by
+        // OJB is altered, meaning that any subsequent OJB calls will return the altered object.  The following cache will store the active statuses
+        // of object codes affected by this global document before generateGlobalChangesToPersist() alters them.
+        Map<String, Boolean> objectCodeActiveStatusCache = buildObjectCodeActiveStatusCache((ObjectCodeGlobal) gbo);
+        
+        SubObjectTrickleDownInactivationService subObjectTrickleDownInactivationService = SpringContext.getBean(SubObjectTrickleDownInactivationService.class);
+        // persist any indicated BOs
+        List<PersistableBusinessObject> bosToPersist = gbo.generateGlobalChangesToPersist();
+        if (bosToPersist != null) {
+            if (!bosToPersist.isEmpty()) {
+                for (PersistableBusinessObject bo : bosToPersist) {
+                    ObjectCode objectCode = (ObjectCode) bo;
+                    
+                    boService.save(objectCode);
+                    
+                    if (isInactivatingObjectCode(objectCode, objectCodeActiveStatusCache)) {
+                        subObjectTrickleDownInactivationService.trickleDownInactivateSubObjects(objectCode, documentNumber);
+                    }
+                }
+            }
+        }
+    }
+    
+    protected boolean isInactivatingObjectCode(ObjectCode objectCode) {
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+        if (!objectCode.isActive()) {
+            ObjectCode objectCodeFromDB = objectCodeService.getByPrimaryId(objectCode.getUniversityFiscalYear(), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode());
+            if (objectCodeFromDB != null && objectCodeFromDB.isActive()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    protected boolean isInactivatingObjectCode(ObjectCode objectCode, Map<String, Boolean> objectCodeActiveStatusCache) {
+        if (!objectCode.isActive()) {
+            if (Boolean.TRUE.equals(objectCodeActiveStatusCache.get(buildObjectCodeCachingKey(objectCode)))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    protected String buildObjectCodeCachingKey(ObjectCode objectCode) {
+        return objectCode.getUniversityFiscalYear() + KNSConstants.Maintenance.AFTER_VALUE_DELIM + objectCode.getChartOfAccountsCode() + 
+                KNSConstants.Maintenance.AFTER_VALUE_DELIM + objectCode.getFinancialObjectCode(); 
+    }
+    
+    protected Map<String, Boolean> buildObjectCodeActiveStatusCache(ObjectCodeGlobal objectCodeGlobal) {
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+        Map<String, Boolean> cache = new HashMap<String, Boolean>();
+        for (ObjectCodeGlobalDetail detail : objectCodeGlobal.getObjectCodeGlobalDetails()) {
+            ObjectCode objectCodeFromDB = objectCodeService.getByPrimaryId(detail.getUniversityFiscalYear(), detail.getChartOfAccountsCode(), objectCodeGlobal.getFinancialObjectCode());
+            if (ObjectUtils.isNotNull(objectCodeFromDB)) {
+                cache.put(buildObjectCodeCachingKey(objectCodeFromDB), Boolean.valueOf(objectCodeFromDB.isActive()));
+            }
+        }
+        return cache;
     }
 }

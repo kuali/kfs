@@ -507,7 +507,6 @@ public class KFSPropertyConstants {
     public static final String FIN_ACCOUNTS_RECEIVABLE_OBJ = "finAccountsReceivableObj";
     public static final String FIN_ACCOUNTS_RECEIVABLE_OBJ_CODE = "finAccountsReceivableObjCode";
     public static final String FIN_BALANCE_TYPE_ENCUM_INDICATOR = "finBalanceTypeEncumIndicator";
-    public static final String FIN_CHART_OF_ACCOUNT_ACTIVE_INDICATOR = "finChartOfAccountActiveIndicator";
     public static final String FIN_CHART_OF_ACCOUNT_DESCRIPTION = "finChartOfAccountDescription";
     public static final String FIN_COA_MANAGER_UNIVERSAL = "finCoaManagerUniversal";
     public static final String FIN_COA_MANAGER_UNIVERSAL_ID = "finCoaManagerUniversalId";
@@ -609,7 +608,6 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_ICR_SERIES_IDENTIFIER = "financialIcrSeriesIdentifier";
     public static final String FINANCIAL_LEVEL_SORT_CODE = "financialLevelSortCode";
     public static final String FINANCIAL_OBJECT = "financialObject";
-    public static final String FINANCIAL_OBJECT_ACTIVE_CODE = "financialObjectActiveCode";
     public static final String FINANCIAL_OBJECT_CHART_OF_ACCOUNT = "financialObjectChartOfAccount";
     public static final String FINANCIAL_OBJECT_CHART_OF_ACCOUNT_CODE = "financialObjectChartOfAccountCode";
     public static final String FINANCIAL_OBJECT_CODE = "financialObjectCode";
@@ -617,7 +615,6 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_OBJECT_CODE_SHORT_NAME = "financialObjectCodeShortName";
     public static final String FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE = "financialObjectFringeOrSalaryCode";
     public static final String FINANCIAL_OBJECT_LEVEL = "financialObjectLevel";
-    public static final String FINANCIAL_OBJECT_LEVEL_ACTIVE_INDICATOR = "financialObjectLevelActiveIndicator";
     public static final String FINANCIAL_OBJECT_LEVEL_CODE = "financialObjectLevelCode";
     public static final String FINANCIAL_OBJECT_LEVEL_NAME = "financialObjectLevelName";
     public static final String FINANCIAL_OBJECT_LEVEL_SHORT_NM = "financialObjectLevelShortNm";

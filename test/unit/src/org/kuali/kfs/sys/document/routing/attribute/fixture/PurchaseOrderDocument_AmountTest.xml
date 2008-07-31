@@ -290,7 +290,7 @@
       <organizationLine1Address>FRANKLIN 116</organizationLine1Address>
       <chartOfAccounts>
         <finChartOfAccountDescription>UNIV ADMIN</finChartOfAccountDescription>
-        <finChartOfAccountActiveIndicator>true</finChartOfAccountActiveIndicator>
+        <active>true</active>
         <finCoaManagerUniversalId>1271304676</finCoaManagerUniversalId>
         <reportsToChartOfAccountsCode>IU</reportsToChartOfAccountsCode>
         <chartOfAccountsCode>UA</chartOfAccountsCode>
@@ -483,7 +483,7 @@
         </fundBalanceObject>
         <reportsToChartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b">
           <finChartOfAccountDescription>INDIANA UNIV</finChartOfAccountDescription>
-          <finChartOfAccountActiveIndicator>true</finChartOfAccountActiveIndicator>
+          <active>true</active>
           <finCoaManagerUniversalId>1739701101</finCoaManagerUniversalId>
           <reportsToChartOfAccountsCode>IU</reportsToChartOfAccountsCode>
           <chartOfAccountsCode>IU</chartOfAccountsCode>
@@ -806,7 +806,7 @@
             <incomeStreamAccountNumber>9544900</incomeStreamAccountNumber>
             <chartOfAccounts>
               <finChartOfAccountDescription>BLOOMINGTON</finChartOfAccountDescription>
-              <finChartOfAccountActiveIndicator>true</finChartOfAccountActiveIndicator>
+              <active>true</active>
               <finCoaManagerUniversalId>1872708343</finCoaManagerUniversalId>
               <reportsToChartOfAccountsCode>IU</reportsToChartOfAccountsCode>
               <chartOfAccountsCode>BL</chartOfAccountsCode>
@@ -1262,7 +1262,7 @@
             <accountNumber>0211909</accountNumber>
             <financialObjectCode>0646</financialObjectCode>
             <chart>
-              <finChartOfAccountActiveIndicator>false</finChartOfAccountActiveIndicator>
+              <active>false</active>
               <newCollectionRecord>false</newCollectionRecord>
               <boNotes/>
             </chart>

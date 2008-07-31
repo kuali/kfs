@@ -20,6 +20,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.kuali.core.service.impl.InactivationBlockingDetectionServiceImpl;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
 import org.kuali.rice.resourceloader.SpringBeanFactoryResourceLoader;
 
@@ -49,6 +50,9 @@ public class FinancialSystemResourceLoader extends SpringBeanFactoryResourceLoad
             return fetchKualiLookupable(serviceName);
         }
         else if (serviceName.getLocalPart().indexOf("Lookupable") > -1) {
+            return super.getService(serviceName);
+        }
+        else if (serviceName.getLocalPart().contains("InactivationBlockingDetectionService")) {
             return super.getService(serviceName);
         }
         return null;

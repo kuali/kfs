@@ -115,7 +115,7 @@
               p:name="finChartOfAccountDescription"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="finChartOfAccountActiveIndicator" />
+              p:name="active" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialCashObjectCode" />
         <bean parent="MaintainableFieldDefinition"

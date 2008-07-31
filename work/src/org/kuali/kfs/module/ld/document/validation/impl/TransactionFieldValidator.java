@@ -62,7 +62,7 @@ public class TransactionFieldValidator {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_CHART_NOT_FOUND, chartOfAccountsCode, Message.TYPE_FATAL);
         }
 
-        if (!transaction.getChart().isFinChartOfAccountActiveIndicator()) {
+        if (!transaction.getChart().isActive()) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_CHART_NOT_ACTIVE, chartOfAccountsCode, Message.TYPE_FATAL);
         }
         return null;

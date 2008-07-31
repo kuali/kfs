@@ -130,6 +130,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </dd:relationship>
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="chartOfAccounts"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

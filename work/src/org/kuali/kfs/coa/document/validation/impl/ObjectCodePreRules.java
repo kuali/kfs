@@ -87,7 +87,7 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
         // If Object Level is inactive, ask user confirmation question
         ObjLevel financialObjectLevel = objectLevelService.getByPrimaryId(chart, newObjectCode.getFinancialObjectLevelCode());
         if (!(financialObjectLevel == null)) {
-            if (!financialObjectLevel.isFinancialObjectLevelActiveIndicator()) {
+            if (!financialObjectLevel.isActive()) {
                 String objectLevelChartOfAccountCode = financialObjectLevel.getChartOfAccountsCode();
                 String objectLevelFinancialObjectLevelCode = financialObjectLevel.getFinancialObjectLevelCode();
                 String objectLevelFinancialObjectLevelName = financialObjectLevel.getFinancialObjectLevelName();

@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
@@ -27,14 +28,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 /**
  * 
  */
-public class ObjLevel extends PersistableBusinessObjectBase {
+public class ObjLevel extends PersistableBusinessObjectBase implements Inactivateable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjLevel.class);
 
     private String chartOfAccountsCode;
     private String financialObjectLevelCode;
     private String financialObjectLevelName;
     private String financialObjectLevelShortNm;
-    private boolean financialObjectLevelActiveIndicator;
+    private boolean active;
     private String financialReportingSortCode;
     private String financialConsolidationObjectCode;
 
@@ -109,8 +110,8 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * 
      * @return Returns the financialObjectLevelActiveIndicator
      */
-    public boolean isFinancialObjectLevelActiveIndicator() {
-        return financialObjectLevelActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
@@ -118,8 +119,8 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * 
      * @param financialObjectLevelActiveIndicator The financialObjectLevelActiveIndicator to set.
      */
-    public void setFinancialObjectLevelActiveIndicator(boolean financialObjectLevelActiveIndicator) {
-        this.financialObjectLevelActiveIndicator = financialObjectLevelActiveIndicator;
+    public void setActive(boolean financialObjectLevelActiveIndicator) {
+        this.active = financialObjectLevelActiveIndicator;
     }
 
     /**

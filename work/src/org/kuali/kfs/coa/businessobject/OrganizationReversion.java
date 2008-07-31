@@ -53,7 +53,7 @@ public class OrganizationReversion extends PersistableBusinessObjectBase {
     public OrganizationReversion() {
         organizations = new TypedArrayList(Org.class);
         organizationReversionDetail = new TypedArrayList(OrganizationReversionDetail.class);
-    }
+    }   
 
     public List<OrganizationReversionDetail> getOrganizationReversionDetail() {
         return organizationReversionDetail;

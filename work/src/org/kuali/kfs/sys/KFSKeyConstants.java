@@ -962,4 +962,11 @@ public class KFSKeyConstants {
         public static final String CLOSE_ON_OR_BEFORE_DATE_TOO_LATE = "error.cg.closeOnOrBeforeDateTooLate";
     }
     
+    public static final String SUB_ACCOUNT_TRICKLE_DOWN_INACTIVATION = "note.trickleDownInactivation.inactivatedSubAccounts";
+    public static final String SUB_ACCOUNT_TRICKLE_DOWN_INACTIVATION_ERROR_DURING_PERSISTENCE = "note.trickleDownInactivation.inactivatedSubAccounts.errorDuringPersistence";
+    public static final String SUB_ACCOUNT_TRICKLE_DOWN_INACTIVATION_RECORD_ALREADY_MAINTENANCE_LOCKED = "note.trickleDownInactivation.inactivatedSubAccounts.recordAlreadyMaintenanceLocked";
+    
+    public static final String SUB_OBJECT_TRICKLE_DOWN_INACTIVATION = "note.trickleDownInactivation.inactivatedSubObjects";
+    public static final String SUB_OBJECT_TRICKLE_DOWN_INACTIVATION_ERROR_DURING_PERSISTENCE = "note.trickleDownInactivation.inactivatedSubObjects.errorDuringPersistence";
+    public static final String SUB_OBJECT_TRICKLE_DOWN_INACTIVATION_RECORD_ALREADY_MAINTENANCE_LOCKED = "note.trickleDownInactivation.inactivatedSubObjects.recordAlreadyMaintenanceLocked";
 }

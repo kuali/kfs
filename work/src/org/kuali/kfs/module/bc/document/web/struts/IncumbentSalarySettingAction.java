@@ -65,8 +65,7 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
 
         incumbentSalarySettingForm.setBudgetConstructionIntendedIncumbent(budgetConstructionIntendedIncumbent);
         if (incumbentSalarySettingForm.isSingleAccountMode()) {
-            // TODO: Single account mode constrains the funding lines displayed to only those that are associated with the document
-            // the user has open.
+            incumbentSalarySettingForm.pickAppointmentFundingsForSingleAccount();
         }
         
         //acquire position and funding locks for the associated funding lines

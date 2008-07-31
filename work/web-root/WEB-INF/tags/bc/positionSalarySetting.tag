@@ -37,6 +37,8 @@
 		<bc:positionInfo/>
 	</div>
 </kul:tabTop>
+
+singleAccountMode : ${KualiForm.singleAccountMode }
     
 <kul:tab tabTitle="Position Funding" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_POSITION_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align="center">

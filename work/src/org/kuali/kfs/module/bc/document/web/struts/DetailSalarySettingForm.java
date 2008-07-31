@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -32,6 +33,7 @@ import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
@@ -39,6 +41,7 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -107,7 +110,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     /**
      * acquire position and funding locks for the given appointment funding
      */
-    public boolean acquirePositionAndFundingLocks() {         
+    public boolean acquirePositionAndFundingLocks() {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             boolean gotLocks = this.acquirePositionAndFundingLocks(appointmentFunding);
@@ -128,7 +131,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public boolean acquirePositionAndFundingLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("acquirePositionAndFundingLocks() started");
-        
+
         try {
             SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
 
@@ -276,6 +279,38 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
 
         return appointmentFunding;
+    }
+
+    /**
+     * pick up the appointment fundings belonging to the specified account from a collection of fundings that are associated with a
+     * position/incumbent.
+     */
+    public void pickAppointmentFundingsForSingleAccount() {
+        List<PendingBudgetConstructionAppointmentFunding> excludedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();        
+        List<String> keyFields = this.getComparableFields();
+
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getAppointmentFundings()) {              
+            if (!ObjectUtil.equals(appointmentFunding, this, keyFields)) {
+                excludedFundings.add(appointmentFunding);
+            }
+        }
+
+        this.getAppointmentFundings().removeAll(excludedFundings);
+    }
+
+    /**
+     * get the names of comparable fields that are considered to determine a single account, that is, the fundings are considered
+     * being assocated with the given account if they have the same values of the fields as specified.
+     */
+    private List<String> getComparableFields() {
+        List<String> comparableFields = new ArrayList<String>();        
+        comparableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        comparableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        comparableFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        comparableFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        comparableFields.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+
+        return comparableFields;
     }
 
     /**

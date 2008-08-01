@@ -76,7 +76,7 @@
 
   <bean id="AssetGlobalMaintenanceDocument-AssetInformation" parent="AssetGlobalMaintenanceDocument-AssetInformation-parentBean" />
   <bean id="AssetGlobalMaintenanceDocument-AssetInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Asset Information" />
+    <property name="id" value="assetInformation" />
     <property name="title" value="Asset Information" />
     <property name="maintainableItems" >
       <list>

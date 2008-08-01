@@ -93,7 +93,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         List<Section> sections = super.getCoreSections(oldMaintainable);
 
         Asset asset = (Asset) getBusinessObject();
-        if (KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
+        if (isAssetFabrication()) {
             // fabrication request asset creation. Hide sections that are only applicable to asset edit. For fields
             // that are to be hidden for asset edit, see AssetAuthorizer.getFieldAuthorizations
             for (Section section : sections) {
@@ -130,6 +130,14 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         return sections;
     }
 
+    /**
+     * Checks if the maintainable is for asset fabrication as opposed "create new".
+     * @return
+     */
+    private boolean isAssetFabrication() {
+        return KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction());
+    }
+    
     /**
      * This method gets old and new maintainable objects and creates convenience handles to them
      * 

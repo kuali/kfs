@@ -249,7 +249,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         // hide "Asset Information" section if doc is not "Asset Separate"
         if (!assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             for (Section section : sections) {
-                if (CamsConstants.AssetGlobal.SECTION_ASSET_INFORMATION.equals(section.getSectionId())) {
+                if (CamsConstants.AssetGlobal.SECTION_ID_ASSET_INFORMATION.equals(section.getSectionId())) {
                     section.setHidden(true);
                 }
             }

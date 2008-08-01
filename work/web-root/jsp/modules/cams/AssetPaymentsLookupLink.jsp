@@ -13,6 +13,10 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%@ page import="org.kuali.rice.kns.util.KNSConstants"%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<cams:assetPaymentsLookupLink capitalAssetNumber="${KualiForm.document.oldMaintainableObject.businessObject.capitalAssetNumber}" isTransactionalDocument="false"/> 
+<!-- Make sure it isn't a fabrication -->
+<c:if test="${Constants.MAINTENANCE_NEW_ACTION != KualiForm.document.oldMaintainableObject.maintenanceAction}">
+  <cams:assetPaymentsLookupLink capitalAssetNumber="${KualiForm.document.oldMaintainableObject.businessObject.capitalAssetNumber}" isTransactionalDocument="false"/> 
+</c:if>

@@ -161,6 +161,9 @@
 	<reference-descriptor name="documentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentTypeCode"/>
 	</reference-descriptor>
+	<collection-descriptor name="purchasingAccountsPayableItemAssets" element-class-ref="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+		<inverse-foreignkey field-ref="documentNumber" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount" table="CB_PUR_LN_AST_ACCT_T">
@@ -201,7 +204,12 @@
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />
 	</reference-descriptor>
-	<collection-descriptor name="PurchasingAccountsPayableAssetDetails" element-class-ref="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableAssetDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+	<collection-descriptor name="purchasingAccountsPayableAssetDetails" element-class-ref="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableAssetDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+		<inverse-foreignkey field-ref="documentNumber" />
+		<inverse-foreignkey field-ref="accountsPayableLineItemIdentifier" />
+		<inverse-foreignkey field-ref="capitalAssetBuilderLineNumber" />
+	</collection-descriptor>
+	<collection-descriptor name="purchasingAccountsPayableLineAssetAccounts" element-class-ref="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
 		<inverse-foreignkey field-ref="documentNumber" />
 		<inverse-foreignkey field-ref="accountsPayableLineItemIdentifier" />
 		<inverse-foreignkey field-ref="capitalAssetBuilderLineNumber" />

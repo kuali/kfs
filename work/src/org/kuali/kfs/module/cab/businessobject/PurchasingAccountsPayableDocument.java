@@ -1,9 +1,12 @@
 package org.kuali.kfs.module.cab.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 
 /**
@@ -20,11 +23,15 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     // References
     private DocumentType documentType;
     private FinancialSystemDocumentHeader documentHeader;
+    private List<PurchasingAccountsPayableItemAsset> purchasingAccountsPayableItemAssets;
 
+    public PurchasingAccountsPayableDocument() {
+        this.purchasingAccountsPayableItemAssets = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
+    }
+    
     // non-persistent
-    private Integer universityFiscalYear;
-    private String chartOfAccountsCode;
-    private String accountNumber;
+    private String purApContactEmailAddress;
+    private String purApContactPhoneNumber;
 
     public String getDocumentNumber() {
         return documentNumber;
@@ -81,29 +88,30 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
     }
-
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
+    
+    public List<PurchasingAccountsPayableItemAsset> getPurchasingAccountsPayableItemAssets() {
+        return purchasingAccountsPayableItemAssets;
+    }
+    
+    public void setPurchasingAccountsPayableItemAssets(List<PurchasingAccountsPayableItemAsset> purchasingAccountsPayableItemAssets) {
+        this.purchasingAccountsPayableItemAssets = purchasingAccountsPayableItemAssets;
     }
 
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
+    
+    public String getPurApContactEmailAddress() {
+        return purApContactEmailAddress;
     }
 
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
+    public void setPurApContactEmailAddress(String purApContactEmailAddress) {
+        this.purApContactEmailAddress = purApContactEmailAddress;
     }
 
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
+    public String getPurApContactPhoneNumber() {
+        return purApContactPhoneNumber;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setPurApContactPhoneNumber(String purApContactPhoneNumber) {
+        this.purApContactPhoneNumber = purApContactPhoneNumber;
     }
 
     /**

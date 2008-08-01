@@ -114,6 +114,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         List<Section> sections = super.getCoreSections(oldMaintainable);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
 
+        // If retirement reason code is not defined in NON_VIEWABLE_SECTION_MAP, hide all retirement detail sections.
         String[] nonViewableSections = NON_VIEWABLE_SECTION_MAP.get(assetRetirementGlobal.getRetirementReasonCode());
 
         if (nonViewableSections == null) {

@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 
@@ -25,9 +26,23 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private String capitalAssetManagementDocumentNumber;
 
     private AssetType capitalAssetType;
-    private List<PurchasingAccountsPayableAssetDetail> PurchasingAccountsPayableAssetDetail;
+    private List<PurchasingAccountsPayableAssetDetail> purchasingAccountsPayableAssetDetail;
+    private List<PurchasingAccountsPayableLineAssetAccount> purchasingAccountsPayableLineAssetAccounts;
     
     
+    public PurchasingAccountsPayableItemAsset() {
+        this.purchasingAccountsPayableAssetDetail = new TypedArrayList(PurchasingAccountsPayableAssetDetail.class);
+        this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
+    }
+    
+    public List<PurchasingAccountsPayableLineAssetAccount> getPurchasingAccountsPayableLineAssetAccounts() {
+        return purchasingAccountsPayableLineAssetAccounts;
+    }
+
+    public void setPurchasingAccountsPayableLineAssetAccounts(List<PurchasingAccountsPayableLineAssetAccount> purchasingAccountsPayableLineAssetAccounts) {
+        this.purchasingAccountsPayableLineAssetAccounts = purchasingAccountsPayableLineAssetAccounts;
+    }
+
     /**
      * Gets the documentNumber attribute. 
      * @return Returns the documentNumber.
@@ -97,7 +112,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * @return Returns the purchasingAccountsPayableAssetDetail.
      */
     public List<PurchasingAccountsPayableAssetDetail> getPurchasingAccountsPayableAssetDetail() {
-        return PurchasingAccountsPayableAssetDetail;
+        return purchasingAccountsPayableAssetDetail;
     }
 
     /**
@@ -105,7 +120,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * @param purchasingAccountsPayableAssetDetail The purchasingAccountsPayableAssetDetail to set.
      */
     public void setPurchasingAccountsPayableAssetDetail(List<PurchasingAccountsPayableAssetDetail> purchasingAccountsPayableAssetDetail) {
-        PurchasingAccountsPayableAssetDetail = purchasingAccountsPayableAssetDetail;
+       this.purchasingAccountsPayableAssetDetail = purchasingAccountsPayableAssetDetail;
     }
 
     /**

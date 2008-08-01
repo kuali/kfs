@@ -223,6 +223,9 @@
 		<!-- KFS incident report  -->
 		<form-bean name="KualiExceptionIncidentForm" type="org.kuali.core.web.struts.form.KualiExceptionIncidentForm" />
 		
+		<!-- CAB Module Bean Definitions -->
+		<form-bean name="PurApLineForm"
+			type="org.kuali.kfs.module.cab.document.web.struts.PurApLineForm" />
 	</form-beans>
 
 	<global-exceptions>
@@ -391,6 +394,15 @@
 			attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/cams/{1}.jsp" />
+		</action>
+		
+		<action path="/cab*" name="{1}Form"
+			input="/jsp/modules/cab/{1}.jsp"
+			type="org.kuali.kfs.module.cab.document.web.struts.{1}Action"
+			scope="request" parameter="methodToCall" validate="true"
+			attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/modules/cab/{1}.jsp" />
 		</action>
 
 		<action path="/financial*" name="{1}Form"

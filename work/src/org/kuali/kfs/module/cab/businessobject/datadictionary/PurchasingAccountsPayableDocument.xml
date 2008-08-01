@@ -22,9 +22,8 @@
         <ref bean="PurchasingAccountsPayableDocument-active" />
         <ref bean="PurchasingAccountsPayableDocument-documentTypeCode" />
         <ref bean="PurchasingAccountsPayableDocument-versionNumber" />
-        <ref bean="PurchasingAccountsPayableDocument-universityFiscalYear" />
-        <ref bean="PurchasingAccountsPayableDocument-chartOfAccountsCode" />
-        <ref bean="PurchasingAccountsPayableDocument-accountNumber" />
+        <ref bean="PurchasingAccountsPayableDocument-purApContactEmailAddress" />
+        <ref bean="PurchasingAccountsPayableDocument-purApContactPhoneNumber" />
       </list>
     </property>
   </bean>
@@ -64,22 +63,20 @@
   <bean id="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
   	<property name="name" value="documentTypeCode" />
   </bean>
-  <bean id="PurchasingAccountsPayableDocument-universityFiscalYear" parent="PurchasingAccountsPayableDocument-universityFiscalYear-parentBean" />
+  <bean id="PurchasingAccountsPayableDocument-purApContactEmailAddress" parent="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean" />
 
-  <bean id="PurchasingAccountsPayableDocument-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-  	<property name="name" value="universityFiscalYear" />
+  <bean id="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
+    <property name="name" value="purApContactEmailAddress" />
+    <property name="label" value="Email Address" />
+    <property name="shortLabel" value="Address" />
   </bean>
-  <bean id="PurchasingAccountsPayableDocument-chartOfAccountsCode" parent="PurchasingAccountsPayableDocument-chartOfAccountsCode-parentBean" />
+  <bean id="PurchasingAccountsPayableDocument-purApContactPhoneNumber" parent="PurchasingAccountsPayableDocument-purApContactPhoneNumber-parentBean" />
 
-  <bean id="PurchasingAccountsPayableDocument-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  	<property name="name" value="chartOfAccountsCode" />
+  <bean id="PurchasingAccountsPayableDocument-purApContactPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+    <property name="name" value="purApContactPhoneNumber" />
+    <property name="label" value="Phone" />
+    <property name="shortLabel" value="Number" />
   </bean>
-  <bean id="PurchasingAccountsPayableDocument-accountNumber" parent="PurchasingAccountsPayableDocument-accountNumber-parentBean" />
-
-  <bean id="PurchasingAccountsPayableDocument-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  	<property name="name" value="accountNumber" />
-  </bean>
-  
 <!-- Business Object Inquiry Definition -->
   <bean id="PurchasingAccountsPayableDocument-inquiryDefinition" parent="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean" />
 
@@ -134,12 +131,6 @@
               p:attributeName="purapDocumentIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber"  />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear"  />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode"  />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber"  />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

@@ -17,31 +17,37 @@ package org.kuali.kfs.module.cab.businessobject.lookup;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
+import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This class overrids the base getActionUrls method
  */
-public class CabPurApDocumentLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CabPurApDocumentLookupableHelperServiceImpl.class);
+public class CabGlEntryLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CabGlEntryLookupableHelperServiceImpl.class);
 
     /**
-     * Custom action urls for CAB invoice lines.
+     * Custom action urls for CAB PurAp lines.
      * 
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
      */
     @Override
     public String getActionUrls(BusinessObject bo) {
-        StringBuffer actions = new StringBuffer();
+        PurchasingAccountsPayableDocument purApDoc = (PurchasingAccountsPayableDocument) bo;
 
-        return actions.toString();
+        return "";
     }
 
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        // TODO Auto-generated method stub
-        return super.getSearchResults(fieldValues);
-    }
 }

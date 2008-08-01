@@ -127,14 +127,24 @@
 		<!--  it will run every day at 7 AM -->
 		<property name="cronExpression" value="0 0 7 ? * *" />
 	</bean>	
+	
 <!-- **** Begin of Lookupable beans **** -->
-	<bean id="cabPurApDocumentLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.CabPurApDocumentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+	<bean id="purApDocumentLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.PurApDocumentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
     </bean>
 
     <bean id="cabPurApDocumentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
-            <ref bean="cabPurApDocumentLookupableHelperService" />
+            <ref bean="purApDocumentLookupableHelperService" />
         </property>
     </bean>
+	<bean id="cabGlEntryLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.CabGlEntryLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+    </bean>
+
+    <bean id="cabGlEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="cabGlEntryLookupableHelperService" />
+        </property>
+    </bean>
+    
 <!-- **** End of Lookupable beans **** -->
 </beans>

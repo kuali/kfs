@@ -49,4 +49,8 @@ public class CabPropertyConstants {
         public static final String TRANSACTION_DATE_TIME_STAMP = "transactionDateTimeStamp";
         public static final String DOCUMENT_NUMBER = "documentNumber";
     }
+    
+    public static class PurchasingAccountsPayableDocument {
+        public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";
+    }
 }

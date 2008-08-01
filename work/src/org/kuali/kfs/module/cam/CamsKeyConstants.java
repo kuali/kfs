@@ -194,5 +194,6 @@ public class CamsKeyConstants {
         public static final String ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_NUMBER_REQUIRED = "error.expenditure.financial.document.number.required";
         public static final String ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_TYPE_CODE_REQUIRED = "error.expenditure.financial.document.type.code.required";
         public static final String ERROR_FINANCIAL_DOCUMENT_POSTING_YEAR_REQUIRED = "error.financial.document.posting.year.required";
+        public static final String ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE = "error.university.not.defined.for.date";
     }
 }

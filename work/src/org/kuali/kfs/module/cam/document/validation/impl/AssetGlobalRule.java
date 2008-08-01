@@ -43,6 +43,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.document.AssetGlobalMaintainableImpl;
 import org.kuali.kfs.module.cam.document.gl.AssetGlobalGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
@@ -342,11 +343,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_DATE, assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
         UniversityDate universityDate = (UniversityDate) boService.findByPrimaryKey(UniversityDate.class, primaryKeys);
         if (universityDate == null) {
-            throw new ValidationException("University has not defined for date - " + assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
+           GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE, new String[] { assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().toString() });
+           valid = false;          
+        } else {
+            assetPaymentDetail.setFinancialDocumentPostingYear(universityDate.getUniversityFiscalYear());
+            assetPaymentDetail.setFinancialDocumentPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
         }
-        assetPaymentDetail.setFinancialDocumentPostingYear(universityDate.getUniversityFiscalYear());
-        assetPaymentDetail.setFinancialDocumentPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
-
         return valid;
     }
 

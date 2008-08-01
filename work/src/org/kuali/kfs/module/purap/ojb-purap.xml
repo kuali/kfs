@@ -2828,8 +2828,6 @@
     <field-descriptor name="itemUnitPrice" column="ITM_UNIT_PRC" jdbc-type="DECIMAL"/>
     <field-descriptor name="purchaseOrderItemUnitPrice" column="PO_ITM_UNIT_PRC" jdbc-type="DECIMAL"/>
     <field-descriptor name="extendedPrice" column="ITM_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-    <field-descriptor name="capitalAssetTransactionTypeCode" column="CPTL_AST_TRN_TYP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="itemCapitalAssetNoteText" column="ITM_CPTL_AST_NTE_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="itemOutstandingInvoiceQuantity" column="ITM_OSTND_INV_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="itemOutstandingInvoiceAmount" column="ITM_OSTND_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" /> 
@@ -3000,8 +2998,8 @@
 
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderDeliveryCampusCode" column="PO_DLVY_CMP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceLoadSummaryIdentifier" column="INV_LOAD_SUM_ID" jdbc-type="BIGINT" index="true"/>   
-             
+    <field-descriptor name="invoiceLoadSummaryIdentifier" column="INV_LOAD_SUM_ID" jdbc-type="BIGINT" index="true"/>
+    
     <field-descriptor name="vendorDunsNumber" column="VNDR_DUNS_NBR" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -3017,9 +3015,10 @@
       
     <field-descriptor name="invoiceFileDate" column="INV_FL_DT" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceFileName" column="INV_FL_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceFileNumber" column="INV_FL_NBR" jdbc-type="VARCHAR"/>    
+    <field-descriptor name="invoiceFileNumber" column="INV_FL_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceFilePurposeIdentifier" column="INV_FL_PRPS_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceFileOperationIdentifier" column="INV_FL_OPRN_ID" jdbc-type="VARCHAR"/>
+    
     <field-descriptor name="invoiceFileDeploymentModeValue" column="INV_FL_DPLMNT_MODE_VAL" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceFileHeaderTypeIndicator" column="INV_FL_HDR_TYP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="invoiceFileInformationOnlyIndicator" column="INV_FL_INFO_ONLY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
@@ -3027,7 +3026,6 @@
     <field-descriptor name="invoiceFileSpecialHandlingInLineIndicator" column="INV_FL_SPCL_HANDLG_IN_LN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="invoiceFileShippingInLineIndicator" column="INV_FL_SHP_IN_LN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="invoiceFileDiscountInLineIndicator" column="INV_FL_DSCT_IN_LN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    
     <field-descriptor name="invoiceOrderReferenceOrderIdentifier" column="INV_ORD_REF_ORD_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceOrderReferenceDocumentReferencePayloadIdentifier" column="INV_ORD_REF_DOC_REF_PYLD_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceOrderReferenceDocumentReferenceText" column="INV_ORD_REF_DOC_REF_TXT" jdbc-type="VARCHAR"/>
@@ -3055,8 +3053,8 @@
     <field-descriptor name="invoiceItemTaxAmount" column="INV_ITM_TAX_AMT" jdbc-type="DECIMAL"/>
     <field-descriptor name="invoiceItemTaxCurrencyCode" column="INV_ITM_TAX_CRNCY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceItemTaxDescription" column="INV_ITM_TAX_DESC" jdbc-type="VARCHAR"/>
-    
-	<field-descriptor name="invoiceShipToAddressType" column="INV_SHP_TO_ADDR_TYP_NM" jdbc-type="VARCHAR"/>
+
+	  <field-descriptor name="invoiceShipToAddressType" column="INV_SHP_TO_ADDR_TYP_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceShipToAddressName" column="INV_ADDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceShipToAddressLine1" column="INV_SHP_TO_LN1_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceShipToAddressLine2" column="INV_SHP_TO_LN2_ADDR" jdbc-type="VARCHAR"/>
@@ -3068,9 +3066,9 @@
     <field-descriptor name="invoiceShipToAddressCountryName" column="INV_SHP_TO_CNTRY_NM" jdbc-type="VARCHAR"/>
 	
     <field-descriptor name="invoiceBillToAddressType" column="INV_BILL_TO_ADDR_TYP_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="invoiceBillToAddressName" column="INV_BILL_TO_ADDR_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="invoiceBillToAddressLine1" column="INV_BILL_TO_LN1_ADDR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="invoiceBillToAddressLine2" column="INV_BILL_TO_LN2_ADDR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="invoiceBillToAddressName" column="INV_BILL_TO_ADDR_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="invoiceBillToAddressLine1" column="INV_BILL_TO_LN1_ADDR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="invoiceBillToAddressLine2" column="INV_BILL_TO_LN2_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceBillToAddressLine3" column="INV_BILL_TO_LN3_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceBillToAddressCityName" column="INV_BILL_TO_CTY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceBillToAddressStateCode" column="INV_BILL_TO_ST_CD" jdbc-type="VARCHAR"/>
@@ -3089,7 +3087,7 @@
     <field-descriptor name="invoiceRemitToAddressCountryCode" column="INV_RMT_TO_CNTRY_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="invoiceRemitToAddressCountryName" column="INV_RMT_TO_CNTRY_NM" jdbc-type="VARCHAR"/>
 
-	<!-- 
+		<!-- 
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -4028,7 +4026,7 @@
    	<field-descriptor name="capitalAssetTransactionTypeCode" column="CPTL_AST_TRN_TYP_CD" jdbc-type="VARCHAR" index="true"/>
  	<field-descriptor name="capitalAssetSystemIdentifier" column="CPTL_AST_SYS_ID" jdbc-type="INTEGER" index="true"/>  	
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>    
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/> 
     <reference-descriptor name="purchasingDocument" class-ref="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>       

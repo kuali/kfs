@@ -95,4 +95,13 @@
    			<ref bean="customerAddressService" />
    		</property>
    	</bean> 
+   	
+   	<bean id="CustomerInvoice-detailSystemInformationDiscountValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailSystemInformationDiscountValidation" abstract="true" >
+   		<property name="businessObjectService" >
+   			<ref bean="businessObjectService"/>
+   		</property>
+   		<property name="universityDateService" >
+   			<ref bean="universityDateService"/>
+   		</property>   		
+   	</bean>   	
 </beans>

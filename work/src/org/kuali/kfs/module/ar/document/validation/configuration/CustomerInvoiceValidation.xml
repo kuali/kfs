@@ -429,6 +429,16 @@
 						</list>
 					</property>	
 				</bean>
+				<bean parent="CustomerInvoice-detailSystemInformationDiscountValidation">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceDocument" />
+							</bean>
+						</list>
+					</property>	
+				</bean>				
 			</list>
 		</property>
 	</bean>	

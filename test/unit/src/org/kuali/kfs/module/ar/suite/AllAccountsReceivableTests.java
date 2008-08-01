@@ -37,6 +37,7 @@ import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailIte
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailItemQuantityValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailParentLessThanDiscountValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailSubFundGroupReceivableValidationTest;
+import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailSystemInformationDiscountValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailUnitOfMeasureValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailUnitPriceValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDueDateValidationTest;
@@ -94,7 +95,8 @@ public class AllAccountsReceivableTests {
         suite.addTestSuite(CustomerInvoiceReceivableFinancialObjectCodeValidationTest.class);
         suite.addTestSuite(CustomerInvoiceReceivableFinancialSubObjectCodeValidationTest.class);
         suite.addTestSuite(CustomerInvoiceReceivableProjectCodeValidationTest.class);
-        suite.addTestSuite(CustomerInvoiceReceivableSubAccountNumberValidationTest.class);  
+        suite.addTestSuite(CustomerInvoiceReceivableSubAccountNumberValidationTest.class);
+        suite.addTestSuite(CustomerInvoiceDetailSystemInformationDiscountValidationTest.class);
         suite.addTestSuite(CustomerCreditMemoDetailServiceTest.class);
         suite.addTestSuite(CustomerCreditMemoDocumentServiceTest.class);
         suite.addTestSuite(CustomerCreditMemoDocumentRuleTest.class);

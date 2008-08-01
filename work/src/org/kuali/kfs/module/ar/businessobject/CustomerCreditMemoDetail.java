@@ -24,7 +24,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     private BigDecimal creditMemoItemQuantity;
     private KualiDecimal creditMemoItemTaxAmount;
     private KualiDecimal creditMemoItemTotalAmount;
-    private KualiDecimal duplicateCreditMemoItemTotalAmount;
+    private KualiDecimal duplicateCreditMemoItemTotalAmount; // not in DB
     private KualiDecimal invoiceLineTotalAmount; // not in DB
     private KualiDecimal creditMemoLineTotalAmount; // not in DB
     private KualiDecimal invoiceOpenItemAmount; //not in DB

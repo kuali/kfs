@@ -76,6 +76,11 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
         this.generalLedgerEntryAssets = new TypedArrayList(GeneralLedgerEntryAsset.class);
     }
 
+    /**
+     * Constructs a GeneralLedgerEntry item from GL line entry
+     * 
+     * @param entry GL Lines
+     */
     public GeneralLedgerEntry(Entry entry) {
         this.generalLedgerEntryAssets = new TypedArrayList(GeneralLedgerEntryAsset.class);
         this.setUniversityFiscalYear(entry.getUniversityFiscalYear());
@@ -99,6 +104,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
         this.setTransactionDebitCreditCode(entry.getTransactionDebitCreditCode());
         this.setOrganizationDocumentNumber(entry.getOrganizationDocumentNumber());
         this.setProjectCode(entry.getProjectCode());
+        this.setTransactionDate(entry.getTransactionDate());
         this.setTransactionPostingDate(entry.getTransactionPostingDate());
         this.setTransactionDateTimeStamp(entry.getTransactionDateTimeStamp());
         this.setActive(true);
@@ -704,17 +710,41 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
         this.active = active;
     }
 
+    /**
+     * Gets the generalLedgerEntryAssets attribute.
+     * 
+     * @return Returns the generalLedgerEntryAssets
+     */
+
     public List<GeneralLedgerEntryAsset> getGeneralLedgerEntryAssets() {
         return generalLedgerEntryAssets;
     }
+
+    /**
+     * Sets the generalLedgerEntryAssets attribute.
+     * 
+     * @param generalLedgerEntryAssets The generalLedgerEntryAssets to set.
+     */
 
     public void setGeneralLedgerEntryAssets(List<GeneralLedgerEntryAsset> generalLedgerEntryAssets) {
         this.generalLedgerEntryAssets = generalLedgerEntryAssets;
     }
 
+    /**
+     * Gets the transactionDate attribute.
+     * 
+     * @return Returns the transactionDate
+     */
+
     public Date getTransactionDate() {
         return transactionDate;
     }
+
+    /**
+     * Sets the transactionDate attribute.
+     * 
+     * @param transactionDate The transactionDate to set.
+     */
 
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;

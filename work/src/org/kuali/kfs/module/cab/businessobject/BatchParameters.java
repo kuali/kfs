@@ -18,6 +18,9 @@ package org.kuali.kfs.module.cab.businessobject;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * Value object to carry the system parameters associated with CAB Batch
+ */
 public class BatchParameters {
     private Timestamp lastRunTime;
     private List<String> excludedChartCodes;
@@ -27,60 +30,141 @@ public class BatchParameters {
     private List<String> excludedDocTypeCodes;
     private List<String> includedFinancialObjectSubTypeCodes;
 
-    public BatchParameters() {
-    }
+    /**
+     * Gets the lastRunTime attribute.
+     * 
+     * @return Returns the lastRunTime
+     */
 
     public Timestamp getLastRunTime() {
         return lastRunTime;
     }
 
+    /**
+     * Sets the lastRunTime attribute.
+     * 
+     * @param lastRunTime The lastRunTime to set.
+     */
+
     public void setLastRunTime(Timestamp lastRunTime) {
         this.lastRunTime = lastRunTime;
     }
+
+    /**
+     * Gets the excludedChartCodes attribute.
+     * 
+     * @return Returns the excludedChartCodes
+     */
 
     public List<String> getExcludedChartCodes() {
         return excludedChartCodes;
     }
 
+    /**
+     * Sets the excludedChartCodes attribute.
+     * 
+     * @param excludedChartCodes The excludedChartCodes to set.
+     */
+
     public void setExcludedChartCodes(List<String> excludedChartCodes) {
         this.excludedChartCodes = excludedChartCodes;
     }
+
+    /**
+     * Gets the excludedSubFundCodes attribute.
+     * 
+     * @return Returns the excludedSubFundCodes
+     */
 
     public List<String> getExcludedSubFundCodes() {
         return excludedSubFundCodes;
     }
 
+    /**
+     * Sets the excludedSubFundCodes attribute.
+     * 
+     * @param excludedSubFundCodes The excludedSubFundCodes to set.
+     */
+
     public void setExcludedSubFundCodes(List<String> excludedSubFundCodes) {
         this.excludedSubFundCodes = excludedSubFundCodes;
     }
+
+    /**
+     * Gets the includedFinancialBalanceTypeCodes attribute.
+     * 
+     * @return Returns the includedFinancialBalanceTypeCodes
+     */
 
     public List<String> getIncludedFinancialBalanceTypeCodes() {
         return includedFinancialBalanceTypeCodes;
     }
 
+    /**
+     * Sets the includedFinancialBalanceTypeCodes attribute.
+     * 
+     * @param includedFinancialBalanceTypeCodes The includedFinancialBalanceTypeCodes to set.
+     */
+
     public void setIncludedFinancialBalanceTypeCodes(List<String> includeFinancialBalanceTypeCodes) {
         this.includedFinancialBalanceTypeCodes = includeFinancialBalanceTypeCodes;
     }
+
+    /**
+     * Gets the excludedFiscalPeriods attribute.
+     * 
+     * @return Returns the excludedFiscalPeriods
+     */
 
     public List<String> getExcludedFiscalPeriods() {
         return excludedFiscalPeriods;
     }
 
+    /**
+     * Sets the excludedFiscalPeriods attribute.
+     * 
+     * @param excludedFiscalPeriods The excludedFiscalPeriods to set.
+     */
+
     public void setExcludedFiscalPeriods(List<String> excludeFiscalPeriods) {
         this.excludedFiscalPeriods = excludeFiscalPeriods;
     }
+
+    /**
+     * Gets the excludedDocTypeCodes attribute.
+     * 
+     * @return Returns the excludedDocTypeCodes
+     */
 
     public List<String> getExcludedDocTypeCodes() {
         return excludedDocTypeCodes;
     }
 
+    /**
+     * Sets the excludedDocTypeCodes attribute.
+     * 
+     * @param excludedDocTypeCodes The excludedDocTypeCodes to set.
+     */
+
     public void setExcludedDocTypeCodes(List<String> excludedDocTypeCodes) {
         this.excludedDocTypeCodes = excludedDocTypeCodes;
     }
 
+    /**
+     * Gets the includedFinancialObjectSubTypeCodes attribute.
+     * 
+     * @return Returns the includedFinancialObjectSubTypeCodes
+     */
+
     public List<String> getIncludedFinancialObjectSubTypeCodes() {
         return includedFinancialObjectSubTypeCodes;
     }
+
+    /**
+     * Sets the includedFinancialObjectSubTypeCodes attribute.
+     * 
+     * @param includedFinancialObjectSubTypeCodes The includedFinancialObjectSubTypeCodes to set.
+     */
 
     public void setIncludedFinancialObjectSubTypeCodes(List<String> includedFinancialObjectSubTypeCodes) {
         this.includedFinancialObjectSubTypeCodes = includedFinancialObjectSubTypeCodes;

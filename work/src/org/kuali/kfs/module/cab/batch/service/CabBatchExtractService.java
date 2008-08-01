@@ -20,13 +20,55 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
+/**
+ * Declares the service methods used by CAB batch program
+ */
 public interface CabBatchExtractService {
+
+    /**
+     * Returns the list of CAB eligible GL entries, filter parameters are pre-configured
+     * 
+     * @return Eligible GL Entries meeting batch parameters configured under parameter group KFS-CAB:Batch
+     */
     Collection<Entry> findElgibleGLEntries();
 
+    /**
+     * Returns the list of Purchasing GL transactions that occurred after last GL process
+     * 
+     * @return List of pending gl transactions waiting to be posted to GL
+     */
+    Collection<GeneralLedgerPendingEntry> findPurapPendingGLEntries();
+
+    /**
+     * Saves financial transaction lines which dont have Purchase Order number associated with it
+     * 
+     * @param fpLines Financial transaction lines
+     */
     void saveFPLines(List<Entry> fpLines);
 
+    /**
+     * Saved purchasing line transactions, this method implementation internally uses
+     * {@link org.kuali.kfs.gl.batch.service.ReconciliationService} to qa the data before saving
+     * 
+     * @param poLines Eligible GL Lines
+     */
+    void savePOLines(List<Entry> poLines);
+
+    /**
+     * Separates out transaction lines associated with purchase order from the rest
+     * 
+     * @param fpLines Non-purchasing lines
+     * @param purapLines Purchasing lines
+     * @param elgibleGLEntries Full list of eligible GL entries
+     */
     void separatePOLines(List<Entry> fpLines, List<Entry> purapLines, Collection<Entry> elgibleGLEntries);
 
+    /**
+     * Updates the last extract time stamp system parameter, usually done when a batch process is finished successfully.
+     * 
+     * @param time Last extract start time
+     */
     void updateLastExtractTime(Timestamp time);
 }

@@ -70,8 +70,6 @@ public class CabExtractStep extends AbstractStep {
         // Update the last extract time stamp
         cabBatchExtractService.updateLastExtractTime(startTs);
         LOG.info("CAB batch finished at " + dateTimeService.getCurrentTimestamp());
-
-
         return true;
     }
 

@@ -15,45 +15,25 @@
  */
 package org.kuali.kfs.module.cab.businessobject;
 
-import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.core.util.KualiDecimal;
 
 
-public class AccountLineGroup {
-    private Integer universityFiscalYear;
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String subAccountNumber;
-    private String financialObjectCode;
-    private String financialSubObjectCode;
-    private String universityFiscalPeriodCode;
-    private String documentNumber;
-    private String referenceFinancialDocumentNumber;
+/**
+ * Base account line group class which assist in easy group by clause
+ */
+public abstract class AccountLineGroup {
+    protected static final KualiDecimal NEGATIVE_ONE = new KualiDecimal(-1);
+    protected Integer universityFiscalYear;
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String subAccountNumber;
+    protected String financialObjectCode;
+    protected String financialSubObjectCode;
+    protected String universityFiscalPeriodCode;
+    protected String documentNumber;
+    protected String referenceFinancialDocumentNumber;
+    protected KualiDecimal absAmount;
 
-    public AccountLineGroup() {
-    }
-
-    public AccountLineGroup(Entry entry) {
-        setUniversityFiscalYear(entry.getUniversityFiscalYear());
-        setChartOfAccountsCode(entry.getChartOfAccountsCode());
-        setAccountNumber(entry.getAccountNumber());
-        setSubAccountNumber(entry.getSubAccountNumber());
-        setFinancialObjectCode(entry.getFinancialObjectCode());
-        setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
-        setUniversityFiscalPeriodCode(entry.getUniversityFiscalPeriodCode());
-        setDocumentNumber(entry.getDocumentNumber());
-        setReferenceFinancialDocumentNumber(entry.getReferenceFinancialDocumentNumber());
-    }
-
-    /**
-     * Returns true if input GL entry belongs to this account group
-     * 
-     * @param entry Entry
-     * @return true if Entry belongs to same account line group
-     */
-    public boolean isAccounted(Entry entry) {
-        AccountLineGroup test = new AccountLineGroup(entry);
-        return this.equals(test);
-    }
 
     /**
      * Gets the universityFiscalYear attribute.
@@ -217,6 +197,7 @@ public class AccountLineGroup {
         this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
     }
 
+
     /**
      * Overridden so that group by statement can be easily implemented.
      * <li>DO NOT REMOVE this method, it is critical to reconciliation process</li>
@@ -228,7 +209,7 @@ public class AccountLineGroup {
         if (this == obj) {
             return true;
         }
-        if ((obj == null) || (obj.getClass() != this.getClass())) {
+        if (obj == null || !AccountLineGroup.class.isAssignableFrom(obj.getClass())) {
             return false;
         }
         boolean equal = true;
@@ -264,5 +245,25 @@ public class AccountLineGroup {
         hash = 17 * hash + (null == documentNumber ? 0 : documentNumber.hashCode());
         hash = 17 * hash + (null == referenceFinancialDocumentNumber ? 0 : referenceFinancialDocumentNumber.hashCode());
         return hash;
+    }
+
+    /**
+     * Gets the absAmout attribute.
+     * 
+     * @return Returns the absAmout
+     */
+
+    public KualiDecimal getAbsAmount() {
+        return absAmount;
+    }
+
+    /**
+     * Sets the absAmount attribute.
+     * 
+     * @param absAmount The absAmount to set.
+     */
+
+    public void setAbsAmount(KualiDecimal absAmount) {
+        this.absAmount = absAmount;
     }
 }

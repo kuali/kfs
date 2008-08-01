@@ -19,7 +19,10 @@ import java.util.Collection;
 
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 public interface CabExtractDao {
-    public Collection<Entry> findMatchingGLEntries(BatchParameters batchParameters);
+    Collection<Entry> findMatchingGLEntries(BatchParameters batchParameters);
+
+    Collection<GeneralLedgerPendingEntry> findPurapPendingGLEntries(BatchParameters batchParameters);
 }

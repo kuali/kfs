@@ -15,7 +15,11 @@
  */
 package org.kuali.kfs.module.cab;
 
-import org.kuali.kfs.module.cab.businessobject.AccountLineGroup;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
+import org.kuali.kfs.module.cab.businessobject.PendingGlAccountLineGroup;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
 
 public class AccountLineGroupTest extends KualiTestBase {
@@ -26,10 +30,9 @@ public class AccountLineGroupTest extends KualiTestBase {
 
     public void testEquals() throws Exception {
         // test reflexive
-        assertEquals(new AccountLineGroup(), new AccountLineGroup());
-        AccountLineGroup first = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null);
-        AccountLineGroup second = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null);
-        AccountLineGroup third = createAccountLineGroup(2008, "BL", new String("BL002323"), "--", "7000", null, "01", "1001", null);
+        GlAccountLineGroup first = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D");
+        PendingGlAccountLineGroup second = createPendingAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "C");
+        GlAccountLineGroup third = createAccountLineGroup(2008, "BL", new String("BL002323"), "--", "7000", null, "01", "1001", null, "D");
         assertTrue(first.equals(first));
         assertTrue(first.equals(second));
         assertTrue(second.equals(first));
@@ -38,9 +41,9 @@ public class AccountLineGroupTest extends KualiTestBase {
         assertTrue(first.equals(third));
         assertTrue(third.equals(first));
 
-        first = createAccountLineGroup(2008, "BA", "BL002323", "--", "7000", null, "01", "1001", null);
-        second = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null);
-        third = createAccountLineGroup(2008, "BA", "BL002323", "--", "7000", null, "01", "1001", null);
+        first = createAccountLineGroup(2008, "BA", "BL002323", "--", "7000", null, "01", "1001", null, "C");
+        second = createPendingAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D");
+        third = createAccountLineGroup(2008, "BA", "BL002323", "--", "7000", null, "01", "1001", null, "C");
 
         assertFalse(first.equals(second));
         assertFalse(second.equals(first));
@@ -49,9 +52,9 @@ public class AccountLineGroupTest extends KualiTestBase {
         assertTrue(first.equals(third));
         assertTrue(third.equals(first));
 
-        first = createAccountLineGroup(2008, "BA", "BL002323", "X", "7000", null, "01", "1001", null);
-        second = createAccountLineGroup(2008, "BA", "BL002323", "XXX", "7000", null, "01", "1001", null);
-        third = createAccountLineGroup(2008, "BA", "BL002323", "XXXX", "7000", null, "01", "1001", null);
+        first = createAccountLineGroup(2008, "BA", "BL002323", "X", "7000", null, "01", "1001", null, "C");
+        second = createPendingAccountLineGroup(2008, "BA", "BL002323", "XXX", "7000", null, "01", "1001", null, "D");
+        third = createAccountLineGroup(2008, "BA", "BL002323", "XXXX", "7000", null, "01", "1001", null, "C");
 
         assertFalse(first.equals(second));
         assertFalse(second.equals(first));
@@ -65,25 +68,45 @@ public class AccountLineGroupTest extends KualiTestBase {
     }
 
     public void testHashcode() throws Exception {
-        AccountLineGroup first = createAccountLineGroup(new Integer(2008), new String("BL"), "BL002323", "--", "7000", "12121", "01", "1001", "A");
-        AccountLineGroup second = createAccountLineGroup(2008, "BL", "BL002323", "--", new String("7000"), "12121", "01", "1001", "A");
-        AccountLineGroup third = createAccountLineGroup(2008, "BL", new String("BL002323"), "--", "7000", "12121", "01", "1001", "A");
+        GlAccountLineGroup first = createAccountLineGroup(new Integer(2008), new String("BL"), "BL002323", "--", "7000", "12121", "01", "1001", "A", "C");
+        GlAccountLineGroup second = createAccountLineGroup(2008, "BL", "BL002323", "--", new String("7000"), "12121", "01", "1001", "A", "C");
+        GlAccountLineGroup third = createAccountLineGroup(2008, "BL", new String("BL002323"), "--", "7000", "12121", "01", "1001", "A", "D");
         assertEquals(first.hashCode(), second.hashCode());
         assertEquals(second.hashCode(), third.hashCode());
         assertEquals(first.hashCode(), third.hashCode());
     }
 
-    private AccountLineGroup createAccountLineGroup(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum) {
-        AccountLineGroup first = new AccountLineGroup();
-        first.setUniversityFiscalYear(i);
-        first.setChartOfAccountsCode(chartCode);
-        first.setAccountNumber(acctNum);
-        first.setSubAccountNumber(subAcctNum);
-        first.setFinancialObjectCode(objCd);
-        first.setFinancialSubObjectCode(subObjCd);
-        first.setUniversityFiscalPeriodCode(fiscalPrd);
-        first.setDocumentNumber(docNum);
-        first.setReferenceFinancialDocumentNumber(refDocNum);
+    private GlAccountLineGroup createAccountLineGroup(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, String dbtCrdtCode) {
+        Entry entry = new Entry();
+        entry.setUniversityFiscalYear(i);
+        entry.setChartOfAccountsCode(chartCode);
+        entry.setAccountNumber(acctNum);
+        entry.setSubAccountNumber(subAcctNum);
+        entry.setFinancialObjectCode(objCd);
+        entry.setFinancialSubObjectCode(subObjCd);
+        entry.setUniversityFiscalPeriodCode(fiscalPrd);
+        entry.setDocumentNumber(docNum);
+        entry.setReferenceFinancialDocumentNumber(refDocNum);
+        entry.setTransactionDebitCreditCode(dbtCrdtCode);
+        entry.setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
+        GlAccountLineGroup first = new GlAccountLineGroup(entry);
+        return first;
+    }
+
+    private PendingGlAccountLineGroup createPendingAccountLineGroup(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, String dbtCrdtCode) {
+        GeneralLedgerPendingEntry entry = new GeneralLedgerPendingEntry();
+        entry.setUniversityFiscalYear(i);
+        entry.setChartOfAccountsCode(chartCode);
+        entry.setAccountNumber(acctNum);
+        entry.setSubAccountNumber(subAcctNum);
+        entry.setFinancialObjectCode(objCd);
+        entry.setFinancialSubObjectCode(subObjCd);
+        entry.setUniversityFiscalPeriodCode(fiscalPrd);
+        entry.setDocumentNumber(docNum);
+        entry.setReferenceFinancialDocumentNumber(refDocNum);
+        entry.setTransactionDebitCreditCode(dbtCrdtCode);
+        entry.setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
+        PendingGlAccountLineGroup first = new PendingGlAccountLineGroup(entry);
         return first;
     }
 }

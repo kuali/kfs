@@ -40,7 +40,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   private Boolean invoiceFileHeaderTypeIndicator = Boolean.FALSE;
   private Boolean invoiceFileInformationOnlyIndicator = Boolean.FALSE;
   private Boolean invoiceFileTaxInLineIndicator = Boolean.FALSE;
-  private Boolean invoiceFileSpecHandlingInLineIndicator = Boolean.FALSE;
+  private Boolean invoiceFileSpecialHandlingInLineIndicator = Boolean.FALSE;
   private Boolean invoiceFileShippingInLineIndicator = Boolean.FALSE;
   private Boolean InvoiceFileDiscountInLineIndicator = Boolean.FALSE;
   
@@ -97,10 +97,10 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   
   private String invoiceCustomerNumber;
   private String invoicePurchaseOrderNumber;
-  private Integer purchaseOrderId;
+  private Integer purchaseOrderIdentifier;
   private String purchaseOrderDeliveryCampusCode;
   
-  private String invoiceItemSubtotalCurrencyCode;
+  private String invoiceItemSubTotalCurrencyCode;
   private String invoiceItemSpecialHandlingCurrencyCode;
   private String invoiceItemSpecialHandlingDescription;
   private String invoiceItemShippingCurrencyCode;
@@ -111,7 +111,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   private String invoiceItemDiscountCurrencyCode;
   private String invoiceItemNetCurrencyCode;
   
-  private BigDecimal invoiceItemSubtotalAmount;
+  private BigDecimal invoiceItemSubTotalAmount;
   private BigDecimal invoiceItemSpecialHandlingAmount;
   private BigDecimal invoiceItemShippingAmount;
   private BigDecimal invoiceItemTaxAmount;
@@ -141,7 +141,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     this.invoiceFileHeaderTypeIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isHeaderInvoiceIndicator());
     this.invoiceFileInformationOnlyIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isInformationOnly());
     this.invoiceFileTaxInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isTaxInLine());
-    this.invoiceFileSpecHandlingInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isSpecialHandlingInLine());
+    this.invoiceFileSpecialHandlingInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isSpecialHandlingInLine());
     this.invoiceFileShippingInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isShippingInLine());
     this.InvoiceFileDiscountInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isDiscountInLine());
     
@@ -227,15 +227,15 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
       this.invoiceRemitToAddressCountryName = remitToAddress.getCountryName();
     }    
     this.invoicePurchaseOrderNumber = eio.getInvoicePurchaseOrderID();
-    this.purchaseOrderId = eio.getPurchaseOrderID();
+    this.purchaseOrderIdentifier = eio.getPurchaseOrderID();
     this.purchaseOrderDeliveryCampusCode = eio.getPurchaseOrderCampusCode();
     
     try {
-      this.invoiceItemSubtotalAmount = ei.getInvoiceSubtotalAmount(eio);
-      this.invoiceItemSubtotalCurrencyCode = ei.getInvoiceSubtotalCurrencyIfNotValid(eio);
+      this.invoiceItemSubTotalAmount = ei.getInvoiceSubtotalAmount(eio);
+      this.invoiceItemSubTotalCurrencyCode = ei.getInvoiceSubtotalCurrencyIfNotValid(eio);
     } catch (Exception e) {
-      this.invoiceItemSubtotalAmount = null;
-      this.invoiceItemSubtotalCurrencyCode = "INVALID Amount";
+      this.invoiceItemSubTotalAmount = null;
+      this.invoiceItemSubTotalCurrencyCode = "INVALID Amount";
     }
     try {
       this.invoiceItemSpecialHandlingAmount = ei.getInvoiceSpecialHandlingAmount(eio);
@@ -322,8 +322,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
           toAddAmount = eiri.getInvoiceItemNetAmount();
         } else if ( (eiri.getInvoiceItemGrossAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemGrossAmount())) != 0) ) {
           toAddAmount = eiri.getInvoiceItemGrossAmount();
-        } else if ( (eiri.getInvoiceItemSubtotalAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemSubtotalAmount())) != 0) ) {
-          toAddAmount = eiri.getInvoiceItemSubtotalAmount();
+        } else if ( (eiri.getInvoiceItemSubTotalAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemSubTotalAmount())) != 0) ) {
+          toAddAmount = eiri.getInvoiceItemSubTotalAmount();
         } else if ( (eiri.getInvoiceItemUnitPrice() != null) && ((zero.compareTo(eiri.getInvoiceItemUnitPrice())) != 0) ) {
           if (eiri.getInvoiceItemQuantity() != null) {
             toAddAmount = eiri.getInvoiceItemUnitPrice().multiply(eiri.getInvoiceItemQuantity());
@@ -538,16 +538,16 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     this.purchaseOrderDeliveryCampusCode = epicPODeliveryCampusCode;
   }
   /**
-   * @return Returns the purchaseOrderId.
+   * @return Returns the purchaseOrderIdentifier.
    */
-  public Integer getPurchaseOrderId() {
-    return purchaseOrderId;
+  public Integer getPurchaseOrderIdentifier() {
+    return purchaseOrderIdentifier;
   }
   /**
-   * @param purchaseOrderId The purchaseOrderId to set.
+   * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
    */
-  public void setPurchaseOrderId(Integer epicPurchaseOrderId) {
-    this.purchaseOrderId = epicPurchaseOrderId;
+  public void setPurchaseOrderIdentifier(Integer epicPurchaseOrderId) {
+    this.purchaseOrderIdentifier = epicPurchaseOrderId;
   }
   /**
    * @return Returns the InvoiceFileDiscountInLineIndicator.
@@ -622,16 +622,16 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     this.invoiceFileShippingInLineIndicator = fileShippingInLineIndicator;
   }
   /**
-   * @return Returns the invoiceFileSpecHandlingInLineIndicator.
+   * @return Returns the invoiceFileSpecialHandlingInLineIndicator.
    */
-  public Boolean getInvoiceFileSpecHandlingInLineIndicator() {
-    return invoiceFileSpecHandlingInLineIndicator;
+  public Boolean getInvoiceFileSpecialHandlingInLineIndicator() {
+    return invoiceFileSpecialHandlingInLineIndicator;
   }
   /**
-   * @param invoiceFileSpecHandlingInLineIndicator The invoiceFileSpecHandlingInLineIndicator to set.
+   * @param invoiceFileSpecialHandlingInLineIndicator The invoiceFileSpecialHandlingInLineIndicator to set.
    */
-  public void setInvoiceFileSpecHandlingInLineIndicator(Boolean fileSpecHandlingInLineIndicator) {
-    this.invoiceFileSpecHandlingInLineIndicator = fileSpecHandlingInLineIndicator;
+  public void setInvoiceFileSpecialHandlingInLineIndicator(Boolean fileSpecHandlingInLineIndicator) {
+    this.invoiceFileSpecialHandlingInLineIndicator = fileSpecHandlingInLineIndicator;
   }
   /**
    * @return Returns the invoiceFileTaxInLineIndicator.
@@ -918,28 +918,28 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     this.invoiceItemSpecialHandlingDescription = invoiceSpecialHandlingDescription;
   }
   /**
-   * @return Returns the invoiceItemSubtotalAmount.
+   * @return Returns the invoiceItemSubTotalAmount.
    */
-  public BigDecimal getInvoiceItemSubtotalAmount() {
-    return invoiceItemSubtotalAmount;
+  public BigDecimal getInvoiceItemSubTotalAmount() {
+    return invoiceItemSubTotalAmount;
   }
   /**
-   * @param invoiceItemSubtotalAmount The invoiceItemSubtotalAmount to set.
+   * @param invoiceItemSubTotalAmount The invoiceItemSubTotalAmount to set.
    */
-  public void setInvoiceItemSubtotalAmount(BigDecimal invoiceSubtotalAmount) {
-    this.invoiceItemSubtotalAmount = invoiceSubtotalAmount;
+  public void setInvoiceItemSubTotalAmount(BigDecimal invoiceSubtotalAmount) {
+    this.invoiceItemSubTotalAmount = invoiceSubtotalAmount;
   }
   /**
-   * @return Returns the invoiceItemSubtotalCurrencyCode.
+   * @return Returns the invoiceItemSubTotalCurrencyCode.
    */
-  public String getInvoiceItemSubtotalCurrencyCode() {
-    return invoiceItemSubtotalCurrencyCode;
+  public String getInvoiceItemSubTotalCurrencyCode() {
+    return invoiceItemSubTotalCurrencyCode;
   }
   /**
-   * @param invoiceItemSubtotalCurrencyCode The invoiceItemSubtotalCurrencyCode to set.
+   * @param invoiceItemSubTotalCurrencyCode The invoiceItemSubTotalCurrencyCode to set.
    */
-  public void setInvoiceItemSubtotalCurrencyCode(String invoiceSubtotalAmountCurrency) {
-    this.invoiceItemSubtotalCurrencyCode = invoiceSubtotalAmountCurrency;
+  public void setInvoiceItemSubTotalCurrencyCode(String invoiceSubtotalAmountCurrency) {
+    this.invoiceItemSubTotalCurrencyCode = invoiceSubtotalAmountCurrency;
   }
   /**
    * @return Returns the invoiceItemTaxAmount.

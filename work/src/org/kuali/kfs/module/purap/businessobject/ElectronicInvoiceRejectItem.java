@@ -15,6 +15,9 @@ import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
  * @author delyea
  *
  */
+/**
+ * This class...
+ */
 public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
 
   private static BigDecimal zero = new BigDecimal(0);
@@ -28,19 +31,19 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
   private String invoiceItemUnitOfMeasureCode;
   private String invoiceItemCatalogNumber;
   
-  private String invoiceItemUnitPriceCurrency;
-  private String invoiceItemSubtotalAmountCurrency;
-  private String invoiceItemSpecialHandlingAmountCurrency;
-  private String invoiceItemShippingAmountCurrency;
+  private String invoiceItemUnitPriceCurrencyCode;
+  private String invoiceItemSubTotalCurrencyCode;
+  private String invoiceItemSpecialHandlingCurrencyCode;
+  private String invoiceItemShippingCurrencyCode;
   private String invoiceItemShippingDescription;
-  private String invoiceItemTaxAmountCurrency;
+  private String invoiceItemTaxCurrencyCode;
   private String invoiceItemTaxDescription;
-  private String invoiceItemGrossAmountCurrency;
-  private String invoiceItemDiscountAmountCurrency;
-  private String invoiceItemNetAmountCurrency;
+  private String invoiceItemGrossCurrencyCode;
+  private String invoiceItemDiscountCurrencyCode;
+  private String invoiceItemNetCurrencyCode;
   
   private BigDecimal invoiceItemUnitPrice;
-  private BigDecimal invoiceItemSubtotalAmount;
+  private BigDecimal invoiceItemSubTotalAmount;
   private BigDecimal invoiceItemSpecialHandlingAmount;
   private BigDecimal invoiceItemShippingAmount;
   private BigDecimal invoiceItemTaxAmount;
@@ -48,15 +51,15 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
   private BigDecimal invoiceItemDiscountAmount;
   private BigDecimal invoiceItemNetAmount;
   
-  private Integer itemReferenceLineNumber;
-  private String itemReferenceSerialNumber;
-  private String itemReferenceSupplierPartId;
-  private String itemReferenceSupplierPartAuxId;
-  private String itemReferenceDescription;
-  private String itemReferenceManufacturerPartId;
-  private String itemReferenceManufacturerName;
-  private String itemReferenceCountryCode;
-  private String itemReferenceCountryName;
+  private Integer invoiceReferenceItemLineNumber;
+  private String invoiceReferenceItemSerialNumber;
+  private String invoiceReferenceItemSupplierPartIdentifier;
+  private String invoiceReferenceItemSupplierPartAuxiliaryIdentifier;
+  private String invoiceReferenceItemDescription;
+  private String invoiceReferenceItemManufacturerPartIdentifier;
+  private String invoiceReferenceItemManufacturerName;
+  private String invoiceReferenceItemCountryCode;
+  private String invoiceReferenceItemCountryName;
   
   private ElectronicInvoiceRejectDocument electronicInvoiceRejectDocument;
 
@@ -83,29 +86,29 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceItemCatalogNumber = eii.getCatalogNumber();
     this.invoiceItemQuantity = eii.getInvoiceLineQuantityBigDecimal();
     this.invoiceItemUnitOfMeasureCode = eii.getUnitOfMeasure();
-    this.itemReferenceLineNumber = eii.getReferenceLineNumberInteger();
-    this.itemReferenceSerialNumber = eii.getReferenceSerialNumber();
-    this.itemReferenceSupplierPartId = eii.getReferenceItemIDSupplierPartID();
-    this.itemReferenceSupplierPartAuxId = eii.getReferenceItemIDSupplierPartAuxID();
-    this.itemReferenceDescription = eii.getReferenceDescription();
-    this.itemReferenceManufacturerPartId = eii.getReferenceManufacturerPartID();
-    this.itemReferenceManufacturerName = eii.getReferenceManufacturerName();
-    this.itemReferenceCountryCode = eii.getReferenceCountryCode();
-    this.itemReferenceCountryName = eii.getReferenceCountryName();
+    this.invoiceReferenceItemLineNumber = eii.getReferenceLineNumberInteger();
+    this.invoiceReferenceItemSerialNumber = eii.getReferenceSerialNumber();
+    this.invoiceReferenceItemSupplierPartIdentifier = eii.getReferenceItemIDSupplierPartID();
+    this.invoiceReferenceItemSupplierPartAuxiliaryIdentifier = eii.getReferenceItemIDSupplierPartAuxID();
+    this.invoiceReferenceItemDescription = eii.getReferenceDescription();
+    this.invoiceReferenceItemManufacturerPartIdentifier = eii.getReferenceManufacturerPartID();
+    this.invoiceReferenceItemManufacturerName = eii.getReferenceManufacturerName();
+    this.invoiceReferenceItemCountryCode = eii.getReferenceCountryCode();
+    this.invoiceReferenceItemCountryName = eii.getReferenceCountryName();
     
-    this.invoiceItemUnitPriceCurrency = eii.getUnitPriceCurrency();
-    this.invoiceItemSubtotalAmountCurrency = eii.getSubtotalAmountCurrency();
-    this.invoiceItemSpecialHandlingAmountCurrency = eii.getInvoiceLineSpecialHandlingAmountCurrency();
-    this.invoiceItemShippingAmountCurrency = eii.getInvoiceLineShippingAmountCurrency();
+    this.invoiceItemUnitPriceCurrencyCode = eii.getUnitPriceCurrency();
+    this.invoiceItemSubTotalCurrencyCode = eii.getSubtotalAmountCurrency();
+    this.invoiceItemSpecialHandlingCurrencyCode = eii.getInvoiceLineSpecialHandlingAmountCurrency();
+    this.invoiceItemShippingCurrencyCode = eii.getInvoiceLineShippingAmountCurrency();
     this.invoiceItemShippingDescription = eii.getInvoiceLineShippingDescription();
-    this.invoiceItemTaxAmountCurrency = eii.getTaxAmountCurrency();
+    this.invoiceItemTaxCurrencyCode = eii.getTaxAmountCurrency();
     this.invoiceItemTaxDescription = eii.getTaxDescription();
-    this.invoiceItemGrossAmountCurrency = eii.getInvoiceLineGrossAmountCurrency();
-    this.invoiceItemDiscountAmountCurrency = eii.getInvoiceLineDiscountAmountCurrency();
-    this.invoiceItemNetAmountCurrency = eii.getInvoiceLineNetAmountCurrency();
+    this.invoiceItemGrossCurrencyCode = eii.getInvoiceLineGrossAmountCurrency();
+    this.invoiceItemDiscountCurrencyCode = eii.getInvoiceLineDiscountAmountCurrency();
+    this.invoiceItemNetCurrencyCode = eii.getInvoiceLineNetAmountCurrency();
     
     this.invoiceItemUnitPrice = eii.getInvoiceLineUnitCostBigDecimal();
-    this.invoiceItemSubtotalAmount = eii.getInvoiceLineSubtotalAmountBigDecimal();
+    this.invoiceItemSubTotalAmount = eii.getInvoiceLineSubtotalAmountBigDecimal();
     this.invoiceItemSpecialHandlingAmount = eii.getInvoiceLineSpecialHandlingAmountBigDecimal();
     this.invoiceItemShippingAmount = eii.getInvoiceLineShippingAmountBigDecimal();
     this.invoiceItemTaxAmount = eii.getInvoiceLineTaxAmountBigDecimal();
@@ -119,19 +122,26 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
       if ( ( (this.invoiceItemQuantity != null) && ((zero.compareTo(this.invoiceItemQuantity)) != 0) ) &&
            ( (this.invoiceItemUnitPrice != null) && ((zero.compareTo(this.invoiceItemUnitPrice)) != 0) ) ) {
         // unit price and quantity are valid... calculate subtotal
-        this.invoiceItemSubtotalAmount = this.invoiceItemQuantity.multiply(this.invoiceItemUnitPrice);
+        this.invoiceItemSubTotalAmount = this.invoiceItemQuantity.multiply(this.invoiceItemUnitPrice);
       } else if ( ( (this.invoiceItemQuantity == null) || ("".equals(this.invoiceItemQuantity)) ) &&
                   ( (this.invoiceItemUnitPrice != null) && ((zero.compareTo(this.invoiceItemUnitPrice)) != 0) ) ) {
         // quantity is empty but unit cost exists... use it
-        this.invoiceItemSubtotalAmount = this.invoiceItemUnitPrice;
+        this.invoiceItemSubTotalAmount = this.invoiceItemUnitPrice;
       } else {
-        this.invoiceItemSubtotalAmount = null;
+        this.invoiceItemSubTotalAmount = null;
       }
     } else {
-      this.invoiceItemSubtotalAmount = eii.getInvoiceLineSubtotalAmountBigDecimal();
+      this.invoiceItemSubTotalAmount = eii.getInvoiceLineSubtotalAmountBigDecimal();
     }
   }
   
+  
+  public Integer getPurapDocumentIdentifier() {
+    return purapDocumentIdentifier;
+  }
+  public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
+    this.purapDocumentIdentifier = purapDocumentIdentifier;
+  }
   /**
    * @return Returns the electronicInvoiceRejectDocument.
    */
@@ -181,16 +191,16 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceItemDiscountAmount = invoiceDiscountAmount;
   }
   /**
-   * @return Returns the invoiceItemDiscountAmountCurrency.
+   * @return Returns the invoiceItemDiscountCurrencyCode.
    */
-  public String getInvoiceItemDiscountAmountCurrency() {
-    return invoiceItemDiscountAmountCurrency;
+  public String getInvoiceItemDiscountCurrencyCode() {
+    return invoiceItemDiscountCurrencyCode;
   }
   /**
-   * @param invoiceItemDiscountAmountCurrency The invoiceItemDiscountAmountCurrency to set.
+   * @param invoiceItemDiscountCurrencyCode The invoiceItemDiscountCurrencyCode to set.
    */
-  public void setInvoiceItemDiscountAmountCurrency(String invoiceDiscountAmountCurrency) {
-    this.invoiceItemDiscountAmountCurrency = invoiceDiscountAmountCurrency;
+  public void setInvoiceItemDiscountCurrencyCode(String invoiceDiscountCurrencyCode) {
+    this.invoiceItemDiscountCurrencyCode = invoiceDiscountCurrencyCode;
   }
   /**
    * @return Returns the invoiceItemGrossAmount.
@@ -205,16 +215,16 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceItemGrossAmount = invoiceGrossAmount;
   }
   /**
-   * @return Returns the invoiceItemGrossAmountCurrency.
+   * @return Returns the invoiceItemGrossCurrencyCode.
    */
-  public String getInvoiceItemGrossAmountCurrency() {
-    return invoiceItemGrossAmountCurrency;
+  public String getInvoiceItemGrossCurrencyCode() {
+    return invoiceItemGrossCurrencyCode;
   }
   /**
-   * @param invoiceItemGrossAmountCurrency The invoiceItemGrossAmountCurrency to set.
+   * @param invoiceItemGrossCurrencyCode The invoiceItemGrossCurrencyCode to set.
    */
-  public void setInvoiceItemGrossAmountCurrency(String invoiceGrossAmountCurrency) {
-    this.invoiceItemGrossAmountCurrency = invoiceGrossAmountCurrency;
+  public void setInvoiceItemGrossCurrencyCode(String invoiceGrossCurrencyCode) {
+    this.invoiceItemGrossCurrencyCode = invoiceGrossCurrencyCode;
   }
   /**
    * @return Returns the invoiceItemQuantity.
@@ -253,16 +263,16 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceItemNetAmount = invoiceNetAmount;
   }
   /**
-   * @return Returns the invoiceItemNetAmountCurrency.
+   * @return Returns the invoiceItemNetCurrencyCode.
    */
-  public String getInvoiceItemNetAmountCurrency() {
-    return invoiceItemNetAmountCurrency;
+  public String getInvoiceItemNetCurrencyCode() {
+    return invoiceItemNetCurrencyCode;
   }
   /**
-   * @param invoiceItemNetAmountCurrency The invoiceItemNetAmountCurrency to set.
+   * @param invoiceItemNetCurrencyCode The invoiceItemNetCurrencyCode to set.
    */
-  public void setInvoiceItemNetAmountCurrency(String invoiceNetAmountCurrency) {
-    this.invoiceItemNetAmountCurrency = invoiceNetAmountCurrency;
+  public void setInvoiceItemNetCurrencyCode(String invoiceNetCurrencyCode) {
+    this.invoiceItemNetCurrencyCode = invoiceNetCurrencyCode;
   }
   /**
    * @return Returns the invoiceItemShippingAmount.
@@ -277,16 +287,16 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceItemShippingAmount = invoiceShippingAmount;
   }
   /**
-   * @return Returns the invoiceItemShippingAmountCurrency.
+   * @return Returns the invoiceItemShippingCurrencyCode.
    */
-  public String getInvoiceItemShippingAmountCurrency() {
-    return invoiceItemShippingAmountCurrency;
+  public String getInvoiceItemShippingCurrencyCode() {
+    return invoiceItemShippingCurrencyCode;
   }
   /**
-   * @param invoiceItemShippingAmountCurrency The invoiceItemShippingAmountCurrency to set.
+   * @param invoiceItemShippingCurrencyCode The invoiceItemShippingCurrencyCode to set.
    */
-  public void setInvoiceItemShippingAmountCurrency(String invoiceShippingAmountCurrency) {
-    this.invoiceItemShippingAmountCurrency = invoiceShippingAmountCurrency;
+  public void setInvoiceItemShippingCurrencyCode(String invoiceShippingCurrencyCode) {
+    this.invoiceItemShippingCurrencyCode = invoiceShippingCurrencyCode;
   }
   /**
    * @return Returns the invoiceItemShippingDescription.
@@ -313,40 +323,40 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceItemSpecialHandlingAmount = invoiceSpecialHandlingAmount;
   }
   /**
-   * @return Returns the invoiceItemSpecialHandlingAmountCurrency.
+   * @return Returns the invoiceItemSpecialHandlingCurrencyCode.
    */
-  public String getInvoiceItemSpecialHandlingAmountCurrency() {
-    return invoiceItemSpecialHandlingAmountCurrency;
+  public String getInvoiceItemSpecialHandlingCurrencyCode() {
+    return invoiceItemSpecialHandlingCurrencyCode;
   }
   /**
-   * @param invoiceItemSpecialHandlingAmountCurrency The invoiceItemSpecialHandlingAmountCurrency to set.
+   * @param invoiceItemSpecialHandlingCurrencyCode The invoiceItemSpecialHandlingCurrencyCode to set.
    */
-  public void setInvoiceItemSpecialHandlingAmountCurrency(String invoiceSpecialHandlingAmountCurrency) {
-    this.invoiceItemSpecialHandlingAmountCurrency = invoiceSpecialHandlingAmountCurrency;
+  public void setInvoiceItemSpecialHandlingCurrencyCode(String invoiceSpecialHandlingCurrencyCode) {
+    this.invoiceItemSpecialHandlingCurrencyCode = invoiceSpecialHandlingCurrencyCode;
   }
   /**
-   * @return Returns the invoiceItemSubtotalAmount.
+   * @return Returns the invoiceItemSubTotalAmount.
    */
-  public BigDecimal getInvoiceItemSubtotalAmount() {
-    return invoiceItemSubtotalAmount;
+  public BigDecimal getInvoiceItemSubTotalAmount() {
+    return invoiceItemSubTotalAmount;
   }
   /**
-   * @param invoiceItemSubtotalAmount The invoiceItemSubtotalAmount to set.
+   * @param invoiceItemSubTotalAmount The invoiceItemSubTotalAmount to set.
    */
-  public void setInvoiceItemSubtotalAmount(BigDecimal invoiceSubtotalAmount) {
-    this.invoiceItemSubtotalAmount = invoiceSubtotalAmount;
+  public void setInvoiceItemSubTotalAmount(BigDecimal invoiceSubTotalAmount) {
+    this.invoiceItemSubTotalAmount = invoiceSubTotalAmount;
   }
   /**
-   * @return Returns the invoiceItemSubtotalAmountCurrency.
+   * @return Returns the invoiceItemSubTotalCurrencyCode.
    */
-  public String getInvoiceItemSubtotalAmountCurrency() {
-    return invoiceItemSubtotalAmountCurrency;
+  public String getInvoiceItemSubTotalCurrencyCode() {
+    return invoiceItemSubTotalCurrencyCode;
   }
   /**
-   * @param invoiceItemSubtotalAmountCurrency The invoiceItemSubtotalAmountCurrency to set.
+   * @param invoiceItemSubTotalCurrencyCode The invoiceItemSubTotalCurrencyCode to set.
    */
-  public void setInvoiceItemSubtotalAmountCurrency(String invoiceSubtotalAmountCurrency) {
-    this.invoiceItemSubtotalAmountCurrency = invoiceSubtotalAmountCurrency;
+  public void setInvoiceItemSubTotalCurrencyCode(String invoiceSubTotalCurrencyCode) {
+    this.invoiceItemSubTotalCurrencyCode = invoiceSubTotalCurrencyCode;
   }
   /**
    * @return Returns the invoiceItemTaxAmount.
@@ -361,16 +371,16 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceItemTaxAmount = invoiceTaxAmount;
   }
   /**
-   * @return Returns the invoiceItemTaxAmountCurrency.
+   * @return Returns the invoiceItemTaxCurrencyCode.
    */
-  public String getInvoiceItemTaxAmountCurrency() {
-    return invoiceItemTaxAmountCurrency;
+  public String getInvoiceItemTaxCurrencyCode() {
+    return invoiceItemTaxCurrencyCode;
   }
   /**
-   * @param invoiceItemTaxAmountCurrency The invoiceItemTaxAmountCurrency to set.
+   * @param invoiceItemTaxCurrencyCode The invoiceItemTaxCurrencyCode to set.
    */
-  public void setInvoiceItemTaxAmountCurrency(String invoiceTaxAmountCurrency) {
-    this.invoiceItemTaxAmountCurrency = invoiceTaxAmountCurrency;
+  public void setInvoiceItemTaxCurrencyCode(String invoiceTaxCurrencyCode) {
+    this.invoiceItemTaxCurrencyCode = invoiceTaxCurrencyCode;
   }
   /**
    * @return Returns the invoiceItemTaxDescription.
@@ -397,16 +407,16 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceItemUnitPrice = invoiceUnitPrice;
   }
   /**
-   * @return Returns the invoiceItemUnitPriceCurrency.
+   * @return Returns the invoiceItemUnitPriceCurrencyCode.
    */
-  public String getInvoiceItemUnitPriceCurrency() {
-    return invoiceItemUnitPriceCurrency;
+  public String getInvoiceItemUnitPriceCurrencyCode() {
+    return invoiceItemUnitPriceCurrencyCode;
   }
   /**
-   * @param invoiceItemUnitPriceCurrency The invoiceItemUnitPriceCurrency to set.
+   * @param invoiceItemUnitPriceCurrencyCode The invoiceItemUnitPriceCurrencyCode to set.
    */
-  public void setInvoiceItemUnitPriceCurrency(String invoiceUnitPriceCurrency) {
-    this.invoiceItemUnitPriceCurrency = invoiceUnitPriceCurrency;
+  public void setInvoiceItemUnitPriceCurrencyCode(String invoiceUnitPriceCurrency) {
+    this.invoiceItemUnitPriceCurrencyCode = invoiceUnitPriceCurrency;
   }
   /**
    * @return Returns the invoiceItemLineNumber.
@@ -421,112 +431,112 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceItemLineNumber = itemLineNumber;
   }
   /**
-   * @return Returns the itemReferenceCountryCode.
+   * @return Returns the invoiceReferenceItemCountryCode.
    */
-  public String getItemReferenceCountryCode() {
-    return itemReferenceCountryCode;
+  public String getInvoiceReferenceItemCountryCode() {
+    return invoiceReferenceItemCountryCode;
   }
   /**
-   * @param itemReferenceCountryCode The itemReferenceCountryCode to set.
+   * @param invoiceReferenceItemCountryCode The invoiceReferenceItemCountryCode to set.
    */
-  public void setItemReferenceCountryCode(String itemReferenceCountryCode) {
-    this.itemReferenceCountryCode = itemReferenceCountryCode;
+  public void setInvoiceReferenceItemCountryCode(String itemReferenceCountryCode) {
+    this.invoiceReferenceItemCountryCode = itemReferenceCountryCode;
   }
   /**
-   * @return Returns the itemReferenceCountryName.
+   * @return Returns the invoiceReferenceItemCountryName.
    */
-  public String getItemReferenceCountryName() {
-    return itemReferenceCountryName;
+  public String getInvoiceReferenceItemCountryName() {
+    return invoiceReferenceItemCountryName;
   }
   /**
-   * @param itemReferenceCountryName The itemReferenceCountryName to set.
+   * @param invoiceReferenceItemCountryName The invoiceReferenceItemCountryName to set.
    */
-  public void setItemReferenceCountryName(String itemReferenceCountryName) {
-    this.itemReferenceCountryName = itemReferenceCountryName;
+  public void setInvoiceReferenceItemCountryName(String itemReferenceCountryName) {
+    this.invoiceReferenceItemCountryName = itemReferenceCountryName;
   }
   /**
-   * @return Returns the itemReferenceDescription.
+   * @return Returns the invoiceReferenceItemDescription.
    */
-  public String getItemReferenceDescription() {
-    return itemReferenceDescription;
+  public String getInvoiceReferenceItemDescription() {
+    return invoiceReferenceItemDescription;
   }
   /**
-   * @param itemReferenceDescription The itemReferenceDescription to set.
+   * @param invoiceReferenceItemDescription The invoiceReferenceItemDescription to set.
    */
-  public void setItemReferenceDescription(String itemReferenceDescription) {
-    this.itemReferenceDescription = itemReferenceDescription;
+  public void setInvoiceReferenceItemDescription(String itemReferenceDescription) {
+    this.invoiceReferenceItemDescription = itemReferenceDescription;
   }
   /**
-   * @return Returns the itemReferenceLineNumber.
+   * @return Returns the invoiceReferenceItemLineNumber.
    */
-  public Integer getItemReferenceLineNumber() {
-    return itemReferenceLineNumber;
+  public Integer getInvoiceReferenceItemLineNumber() {
+    return invoiceReferenceItemLineNumber;
   }
   /**
-   * @param itemReferenceLineNumber The itemReferenceLineNumber to set.
+   * @param invoiceReferenceItemLineNumber The invoiceReferenceItemLineNumber to set.
    */
-  public void setItemReferenceLineNumber(Integer itemReferenceLineNumber) {
-    this.itemReferenceLineNumber = itemReferenceLineNumber;
+  public void setInvoiceReferenceItemLineNumber(Integer itemReferenceLineNumber) {
+    this.invoiceReferenceItemLineNumber = itemReferenceLineNumber;
   }
   /**
-   * @return Returns the itemReferenceManufacturerName.
+   * @return Returns the invoiceReferenceItemManufacturerName.
    */
-  public String getItemReferenceManufacturerName() {
-    return itemReferenceManufacturerName;
+  public String getInvoiceReferenceItemManufacturerName() {
+    return invoiceReferenceItemManufacturerName;
   }
   /**
-   * @param itemReferenceManufacturerName The itemReferenceManufacturerName to set.
+   * @param invoiceReferenceItemManufacturerName The invoiceReferenceItemManufacturerName to set.
    */
-  public void setItemReferenceManufacturerName(String itemReferenceManufacturerName) {
-    this.itemReferenceManufacturerName = itemReferenceManufacturerName;
+  public void setInvoiceReferenceItemManufacturerName(String itemReferenceManufacturerName) {
+    this.invoiceReferenceItemManufacturerName = itemReferenceManufacturerName;
   }
   /**
-   * @return Returns the itemReferenceManufacturerPartId.
+   * @return Returns the invoiceReferenceItemManufacturerPartIdentifier.
    */
-  public String getItemReferenceManufacturerPartId() {
-    return itemReferenceManufacturerPartId;
+  public String getInvoiceReferenceItemManufacturerPartIdentifier() {
+    return invoiceReferenceItemManufacturerPartIdentifier;
   }
   /**
-   * @param itemReferenceManufacturerPartId The itemReferenceManufacturerPartId to set.
+   * @param invoiceReferenceItemManufacturerPartIdentifier The invoiceReferenceItemManufacturerPartIdentifier to set.
    */
-  public void setItemReferenceManufacturerPartId(String itemReferenceManufacturerPartId) {
-    this.itemReferenceManufacturerPartId = itemReferenceManufacturerPartId;
+  public void setInvoiceReferenceItemManufacturerPartIdentifier(String itemReferenceManufacturerPartId) {
+    this.invoiceReferenceItemManufacturerPartIdentifier = itemReferenceManufacturerPartId;
   }
   /**
-   * @return Returns the itemReferenceSerialNumber.
+   * @return Returns the invoiceReferenceItemSerialNumber.
    */
-  public String getItemReferenceSerialNumber() {
-    return itemReferenceSerialNumber;
+  public String getInvoiceReferenceItemSerialNumber() {
+    return invoiceReferenceItemSerialNumber;
   }
   /**
-   * @param itemReferenceSerialNumber The itemReferenceSerialNumber to set.
+   * @param invoiceReferenceItemSerialNumber The invoiceReferenceItemSerialNumber to set.
    */
-  public void setItemReferenceSerialNumber(String itemReferenceSerialNumber) {
-    this.itemReferenceSerialNumber = itemReferenceSerialNumber;
+  public void setInvoiceReferenceItemSerialNumber(String itemReferenceSerialNumber) {
+    this.invoiceReferenceItemSerialNumber = itemReferenceSerialNumber;
   }
   /**
-   * @return Returns the itemReferenceSupplierPartAuxId.
+   * @return Returns the invoiceReferenceItemSupplierPartAuxiliaryIdentifier.
    */
-  public String getItemReferenceSupplierPartAuxId() {
-    return itemReferenceSupplierPartAuxId;
+  public String getInvoiceReferenceItemSupplierPartAuxiliaryIdentifier() {
+    return invoiceReferenceItemSupplierPartAuxiliaryIdentifier;
   }
   /**
-   * @param itemReferenceSupplierPartAuxId The itemReferenceSupplierPartAuxId to set.
+   * @param invoiceReferenceItemSupplierPartAuxiliaryIdentifier The invoiceReferenceItemSupplierPartAuxiliaryIdentifier to set.
    */
-  public void setItemReferenceSupplierPartAuxId(String itemReferenceSupplierPartAuxId) {
-    this.itemReferenceSupplierPartAuxId = itemReferenceSupplierPartAuxId;
+  public void setInvoiceReferenceItemSupplierPartAuxiliaryIdentifier(String itemReferenceSupplierPartAuxId) {
+    this.invoiceReferenceItemSupplierPartAuxiliaryIdentifier = itemReferenceSupplierPartAuxId;
   }
   /**
-   * @return Returns the itemReferenceSupplierPartId.
+   * @return Returns the invoiceReferenceItemSupplierPartIdentifier.
    */
-  public String getItemReferenceSupplierPartId() {
-    return itemReferenceSupplierPartId;
+  public String getInvoiceReferenceItemSupplierPartIdentifier() {
+    return invoiceReferenceItemSupplierPartIdentifier;
   }
   /**
-   * @param itemReferenceSupplierPartId The itemReferenceSupplierPartId to set.
+   * @param invoiceReferenceItemSupplierPartIdentifier The invoiceReferenceItemSupplierPartIdentifier to set.
    */
-  public void setItemReferenceSupplierPartId(String itemReferenceSupplierPartId) {
-    this.itemReferenceSupplierPartId = itemReferenceSupplierPartId;
+  public void setInvoiceReferenceItemSupplierPartIdentifier(String itemReferenceSupplierPartId) {
+    this.invoiceReferenceItemSupplierPartIdentifier = itemReferenceSupplierPartId;
   }
   /**
    * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

@@ -265,7 +265,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     public PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
 
-        if (this.isAddLine()) {
+        if (this.isAddLine() || this.isSingleAccountMode()) {
             appointmentFunding.setChartOfAccountsCode(this.getChartOfAccountsCode());
             appointmentFunding.setAccountNumber(this.getAccountNumber());
             appointmentFunding.setSubAccountNumber(this.getSubAccountNumber());

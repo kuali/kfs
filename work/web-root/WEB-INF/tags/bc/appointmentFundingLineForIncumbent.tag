@@ -23,6 +23,7 @@
 <%@ attribute name="hasBeenAdded" required="false" description="determine if the current funding line has been added"%>
 <%@ attribute name="countOfMajorColumns" required="true" description="the number of major columns "%>
 <%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
+<%@ attribute name="isKeyFieldsLocked" required="false" description="determine whether the key fields can be locked from editing"%>
 
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -85,7 +86,7 @@
 		    detailField="chartOfAccounts.finChartOfAccountDescription" detailFunction="loadChartInfo"
 		    lookup="true" inquiry="true"
 		    boClassSimpleName="Chart"
-		    readOnly="${hasBeenAdded}"
+		    readOnly="${hasBeenAdded || isKeyFieldsLocked}"
 		    displayHidden="false"
 		    lookupOrInquiryKeys="chartOfAccountsCode"
 		    accountingLineValuesMap="${fundingLine.valuesMap}" />
@@ -96,7 +97,7 @@
 			detailField="account.accountName"
 			attributes="${pbcafAttributes}" lookup="true" inquiry="true"
 			boClassSimpleName="Account"
-			readOnly="${hasBeenAdded}"
+			readOnly="${hasBeenAdded || isKeyFieldsLocked}"
 			displayHidden="false"
 			lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
 			accountingLineValuesMap="${fundingLine.valuesMap}" />
@@ -112,7 +113,7 @@
 			detailField="subAccount.subAccountName"
 			attributes="${pbcafAttributes}" lookup="true" inquiry="${doAccountLookupOrInquiry}" 
 			boClassSimpleName="SubAccount"
-			readOnly="${hasBeenAdded}"
+			readOnly="${hasBeenAdded || isKeyFieldsLocked}"
 			displayHidden="false"
 			lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
 			accountingLineValuesMap="${fundingLine.valuesMap}" />
@@ -124,7 +125,7 @@
 			detailField="financialObject.financialObjectCodeShortName"
 			attributes="${pbcafAttributes}" lookup="true" inquiry="true"
 			boClassSimpleName="ObjectCode"
-			readOnly="${hasBeenAdded}"
+			readOnly="${hasBeenAdded || isKeyFieldsLocked}"
 			displayHidden="false"
 			lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
 			accountingLineValuesMap="${fundingLine.valuesMap}"
@@ -142,7 +143,7 @@
 			detailField="financialSubObject.financialSubObjectCdshortNm"
 			attributes="${pbcafAttributes}" lookup="true" inquiry="${doAccountLookupOrInquiry}" 
 			boClassSimpleName="SubObjCd"
-			readOnly="${hasBeenAdded}"
+			readOnly="${hasBeenAdded || isKeyFieldsLocked}"
 			displayHidden="false"
 			lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,financialObjectCode,accountNumber"
 			accountingLineValuesMap="${fundingLine.valuesMap}"

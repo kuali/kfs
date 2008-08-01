@@ -18,6 +18,7 @@
 <%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
 
 <c:set var="tableWidth" value="100%"/>
+<c:set var="isKeyFieldsLocked" value="${KualiForm.singleAccountMode}"/>
 
 <html:hidden property="returnAnchor" />
 <html:hidden property="returnFormKey" />
@@ -37,14 +38,12 @@
 		<bc:positionInfo/>
 	</div>
 </kul:tabTop>
-
-singleAccountMode : ${KualiForm.singleAccountMode }
     
 <kul:tab tabTitle="Position Funding" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_POSITION_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align="center">
 	<c:if test="${not readOnly}">   
 		<kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Add Funding">      
-			<bc:appointmentFundingLineForPosition fundingLine="${KualiForm.newBCAFLine}" fundingLineName="newBCAFLine" hasBeenAdded="false" countOfMajorColumns="9">
+			<bc:appointmentFundingLineForPosition fundingLine="${KualiForm.newBCAFLine}" fundingLineName="newBCAFLine" hasBeenAdded="false" isKeyFieldsLocked="${isKeyFieldsLocked}" countOfMajorColumns="9">
 				<html:image property="methodToCall.insertSalarySettingLine.anchorsalarynewLineLineAnchor" 
 			       	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
 			       	title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>

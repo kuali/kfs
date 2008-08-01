@@ -472,6 +472,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         String objectCode = appointmentFunding.getFinancialObjectCode();
         String subObjectCode = appointmentFunding.getFinancialSubObjectCode();
 
+        // TODO: to be verified (I don't understand the reason behind the logic)
         if (budgetByObjectMode && StringUtils.equals(chartOfAccountsCode, budgetChartOfAccountsCode) && StringUtils.equals(accountNumber, budgetAccountNumber) && StringUtils.equals(subAccountNumber, budgetSubAccountNumber)) {
             appointmentFunding.setDisplayOnlyMode(singleAccountMode ? true : false);
 

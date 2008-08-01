@@ -949,13 +949,23 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         if (StringUtils.isNotBlank(line.getProjectCode())) {
             parameters.put("projectCode", line.getProjectCode());
         }
-        if (StringUtils.isNotBlank(line.getObjectTypeCode())) {
+        if (StringUtils.isNotBlank(getObjectTypeCodeFromLine(line))) {
             parameters.put("objectTypeCode", line.getObjectTypeCode());
         }
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.BALANCE_INQUIRY_REPORT_MENU_ACTION, parameters);
 
         return new ActionForward(lookupUrl, true);
+    }
+    
+    /**
+     * A hook so that most accounting lines - which don't have object types - can have their object type codes used in balance inquiries 
+     * @param line the line to get the object type code from
+     * @return the object type code the line would use
+     */
+    protected String getObjectTypeCodeFromLine(AccountingLine line) {
+        line.refreshReferenceObject("objectCode");
+        return line.getObjectCode().getFinancialObjectTypeCode();
     }
 
     @Override

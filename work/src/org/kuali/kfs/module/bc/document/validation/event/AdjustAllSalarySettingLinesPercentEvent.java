@@ -15,34 +15,34 @@
  */
 package org.kuali.kfs.module.bc.document.validation.event;
 
-import java.util.Collection;
+import java.util.List;
 
-import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 
 /**
- * Event triggered when the detail salary setting screen is saved.
+ * Event triggered when adjusting the salary of the given lines
  */
-public class SalarySettingLinePercentAdjustmentEvent extends BudgetExpansionEvent {
-    Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding;
+public class AdjustAllSalarySettingLinesPercentEvent extends SalarySettingBaseEvent {
+    List<PendingBudgetConstructionAppointmentFunding> appointmentFundings;
 
-
-    public SalarySettingLinePercentAdjustmentEvent(String errorPathPrefix, Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding) {
+    /**
+     * Constructs a SalarySettingLinePercentAdjustmentEvent.java.
+     * 
+     * @param errorPathPrefix the specified error path prefix
+     * @param appointmentFundings the given appointment fundings
+     */
+    public AdjustAllSalarySettingLinesPercentEvent(String errorPathPrefix, List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
         super(errorPathPrefix);
-        this.appointmentFunding = appointmentFunding;
+        this.appointmentFundings = appointmentFundings;
     }
 
-    @Override
-    public Class getExpansionRuleInterfaceClass() {
-        return SalarySettingRule.class;
-    }
-
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent#invokeExpansionRuleMethod(org.kuali.core.rule.BusinessRule)
+     */
     @Override
     public boolean invokeExpansionRuleMethod(BusinessRule rule) {
-        return ((SalarySettingRule) rule).processAdjustSalaraySettingLinePercent(appointmentFunding);
+        return ((SalarySettingRule) rule).processAdjustAllSalarySettingLinesPercent(appointmentFundings);
     }
-
 }

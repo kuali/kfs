@@ -15,34 +15,34 @@
  */
 package org.kuali.kfs.module.bc.document.validation.event;
 
-import java.util.Collection;
+import java.util.List;
 
-import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 
 /**
  * Event triggered when the detail salary setting screen is saved.
  */
-public class PayrateAndAmountNormalizationEvent extends BudgetExpansionEvent {
-    Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding;
+public class SaveSalarySettingEvent extends SalarySettingBaseEvent {
+    List<PendingBudgetConstructionAppointmentFunding> appointmentFundings;
 
-
-    public PayrateAndAmountNormalizationEvent(String errorPathPrefix, Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding) {
+    /**
+     * Constructs a SalarySettingSaveEvent.java.
+     * 
+     * @param errorPathPrefix the specified error path prefix
+     * @param appointmentFundings the given appointment fundings
+     */
+    public SaveSalarySettingEvent(String errorPathPrefix, List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
         super(errorPathPrefix);
-        this.appointmentFunding = appointmentFunding;
+        this.appointmentFundings = appointmentFundings;
     }
 
-    @Override
-    public Class getExpansionRuleInterfaceClass() {
-        return SalarySettingRule.class;
-    }
-
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent#invokeExpansionRuleMethod(org.kuali.core.rule.BusinessRule)
+     */
     @Override
     public boolean invokeExpansionRuleMethod(BusinessRule rule) {
-        return ((SalarySettingRule) rule).processNormalizePayrateAndAmount(appointmentFunding);
+        return ((SalarySettingRule) rule).processSave(appointmentFundings);
     }
-
 }

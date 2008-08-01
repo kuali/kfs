@@ -15,36 +15,32 @@
  */
 package org.kuali.kfs.module.bc.document.validation.event;
 
-import java.util.Collection;
-
-import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 
 /**
- * Event triggered when the detail salary setting screen is saved.
+ * Event triggered when normalizing the pay rate and salary amount detail.
  */
-public class SalarySettingSaveEvent extends BudgetExpansionEvent {
-    BudgetConstructionPosition budgetConstructionPosition;
-    Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding;
+public class NormalizePayrateAndAmountEvent extends SalarySettingBaseEvent {
+    PendingBudgetConstructionAppointmentFunding appointmentFunding;
 
-
-    public SalarySettingSaveEvent(String errorPathPrefix, BudgetConstructionPosition budgetConstructionPosition, Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding) {
+    /**
+     * Constructs a PayrateAndAmountNormalizationEvent.java.
+     * 
+     * @param errorPathPrefix the specified error path prefix
+     * @param appointmentFunding the given appointment funding
+     */
+    public NormalizePayrateAndAmountEvent(String errorPathPrefix, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         super(errorPathPrefix);
-        this.budgetConstructionPosition = budgetConstructionPosition;
         this.appointmentFunding = appointmentFunding;
     }
 
-    @Override
-    public Class getExpansionRuleInterfaceClass() {
-        return SalarySettingRule.class;
-    }
-
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent#invokeExpansionRuleMethod(org.kuali.core.rule.BusinessRule)
+     */
     @Override
     public boolean invokeExpansionRuleMethod(BusinessRule rule) {
-        return ((SalarySettingRule) rule).processSave(appointmentFunding);
+        return ((SalarySettingRule) rule).processNormalizePayrateAndAmount(appointmentFunding);
     }
-
 }

@@ -15,77 +15,84 @@
  */
 package org.kuali.kfs.module.bc.document.validation.impl;
 
-import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 
 public class SalarySettingRules implements SalarySettingRule {
-    
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRules.class);
+
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSave(java.util.Collection)
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSave(java.util.List)
      */
-    public boolean processSave(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFundingRecords) {
+    public boolean processSave(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
         boolean isValid = true;
-        
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundingRecords) {
+
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             if (!SalarySettingRuleUtil.appointmentRequestedAmountIsNotEmpty(appointmentFunding)) {
-                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_REQUIRED, new String[]{null});
+                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_REQUIRED);
                 isValid = false;
-            } else if (!SalarySettingRuleUtil.appointmentRequestedAmountIsNonNegative(appointmentFunding)) {
-                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED, new String[]{null});
+            }
+            else if (!SalarySettingRuleUtil.appointmentRequestedAmountIsNonNegative(appointmentFunding)) {
+                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED);
                 isValid = false;
-            } else if (!SalarySettingRuleUtil.appointmentRequestedFteQuantityIsGreaterThanZero(appointmentFunding)) {
-                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_FTE_QUANTITY, BCKeyConstants.ERROR_FTE_GREATER_THAN_ZERO_REQUIRED, new String[]{null});
+            }
+            else if (!SalarySettingRuleUtil.appointmentRequestedFteQuantityIsGreaterThanZero(appointmentFunding)) {
+                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_FTE_QUANTITY, BCKeyConstants.ERROR_FTE_GREATER_THAN_ZERO_REQUIRED);
                 isValid = false;
             }
         }
-        
+
         return isValid;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustSalaraySettingLinePercent(java.util.Collection)
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processNormalizePayrateAndAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
-    public boolean processAdjustSalaraySettingLinePercent(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFundingRecords) {
+    public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         boolean isValid = true;
-        
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundingRecords) {
-            if (!SalarySettingRuleUtil.adjustmentAmountIsNotEmpty(appointmentFunding)) {
-                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED, new String[]{null});
-                isValid = false;
-            }  
+
+        if (!SalarySettingRuleUtil.adjustmentAmountIsNotEmpty(appointmentFunding)) {
+            GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_REQUIRED);
+            isValid = false;
         }
-        
+
+        if (!SalarySettingRuleUtil.appointmentRequestedPayRateIsNotEmpty(appointmentFunding)) {
+            GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCKeyConstants.ERROR_PAYRATE_AMOUNT_REQUIRED);
+            isValid = false;
+        }
+
         return isValid;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processNormalizePayrateAndAmount(java.util.Collection)
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustAllSalarySettingLinesPercent(java.util.List)
      */
-    public boolean processNormalizePayrateAndAmount(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFundingRecords) {
+    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
         boolean isValid = true;
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundingRecords) {
-            if (!SalarySettingRuleUtil.adjustmentAmountIsNotEmpty(appointmentFunding)) {
-                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_REQUIRED, new String[]{null});
-                isValid = false;
-            }
-            
-            if (!SalarySettingRuleUtil.appointmentRequestedPayRateIsNotEmpty(appointmentFunding)) {
-                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCKeyConstants.ERROR_PAYRATE_AMOUNT_REQUIRED, new String[]{null});
-                isValid = false;
-            }
+
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            isValid = isValid && this.processAdjustSalaraySettingLinePercent(appointmentFunding);
         }
-        
+
         return isValid;
     }
-   
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustSalaraySettingLinePercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        boolean isValid = true;
+
+        if (!SalarySettingRuleUtil.adjustmentAmountIsNotEmpty(appointmentFunding)) {
+            GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED);
+            isValid = false;
+        }
+        return isValid;
+    }
+
 }

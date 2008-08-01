@@ -15,12 +15,10 @@
  */
 package org.kuali.kfs.module.bc.document.validation;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 
 /**
  * Rule interface for <code>SalarySettingSaveEvent<code>. Rule classes wishing to respond to that event should implement this interface.
@@ -30,24 +28,32 @@ public interface SalarySettingRule extends BusinessRule {
     /**
      * Process save business rules for the detail salary setting screen.
      * 
-     * @param appointmentFunding the appointment funding lines associated with position
+     * @param appointmentFundings the appointment funding lines associated with position
      * @return boolean true if rules were ok, false if errors were found
      */
-    public boolean processSave(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding);
+    public boolean processSave(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings);
     
     /**
      * Process save business rules for the detail salary setting screen.
      * 
-     * @param appointmentFunding the appointment funding lines associated with position
+     * @param appointmentFundings the appointment funding lines associated with position
      * @return boolean true if rules were ok, false if errors were found
      */
-    public boolean processAdjustSalaraySettingLinePercent(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding);
+    public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFundings);
     
     /**
      * Process save business rules for the detail salary setting screen.
      * 
-     * @param appointmentFunding the appointment funding lines associated with position
+     * @param appointmentFundings the appointment funding lines associated with position
      * @return boolean true if rules were ok, false if errors were found
      */
-    public boolean processNormalizePayrateAndAmount(Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding);
+    public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    
+    /**
+     * Process save business rules for the detail salary setting screen.
+     * 
+     * @param appointmentFundings the appointment funding lines associated with position
+     * @return boolean true if rules were ok, false if errors were found
+     */
+    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings);   
 }

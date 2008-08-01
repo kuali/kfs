@@ -13,23 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kfs.module.purap.businessobject;
 
-
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 /**
  * Item Type Business Object. Defines various types of items.
  */
 public class RequisitionCapitalAssetItem extends PurchasingCapitalAssetItemBase {
-
-    private Integer purapDocumentIdentifier;
+    
+    private Integer purapDocumentIdentifier;        
     
     /**
      * Default constructor.
      */
-    public RequisitionCapitalAssetItem() {
-
+    public RequisitionCapitalAssetItem(){
+        super();
+    }
+    
+    public RequisitionCapitalAssetItem(PurchasingDocument pd) {
+        super(pd);
+        setPurapDocumentIdentifier(pd.getPurapDocumentIdentifier());        
     }
 
     public Integer getPurapDocumentIdentifier() {
@@ -39,4 +43,5 @@ public class RequisitionCapitalAssetItem extends PurchasingCapitalAssetItemBase 
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
+    
 }

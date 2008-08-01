@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 
 /**
@@ -32,7 +33,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     private PurchasingCapitalAssetItem capitalAssetItem; // not persisted in db
     
     private CommodityCode commodityCode;
-       
+    
     /**
      * @see org.kuali.kfs.module.purap.businessobject.PurApItem#isConsideredEntered()
      */
@@ -94,7 +95,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     public void setPurchasingCommodityCode(String purchasingCommodityCode) {
         this.purchasingCommodityCode = purchasingCommodityCode;
     }
-
+    
     public PurchasingCapitalAssetItem getCapitalAssetItem() {
         return capitalAssetItem;
     }
@@ -102,4 +103,10 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     public void setCapitalAssetItem(PurchasingCapitalAssetItem capitalAssetItem) {
         this.capitalAssetItem = capitalAssetItem;
     }    
+    
+    public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem(Integer itemIdentifier){
+        PurchasingDocument pd = (PurchasingDocument)this.getPurapDocument();
+        
+        return pd.getPurchasingCapitalAssetItem(itemIdentifier);
+    }
 }

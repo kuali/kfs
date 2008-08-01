@@ -18,12 +18,21 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBase {
 
-    private String documentNumber;
-        
-
+    private String documentNumber;        
+    
+    public PurchaseOrderCapitalAssetItem(){
+        super();
+    }
+    
+    public PurchaseOrderCapitalAssetItem(PurchasingDocument pd){
+        super(pd);
+        setDocumentNumber(documentNumber);
+    }
+    
     public String getDocumentNumber() {
         return documentNumber;
     }

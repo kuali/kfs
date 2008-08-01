@@ -36,6 +36,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
@@ -1067,5 +1068,37 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public abstract Class getPurchasingCapitalAssetItemClass();
+
+    public PurchasingItem getPurchasingItem(Integer itemIdentifier){
+        
+        if(ObjectUtils.isNull(itemIdentifier)) return null;
+        
+        PurchasingItem item = null;
+                
+        for(PurchasingItem pi: (List<PurchasingItem>)this.getItems()){
+            if(itemIdentifier.equals(pi.getItemIdentifier())){
+                item = pi;
+                break;
+            }
+        }
+        
+        return item;
+    }
     
+    public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem(Integer itemIdentifier){
+
+        if(ObjectUtils.isNull(itemIdentifier)) return null;
+        
+        PurchasingCapitalAssetItem item = null;
+        
+        for(PurchasingCapitalAssetItem pcai: this.getPurchasingCapitalAssetItems()){
+            if(itemIdentifier.equals(pcai.getItemIdentifier())){
+                item = pcai;
+                break;
+            }
+        }
+        
+        return item;
+        
+    }
 }

@@ -15,9 +15,13 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
+
 /**
  * Purchasing Item Interface.
  */
 public interface PurchasingItem extends PurApItem {
+    
+    public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem(Integer itemIdentifier);
 
 }

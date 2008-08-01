@@ -19,6 +19,7 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 public abstract class PurchasingCapitalAssetItemBase extends PersistableBusinessObjectBase implements PurchasingCapitalAssetItem {
 
@@ -29,9 +30,14 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
     
     private CapitalAssetTransactionType capitalAssetTransactionType;
     private PurchasingCapitalAssetSystem purchasingCapitalAssetSystem;
-
-    public PurchasingCapitalAssetItemBase() {
+    private PurchasingDocument purchasingDocument;
+    
+    public PurchasingCapitalAssetItemBase(){
         super();
+    }
+    
+    public PurchasingCapitalAssetItemBase(PurchasingDocument pd) {        
+        setDocument(pd);
     }
 
     public Integer getCapitalAssetItemIdentifier() {
@@ -82,6 +88,20 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
         this.purchasingCapitalAssetSystem = requisitionCapitalAssetSystem;
     }
 
+    public PurchasingDocument getDocument(){
+        return this.purchasingDocument;
+    }
+    
+    public void setDocument(PurchasingDocument pd){
+        this.purchasingDocument = pd;        
+    }
+    
+    public PurchasingItem getPurchasingItem(Integer itemIdentifier){       
+        PurchasingDocument pd = this.getDocument();
+        
+        return pd.getPurchasingItem(this.getItemIdentifier());
+    }
+    
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("capitalAssetItemIdentifier", this.capitalAssetItemIdentifier);

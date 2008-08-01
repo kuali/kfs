@@ -15,11 +15,14 @@
  */
 package org.kuali.kfs.module.cam.businessobject.inquiry;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.ui.Field;
+import org.kuali.core.web.ui.Row;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -69,6 +72,33 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
     }
 
     /**
+     * Show the Payments Lookup tab. This is for assets with large amounts of payments.
+     * 
+     * @see org.kuali.core.inquiry.KualiInquirableImpl#addAdditionalSections(java.util.List, org.kuali.core.bo.BusinessObject)
+     */
+    @Override
+    public void addAdditionalSections(List sections, BusinessObject bo) {
+        if (bo instanceof Asset) {
+            Asset asset = (Asset) bo;
+
+            List rows = new ArrayList();
+
+            Field f = new Field();
+            f.setPropertyName("Payments Lookup");
+            f.setFieldLabel("Payments Lookup");
+            f.setPropertyValue("Click here to view the payment lookup for this asset.");
+            f.setFieldType(Field.HIDDEN);
+            f.setInquiryURL("lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPayment&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&capitalAssetNumber=" + asset.getCapitalAssetNumber());
+            rows.add(new Row(f));
+
+            Section section = new Section();
+            section.setRows(rows);
+            section.setSectionTitle("Payments Lookup");
+            sections.add(section);
+        }
+    }
+
+    /**
      * Hide payments if there are more then the allowable number.
      * 
      * @see org.kuali.core.inquiry.KualiInquirableImpl#getSections(org.kuali.core.bo.BusinessObject)
@@ -77,14 +107,23 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
     public List<Section> getSections(BusinessObject businessObject) {
         List<Section> sections = super.getSections(businessObject);
 
+        // sectionToRemove is hoky but it looks like that section.setHidden doesn't work on inquirable. And to avoid
+        // ConcurrentModificationException we do this
+        Section sectionToRemove = null;
+        
         Asset asset = (Asset) businessObject;
         for (Section section : sections) {
             if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() > CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY) {
                 // Hide the payment section if there are more then CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY
-                section.setHidden(true);
+                //section.setHidden(true);
+                sectionToRemove = section;
             }
         }
 
+        if (sectionToRemove != null) {
+            sections.remove(sectionToRemove);
+        }
+        
         return sections;
     }
     

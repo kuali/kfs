@@ -205,9 +205,12 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="offCampusLocation.assetLocationCityName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="offCampusLocation.assetLocationStateCode" />
+              p:name="offCampusLocation.assetLocationStateCode" 
+              p:overrideFieldConversions="offCampusLocation.assetLocationStateCode:postalZipCode.postalStateCode"
+              />
         <bean parent="MaintainableFieldDefinition"
-              p:name="offCampusLocation.assetLocationZipCode" />
+              p:name="offCampusLocation.assetLocationZipCode" 
+              />
         <bean parent="MaintainableFieldDefinition"
               p:name="offCampusLocation.assetLocationCountryCode" />
         <bean parent="MaintainableFieldDefinition"
@@ -231,16 +234,11 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="assetRepresentative.personName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetOrganization.organizationText"
-              p:overrideFieldConversions="organizationText:assetOrganization.organizationText"
-              />
+              p:name="assetOrganization.organizationText" />
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.organizationTagNumber" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetOrganization.organizationAssetTypeIdentifier" 
-              p:overrideFieldConversions="organizationAssetTypeIdentifier:assetOrganization.organizationAssetTypeIdentifier"
-              p:overrideLookupClass="org.kuali.kfs.module.cam.businessobject.AssetOrganization"
-              />
+              p:name="assetOrganization.organizationAssetTypeIdentifier" />
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.versionNumber" />
         <bean parent="MaintainableFieldDefinition"

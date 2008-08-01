@@ -79,8 +79,8 @@
         <ref bean="Asset-campusCode" />
         <ref bean="Asset-buildingCode" />
         <ref bean="Asset-buildingRoomNumber" />
-        <ref bean="Asset-assetOrganization.organizationTagNumber" /> 
         <ref bean="Asset-assetOrganization.organizationText" />
+        <ref bean="Asset-assetOrganization.organizationTagNumber" /> 
         <ref bean="Asset-assetOrganization.organizationAssetTypeIdentifier" />
         <ref bean="Asset-assetOrganization.versionNumber" />
         <ref bean="Asset-conditionCode" />
@@ -962,22 +962,20 @@
 
   <bean id="Asset-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
   </bean>
-  <bean id="Asset-assetOrganization.organizationTagNumber" parent="Asset-assetOrganization.organizationTagNumber-parentBean" />
-
-  <bean id="Asset-assetOrganization.organizationTagNumber-parentBean" abstract="true" parent="AssetOrganization-organizationTagNumber">
-    <property name="name" value="assetOrganization.organizationTagNumber" />
-  </bean>
   <bean id="Asset-assetOrganization.organizationText" parent="Asset-assetOrganization.organizationText-parentBean" />
 
   <bean id="Asset-assetOrganization.organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText">
     <property name="name" value="assetOrganization.organizationText" />
   </bean>
+  <bean id="Asset-assetOrganization.organizationTagNumber" parent="Asset-assetOrganization.organizationTagNumber-parentBean" />
 
+  <bean id="Asset-assetOrganization.organizationTagNumber-parentBean" abstract="true" parent="AssetOrganization-organizationTagNumber">
+    <property name="name" value="assetOrganization.organizationTagNumber" />
+  </bean>
   <bean id="Asset-assetOrganization.organizationAssetTypeIdentifier" parent="Asset-assetOrganization.organizationAssetTypeIdentifier-parentBean" />
 
   <bean id="Asset-assetOrganization.organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AssetOrganization-organizationAssetTypeIdentifier">
     <property name="name" value="assetOrganization.organizationAssetTypeIdentifier" />
-    <property name="label" value="Organization Asset Type" />
   </bean>
   <bean id="Asset-assetOrganization.versionNumber" parent="Asset-assetOrganization.versionNumber-parentBean" />
 
@@ -1256,8 +1254,8 @@
 
   <bean id="Asset-retirementInfo.retirementZipCode-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-retirementZipCode">
     <property name="name" value="retirementInfo.retirementZipCode" />
-    <property name="label" value="Zip Code" />
-    <property name="shortLabel" value="Zip" />
+    <property name="label" value="Postal Code" />
+    <property name="shortLabel" value="Postal Code" />
   </bean>
   <bean id="Asset-retirementInfo.retirementCountryCode" parent="Asset-retirementInfo.retirementCountryCode-parentBean" />
 
@@ -1308,7 +1306,7 @@
 
   <bean id="Asset-loanOrReturnInfo.borrowerZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerZipCode">
     <property name="name" value="loanOrReturnInfo.borrowerZipCode" />
-    <property name="label" value="Zip Code" />
+    <property name="label" value="Postal Code" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerCountryCode" parent="Asset-loanOrReturnInfo.borrowerCountryCode-parentBean" />
 
@@ -1344,7 +1342,7 @@
 
   <bean id="Asset-loanOrReturnInfo.borrowerStorageZipCode-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerStorageZipCode">
     <property name="name" value="loanOrReturnInfo.borrowerStorageZipCode" />
-    <property name="label" value="Zip Code" />
+    <property name="label" value="Postal Code" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCountryCode" parent="Asset-loanOrReturnInfo.borrowerStorageCountryCode-parentBean" />
 
@@ -1396,8 +1394,8 @@
 
   <bean id="Asset-offCampusLocation.assetLocationZipCode-parentBean" abstract="true" parent="AssetLocation-assetLocationZipCode">
     <property name="name" value="offCampusLocation.assetLocationZipCode" />
-    <property name="label" value="Zip" />
-    <property name="shortLabel" value="Zip" />
+    <property name="label" value="Postal Code" />
+    <property name="shortLabel" value="Postal Code" />
     <property name="summary" value="Asset Off Campus Zip" />
     <property name="description" value="Asset Off Campus Zip description..." />
   </bean>

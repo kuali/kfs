@@ -34,6 +34,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
@@ -73,6 +74,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     private Country borrowerStorageCountry;
     private UniversalUser borrowerUniversalUser;
     private Asset asset;
+    private PostalZipCode postalZipCode;
     
     private boolean newLoan;
 
@@ -443,6 +445,24 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      */
     public void setBorrowerStorageZipCode(String borrowerStorageZipCode) {
         this.borrowerStorageZipCode = borrowerStorageZipCode;
+    }
+
+    /**
+     * Gets the postalZipCode attribute.
+     * 
+     * @return Returns the postalZipCode
+     */
+    public PostalZipCode getPostalZipCode() {
+        return postalZipCode;
+    }
+
+    /**
+     * Sets the postalZipCode attribute.
+     * 
+     * @param postalZipCode The postalZipCode to set.
+     */
+    public void setPostalZipCode(PostalZipCode postalZipCode) {
+        this.postalZipCode = postalZipCode;
     }
 
     /**

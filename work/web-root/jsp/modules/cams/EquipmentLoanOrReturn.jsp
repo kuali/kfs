@@ -141,9 +141,19 @@
 			</tr>
 		    <tr>
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerZipCode}" /></th>
-		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerZipCode" attributeEntry="${eqipAttributes.borrowerZipCode}" readOnly="${readOnly}" /></td>		      	
+		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerZipCode" attributeEntry="${eqipAttributes.borrowerZipCode}" readOnly="${readOnly}" />
+					<c:if test="${not readOnly}">
+						&nbsp;
+		                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.PostalZipCode" fieldConversions="postalZipCode:document.borrowerZipCode" lookupParameters="document.borrowerZipCode:postalZipCode,document.borrowerStateCode:postalStateCode" />
+					</c:if>
+		      	</td>		      	
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStorageZipCode}" readOnly="true"/></th>
-		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageZipCode" attributeEntry="${eqipAttributes.borrowerStorageZipCode}" readOnly="${readOnly}" /></td>		      	
+		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageZipCode" attributeEntry="${eqipAttributes.borrowerStorageZipCode}" readOnly="${readOnly}" />
+					<c:if test="${not readOnly}">
+						&nbsp;
+		                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.PostalZipCode" fieldConversions="postalZipCode:document.borrowerStorageZipCode" lookupParameters="document.borrowerStorageZipCode:postalZipCode,document.borrowerStorageStateCode:postalStateCode" />
+					</c:if>
+		      	</td>		      	
 		    </tr>		    
 		    <tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerCountryCode}" /></th>

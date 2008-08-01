@@ -9,6 +9,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
 
 /**
@@ -44,6 +45,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
     private State retirementState;
     private Country retirementCountry;
     private AssetRetirementGlobal assetRetirementGlobal;
+    private PostalZipCode postalZipCode;
 
     // Non-persistent
 
@@ -262,6 +264,26 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
         this.retirementZipCode = retirementZipCode;
     }
 
+
+    /**
+     * Gets the postalZipCode attribute.
+     * 
+     * @return Returns the postalZipCode
+     * 
+     */
+    public PostalZipCode getPostalZipCode() {
+        return postalZipCode;
+    }
+
+    /**
+     * Sets the postalZipCode attribute.
+     * 
+     * @param postalZipCode The postalZipCode to set.
+     * 
+     */
+    public void setPostalZipCode(PostalZipCode postalZipCode) {
+        this.postalZipCode = postalZipCode;
+    }
 
     /**
      * Gets the retirementCountryCode attribute.

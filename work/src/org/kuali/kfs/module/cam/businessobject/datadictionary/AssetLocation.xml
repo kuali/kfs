@@ -194,11 +194,11 @@
   <bean id="AssetLocation-assetLocationZipCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="assetLocationZipCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Location Zip Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="9" />
+    <property name="label" value="Asset Location Postal Code" />
+    <property name="shortLabel" value="Postal Code" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="ZipcodeValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

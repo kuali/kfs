@@ -8,6 +8,7 @@ import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.State;
 
@@ -41,6 +42,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     private Room buildingRoom;
     private State offCampusState;
     private Country offCampusCountry;
+    private PostalZipCode postalZipCode;
+
 
     private Integer locationQuantity;
 
@@ -484,6 +487,25 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      */
     public void setOffCampusState(State offCampusState) {
         this.offCampusState = offCampusState;
+    }
+
+    /**
+     * Gets the postalZipCode attribute.
+     * 
+     * @return Returns the postalZipCode.
+     */
+    public PostalZipCode getPostalZipCode() {
+        return postalZipCode;
+    }
+
+    /**
+     * Sets the postalZipCode attribute value.
+     * 
+     * @param postalZipCode The postalZipCode to set.
+     * @deprecated
+     */
+    public void setPostalZipCode(PostalZipCode postalZipCode) {
+        this.postalZipCode = postalZipCode;
     }
 
     /**

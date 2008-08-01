@@ -600,6 +600,9 @@
     <reference-descriptor name="offCampusState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="offCampusStateCode" />
     </reference-descriptor>
+    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.sys.businessobject.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="offCampusZipCode" />
+    </reference-descriptor>
     <reference-descriptor name="offCampusCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="offCampusCountryCode" />
     </reference-descriptor>
@@ -886,6 +889,9 @@
     <reference-descriptor name="offCampusState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="offCampusStateCode" />
     </reference-descriptor>
+    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.sys.businessobject.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="offCampusZipCode" />
+    </reference-descriptor>
     <reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="campusCode" />
         <foreignkey field-ref="buildingCode" />
@@ -948,6 +954,12 @@
     <reference-descriptor name="borrowerStorageState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="borrowerStorageStateCode" />
     </reference-descriptor>
+    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.sys.businessobject.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="borrowerZipCode" />
+    </reference-descriptor>
+    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.sys.businessobject.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="borrowerStorageZipCode" />
+    </reference-descriptor>
     <reference-descriptor name="borrowerCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="borrowerCountryCode" />
     </reference-descriptor>
@@ -1005,6 +1017,9 @@
 	<reference-descriptor name="assetLocationState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="assetLocationStateCode" />
 	</reference-descriptor>
+    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.sys.businessobject.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="assetLocationZipCode" />
+    </reference-descriptor>
 	<reference-descriptor name="assetLocationCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="assetLocationCountryCode" />
 	</reference-descriptor>
@@ -1127,6 +1142,9 @@
 	<reference-descriptor name="retirementState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="retirementStateCode" />
 	</reference-descriptor>
+    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.sys.businessobject.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="retirementZipCode" />
+    </reference-descriptor>
 	<reference-descriptor name="retirementCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="retirementCountryCode" />
 	</reference-descriptor>

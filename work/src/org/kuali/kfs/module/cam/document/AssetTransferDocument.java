@@ -39,6 +39,7 @@ import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -78,6 +79,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private transient List<AssetGlpeSourceDetail> sourceAssetGlpeSourceDetails;
     private transient List<AssetGlpeSourceDetail> targetAssetGlpeSourceDetails;
     private Asset asset;
+    private PostalZipCode postalZipCode;
 
 
     public AssetTransferDocument() {
@@ -263,6 +265,14 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return offCampusZipCode;
     }
 
+    /**
+     * Gets the postalZipCode attribute.
+     * 
+     * @return Returns the postalZipCode
+     */
+    public PostalZipCode getPostalZipCode() {
+        return postalZipCode;
+    }
 
     /**
      * Gets the organization attribute.
@@ -616,6 +626,14 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.offCampusZipCode = offCampusZipCode;
     }
 
+    /**
+     * Sets the postalZipCode attribute.
+     * 
+     * @param postalZipCode The postalZipCode to set.
+     */
+    public void setPostalZipCode(PostalZipCode postalZipCode) {
+        this.postalZipCode = postalZipCode;
+    }
 
     /**
      * Sets the organization attribute.

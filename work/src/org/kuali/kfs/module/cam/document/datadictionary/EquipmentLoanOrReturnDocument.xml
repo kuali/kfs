@@ -260,9 +260,9 @@
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageZipCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="borrowerStorageZipCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Zip Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="9" />
+    <property name="label" value="Postal Code" />
+    <property name="shortLabel" value="Postal Code" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="ZipcodeValidationPattern" />
     </property>
@@ -278,9 +278,9 @@
   <bean id="EquipmentLoanOrReturnDocument-borrowerZipCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="borrowerZipCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Zip Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="9" />
+    <property name="label" value="Postal Code" />
+    <property name="shortLabel" value="Postal Code" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="ZipcodeValidationPattern" />
     </property>

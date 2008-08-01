@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
 
 /**
@@ -28,6 +29,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     
     private State assetLocationState;
     private Country assetLocationCountry;    
+    private PostalZipCode postalZipCode;
 	/**
 	 * Default constructor.
 	 */
@@ -265,8 +267,27 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 		this.assetLocationZipCode = assetLocationZipCode;
 	}
 
+    /**
+     * Gets the postalZipCode attribute.
+     * 
+     * @return Returns the postalZipCode
+     * 
+     */
+	public PostalZipCode getPostalZipCode() {
+        return postalZipCode;
+    }
 
-	/**
+    /**
+     * Sets the postalZipCode attribute.
+     * 
+     * @param postalZipCode The postalZipCode to set.
+     * 
+     */
+    public void setPostalZipCode(PostalZipCode postalZipCode) {
+        this.postalZipCode = postalZipCode;
+    }
+
+    /**
 	 * Gets the asset attribute.
 	 * 
 	 * @return Returns the asset

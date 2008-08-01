@@ -204,12 +204,11 @@
   <bean id="AssetTransferDocument-offCampusZipCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="offCampusZipCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Zip" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="9" />
+    <property name="label" value="Postal Code" />
+    <property name="shortLabel" value="Postal Code" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="ZipcodeValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

@@ -33,15 +33,15 @@ public class SalarySettingRules implements SalarySettingRule {
         boolean isValid = true;
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            if (!SalarySettingRuleUtil.appointmentRequestedAmountIsNotEmpty(appointmentFunding)) {
+            if (!SalarySettingRuleUtil.isRequestedAmountNotEmpty(appointmentFunding)) {
                 GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_REQUIRED);
                 isValid = false;
             }
-            else if (!SalarySettingRuleUtil.appointmentRequestedAmountIsNonNegative(appointmentFunding)) {
+            else if (!SalarySettingRuleUtil.isRequestedAmountNonNegative(appointmentFunding)) {
                 GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED);
                 isValid = false;
             }
-            else if (!SalarySettingRuleUtil.appointmentRequestedFteQuantityIsGreaterThanZero(appointmentFunding)) {
+            else if (!SalarySettingRuleUtil.isRequestedFteQuantityGreaterThanZero(appointmentFunding)) {
                 GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_FTE_QUANTITY, BCKeyConstants.ERROR_FTE_GREATER_THAN_ZERO_REQUIRED);
                 isValid = false;
             }
@@ -56,12 +56,12 @@ public class SalarySettingRules implements SalarySettingRule {
     public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         boolean isValid = true;
 
-        if (!SalarySettingRuleUtil.adjustmentAmountIsNotEmpty(appointmentFunding)) {
+        if (!SalarySettingRuleUtil.isAdjustmentAmountNotEmpty(appointmentFunding)) {
             GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_REQUIRED);
             isValid = false;
         }
 
-        if (!SalarySettingRuleUtil.appointmentRequestedPayRateIsNotEmpty(appointmentFunding)) {
+        if (!SalarySettingRuleUtil.isRequestedPayRateNotEmpty(appointmentFunding)) {
             GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCKeyConstants.ERROR_PAYRATE_AMOUNT_REQUIRED);
             isValid = false;
         }
@@ -88,7 +88,7 @@ public class SalarySettingRules implements SalarySettingRule {
     public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         boolean isValid = true;
 
-        if (!SalarySettingRuleUtil.adjustmentAmountIsNotEmpty(appointmentFunding)) {
+        if (!SalarySettingRuleUtil.isAdjustmentAmountNotEmpty(appointmentFunding)) {
             GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED);
             isValid = false;
         }

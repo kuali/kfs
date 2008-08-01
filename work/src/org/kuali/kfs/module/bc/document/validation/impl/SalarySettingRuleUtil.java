@@ -17,10 +17,6 @@ package org.kuali.kfs.module.bc.document.validation.impl;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 
 public class SalarySettingRuleUtil {
@@ -31,10 +27,8 @@ public class SalarySettingRuleUtil {
      * @param appointmentFunding
      * @return
      */
-    public static boolean appointmentRequestedAmountIsNotEmpty(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        if (appointmentFunding.getAppointmentRequestedAmount() == null) return false;
-        
-        return true;
+    public static boolean isRequestedAmountNotEmpty(PendingBudgetConstructionAppointmentFunding appointmentFunding) {        
+        return appointmentFunding.getAppointmentRequestedAmount() != null;
     }
     
     /**
@@ -43,10 +37,8 @@ public class SalarySettingRuleUtil {
      * @param appointmentFunding
      * @return
      */
-    public static boolean appointmentRequestedAmountIsNonNegative(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        if (appointmentFunding.getAppointmentRequestedAmount().isNegative()) return false;
-        
-        return true;
+    public static boolean isRequestedAmountNonNegative(PendingBudgetConstructionAppointmentFunding appointmentFunding) {        
+        return !appointmentFunding.getAppointmentRequestedAmount().isNegative();
     }
     
     /**
@@ -55,10 +47,11 @@ public class SalarySettingRuleUtil {
      * @param appointmentFunding
      * @return
      */
-    public static boolean appointmentRequestedFteQuantityIsGreaterThanZero(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        if ( appointmentFunding.getAppointmentRequestedAmount().isGreaterThan(new KualiInteger(0)) 
-                && ( appointmentFunding.getAppointmentRequestedFteQuantity().compareTo(new BigDecimal(0)) != 1 )) return false;
-        
+    public static boolean isRequestedFteQuantityGreaterThanZero(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        if ( appointmentFunding.getAppointmentRequestedAmount().isPositive()) {
+            return appointmentFunding.getAppointmentRequestedFteQuantity().compareTo(BigDecimal.ZERO) > 0;
+        }
+                       
         return true;
     }
     
@@ -68,10 +61,8 @@ public class SalarySettingRuleUtil {
      * @param appointmentFunding
      * @return
      */
-    public static boolean adjustmentAmountIsNotEmpty(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        if (appointmentFunding.getAdjustmentAmount() == null ) return false;
-        
-        return true;
+    public static boolean isAdjustmentAmountNotEmpty(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return appointmentFunding.getAdjustmentAmount() != null;
     }
     
     /**
@@ -80,9 +71,7 @@ public class SalarySettingRuleUtil {
      * @param appointmentFunding
      * @return
      */
-    public static boolean appointmentRequestedPayRateIsNotEmpty(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        if (appointmentFunding.getAppointmentRequestedPayRate() == null) return false;
-        
-        return true;
+    public static boolean isRequestedPayRateNotEmpty(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return appointmentFunding.getAppointmentRequestedPayRate() != null;
     }
 }

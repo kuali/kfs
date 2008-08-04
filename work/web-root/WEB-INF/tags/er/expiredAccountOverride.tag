@@ -37,12 +37,12 @@
 			<kul:htmlAttributeLabel 
 				attributeEntry="${attributes[accountExpiredOverride]}"
 				useShortLabel="true" 
-				forceRequired="true" />
+				labelFor="${detailLineFormName}.${accountExpiredOverride}" forceRequired="true" />
 		            
 		    <kul:htmlControlAttribute
 				property="${detailLineFormName}.${accountExpiredOverride}"
 				attributeEntry="${attributes[accountExpiredOverride]}"
-				readOnly="false"
+				readOnly="false" forceRequired="true"
 				readOnlyBody="false"/>
 		</c:otherwise>
 	</c:choose>

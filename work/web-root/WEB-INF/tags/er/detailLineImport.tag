@@ -33,13 +33,13 @@
 			<div align="right">
 				<kul:htmlAttributeLabel 
 					attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
-					forceRequired="true" useShortLabel="false" />
+					labelFor="emplid" forceRequired="true" useShortLabel="false" />
 			</div>
 		</th>
 			
 		<td class="datacell-nowrap">
 			<kfs:employee userIdFieldName="emplid" 
-                userNameFieldName="personName" 
+                forceRequired="true" userNameFieldName="personName" 
                 fieldConversions="personPayrollIdentifier:emplid"
                 lookupParameters="emplid:personPayrollIdentifier"
                 readOnly="${readOnly}" />
@@ -50,14 +50,14 @@
 		<th width="35%" class="bord-l-b">
 			<div align="right">
 				<kul:htmlAttributeLabel attributeEntry="${attributes.universityFiscalYear}"
-				forceRequired="true" useShortLabel="false" />
+				labelFor="universityFiscalYear" forceRequired="true" useShortLabel="false" />
 			</div>
 		</th>
 		
 		<td class="datacell-nowrap">	
 			<kul:htmlControlAttribute
 				attributeEntry="${attributes.universityFiscalYear}"
-				property="universityFiscalYear" readOnly="${readOnly}" />
+				property="universityFiscalYear" readOnly="${readOnly}" forceRequired="true" />
 			
 			<c:if test="${!readOnly}" >	 
 			<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Options"
@@ -79,7 +79,7 @@
 		<td class="datacell-nowrap">
 			<kul:htmlControlAttribute
 				attributeEntry="${attributes.effortCertificationReportNumber}"
-				property="effortCertificationReportNumber" readOnly="${readOnly}" />
+				property="effortCertificationReportNumber" readOnly="${readOnly}" forceRequired="true" />
 			
 			<c:if test="${!readOnly}" > 
 			<kul:lookup

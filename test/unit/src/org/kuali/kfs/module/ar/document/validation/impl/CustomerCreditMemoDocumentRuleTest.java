@@ -19,19 +19,28 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.math.BigDecimal;
 
+import org.kuali.core.document.Document;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentTestUtil;
 import org.kuali.kfs.module.ar.fixture.CustomerFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +48,8 @@ import java.util.List;
 @ConfigureContext(session = KHUNTLEY)
 
 public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
+    
+    public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentTestUtil.class);
     
     private CustomerCreditMemoDocumentRule rule;
     private CustomerCreditMemoDocument document;
@@ -69,7 +80,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     /*
      *  This method tests if isQtyOrItemAmountEntered returns correct key if customer enteres only quantity
      */
-    public void testIsQtyOrItemAmountEntered_Qty_True() {
+   public void testIsQtyOrItemAmountEntered_Qty_True() {
        CustomerCreditMemoDetail detail = new CustomerCreditMemoDetail();
        detail.setCreditMemoItemQuantity(new BigDecimal(1));
        
@@ -101,7 +112,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     /*
      *  This method tests if isValueGreaterThanZero returns true if passed a valid value
      */
-    public void testIsValueGreaterThanZero_True() {
+   public void testIsValueGreaterThanZero_True() {
         assertTrue(rule.isValueGreaterThanZero(BigDecimal.ONE));
     }
     
@@ -129,7 +140,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     /*
      *  This method tests if isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount returns true if passed correct values (invoiceOpenItemAmount = creditMemoItemAmount)
      */
-    public void testIsCustomerCreditMemoItemAmountGreaterThanInvoiceOpenItemAmount_Equal_True() {
+   public void testIsCustomerCreditMemoItemAmountGreaterThanInvoiceOpenItemAmount_Equal_True() {
         CustomerCreditMemoDetail detail = new CustomerCreditMemoDetail();
         detail.setInvoiceOpenItemAmount(new KualiDecimal(2));
         detail.setCreditMemoItemTotalAmount(new KualiDecimal(2));
@@ -140,7 +151,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     /*
      *  This method tests if isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount returns true if passed correct values (creditMemoItemAmount < invoiceOpenItemAmount)
      */
-    public void testIsCustomerCreditMemoItemAmountGreaterThanInvoiceOpenItemAmount_Less_True() {
+   public void testIsCustomerCreditMemoItemAmountGreaterThanInvoiceOpenItemAmount_Less_True() {
         CustomerCreditMemoDetail detail = new CustomerCreditMemoDetail();
         detail.setInvoiceOpenItemAmount(new KualiDecimal(2));
         detail.setCreditMemoItemTotalAmount(new KualiDecimal(1));
@@ -249,11 +260,81 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     }
     
     /*
-     *  This method tests if checkIfThereIsNoAnotherCRMInRouteForTheInvoice returns false if passed an invoice number for which there ia a CRM in route. 
+     *  This method tests if checkIfThereIsNoAnotherCRMInRouteForTheInvoice returns false if passed an invoice number for which there is a CRM in route. 
      */
-/*
+
     public void testCheckIfThereIsNoAnotherCRMInRouteForTheInvoice_False() {
-        assertFalse(rule.checkIfThereIsNoAnotherCRMInRouteForTheInvoice("328019"));   
+        String invoiceNumber = "";
+        
+        // create a new invoice
+        CustomerInvoiceDocument invoice = CustomerInvoiceDocumentTestUtil.submitNewCustomerInvoiceDocumentAndReturnIt(CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER,
+            new CustomerInvoiceDetailFixture[]
+            {CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE},
+            null);
+            
+        // create a new credit memo for the invoice and save it
+        invoiceNumber = invoice.getDocumentNumber();
+        document = createCustomerCreditMemoDocument(invoice);
+        document.getDocumentHeader().setDocumentDescription("CREATING TEST CRM DOCUMENT");
+            
+        try {
+            Document savedDocument = SpringContext.getBean(DocumentService.class).saveDocument(document, DocumentSystemSaveEvent.class);
+        } catch (Exception e){
+            LOG.error(e.getMessage());
+        } 
+        assertFalse(rule.checkIfThereIsNoAnotherCRMInRouteForTheInvoice(invoiceNumber));   
     }
-*/
+    
+    /**
+     * This method creates a customer credit memo document based on the passed in customer invoice document
+     * 
+     * @param customer invoice document
+     * @return
+     */
+    public CustomerCreditMemoDocument createCustomerCreditMemoDocument(CustomerInvoiceDocument invoice){
+        
+        CustomerCreditMemoDetail customerCreditMemoDetail;
+        CustomerCreditMemoDocument customerCreditMemoDocument = null;
+        KualiDecimal invItemTaxAmount, itemAmount;
+        Integer itemLineNumber;
+        BigDecimal itemQuantity;
+        String documentNumber;
+        
+        try {
+            // the document header is created and set here
+            customerCreditMemoDocument = (CustomerCreditMemoDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CustomerCreditMemoDocument.class);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("Document creation failed.");
+        }
+        
+        customerCreditMemoDocument.setInvoice(invoice); // invoice, not sure I need to set it at all for this test
+        customerCreditMemoDocument.setFinancialDocumentReferenceInvoiceNumber(invoice.getDocumentNumber());
+
+        List<CustomerInvoiceDetail> customerInvoiceDetails = invoice.getCustomerInvoiceDetailsWithoutDiscounts();
+        if (customerInvoiceDetails == null)
+            return customerCreditMemoDocument;
+        
+        for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
+                customerCreditMemoDetail = new CustomerCreditMemoDetail();
+                customerCreditMemoDetail.setDocumentNumber(customerCreditMemoDocument.getDocumentNumber());
+                
+                invItemTaxAmount = customerInvoiceDetail.getInvoiceItemTaxAmount();
+                if (invItemTaxAmount == null)
+                    invItemTaxAmount = KualiDecimal.ZERO;
+                customerCreditMemoDetail.setCreditMemoItemTaxAmount(invItemTaxAmount.divide(new KualiDecimal(2)));
+                
+                customerCreditMemoDetail.setReferenceInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
+                itemQuantity = customerInvoiceDetail.getInvoiceItemQuantity().divide(new BigDecimal(2));
+                customerCreditMemoDetail.setCreditMemoItemQuantity(itemQuantity);
+                
+                itemAmount = customerInvoiceDetail.getAmount().divide(new KualiDecimal(2));
+                customerCreditMemoDetail.setCreditMemoItemTotalAmount(itemAmount);
+                customerCreditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(invoice.getDocumentNumber());
+                customerCreditMemoDetail.setCustomerInvoiceDetail(customerInvoiceDetail);
+                customerCreditMemoDocument.getCreditMemoDetails().add(customerCreditMemoDetail);
+        }
+        return customerCreditMemoDocument;
+    }
+
 }

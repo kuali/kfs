@@ -144,10 +144,11 @@ public interface CustomerInvoiceDocumentService {
      */
     public KualiDecimal getTotalAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber);
     
-    /**
+   /**
      * This method updates the open invoice indicator if amounts have been completely paid off
      * @param invoice
      */
     public void closeCustomerInvoiceDocument(CustomerInvoiceDocument invoice);
     
+     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber);
 }

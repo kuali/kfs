@@ -26,6 +26,7 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
 
     private BusinessObjectService businessObjectService;
     private UniversityDateService universityDateService;
-    
+
     public void saveInvoicePaidApplied(AppliedPayment appliedPayment, Integer paidAppliedItemNumber) {
         InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
         invoicePaidApplied.setDocumentNumber(appliedPayment.getDocumentNumber());
@@ -66,18 +67,37 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
         return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
     }
     
-
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNumber) {
+        Map criteria = new HashMap();
+        criteria.put("documentNumber", customerInvoiceDetail.getDocumentNumber());
+        criteria.put("invoiceItemNumber", customerInvoiceDetail.getSequenceNumber());
+        criteria.put("financialDocumentReferenceInvoiceNumber", customerInvoiceDetail.getDocumentNumber());
+        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+    }
     
+    public Collection<InvoicePaidApplied> getApprovedInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
+        Map criteria = new HashMap();
+        criteria.put("invoiceItemNumber", customerInvoiceDetail.getSequenceNumber());
+        criteria.put("financialDocumentReferenceInvoiceNumber", customerInvoiceDetail.getDocumentNumber());
+        criteria.put("accountsReceivableDocumentHeader.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#saveInvoicePaidAppliedForDiscounts(java.util.List)
+     */
+        
     public Integer getNumberOfInvoicePaidAppliedsForInvoiceDetail(String financialDocumentReferenceInvoiceNumber, Integer invoiceItemNumber){
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("financialDocumentReferenceInvoiceNumber", financialDocumentReferenceInvoiceNumber);
         criteria.put("invoiceItemNumber", invoiceItemNumber);
         
         return businessObjectService.countMatching(InvoicePaidApplied.class, criteria);
-    }
-    
-    
-    
+            }
+            
+        
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#doesInvoiceHaveAppliedAmounts(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
@@ -127,4 +147,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
+
+
+
 }

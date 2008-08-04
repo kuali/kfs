@@ -109,6 +109,11 @@ public class ArConstants {
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_WITH_NO_AR_OBJ_CD = "error.document.customerInvoiceDocument.invalidSubFundWithNoARObjectCode";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_AR_OBJ_CD_IN_PARM = "error.document.customerInvoiceDocument.invalidSubFundARObjectCodeInParm";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_UNIT_OF_MEASURE_CD = "error.document.customerInvoiceDocument.invalidUnitOfMeasureCode";
+    
+    // PaymentApplicationDocument errors:
+    public static final String ERROR_PAYMENT_APPLICATION_DOCUMNET_AMOUNT_TO_BE_APPLIED_MUST_BE_NUMERIC = "error.ar.paymentApplication.amountToBeAppliedMustBeNumeric";
+    public static final String ERROR_PAYMENT_APPLICATION_DOCUMNET_AMOUNT_TO_BE_APPLIED_MUST_BE_POSITIVE = "error.ar.paymentApplication.amountToBeAppliedMustBePositive";
+    public static final String ERROR_PAYMENT_APPLICATION_DOCUMNET_AMOUNT_TO_BE_APPLIED_MUST_BE_LESS_EQUAL_TO_DETAIL_AMOUNT = "error.ar.paymentApplication.amountToBeAppliedMustBeLesOrEqualWithTheDetailAmount";
 
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART = "1";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND = "2";
@@ -116,9 +121,11 @@ public class ArConstants {
     public static final String GLPE_WRITEOFF_GENERATION_METHOD_CHART = "1";
     public static final String GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT = "2";
     public static final String COPY_CUSTOMER_INVOICE_DOCUMENT_WITH_DISCOUNTS_QUESTION = "ConfirmationForCopyingInvoiceWithDiscounts";
+
+
     public static final String CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY = "invoiceItemCode";
     public static final String CUSTOMER_INVOICE_DETAIL_DEFAULT_DISCOUNT_DESCRIPTION_PREFIX = "LINE ITEM DISCOUNT";
-    
+
     //Customer Invoice Writeoff errors
     public static final String ERROR_ORG_ACCT_DEFAULT_FOR_USER_MUST_EXIST = "error.ar.OrganizationAccountingDefaultMustExist";
     public static final String ERROR_ORG_ACCT_DEFAULT_WRITEOFF_MUST_EXIST = "error.ar.OrganizationAccountingDefaultWriteoffMustExist";
@@ -177,9 +184,8 @@ public class ArConstants {
 
         public static final String INVOICE_ITEM_UNIT_PRICE = "invoiceItemUnitPrice";
         public static final String INVOICE_ITEM_QUANTITY = "invoiceItemQuantity";
-        
-        public static final String PROCESSING_CHART_OF_ACCOUNT_CODE = "accountsReceivableDocumentHeader.processingChartOfAccountCode";
 
+        public static final String PROCESSING_CHART_OF_ACCOUNT_CODE = "accountsReceivableDocumentHeader.processingChartOfAccountCode";
 
         public static final String SHIP_TO_ADDRESS_IDENTIFIER = "customerShipToAddressIdentifier";
         public static final String BILL_TO_ADDRESS_IDENTIFIER = "customerBillToAddressIdentifier";
@@ -224,7 +230,7 @@ public class ArConstants {
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";
     }
-    
+
     public static class CustomerInvoiceWriteoffStatuses {
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";
@@ -241,7 +247,6 @@ public class ArConstants {
     public static final String CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY = "invoiceItemUnitOfMeasureCode";
     public static final String UNIT_OF_MEASURE_PROPERTY = "itemUnitOfMeasureCode";
     public static final String DISCOUNT_PREFIX = "DISCOUNT - ";
-
 
     public static class CustomerFields {
         public static final String CUSTOMER_TAB_ADDRESSES = "customerAddresses";

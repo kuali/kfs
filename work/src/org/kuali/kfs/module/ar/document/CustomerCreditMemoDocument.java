@@ -369,7 +369,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
             }
             customerCreditMemoDetail.setInvoiceLineTotalAmount(customerInvoiceDetail.getInvoiceItemTaxAmount(), customerInvoiceDetail.getAmount());
             customerCreditMemoDetail.setReferenceInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
-            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(customerInvoiceDetail.getSequenceNumber(), customerInvoiceDetail);
+            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount( customerInvoiceDetail);
 
             /*
              * invoiceUnitPrice = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemUnitPrice(); openInvoiceQuantity =
@@ -400,7 +400,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
 
             creditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(this.financialDocumentReferenceInvoiceNumber);
             CustomerInvoiceDetail customerInvoiceDetail = creditMemoDetail.getCustomerInvoiceDetail(); 
-            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(customerInvoiceDetail.getSequenceNumber(), customerInvoiceDetail);
+            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount( customerInvoiceDetail);
             creditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
 
             /*

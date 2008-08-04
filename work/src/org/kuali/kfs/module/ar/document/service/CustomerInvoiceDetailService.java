@@ -99,7 +99,7 @@ public interface CustomerInvoiceDetailService {
      * @param invoiceItemCode
      * @return
      */  
-    public KualiDecimal getOpenAmount(Integer invoiceItemNumber,CustomerInvoiceDetail customerInvoiceDetail);
+    public KualiDecimal getOpenAmount(CustomerInvoiceDetail customerInvoiceDetail);
     
     /**
      * This method is used to recalculate a customer invoice detail based on updated values

@@ -43,7 +43,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String VENDOR = "vendor";
         public static final String PDP = "pdp";
     }
-    
     public static class ParameterNamespaces {
         public static final String KFS = "KFS-SYS";
         public static final String CHART = "KFS-COA";
@@ -1113,6 +1112,10 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     
     // Customer Invoice Writeoff Document
     public static final String CUSTOMER_INVOICE_WRITEOFF_INIT_ERRORS = "document.financialDocumentReferenceInvoiceNumber*";
+    
+    // Payment Application Document
+    public static final String PAYMENT_APPLICATION_DOCUMENT_ERRORS = "document";
+    public static final String PAYMENT_APPLICATION_CUSTOMER_INVOICE_DETAILS_ERRORS = "customerInvoiceDetail*";
     
     public static final class ReportGeneration{
         public final static String PARAMETER_NAME_SUBREPORT_DIR = "SUBREPORT_DIR";

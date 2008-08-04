@@ -18,9 +18,9 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
 
-public class PaymentApplicationDocumentRule extends AccountingDocumentRuleBase {
+public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
     
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);

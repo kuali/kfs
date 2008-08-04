@@ -75,6 +75,11 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // the line amount for the new PaymentApplicationDocument should be the line amount in the new cash control detail
         doc.getDocumentHeader().setFinancialDocumentTotalAmount(cashControlDetail.getFinancialDocumentLineAmount());
+        
+        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
+        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
+        accountsReceivableDocumentHeader.setDocumentNumber(doc.getDocumentNumber());
+        doc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
         // refresh nonupdatable references and save the PaymentApplicationDocument
         doc.refreshNonUpdateableReferences();

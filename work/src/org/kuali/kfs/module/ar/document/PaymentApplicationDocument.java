@@ -30,8 +30,9 @@ import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentServic
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 
-public class PaymentApplicationDocument extends AccountingDocumentBase {
+public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase {
 
     private List<InvoicePaidApplied> appliedPayments;
     private Collection<NonInvoiced> nonInvoicedPayments;
@@ -68,18 +69,6 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
 
     public KualiDecimal getTotalAppliedAmount() {
         return paymentApplicationDocumentService.getTotalAppliedAmountForPaymentApplicationDocument(getDocumentNumber());
-    }
-
-    /**
-     * Determines if the given AccountingLine (as a GeneralLedgerPendingEntrySourceDetail) is a credit or a debit, in terms of GLPE
-     * generation
-     * 
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
-     */
-    @Override
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     public List<InvoicePaidApplied> getAppliedPayments() {

@@ -37,6 +37,7 @@ public interface InvoicePaidAppliedService<A extends AppliedPayment> {
      */
     public void saveInvoicePaidApplied(A appliedPayment, Integer paidAppliedItemNumber);
     
+    
     /**
      * This method returns true if invoice has applied amounts (i.e. from application, credit memo, etc), not including
      * discounts
@@ -63,5 +64,8 @@ public interface InvoicePaidAppliedService<A extends AppliedPayment> {
      * @return
      */
     public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail);
+    
+    public Collection<InvoicePaidApplied> getApprovedInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail);
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNumber);
     
 }

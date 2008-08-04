@@ -41,6 +41,8 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         KualiDecimal total = new KualiDecimal(0);
 
         // TODO Auto-generated method stub
+        // for test purpose only
+        total = total.add(new KualiDecimal(1000));
 
         return total;
     }
@@ -58,6 +60,8 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         KualiDecimal total = new KualiDecimal(0);
 
         // TODO Auto-generated method stub
+        // for test purpose only
+        total = total.add(new KualiDecimal(1100));
 
         return total;
     }
@@ -66,7 +70,8 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         KualiDecimal total = new KualiDecimal(0);
 
         // TODO Auto-generated method stub
-
+        // for test purpose only
+        total = total.add(new KualiDecimal(1200));
         return total;
     }
 
@@ -74,6 +79,8 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         KualiDecimal total = new KualiDecimal(0);
 
         // TODO Auto-generated method stub
+        // for test purpose only
+        total = total.add(new KualiDecimal(1300));
 
         return total;
     }
@@ -107,23 +114,19 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#createInvoicePaidAppliedForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail,
      *      org.kuali.core.util.KualiDecimal)
      */
-    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNbr, Integer universityFiscalYear, String universityFiscalPeriodCode, KualiDecimal amount) {
+    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNbr, Integer universityFiscalYear, String universityFiscalPeriodCode, KualiDecimal amount, Integer invoicePaidAppliedItemNbr) {
 
         Collection<InvoicePaidApplied> invoicePaidApplieds = customerInvoiceDetail.getInvoicePaidApplieds();
         InvoicePaidApplied invoicePaidApplied = null;
-        Integer invoicePaidAppliedItemNbr = 1;
         boolean found = false;
 
-        if (invoicePaidApplieds != null || invoicePaidApplieds.size() > 0) {
+        if (invoicePaidApplieds != null && invoicePaidApplieds.size() > 0) {
             for (InvoicePaidApplied pdApp : invoicePaidApplieds) {
                 if (pdApp.getDocumentNumber().equals(applicationDocNbr) && pdApp.getFinancialDocumentReferenceInvoiceNumber().equals(customerInvoiceDetail.getDocumentNumber()) && pdApp.getInvoiceItemNumber().equals(customerInvoiceDetail.getSequenceNumber())) {
                     pdApp.setInvoiceItemAppliedAmount(amount);
                     found = true;
                     break;
                 }
-            }
-            if (!found) {
-                invoicePaidAppliedItemNbr = invoicePaidApplieds.size();
             }
         }
 

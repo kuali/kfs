@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 
-public class PaymentApplicationDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
+public class PaymentApplicationDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     
     
 

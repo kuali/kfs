@@ -2,6 +2,7 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
@@ -11,6 +12,8 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -46,14 +49,20 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     private CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail;
     private CustomerInvoiceDetail discountCustomerInvoiceDetail;
     private Collection<InvoicePaidApplied> invoicePaidApplieds;
+    
+    //fields used for PaymentApplicationdocument
+    private KualiDecimal amountToBeApplied;
+    private KualiDecimal appliedAmount;
+    private KualiDecimal balance;
 
     /**
      * Default constructor.
      */
     public CustomerInvoiceDetail() {
         super();
+        invoicePaidApplieds =  new ArrayList<InvoicePaidApplied>();
     }
-    
+
     public CustomerInvoiceDocument getCustomerInvoiceDocument() {
         return customerInvoiceDocument;
     }
@@ -65,22 +74,37 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     public KualiDecimal getBalance() {
         return getAmount().subtract(getAppliedAmount());
     }
-    
-    public void setBalance(KualiDecimal balance){
-        //do nothing
+
+    public void setBalance(KualiDecimal balance) {
+        this.balance = balance;
+    }
+
+    public KualiDecimal getOpenAmount() {
+        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+        return customerInvoiceDetailService.getOpenAmount(this);
+    }
+
+
+    public void setOpenAmount(KualiDecimal openAmount) {
+
     }
     
-    public KualiDecimal getAppliedAmount() {
+    public KualiDecimal getTotalAppliedAmount() {
         KualiDecimal total = new KualiDecimal(0);
-        for(InvoicePaidApplied paidApplied : getInvoicePaidApplieds()) {
+
+        for (InvoicePaidApplied paidApplied : invoicePaidApplieds) {
             total = total.add(paidApplied.getInvoiceItemAppliedAmount());
         }
-        
+
         return total;
     }
     
+    public KualiDecimal getAppliedAmount() {
+        return appliedAmount;
+    }
+    
     public void setAppliedAmount(KualiDecimal appliedAmount) {
-
+        this.appliedAmount = appliedAmount;
     }
 
     public Collection<InvoicePaidApplied> getInvoicePaidApplieds() {
@@ -435,7 +459,19 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         this.discountCustomerInvoiceDetail = discountCustomerInvoiceDetail;
     }
 
-    /**
+    public KualiDecimal getAmountToBeApplied() {
+        if(amountToBeApplied == null)
+        {
+            amountToBeApplied = KualiDecimal.ZERO;
+        }
+        return amountToBeApplied;
+    }
+
+
+    public void setAmountToBeApplied(KualiDecimal amountToBeApplied) {
+        this.amountToBeApplied = amountToBeApplied;
+    }
+       /**
      * This should only apply amounts if this invoice detail is a discount.  
      *
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getAmountToApply()
@@ -457,4 +493,5 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     public String getInvoiceReferenceNumber() {
       return customerInvoiceDocument.isInvoiceReversal() ? customerInvoiceDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() : customerInvoiceDocument.getDocumentNumber();
     }
+
 }

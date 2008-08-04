@@ -272,29 +272,25 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getOpenAmount(java.lang.Integer, org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
-    public KualiDecimal getOpenAmount(Integer invoiceItemNumber,CustomerInvoiceDetail customerInvoiceDetail) {
+    public KualiDecimal getOpenAmount(CustomerInvoiceDetail customerInvoiceDetail) {
         KualiDecimal totalAppliedAmount = KualiDecimal.ZERO;
         KualiDecimal appliedAmount;
-        KualiDecimal openInvoiceAmount;
+        KualiDecimal openAmount;
         KualiDecimal invoiceItemAmount;
         
-        String documentNumber = customerInvoiceDetail.getDocumentNumber();
-        
-        Map<String,Object> criteria = new HashMap<String,Object>();
-        criteria.put("documentNumber", documentNumber);
-        criteria.put("invoiceItemNumber", invoiceItemNumber);
-        
-        Collection<InvoicePaidApplied> results = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+        Collection<InvoicePaidApplied> results =invoicePaidAppliedService.getApprovedInvoicePaidAppliedsForCustomerInvoiceDetail(customerInvoiceDetail);
         for( InvoicePaidApplied invoicePaidApplied : results ){
             appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
             if (ObjectUtils.isNotNull(appliedAmount))
                 totalAppliedAmount = totalAppliedAmount.add(appliedAmount);
         }
         invoiceItemAmount = customerInvoiceDetail.getAmount();
-        openInvoiceAmount = invoiceItemAmount.subtract(totalAppliedAmount);
+        openAmount = invoiceItemAmount.subtract(totalAppliedAmount);
         
-        return openInvoiceAmount;
+        return openAmount;
     }
+    
+    
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#updateAccountsReceivableObjectCode(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */

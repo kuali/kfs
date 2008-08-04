@@ -19,13 +19,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class CustomerInvoiceBalanceHelper {
 
     private CustomerInvoiceDocument invoice;
     private Collection<InvoicePaidApplied> invoicePaidApplieds;
+    private Collection<CustomerInvoiceDetail> customerInvoiceDetails;
 
     public CustomerInvoiceBalanceHelper() {
 
@@ -36,30 +42,64 @@ public class CustomerInvoiceBalanceHelper {
         this.invoicePaidApplieds = new ArrayList<InvoicePaidApplied>(invoicePaidApplieds);
     }
 
+    /**
+     * This method calculates the invoice document balance as the difference between the open amount and the total applied amount
+     * @return the balance of the customer invoice document
+     */
     public KualiDecimal getCalculatedBalance() {
-        return invoice.getBalance().subtract(getTotalAppliedAmount());
+        return invoice.getTotalDollarAmount().subtract(getTotalAppliedAmountForAppDoc());
     }
-
-    public KualiDecimal getTotalAppliedAmount() {
+    
+    /**
+     * This method gets the open amount of the ustomer invoice document
+     * @return the open amount of the invoice
+     */
+    public KualiDecimal getOpenAmount() {
+        CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        return customerInvoiceDocumentService.getOpenAmountForCustomerInvoiceDocument(this.invoice.getDocumentNumber());
+    }
+    
+    /**
+     * This method gets the total applied amount 
+     * @return the total applied amount
+     */
+    public KualiDecimal getTotalAppliedAmountForAppDoc() {
         KualiDecimal appliedAmount = new KualiDecimal(0);
         for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
             appliedAmount = appliedAmount.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
         }
         return appliedAmount;
     }
+   
 
+    /**
+     * This method gets the invoice
+     * @return
+     */
     public CustomerInvoiceDocument getInvoice() {
         return invoice;
     }
 
+    /**
+     * This method sets the invoice
+     * @param invoice
+     */
     public void setInvoice(CustomerInvoiceDocument invoice) {
         this.invoice = invoice;
     }
 
+    /**
+     * This method gets the invoice paid applieds
+     * @return
+     */
     public Collection<InvoicePaidApplied> getInvoicePaidApplieds() {
         return invoicePaidApplieds;
     }
 
+    /**
+     * This method sets the invoice paid applieds
+     * @param invoicePaidApplieds
+     */
     public void setInvoicePaidApplieds(Collection<InvoicePaidApplied> invoicePaidApplieds) {
         this.invoicePaidApplieds = invoicePaidApplieds;
     }

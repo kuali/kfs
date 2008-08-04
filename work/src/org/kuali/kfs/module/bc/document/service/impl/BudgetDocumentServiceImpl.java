@@ -509,10 +509,12 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             return true;
         }
 
-        if (!subAccount.isSubAccountActiveIndicator()) {
+        // sub account must exist and be active.
+        if (subAccount == null || !subAccount.isSubAccountActiveIndicator()) {
             return false;
         }
 
+        // sub account must not be flagged cost share 
         A21SubAccount a21SubAccount = subAccount.getA21SubAccount();
         if (a21SubAccount != null && StringUtils.equals(a21SubAccount.getSubAccountTypeCode(), BCConstants.SUB_ACCOUNT_TYPE_COST_SHARE)) {
             return false;

@@ -25,8 +25,6 @@ import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -107,20 +105,15 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
+            String chartCode = appointmentFunding.getChartOfAccountsCode();
+            String objectCode = appointmentFunding.getFinancialObjectCode();
 
             boolean vacatable = salarySettingService.canBeVacant(appointmentFundings, appointmentFunding);
             appointmentFunding.setVacatable(vacatable);
 
-            Account account = appointmentFunding.getAccount();
-            SubAccount subAccount = appointmentFunding.getSubAccount();
-            String subAccountNumber = appointmentFunding.getSubAccountNumber();
-
-            boolean budgetable = budgetDocumentService.isBudgetableAccount(fiscalYear, account);
-            budgetable = budgetable && budgetDocumentService.isBudgetableSubAccount(subAccount, subAccountNumber);
+            boolean budgetable = budgetDocumentService.isAssociatedWithBudgetableDocument(appointmentFunding);
             appointmentFunding.setBudgetable(budgetable);
 
-            String chartCode = appointmentFunding.getChartOfAccountsCode();
-            String objectCode = appointmentFunding.getFinancialObjectCode();
             boolean hourlyPaid = salarySettingService.isHourlyPaidObject(fiscalYear, chartCode, objectCode);
             appointmentFunding.setHourlyPaid(hourlyPaid);
         }
@@ -644,21 +637,21 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public boolean isViewOnlyEntry() {
         boolean viewOnly = false;
-        if(editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
             viewOnly = Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
         }
-        
-        if(viewOnly) {
+
+        if (viewOnly) {
             return true;
         }
-        
-        if(editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+
+        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
             viewOnly = !Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY));
         }
         else {
             viewOnly = true;
         }
-        
+
         return viewOnly;
     }
 }

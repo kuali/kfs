@@ -458,6 +458,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isAssociatedWithBudgetableDocument(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
+    @NonTransactional
     public boolean isAssociatedWithBudgetableDocument(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         BudgetConstructionHeader bcHeader = this.getBudgetConstructionHeader(appointmentFunding);
         return this.isBudgetableDocument(bcHeader);

@@ -11,7 +11,7 @@
     <property name="objectLabel" value="Asset Global" />
     <property name="attributes" >
       <list>
-        <ref bean="AssetGlobal-separateSourceCapitalAsset.capitalAssetNumber" />
+        <ref bean="AssetGlobal-separateSourceCapitalAssetNumber" />
         <ref bean="AssetGlobal-organizationOwnerChartOfAccountsCode" />
         <ref bean="AssetGlobal-organizationOwnerAccountNumber" />
         <ref bean="AssetGlobal-organizationOwnerAccount.organizationCode" />
@@ -68,9 +68,9 @@
   </bean>
 
 <!-- Attribute Definitions -->
-  <bean id="AssetGlobal-separateSourceCapitalAsset.capitalAssetNumber" parent="AssetGlobal-separateSourceCapitalAsset.capitalAssetNumber-parentBean" />
-  <bean id="AssetGlobal-separateSourceCapitalAsset.capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
-    <property name="name" value="separateSourceCapitalAsset.capitalAssetNumber" />
+  <bean id="AssetGlobal-separateSourceCapitalAssetNumber" parent="AssetGlobal-separateSourceCapitalAssetNumber-parentBean" />
+  <bean id="AssetGlobal-separateSourceCapitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
+    <property name="name" value="separateSourceCapitalAssetNumber" />
   </bean>
 
   <bean id="AssetGlobal-organizationOwnerChartOfAccountsCode" parent="AssetGlobal-organizationOwnerChartOfAccountsCode-parentBean" />

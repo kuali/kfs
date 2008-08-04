@@ -81,7 +81,7 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="separateSourceCapitalAsset.capitalAssetNumber"
+              p:name="separateSourceCapitalAssetNumber"
               p:readOnly="true" />
       </list>
     </property>

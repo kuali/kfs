@@ -43,20 +43,15 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
      */
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
-        LOG.info("getFieldAuthorizations CALLED....");
 
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
-        
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
-            LOG.info("getFieldAuthorizations type code: '" + assetGlobal.getFinancialDocumentTypeCode() + "'");
-
             setAssetGlobalDetailsFieldsReadOnlyAccessMode(auths, user);
-            // TODO does not work with Asset Global
-            //setAssetPaymentDetailsFieldsReadOnlyAccessMode(auths, user);
+            setAssetGlobalPaymentsFieldsReadOnlyAccessMode(auths, user, false);
+        } else {
+            setAssetGlobalPaymentsFieldsReadOnlyAccessMode(auths, user, true);
         }
-
-        LOG.info("getFieldAuthorizations RETURN....");
         return auths;
     }
 
@@ -97,10 +92,10 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
      * @param auths
      * @param user
      */
-    private void setAssetPaymentDetailsFieldsReadOnlyAccessMode(MaintenanceDocumentAuthorizations auths, UniversalUser user) {
+    private void setAssetGlobalPaymentsFieldsReadOnlyAccessMode(MaintenanceDocumentAuthorizations auths, UniversalUser user, boolean bool) {
         // do not include add section within the payment details collection
-        MaintainableCollectionDefinition maintCollectionDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetGlobalMaintenanceDocument", "assetPaymentDetails");
-        maintCollectionDef.setIncludeAddLine(false);
+        MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetGlobalMaintenanceDocument", "assetPaymentDetails");
+        maintCollDef.setIncludeAddLine(bool);
     }
 
     /**
@@ -110,7 +105,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
     @Override
     public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
-        AssetGlobal assetGlobal = (AssetGlobal) document.getDocumentBusinessObject();
+        //AssetGlobal assetGlobal = (AssetGlobal) document.getDocumentBusinessObject();
 
         return actionFlags;
     }

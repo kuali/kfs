@@ -79,6 +79,41 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
     private static BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
+    /**
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#checkAuthorizationRestrictions(org.kuali.core.document.MaintenanceDocument)
+     */
+    @Override
+    protected boolean checkAuthorizationRestrictions(MaintenanceDocument document) {
+        
+        boolean success = true;
+        
+        AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
+        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+
+            /* needed?
+            UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+            // get the correct documentAuthorizer for this document
+            MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) documentAuthorizationService.getDocumentAuthorizer(document);
+            // get a new instance of MaintenanceDocumentAuthorizations for this context
+            MaintenanceDocumentAuthorizations auths = documentAuthorizer.getFieldAuthorizations(document, user);
+            
+            // DETAIL SECTION
+            Collection detailFields = auths.getAuthFieldNames();
+            for (Iterator iter = detailFields.iterator(); iter.hasNext();) {
+                String detailFieldName = (String) iter.next();
+                LOG.info("checkAuthorizationRestrictions detailFieldName: '" + detailFieldName.toString() + "'");
+            }
+
+            // LOCATION SECTION
+            //MaintainableCollectionDefinition maintCollectionDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetGlobalMaintenanceDocument", "assetSharedDetails");
+            //LOG.info("checkAuthorizationRestrictions locationFields: '" + maintCollectionDef.getName() + "'");
+            */
+            return success;
+        }
+        return success;
+    }   
+    
+    
     private boolean checkReferenceExists(AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
 

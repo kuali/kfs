@@ -92,4 +92,28 @@ public class CustomerInvoiceDocumentTestUtil {
         }
         return ObjectUtils.isNotNull(routedDocument)? routedDocument.getDocumentNumber() : null;
     }
+    
+    /**
+     * This method submits a customer invoice document based on passed in customer fix
+     * @param customerFixture
+     * @param customerInvoiceDocumentFixture
+     * @param customerInvoiceDocumentFixtures
+     */
+    public static CustomerInvoiceDocument submitNewCustomerInvoiceDocumentAndReturnIt(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures, CustomerFixture customerFixture){
+        CustomerInvoiceDocument document = null;
+        if( ObjectUtils.isNotNull( customerFixture ) ){
+            document  = customerInvoiceDocumentFixture.createCustomerInvoiceDocument(customerFixture, customerInvoiceDetailFixtures);
+        } else {
+            document  = customerInvoiceDocumentFixture.createCustomerInvoiceDocument(customerInvoiceDetailFixtures);
+        }
+        document.getDocumentHeader().setDocumentDescription("CREATING TEST CUSTOMER INVOICE DOCUMENT");
+        
+        Document routedDocument = null;
+        try {
+            routedDocument = SpringContext.getBean(DocumentService.class).routeDocument(document, null, null);
+        } catch (Exception e){
+            LOG.error(e.getMessage());
+        }
+        return ObjectUtils.isNotNull(routedDocument)? (CustomerInvoiceDocument)routedDocument: null;
+    }
 }

@@ -39,9 +39,11 @@ import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.ResultRow;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.gl.ObjectHelper;
-import org.kuali.kfs.gl.businessobject.AccountBalance;
-import org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByConsolidationLookupableHelperServiceImpl;
+//import org.kuali.kfs.gl.ObjectHelper;
+//import org.kuali.kfs.gl.businessobject.AccountBalance;
+//import org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByConsolidationLookupableHelperServiceImpl;
+import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
+import org.kuali.kfs.module.ar.businessobject.lookup.CustomerAgingReportLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -81,6 +83,7 @@ public class CustomerAgingReportAction extends KualiAction {
         CustomerAgingReportForm lookupForm = (CustomerAgingReportForm) form;
 
         Lookupable lookupable = lookupForm.getLookupable();
+        LOG.info("\t\t\t\t\n\n lookupable is "+lookupable.toString());
 
         if (lookupable == null) {
             LOG.error("Lookupable is null.");
@@ -90,7 +93,7 @@ public class CustomerAgingReportAction extends KualiAction {
         Collection displayList = new ArrayList();
         List<ResultRow> resultTable = new ArrayList<ResultRow>();
 
-        lookupable.validateSearchParameters(lookupForm.getFields());
+ //       lookupable.validateSearchParameters(lookupForm.getFields());
 
         try {
             displayList = lookupable.performLookup(lookupForm, resultTable, true);
@@ -103,7 +106,7 @@ public class CustomerAgingReportAction extends KualiAction {
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
 
             // TODO: use inheritance instead of this if statement
-            if (lookupable.getLookupableHelperService() instanceof AccountBalanceByConsolidationLookupableHelperServiceImpl) {
+            if (lookupable.getLookupableHelperService() instanceof CustomerAgingReportLookupableHelperServiceImpl) {
 
 
                 Collection totalsTable = new ArrayList();
@@ -115,7 +118,7 @@ public class CustomerAgingReportAction extends KualiAction {
                 for (; listIndex < listSize;) {
 
                      
-                    AccountBalance balance = (AccountBalance) incompleteDisplayList.get(listIndex);
+                    CustomerAgingReportDetail balance = (CustomerAgingReportDetail) incompleteDisplayList.get(listIndex);
 
                     boolean ok = true;//ObjectHelper.isOneOf(balance.getTitle(), getTotalTitles());
                     if (ok) {
@@ -290,7 +293,7 @@ public class CustomerAgingReportAction extends KualiAction {
         request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, request.getParameter(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE));
 
         // TODO: use inheritance instead of this if statement
-        if (((CustomerAgingReportForm) form).getLookupable().getLookupableHelperService() instanceof AccountBalanceByConsolidationLookupableHelperServiceImpl) {
+        if (((CustomerAgingReportForm) form).getLookupable().getLookupableHelperService() instanceof CustomerAgingReportLookupableHelperServiceImpl) {
             Object totalsTable = GlobalVariables.getUserSession().retrieveObject(TOTALS_TABLE_KEY);
             request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
         }

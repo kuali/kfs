@@ -29,8 +29,6 @@ import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
@@ -92,9 +90,9 @@ public class CustomerAgingReportForm extends LookupForm {
             }
 
             // (laran) I put this here to allow the Exception to be thrown if the localLookupable is null.
-            if (Entry.class.getName().equals(getBusinessObjectClassName())) {
-                setPendingEntryLookupable(LookupableSpringContext.getLookupable(GeneralLedgerConstants.LookupableBeanKeys.PENDING_ENTRY));
-            }
+//            if (Entry.class.getName().equals(getBusinessObjectClassName())) {
+//                setPendingEntryLookupable(LookupableSpringContext.getLookupable(GeneralLedgerConstants.LookupableBeanKeys.PENDING_ENTRY));
+//            }
 
             if (request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME) != null) {
                 setLookupableImplServiceName(request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME));

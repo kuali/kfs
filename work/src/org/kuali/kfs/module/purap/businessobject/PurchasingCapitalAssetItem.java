@@ -48,6 +48,6 @@ public interface PurchasingCapitalAssetItem {
  
     public void setDocument(PurchasingDocument pd);
        
-    public PurchasingItem getPurchasingItem(Integer itemIdentifier);        
+    public PurchasingItem getPurchasingItem();        
           
 }

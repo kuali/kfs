@@ -22,6 +22,6 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
  */
 public interface PurchasingItem extends PurApItem {
     
-    public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem(Integer itemIdentifier);
+    public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem();
 
 }

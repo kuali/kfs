@@ -96,7 +96,7 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
         this.purchasingDocument = pd;        
     }
     
-    public PurchasingItem getPurchasingItem(Integer itemIdentifier){       
+    public PurchasingItem getPurchasingItem(){       
         PurchasingDocument pd = this.getDocument();
         
         return pd.getPurchasingItem(this.getItemIdentifier());

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
+import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 
 public interface EquipmentLoanOrReturnService {
@@ -30,4 +31,13 @@ public interface EquipmentLoanOrReturnService {
      */
     void processApprovedEquipmentLoanOrReturn(EquipmentLoanOrReturnDocument document);
 
+    /**
+     * Identifies the latest equipment loan or return information available for an asset
+     * <li>All approved loan/return documents are sorted descending based on the loan date</li>
+     * <li>Latest record is used for display on the asset edit screen</li>
+     * 
+     * @param asset Asset
+     */
+    void setEquipmentLoanInfo(Asset asset);
+    
 }

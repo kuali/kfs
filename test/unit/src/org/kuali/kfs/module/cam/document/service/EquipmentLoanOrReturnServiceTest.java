@@ -25,17 +25,17 @@ import org.kuali.core.service.impl.BusinessObjectServiceImpl;
 import org.kuali.core.util.DateUtils;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
-import org.kuali.kfs.module.cam.document.service.impl.EquipmentLoanInfoServiceImpl;
+import org.kuali.kfs.module.cam.document.service.impl.EquipmentLoanOrReturnServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 
-public class EquipmentLoanInfoServiceTest extends KualiTestBase {
+public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
     private static final int THREE_DAYS_LATER = 3;
     private static final int TWO_DAYS_LATER = 2;
-    private EquipmentLoanInfoServiceImpl equipmentLoanInfoService;
+    private EquipmentLoanOrReturnServiceImpl equipmentLoanOrReturnService;
     private Asset asset;
 
     private static EquipmentLoanOrReturnDocument createEquipmentLoanDoc(int loanDaysToadd, String docStatus) {
@@ -55,8 +55,8 @@ public class EquipmentLoanInfoServiceTest extends KualiTestBase {
     @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
-        equipmentLoanInfoService = new EquipmentLoanInfoServiceImpl();
-        equipmentLoanInfoService.setBusinessObjectService(new BusinessObjectServiceImpl() {
+        equipmentLoanOrReturnService = new EquipmentLoanOrReturnServiceImpl();
+        equipmentLoanOrReturnService.setBusinessObjectService(new BusinessObjectServiceImpl() {
             @Override
             public Collection findMatching(Class clazz, Map fieldValues) {
                 List<EquipmentLoanOrReturnDocument> docs = new ArrayList<EquipmentLoanOrReturnDocument>();
@@ -73,7 +73,7 @@ public class EquipmentLoanInfoServiceTest extends KualiTestBase {
     }
 
     public void testSetEquipmentLoanInfo() throws Exception {
-        equipmentLoanInfoService.setEquipmentLoanInfo(asset);
+        equipmentLoanOrReturnService.setEquipmentLoanInfo(asset);
         assertNotNull(asset.getLoanOrReturnInfo());
         assertEquals(DateUtils.clearTimeFields(DateUtils.addDays(new Date(), 5)), DateUtils.clearTimeFields(asset.getLoanOrReturnInfo().getLoanDate()));
     }

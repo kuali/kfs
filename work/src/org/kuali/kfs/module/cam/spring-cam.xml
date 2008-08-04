@@ -192,11 +192,7 @@
     <bean id="retirementInfoService" class="org.kuali.kfs.module.cam.document.service.impl.RetirementInfoServiceImpl" >
     	<property name="parameterService" ref="parameterService"/>
     	<property name="assetService" ref="assetService"/>
-    </bean>
-    
-    <bean id="equipmentLoanInfoService" class="org.kuali.kfs.module.cam.document.service.impl.EquipmentLoanInfoServiceImpl">
-    	<property name="businessObjectService" ref="businessObjectService" />
-    </bean>    
+    </bean>  
     
     <bean id="assetDateService" class="org.kuali.kfs.module.cam.document.service.impl.AssetDateServiceImpl">
     	<property name="assetService" ref="assetService"></property>

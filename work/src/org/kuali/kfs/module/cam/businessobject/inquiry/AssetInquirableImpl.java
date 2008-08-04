@@ -28,7 +28,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
-import org.kuali.kfs.module.cam.document.service.EquipmentLoanInfoService;
+import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
@@ -64,8 +64,8 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
             retirementInfoService.setMergeHistory(asset);
     
             // Finds out the latest equipment loan or return information if available
-            EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
-            equipmentLoanInfoService.setEquipmentLoanInfo(asset);
+            EquipmentLoanOrReturnService equipmentLoanOrReturnService = SpringContext.getBean(EquipmentLoanOrReturnService.class);
+            equipmentLoanOrReturnService.setEquipmentLoanInfo(asset);
         }
         
         return asset;

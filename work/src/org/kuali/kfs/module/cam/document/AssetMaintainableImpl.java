@@ -29,7 +29,7 @@ import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinde
 import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.module.cam.document.service.EquipmentLoanInfoService;
+import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -75,9 +75,9 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         retirementInfoService.setMergeHistory(newAsset);
 
         // Finds out the latest equipment loan or return information if available
-        EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
-        equipmentLoanInfoService.setEquipmentLoanInfo(copyAsset);
-        equipmentLoanInfoService.setEquipmentLoanInfo(newAsset);
+        EquipmentLoanOrReturnService equipmentLoanOrReturnService = SpringContext.getBean(EquipmentLoanOrReturnService.class);
+        equipmentLoanOrReturnService.setEquipmentLoanInfo(copyAsset);
+        equipmentLoanOrReturnService.setEquipmentLoanInfo(newAsset);
 
         super.processAfterEdit(document, parameters);
     }

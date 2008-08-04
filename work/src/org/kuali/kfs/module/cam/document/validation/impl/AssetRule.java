@@ -45,7 +45,7 @@ import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.module.cam.document.service.EquipmentLoanInfoService;
+import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
@@ -78,7 +78,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
     private AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
     private RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
-    private EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
+    private EquipmentLoanOrReturnService equipmentLoanOrReturnService = SpringContext.getBean(EquipmentLoanOrReturnService.class);
     private AssetDateService assetDateService = SpringContext.getBean(AssetDateService.class);
     private AssetComponentService assetComponentService = SpringContext.getBean(AssetComponentService.class);
     private UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
@@ -114,8 +114,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             retirementInfoService.setRetirementInfo(oldAsset);
             retirementInfoService.setRetirementInfo(newAsset);
 
-            equipmentLoanInfoService.setEquipmentLoanInfo(oldAsset);
-            equipmentLoanInfoService.setEquipmentLoanInfo(newAsset);
+            equipmentLoanOrReturnService.setEquipmentLoanInfo(oldAsset);
+            equipmentLoanOrReturnService.setEquipmentLoanInfo(newAsset);
 
             valid = processAssetValidation(document);
             valid &= validateWarrantyInformation(newAsset);

@@ -83,8 +83,8 @@
 			
 			            <br>
 			            <span class="infoline">
-				            <html:image property="methodToCall.clearNewPersonnel" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" alt="clear" />&nbsp;
-			              <html:image property="methodToCall.insertPersonnel" src="${ConfigProperties.externalizable.images.url}tinybutton-addpers.gif" alt="add this person"/>
+				            <html:image property="methodToCall.clearNewPersonnel" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="clear" alt="clear" />&nbsp;
+			              <html:image property="methodToCall.insertPersonnel" src="${ConfigProperties.externalizable.images.url}tinybutton-addpers.gif" title="add this person" alt="add this person"/>
 			            </span>
 			          </div>
 			        </div>

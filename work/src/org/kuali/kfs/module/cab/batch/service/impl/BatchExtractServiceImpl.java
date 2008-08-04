@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.PersistableBusinessObject;
@@ -45,7 +46,6 @@ import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItemBase;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -170,9 +170,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @return Last run time stamp
      */
     protected Timestamp getLastRunTimestamp() {
-        // String lastRunTS = parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class,
-        // CabConstants.Parameters.LAST_EXTRACT_TIME);
-        String lastRunTS = null;
+        String lastRunTS = parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.LAST_EXTRACT_TIME);
         Timestamp lastRunTime;
         Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
         try {
@@ -212,21 +210,27 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#savePOLines(java.util.List)
      */
     public void savePOLines(List<Entry> poLines) {
+        // This is a list of pending GL entries created after last GL process and Cab Batch extract
         Collection<GeneralLedgerPendingEntry> purapPendingGLEntries = findPurapPendingGLEntries();
+        // TODO purapAcctLines should come from PURAP module
         Collection<?> purapAcctLines = null;
         ReconciliationService reconciliationService = SpringContext.getBean(ReconciliationService.class);
         reconciliationService.reconcile(poLines, purapPendingGLEntries, purapAcctLines);
-        List<GlAccountLineGroup> matchedGroups = reconciliationService.getMatchedGroups();
+        // for each valid GL entry there is a collection of valid PO Doc and Account Lines
+        Set<GlAccountLineGroup> matchedGroups = reconciliationService.getMatchedGroups();
         List<PersistableBusinessObject> saveList = new ArrayList<PersistableBusinessObject>();
+
         for (GlAccountLineGroup group : matchedGroups) {
             Entry entry = group.getTargetEntry();
             saveList.add(new GeneralLedgerEntry(entry));
             PurchasingAccountsPayableDocument cabPurapDoc = findPurchasingAccountsPayableDocument(entry);
+            // if document is found already, update the active flag
             if (ObjectUtils.isNotNull(cabPurapDoc) && !cabPurapDoc.isActive()) {
                 cabPurapDoc.setActive(true);
                 saveList.add(cabPurapDoc);
             }
             else {
+                // If not in CAB already, create a new and insert into CAB
                 AccountsPayableDocumentBase apDoc = null;
                 if (CabConstants.PREQ.equals(entry.getFinancialDocumentTypeCode())) {
                     // find PREQ
@@ -242,11 +246,12 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 else {
                     cabPurapDoc = createPurchasingAccountsPayableDocument(entry, apDoc);
                     // items is is based on the account lines
-                    List<PaymentRequestItem> apItems = null;
+                    List<AccountsPayableItemBase> apItems = null;
                     for (AccountsPayableItemBase apItem : apItems) {
                         PurchasingAccountsPayableItemAsset itemAsset = findMatchingPurapAssetItem(cabPurapDoc, apItem);
                         if (itemAsset == null) {
                             itemAsset = createPurchasingAccountsPayableItemAsset(cabPurapDoc, apItem);
+                            // TODO, do only if an account line is available for this line item
                             cabPurapDoc.getPurchasingAccountsPayableItemAssets().add(itemAsset);
                         }
                     }

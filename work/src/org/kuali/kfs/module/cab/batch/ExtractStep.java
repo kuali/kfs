@@ -29,8 +29,8 @@ import org.kuali.kfs.module.cab.batch.service.BatchExtractService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
-public class CabExtractStep extends AbstractStep {
-    private static final Logger LOG = Logger.getLogger(CabExtractStep.class);
+public class ExtractStep extends AbstractStep {
+    private static final Logger LOG = Logger.getLogger(ExtractStep.class);
     private BatchExtractService batchExtractService;
     private DateTimeService dateTimeService;
 

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cab.batch.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
@@ -40,14 +41,14 @@ public interface ReconciliationService {
      * 
      * @return List of valid matched account groups
      */
-    List<GlAccountLineGroup> getMatchedGroups();
+    Set<GlAccountLineGroup> getMatchedGroups();
 
     /**
      * Returns the list of unmatched account line groups
      * 
      * @return List of mismatches
      */
-    List<GlAccountLineGroup> getMisMatchedGroups();
+    Set<GlAccountLineGroup> getMisMatchedGroups();
 
     /**
      * Returns true is a GL entry is already available in CAB

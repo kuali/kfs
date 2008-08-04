@@ -50,10 +50,10 @@ public class GlAccountLineGroup extends AccountLineGroup {
         KualiDecimal amount = entry.getTransactionLedgerEntryAmount();
         if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
             // negate the amount
-            setAbsAmount(amount.multiply(NEGATIVE_ONE));
+            setAmount(amount.multiply(NEGATIVE_ONE));
         }
         else {
-            setAbsAmount(amount);
+            setAmount(amount);
         }
     }
 
@@ -102,7 +102,7 @@ public class GlAccountLineGroup extends AccountLineGroup {
         this.targetEntry.setTransactionLedgerEntryAmount(targetAmount);
         // re-compute the absolute value of amount
         if (KFSConstants.GL_CREDIT_CODE.equals(targetDebitCreditCode)) {
-            setAbsAmount(targetAmount.multiply(NEGATIVE_ONE));
+            setAmount(targetAmount.multiply(NEGATIVE_ONE));
         }
     }
 

@@ -377,7 +377,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         // update or create plug line if the total amount has been changed
         if (changes.isNonZero()) {
-            budgetDocumentService.updatePendingBudgetGeneralLedgerPlug(appointmentFundings.get(0), changes.negated());
+            budgetDocumentService.updatePendingBudgetGeneralLedgerPlug(appointmentFundings.get(0), changes);
         }
     }
 

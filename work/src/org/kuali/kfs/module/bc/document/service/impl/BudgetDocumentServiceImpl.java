@@ -544,13 +544,19 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      */
     @Transactional
     public void updatePendingBudgetGeneralLedgerPlug(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount) {
+        if(updateAmount == null) {
+            throw new IllegalArgumentException("The update amount cannot be null");
+        }
+        
         BudgetConstructionHeader budgetConstructionHeader = this.getBudgetConstructionHeader(appointmentFunding);
         if (budgetConstructionHeader == null) {
             return;
         }
 
         if (this.canUpdatePlugRecord(appointmentFunding)) {
-            PendingBudgetConstructionGeneralLedger plugRecord = this.getPendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, updateAmount.negated(), true);
+            KualiInteger updateAmountForPlug = updateAmount.negated();
+            PendingBudgetConstructionGeneralLedger plugRecord = this.getPendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, updateAmountForPlug, true);
+            
             KualiInteger annualBalanceAmount = plugRecord.getAccountLineAnnualBalanceAmount();
             KualiInteger beginningBalanceAmount = plugRecord.getFinancialBeginningBalanceLineAmount();
 
@@ -618,6 +624,18 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      */
     @Transactional
     private PendingBudgetConstructionGeneralLedger getPendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader, PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount, boolean is2PLG) {
+        if(budgetConstructionHeader == null) {
+            throw new IllegalArgumentException("The given budget construction document header cannot be null");
+        }
+        
+        if(appointmentFunding == null) {
+            throw new IllegalArgumentException("The given pending budget appointment funding cannot be null");
+        }
+        
+        if(updateAmount == null) {
+            throw new IllegalArgumentException("The update amount cannot be null");
+        }
+        
         PendingBudgetConstructionGeneralLedger pendingRecord = this.retrievePendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, is2PLG);
 
         if (pendingRecord != null) {

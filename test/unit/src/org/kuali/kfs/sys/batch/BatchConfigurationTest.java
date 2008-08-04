@@ -35,9 +35,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 @AnnotationTestSuite(PreCommitSuite.class)
 public class BatchConfigurationTest extends KualiTestBase {
     private List<KualiModule> modules;
-    //private List<String> kfsJobNames;
     private Collection<JobDescriptor> jobDescriptors;
-    //private List<String> kfsTriggerNames;
     private Collection<TriggerDescriptor> triggerDescriptors;
 
     /**
@@ -47,9 +45,7 @@ public class BatchConfigurationTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         modules = SpringContext.getBean(KualiModuleService.class).getInstalledModules();
-        //kfsJobNames = (List<String>) BatchSpringContext.getBatchComponents().get(JobDescriptor.class.getName());
         jobDescriptors = SpringContext.getBeansOfType(JobDescriptor.class).values();
-        //kfsTriggerNames = (List<String>) BatchSpringContext.getBatchComponents().get(TriggerDescriptor.class.getName());
         triggerDescriptors = SpringContext.getBeansOfType(TriggerDescriptor.class).values();
     }
 

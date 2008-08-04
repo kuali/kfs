@@ -23,10 +23,10 @@ import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
- * This class declares the service method for CAB Reconciliation service. Expected to be used by {@link CabBatchExtractService}.
+ * This class declares the service method for CAB Reconciliation service. Expected to be used by {@link BatchExtractService}.
  * This service should be not be implemented as singleton.
  */
-public interface CabReconciliationService {
+public interface ReconciliationService {
 
     /**
      * Returns the list of duplicate entries found after reconciliation

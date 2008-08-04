@@ -25,11 +25,11 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
-import org.kuali.kfs.module.cab.batch.dataaccess.CabExtractDao;
+import org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
-public class CabExtractDaoOjb extends PlatformAwareDaoBaseOjb implements CabExtractDao {
+public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao {
 
 
     public Collection<Entry> findMatchingGLEntries(BatchParameters batchParameters) {

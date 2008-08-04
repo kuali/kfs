@@ -193,7 +193,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="accountsPayableLineItemDescription" column="PUR_ITM_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="accountsPayableItemQuantity" column="PUR_ITM_QTY" jdbc-type="BIGINT"/>
+	<field-descriptor name="accountsPayableItemQuantity" column="PUR_ITM_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 	<field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorName" column="CPTLAST_VENDOR_NM" jdbc-type="VARCHAR"/>

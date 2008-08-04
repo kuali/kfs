@@ -36,9 +36,9 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
-import org.kuali.kfs.module.cab.batch.dataaccess.CabExtractDao;
-import org.kuali.kfs.module.cab.batch.service.CabBatchExtractService;
-import org.kuali.kfs.module.cab.batch.service.CabReconciliationService;
+import org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao;
+import org.kuali.kfs.module.cab.batch.service.BatchExtractService;
+import org.kuali.kfs.module.cab.batch.service.ReconciliationService;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
@@ -56,12 +56,13 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class provides default implementation of {@link CabBatchExtractService}
+ * This class provides default implementation of {@link BatchExtractService}
  */
 @Transactional
-public class CabBatchExtractServiceImpl implements CabBatchExtractService {
+public class BatchExtractServiceImpl implements BatchExtractService {
+
     protected BusinessObjectService businessObjectService;
-    protected CabExtractDao cabExtractDao;
+    protected ExtractDao extractDao;
     protected DateTimeService dateTimeService;
     protected ParameterService parameterService;
 
@@ -92,7 +93,7 @@ public class CabBatchExtractServiceImpl implements CabBatchExtractService {
     protected CreditMemoDocument findCreditMemoDocument(Entry entry) {
         CreditMemoDocument creditMemoDocument = null;
         Map<String, String> keys = new LinkedHashMap<String, String>();
-        keys.put("documentNumber", entry.getDocumentNumber());
+        keys.put(CabPropertyConstants.DOCUMENT_NUMBER, entry.getDocumentNumber());
         Collection<CreditMemoDocument> matchingCms = businessObjectService.findMatching(CreditMemoDocument.class, keys);
         if (matchingCms != null && matchingCms.size() == 1) {
             creditMemoDocument = matchingCms.iterator().next();
@@ -101,11 +102,11 @@ public class CabBatchExtractServiceImpl implements CabBatchExtractService {
     }
 
     /**
-     * @see org.kuali.kfs.module.cab.batch.service.CabBatchExtractService#findElgibleGLEntries()
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findElgibleGLEntries()
      */
     public Collection<Entry> findElgibleGLEntries() {
         BatchParameters parameters = createBatchParameters();
-        return getCabExtractDao().findMatchingGLEntries(parameters);
+        return getExtractDao().findMatchingGLEntries(parameters);
     }
 
     /**
@@ -117,7 +118,7 @@ public class CabBatchExtractServiceImpl implements CabBatchExtractService {
     protected PaymentRequestDocument findPaymentRequestDocument(Entry entry) {
         PaymentRequestDocument paymentRequestDocument = null;
         Map<String, String> keys = new LinkedHashMap<String, String>();
-        keys.put("documentNumber", entry.getDocumentNumber());
+        keys.put(CabPropertyConstants.DOCUMENT_NUMBER, entry.getDocumentNumber());
         Collection<PaymentRequestDocument> matchingPreqs = businessObjectService.findMatching(PaymentRequestDocument.class, keys);
         if (matchingPreqs != null && matchingPreqs.size() == 1) {
             paymentRequestDocument = matchingPreqs.iterator().next();
@@ -126,10 +127,10 @@ public class CabBatchExtractServiceImpl implements CabBatchExtractService {
     }
 
     /**
-     * @see org.kuali.kfs.module.cab.batch.service.CabBatchExtractService#findPurapPendingGLEntries()
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findPurapPendingGLEntries()
      */
     public Collection<GeneralLedgerPendingEntry> findPurapPendingGLEntries() {
-        Collection<GeneralLedgerPendingEntry> purapPendingGLEntries = cabExtractDao.findPurapPendingGLEntries(createBatchParameters());
+        Collection<GeneralLedgerPendingEntry> purapPendingGLEntries = extractDao.findPurapPendingGLEntries(createBatchParameters());
         return purapPendingGLEntries;
     }
 
@@ -144,13 +145,13 @@ public class CabBatchExtractServiceImpl implements CabBatchExtractService {
     }
 
     /**
-     * Gets the cabExtractDao attribute.
+     * Gets the extractDao attribute.
      * 
-     * @return Returns the cabExtractDao
+     * @return Returns the extractDao
      */
 
-    public CabExtractDao getCabExtractDao() {
-        return cabExtractDao;
+    public ExtractDao getExtractDao() {
+        return extractDao;
     }
 
     /**
@@ -194,12 +195,12 @@ public class CabBatchExtractServiceImpl implements CabBatchExtractService {
     }
 
     /**
-     * @see org.kuali.kfs.module.cab.batch.service.CabBatchExtractService#saveFPLines(java.util.List)
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#saveFPLines(java.util.List)
      */
     public void saveFPLines(List<Entry> fpLines) {
         for (Entry fpLine : fpLines) {
             // If entry is not duplicate, non-null and non-zero, then insert into CAB
-            CabReconciliationService reconciliationService = SpringContext.getBean(CabReconciliationService.class);
+            ReconciliationService reconciliationService = SpringContext.getBean(ReconciliationService.class);
             if (fpLine.getTransactionLedgerEntryAmount() != null && !fpLine.getTransactionLedgerEntryAmount().isZero() && !reconciliationService.isDuplicateEntry(fpLine)) {
                 GeneralLedgerEntry glEntry = new GeneralLedgerEntry(fpLine);
                 businessObjectService.save(glEntry);
@@ -208,28 +209,22 @@ public class CabBatchExtractServiceImpl implements CabBatchExtractService {
     }
 
     /**
-     * @see org.kuali.kfs.module.cab.batch.service.CabBatchExtractService#savePOLines(java.util.List)
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#savePOLines(java.util.List)
      */
     public void savePOLines(List<Entry> poLines) {
         Collection<GeneralLedgerPendingEntry> purapPendingGLEntries = findPurapPendingGLEntries();
         Collection<?> purapAcctLines = null;
-        CabReconciliationService reconciliationService = SpringContext.getBean(CabReconciliationService.class);
+        ReconciliationService reconciliationService = SpringContext.getBean(ReconciliationService.class);
         reconciliationService.reconcile(poLines, purapPendingGLEntries, purapAcctLines);
         List<GlAccountLineGroup> matchedGroups = reconciliationService.getMatchedGroups();
         List<PersistableBusinessObject> saveList = new ArrayList<PersistableBusinessObject>();
         for (GlAccountLineGroup group : matchedGroups) {
             Entry entry = group.getTargetEntry();
-            // save into CB_GL_ENTRY_T
             saveList.add(new GeneralLedgerEntry(entry));
-
-            Map<String, String> primaryKeys = new HashMap<String, String>();
-            primaryKeys.put("documentNumber", entry.getDocumentNumber());
-            // check if doc is already in CAB
-            PurchasingAccountsPayableDocument purapDoc = (PurchasingAccountsPayableDocument) businessObjectService.findByPrimaryKey(PurchasingAccountsPayableDocument.class, primaryKeys);
-            if (ObjectUtils.isNotNull(purapDoc) && !purapDoc.isActive()) {
-                // re-activate the record
-                purapDoc.setActive(true);
-                saveList.add(purapDoc);
+            PurchasingAccountsPayableDocument cabPurapDoc = findPurchasingAccountsPayableDocument(entry);
+            if (ObjectUtils.isNotNull(cabPurapDoc) && !cabPurapDoc.isActive()) {
+                cabPurapDoc.setActive(true);
+                saveList.add(cabPurapDoc);
             }
             else {
                 AccountsPayableDocumentBase apDoc = null;
@@ -245,36 +240,17 @@ public class CabBatchExtractServiceImpl implements CabBatchExtractService {
                     // TODO record error message when no matching AP doc is found
                 }
                 else {
-                    purapDoc = new PurchasingAccountsPayableDocument();
-                    purapDoc.setDocumentNumber(entry.getDocumentNumber());
-                    purapDoc.setPurapDocumentIdentifier(apDoc.getPurapDocumentIdentifier());
-                    purapDoc.setPurchaseOrderIdentifier(apDoc.getPurchaseOrderIdentifier());
-                    purapDoc.setDocumentTypeCode(entry.getFinancialDocumentTypeCode());
-                    purapDoc.setActive(true);
-                    saveList.add(purapDoc);
-
+                    cabPurapDoc = createPurchasingAccountsPayableDocument(entry, apDoc);
                     // items is is based on the account lines
-
-                    List<PaymentRequestItem> items = null;
-                    for (AccountsPayableItemBase item : items) {
-                        Map<String, Object> keys = new HashMap<String, Object>();
-                        keys.put("documentNumber", purapDoc.getDocumentNumber());
-                        keys.put("accountsPayableLineItemIdentifier", item.getItemIdentifier());
-                        Collection<PurchasingAccountsPayableItemAsset> matchingItems = businessObjectService.findMatching(PurchasingAccountsPayableItemAsset.class, keys);
-                        PurchasingAccountsPayableItemAsset itemAsset = null;
-                        if (matchingItems == null || matchingItems.isEmpty() || matchingItems.size() > 1) {
-                            // insert new because line is new or already merged or split
-                            itemAsset = new PurchasingAccountsPayableItemAsset();
-                            itemAsset.setDocumentNumber(purapDoc.getDocumentNumber());
-                            itemAsset.setAccountsPayableLineItemIdentifier(item.getItemIdentifier());
-                            itemAsset.setCapitalAssetBuilderLineNumber(1);
-                            // TODO
-                            // itemAsset.setAccountsPayableItemQuantity(item.getItemQuantity());
-                        }
-                        else {
-                            itemAsset = matchingItems.iterator().next();
+                    List<PaymentRequestItem> apItems = null;
+                    for (AccountsPayableItemBase apItem : apItems) {
+                        PurchasingAccountsPayableItemAsset itemAsset = findMatchingPurapAssetItem(cabPurapDoc, apItem);
+                        if (itemAsset == null) {
+                            itemAsset = createPurchasingAccountsPayableItemAsset(cabPurapDoc, apItem);
+                            cabPurapDoc.getPurchasingAccountsPayableItemAssets().add(itemAsset);
                         }
                     }
+                    saveList.add(cabPurapDoc);
                 }
             }
             businessObjectService.save(saveList);
@@ -282,8 +258,54 @@ public class CabBatchExtractServiceImpl implements CabBatchExtractService {
         }
     }
 
+    protected PurchasingAccountsPayableDocument findPurchasingAccountsPayableDocument(Entry entry) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, entry.getDocumentNumber());
+        // check if doc is already in CAB
+        PurchasingAccountsPayableDocument cabPurapDoc = (PurchasingAccountsPayableDocument) businessObjectService.findByPrimaryKey(PurchasingAccountsPayableDocument.class, primaryKeys);
+        return cabPurapDoc;
+    }
+
+    protected PurchasingAccountsPayableItemAsset createPurchasingAccountsPayableItemAsset(PurchasingAccountsPayableDocument cabPurapDoc, AccountsPayableItemBase apItem) {
+        PurchasingAccountsPayableItemAsset itemAsset;
+        // insert new because line is new or already merged or split
+        itemAsset = new PurchasingAccountsPayableItemAsset();
+        itemAsset.setDocumentNumber(cabPurapDoc.getDocumentNumber());
+        itemAsset.setAccountsPayableLineItemIdentifier(apItem.getItemIdentifier());
+        itemAsset.setCapitalAssetBuilderLineNumber(1);
+        itemAsset.setAccountsPayableItemQuantity(apItem.getItemQuantity());
+        itemAsset.setActive(true);
+        return itemAsset;
+    }
+
+    protected PurchasingAccountsPayableDocument createPurchasingAccountsPayableDocument(Entry entry, AccountsPayableDocumentBase apDoc) {
+        PurchasingAccountsPayableDocument cabPurapDoc;
+        cabPurapDoc = new PurchasingAccountsPayableDocument();
+        cabPurapDoc.setDocumentNumber(entry.getDocumentNumber());
+        cabPurapDoc.setPurapDocumentIdentifier(apDoc.getPurapDocumentIdentifier());
+        cabPurapDoc.setPurchaseOrderIdentifier(apDoc.getPurchaseOrderIdentifier());
+        cabPurapDoc.setDocumentTypeCode(entry.getFinancialDocumentTypeCode());
+        cabPurapDoc.setActive(true);
+        return cabPurapDoc;
+    }
+
+    protected PurchasingAccountsPayableItemAsset findMatchingPurapAssetItem(PurchasingAccountsPayableDocument cabPurapDoc, AccountsPayableItemBase apItem) {
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.DOCUMENT_NUMBER, cabPurapDoc.getDocumentNumber());
+        keys.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.ACCOUNTS_PAYABLE_LINE_ITEM_IDENTIFIER, apItem.getItemIdentifier());
+        Collection<PurchasingAccountsPayableItemAsset> matchingItems = businessObjectService.findMatching(PurchasingAccountsPayableItemAsset.class, keys);
+        if (matchingItems != null && !matchingItems.isEmpty() && matchingItems.size() == 1) {
+            PurchasingAccountsPayableItemAsset itmAsset = matchingItems.iterator().next();
+            // if still active and never split or submitted to CAMS
+            if (itmAsset.isActive() && itmAsset.getCapitalAssetManagementDocumentNumber() == null) {
+                return itmAsset;
+            }
+        }
+        return null;
+    }
+
     /**
-     * @see org.kuali.kfs.module.cab.batch.service.CabBatchExtractService#separatePOLines(java.util.List, java.util.List,
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#separatePOLines(java.util.List, java.util.List,
      *      java.util.Collection)
      */
     public void separatePOLines(List<Entry> fpLines, List<Entry> purapLines, Collection<Entry> elgibleGLEntries) {
@@ -322,13 +344,13 @@ public class CabBatchExtractServiceImpl implements CabBatchExtractService {
     }
 
     /**
-     * Sets the cabExtractDao attribute.
+     * Sets the extractDao attribute.
      * 
-     * @param cabExtractDao The cabExtractDao to set.
+     * @param extractDao The extractDao to set.
      */
 
-    public void setCabExtractDao(CabExtractDao cabExtractDao) {
-        this.cabExtractDao = cabExtractDao;
+    public void setExtractDao(ExtractDao cabExtractDao) {
+        this.extractDao = cabExtractDao;
     }
 
     /**

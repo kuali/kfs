@@ -102,18 +102,19 @@
 		</property>
 	</bean>
 <!-- *********  End of pre-asset tagging batch beans ********** -->	
-	<bean id="cabExtractDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.CabExtractDaoOjb" />
-	<bean id="cabBatchExtractService" class="org.kuali.kfs.module.cab.batch.service.impl.CabBatchExtractServiceImpl">
-		<property name="cabExtractDao" ref="cabExtractDao" />
+<!-- Begin - CAB Batch Beans -->
+	<bean id="extractDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.ExtractDaoOjb" />
+	<bean id="batchExtractService" class="org.kuali.kfs.module.cab.batch.service.impl.BatchExtractServiceImpl">
+		<property name="extractDao" ref="extractDao" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
-	<bean id="cabReconciliationService" class="org.kuali.kfs.module.cab.batch.service.impl.CabReconciliationServiceImpl" singleton="false">
+	<bean id="reconciliationService" class="org.kuali.kfs.module.cab.batch.service.impl.ReconciliationServiceImpl" singleton="false">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	 <bean id="cabExtractStep" class="org.kuali.kfs.module.cab.batch.CabExtractStep" parent="step">
-	 	<property name="cabBatchExtractService" ref="cabBatchExtractService" />
+	 	<property name="batchExtractService" ref="batchExtractService" />
 	 	<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 	<bean id="cabExtractJob" parent="scheduledJobDescriptor">
@@ -128,7 +129,9 @@
 		<property name="jobName" value="cabExtractJob" />
 		<!--  it will run every day at 7 AM -->
 		<property name="cronExpression" value="0 0 7 ? * *" />
-	</bean>	
+	</bean>
+<!-- End - CAB Batch Beans -->
+		
 <!-- **** Begin of Lookupable beans **** -->
 	<bean id="purApDocumentLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.PurApDocumentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
     </bean>

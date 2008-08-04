@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
@@ -14,27 +15,28 @@ import org.kuali.kfs.module.cam.businessobject.AssetType;
 public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjectBase {
 
     private String documentNumber;
-    private Integer accountsPayableLineItemIdentifier; 
+    private Integer accountsPayableLineItemIdentifier;
     private Integer capitalAssetBuilderLineNumber;
     private String accountsPayableLineItemDescription;
-    private Long accountsPayableItemQuantity;
+    private KualiDecimal accountsPayableItemQuantity;
     private String capitalAssetDescription;
     private String capitalAssetTypeCode;
     private String vendorName;
     private String manufacturerName;
     private String manufacturerModelNumber;
     private String capitalAssetManagementDocumentNumber;
+    private boolean active;
 
     private AssetType capitalAssetType;
     private List<PurchasingAccountsPayableAssetDetail> purchasingAccountsPayableAssetDetail;
     private List<PurchasingAccountsPayableLineAssetAccount> purchasingAccountsPayableLineAssetAccounts;
-    
-    
+
+
     public PurchasingAccountsPayableItemAsset() {
         this.purchasingAccountsPayableAssetDetail = new TypedArrayList(PurchasingAccountsPayableAssetDetail.class);
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
     }
-    
+
     public List<PurchasingAccountsPayableLineAssetAccount> getPurchasingAccountsPayableLineAssetAccounts() {
         return purchasingAccountsPayableLineAssetAccounts;
     }
@@ -44,7 +46,8 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
+     * 
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -53,6 +56,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the documentNumber attribute value.
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -60,7 +64,8 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the accountsPayableLineItemIdentifier attribute. 
+     * Gets the accountsPayableLineItemIdentifier attribute.
+     * 
      * @return Returns the accountsPayableLineItemIdentifier.
      */
     public Integer getAccountsPayableLineItemIdentifier() {
@@ -69,6 +74,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the accountsPayableLineItemIdentifier attribute value.
+     * 
      * @param accountsPayableLineItemIdentifier The accountsPayableLineItemIdentifier to set.
      */
     public void setAccountsPayableLineItemIdentifier(Integer accountsPayableLineItemIdentifier) {
@@ -76,7 +82,8 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the accountsPayableLineItemDescription attribute. 
+     * Gets the accountsPayableLineItemDescription attribute.
+     * 
      * @return Returns the accountsPayableLineItemDescription.
      */
     public String getAccountsPayableLineItemDescription() {
@@ -85,6 +92,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the accountsPayableLineItemDescription attribute value.
+     * 
      * @param accountsPayableLineItemDescription The accountsPayableLineItemDescription to set.
      */
     public void setAccountsPayableLineItemDescription(String accountsPayableLineItemDescription) {
@@ -92,23 +100,26 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the accountsPayableItemQuantity attribute. 
+     * Gets the accountsPayableItemQuantity attribute.
+     * 
      * @return Returns the accountsPayableItemQuantity.
      */
-    public Long getAccountsPayableItemQuantity() {
+    public KualiDecimal getAccountsPayableItemQuantity() {
         return accountsPayableItemQuantity;
     }
 
     /**
      * Sets the accountsPayableItemQuantity attribute value.
+     * 
      * @param accountsPayableItemQuantity The accountsPayableItemQuantity to set.
      */
-    public void setAccountsPayableItemQuantity(Long accountsPayableItemQuantity) {
+    public void setAccountsPayableItemQuantity(KualiDecimal accountsPayableItemQuantity) {
         this.accountsPayableItemQuantity = accountsPayableItemQuantity;
     }
 
     /**
-     * Gets the purchasingAccountsPayableAssetDetail attribute. 
+     * Gets the purchasingAccountsPayableAssetDetail attribute.
+     * 
      * @return Returns the purchasingAccountsPayableAssetDetail.
      */
     public List<PurchasingAccountsPayableAssetDetail> getPurchasingAccountsPayableAssetDetail() {
@@ -117,17 +128,17 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the purchasingAccountsPayableAssetDetail attribute value.
+     * 
      * @param purchasingAccountsPayableAssetDetail The purchasingAccountsPayableAssetDetail to set.
      */
     public void setPurchasingAccountsPayableAssetDetail(List<PurchasingAccountsPayableAssetDetail> purchasingAccountsPayableAssetDetail) {
-       this.purchasingAccountsPayableAssetDetail = purchasingAccountsPayableAssetDetail;
+        this.purchasingAccountsPayableAssetDetail = purchasingAccountsPayableAssetDetail;
     }
 
     /**
      * Gets the capitalAssetBuilderLineNumber attribute.
      * 
      * @return Returns the capitalAssetBuilderLineNumber
-     * 
      */
     public Integer getCapitalAssetBuilderLineNumber() {
         return capitalAssetBuilderLineNumber;
@@ -137,19 +148,17 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * Sets the capitalAssetBuilderLineNumber attribute.
      * 
      * @param capitalAssetBuilderLineNumber The capitalAssetBuilderLineNumber to set.
-     * 
      */
     public void setCapitalAssetBuilderLineNumber(Integer capitalAssetBuilderLineNumber) {
         this.capitalAssetBuilderLineNumber = capitalAssetBuilderLineNumber;
     }
-    
+
     /**
      * Gets the capitalAssetBuilderQuantity attribute.
      * 
      * @return Returns the capitalAssetBuilderQuantity
-     * 
      */
-    public Long getCapitalAssetBuilderQuantity() {
+    public KualiDecimal getCapitalAssetBuilderQuantity() {
         return accountsPayableItemQuantity;
     }
 
@@ -157,12 +166,11 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * Sets the capitalAssetBuilderQuantity attribute.
      * 
      * @param capitalAssetBuilderQuantity The capitalAssetBuilderQuantity to set.
-     * 
      */
-    public void setCapitalAssetBuilderQuantity(Long capitalAssetBuilderQuantity) {
+    public void setCapitalAssetBuilderQuantity(KualiDecimal capitalAssetBuilderQuantity) {
         this.accountsPayableItemQuantity = capitalAssetBuilderQuantity;
     }
-    
+
     /**
      * Gets the capitalAssetDescription attribute.
      * 
@@ -180,7 +188,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setCapitalAssetDescription(String capitalAssetDescription) {
         this.capitalAssetDescription = capitalAssetDescription;
     }
-    
+
     /**
      * Gets the capitalAssetTypeCode attribute.
      * 
@@ -198,7 +206,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setCapitalAssetTypeCode(String capitalAssetTypeCode) {
         this.capitalAssetTypeCode = capitalAssetTypeCode;
     }
-    
+
     /**
      * Gets the vendorName attribute.
      * 
@@ -216,7 +224,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
     }
-    
+
     /**
      * Gets the manufacturerName attribute.
      * 
@@ -252,7 +260,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setManufacturerModelNumber(String manufacturerModelNumber) {
         this.manufacturerModelNumber = manufacturerModelNumber;
     }
-    
+
     /**
      * Gets the capitalAssetManagementDocumentNumber attribute.
      * 
@@ -270,7 +278,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setCapitalAssetManagementDocumentNumber(String capitalAssetManagementDocumentNumber) {
         this.capitalAssetManagementDocumentNumber = capitalAssetManagementDocumentNumber;
     }
-    
+
     /**
      * Gets the capitalAssetType attribute.
      * 
@@ -289,16 +297,34 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setCapitalAssetType(AssetType capitalAssetType) {
         this.capitalAssetType = capitalAssetType;
     }
-    
- 
+
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         m.put("accountsPayableLineItemIdentifier", this.accountsPayableLineItemIdentifier);
         m.put("capitalAssetBuilderLineNumber", this.capitalAssetBuilderLineNumber);
         return m;
+    }
+
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * 
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

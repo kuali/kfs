@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.cab;
 
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
+
 public class CabPropertyConstants {
     public static class GeneralLedgerEntry {
         public static final String TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
@@ -49,8 +51,17 @@ public class CabPropertyConstants {
         public static final String TRANSACTION_DATE_TIME_STAMP = "transactionDateTimeStamp";
         public static final String DOCUMENT_NUMBER = "documentNumber";
     }
-    
+
     public static class PurchasingAccountsPayableDocument {
         public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";
+        public static final String DOCUMENT_NUMBER = "documentNumber";
     }
+
+    public static class PurchasingAccountsPayableItemAsset {
+        public static final String ACCOUNTS_PAYABLE_LINE_ITEM_IDENTIFIER = "accountsPayableLineItemIdentifier";
+        public static final String DOCUMENT_NUMBER = "documentNumber";
+
+    }
+
+    public static final String DOCUMENT_NUMBER = "documentNumber";
 }

@@ -25,13 +25,13 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.module.cab.batch.service.CabBatchExtractService;
+import org.kuali.kfs.module.cab.batch.service.BatchExtractService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 public class CabExtractStep extends AbstractStep {
     private static final Logger LOG = Logger.getLogger(CabExtractStep.class);
-    private CabBatchExtractService cabBatchExtractService;
+    private BatchExtractService batchExtractService;
     private DateTimeService dateTimeService;
 
     /**
@@ -53,7 +53,7 @@ public class CabExtractStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         Timestamp startTs = dateTimeService.getCurrentTimestamp();
         LOG.info("CAB batch started at " + startTs);
-        Collection<Entry> elgibleGLEntries = cabBatchExtractService.findElgibleGLEntries();
+        Collection<Entry> elgibleGLEntries = batchExtractService.findElgibleGLEntries();
         if (elgibleGLEntries == null || elgibleGLEntries.size() == 0) {
             LOG.info("No GL entries found for extract.");
             return true;
@@ -61,25 +61,25 @@ public class CabExtractStep extends AbstractStep {
         List<Entry> fpLines = new ArrayList<Entry>();
         List<Entry> purapLines = new ArrayList<Entry>();
         // separate PO and non-PO lines
-        cabBatchExtractService.separatePOLines(fpLines, purapLines, elgibleGLEntries);
+        batchExtractService.separatePOLines(fpLines, purapLines, elgibleGLEntries);
         // process non-PO lines
-        cabBatchExtractService.saveFPLines(fpLines);
+        batchExtractService.saveFPLines(fpLines);
 
         // TODO - Waiting for PURAP Account lines history
 
         // Update the last extract time stamp
-        cabBatchExtractService.updateLastExtractTime(startTs);
+        batchExtractService.updateLastExtractTime(startTs);
         LOG.info("CAB batch finished at " + dateTimeService.getCurrentTimestamp());
         return true;
     }
 
 
-    public CabBatchExtractService getCabBatchExtractService() {
-        return cabBatchExtractService;
+    public BatchExtractService getBatchExtractService() {
+        return batchExtractService;
     }
 
-    public void setCabBatchExtractService(CabBatchExtractService cabBatchExtractService) {
-        this.cabBatchExtractService = cabBatchExtractService;
+    public void setBatchExtractService(BatchExtractService cabBatchExtractService) {
+        this.batchExtractService = cabBatchExtractService;
     }
 
 

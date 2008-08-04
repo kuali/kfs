@@ -27,7 +27,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
-import org.kuali.kfs.module.cab.batch.service.CabReconciliationService;
+import org.kuali.kfs.module.cab.batch.service.ReconciliationService;
 import org.kuali.kfs.module.cab.businessobject.AccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
@@ -35,9 +35,9 @@ import org.kuali.kfs.module.cab.businessobject.PendingGlAccountLineGroup;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
- * Default implementation of {@link CabReconciliationService}
+ * Default implementation of {@link ReconciliationService}
  */
-public class CabReconciliationServiceImpl implements CabReconciliationService {
+public class ReconciliationServiceImpl implements ReconciliationService {
     protected BusinessObjectService businessObjectService;
     protected List<Entry> ignoredEntries = new ArrayList<Entry>();
     protected List<Entry> duplicateEntries = new ArrayList<Entry>();
@@ -48,7 +48,7 @@ public class CabReconciliationServiceImpl implements CabReconciliationService {
     protected HashMap<AccountLineGroup, AccountLineGroup> purapAcctGroupMap = new HashMap<AccountLineGroup, AccountLineGroup>();
 
     /**
-     * @see org.kuali.kfs.module.cab.batch.service.CabReconciliationService#reconcile(java.util.Collection, java.util.Collection,
+     * @see org.kuali.kfs.module.cab.batch.service.ReconciliationService#reconcile(java.util.Collection, java.util.Collection,
      *      java.util.Collection)
      */
     public void reconcile(Collection<Entry> glEntries, Collection<GeneralLedgerPendingEntry> pendingGlEntries, Collection<?> purapAcctEntries) {
@@ -145,7 +145,7 @@ public class CabReconciliationServiceImpl implements CabReconciliationService {
     }
 
     /**
-     * @see org.kuali.kfs.module.cab.batch.service.CabReconciliationService#isDuplicateEntry(org.kuali.kfs.gl.businessobject.Entry)
+     * @see org.kuali.kfs.module.cab.batch.service.ReconciliationService#isDuplicateEntry(org.kuali.kfs.gl.businessobject.Entry)
      */
     public boolean isDuplicateEntry(Entry glEntry) {
         // find matching entry from CB_GL_ENTRY_T

@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 /**
  * Declares the service methods used by CAB batch program
  */
-public interface CabBatchExtractService {
+public interface BatchExtractService {
 
     /**
      * Returns the list of CAB eligible GL entries, filter parameters are pre-configured

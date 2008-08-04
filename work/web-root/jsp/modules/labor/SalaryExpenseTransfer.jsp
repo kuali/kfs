@@ -83,7 +83,7 @@
                    forceRequired="true" labelFor="emplid"
                    />
                <td>
-                     <kfs:employee userIdFieldName="emplid" forceRequired="true"
+                     <kfs:employee userIdFieldName="emplid"
                                  userNameFieldName="user.personName" 
                                  fieldConversions="personPayrollIdentifier:emplid"
                                  lookupParameters="emplid:personPayrollIdentifier,universityFiscalYear:universityFiscalYear"

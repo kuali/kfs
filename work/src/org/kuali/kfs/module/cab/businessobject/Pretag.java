@@ -1,4 +1,4 @@
-package org.kuali.kfs.module.cam.businessobject;
+package org.kuali.kfs.module.cab.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -12,6 +12,8 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
+import org.kuali.kfs.module.cam.businessobject.PendingPurchaseOrder;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**

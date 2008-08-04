@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cam.document.validation.impl;
+package org.kuali.kfs.module.cab.document.validation.impl;
 
 
 import java.math.BigDecimal;
@@ -28,11 +28,11 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cab.businessobject.Pretag;
+import org.kuali.kfs.module.cab.businessobject.PretagDetail;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.businessobject.Pretag;
-import org.kuali.kfs.module.cam.businessobject.PretagDetail;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
@@ -185,8 +185,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
 
         for (PretagDetail dtl : pretag.getPretagDetails()) {
             if (dtl.getCampusTagNumber().equals(tagNumber) && dtl.isActive()) {
-                // putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE, new String[] { tagNumber });
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE, new String[] { tagNumber });
                 success &= false;
             }
         }
@@ -208,12 +207,12 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
             BigDecimal totalNumerOfDetails = new BigDecimal(totalActiveDetails);
 
             if (pretag.getQuantityInvoiced().compareTo(totalNumerOfDetails) < 0) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" });
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" });
                 success &= false;
             }
             else {
                 if ((pretag.getQuantityInvoiced().compareTo(new BigDecimal(0)) > 0) && (totalActiveDetails == 0)) {
-                    putFieldError(CamsPropertyConstants.Pretag.PRETAG_DETAIL_CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_NO_DETAIL_LINE);
+                    putFieldError(CabPropertyConstants.Pretag.PRETAG_DETAIL_CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_NO_DETAIL_LINE);
                     success &= false;
                 }
             }
@@ -250,10 +249,10 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
 
         if (dtl.isActive() && !dtl.getCampusTagNumber().equalsIgnoreCase("N")) {
             Map tagMap = new HashMap();
-            tagMap.put(CamsPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, dtl.getCampusTagNumber());
+            tagMap.put(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, dtl.getCampusTagNumber());
             int matchDetailCount = getMatchDetailCount(tagMap);
             if ((getBoService().countMatching(Asset.class, tagMap) != 0) || (matchDetailCount > 0)) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_NUMBER, new String[] { dtl.getCampusTagNumber() });
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_NUMBER, new String[] { dtl.getCampusTagNumber() });
                 success &= false;
             }
         }

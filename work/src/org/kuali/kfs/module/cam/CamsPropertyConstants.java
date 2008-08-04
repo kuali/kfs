@@ -156,11 +156,6 @@ public class CamsPropertyConstants {
         public static final String ASSET_DEPRECIATION_LIFE_LIMIT = "depreciableLifeLimit";
     }
 
-    public static class Pretag {
-        public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
-        public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";
-    }
-
     public static class AssetOrganization {
         public static final String ASSET_ORGANIZATION = "assetOrganization";
         public static final String ORGANIZATION_TAG_NUMBER = "organizationTagNumber";

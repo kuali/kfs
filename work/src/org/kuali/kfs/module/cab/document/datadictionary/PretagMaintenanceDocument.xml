@@ -7,7 +7,7 @@
   <bean id="PretagMaintenanceDocument" parent="PretagMaintenanceDocument-parentBean" />
 
   <bean id="PretagMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.Pretag" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.Pretag" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -43,7 +43,7 @@
     <property name="summary" value="Pre-Asset Tagging maintenance document" />
     <property name="description" value="Document used to create or update Pre-Asset Tagging" />
     <property name="documentTypeName" value="PretagMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.PretagRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cab.document.validation.impl.PretagRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PTAG" />
     <property name="authorizations" >
@@ -128,7 +128,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="pretagDetails" />
-          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.PretagDetail" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.PretagDetail" />
           <property name="summaryTitle" value="Detail" />
           <property name="summaryFields" >
             <list>

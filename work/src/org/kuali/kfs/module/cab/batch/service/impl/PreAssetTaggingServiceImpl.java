@@ -27,7 +27,7 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.cab.batch.PreAssetTaggingInputFileType;
 import org.kuali.kfs.module.cab.batch.service.PreAssetTaggingService;
-import org.kuali.kfs.module.cam.businessobject.Pretag;
+import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.springframework.util.StringUtils;
 
 

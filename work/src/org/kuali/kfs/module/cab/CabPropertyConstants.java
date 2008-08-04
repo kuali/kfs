@@ -63,5 +63,10 @@ public class CabPropertyConstants {
 
     }
 
+    public static class Pretag {
+        public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
+        public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";
+    }
+
     public static final String DOCUMENT_NUMBER = "documentNumber";
 }

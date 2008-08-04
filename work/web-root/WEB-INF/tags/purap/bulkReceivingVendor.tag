@@ -26,6 +26,7 @@
         <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
         <html:hidden property="document.vendorDetailAssignedIdentifier" />
         <html:hidden property="document.vendorNumber" />
+        <html:hidden property="document.carrierCode"/>
         
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
             <tr>
@@ -298,7 +299,7 @@
                   		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.carrierCode}" /></div>
                	</th>
                	<td align=left valign=middle class="datacell">
-                  		<kul:htmlControlAttribute attributeEntry="${documentAttributes.carrierCode}" property="document.carrierCode" readOnly="true"/>
+                  		<kul:htmlControlAttribute attributeEntry="${documentAttributes.carrierCode}" property="document.carrier.carrierDescription" readOnly="true"/>
                	</td>
             </tr>     
             <tr>

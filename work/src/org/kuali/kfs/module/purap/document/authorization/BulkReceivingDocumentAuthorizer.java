@@ -35,16 +35,11 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 public class BulkReceivingDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase  {
 
-//    @Override
-//    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-//        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-//        try {
-//            return SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
-//        }
-//        catch (GroupNotFoundException e) {
-//            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found", e);
-//        }
-//    }
+    @Override
+    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
+        //Any user can create this document.
+        return true;
+    }
 
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,

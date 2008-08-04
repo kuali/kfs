@@ -896,7 +896,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
          * doc is opened 
          */
         if (getDeliveryBuildingCode() != null){
-            return getDeliveryBuildingCode().equals(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
+            return getDeliveryBuildingName().equals(PurapConstants.DELIVERY_BUILDING_OTHER);
         }
         
         return deliveryBuildingOther;

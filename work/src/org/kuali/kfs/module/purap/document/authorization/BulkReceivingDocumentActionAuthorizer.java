@@ -39,23 +39,28 @@ public class BulkReceivingDocumentActionAuthorizer {
     private BulkReceivingDocument bulkReceivingDocument;
     private boolean isUserAuthorized;
     
-    public BulkReceivingDocumentActionAuthorizer(BulkReceivingDocument bulkDoc, Map editingMode) {
+    public BulkReceivingDocumentActionAuthorizer(BulkReceivingDocument bulkDoc, 
+                                                 Map editingMode) {
+        
         
         this.bulkReceivingDocument = bulkDoc;
-        
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
 
-        try {
-            this.isUserAuthorized = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
-        }
-        catch (GroupNotFoundException gnfe) {
-            this.isUserAuthorized = false;
-        }
+        /**
+         * TODO:Have to remove this code..
+         */
+//        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+//        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(BulkReceivingDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
+//
+//        try {
+//            this.isUserAuthorized = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
+//        }
+//        catch (GroupNotFoundException gnfe) {
+//            this.isUserAuthorized = false;
+//        }
         
     }
 
     public boolean canPrintReceivingTicket() {        
-        return SpringContext.getBean(BulkReceivingService.class).canPrintReceivingTicket(bulkReceivingDocument) && isUserAuthorized;
+        return SpringContext.getBean(BulkReceivingService.class).canPrintReceivingTicket(bulkReceivingDocument);
     }
 }

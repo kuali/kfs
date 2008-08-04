@@ -486,7 +486,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
 
         // account cannot be a cash control account
-        if (StringUtils.equalsIgnoreCase(account.getBudgetRecordingLevelCode(), BCConstants.BUDGET_RECORDING_LEVEL_N)) {
+        if (StringUtils.equals(account.getBudgetRecordingLevelCode(), BCConstants.BUDGET_RECORDING_LEVEL_N)) {
             return false;
         }
 
@@ -513,9 +513,8 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             return false;
         }
 
-        subAccount.refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
         A21SubAccount a21SubAccount = subAccount.getA21SubAccount();
-        if (a21SubAccount != null && a21SubAccount.getSubAccountTypeCode().equals(BCConstants.SUB_ACCOUNT_TYPE_COST_SHARE)) {
+        if (a21SubAccount != null && StringUtils.equals(a21SubAccount.getSubAccountTypeCode(), BCConstants.SUB_ACCOUNT_TYPE_COST_SHARE)) {
             return false;
         }
 

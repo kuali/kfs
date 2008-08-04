@@ -554,8 +554,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
 
         if (this.canUpdatePlugRecord(appointmentFunding)) {
-            KualiInteger updateAmountForPlug = updateAmount.negated();
-            PendingBudgetConstructionGeneralLedger plugRecord = this.getPendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, updateAmountForPlug, true);
+            PendingBudgetConstructionGeneralLedger plugRecord = this.getPendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, updateAmount, true);
             
             KualiInteger annualBalanceAmount = plugRecord.getAccountLineAnnualBalanceAmount();
             KualiInteger beginningBalanceAmount = plugRecord.getFinancialBeginningBalanceLineAmount();

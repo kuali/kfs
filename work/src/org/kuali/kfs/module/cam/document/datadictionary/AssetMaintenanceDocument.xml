@@ -16,7 +16,6 @@
         <ref bean="AssetMaintenanceDocument-OrganizationInformation" />
         <ref bean="AssetMaintenanceDocument-FabricationInformation" />
         <ref bean="AssetMaintenanceDocument-LandInformation" />
-        <ref bean="AssetMaintenanceDocument-PaymentInformation" />
         <ref bean="AssetMaintenanceDocument-AssetDepreciationInformation" />
         <ref bean="AssetMaintenanceDocument-ViewMergeHistory" />
         <ref bean="AssetMaintenanceDocument-ViewAssetSeparateHistory" />
@@ -25,6 +24,7 @@
         <ref bean="AssetMaintenanceDocument-Warranty" />
         <ref bean="AssetMaintenanceDocument-RepairHistory" />
         <ref bean="AssetMaintenanceDocument-Components" />
+        <ref bean="AssetMaintenanceDocument-PaymentInformation" />
       </list>
     </property>
     <property name="defaultExistenceChecks" >

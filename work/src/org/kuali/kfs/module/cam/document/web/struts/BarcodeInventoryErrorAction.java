@@ -30,7 +30,6 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
@@ -40,6 +39,7 @@ import org.kuali.kfs.module.cam.util.BarcodeInventoryErrorDetailPredicate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.rice.util.RiceConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -72,6 +72,22 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         return super.execute(mapping, form, request, response);
     }*/
 
+    /**
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+
+        BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) form;
+        BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();        
+        this.invokeRules(document);
+
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+
+
 
     /**
      * 
@@ -83,8 +99,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) kualiDocumentFormBase;
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
-
-        //KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         //Validating records.
         this.invokeRules(document);
@@ -108,9 +122,9 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
 
         String currentUserID = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
-        
+
         BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm);
-        
+
         //searches and replaces
         CollectionUtils.forAllDo(barcodeInventoryErrorDetails, predicatedClosure);
 
@@ -119,7 +133,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         //Validating.
         this.invokeRules(document);
-        
+
         //Checking whether or not an BCIE row was actually corrected
         barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
         for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
@@ -133,8 +147,8 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 assetBarcodeInventoryLoadService.updateAssetInformation(detail);
             }
         }
-        
-        
+
+
         if (this.isFullyProcessed(document)) {                    
             //If the same person that uploaded the bcie is the one processing it, then....
             if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
@@ -148,27 +162,14 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         }
         //Search fields initialization.
         barcodeInventoryErrorForm.resetSearchFields();
-        
+
         //Re-loading document with changes.
         this.loadDocument((KualiDocumentFormBase) form);
 
-        
+
         //Displaying JSP
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
-
-    /**
-     * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    //  @Override
-    //  public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
-    //  KualiDocumentFormBase kForm = (KualiDocumentFormBase)form;
-    //  ActionForward af = super.save(mapping, form, request, response);
-    //  //this.loadDocument(kForm);
-    //  return af;
-    //  }
 
     /**
      * 
@@ -188,13 +189,11 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         String currentUserID = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
-        boolean wasAnyCorrected = false;
-
         int selectedCheckboxes[] = barcodeInventoryErrorForm.getRowCheckbox();
 
         // If rows were selected.....
         if (selectedCheckboxes != null) {
-            
+
             //Validate
             this.invokeRules(document);
 
@@ -202,39 +201,33 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
             for (int i = 0; i < selectedCheckboxes.length; i++) {
                 for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
                     if (detail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0) {
-                        //LOG.info("******* Selected row to validate:"+selectedCheckboxes[i]+ " - uploadRowNumber:"+detail.getUploadRowNumber());                        
                         if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED)) {
-                            //LOG.info("******* Status is corrected.");
-
                             detail.setInventoryCorrectionTimestamp(dateTimeService.getCurrentTimestamp());
                             detail.setCorrectorUniversalIdentifier(currentUserID);
 
                             assetBarcodeInventoryLoadService.updateAssetInformation(detail);
-                            wasAnyCorrected = true;
                         }
                     }
                 }
             }
 
-            if (wasAnyCorrected) {                
-                if (this.isFullyProcessed(document)) {                    
-                    //If the same person that uploaded the bcie is the one processing it, then....
-                    if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
-                        this.blanketApprove(mapping, form, request, response);
-                    }
-                }
-                else {
-                    businessObjectService.save(document.getBarcodeInventoryErrorDetail());
+            if (this.isFullyProcessed(document)) {                    
+                //If the same person that uploaded the bcie is the one processing it, then....
+                if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
+                    this.blanketApprove(mapping, form, request, response);
                 }
             }
+            else {
+                businessObjectService.save(document.getBarcodeInventoryErrorDetail());
+            }
         }
-        
+
         //Loading changes on page
         this.loadDocument((KualiDocumentFormBase) form);
-        
+
         //resetting the checkboxes
         barcodeInventoryErrorForm.resetCheckBoxes();
-                
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -258,13 +251,12 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         String currentUserID = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
         int selectedCheckboxes[] = barcodeInventoryErrorForm.getRowCheckbox();
-        
+
         //If rows were selected
         if (!(selectedCheckboxes == null)) {
             for (int i = 0; i < selectedCheckboxes.length; i++) {
                 for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
                     if (detail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0) {
-                        //LOG.info("*******XXXXXXX Selected rows to delete:"+selectedCheckboxes[i]+ " - uploadRowNumber:"+detail.getUploadRowNumber());
                         detail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_DELETED);
                         detail.setInventoryCorrectionTimestamp(dateTimeService.getCurrentTimestamp());
                         detail.setCorrectorUniversalIdentifier(currentUserID);
@@ -279,7 +271,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 }
             }
             else {
-                //GlobalVariables.getErrorMap().clear();
                 this.save(mapping, barcodeInventoryErrorForm, request, response);
             }
         }

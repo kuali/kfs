@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.module.cam.document.web.struts.BarcodeInventoryErrorForm;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 
@@ -12,6 +13,7 @@ import org.kuali.kfs.sys.businessobject.Room;
  * Class for the barcode inventory error detail
  */
 public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDetail.class);
 
     private String documentNumber;
     private Long uploadRowNumber;
@@ -317,7 +319,7 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * sets the campus code reference objet
+     * sets the campus code reference object
      * 
      * @param campus
      */
@@ -396,13 +398,4 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
     public void setErrorDescription(String errorDescription) {
         this.errorDescription = errorDescription;
     }
-
-    // public boolean isRowSelected() {
-    // return rowSelected;
-    // }
-    //    
-    // public void setRowSelected(boolean rowSelected) {
-    // this.rowSelected = rowSelected;
-    // }
-
 }

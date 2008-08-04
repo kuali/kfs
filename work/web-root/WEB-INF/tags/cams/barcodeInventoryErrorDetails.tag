@@ -49,8 +49,6 @@
 				<!-- kul:htmlAttributeHeaderCell literalLabel="Action" width="5%"/-->
 			</tr>
 			
-			<c:out value="${readOnly}"/>
-			
 			<c:set var="lineNumber" value="${0}"/>
 			<logic:iterate id="detail" name="KualiForm" property="document.barcodeInventoryErrorDetail" indexId="ctr">
 				<c:set var="status" value="${detail.errorCorrectionStatusCode}"/>			

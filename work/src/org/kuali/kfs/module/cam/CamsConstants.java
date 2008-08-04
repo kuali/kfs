@@ -15,7 +15,12 @@
  */
 package org.kuali.kfs.module.cam;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.core.authorization.AuthorizationConstants.EditMode;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.util.JSTLConstants;
 
 
@@ -117,10 +122,21 @@ public class CamsConstants extends JSTLConstants {
         public static final String STATUS_CODE_ERROR="E";
         public static final String STATUS_CODE_CORRECTED="C";
         public static final String STATUS_CODE_DELETED="D";
-        public static final String STATUS_CODE_VALIDATED="V";
+        
+        public static final String STATUS_CODE_ERROR_DESCRIPTION="Error";
+        public static final String STATUS_CODE_CORRECTED_DESCRIPTION="Corrected";
+        public static final String STATUS_CODE_DELETED_DESCRIPTION="Deleted";
+        
+        //public static final String STATUS_CODE_VALIDATED="V";
         
         public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO="N";
-        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_YES="Y";        
+        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_YES="Y";
+        public static final Map<String, String> statusDescription = new HashMap<String, String>(); 
+        static {
+            statusDescription.put(STATUS_CODE_CORRECTED,STATUS_CODE_CORRECTED_DESCRIPTION);
+            statusDescription.put(STATUS_CODE_DELETED,STATUS_CODE_DELETED_DESCRIPTION);
+            statusDescription.put(STATUS_CODE_ERROR,STATUS_CODE_ERROR_DESCRIPTION);
+        }
     }
 
     public static class Workgroups {
@@ -230,7 +246,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String DONE_FILE_EXTENSION = ".done";
         
         public static final String BCI_MANUALLY_KEYED_CODE="0";
-        public static final String BCI_SCANED_INTO_DEVICE="1";
+        public static final String BCI_SCANED_INTO_DEVICE="1";        
     }
 
 

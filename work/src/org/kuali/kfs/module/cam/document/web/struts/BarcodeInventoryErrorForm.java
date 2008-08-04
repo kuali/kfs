@@ -42,9 +42,10 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumen
  */
 public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorForm.class);
+    
     private int[] rowCheckbox; 
     private boolean selectAllCheckbox;
-    
+    private HashMap barcodeInventoryStatuses; 
     
     //global replace - search fields
     //*** Old values **************
@@ -81,7 +82,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
 /*    public void populate(HttpServletRequest request) {
-        LOG.info("****************Request Parameters*************");
+       LOG.info("****************Request Parameters*************");
         Enumeration paramNames;
         paramNames = request.getParameterNames();
         while (paramNames.hasMoreElements()) {
@@ -92,17 +93,10 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
                 LOG.info("******Request Parameters: "+name +"["+x+"]: "+values[x]);
                         
         }
-        LOG.info("**********************************************");                    
+        LOG.info("**********************************************");                
         
         
         super.populate(request);
-
-        BarcodeInventoryErrorDocument document = getBarcodeInventoryErrorDocument();
-        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
-
-        for(BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
-                LOG.info("*******AFTER TIMESTAMP!!! :"+detail.getUploadScanTimestamp());
-        }
     }*/
 
     
@@ -307,6 +301,9 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
      * Reset the BCIE document checkboxes. 
      */
     public void resetCheckBoxes() {
+        if (rowCheckbox == null)
+            return;
+            
         this.rowCheckbox = new int[rowCheckbox.length];
         this.selectAllCheckbox = false;
     }

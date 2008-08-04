@@ -49,14 +49,8 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="40" />
+          p:size="40"/>
     </property>
-    <!-- property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="1"
-            p:cols="40" />
-    </property-->
-    
     <property name="summary" value="Error" />
     <property name="description" value="error description..." />
   </bean>
@@ -286,13 +280,13 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Inventory Date" />
     <property name="shortLabel" value="Inventory Date" />
-    <property name="maxLength" value="20" />
-    <!-- property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property-->
+    <property name="maxLength" value="16" />
+    <property name="validationPattern" >
+      <bean parent="TimestampValidationPattern" />
+    </property>    
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="20" />
+            p:size="16" />
     </property>
     <property name="summary" value="uploadScanTimestamp" />
     <property name="description" value="uploadScanTimestamp description..." />

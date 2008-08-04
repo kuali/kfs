@@ -13,13 +13,16 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <script language="JavaScript" type="text/javascript" src="scripts/cams/selectAllCheckbox.js"></script>
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsBarcodeInventoryError"  documentTypeName="BarcodeInventoryErrorDocument" 
 renderMultipart="true"  showTabButtons="true">
+
 	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
 	
   	<html:hidden property="document.uploaderUniversalIdentifier"/>
+  	
  	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
  	
  	<cams:barcodeInventoryErrorDetails/>

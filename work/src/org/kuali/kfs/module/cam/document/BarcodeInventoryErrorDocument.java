@@ -75,69 +75,6 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
     public void setBarcodeInventoryErrorDetail(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails) {
         this.barcodeInventoryErrorDetail = barcodeInventoryErrorDetails;
     }
-
-
-    /**
-     * 
-     * This method returns a particular element of the BCIE collection
-     * @param index
-     * @return
-     *
-    public BarcodeInventoryErrorDetail getBarcodeInventoryErrorDetail(int index) {
-        if (index >= barcodeInventoryErrorDetail.size()) {
-            for (int i = barcodeInventoryErrorDetail.size(); i <= index; i++) {
-                barcodeInventoryErrorDetail.add(new BarcodeInventoryErrorDetail());
-            }
-        }
-        return barcodeInventoryErrorDetail.get(index);
-    } */ 
-    
-    /**
-     * 
-     * This method removes elements from the collection that holds the BCIE record detail
-     * @param index
-     */
-//    public void deleteBarcodeInventoryErrorDetail(int index) {
-//        barcodeInventoryErrorDetail.remove(index);
-//    }   
-    
-    /**
-     * 
-     * @see org.kuali.core.document.DocumentBase#validateBusinessRules(org.kuali.core.rule.event.KualiDocumentEvent)
-     * 
-     * Left empty in order to prevent rule validation when saving the document.
-     */
-//    @Override    
-//    public void validateBusinessRules(KualiDocumentEvent event) {
-//    }
-    
-
-    /*
-    public void setBarcodeInventoryErrorSelectedRows(boolean flag) {
-        for (int i=0;i<this.getBarcodeInventoryErrorDetail().size();i++){
-            this.getBarcodeInventoryErrorDetail().get(i).setRowSelected(flag);
-        }        
-    }*/
-    
-        
-//    public void processAfterRetrieve() {
-//        super.processAfterRetrieve();
-//        LOG.info("****processAfterRetrieve()");
-//        for(int i=0;i<this.getBarcodeInventoryErrorDetail().size();i++) {
-//            if (this.getBarcodeInventoryErrorDetail(i).getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR)) {
-//                getBarcodeInventoryErrorDetail().remove(i);
-//                i=0;                
-//            }
-//        }        
-//    }
-
-    
-//    @Override
-//    public List buildListOfDeletionAwareLists() {
-//        List managedLists = super.buildListOfDeletionAwareLists();
-//        managedLists.add(this.getBarcodeInventoryErrorDetail());
-//        return managedLists;
-//    }
     
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

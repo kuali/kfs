@@ -53,19 +53,7 @@
 		    ${lineNumber}	
 		</td>
 	   	<c:if test="${readOnly}">&nbsp				
-			<td align="right" class="${cssClass}">
-                	<c:choose>
-                        <c:when test="${status == CamsConstants.BarcodeInventoryError.STATUS_CODE_DELETED}">
-                            Deleted
-                        </c:when>
-                        <c:when test="${status == CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED}">
-                            Corrected
-                        </c:when>
-                        <c:when test="${status == CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR}">
-                            Error
-                        </c:when>                        
-                    </c:choose>
-	        </td>
+			<td align="right" class="${cssClass}">${CamsConstants.BarcodeInventoryError.statusDescription[status]}</td>
 		</c:if>
 		<td align=left class="${cssClass}">&nbsp		
 			<kul:htmlControlAttribute
@@ -143,7 +131,7 @@
 				lookupParameters="${propertyName}.assetConditionCode:assetConditionCode" />			
 			</c:if>	
 		</td>
-	
+		
 		<td align=left class="${cssClass}">&nbsp
 			<kul:htmlControlAttribute
 				attributeEntry="${barcodeInventoryDetailAttributes.errorDescription}"

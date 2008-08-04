@@ -113,7 +113,13 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             lineNumber++;
         }
 
+        /*
+         * Since this document displays the asset lock error messages on the error description field, we don't want to
+         * display the same message at the top of the document. Therefore, deleteLockErrorMessages method deletes such
+         * errors from the GlobalVariables object. 
+         */         
         deleteLockErrorMessages();
+        
         return true;
     }
 
@@ -215,7 +221,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      */
     private boolean validateBuildingRoomNumber(String roomNumber, BarcodeInventoryErrorDetail detail) {
         boolean result = true;
-        String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE).getLabel();
+        String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER).getLabel();
 
         Room room;
         HashMap<String, Object> fields = new HashMap<String, Object>();

@@ -674,7 +674,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @param is2PLG the flag used to instrcut to retrieve a pending budget construction GL plug record
      * @return a pending budget construction GL record if any; otherwise, null
      */
-    @Transactional
+    @NonTransactional
     private PendingBudgetConstructionGeneralLedger retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader, PendingBudgetConstructionAppointmentFunding appointmentFunding, boolean is2PLG) {
         String objectCode = is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : appointmentFunding.getFinancialObjectCode();
         String subObjectCode = is2PLG ? KFSConstants.getDashFinancialSubObjectCode() : appointmentFunding.getFinancialSubObjectCode();
@@ -698,7 +698,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#retrievePendingBudgetConstructionGeneralLedger(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader)
      */
-    @Transactional
+    @NonTransactional
     public List<PendingBudgetConstructionGeneralLedger> retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader) {
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
 

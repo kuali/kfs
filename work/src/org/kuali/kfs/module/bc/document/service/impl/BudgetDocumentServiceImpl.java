@@ -17,9 +17,7 @@ package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -121,7 +119,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // that is PostProcessorServiceImpl.doActionTaken(ActionTakenEventVO), establishGlobalVariables(), which does
         // GlobalVariables.clear()
         // not sure why this doesn't trash the GlobalVariables.getErrorMap()
-        ArrayList messagesSoFar = GlobalVariables.getMessageList();
+        List<String> messagesSoFar = GlobalVariables.getMessageList();
 
         budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
 
@@ -139,9 +137,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      */
     @Transactional
     public Document saveDocumentNoWorkflow(BudgetConstructionDocument bcDoc) throws ValidationException {
-
         return this.saveDocumentNoWorkFlow(bcDoc, MonthSpreadDeleteType.NONE, true);
-
     }
 
     /**
@@ -299,15 +295,16 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     private void reloadBenefitsLines(BudgetConstructionDocument bcDoc) {
 
         // get list of potential fringe objects to use as an in query param
-        Map fieldValues = new HashMap();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, bcDoc.getUniversityFiscalYear());
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bcDoc.getChartOfAccountsCode());
-        List<String> fringeObjects = new ArrayList();
-        List benefitsCalculation = (List<LaborLedgerBenefitsCalculation>) businessObjectService.findMatching(laborModuleService.getLaborLedgerBenefitsCalculationClass(), fieldValues);
-        for (Iterator iter = benefitsCalculation.iterator(); iter.hasNext();) {
-            LaborLedgerBenefitsCalculation element = (LaborLedgerBenefitsCalculation) iter.next();
+        
+        List<String> fringeObjects = new ArrayList<String>();
+        List<LaborLedgerBenefitsCalculation> benefitsCalculation = (List<LaborLedgerBenefitsCalculation>) businessObjectService.findMatching(laborModuleService.getLaborLedgerBenefitsCalculationClass(), fieldValues);
+        for (LaborLedgerBenefitsCalculation element : benefitsCalculation) {
             fringeObjects.add(element.getPositionFringeBenefitObjectCode());
         }
+        
         List<PendingBudgetConstructionGeneralLedger> dbPBGLFringeLines = budgetConstructionDao.getDocumentPBGLFringeLines(bcDoc.getDocumentNumber(), fringeObjects);
         List<PendingBudgetConstructionGeneralLedger> docPBGLExpLines = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines();
 
@@ -702,7 +699,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#retrievePendingBudgetConstructionGeneralLedger(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader)
      */
     @Transactional
-    public Collection<PendingBudgetConstructionGeneralLedger> retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader) {
+    public List<PendingBudgetConstructionGeneralLedger> retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader) {
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
 
         searchCriteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionHeader.getDocumentNumber());
@@ -711,7 +708,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, budgetConstructionHeader.getAccountNumber());
         searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, budgetConstructionHeader.getSubAccountNumber());
 
-        return businessObjectService.findMatching(PendingBudgetConstructionGeneralLedger.class, searchCriteria);
+        return (List<PendingBudgetConstructionGeneralLedger>)businessObjectService.findMatching(PendingBudgetConstructionGeneralLedger.class, searchCriteria);
     }
 
     /**
@@ -729,7 +726,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // default the edit mode is just unviewable
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
 
-        HashMap fieldValues = new HashMap();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, bcHeader.getUniversityFiscalYear());
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bcHeader.getChartOfAccountsCode());
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, bcHeader.getAccountNumber());
@@ -738,7 +735,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         if (rvwHierList != null && !rvwHierList.isEmpty()) {
 
             // get a hashmap copy of the accountOrgHier rows for the account
-            HashMap<String, BudgetConstructionAccountOrganizationHierarchy> rvwHierMap = new HashMap<String, BudgetConstructionAccountOrganizationHierarchy>();
+            Map<String, BudgetConstructionAccountOrganizationHierarchy> rvwHierMap = new HashMap<String, BudgetConstructionAccountOrganizationHierarchy>();
             for (BudgetConstructionAccountOrganizationHierarchy rvwHier : rvwHierList) {
                 rvwHierMap.put(rvwHier.getOrganizationChartOfAccountsCode() + rvwHier.getOrganizationCode(), rvwHier);
             }
@@ -806,8 +803,11 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         return editMode;
     }
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getPushPullLevelList(org.kuali.kfs.module.bc.document.BudgetConstructionDocument, org.kuali.core.bo.user.UniversalUser)
+     */
     @Transactional
-    public List<BudgetConstructionAccountOrganizationHierarchy> getPushPullLevelList(BudgetConstructionDocument bcDoc, UniversalUser u) {
+    public List<BudgetConstructionAccountOrganizationHierarchy> getPushPullLevelList(BudgetConstructionDocument bcDoc, UniversalUser universalUser) {
         List<BudgetConstructionAccountOrganizationHierarchy> pushOrPullList = new ArrayList<BudgetConstructionAccountOrganizationHierarchy>();
 
         pushOrPullList.addAll(budgetConstructionDao.getAccountOrgHierForAccount(bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getUniversityFiscalYear()));

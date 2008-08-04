@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
@@ -221,5 +220,5 @@ public interface BudgetDocumentService {
      *        be retrieved
      * @return all pending budget construction GL records associated with the given budget contruction header
      */
-    public Collection<PendingBudgetConstructionGeneralLedger> retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader);
+    public List<PendingBudgetConstructionGeneralLedger> retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader);
 }

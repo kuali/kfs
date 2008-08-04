@@ -25,8 +25,8 @@
             </tr>
             <tr align="center" valign="top">
               <td width="50%" ><div class="floaters" > <strong>
-                  <html:radio title="Select Report Type - Generic by Task" property="currentOutputReportType" styleId="currentOutputReportType.genericByTask" value="genericByTask"/><label for="currentOutputReportType.genericByTask">Generic by Task&nbsp&nbsp&nbsp</label>
-                  <html:radio title="Select Report Type - Generic by Period" property="currentOutputReportType" styleId="currentOutputReportType.genericByPeriod" value="genericByPeriod"/><label for="currentOutputReportType.genericByPeriod">Generic by Period</label>
+                  <html:radio title="Select Report Type - Generic by Task" property="currentOutputReportType" styleId="currentOutputReportType.genericByTask" value="genericByTask"/>Generic by Task&nbsp&nbsp&nbsp
+                  <html:radio title="Select Report Type - Generic by Period" property="currentOutputReportType" styleId="currentOutputReportType.genericByPeriod" value="genericByPeriod"/>Generic by Period
                   <br><br>
                   <html:select title="Detail Level" property="currentOutputDetailLevel">
                     <html:option value="">detail level:</html:option>

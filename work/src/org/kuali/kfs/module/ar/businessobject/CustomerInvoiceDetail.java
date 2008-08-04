@@ -89,7 +89,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     }
     
-    public KualiDecimal getTotalAppliedAmount() {
+    public KualiDecimal getAppliedAmount() {
         KualiDecimal total = new KualiDecimal(0);
 
         for (InvoicePaidApplied paidApplied : invoicePaidApplieds) {
@@ -97,10 +97,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         }
 
         return total;
-    }
-    
-    public KualiDecimal getAppliedAmount() {
-        return appliedAmount;
     }
     
     public void setAppliedAmount(KualiDecimal appliedAmount) {

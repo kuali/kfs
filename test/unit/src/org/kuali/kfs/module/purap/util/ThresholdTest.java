@@ -25,19 +25,19 @@ import org.apache.log4j.Logger;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.suite.RelatesTo;
 
 @ConfigureContext(session = PARKE, shouldCommitTransactions=false)
+@RelatesTo(RelatesTo.JiraIssue.KFSMI1197)
 public class ThresholdTest extends KualiTestBase {
     
     private static Logger LOG = Logger.getLogger(ThresholdTest.class);

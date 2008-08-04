@@ -130,13 +130,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     super();
   }
   
-  public ElectronicInvoiceRejectDocument(ElectronicInvoice ei, ElectronicInvoiceOrder eio) {
-    super();
-    this.setFileLevelData(ei);
-    this.setInvoiceOrderLevelData(ei, eio);
-  }
+//  public ElectronicInvoiceRejectDocument(ElectronicInvoice ei, ElectronicInvoiceOrder eio) {
+//    super();
+//    this.setFileLevelData(ei);
+//    this.setInvoiceOrderLevelData(ei, eio);
+//  }
   
-  private void setFileLevelData(ElectronicInvoice ei) {
+  public void setFileLevelData(ElectronicInvoice ei) {
     this.invoiceProcessDate = new Timestamp((new Date()).getTime());
     this.invoiceFileHeaderTypeIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isHeaderInvoiceIndicator());
     this.invoiceFileInformationOnlyIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isInformationOnly());
@@ -163,7 +163,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
   }
   
-  private void setInvoiceOrderLevelData(ElectronicInvoice ei,ElectronicInvoiceOrder eio) {
+  public void setInvoiceOrderLevelData(ElectronicInvoice ei,ElectronicInvoiceOrder eio) {
     this.invoiceOrderReferenceOrderIdentifier = eio.getOrderReferenceOrderID();
     this.invoiceOrderReferenceDocumentReferencePayloadIdentifier = eio.getOrderReferenceDocumentRefPayloadID();
     this.invoiceOrderReferenceDocumentReferenceText = eio.getOrderReferenceDocumentRef();
@@ -231,8 +231,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     this.purchaseOrderDeliveryCampusCode = eio.getPurchaseOrderCampusCode();
     
     try {
-      this.invoiceItemSubTotalAmount = ei.getInvoiceSubtotalAmount(eio);
-      this.invoiceItemSubTotalCurrencyCode = ei.getInvoiceSubtotalCurrencyIfNotValid(eio);
+      this.invoiceItemSubTotalAmount = ei.getInvoiceSubTotalAmount(eio);
+      this.invoiceItemSubTotalCurrencyCode = ei.getInvoiceSubTotalCurrencyIfNotValid(eio);
     } catch (Exception e) {
       this.invoiceItemSubTotalAmount = null;
       this.invoiceItemSubTotalCurrencyCode = "INVALID Amount";
@@ -926,8 +926,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   /**
    * @param invoiceItemSubTotalAmount The invoiceItemSubTotalAmount to set.
    */
-  public void setInvoiceItemSubTotalAmount(BigDecimal invoiceSubtotalAmount) {
-    this.invoiceItemSubTotalAmount = invoiceSubtotalAmount;
+  public void setInvoiceItemSubTotalAmount(BigDecimal invoiceSubTotalAmount) {
+    this.invoiceItemSubTotalAmount = invoiceSubTotalAmount;
   }
   /**
    * @return Returns the invoiceItemSubTotalCurrencyCode.
@@ -938,8 +938,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   /**
    * @param invoiceItemSubTotalCurrencyCode The invoiceItemSubTotalCurrencyCode to set.
    */
-  public void setInvoiceItemSubTotalCurrencyCode(String invoiceSubtotalAmountCurrency) {
-    this.invoiceItemSubTotalCurrencyCode = invoiceSubtotalAmountCurrency;
+  public void setInvoiceItemSubTotalCurrencyCode(String invoiceSubTotalAmountCurrency) {
+    this.invoiceItemSubTotalCurrencyCode = invoiceSubTotalAmountCurrency;
   }
   /**
    * @return Returns the invoiceItemTaxAmount.

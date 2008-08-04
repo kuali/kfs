@@ -172,6 +172,8 @@
 			type="org.kuali.kfs.module.purap.document.web.struts.ReceivingCorrectionForm" />
 		<form-bean name="BulkReceivingForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.BulkReceivingForm" />
+		<form-bean name="ElectronicInvoiceRejectForm"
+			type="org.kuali.kfs.module.purap.document.web.struts.ElectronicInvoiceRejectForm" />
 
 		<!-- CG Module Bean Definitions -->
 		<form-bean name="CloseForm"

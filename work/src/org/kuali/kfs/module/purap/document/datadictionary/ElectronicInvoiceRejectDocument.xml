@@ -6,13 +6,32 @@
 
   <bean id="ElectronicInvoiceRejectDocument" parent="ElectronicInvoiceRejectDocument-parentBean" />
 
-  <bean id="ElectronicInvoiceRejectDocument-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
-    <property name="inquiryDefinition" >
-      <ref bean="ElectronicInvoiceRejectDocument-inquiryDefinition" />
+  <bean id="ElectronicInvoiceRejectDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Electronic Invoice Reject Document" />
+    <property name="shortLabel" value="EI Reject Document" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" p:parameterName="ELECTRONIC_INVOICE_REJECT" />
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="ElectronicInvoiceRejectDocument-lookupDefinition" />
+    <property name="documentTypeName" value="ElectronicInvoiceRejectDocument" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ElectronicInvoiceRejectDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ElectronicInvoiceRejectDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.ElectronicInvoiceRejectDocumentPreRules" />
+    <property name="documentTypeCode" value="EIRT" />
+    <property name="workflowProperties" >
+      <ref bean="ElectronicInvoiceRejectDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>PA_AP_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
     </property>
     <property name="attributes" >
       <list>
@@ -255,7 +274,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+		p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -287,7 +307,8 @@
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+		p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -303,7 +324,8 @@
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+		p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -514,7 +536,8 @@
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="300" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition"
@@ -626,7 +649,8 @@
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="300" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition"
@@ -754,7 +778,8 @@
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="100" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+		p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -868,7 +893,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+		p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -883,7 +909,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+		p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -915,7 +942,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -931,7 +959,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -947,7 +976,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -995,7 +1025,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1012,7 +1043,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1027,7 +1059,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1042,7 +1075,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1074,7 +1108,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1090,7 +1125,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1106,7 +1142,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1154,7 +1191,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1171,7 +1209,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1186,7 +1225,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1218,7 +1258,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1234,7 +1275,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1250,7 +1292,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1298,7 +1341,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1315,7 +1359,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1332,7 +1377,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -1404,538 +1450,24 @@
     </property>
   </bean>
 
-<!-- Business Object Inquiry Definition -->
+
+<!-- Exported Workflow Properties -->
 
 
-  <bean id="ElectronicInvoiceRejectDocument-inquiryDefinition" parent="ElectronicInvoiceRejectDocument-inquiryDefinition-parentBean" />
+  <bean id="ElectronicInvoiceRejectDocument-workflowProperties" parent="ElectronicInvoiceRejectDocument-workflowProperties-parentBean" />
 
-  <bean id="ElectronicInvoiceRejectDocument-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Electronic Invoice Header Information Inquiry" />
-    <property name="inquirySections" >
+  <bean id="ElectronicInvoiceRejectDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceLoadSummaryIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderDeliveryCampusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceShipToAddressName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceCustomerNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFileDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFileDeploymentModeValue" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFileDiscountInLineIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFileHeaderTypeIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFileInformationOnlyIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFileName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFileNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFileOperationIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFilePurposeIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFileShippingInLineIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFileSpecialHandlingInLineIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceFileTaxInLineIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purapDocumentIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountsPayablePurchasingDocumentLinkIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemDiscountAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemDiscountCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemGrossAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemGrossCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemNetAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemNetCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemShippingAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemShippingCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemShippingDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemSpecialHandlingAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemSpecialHandlingCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemSubTotalAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemSubTotalCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemTaxAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemTaxCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemTaxDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceOrderMasterAgreementInformationDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceOrderMasterAgreementInformationIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceOrderMasterAgreementReferenceDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceOrderMasterAgreementReferenceIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceOrderPurchaseOrderDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceOrderPurchaseOrderIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceOrderReferenceDocumentReferencePayloadIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceOrderReferenceDocumentReferenceText" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceOrderReferenceOrderIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceOrderSupplierOrderInformationIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceProcessDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoicePurchaseOrderNumber" />
-              <!--
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceRejectExtractDate" />
-              -->
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceShipDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceShipToAddressCityName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceShipToAddressCountryCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceShipToAddressLine1" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceShipToAddressLine2" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceShipToAddressLine3" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceShipToAddressPostalCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceShipToAddressStateCode" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceShipToAddressCountryName" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceShipToAddressType" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceBillToAddressName" />	                
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceBillToAddressCityName" />
-  	        <bean parent="FieldDefinition"
-	                p:attributeName="invoiceBillToAddressCountryCode" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceBillToAddressCountryName" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceBillToAddressLine1" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceBillToAddressLine2" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceBillToAddressLine3" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceBillToAddressPostalCode" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceBillToAddressStateCode" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceBillToAddressType" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceRemitToAddressName" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceRemitToAddressCityName" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceRemitToAddressCountryCode" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceRemitToAddressCountryName" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceRemitToAddressLine1" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceRemitToAddressLine2" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceRemitToAddressLine3" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceRemitToAddressPostalCode" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceRemitToAddressStateCode" />
-	          <bean parent="FieldDefinition"
-	                p:attributeName="invoiceRemitToAddressType" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDetailAssignedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDunsNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeaderGeneratedIdentifier" />
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
             </list>
           </property>
         </bean>
       </list>
     </property>
   </bean>
-
-<!-- Business Object Lookup Definition -->
-
-
-  <bean id="ElectronicInvoiceRejectDocument-lookupDefinition" parent="ElectronicInvoiceRejectDocument-lookupDefinition-parentBean" />
-
-  <bean id="ElectronicInvoiceRejectDocument-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Electronic Invoice Header Information Lookup" />
-    <property name="instructions" value="Lookup an Electronic Invoice Header Information" />
-    <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields" >
-      <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceLoadSummaryIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderDeliveryCampusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceCustomerNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileDeploymentModeValue" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileDiscountInLineIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileHeaderTypeIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileInformationOnlyIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileOperationIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFilePurposeIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileShippingInLineIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileSpecialHandlingInLineIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileTaxInLineIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountsPayablePurchasingDocumentLinkIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemDiscountAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemDiscountCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemGrossAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemGrossCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemNetAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemNetCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSpecialHandlingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSpecialHandlingCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSubTotalAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSubTotalCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderMasterAgreementInformationDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderMasterAgreementInformationIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderMasterAgreementReferenceDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderMasterAgreementReferenceIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderPurchaseOrderDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderPurchaseOrderIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderReferenceDocumentReferencePayloadIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderReferenceDocumentReferenceText" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderReferenceOrderIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderSupplierOrderInformationIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceProcessDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoicePurchaseOrderNumber" />
-        <!--
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRejectExtractDate" />
-        -->
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressCityName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressCountryCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressLine1" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressLine2" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressLine3" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressPostalCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressStateCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressCountryName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressCityName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressCountryCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressCountryName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressLine1" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressLine2" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressLine3" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressPostalCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressStateCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressCityName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressCountryCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressCountryName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressLine1" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressLine2" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressLine3" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressPostalCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressStateCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDunsNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
-      </list>
-    </property>
-    <property name="resultFields" >
-      <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceLoadSummaryIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderDeliveryCampusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceCustomerNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileDeploymentModeValue" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileDiscountInLineIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileHeaderTypeIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileInformationOnlyIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileOperationIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFilePurposeIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileShippingInLineIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileSpecialHandlingInLineIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceFileTaxInLineIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountsPayablePurchasingDocumentLinkIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemDiscountAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemDiscountCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemGrossAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemGrossCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemNetAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemNetCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSpecialHandlingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSpecialHandlingCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSubTotalAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSubTotalCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderMasterAgreementInformationDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderMasterAgreementInformationIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderMasterAgreementReferenceDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderMasterAgreementReferenceIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderPurchaseOrderDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderPurchaseOrderIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderReferenceDocumentReferencePayloadIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderReferenceDocumentReferenceText" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderReferenceOrderIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceOrderSupplierOrderInformationIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceProcessDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoicePurchaseOrderNumber" />
-        <!-- 
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRejectExtractDate" />
-        -->
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressCityName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressCountryCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressLine1" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressLine2" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressLine3" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressPostalCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressStateCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressCountryName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceShipToAddressType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressCityName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressCountryCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressCountryName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressLine1" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressLine2" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressLine3" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressPostalCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressStateCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceBillToAddressType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressCityName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressCountryCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressCountryName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressLine1" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressLine2" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressLine3" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressPostalCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressStateCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRemitToAddressType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDunsNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
-      </list>
-    </property>
-  </bean>
-</beans>
+  </beans>

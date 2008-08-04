@@ -167,11 +167,11 @@ public class ElectronicInvoiceOrder {
     return null;
   }
 
-  public BigDecimal getInvoiceSubtotalAmount() {
+  public BigDecimal getInvoiceSubTotalAmount() {
     BigDecimal total = zero;
     for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
       ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
-      total = total.add(eii.getInvoiceLineSubtotalAmountBigDecimal());
+      total = total.add(eii.getInvoiceLineSubTotalAmountBigDecimal());
     }
     return total;
   }

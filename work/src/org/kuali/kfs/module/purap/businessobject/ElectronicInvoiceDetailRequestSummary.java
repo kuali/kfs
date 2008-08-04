@@ -17,8 +17,8 @@ public class ElectronicInvoiceDetailRequestSummary {
   
   private static BigDecimal zero = new BigDecimal(0.00);
   
-  private String subtotalAmount; // has money xml node
-  private String subtotalAmountCurrency;
+  private String subTotalAmount; // has money xml node
+  private String subTotalAmountCurrency;
   private String taxAmount; // has money xml node  (not all tax fields are stored as tax should never occur)
   private String taxAmountCurrency;
   private String taxDescription;
@@ -27,8 +27,8 @@ public class ElectronicInvoiceDetailRequestSummary {
   private String specialHandlingAmountDescription;
   private String shippingAmount; // has money xml node
   private String shippingAmountCurrency;
-  // grossAmount should = subtotalAmount + taxAmount + specialHandlingAmount + shippingAmount 
-  private String grossAmount; // subtotal + taxes + shipping + special handling
+  // grossAmount should = subTotalAmount + taxAmount + specialHandlingAmount + shippingAmount 
+  private String grossAmount; // subTotal + taxes + shipping + special handling
   private String grossAmountCurrency;
   private String discountAmount; // has money xml node
   private String discountAmountCurrency;
@@ -60,11 +60,11 @@ public class ElectronicInvoiceDetailRequestSummary {
     return null;
   }
   
-  public BigDecimal getInvoiceSubtotalAmount() {
-    if ( (this.subtotalAmount == null) || ("".equals(this.subtotalAmount)) ) {
+  public BigDecimal getInvoiceSubTotalAmount() {
+    if ( (this.subTotalAmount == null) || ("".equals(this.subTotalAmount)) ) {
       return zero;
     } else {
-      return new BigDecimal(this.subtotalAmount);
+      return new BigDecimal(this.subTotalAmount);
     }
   }
 
@@ -313,28 +313,28 @@ public class ElectronicInvoiceDetailRequestSummary {
     this.specialHandlingAmountDescription = specialHandlingAmountDescription;
   }
   /**
-   * @return Returns the subtotalAmount.
+   * @return Returns the subTotalAmount.
    */
-  public String getSubtotalAmount() {
-    return subtotalAmount;
+  public String getSubTotalAmount() {
+    return subTotalAmount;
   }
   /**
-   * @param subtotalAmount The subtotalAmount to set.
+   * @param subTotalAmount The subTotalAmount to set.
    */
-  public void setSubtotalAmount(String subtotalAmount) {
-    this.subtotalAmount = subtotalAmount;
+  public void setSubTotalAmount(String subTotalAmount) {
+    this.subTotalAmount = subTotalAmount;
   }
   /**
-   * @return Returns the subtotalAmountCurrency.
+   * @return Returns the subTotalAmountCurrency.
    */
-  public String getSubtotalAmountCurrency() {
-    return subtotalAmountCurrency;
+  public String getSubTotalAmountCurrency() {
+    return subTotalAmountCurrency;
   }
   /**
-   * @param subtotalAmountCurrency The subtotalAmountCurrency to set.
+   * @param subTotalAmountCurrency The subTotalAmountCurrency to set.
    */
-  public void setSubtotalAmountCurrency(String subtotalAmountCurrency) {
-    this.subtotalAmountCurrency = subtotalAmountCurrency;
+  public void setSubTotalAmountCurrency(String subTotalAmountCurrency) {
+    this.subTotalAmountCurrency = subTotalAmountCurrency;
   }
   /**
    * @return Returns the taxAmount.

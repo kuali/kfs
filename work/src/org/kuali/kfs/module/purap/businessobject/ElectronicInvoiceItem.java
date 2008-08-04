@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 
 
 /**
@@ -34,8 +35,8 @@ public class ElectronicInvoiceItem {
   // UnitPrice is deprecated for InvoiceDetailServiceItem tags
   private String unitPrice; // has money xml node
   private String unitPriceCurrency;
-  private String subtotalAmount; // has money xml node
-  private String subtotalAmountCurrency;
+  private String subTotalAmount; // has money xml node
+  private String subTotalAmountCurrency;
   private String invoiceLineSpecialHandlingAmount; // has money xml node
   private String invoiceLineSpecialHandlingAmountCurrency;
   private String invoiceLineShippingAmount; // has money xml node
@@ -70,6 +71,8 @@ public class ElectronicInvoiceItem {
   private String referenceCountryCode;
   private String referenceCountryName;
   
+  private ElectronicInvoiceRejectDocument electronicInvoiceRejectDocument;
+  
   public ElectronicInvoiceItem() {
   }
   
@@ -101,9 +104,9 @@ public class ElectronicInvoiceItem {
     }
   }
   
-  public BigDecimal getInvoiceLineSubtotalAmountBigDecimal() {
-    if (this.subtotalAmount != null) {
-      return new BigDecimal(this.subtotalAmount);
+  public BigDecimal getInvoiceLineSubTotalAmountBigDecimal() {
+    if (this.subTotalAmount != null) {
+      return new BigDecimal(this.subTotalAmount);
     } else {
       return zero;
     }
@@ -510,26 +513,26 @@ public class ElectronicInvoiceItem {
   /**
    * @return Returns the subtotalAmount.
    */
-  public String getSubtotalAmount() {
-    return subtotalAmount;
+  public String getSubTotalAmount() {
+    return subTotalAmount;
   }
   /**
    * @param subtotalAmount The subtotalAmount to set.
    */
-  public void setSubtotalAmount(String subtotalAmount) {
-    this.subtotalAmount = subtotalAmount;
+  public void setSubTotalAmount(String subTotalAmount) {
+    this.subTotalAmount = subTotalAmount;
   }
   /**
    * @return Returns the subtotalAmountCurrency.
    */
-  public String getSubtotalAmountCurrency() {
-    return subtotalAmountCurrency;
+  public String getSubTotalAmountCurrency() {
+    return subTotalAmountCurrency;
   }
   /**
    * @param subtotalAmountCurrency The subtotalAmountCurrency to set.
    */
-  public void setSubtotalAmountCurrency(String subtotalAmountCurrency) {
-    this.subtotalAmountCurrency = subtotalAmountCurrency;
+  public void setSubTotalAmountCurrency(String subTotalAmountCurrency) {
+    this.subTotalAmountCurrency = subTotalAmountCurrency;
   }
   /**
    * @return Returns the taxAmount.
@@ -603,4 +606,13 @@ public class ElectronicInvoiceItem {
   public void setUnitPriceCurrency(String unitPriceCurrency) {
     this.unitPriceCurrency = unitPriceCurrency;
   }
+
+public ElectronicInvoiceRejectDocument getElectronicInvoiceRejectDocument() {
+    return electronicInvoiceRejectDocument;
+}
+
+public void setElectronicInvoiceRejectDocument(ElectronicInvoiceRejectDocument electronicInvoiceRejectDocument) {
+    this.electronicInvoiceRejectDocument = electronicInvoiceRejectDocument;
+}
+  
 }

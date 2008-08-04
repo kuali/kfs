@@ -374,8 +374,8 @@ public class ElectronicInvoiceParser extends CxmlParser {
       eidrs.setSpecialHandlingAmountCurrency(getPossibleAttributeText(summaryNode, tagName + "/Money", "currency"));
     }
 
-    eidrs.setSubtotalAmount(getPossibleNodeText(summaryNode, "SubtotalAmount/Money"));
-    eidrs.setSubtotalAmountCurrency(getPossibleAttributeText(summaryNode, "SubtotalAmount/Money", "currency"));
+    eidrs.setSubTotalAmount(getPossibleNodeText(summaryNode, "SubTotalAmount/Money"));
+    eidrs.setSubTotalAmountCurrency(getPossibleAttributeText(summaryNode, "SubTotalAmount/Money", "currency"));
     eidrs.setShippingAmount(getPossibleNodeText(summaryNode, "ShippingAmount/Money"));
     eidrs.setShippingAmountCurrency(getPossibleAttributeText(summaryNode, "ShippingAmount/Money", "currency"));
     eidrs.setGrossAmount(getPossibleNodeText(summaryNode, "GrossAmount/Money"));
@@ -454,8 +454,8 @@ public class ElectronicInvoiceParser extends CxmlParser {
       eii.setUnitOfMeasure(getPossibleNodeText(itemDetailNode, "UnitOfMeasure"));
       eii.setUnitPrice(getPossibleNodeText(itemDetailNode, "UnitPrice/Money"));
       eii.setUnitPriceCurrency(getPossibleAttributeText(itemDetailNode, "UnitPrice/Money", "currency"));
-      eii.setSubtotalAmount(getPossibleNodeText(itemDetailNode, "SubtotalAmount/Money"));
-      eii.setSubtotalAmountCurrency(getPossibleAttributeText(itemDetailNode, "SubtotalAmount/Money", "currency"));
+      eii.setSubTotalAmount(getPossibleNodeText(itemDetailNode, "SubTotalAmount/Money"));
+      eii.setSubTotalAmountCurrency(getPossibleAttributeText(itemDetailNode, "SubTotalAmount/Money", "currency"));
       eii.setTaxAmount(getPossibleNodeText(itemDetailNode, "Tax/Money"));
       eii.setTaxAmountCurrency(getPossibleAttributeText(itemDetailNode, "Tax/Money", "currency"));
       eii.setTaxDescription(getPossibleNodeText(itemDetailNode, "Tax"));
@@ -528,8 +528,8 @@ public class ElectronicInvoiceParser extends CxmlParser {
       eii.setUnitPrice(unitPrice);
       eii.setUnitPriceCurrency(getPossibleAttributeText(serviceItemDetailNode, "UnitPrice/Money", "currency"));
 
-      eii.setSubtotalAmount(getPossibleNodeText(serviceItemDetailNode, "SubtotalAmount/Money"));
-      eii.setSubtotalAmountCurrency(getPossibleAttributeText(serviceItemDetailNode, "SubtotalAmount/Money", "currency"));
+      eii.setSubTotalAmount(getPossibleNodeText(serviceItemDetailNode, "SubTotalAmount/Money"));
+      eii.setSubTotalAmountCurrency(getPossibleAttributeText(serviceItemDetailNode, "SubTotalAmount/Money", "currency"));
       eii.setTaxAmount(getPossibleNodeText(serviceItemDetailNode, "Tax/Money"));
       eii.setTaxAmountCurrency(getPossibleAttributeText(serviceItemDetailNode, "Tax/Money", "currency"));
       eii.setTaxDescription(getPossibleNodeText(serviceItemDetailNode, "Tax"));

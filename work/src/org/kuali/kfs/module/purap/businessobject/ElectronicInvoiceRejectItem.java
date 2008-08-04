@@ -97,7 +97,7 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceReferenceItemCountryName = eii.getReferenceCountryName();
     
     this.invoiceItemUnitPriceCurrencyCode = eii.getUnitPriceCurrency();
-    this.invoiceItemSubTotalCurrencyCode = eii.getSubtotalAmountCurrency();
+    this.invoiceItemSubTotalCurrencyCode = eii.getSubTotalAmountCurrency();
     this.invoiceItemSpecialHandlingCurrencyCode = eii.getInvoiceLineSpecialHandlingAmountCurrency();
     this.invoiceItemShippingCurrencyCode = eii.getInvoiceLineShippingAmountCurrency();
     this.invoiceItemShippingDescription = eii.getInvoiceLineShippingDescription();
@@ -108,7 +108,7 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceItemNetCurrencyCode = eii.getInvoiceLineNetAmountCurrency();
     
     this.invoiceItemUnitPrice = eii.getInvoiceLineUnitCostBigDecimal();
-    this.invoiceItemSubTotalAmount = eii.getInvoiceLineSubtotalAmountBigDecimal();
+    this.invoiceItemSubTotalAmount = eii.getInvoiceLineSubTotalAmountBigDecimal();
     this.invoiceItemSpecialHandlingAmount = eii.getInvoiceLineSpecialHandlingAmountBigDecimal();
     this.invoiceItemShippingAmount = eii.getInvoiceLineShippingAmountBigDecimal();
     this.invoiceItemTaxAmount = eii.getInvoiceLineTaxAmountBigDecimal();
@@ -117,7 +117,7 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceItemNetAmount = eii.getInvoiceLineNetAmountBigDecimal();
     
     // setup the sub total amount so that the reject prints to the files correctly
-    if ( ( (eii.getSubtotalAmount() == null) || ("".equals(eii.getSubtotalAmount())) ) ) {
+    if ( ( (eii.getSubTotalAmount() == null) || ("".equals(eii.getSubTotalAmount())) ) ) {
       // the sub total amount of this electronic invoice item was not given
       if ( ( (this.invoiceItemQuantity != null) && ((zero.compareTo(this.invoiceItemQuantity)) != 0) ) &&
            ( (this.invoiceItemUnitPrice != null) && ((zero.compareTo(this.invoiceItemUnitPrice)) != 0) ) ) {
@@ -131,7 +131,7 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
         this.invoiceItemSubTotalAmount = null;
       }
     } else {
-      this.invoiceItemSubTotalAmount = eii.getInvoiceLineSubtotalAmountBigDecimal();
+      this.invoiceItemSubTotalAmount = eii.getInvoiceLineSubTotalAmountBigDecimal();
     }
   }
   

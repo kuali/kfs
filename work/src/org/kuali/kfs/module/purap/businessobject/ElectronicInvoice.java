@@ -203,11 +203,11 @@ public class ElectronicInvoice {
     return total;
   }
   
-  public BigDecimal getInvoiceSubtotalAmount(ElectronicInvoiceOrder eio) {
+  public BigDecimal getInvoiceSubTotalAmount(ElectronicInvoiceOrder eio) {
     if (this.containsLineLevelAmounts()) {
-      return eio.getInvoiceSubtotalAmount();
+      return eio.getInvoiceSubTotalAmount();
     } else {
-      return invoiceDetailRequestSummary.getInvoiceSubtotalAmount();
+      return invoiceDetailRequestSummary.getInvoiceSubTotalAmount();
     }
   }
 
@@ -324,18 +324,18 @@ public class ElectronicInvoice {
     return false;
   }
 
-  public String getInvoiceSubtotalCurrencyIfNotValid(ElectronicInvoiceOrder eio) {
+  public String getInvoiceSubTotalCurrencyIfNotValid(ElectronicInvoiceOrder eio) {
     if (this.containsLineLevelAmounts()) {
       for (Iterator iter = eio.getInvoiceItems().iterator(); iter.hasNext();) {
         ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
-        String currentCode = this.checkCodeForValidCurrency(eii.getSubtotalAmountCurrency());
+        String currentCode = this.checkCodeForValidCurrency(eii.getSubTotalAmountCurrency());
         if (currentCode != null) {
           return currentCode;
         }
       }
       return null;
     } else {
-      return this.checkCodeForValidCurrency(invoiceDetailRequestSummary.getSubtotalAmountCurrency());
+      return this.checkCodeForValidCurrency(invoiceDetailRequestSummary.getSubTotalAmountCurrency());
     }
   }
 

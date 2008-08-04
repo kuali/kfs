@@ -28,6 +28,9 @@ import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceLoadService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceService;
+import org.kuali.rice.KNSServiceLocator;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author delyea
@@ -435,25 +438,35 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
       eils = new ElectronicInvoiceLoadSummary(fileDunsNumber);
     }
     
+    // perform reject scenario
     // peform reject scenario
-    //FIXME this should be ElectronicInvoiceRejectDocument
-    ElectronicInvoiceRejectDocument eir = new ElectronicInvoiceRejectDocument(ei,eio);
-    message.append("An Invoice from file '" + ei.getFileName() + "' has been rejected due to the following errors:\n");
-    for (Iterator iter = eir.getInvoiceRejectReasons().iterator(); iter.hasNext();) {
-      ElectronicInvoiceRejectReason reason = (ElectronicInvoiceRejectReason) iter.next();
-      message.append("    - " + reason.getInvoiceRejectReasonDescription() + "\n");
+    try {
+        ElectronicInvoiceRejectDocument eirDoc = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("ElectronicInvoiceRejectDocument");
+        eirDoc.setInvoiceLoadSummary(eils);
+        // then populate EI and EIO
+        eirDoc.setInvoiceOrderLevelData(ei, eio);
+        message.append("An Invoice from file '" + ei.getFileName() + "' has been rejected due to the following errors:\n");
+        for (Iterator iter = eirDoc.getInvoiceRejectReasons().iterator(); iter.hasNext();) {
+            ElectronicInvoiceRejectReason reason = (ElectronicInvoiceRejectReason) iter.next();
+            message.append("    - " + reason.getInvoiceRejectReasonDescription() + "\n");
+        }
+        message.append("\n\n");
+        emailTextErrorList.append(message);
+        // this.writeToEmailFileEnd(message.toString(), emailFilename);
+        LOG.info("rejectSingleElectronicInvoiceOrderDetail() Using amount " + eirDoc.getTotalAmount().doubleValue() + " for load summary");
+        eils.addFailedInvoiceOrder(eirDoc.getTotalAmount(), ei);
+
+        // updated load object
+        eil.insertInvoiceLoadSummary(eils);
+        eil.addInvoiceReject(eirDoc);
+        KNSServiceLocator.getDocumentService().saveDocument(eirDoc);            
     }
-    message.append("\n\n");
-    emailTextErrorList.append(message);
-//    this.writeToEmailFileEnd(message.toString(), emailFilename);
-    LOG.info("rejectSingleElectronicInvoiceOrderDetail() Using amount " + eir.getTotalAmount().doubleValue() + " for load summary");
-    eils.addFailedInvoiceOrder(eir.getTotalAmount(),ei);
-    
-    // updated load object
-    eil.insertInvoiceLoadSummary(eils);
-    //FIXME this should be better once eir is changed to be the documetn class
-//    eil.addInvoiceReject(eir);
+    catch (WorkflowException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
     LOG.debug("rejectSingleElectronicInvoiceOrderDetail() ending");
+
   }
   
   private void rejectElectronicInvoiceFileWithSave(ElectronicInvoiceLoad eil,String fileDunsNumber,ElectronicInvoice ei) {
@@ -468,19 +481,36 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
       eils = new ElectronicInvoiceLoadSummary(fileDunsNumber);
     }
     
-    // peform reject scenario
+    // perform reject scenario
     message.append("Invoice File with Filename '" + ei.getFileName() + "' has been rejected (the entire file) for the following errors:\n");
     for (Iterator itemIter = ei.getInvoiceDetailOrders().iterator(); itemIter.hasNext();) {
-      ElectronicInvoiceOrder eio = (ElectronicInvoiceOrder) itemIter.next();
-      ElectronicInvoiceRejectDocument eir = new ElectronicInvoiceRejectDocument(ei,eio);
-      for (Iterator iter = eir.getInvoiceRejectReasons().iterator(); iter.hasNext();) {
-        ElectronicInvoiceRejectReason reason = (ElectronicInvoiceRejectReason) iter.next();
-        message.append("    - " + reason.getInvoiceRejectReasonDescription() + "\n");
+      try {
+          ElectronicInvoiceOrder eio = (ElectronicInvoiceOrder) itemIter.next();
+          ElectronicInvoiceRejectDocument eirDoc = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("ElectronicInvoiceRejectDocument");
+          eirDoc.setInvoiceLoadSummary(eils);
+          // then populate EI and EIO
+          eirDoc.setInvoiceOrderLevelData(ei, eio);
+          message.append("An Invoice from file '" + ei.getFileName() + "' has been rejected due to the following errors:\n");
+          for (Iterator iter = eirDoc.getInvoiceRejectReasons().iterator(); iter.hasNext();) {
+              ElectronicInvoiceRejectReason reason = (ElectronicInvoiceRejectReason) iter.next();
+              message.append("    - " + reason.getInvoiceRejectReasonDescription() + "\n");
+          }
+          message.append("\n\n");
+          emailTextErrorList.append(message);
+          // this.writeToEmailFileEnd(message.toString(), emailFilename);
+          LOG.info("rejectSingleElectronicInvoiceOrderDetail() Using amount " + eirDoc.getTotalAmount().doubleValue() + " for load summary");
+          eils.addFailedInvoiceOrder(eirDoc.getTotalAmount(), ei);
+
+          // updated load object
+          eil.insertInvoiceLoadSummary(eils);
+          eil.addInvoiceReject(eirDoc);
+          KNSServiceLocator.getDocumentService().saveDocument(eirDoc);            
       }
-      message.append("\n");
-      eils.addFailedInvoiceOrder(eir.getTotalAmount(),ei);
-      //FIXME this will be fixed one eir is changed to be the document class
-//      eil.addInvoiceReject(eir);
+      catch (WorkflowException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+      }
+    
     }
     emailTextErrorList.append(message);
 //    this.writeToEmailFileEnd(message.toString(), emailFilename);

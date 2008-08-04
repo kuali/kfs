@@ -869,14 +869,14 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
             return;
           } else {
             // we have encumbered dollars left on PO.... check
-            if (eii.getInvoiceLineSubtotalAmountBigDecimal().compareTo(poi.getItemOutstandingEncumberedAmount().bigDecimalValue()) > 0) {
+            if (eii.getInvoiceLineSubTotalAmountBigDecimal().compareTo(poi.getItemOutstandingEncumberedAmount().bigDecimalValue()) > 0) {
               // we have more subtotal dollars on the e-invoice than dollars left outstanding encumbered on the PO itm
               String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
                   "') outstanding encumbered amount is less than e-invoice item amount";
               String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
               LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
               LOG.error("performElectronicInvoiceOrderValidation() PO ITEM AMOUNT ENCUMBERANCE: " + poi.getItemOutstandingEncumberedAmount() + 
-                  " --- ELECTRONIC INVOICE AMOUNT: " + eii.getInvoiceLineSubtotalAmountBigDecimal());
+                  " --- ELECTRONIC INVOICE AMOUNT: " + eii.getInvoiceLineSubTotalAmountBigDecimal());
               return;
             }
           }

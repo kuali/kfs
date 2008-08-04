@@ -51,11 +51,11 @@
             <span style="font-weight: normal"><kul:htmlAttributeLabel
                 attributeEntry="${attributes[overrideField]}"
                 useShortLabel="true"
-                forceRequired="true"
+                labelFor="${accountingLine}.${overrideField}" forceRequired="true"
                 /></span>&nbsp;<kul:htmlControlAttribute
                 property="${accountingLine}.${overrideField}"
                 attributeEntry="${attributes[overrideField]}"
-                readOnly="${readOnly}"
+                readOnly="${readOnly}" forceRequired="true"
                 />
         </span>
     </c:when>

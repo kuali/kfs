@@ -180,6 +180,22 @@ public interface BudgetDocumentService {
     public BudgetConstructionHeader getBudgetConstructionHeader(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
+     * determine whether the given document is budgetable
+     * 
+     * @param bcHeader the given budget document
+     * @return true if the given document is budgetable; otherwise, false
+     */
+    public boolean isBudgetableDocument(BudgetConstructionHeader bcHeader);
+
+    /**
+     * determine whether the given appointment funding is associated with a budgetable document
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the given appointment funding is associated with a budgetable document; otherwise, false
+     */
+    public boolean isAssociatedWithBudgetableDocument(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
      * determine whether the given account is budgetable for the specified budget year
      * 
      * @param budgetYear the specified budget year
@@ -192,7 +208,8 @@ public interface BudgetDocumentService {
      * determine whether the given subaccount is budgetable
      * 
      * @param subAccount the given subaccount
-     * @param subAccountNumber the sub account number associated with the given sub account. If sub account is null, the number can be empty or the defualt.
+     * @param subAccountNumber the sub account number associated with the given sub account. If sub account is null, the number can
+     *        be empty or the defualt.
      * @return true if the given subaccount is budgetable; otherwise, false
      */
     public boolean isBudgetableSubAccount(SubAccount subAccount, String subAccountNumber);

@@ -41,6 +41,7 @@ import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.service.LaborModuleService;
@@ -432,6 +433,37 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isBudgetableDocument(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader)
+     */
+    @NonTransactional
+    public boolean isBudgetableDocument(BudgetConstructionHeader bcHeader) {
+        if (bcHeader == null) {
+            return false;
+        }
+
+        Integer budgetYear = bcHeader.getUniversityFiscalYear();
+        Account account = bcHeader.getAccount();
+        boolean isBudgetableAccount = this.isBudgetableAccount(budgetYear, account);
+
+        if (isBudgetableAccount) {
+            SubAccount subAccount = bcHeader.getSubAccount();
+            String subAccountNumber = bcHeader.getSubAccountNumber();
+
+            return this.isBudgetableSubAccount(subAccount, subAccountNumber);
+        }
+
+        return false;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isAssociatedWithBudgetableDocument(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean isAssociatedWithBudgetableDocument(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        BudgetConstructionHeader bcHeader = this.getBudgetConstructionHeader(appointmentFunding);
+        return this.isBudgetableDocument(bcHeader);
+    }
+
+    /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isBudgetableAccount(java.lang.Integer,
      *      org.kuali.kfs.coa.businessobject.Account)
      */
@@ -441,17 +473,25 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             return false;
         }
 
+        // account cannot be closed.
         if (account.isAccountClosedIndicator()) {
             return false;
         }
 
+        // account cannot be expired before beginning of 6th accounting period, 2 years before budget construction fiscal year.
         Calendar expDate = BudgetConstructionRuleUtil.getNoBudgetAllowedExpireDate(budgetYear);
         if (account.isExpired(expDate)) {
             return false;
         }
 
-        // is account a cash control account
+        // account cannot be a cash control account
         if (StringUtils.equalsIgnoreCase(account.getBudgetRecordingLevelCode(), BCConstants.BUDGET_RECORDING_LEVEL_N)) {
+            return false;
+        }
+
+        // account must be flagged as wages allowed
+        SubFundGroup subFundGroup = account.getSubFundGroup();
+        if (subFundGroup == null || !subFundGroup.isSubFundGroupWagesIndicator()) {
             return false;
         }
 

@@ -940,6 +940,11 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     public void setItems(List items) {
         // TODO Auto-generated method stub
     }
+
+    @Override
+    public boolean isBoNotesSupport() {
+        return true;
+    }
     
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

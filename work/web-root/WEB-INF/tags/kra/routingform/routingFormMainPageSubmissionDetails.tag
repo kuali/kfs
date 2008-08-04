@@ -107,10 +107,9 @@
 		            <html:hidden property="document.routingFormPurposes[${status.index}].purposeCode" /> 
 		            <html:hidden property="document.routingFormPurposes[${status.index}].versionNumber" /> 
 		            <html:hidden property="document.routingFormPurposes[${status.index}].purpose.purposeDescription" /> 
-                    <label>
-                      <c:choose>
+                                          <c:choose>
                         <c:when test="${!viewOnly and !budgetLinked}">
-                          <html:radio property="document.routingFormPurposeCode" value="${routingFormPurpose.purposeCode}" disabled="${viewOnly}"/>
+                          <html:radio title="Project Purpose - ${routingFormPurpose.purpose.purposeDescription}" property="document.routingFormPurposeCode" value="${routingFormPurpose.purposeCode}" disabled="${viewOnly}"/>
                         </c:when>
                         <c:when test="${KualiForm.document.routingFormPurposeCode eq routingFormPurpose.purposeCode}">
                           <html:hidden property="document.routingFormPurposeCode" />
@@ -119,7 +118,6 @@
     				    <c:otherwise> No </c:otherwise>
                       </c:choose>
 		              ${routingFormPurpose.purpose.purposeDescription}
-		            </label>
 		            <c:choose>
 		              <c:when test="${routingFormPurpose.purposeCode eq KualiForm.systemParametersMap[CGConstants.PURPOSE_RESEARCH]}">
 		                <c:forEach items="${KualiForm.document.routingFormResearchTypeCodes}" var="routingFormResearchTypeCode" varStatus="status"> 
@@ -134,7 +132,7 @@
 						</c:if>
                         <c:choose>
                           <c:when test="${!viewOnly}">
-      		                <html:select property="document.researchTypeCode" style="${researchTypeCodeTextStyle}" disabled="${viewOnly}"> 
+      		                <html:select title="Research Type" property="document.researchTypeCode" style="${researchTypeCodeTextStyle}" disabled="${viewOnly}"> 
       		                  <html:option value="">&nbsp;</html:option> 
       		                  <c:set var="routingFormResearchTypeCodes" value="${KualiForm.document.routingFormResearchTypeCodes}"/> 
       		                  <html:options collection="routingFormResearchTypeCodes" property="researchTypeCode" labelProperty="researchType.researchTypeDescription"/> 
@@ -185,7 +183,7 @@
 		                </div></td>
 		                <td class="nobord"> <div align="center">
 					    	<c:if test="${!viewOnly && fn:length(KualiForm.document.routingFormKeywords) != 0}">
-						    	<html:image property="methodToCall.deleteAllRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif" alt="delete all routing form keywords"/>
+						    	<html:image property="methodToCall.deleteAllRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif" title="delete all routing form keywords" alt="delete all routing form keywords"/>
 		                	</c:if>
 		                </div></td>
 		              </tr>   
@@ -199,7 +197,7 @@
 		                </div></td>
 		                <td class="nobord"><div align="center">
 		                  <c:if test="${!viewOnly}">
-		                    <html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete routing form keyword"/>
+		                    <html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="delete routing form keyword" alt="delete routing form keyword"/>
 		                  </c:if>
 		                </div></td>
 		              </tr>   

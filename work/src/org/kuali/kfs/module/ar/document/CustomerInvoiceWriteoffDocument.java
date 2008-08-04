@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,10 +34,8 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
@@ -261,23 +260,27 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean hasClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
+        boolean hasReceivableClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
+        
+        String writeoffOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
+        boolean hasWriteoffClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffOffsetOption);
         
         boolean hasStateSalesTax = false;
         boolean hasDistrictSalesTax = false;
         
-        addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        //if the writeoff 
+        addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasReceivableClaimOnCashOffset || hasWriteoffClaimOnCashOffset);
         sequenceHelper.increment();
-        addWriteoffGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        addWriteoffGLPEs(sequenceHelper, glpeSourceDetail, hasReceivableClaimOnCashOffset || hasWriteoffClaimOnCashOffset);
         
         if( hasStateSalesTax ){
             sequenceHelper.increment();
-            addStateSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+            addStateSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasWriteoffClaimOnCashOffset);
         }
         
         if( hasDistrictSalesTax ){
             sequenceHelper.increment();
-            addDistrictSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+            addDistrictSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasWriteoffClaimOnCashOffset);
         }
 
         return true;
@@ -349,7 +352,10 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     }
 
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
-        return getCustomerInvoiceDocument().getSourceAccountingLines();
+        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPendingEntrySourceDetails = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
+        generalLedgerPendingEntrySourceDetails.addAll(getCustomerInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts());
+        return generalLedgerPendingEntrySourceDetails;
+        
     }
 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {

@@ -63,7 +63,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             
             OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault)businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
             if( ObjectUtils.isNotNull( organizationAccountingDefault ) ){
-                customerInvoiceWriteoffDocument.setChartOfAccountsCode(organizationAccountingDefault.getChartOfAccountsCode());
+                customerInvoiceWriteoffDocument.setChartOfAccountsCode(organizationAccountingDefault.getWriteoffChartOfAccountsCode());
                 customerInvoiceWriteoffDocument.setAccountNumber(organizationAccountingDefault.getWriteoffAccountNumber());
                 customerInvoiceWriteoffDocument.setSubAccountNumber(organizationAccountingDefault.getWriteoffSubAccountNumber());
                 customerInvoiceWriteoffDocument.setFinancialObjectCode(organizationAccountingDefault.getWriteoffFinancialObjectCode());

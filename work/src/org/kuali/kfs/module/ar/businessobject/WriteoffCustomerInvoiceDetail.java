@@ -23,6 +23,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
@@ -44,12 +45,15 @@ public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
     
     public WriteoffCustomerInvoiceDetail(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster){
         this.postable = postable;
+        this.poster = poster;
         
         String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
         isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals( writeoffGenerationOption );
         isUsingChartForWriteoff = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_CHART.equals( writeoffGenerationOption );
         
         if( isUsingOrgAcctDefaultWriteoffFAU ){
+            //if is using org account default, I already set the writeoff FAU on
+            //the document, so that is needed to do is refresh the FAU objects
             this.poster.refreshReferenceObject("account");
             this.poster.refreshReferenceObject("chartOfAccounts");
             this.poster.refreshReferenceObject("subAccount");
@@ -107,10 +111,11 @@ public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
    public String getFinancialObjectCode() {
        if ( isUsingOrgAcctDefaultWriteoffFAU ){
            return poster.getFinancialObjectCode();
-       } else if ( true ) {
+       } else if ( isUsingChartForWriteoff ) {
            //TODO change which object code is returned
            //return postable.getChart().getFinAccountsPayableObjectCode();
-           return postable.getFinancialObjectCode();
+           //return postable.getFinancialObjectCode();
+           return "5105";
        } else {
            return postable.getAccountsReceivableObjectCode();
        }   
@@ -120,10 +125,10 @@ public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
    public ObjectCode getObjectCode() {
       if ( isUsingOrgAcctDefaultWriteoffFAU ){
           return poster.getFinancialObject();
-      } else if (true) {
+      } else if (isUsingChartForWriteoff) {
           //return postable.getChart().getFinAccountsPayableObject();
           //TODO change which object code is returned
-          return postable.getObjectCode();          
+          return SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(postable.getChartOfAccountsCode(), "5105");
       } else {
           return postable.getAccountsReceivableObject();
       }

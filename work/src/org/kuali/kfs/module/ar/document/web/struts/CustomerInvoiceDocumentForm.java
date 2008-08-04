@@ -72,8 +72,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
             throw new IllegalArgumentException("invalid (null) document");
         }
         try {
-            CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-            return customerInvoiceDetailService.getCustomerInvoiceDetailFromOrganizationAccountingDefaultForCurrentYear();
+            return SpringContext.getBean(CustomerInvoiceDetailService.class).getCustomerInvoiceDetailFromOrganizationAccountingDefaultForCurrentYear();
         }
         catch (Exception e) {
             throw new InfrastructureException("Unable to create a new customer invoice document accounting line", e);

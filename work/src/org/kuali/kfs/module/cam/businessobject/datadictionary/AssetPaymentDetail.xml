@@ -158,7 +158,7 @@
   <bean id="AssetPaymentDetail-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentPostingPeriodCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Posting Period Code" />
+    <property name="label" value="Fiscal Period" />
     <property name="shortLabel" value="Fiscal Period" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >

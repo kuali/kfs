@@ -34,7 +34,7 @@ public class BCConstants extends JSTLConstants {
 
     // formkey prefix to use for all screens we will store in session
     public static final String FORMKEY_PREFIX = "BcDoc";
-    public static final String BC_DOC_EDIT_MODE_SESSIONKEY = FORMKEY_PREFIX+"EditMode";
+    public static final String BC_DOC_EDIT_MODE_SESSIONKEY = FORMKEY_PREFIX + "EditMode";
 
     // screen tab error keys
     public static final String BUDGET_CONSTRUCTION_SALARY_SETTING_TAB_ERRORS = "document.budgetConstructionSalarySetting*";
@@ -46,7 +46,6 @@ public class BCConstants extends JSTLConstants {
 
     public static final String NEW_EXPENDITURE_LINE_PROPERTY_NAME = "newExpenditureLine";
     public static final String NEW_REVENUE_LINE_PROPERTY_NAME = "newRevenueLine";
-
 
     public static final String DISABLE_SALARY_SETTING_FLAG = "DISABLE_SALARY_SETTING_FLAG";
     public static final String DISABLE_BENEFITS_CALCULATION_FLAG = "DISABLE_BENEFITS_CALCULATION_FLAG";
@@ -63,21 +62,21 @@ public class BCConstants extends JSTLConstants {
     public static final String REPORT_EXPORT_PATH = "budgetReportExport";
     public static final String REQUEST_IMPORT_ACTION = "budgetBudgetConstructionRequestImport.do";
     public static final String PAYRATE_IMPORT_EXPORT_ACTION = "budgetPayrateImportExport.do";
-    
+
     public static final String REQUEST_IMPORT_REFRESH_CALLER = BudgetConstructionRequestImportAction.class.getName();
     public static final String REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC = "Bad file format at line";
-    
+
     public static final String REQUEST_IMPORT_OUTPUT_FILE = "budgetImportLog.pdf";
     public static final String PAYRATE_IMPORT_LOG_FILE = "payrate_import_log.pdf";
     public static final String PAYRATE_EXPORT_FILE = "payrate_export.txt";
-    
+
     public static final String LABOR_OBJECT_FRINGE_CODE = "F";
     public static final String MAPPING_IMPORT_EXPORT = "import_export";
-    
+
     public static final String POSITION_NUMBER_NOT_FOUND = "NotFnd";
-    
+
     public static final String IS_ORG_REPORT_REQUEST_PARAMETER = "orgReport";
-    
+
     public enum OrgSelOpMode {
         PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT
     }
@@ -104,15 +103,15 @@ public class BCConstants extends JSTLConstants {
             return key;
         }
     }
-    
+
     // type of month spread delete used in rules checking when deleting monthly spreads
     public enum MonthSpreadDeleteType {
         NONE, REVENUE, EXPENDITURE
     }
-    
+
     // the reason a document (account) is allowed only salary setting lines
     public enum AccountSalarySettingOnlyCause {
-        MISSING_PARAM, NONE, FUND, SUBFUND, FUND_AND_SUBFUND 
+        MISSING_PARAM, NONE, FUND, SUBFUND, FUND_AND_SUBFUND
     }
 
 
@@ -125,12 +124,12 @@ public class BCConstants extends JSTLConstants {
     // latest period and number of fiscal years before active bcfy that an account expire warning message gets issued
     public static final String ACCOUNT_EXPIRE_WARNING_ACCOUNTING_PERIOD = "12";
     public static final Integer ACCOUNT_EXPIRE_WARNING_FY_OFFSET = Integer.valueOf(1);
-    
+
     // account budgetRecordingLevelCode where no budget is allowed
     public static final String BUDGET_RECORDING_LEVEL_N = "N";
     public static final String SUB_ACCOUNT_TYPE_COST_SHARE = "CS";
-    
-    
+
+
     public static final String BC_DOCUMENT_REFRESH_CALLER = "BudgetConstruction";
     public static final String BC_DOCUMENT_ACTION = "budgetBudgetConstruction.do";
     public static final String BC_DOCUMENT_REFRESH_METHOD = "refresh";
@@ -153,7 +152,7 @@ public class BCConstants extends JSTLConstants {
     public static final String INCUMBENT_SALARY_SETTING_REFRESH_CALLER = "IncumbentSalarySetting";
     public static final String INCUMBENT_SALARY_SETTING_ACTION = "budgetIncumbentSalarySetting.do";
     public static final String INCUMBENT_SALARY_SETTING_METHOD = "loadExpansionScreen";
-    
+
     public static final String REPORT_RUNNER_ACTION = "budgetReportRunner.do";
 
     public static final String RETURN_ANCHOR = "returnAnchor";
@@ -161,7 +160,6 @@ public class BCConstants extends JSTLConstants {
 
     public static final String INSERT_REVENUE_LINE_METHOD = "insertRevenueLine";
     public static final String INSERT_EXPENDITURE_LINE_METHOD = "insertExpenditureLine";
-    public static final String APPOINTMENT_FUNDING_DURATION_DEFAULT = "NONE";
 
     public final static String SELECTION_SUB_TREE_ORGS = "selectionSubTreeOrgs";
     public final static String SHOW_INITIAL_RESULTS = "showInitialResults";
@@ -177,13 +175,19 @@ public class BCConstants extends JSTLConstants {
     public final static List<String> NO_BC_GL_LOAD_FUND_GROUPS = Arrays.asList("CG");
 
     /*
-     *  values for the CSF funding status flag
+     * values for the CSF funding status flag
      */
     public enum csfFundingStatusFlag {
         LEAVE("L"), VACANT("V"), UNFUNDED("U"), ACTIVE("-");
-        
-        private csfFundingStatusFlag(String flagValue) {this.flagValue = flagValue;}
-        public String getFlagValue() {return flagValue;}
+
+        private csfFundingStatusFlag(String flagValue) {
+            this.flagValue = flagValue;
+        }
+
+        public String getFlagValue() {
+            return flagValue;
+        }
+
         private String flagValue;
     }
 
@@ -191,7 +195,7 @@ public class BCConstants extends JSTLConstants {
      * value of employee ID field in a vacant line in budget construction appointment funding or budget construction CSF
      */
     public final static String VACANT_EMPLID = "VACANT";
-    
+
     // the transaction ledger description for the general ledger budget load
     public final static String BC_TRN_LDGR_ENTR_DESC = "Beginning Budget Load";
 
@@ -238,7 +242,7 @@ public class BCConstants extends JSTLConstants {
         public final static String YES = "Y";
         public final static String NO = "N";
         public final static String THRESHOLD = "Threshold: ";
-        public final static String SELECTED_REASONS = "Selected Reasons: "; 
+        public final static String SELECTED_REASONS = "Selected Reasons: ";
         public final static String THRESHOLD_GREATER = "greater then or equal to ";
         public final static String THRESHOLD_LESS = "less than or equal to ";
         public final static String PERCENT = "%";
@@ -294,98 +298,90 @@ public class BCConstants extends JSTLConstants {
 
     public enum RequestImportFileType {
         MONTHLY("MONTHLY"), ANNUAL("ANNUAL");
-        
+
         private String fileType;
-        
+
         private RequestImportFileType(String fileType) {
             this.fileType = fileType;
         }
     }
-    
+
     public enum RequestImportFieldSeparator {
         COMMA("COMMA"), TAB("TAB"), OTHER("OTHER");
-        
+
         private String separator;
-        
+
         private RequestImportFieldSeparator(String separator) {
             this.separator = separator;
         }
-        
+
         public String getSeparator() {
-            if ( this.equals(COMMA) ) return ",";
-            if ( this.equals(TAB) ) return "\t";
-            
+            if (this.equals(COMMA))
+                return ",";
+            if (this.equals(TAB))
+                return "\t";
+
             return this.toString();
         }
-        
+
     }
-    
+
     public enum RequestImportTextFieldDelimiter {
         QUOTE("QUOTE"), NOTHING("NOTHING"), OTHER("OTHER");
-        
+
         private String separator;
-        
+
         private RequestImportTextFieldDelimiter(String separator) {
             this.separator = separator;
         }
-        
+
         public String getDelimiter() {
-            if ( this.equals(QUOTE) ) return "\"";
-            if ( this.equals(NOTHING) ) return "";
-            
+            if (this.equals(QUOTE))
+                return "\"";
+            if (this.equals(NOTHING))
+                return "";
+
             return this.toString();
         }
     }
-    
-    //budget construction request move data validation error codes
+
+    // budget construction request move data validation error codes
     public enum RequestImportErrorCode {
-        DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE("ACSA", "Error: No budgeted account/sub-account found"),
-        DATA_VALIDATION_ACCOUNT_CLOSED_ERROR_CODE("CLAC", "Error: Account is closed"),
-        DATA_VALIDATION_ACCOUNT_EXPIRED_ERROR_CODE("EXAC", "Error: Account is expired"),
-        DATA_VALIDATION_SUB_ACCOUNT_INACTIVE_ERROR_CODE("INSA", "Error: Sub-account is inactive"),
-        DATA_VALIDATION_OBJECT_TYPE_NULL_ERROR_CODE("NOOB", "Error: Null object code"),
-        DATA_VALIDATION_OBJECT_TYPE_INVALID_ERROR_CODE("NOOB", "Error: Invalid object code"),
-        DATA_VALIDATION_OBJECT_CODE_INACTIVE_ERROR_CODE("INOB", "Error: Inactive object code"),
-        DATA_VALIDATION_SUB_OBJECT_INACTIVE_ERROR_CODE("INSO", "Error: Inactive sub-object code"),
-        DATA_VALIDATION_SUB_OBJECT_INVALID_ERROR_CODE("NOSO", "Error: Invalid sub-object code"),
-        DATA_VALIDATION_NO_WAGE_ACCOUNT_ERROR_CODE("CMPA", "Error: Wage object in no wages account"),
-        DATA_VALIDATION_COMPENSATION_OBJECT_CODE_ERROR_CODE("COMP", "Error: Compensation object code"),
-        UPDATE_ERROR_CODE_MONTHLY_BUDGET_DELETED("MNTH", "Warning: Monthly budget deleted"),
-        UPDATE_ERROR_CODE_BUDGET_ACCOUNT_LOCKED("LOCK", "Error: Budgeted account locked"),
-        UPDATE_ERROR_CODE_NO_ACCESS_TO_BUDGET_ACCOUNT("ACCE", "Error: No update access to budgeted account");
-        
+        DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE("ACSA", "Error: No budgeted account/sub-account found"), DATA_VALIDATION_ACCOUNT_CLOSED_ERROR_CODE("CLAC", "Error: Account is closed"), DATA_VALIDATION_ACCOUNT_EXPIRED_ERROR_CODE("EXAC", "Error: Account is expired"), DATA_VALIDATION_SUB_ACCOUNT_INACTIVE_ERROR_CODE("INSA", "Error: Sub-account is inactive"), DATA_VALIDATION_OBJECT_TYPE_NULL_ERROR_CODE("NOOB", "Error: Null object code"), DATA_VALIDATION_OBJECT_TYPE_INVALID_ERROR_CODE("NOOB", "Error: Invalid object code"), DATA_VALIDATION_OBJECT_CODE_INACTIVE_ERROR_CODE("INOB", "Error: Inactive object code"), DATA_VALIDATION_SUB_OBJECT_INACTIVE_ERROR_CODE("INSO", "Error: Inactive sub-object code"), DATA_VALIDATION_SUB_OBJECT_INVALID_ERROR_CODE("NOSO", "Error: Invalid sub-object code"), DATA_VALIDATION_NO_WAGE_ACCOUNT_ERROR_CODE("CMPA", "Error: Wage object in no wages account"), DATA_VALIDATION_COMPENSATION_OBJECT_CODE_ERROR_CODE("COMP", "Error: Compensation object code"), UPDATE_ERROR_CODE_MONTHLY_BUDGET_DELETED(
+                "MNTH", "Warning: Monthly budget deleted"), UPDATE_ERROR_CODE_BUDGET_ACCOUNT_LOCKED("LOCK", "Error: Budgeted account locked"), UPDATE_ERROR_CODE_NO_ACCESS_TO_BUDGET_ACCOUNT("ACCE", "Error: No update access to budgeted account");
+
         private String errorCode;
         private String message;
-        
+
         private RequestImportErrorCode(String errorCode, String message) {
             this.errorCode = errorCode;
             this.message = message;
         }
-        
+
         public String getErrorCode() {
             return this.errorCode;
         }
-        
+
         public String getMessage() {
             return this.message;
         }
     }
-    
+
     public enum SalaryAdjustmentMeasurement {
         PERCENT("Percent", "%"), AMOUNT("Flat Amount", "flat");
-        
+
         public String measurement;
         public String label;
-        
+
         private SalaryAdjustmentMeasurement(String measurement, String label) {
             this.measurement = measurement;
             this.label = label;
         }
     }
-    
-    public final static String POSITION_CODE_INACTIVE = "I";   
+
+    public final static String POSITION_CODE_INACTIVE = "I";
     public final static String DOCUMENT_TYPE_CODE_ALL = "ALL";
-    
+
     public static class LockTypes {
         public final static String ACCOUNT_LOCK = "account lock";
         public final static String FUNDING_LOCK = "orphan funding lock";
@@ -393,15 +389,11 @@ public class BCConstants extends JSTLConstants {
         public final static String POSITION_LOCK = "position lock";
         public final static String TRANSACTION_LOCK = "transaction lock";
     }
-    
+
     public static final String PICK_LIST_MODE = "pickListMode";
-    
+
     public static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
-    
-    //TODO: create application parameters for those
-    //public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR = BigDecimal.valueOf(40);
-    //public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR_AS_DECIMAL = STANDARD_WEEKLY_WORK_HOUR.divide(ONE_HUNDRED, 2, KualiDecimal.ROUND_BEHAVIOR);
-    
+
     // constants for lock monitor
     public static final String TEMP_LIST_UNLOCK_METHOD = "unlock";
     public static final String UNLOCK_BUTTON_NAME = "tinybutton-unlock.gif";
@@ -409,14 +401,29 @@ public class BCConstants extends JSTLConstants {
 
     public static final String DASH_SUB_ACCOUNT_NUMBER = "-----";
     public static final String DASH_SUB_OBJECT_CODE = "---";
-    
+
     public static final String SHOW_SALARY_BY_POSITION_ACTION = "showSalaryByPositionAction";
     public static final String REFRESH_POSITION_BEFORE_SALARY_SETTING = "refreshPositionBeforeSalarySetting";
     public static final String TEMP_LIST_REFRESH_POSITION_METHOD = "refreshPosition";
     public static final String REFRESH_POSITION_BUTTON_NAME = "tinybutton-sync.gif";
-    
+
     public static final String SHOW_SALARY_BY_INCUMBENT_ACTION = "showSalaryByIncumbentAction";
     public static final String REFRESH_INCUMBENT_BEFORE_SALARY_SETTING = "refreshPositionBeforeSalarySetting";
     public static final String TEMP_LIST_REFRESH_INCUMBENT_METHOD = "refreshIncumbent";
     public static final String REFRESH_INCUMBENT_BUTTON_NAME = "tinybutton-sync.gif";
+
+    /**
+     * enumerate the leave duration code
+     */
+    public enum AppointmentFundingDurationCodes {
+        NONE("NONE", "No Leave"), LWP1("LWP1", "LWOP:  First Semester"), LWP2("LWP2", "LWOP:  Second Semester"), LWPA("LWPA", "LWOP:  10 months"), LWPF("LWPF", "LWOP:  12 months"), LWPH("LWPH", "LWOP:  6 months"), LWPX("LWPX", "LWOP:  ACROSS FISCAL YEARS"), SAB1("SAB1", "Sabbatical Leave:  First Semester"), SAB2("SAB2", "Sabbatical Leave:  Second Semester"), SABA("SABA", "Sabbatical Leave:  Academic Year"), SABF("SABF", "Sabbatical Leave:  12 months"), SABH("SABH", "Sabbatical Leave:  6 months"), SABX("SABX", "Sabbatical Leave:  ACROSS FISCAL YEARS");
+
+        public String durationCode;
+        public String durationDescription;
+
+        private AppointmentFundingDurationCodes(String durationCode, String durationDescription) {
+            this.durationCode = durationCode;
+            this.durationDescription = durationDescription;
+        }
+    }
 }

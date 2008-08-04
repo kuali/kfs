@@ -275,7 +275,7 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         
         // build the leave string to be inserted into some of the SQL below
         ArrayList<String> leaveCodeToInsert = new ArrayList<String>(1);
-        leaveCodeToInsert.add(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
+        leaveCodeToInsert.add(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
         
         // remove any previous reporting rows geneterated by this user
         cleanReportsSalaryStatisticsTable(personUserIdentifier);

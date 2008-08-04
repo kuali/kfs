@@ -276,7 +276,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         appointmentFunding.setUniversityFiscalYear(this.getUniversityFiscalYear());
         appointmentFunding.setAppointmentFundingDeleteIndicator(false);
         appointmentFunding.setNewLineIndicator(true);
-        appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
+        appointmentFunding.setAppointmentFundingDurationCode(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
 
         return appointmentFunding;
     }

@@ -369,7 +369,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         // default duration code is inserted into a couple of the SQL queries--get it now
         ArrayList<String> durationCodeDefault = new ArrayList<String>(2);
         durationCodeDefault.add(BCConstants.VACANT_EMPLID);
-        durationCodeDefault.add(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
+        durationCodeDefault.add(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
         
         // fetch the base and request salary parameters for people who are marked as not going on leave
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryThreshold.get(0).getSQL(durationCodeDefault), idForSession, personUserIdentifier);

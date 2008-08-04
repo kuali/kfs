@@ -424,7 +424,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         appointmentFunding.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
         appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO);
 
-        appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
+        appointmentFunding.setAppointmentFundingDurationCode(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
 
         appointmentFunding.setPositionObjectChangeIndicator(false);
         appointmentFunding.setPositionSalaryChangeIndicator(false);
@@ -761,7 +761,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private void preprocessLeaveRequest(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         String durationCode = appointmentFunding.getAppointmentFundingDurationCode();
 
-        if (StringUtils.isEmpty(durationCode) || StringUtils.equals(durationCode, BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT)) {
+        if (StringUtils.isEmpty(durationCode) || StringUtils.equals(durationCode, BCConstants.AppointmentFundingDurationCodes.NONE.durationCode)) {
             appointmentFunding.setAppointmentRequestedCsfAmount(KualiInteger.ZERO);
             appointmentFunding.setAppointmentRequestedCsfFteQuantity(BigDecimal.ZERO);
             appointmentFunding.setAppointmentRequestedCsfTimePercent(BigDecimal.ZERO);

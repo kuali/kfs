@@ -2579,7 +2579,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     //     decide whether the current appointment funding row, missing from BCSF, has
     //     been entered by a user or is due to a CSF row that has since gone away
-    String notOnLeave = new String(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
+    String notOnLeave = new String(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
     KualiInteger rqstAmount = new KualiInteger(0);
     BigDecimal pctTime = new BigDecimal(0);
     BigDecimal FTE = new BigDecimal(0);

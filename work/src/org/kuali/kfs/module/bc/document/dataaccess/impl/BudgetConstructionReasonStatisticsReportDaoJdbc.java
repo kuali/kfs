@@ -373,7 +373,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         //  strings to be inserted into SQL
         ArrayList<String >stringsToInsert = new ArrayList<String>(2);
         stringsToInsert.add(BCConstants.VACANT_EMPLID);
-        stringsToInsert.add(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
+        stringsToInsert.add(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
         // get base (CSF) and request appointment attributes for people with no leave indicated 
         getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(0).getSQL(stringsToInsert), idForSession, personUserIdentifier, idForSession);
         // get base (CSF) and request appointment attributes for people who are marked as going on leave next year

@@ -51,7 +51,7 @@
     <td class="infoline"><div align="center">
         <label><input type="radio" name="document.budget.modularBudget.budgetModularTaskNumber" disabled="true" value="-1" /></label>
       </div></td>
-    <td class="infoline"><div align="center"><html:image property="methodToCall.insertTaskLine.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add task line"/></div></td>
+    <td class="infoline"><div align="center"><html:image property="methodToCall.insertTaskLine.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="add task line" alt="add task line"/></div></td>
   </tr>
   </c:if>
   <!-- Iterate over currently attached tasks. -->
@@ -65,7 +65,7 @@
     <td><div align="center">
         <label> <html:radio property="document.budget.modularBudget.budgetModularTaskNumber" value="${taskLine.budgetTaskSequenceNumber}" disabled="${not(supportsModular and KualiForm.document.budget.agencyModularIndicator) || viewOnly}"/> </label>
       </div></td>
-    <c:if test="${not viewOnly}"><td><div align="center"> <html:image property="methodToCall.deleteTaskLine.line${ctr}.anchorTasks" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete"/> </div></td></c:if>
+    <c:if test="${not viewOnly}"><td><div align="center"> <html:image property="methodToCall.deleteTaskLine.line${ctr}.anchorTasks" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="delete" alt="delete"/> </div></td></c:if>
   </tr>
   </logic:iterate>
   <!-- End of tasks table. -->

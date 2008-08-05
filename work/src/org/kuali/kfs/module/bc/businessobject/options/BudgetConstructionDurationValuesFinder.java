@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionDuration;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -40,8 +42,13 @@ public class BudgetConstructionDurationValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> durationKeyLabels = new ArrayList<KeyLabelPair>();
         for (BudgetConstructionDuration budgetConstructionDurationCode : budgetConstructionDurationCodes) {
             String code = budgetConstructionDurationCode.getAppointmentDurationCode();
-
-            durationKeyLabels.add(new KeyLabelPair(code, code));
+            
+            if(StringUtils.equals(code, BCConstants.AppointmentFundingDurationCodes.NONE.durationCode)) {
+                durationKeyLabels.add(0, new KeyLabelPair(code, code));
+            }
+            else {
+                durationKeyLabels.add(new KeyLabelPair(code, code));
+            }
         }
 
         return durationKeyLabels;

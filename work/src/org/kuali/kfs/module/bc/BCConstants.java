@@ -425,5 +425,21 @@ public class BCConstants extends JSTLConstants {
             this.durationCode = durationCode;
             this.durationDescription = durationDescription;
         }
+
+        /**
+         * Gets the durationCode attribute. 
+         * @return Returns the durationCode.
+         */
+        public String getDurationCode() {
+            return durationCode;
+        }
+
+        /**
+         * Gets the durationDescription attribute. 
+         * @return Returns the durationDescription.
+         */
+        public String getDurationDescription() {
+            return durationDescription;
+        }
     }
 }

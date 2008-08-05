@@ -25,28 +25,6 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 public class SalarySettingRuleUtilTest extends KualiTestBase {
     
     /**
-     * tests AppointmentRequestedAmountIsNotEmpty with null value
-     * expected result is false
-     */
-    public void testAppointmentRequestedAmountIsNotEmpty_nullValue() {
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
-        
-        assertFalse(SalarySettingRuleUtil.isRequestedAmountNotEmpty(appointmentFunding));
-    }
-    
-    /**
-     * tests AppointmentRequestedAmountIsNotEmpty with non-null value
-     * expected result is true
-     * 
-     */
-    public void testAppointmentRequestedAmountIsNotEmpty_nonNullValue() {
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
-        appointmentFunding.setAppointmentRequestedAmount(new KualiInteger(10));
-        
-        assertTrue(SalarySettingRuleUtil.isRequestedAmountNotEmpty(appointmentFunding));
-    }
-    
-    /**
      * tests AppointmentRequestedAmountIsNonNegative with negative value
      * expected result is false
      */
@@ -54,7 +32,7 @@ public class SalarySettingRuleUtilTest extends KualiTestBase {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
         appointmentFunding.setAppointmentRequestedAmount(new KualiInteger(-10));
         
-        assertFalse(SalarySettingRuleUtil.isRequestedAmountNonNegative(appointmentFunding));
+        assertFalse(SalarySettingRuleUtil.isValidRequestedAmount(appointmentFunding));
     }
     
     /**
@@ -65,7 +43,7 @@ public class SalarySettingRuleUtilTest extends KualiTestBase {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
         appointmentFunding.setAppointmentRequestedAmount(new KualiInteger(10));
         
-        assertTrue(SalarySettingRuleUtil.isRequestedAmountNonNegative(appointmentFunding));
+        assertTrue(SalarySettingRuleUtil.isValidRequestedAmount(appointmentFunding));
     }
 
     /**

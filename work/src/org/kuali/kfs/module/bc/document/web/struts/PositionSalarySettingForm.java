@@ -49,6 +49,7 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine();
 
         appointmentFunding.setPositionNumber(this.getBudgetConstructionPosition().getPositionNumber());
+        appointmentFunding.setFinancialObjectCode(this.getBudgetConstructionPosition().getIuDefaultObjectCode());
 
         return appointmentFunding;
     }

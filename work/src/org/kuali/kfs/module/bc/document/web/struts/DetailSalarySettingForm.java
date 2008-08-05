@@ -23,7 +23,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -33,7 +33,6 @@ import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
@@ -62,6 +61,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
     private PermissionService permissionService = SpringContext.getBean(PermissionService.class);
     private LockService lockService = SpringContext.getBean(LockService.class);
+    
+    private ErrorMap errorMap = GlobalVariables.getErrorMap();
 
     /**
      * Constructs a DetailSalarySettingForm.java.
@@ -137,14 +138,17 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
             // update the access flags of the current funding line
             boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.isSingleAccountMode(), this.getUniversalUser());
-            if (!updated) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
+            if (!updated) {                
+                errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
                 this.releasePositionAndFundingLocks();
+                
+                LOG.info(BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
                 return false;
             }
 
             // not to acquire any lock for the display-only funding line
             if (appointmentFunding.isDisplayOnlyMode() || !appointmentFunding.isBudgetable()) {
+                LOG.info("isDisplayOnlyMode || not isBudgetable");
                 return true;
             }
 
@@ -152,16 +156,20 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
             BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position, this.getUniversalUser());
             if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
+                errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
                 this.releasePositionAndFundingLocks();
+                
+                LOG.info(BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION);
                 return false;
             }
 
             // acquire funding lock for the current funding line
             BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(appointmentFunding, this.getUniversalUser());
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.toString());
+                errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.toString());
                 this.releasePositionAndFundingLocks();
+                
+                LOG.info(BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING);
                 return false;
             }
         }
@@ -186,7 +194,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
                 BudgetConstructionLockStatus lockStatus = lockService.lockTransaction(fundingLine, this.getUniversalUser());
 
                 if (!LockStatus.SUCCESS.equals(lockStatus.getLockStatus())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, fundingLine.toString());
+                    errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, fundingLine.toString());
 
                     this.releaseTransactionLocks();
                     return false;

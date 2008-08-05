@@ -33,11 +33,7 @@ public class SalarySettingRules implements SalarySettingRule {
         boolean isValid = true;
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            if (!SalarySettingRuleUtil.isRequestedAmountNotEmpty(appointmentFunding)) {
-                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_REQUIRED);
-                isValid = false;
-            }
-            else if (!SalarySettingRuleUtil.isRequestedAmountNonNegative(appointmentFunding)) {
+            if (!SalarySettingRuleUtil.isValidRequestedAmount(appointmentFunding)) {
                 GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED);
                 isValid = false;
             }

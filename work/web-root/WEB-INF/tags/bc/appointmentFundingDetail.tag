@@ -177,7 +177,7 @@
                 readOnly="${readOnly || vacantLine}"
                 rowSpan="1" />
                 	                	
-		<c:set var="disabled" value="${fundingLine.appointmentFundingDurationCode eq BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT}" />
+		<c:set var="disabled" value="${fundingLine.appointmentFundingDurationCode eq BCConstants.AppointmentFundingDurationCodes.NONE.durationCode}" />
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"

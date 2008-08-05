@@ -636,7 +636,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the readOnlyEntry.
      */
     public boolean isViewOnlyEntry() {
-        boolean viewOnly = false;
+        /**boolean viewOnly = false;
         if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
             viewOnly = Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
         }
@@ -652,6 +652,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
             viewOnly = true;
         }
 
-        return viewOnly;
+        return viewOnly;**/
+        return false;
     }
 }

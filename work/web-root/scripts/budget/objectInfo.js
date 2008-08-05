@@ -74,21 +74,22 @@ BudgetObjectInfoUpdator.prototype.loadDurationInfo = function(durationCodeFieldN
 
 	if (durationCode=='') {
 		clearRecipients(durationDescriptionFieldName, "");
-	} else {
+	}
+	else {
+		var isDefualtCode = (durationCode == "NONE");								
+		if(isDefualtCode){
+			requestedCsfAmountField.setAttribute('disabled', 'disabled');
+			requestedCsfTimePercentField.setAttribute('disabled', 'disabled');
+		}
+		else{
+			requestedCsfAmountField.removeAttribute('disabled');
+			requestedCsfTimePercentField.removeAttribute('disabled');
+		} 
+		
 		var dwrReply = {
 			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
-				var isDefualtCode = (durationCode == "NONE");								
+			if ( data != null && typeof data == 'object' ) {								
 				setRecipientValue( durationDescriptionFieldName, data.appointmentDurationDescription);
-
-				if(isDefualtCode){
-					requestedCsfAmountField.setAttribute('disabled', 'disabled');
-					requestedCsfTimePercentField.setAttribute('disabled', 'disabled');
-				}
-				else{
-					requestedCsfAmountField.removeAttribute('disabled');
-					requestedCsfTimePercentField.removeAttribute('disabled');
-				}
 			} else {
 				setRecipientValue( durationDescriptionFieldName, wrapError( "duration not found" ), true );	
 				requestedCsfAmountField.setAttribute('disabled', 'disabled');

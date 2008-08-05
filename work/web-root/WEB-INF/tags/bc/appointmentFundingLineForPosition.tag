@@ -128,7 +128,7 @@
 			attributes="${pbcafAttributes}" lookup="true" inquiry="true"
 			boClassSimpleName="ObjectCode"
 			readOnly="${hasBeenAdded || isKeyFieldsLocked}"
-			displayHidden="false"
+			displayHidden="false" disabled="true"
 			lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
 			accountingLineValuesMap="${fundingLine.valuesMap}"
 			inquiryExtraKeyValues="universityFiscalYear=${fundingLine.universityFiscalYear}" />

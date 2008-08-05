@@ -60,6 +60,7 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="9" />
@@ -92,6 +93,7 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.BudgetConstructionDurationValuesFinder"
@@ -111,6 +113,7 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="4" />
@@ -129,6 +132,7 @@
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="10" />
@@ -307,6 +311,7 @@
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
+    <property name="required" value="true" />
   </bean>  
   
   <bean id="PendingBudgetConstructionAppointmentFunding-emplid" parent="PendingBudgetConstructionAppointmentFunding-emplid-parentBean" />
@@ -320,6 +325,7 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="12" />
@@ -338,6 +344,7 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="6" />
@@ -438,6 +445,7 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="6" />

@@ -147,7 +147,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private VendorContract vendorContract;
     private CapitalAssetSystemType capitalAssetSystemType;
     private CapitalAssetSystemState capitalAssetSystemState;
-    private PurchasingCapitalAssetSystem purchasingCapitalAssetSystem;
+    private List<PurchasingCapitalAssetSystem> purchasingCapitalAssetSystems;
     private List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems;
     
     private boolean receivingDocumentRequiredIndicator;
@@ -162,6 +162,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         super();
         
         purchasingCapitalAssetItems = new TypedArrayList(getPurchasingCapitalAssetItemClass());
+        purchasingCapitalAssetSystems = new TypedArrayList(getPurchasingCapitalAssetSystemClass());
     }
 
     /**
@@ -1051,12 +1052,12 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.capitalAssetSystemState = capitalAssetSystemState;
     }
 
-    public PurchasingCapitalAssetSystem getPurchasingCapitalAssetSystem() {
-        return purchasingCapitalAssetSystem;
+    public List<PurchasingCapitalAssetSystem> getPurchasingCapitalAssetSystems() {
+        return purchasingCapitalAssetSystems;
     }
 
-    public void setPurchasingCapitalAssetSystem(PurchasingCapitalAssetSystem purchasingCapitalAssetSystem) {
-        this.purchasingCapitalAssetSystem = purchasingCapitalAssetSystem;
+    public void setPurchasingCapitalAssetSystems(List<PurchasingCapitalAssetSystem> purchasingCapitalAssetSystems) {
+        this.purchasingCapitalAssetSystems = purchasingCapitalAssetSystems;
     }
 
     public List<PurchasingCapitalAssetItem> getPurchasingCapitalAssetItems() {
@@ -1069,6 +1070,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public abstract Class getPurchasingCapitalAssetItemClass();
 
+    public abstract Class getPurchasingCapitalAssetSystemClass();
+    
     public PurchasingItem getPurchasingItem(Integer itemIdentifier){
         
         if(ObjectUtils.isNull(itemIdentifier)) return null;

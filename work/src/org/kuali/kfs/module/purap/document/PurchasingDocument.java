@@ -503,9 +503,9 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
 
     public void setCapitalAssetSystemState(CapitalAssetSystemState capitalAssetSystemState);
 
-    public PurchasingCapitalAssetSystem getPurchasingCapitalAssetSystem();
+    public List<PurchasingCapitalAssetSystem> getPurchasingCapitalAssetSystems();
     
-    public void setPurchasingCapitalAssetSystem(PurchasingCapitalAssetSystem purchasingCapitalAssetSystem);
+    public void setPurchasingCapitalAssetSystems(List<PurchasingCapitalAssetSystem> purchasingCapitalAssetSystems);
 
     public List<PurchasingCapitalAssetItem> getPurchasingCapitalAssetItems();
 

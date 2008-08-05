@@ -22,5 +22,5 @@ public interface PurchasingService {
 
     public void setupCAMSItems(PurchasingDocument purDoc);
     
-    public void deleteCAMSItems(PurchasingDocument purDoc, PurchasingItem purItem, int itemIdentifier);
+    public void deleteCAMSItems(PurchasingDocument purDoc, Integer itemIdentifier);
 }

@@ -1,9 +1,6 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
-import java.util.List;
-
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -11,7 +8,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 public class RequisitionCapitalAssetSystem extends PurchasingCapitalAssetSystemBase {
 
-	private Integer requisitionIdentifier;
+	private Integer purapDocumentIdentifier;
 	
 	/**
 	 * Default constructor.
@@ -19,10 +16,6 @@ public class RequisitionCapitalAssetSystem extends PurchasingCapitalAssetSystemB
 	public RequisitionCapitalAssetSystem() {
 	    super();
 	}
-
-	public Integer getRequisitionIdentifier() {
-        return requisitionIdentifier;
-    }
 
     @Override
     public Class getCapitalAssetLocationClass() {
@@ -34,15 +27,19 @@ public class RequisitionCapitalAssetSystem extends PurchasingCapitalAssetSystemB
         return RequisitionItemCapitalAsset.class;
     }
 
-    public void setRequisitionIdentifier(Integer requisitionIdentifier) {
-        this.requisitionIdentifier = requisitionIdentifier;
+    public Integer getPurapDocumentIdentifier() {
+        return purapDocumentIdentifier;
+    }
+
+    public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
+        this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
 
     @Override
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.requisitionIdentifier != null) {
-            m.put("requisitionIdentifier", this.requisitionIdentifier.toString());
+        if (this.purapDocumentIdentifier != null) {
+            m.put("purapDocumentIdentifier", this.purapDocumentIdentifier.toString());
         }
         if (this.getCapitalAssetSystemIdentifier() != null) {
             m.put("capitalAssetSystemIdentifier", this.getCapitalAssetSystemIdentifier().toString());

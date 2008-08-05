@@ -47,8 +47,6 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
-import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState;
-import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
@@ -56,15 +54,13 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
-import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
@@ -1268,5 +1264,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public Class getPurchasingCapitalAssetItemClass() {
         return PurchaseOrderCapitalAssetItem.class;
     }
-    
+
+    @Override
+    public Class getPurchasingCapitalAssetSystemClass() {
+        return PurchaseOrderCapitalAssetSystem.class;
+    }
 }

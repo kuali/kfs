@@ -15,7 +15,15 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
-import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.core.service.SequenceAccessorService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -25,71 +33,105 @@ import org.springframework.transaction.annotation.Transactional;
 public class PurchasingServiceImpl implements PurchasingService {
 
     private ParameterService parameterService;
+    private SequenceAccessorService sequenceAccessorService;
     
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
+    }
+
     public void setupCAMSItems(PurchasingDocument purDoc) {
 
-//        List<PurchasingItemCapitalAsset> camsItemsList = purDoc.getCamsItemsList();
-//        List<PurchasingItemCapitalAsset> newCamsItemsList = new ArrayList();
-//        
-//        for (PurApItem purapItem : purDoc.getItems()) {
-//            if (purapItem.getItemType().isItemTypeAboveTheLineIndicator()) {
-                  //TODO: If the purapItem.getItemIdentifier is null then we need to call sequence accessor.
-//                if ( doesItemNeedCAMS(purapItem) ) {
-//                    PurchasingItemCapitalAsset camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
-//                    if (camsItem == null) {
-//                        newCamsItemsList.add( createCamsItem(purapItem) );
-//                    }
-//                    else {
-//                        newCamsItemsList.add(camsItem);
-//                    }
-//                }
-//                else {
-//                    // If item does not need CAMS, need to check whether this is the case
-//                    // when the item had been in the CAMS tabs but some editing happened so that
-//                    // its object code sub type no longer needs CAMS ?
-//                    PurchasingItemCapitalAsset camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
-//                    if (camsItem != null) {
-//                        // This is when we have to display error that the user have to blank out the fields
-//                        // in the cams tab for this item because it's no longer needing CAMS.
-//                        GlobalVariables.getErrorMap().put("somekey", "Please blank out those fields in cams tab for this item");
-//                    }
-//                }
-//            }
-//        }
-//        
-//        purDoc.setCamsItemsList(newCamsItemsList);
+        List<PurchasingCapitalAssetItem> camsItemsList = purDoc.getPurchasingCapitalAssetItems();
+        List<PurchasingCapitalAssetItem> newCamsItemsList = new TypedArrayList(purDoc.getPurchasingCapitalAssetItemClass());
+        
+        for (PurApItem purapItem : purDoc.getItems()) {
+            if (purapItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if ( doesItemNeedCAMS(purapItem) ) {
+                    PurchasingCapitalAssetItem camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
+                    if (camsItem == null) {
+                        PurchasingCapitalAssetItem newCamsItem = createCamsItem(purDoc, purapItem);
+                        if (newCamsItem != null) {
+                            newCamsItemsList.add( newCamsItem );
+                        }
+                    }
+                    else {
+                        newCamsItemsList.add(camsItem);
+                    }
+                }
+                else {
+                    // If item does not need CAMS, need to check whether this is the case
+                    // when the item had been in the CAMS tabs but some editing happened so that
+                    // its object code sub type no longer needs CAMS ?
+                    PurchasingCapitalAssetItem camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
+                    if (camsItem != null) {
+                        // This is when we have to display error that the user have to blank out the fields
+                        // in the cams tab for this item because it's no longer needing CAMS.
+                        GlobalVariables.getErrorMap().put("somekey", "Please blank out those fields in cams tab for this item");
+                    }
+                }
+            }
+        }
+        
+        purDoc.setPurchasingCapitalAssetItems(newCamsItemsList);
         
     }
     
-//    private boolean doesItemNeedCAMS (PurApItem item) {
-//        List<String> capitalAssetSubTypes = parameterService.getParameterValues(PurchasingDocument.class, PurapParameterConstants.CapitalAsset.CAPITAL_ASSET_SUB_TYPES);
-//        for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
-//            String subTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
-//            if (capitalAssetSubTypes.contains(subTypeCode)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//    
-//    private PurchasingItemCapitalAsset getItemIfAlreadyInCamsItemsList (PurApItem item, List camsItemsList) {
-//        for (PurchasingItemCapitalAsset camsItem : camsItemsList) {
-//            if (camsItem.getItemIdentifierString().equals(item.getItemIdentifierString())) {
-//                return camsItem;                     
-//            }
-//        }
-//    }
-//    
-//    private PurchasingItemCapitalAsset createCamsItem(PurApItem purapItem) {
-//        PurchasingItemCapitalAsset camsItem = new PurchasingItemCapitalAsset(purapItem);
-//        return camsItem;
-//    }
+    private boolean doesItemNeedCAMS (PurApItem item) {
+        //List<String> capitalAssetSubTypes = parameterService.getParameterValues(PurchasingDocument.class, PurapParameterConstants.CapitalAsset.CAPITAL_ASSET_SUB_TYPES);
+        List<String> capitalAssetSubTypes = new ArrayList<String>();
+        capitalAssetSubTypes.add("CL");
+        for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+            accountingLine.refreshReferenceObject("objectCode");
+            String subTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
+            if (capitalAssetSubTypes.contains(subTypeCode)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
     
-    public void deleteCAMSItems(PurchasingDocument purDoc, PurchasingItem purItem, int itemIdentifier) {
+    private PurchasingCapitalAssetItem getItemIfAlreadyInCamsItemsList (PurApItem item, List<PurchasingCapitalAssetItem> camsItemsList) {
+        if (item.getItemIdentifier() == null) {
+            Integer itemIdentifier = new Integer(sequenceAccessorService.getNextAvailableSequenceNumber("PO_ITM_ID").toString());
+            item.setItemIdentifier(itemIdentifier);
+        }
+        for (PurchasingCapitalAssetItem camsItem : camsItemsList) {
+            if (camsItem.getItemIdentifier() != null && camsItem.getItemIdentifier().equals(item.getItemIdentifier())) {
+                return camsItem;                     
+            }
+        }
+        
+        return null;
+    }
+    
+    private PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
+        Class camsItemClass = purDoc.getPurchasingCapitalAssetItemClass();
+        PurchasingCapitalAssetItem camsItem;
+        try {
+            camsItem = (PurchasingCapitalAssetItem)(camsItemClass.newInstance());
+            camsItem.setItemIdentifier(purapItem.getItemIdentifier());
+        }
+        catch (Exception e) {
+            return null;
+        }
+        
+        return camsItem;
+    }
+    
+    public void deleteCAMSItems(PurchasingDocument purDoc, Integer itemIdentifier) {
         //delete the corresponding CAMS items.
+        int index = 0;
+        for (PurchasingCapitalAssetItem camsItem : purDoc.getPurchasingCapitalAssetItems()) {
+            if (camsItem.getItemIdentifier().equals(itemIdentifier)) {
+                break;
+            }
+            index++;
+        }
+        purDoc.getPurchasingCapitalAssetItems().remove(index);
     }
 }

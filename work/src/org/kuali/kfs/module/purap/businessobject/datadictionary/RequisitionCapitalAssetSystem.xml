@@ -23,7 +23,7 @@
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemDescription" />
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier" />      
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetTypeCode" />
-        <ref bean="RequisitionCapitalAssetSystem-requisitionIdentifier" />
+        <ref bean="RequisitionCapitalAssetSystem-purapDocumentIdentifier" />
         <ref bean="RequisitionCapitalAssetSystem-versionNumber" />
       </list>
     </property>
@@ -152,10 +152,10 @@
     <property name="summary" value="capitalAssetTypeCode" />
     <property name="description" value="capitalAssetTypeCode description..." />
   </bean>
-  <bean id="RequisitionCapitalAssetSystem-requisitionIdentifier" parent="RequisitionCapitalAssetSystem-requisitionIdentifier-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-purapDocumentIdentifier" parent="RequisitionCapitalAssetSystem-purapDocumentIdentifier-parentBean" />
 
-  <bean id="RequisitionCapitalAssetSystem-requisitionIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="requisitionIdentifier" />
+  <bean id="RequisitionCapitalAssetSystem-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purapDocumentIdentifier" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Requisition Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -167,8 +167,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="requisitionIdentifier" />
-    <property name="description" value="requisitionIdentifier description..." />
+    <property name="summary" value="purapDocumentIdentifier" />
+    <property name="description" value="purapDocumentIdentifier description..." />
   </bean>
   <bean id="RequisitionCapitalAssetSystem-versionNumber" parent="RequisitionCapitalAssetSystem-versionNumber-parentBean" />
 
@@ -200,7 +200,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetTypeCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="requisitionIdentifier" />
+                    p:attributeName="purapDocumentIdentifier" />
             </list>
           </property>
         </bean>
@@ -233,7 +233,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetTypeCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="requisitionIdentifier" />
+              p:attributeName="purapDocumentIdentifier" />
       </list>
     </property>
     <property name="resultFields" >
@@ -249,7 +249,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetTypeCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="requisitionIdentifier" />
+              p:attributeName="purapDocumentIdentifier" />
       </list>
     </property>
   </bean>

@@ -15,34 +15,17 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
-import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
-import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.util.CustomerInvoiceBalanceHelper;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 
 public class PaymentApplicationDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
@@ -54,7 +37,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     private KualiDecimal selectedInvoiceBalance;
     private KualiDecimal amountAppliedDirectlyToInvoice;
     private CustomerInvoiceDocument selectedInvoiceDocument;
-    
+
     private ArrayList<CustomerInvoiceDetail> customerInvoiceDetails;
     private ArrayList<CustomerInvoiceDocument> invoices;
     private Map<String, Collection> appliedPaymentsPerCustomerInvoiceDetail;
@@ -65,30 +48,32 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public PaymentApplicationDocumentForm() {
         super();
         setDocument(new PaymentApplicationDocument());
-        
+
         customerInvoiceDetails = new ArrayList<CustomerInvoiceDetail>();
         invoices = new ArrayList<CustomerInvoiceDocument>();
         selectedInvoiceDocument = new CustomerInvoiceDocument();
-        
+
         appliedPaymentsPerCustomerInvoiceDetail = new HashMap<String, Collection>();
     }
 
     /**
      * This method gets the payment application document
+     * 
      * @return the payment application document
      */
     public PaymentApplicationDocument getPaymentApplicationDocument() {
         return (PaymentApplicationDocument) getDocument();
     }
-    
+
     /**
      * This method returns the customer invoices with their computed balance
+     * 
      * @return the customer invoices and their balance
      */
     public Collection<CustomerInvoiceBalanceHelper> getUpdatedBalanceInvoices() {
         Collection<CustomerInvoiceBalanceHelper> invoices = new ArrayList<CustomerInvoiceBalanceHelper>();
         for (CustomerInvoiceDocument invoice : getInvoices()) {
-            ///!! get invoice paidapplieds for invoice
+            // /!! get invoice paidapplieds for invoice
             invoices.add(new CustomerInvoiceBalanceHelper(invoice, new ArrayList<InvoicePaidApplied>()));
         }
         return invoices;
@@ -141,13 +126,13 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public void setCustomerInvoiceDetails(ArrayList<CustomerInvoiceDetail> customerInvoiceDetails) {
         this.customerInvoiceDetails = customerInvoiceDetails;
     }
-    
+
 
     /**
      * This method retrieves a specific customer invoice detail from the list, by array index
      * 
      * @param index the index of the customer invoice detail to retrieve
-     * @return an CustomerInvoiceDetail
+     * @return a CustomerInvoiceDetail
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetail(int index) {
         if (index >= customerInvoiceDetails.size()) {
@@ -157,7 +142,13 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
         return (CustomerInvoiceDetail) customerInvoiceDetails.get(index);
     }
-    
+
+    /**
+     * This method retrieves a specific customer invoice from the list, by array index
+     * 
+     * @param index the index of the customer invoice to retrieve
+     * @return a CustomerInvoiceDocument
+     */
     public CustomerInvoiceDocument getCustomerInvoiceDocument(int index) {
         if (index >= invoices.size()) {
             for (int i = invoices.size(); i <= index; i++) {

@@ -20,8 +20,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -63,7 +61,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     private CustomerInvoiceDetailService customerInvoiceDetailService;
     private InvoicePaidAppliedService invoicePaidAppliedService;
     private NonAppliedHoldingService nonAppliedHoldingService;
-    
+
 
     /**
      * Constructs a PaymentApplicationDocumentAction.java.
@@ -143,12 +141,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
         for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
             updateCustomerInvoiceDetailInfo(applicationDocumentForm, customerInvoiceDetail);
-            Integer invoicePaidAppliedItemNbr = customerInvoiceDetail.getInvoicePaidApplieds().size() + 1;
+            Integer invoicePaidAppliedItemNbr = applicationDocument.getAppliedPayments().size() + 1;
             // if the customer invoice detail number is in the list of selected details to apply full amounts
             if (invoiceItemNumbers.indexOf(customerInvoiceDetail.getSequenceNumber().toString()) != -1) {
                 // aply full amount for the detail
-                //
-                InvoicePaidApplied invoicePaidApplied = paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(customerInvoiceDetail, applicationDocNbr, universityFiscalYear, universityFiscalPeriodCode, customerInvoiceDetail.getAmount(), invoicePaidAppliedItemNbr);
+                InvoicePaidApplied invoicePaidApplied = paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(customerInvoiceDetail, applicationDocNbr, universityFiscalYear, universityFiscalPeriodCode, customerInvoiceDetail.getOpenAmount(), invoicePaidAppliedItemNbr);
                 // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
                 if (invoicePaidApplied != null) {
                     // add it to the payment application document list of applied payments
@@ -157,10 +154,9 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 }
             }
             else {
-                // if the detail was note selected to apply full amount than check if amount to be applied is not zero and different than the total applied amount
-                if (customerInvoiceDetail.getAmountToBeApplied().isNonZero() && (customerInvoiceDetail.getAppliedAmount().subtract(customerInvoiceDetail.getAmountToBeApplied())).isNonZero() && customerInvoiceDetail.getAmountToBeApplied().isLessEqual(customerInvoiceDetail.getAmount())) {
+                // if the detail was not selected to apply full amount than check if amount to be applied is not zero and different than the total applied amount
+                if (customerInvoiceDetail.getAmountToBeApplied().isNonZero() && (customerInvoiceDetail.getAppliedAmount().subtract(customerInvoiceDetail.getAmountToBeApplied())).isNonZero() && customerInvoiceDetail.getAmountToBeApplied().isLessEqual(customerInvoiceDetail.getOpenAmount())) {
                     // apply the amount entered to the customer invoice detail
-                    //TODO the amount to be applied should be computed (substract the amounts already applied and approved)
                     InvoicePaidApplied invoicePaidApplied = paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(customerInvoiceDetail, applicationDocNbr, universityFiscalYear, universityFiscalPeriodCode, customerInvoiceDetail.getAmountToBeApplied(), invoicePaidAppliedItemNbr);
                     // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
                     if (invoicePaidApplied != null) {
@@ -171,6 +167,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             }
             updateCustomerInvoiceDetailInfo(applicationDocumentForm, customerInvoiceDetail);
         }
+
+        loadInvoice(applicationDocumentForm, applicationDocumentForm.getSelectedInvoiceDocumentNumber());
 
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -218,8 +216,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 // next invoice paid applied number is the size of the appliedPayments list + 1
                 Integer invoicePaidAppliedItemNbr = pAppDoc.getAppliedPayments().size() + 1;
                 // apply the full amount for this detail
-                // TODO change amount with balance in the future !!!
-                InvoicePaidApplied invoicePaidApplied = paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(customerInvoiceDetail, paymentApplicationDocumentNbr, universityFiscalYear, universityFiscalPeriodCode, customerInvoiceDetail.getAmount(), invoicePaidAppliedItemNbr);
+                InvoicePaidApplied invoicePaidApplied = paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(customerInvoiceDetail, paymentApplicationDocumentNbr, universityFiscalYear, universityFiscalPeriodCode, customerInvoiceDetail.getOpenAmount(), invoicePaidAppliedItemNbr);
                 // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will
                 // not be null
                 if (invoicePaidApplied != null) {
@@ -230,8 +227,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 }
 
             }
-            if(invoiceNbr.equals(applicationDocumentForm.getEnteredInvoiceDocumentNumber()))
-            {
+            if (invoiceNbr.equals(applicationDocumentForm.getEnteredInvoiceDocumentNumber())) {
                 loadInvoice(applicationDocumentForm, invoiceNbr);
             }
         }
@@ -250,7 +246,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         PaymentApplicationDocumentForm applicationDocumentForm = (PaymentApplicationDocumentForm) form;
         initializeForm(applicationDocumentForm);
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -264,7 +260,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @param applicationDocumentForm
      */
     private void initializeForm(PaymentApplicationDocumentForm applicationDocumentForm) {
-      
+
     }
 
     /**
@@ -299,11 +295,13 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     public ActionForward goToInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
         String currentInvoiceNumber = pform.getSelectedInvoiceDocumentNumber();
+        if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
 
-        // set entered invoice number to be the current selected invoice number
-        pform.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
-        // load information for the current selected invoice
-        loadInvoice(pform, currentInvoiceNumber);
+            // set entered invoice number to be the current selected invoice number
+            pform.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
+            // load information for the current selected invoice
+            loadInvoice(pform, currentInvoiceNumber);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -320,17 +318,54 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         loadCustomerInvoiceDetails(pform, currentInvoiceNumber);
 
         pform.setSelectedInvoiceDocument(invoice);
-        pform.setSelectedInvoiceTotalAmount(invoice.getSourceTotal());
-        pform.setSelectedInvoiceBalance(invoice.getBalance());
-        pform.setAmountAppliedDirectlyToInvoice(computeAmountAppliedToInvoice(pform, currentInvoiceNumber));
-
+        updateInvoiceInfo(pform, invoice);
     }
 
-    private KualiDecimal computeAmountAppliedToInvoice(PaymentApplicationDocumentForm pform, String currentInvoiceNumber) {
+    /**
+     * This method updates the invoice information : total, balance, applied amount
+     * @param applicationDocumentForm
+     * @param invoice
+     */
+    private void updateInvoiceInfo(PaymentApplicationDocumentForm applicationDocumentForm, CustomerInvoiceDocument invoice) {
+        applicationDocumentForm.setSelectedInvoiceTotalAmount(invoice.getSourceTotal());
+        applicationDocumentForm.setSelectedInvoiceBalance(getInvoiceBalance(applicationDocumentForm, invoice.getDocumentNumber()));
+        applicationDocumentForm.setAmountAppliedDirectlyToInvoice(computeAmountAppliedToInvoice(applicationDocumentForm, invoice.getDocumentNumber()));
+    }
+
+    /**
+     * This method calculates the invoice balance: it sums the balances of the invoice details
+     * 
+     * @param applicationDocumentForm
+     * @param currentInvoiceNumber
+     * @return the invoice balance
+     */
+    private KualiDecimal getInvoiceBalance(PaymentApplicationDocumentForm applicationDocumentForm, String currentInvoiceNumber) {
+        Collection<CustomerInvoiceDetail> invoiceDetails = getCustomerInvoiceDetailsForInvoice(applicationDocumentForm, currentInvoiceNumber);
+        KualiDecimal balance = KualiDecimal.ZERO;
+
+        for (CustomerInvoiceDetail detail : invoiceDetails) {
+            balance = balance.add(detail.getBalance());
+        }
+
+        return balance;
+    }
+
+    /**
+     * This method computes the amount applied to invoice
+     * 
+     * @param pform
+     * @param currentInvoiceNumber
+     * @return
+     */
+    private KualiDecimal computeAmountAppliedToInvoice(PaymentApplicationDocumentForm applicationDocumentForm, String currentInvoiceNumber) {
 
         KualiDecimal amountAppliedDirectlyToInvoice = KualiDecimal.ZERO;
 
-        // calculate amount here
+        Collection<InvoicePaidApplied> invoicePaidAppliedsForInvoice = getInvoicePaidAppliedsForInvoice(applicationDocumentForm, currentInvoiceNumber);
+
+        for (InvoicePaidApplied invoicePaidApplied : invoicePaidAppliedsForInvoice) {
+            amountAppliedDirectlyToInvoice = amountAppliedDirectlyToInvoice.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
+        }
 
         return amountAppliedDirectlyToInvoice;
 
@@ -405,8 +440,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
         // if no invoice number entered than get the first invoice
         if ((customerNumber != null && !customerNumber.equals("")) && (currentInvoiceNumber == null || "".equalsIgnoreCase(currentInvoiceNumber))) {
-            currentInvoiceNumber = pform.getInvoices().iterator().next().getDocumentNumber();
-            pform.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
+            if (pform.getInvoices() != null && pform.getInvoices().size() > 0) {
+                currentInvoiceNumber = pform.getInvoices().iterator().next().getDocumentNumber();
+                pform.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
+            }
         }
         // set the selected invoice to be the first one in the list
         pform.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
@@ -429,8 +466,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         ArrayList<CustomerInvoiceDetail> customerInvoiceDetails = getCustomerInvoiceDetailsForInvoice(applicationDocumentForm, customerInvoiceDocumentNumber);
         applicationDocumentForm.setCustomerInvoiceDetails(customerInvoiceDetails);
     }
-    
-    private ArrayList<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(PaymentApplicationDocumentForm applicationDocumentForm,String customerInvoiceDocumentNumber){
+
+    /**
+     * This method gets the customer invoice details for the given invoice
+     * @param applicationDocumentForm
+     * @param customerInvoiceDocumentNumber
+     * @return
+     */
+    private ArrayList<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(PaymentApplicationDocumentForm applicationDocumentForm, String customerInvoiceDocumentNumber) {
         ArrayList<CustomerInvoiceDetail> customerInvoiceDetails = new ArrayList(customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(customerInvoiceDocumentNumber));
 
         for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
@@ -483,7 +526,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         KualiDecimal balance = totalAmount.subtract(appliedAmount);
         customerInvoiceDetail.setBalance(balance);
     }
-    
+
     /**
      * This method will update the list of the applied payments for this customer invoice detail taking into account the applied
      * payments on the form that are not yet saved in the db
@@ -528,10 +571,16 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
         customerInvoiceDetail.setInvoicePaidApplieds(detailInvPaidApplieds);
     }
-    
-    private Collection<InvoicePaidApplied> getInvoicePaidAppliedsForDetail (PaymentApplicationDocumentForm applicationDocumentForm, CustomerInvoiceDetail customerInvoiceDetail)
-    {
-        //get the invoice paid applieds from the form
+
+    /**
+     * This method gets the invoice paid applieds from the form for the given invoice detail
+     * 
+     * @param applicationDocumentForm
+     * @param customerInvoiceDetail
+     * @return
+     */
+    private Collection<InvoicePaidApplied> getInvoicePaidAppliedsForDetail(PaymentApplicationDocumentForm applicationDocumentForm, CustomerInvoiceDetail customerInvoiceDetail) {
+        // get the invoice paid applieds from the form
         Collection<InvoicePaidApplied> invPaidAppliedsForm = applicationDocumentForm.getPaymentApplicationDocument().getAppliedPayments();
         Collection<InvoicePaidApplied> invPaidAppliedsFormForThisDetail = new ArrayList<InvoicePaidApplied>();
 
@@ -543,7 +592,27 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
         return invPaidAppliedsFormForThisDetail;
     }
-    
+
+    /**
+     * This method gets the invoice paid applieds from the form for the given invoice
+     * @param applicationDocumentForm
+     * @param customerInvoiceDetail
+     * @return  the invoice paid applieds from the form for the given invoice
+     */
+    private Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(PaymentApplicationDocumentForm applicationDocumentForm, String invoiceNumber) {
+        //get the invoice paid applieds from the form
+        Collection<InvoicePaidApplied> invPaidAppliedsForm = applicationDocumentForm.getPaymentApplicationDocument().getAppliedPayments();
+        Collection<InvoicePaidApplied> invPaidAppliedsFormForThisInvoice = new ArrayList<InvoicePaidApplied>();
+
+        // get the invoice paid applieds from the form for this detail
+        for (InvoicePaidApplied invoicePaidApplied : invPaidAppliedsForm) {
+            if (invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber().equals(invoiceNumber)) {
+                invPaidAppliedsFormForThisInvoice.add(invoicePaidApplied);
+            }
+        }
+        return invPaidAppliedsFormForThisInvoice;
+    }
+
     /**
      * This method updates amount to be applied on invoice detail
      * @param applicationDocumentForm

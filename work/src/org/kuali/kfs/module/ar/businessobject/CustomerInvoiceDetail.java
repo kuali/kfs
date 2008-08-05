@@ -72,7 +72,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     }    
 
     public KualiDecimal getBalance() {
-        return getAmount().subtract(getAppliedAmount());
+        return getOpenAmount().subtract(getAppliedAmount());
     }
 
     public void setBalance(KualiDecimal balance) {

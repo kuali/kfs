@@ -97,7 +97,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     {
         if(null == customerInvoiceDocumentNumber) { return null; }
         CustomerInvoiceDocument customerInvoiceDocument = getInvoiceByInvoiceDocumentNumber(customerInvoiceDocumentNumber);
-        Collection<CustomerInvoiceDetail> customerInvoiceDetails = customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(customerInvoiceDocumentNumber);
+        Collection<CustomerInvoiceDetail> customerInvoiceDetails =customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts();
         KualiDecimal total = new KualiDecimal(0);
         for(CustomerInvoiceDetail detail : customerInvoiceDetails) {
             total = total.add(customerInvoiceDetailService.getOpenAmount( detail));

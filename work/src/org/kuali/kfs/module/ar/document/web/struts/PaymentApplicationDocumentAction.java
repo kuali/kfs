@@ -102,6 +102,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) kualiDocumentFormBase;
+        loadInvoices(pform);
     }
 
     /**

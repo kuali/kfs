@@ -29,8 +29,8 @@
         		<tr>
               		<td width="20%" class="nobord">
               			<div align="center">
-              				<label><html:radio property="document.routingFormQuestion[${questionStatus.index}].yesNoIndicator" value="Y"/> yes</label>
-              				<label><html:radio property="document.routingFormQuestion[${questionStatus.index}].yesNoIndicator" value="N"/> no</label>
+              				<html:radio title="${routingFormQuestion.question.questionTypeDescription} - yes" property="document.routingFormQuestion[${questionStatus.index}].yesNoIndicator" value="Y"/> yes
+              				<html:radio title="${routingFormQuestion.question.questionTypeDescription} - no" property="document.routingFormQuestion[${questionStatus.index}].yesNoIndicator" value="N"/> no
               			</div>
               		</td>
               		<td class="nobord">

@@ -15,7 +15,8 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
             
-<c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />      
+<c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
+<c:set var="documentAttributes" value="${DataDictionary.CustomerInvoiceWriteoffDocument.attributes}" />            
               
 <kul:tab tabTitle="Invoice Items" defaultOpen="true">
     <div class="tab-container" align=center>		
@@ -27,7 +28,7 @@
 			    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemQuantity}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}" hideRequiredAsterisk="true" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.balance}" hideRequiredAsterisk="true" />				
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.openAmount}" hideRequiredAsterisk="true" />				
 			</tr>
 			<logic:iterate
 				id="customerInvoiceDetail"
@@ -45,8 +46,8 @@
 					<strong>Writeoff Total:</strong>
 				</td>
 				<!--  Customer Credit Memo Total Item Amount -->
-				<td class="total-line">
-					<strong>${KualiForm.document.customerInvoiceDocument.balance}</strong>
+				<td class="total-line" style="border-left: 0px;">
+					<strong>${KualiForm.document.invoiceWriteoffAmount}</strong>
 				</td>
 			</tr> 
     	</table>

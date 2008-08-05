@@ -40,10 +40,10 @@
 					</a>
                 </td>			
                 <th align=right valign=middle class="bord-l-b" style="width: 25%;"> 
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${customerInvoiceDocumentAttributes.balance}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${customerInvoiceDocumentAttributes.openAmount}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDocumentAttributes.balance}" property="document.customerInvoiceDocument.balance" readOnly="true"/>
+					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDocumentAttributes.openAmount}" property="document.customerInvoiceDocument.openAmount" readOnly="true"/>
 				</td>          
             </tr>
 			<tr>

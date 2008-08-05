@@ -119,30 +119,6 @@ public interface CustomerInvoiceDocumentService {
      * @return
      */
     public KualiDecimal getPaidAppliedTotalForInvoice(CustomerInvoiceDocument invoice);
-
-    /**
-     * @param invoice
-     * @return
-     */
-    public KualiDecimal getBalanceForCustomerInvoiceDocument(CustomerInvoiceDocument invoice);
-    
-    /**
-     * @param customerInvoiceDocumentNumber
-     * @return
-     */
-    public KualiDecimal getBalanceForCustomerInvoiceDocument(String customerInvoiceDocumentNumber);
-    
-    /**
-     * @param invoice
-     * @return
-     */
-    public KualiDecimal getTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument invoice);
-    
-    /**
-     * @param customerInvoiceDocumentNumgber
-     * @return
-     */
-    public KualiDecimal getTotalAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber);
     
    /**
      * This method updates the open invoice indicator if amounts have been completely paid off

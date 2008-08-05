@@ -26,11 +26,8 @@
 <tr>
 	<!--  Line Number -->
 	<th class="${cssClass}" style="text-align:right">
-		<c:if test="${displayOrangeFlower}" >
-	    	<img src="${ConfigProperties.kr.externalizable.images.url}asterisk_orange.png" alt="changed"/>
-	    	&nbsp;
-	    </c:if>
 		${rowHeader}:
+	</th>
 			
 	<!--  Quantity -->	
 	<td class="${cssClass}" style="text-align:right" >
@@ -38,6 +35,7 @@
 			attributeEntry="${customerInvoiceDetailAttributes.invoiceItemQuantity}"
 			property="${invPropertyName}.invoiceItemQuantity"
 			readOnly="true" />
+	</td>
 
 			
 	<!--  Description -->
@@ -46,12 +44,14 @@
 			attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}"
 			property="${invPropertyName}.invoiceItemDescription"
 			readOnly="true" />
+	</td>
 
-	<!--  Balance -->
+	<!--  Open Amount -->
 	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute
-			attributeEntry="${customerInvoiceDetailAttributes.balance}"
-			property="${invPropertyName}.balance"
+			attributeEntry="${customerInvoiceDetailAttributes.openAmount}"
+			property="${invPropertyName}.openAmount"
 			readOnly="true" />
+	</td>
 			
 </tr>

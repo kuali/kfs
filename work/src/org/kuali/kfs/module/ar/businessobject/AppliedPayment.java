@@ -20,13 +20,6 @@ import org.kuali.core.util.KualiDecimal;
 public interface AppliedPayment {
     
     /**
-     * This method returns the document number
-     * 
-     * @return
-     */
-    public String getDocumentNumber();
-    
-    /**
      * This method returns the invoice reference number
      * @return
      */

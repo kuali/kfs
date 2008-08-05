@@ -7,3 +7,4 @@
 <html:hidden property="document.financialSubObjectCode" />
 <html:hidden property="document.projectCode" />
 <html:hidden property="document.organizationReferenceIdentifier" />
+<html:hidden property="document.invoiceWriteoffAmount" />

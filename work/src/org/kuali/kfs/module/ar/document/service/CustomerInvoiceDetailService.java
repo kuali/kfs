@@ -143,18 +143,6 @@ public interface CustomerInvoiceDetailService {
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(String customerInvoiceDocumentNumber);
     
-    /**
-     * @param detail
-     * @return
-     */
-    public KualiDecimal getBalanceForCustomerInvoiceDetail(CustomerInvoiceDetail detail);
-    
-    /**
-     * @param customerInvoiceDocumentNumber
-     * @param sequenceNumber
-     * @return
-     */
-    public KualiDecimal getBalanceForCustomerInvoiceDetail(String customerInvoiceDocumentNumber, Integer sequenceNumber);
 
     /**
      * Calculate the total amount applied to this CustomerInvoiceDetail

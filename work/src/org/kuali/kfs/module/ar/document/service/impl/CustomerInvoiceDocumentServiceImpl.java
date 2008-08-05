@@ -82,60 +82,17 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
         return customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(customerInvoiceDocumentNumber);
     }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getBalanceForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
-     */
-    public KualiDecimal getBalanceForCustomerInvoiceDocument(CustomerInvoiceDocument invoice) {
-        if (null == invoice) {
-            return null;
-        }
-        return getTotalAmountForCustomerInvoiceDocument(invoice).subtract(getPaidAppliedTotalForInvoice(invoice));
-    }
     
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber)
     {
         if(null == customerInvoiceDocumentNumber) { return null; }
         CustomerInvoiceDocument customerInvoiceDocument = getInvoiceByInvoiceDocumentNumber(customerInvoiceDocumentNumber);
-        Collection<CustomerInvoiceDetail> customerInvoiceDetails =customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts();
+        Collection<CustomerInvoiceDetail> customerInvoiceDetails = customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts();
         KualiDecimal total = new KualiDecimal(0);
         for(CustomerInvoiceDetail detail : customerInvoiceDetails) {
             total = total.add(customerInvoiceDetailService.getOpenAmount( detail));
         }
         return total;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getBalanceForCustomerInvoiceDocument(java.lang.String)
-     */
-    public KualiDecimal getBalanceForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
-        if (null == customerInvoiceDocumentNumber) {
-            return null;
-        }
-        return getBalanceForCustomerInvoiceDocument(getInvoiceByInvoiceDocumentNumber(customerInvoiceDocumentNumber));
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getTotalAmountForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
-     */
-    public KualiDecimal getTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument invoice) {
-        if (null == invoice) {
-            return null;
-        }
-        KualiDecimal total = new KualiDecimal(0);
-        for (CustomerInvoiceDetail detail : invoice.getCustomerInvoiceDetailsWithoutDiscounts()) {
-            total = total.add(detail.getAmount());
-        }
-        return total;
-    }
-
-    
-    
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getTotalAmountForCustomerInvoiceDocument(java.lang.String)
-     */
-    public KualiDecimal getTotalAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
-        return getTotalAmountForCustomerInvoiceDocument(getInvoiceByInvoiceDocumentNumber(customerInvoiceDocumentNumber));
     }
 
     /**

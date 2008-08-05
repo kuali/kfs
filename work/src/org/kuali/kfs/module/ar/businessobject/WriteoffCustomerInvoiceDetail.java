@@ -85,7 +85,7 @@ public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
 
    @Override
     public KualiDecimal getAmount() {
-        return postable.getBalance();
+        return postable.getOpenAmount();
     }
 
    @Override

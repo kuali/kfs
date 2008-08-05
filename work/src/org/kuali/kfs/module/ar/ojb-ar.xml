@@ -580,9 +580,9 @@
 	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="invoiceItemAppliedAmount" column="AR_INV_ITMAPLD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 
-    <reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
+    </reference-descriptor>   
 	<reference-descriptor name="invoiceItem" class-ref="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentReferenceInvoiceNumber" />
 		<foreignkey field-ref="invoiceItemNumber" />

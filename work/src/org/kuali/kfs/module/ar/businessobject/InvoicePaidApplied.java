@@ -2,9 +2,11 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -21,7 +23,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     private CustomerInvoiceDetail invoiceItem;
 	private AccountingPeriod universityFiscalPeriod;
-    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+	private FinancialSystemDocumentHeader documentHeader;
 
 	/**
 	 * Default constructor.
@@ -156,7 +158,15 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	}
 
 
-	/**
+	public FinancialSystemDocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+    }
+
+    /**
 	 * Gets the invoiceItemAppliedAmount attribute.
 	 * 
 	 * @return Returns the invoiceItemAppliedAmount
@@ -216,23 +226,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	public void setUniversityFiscalPeriod(AccountingPeriod universityFiscalPeriod) {
 		this.universityFiscalPeriod = universityFiscalPeriod;
 	}
-
-    /**
-     * Gets the accountsReceivableDocumentHeader attribute. 
-     * @return Returns the accountsReceivableDocumentHeader.
-     */
-    public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
-        return accountsReceivableDocumentHeader;
-    }
-
-    /**
-     * Sets the accountsReceivableDocumentHeader attribute value.
-     * @param accountsReceivableDocumentHeader The accountsReceivableDocumentHeader to set.
-     * @deprecated
-     */
-    public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
-        this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
-    }    
     
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

@@ -21,6 +21,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -33,7 +35,9 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffCustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -42,6 +46,8 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling {
 
@@ -194,7 +200,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      */
     public KualiDecimal getInvoiceWriteoffAmount() {
         if (ObjectUtils.isNull(invoiceWriteoffAmount) && ObjectUtils.isNotNull(customerInvoiceDocument)) {
-            invoiceWriteoffAmount = customerInvoiceDocument.getBalance();
+            invoiceWriteoffAmount = customerInvoiceDocument.getOpenAmount();
         }
         return invoiceWriteoffAmount;
     }
@@ -224,6 +230,25 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     public void clearInitFields() {
         setFinancialDocumentReferenceInvoiceNumber(null);
     }
+    
+    /**
+     * When document is processed do the following:
+     * 3) If the document is a reversal, in addition to reversing paid applied rows, update the open paid applied indicator
+     *
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange(){
+        super.handleRouteStatusChange();
+        /*
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            
+            // apply writeoff amounts by only retrieving only the invoice details that ARE NOT discounts
+            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(this.customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts(), documentNumber);
+            SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(customerInvoiceDocument);
+        }
+        */
+    }    
     
     /**
      * do all the calculations before the document gets saved
@@ -301,7 +326,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         boolean isDebit = false;       
         
         CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
-        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getBalance());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getOpenAmount());
     }
     
     /**
@@ -319,7 +344,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         boolean isDebit = true;
         
         CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
-        service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getBalance());
+        service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getOpenAmount());
     }
     
     protected void addStateSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){

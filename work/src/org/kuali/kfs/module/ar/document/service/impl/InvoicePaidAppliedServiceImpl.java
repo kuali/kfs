@@ -36,9 +36,9 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
     private BusinessObjectService businessObjectService;
     private UniversityDateService universityDateService;
 
-    public void saveInvoicePaidApplied(AppliedPayment appliedPayment, Integer paidAppliedItemNumber) {
+    public void saveInvoicePaidApplied(AppliedPayment appliedPayment, Integer paidAppliedItemNumber, String documentNumber) {
         InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
-        invoicePaidApplied.setDocumentNumber(appliedPayment.getDocumentNumber());
+        invoicePaidApplied.setDocumentNumber(documentNumber);
         invoicePaidApplied.setPaidAppliedItemNumber(paidAppliedItemNumber);
         invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(appliedPayment.getInvoiceReferenceNumber());
         invoicePaidApplied.setInvoiceItemNumber(appliedPayment.getInvoiceItemNumber());
@@ -48,10 +48,10 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
         businessObjectService.save(invoicePaidApplied);
     }
 
-    public void saveInvoicePaidApplieds(List<AppliedPayment> appliedPayments) {
+    public void saveInvoicePaidApplieds(List<AppliedPayment> appliedPayments, String documentNumber) {
         int i = 0;
         for( AppliedPayment appliedPayment : appliedPayments ){
-            saveInvoicePaidApplied(appliedPayment, i);
+            saveInvoicePaidApplied(appliedPayment, i, documentNumber);
             i++;
         }
     }    
@@ -79,7 +79,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
         Map criteria = new HashMap();
         criteria.put("invoiceItemNumber", customerInvoiceDetail.getSequenceNumber());
         criteria.put("financialDocumentReferenceInvoiceNumber", customerInvoiceDetail.getDocumentNumber());
-        criteria.put("accountsReceivableDocumentHeader.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
     }
 

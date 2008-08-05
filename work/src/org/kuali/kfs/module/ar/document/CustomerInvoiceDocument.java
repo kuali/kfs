@@ -23,7 +23,6 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -35,10 +34,8 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
-import org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDocumentServiceImpl;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -112,8 +109,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	 * 
 	 * @return the outstanding balance on this invoice
 	 */
-	public KualiDecimal getBalance() {
-	    return SpringContext.getBean(CustomerInvoiceDocumentService.class).getBalanceForCustomerInvoiceDocument(this);
+	public KualiDecimal getOpenAmount() {
+	    return SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenAmountForCustomerInvoiceDocument(documentNumber);
+	}
+	
+	public void setOpenAmount(KualiDecimal openAmount){
+	    
 	}
 	
 	public void setBalance(KualiDecimal balance) {
@@ -1092,7 +1093,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
             
             // apply amounts
-            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(this.getDiscounts());
+            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(this.getDiscounts(), documentNumber);
             if( this.isInvoiceReversal() ){
                 try{
                     CustomerInvoiceDocument correctedCustomerInvoiceDocument = (CustomerInvoiceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentHeader().getFinancialDocumentInErrorNumber());

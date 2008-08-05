@@ -86,20 +86,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getBalanceForCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
-     */
-    public KualiDecimal getBalanceForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
-        return customerInvoiceDetail.getAmount().subtract(getAppliedAmountForInvoiceDetail(customerInvoiceDetail));
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getBalanceForCustomerInvoiceDetail(java.lang.String, java.lang.Integer)
-     */
-    public KualiDecimal getBalanceForCustomerInvoiceDetail(String customerInvoiceDocumentNumber, Integer sequenceNumber) {
-        return getBalanceForCustomerInvoiceDetail(getCustomerInvoiceDetail(customerInvoiceDocumentNumber, sequenceNumber));
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAddCustomerInvoiceDetail(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */

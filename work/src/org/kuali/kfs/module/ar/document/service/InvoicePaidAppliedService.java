@@ -29,13 +29,13 @@ public interface InvoicePaidAppliedService<A extends AppliedPayment> {
      * This method takes a list of invoice paid applied moves and uses them to save invoicePaidAppliedMoves
      * @param invoicePaidAppliedMoves
      */
-    public void saveInvoicePaidApplieds(List<A> appliedPayments);
+    public void saveInvoicePaidApplieds(List<A> appliedPayments, String documentNumberForDocumentApplyingPayments);
     
     /**
      * This method saves one paid applied
      * @param appliedPayment
      */
-    public void saveInvoicePaidApplied(A appliedPayment, Integer paidAppliedItemNumber);
+    public void saveInvoicePaidApplied(A appliedPayment, Integer paidAppliedItemNumber, String documentNumberForDocumentApplyingPayments);
     
     
     /**

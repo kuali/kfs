@@ -54,6 +54,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     private KualiDecimal amountToBeApplied;
     private KualiDecimal appliedAmount;
     private KualiDecimal balance;
+    private KualiDecimal openAmount;
 
     /**
      * Default constructor.
@@ -84,9 +85,8 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         return customerInvoiceDetailService.getOpenAmount(this);
     }
 
-
     public void setOpenAmount(KualiDecimal openAmount) {
-
+        this.openAmount = openAmount;
     }
     
     public KualiDecimal getAppliedAmount() {
@@ -440,7 +440,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         return parentDiscountCustomerInvoiceDetail;
     }
 
-
     public void setParentDiscountCustomerInvoiceDetail(CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail) {
         this.parentDiscountCustomerInvoiceDetail = parentDiscountCustomerInvoiceDetail;
     }
@@ -467,27 +466,44 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     public void setAmountToBeApplied(KualiDecimal amountToBeApplied) {
         this.amountToBeApplied = amountToBeApplied;
     }
-       /**
-     * This should only apply amounts if this invoice detail is a discount.  
+    
+    /**
+     * If the detail is a discount return the amount negated.  Otherwise, return the remaining balance (i.e. for writeoffs)  
      *
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getAmountToApply()
      */
     public KualiDecimal getAmountToApply() {
-        return getAmount().negated();
+        if (isDiscountLine()){
+            return getAmount().negated();
+        } else {
+            return getOpenAmount();
+        }
     }
     
     /**
+     * If the detail is a discount customer invoice detail, return the parent customer invoice detail's sequence number instead
+     * 
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getInvoiceItemNumber()
      */
     public Integer getInvoiceItemNumber() {
-        return parentDiscountCustomerInvoiceDetail.getSequenceNumber();
+        if (isDiscountLine()){
+            return parentDiscountCustomerInvoiceDetail.getSequenceNumber();
+        } else {
+            return this.getSequenceNumber();
+        }
     }
 
     /**
+     * If detail is part of an invoice that is a reversal, return the invoice that is being corrected. Else return the customer details document number.
+     * 
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getInvoiceReferenceNumber()
      */
     public String getInvoiceReferenceNumber() {
-      return customerInvoiceDocument.isInvoiceReversal() ? customerInvoiceDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() : customerInvoiceDocument.getDocumentNumber();
+        if(customerInvoiceDocument.isInvoiceReversal()){
+            return customerInvoiceDocument.getDocumentHeader().getFinancialDocumentInErrorNumber(); 
+        } else {
+            return getDocumentNumber();
+        }
     }
 
 }

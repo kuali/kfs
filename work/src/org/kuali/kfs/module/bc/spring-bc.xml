@@ -91,6 +91,9 @@
 		<property name="permissionService">
 			<ref bean="permissionService" />
 		</property>
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 		<property name="fiscalYearFunctionControlService">
 			<ref bean="fiscalYearFunctionControlService" />
 		</property>
@@ -322,6 +325,9 @@
 	    <property name="documentTypeService">
 	       <ref bean="documentTypeService"/>
 	    </property>   
+		<property name="laborModuleService">
+			<ref bean="laborModuleService" />
+		</property>
 	</bean>
 	
 	<bean id="oracleIndicator" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">

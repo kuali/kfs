@@ -47,6 +47,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorizationException;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.BudgetConstructionEditMode;
@@ -73,6 +74,14 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     private String pullupKeyCode;
     private List<BudgetConstructionAccountOrganizationHierarchy> accountOrgHierLevels;
 
+    // a flag set during initial load to force a benefits calc and 2plg adjustment
+    // at the first instance a BC doc becomes editable - which is detected in action execute
+    private boolean checkTwoPlugAdjustment = false;
+
+    // holds Salary Setting associated rows as they looked before applying any DB changes from performSalarySetting
+    // this is used to compare before and after state.
+    private HashMap<String, PendingBudgetConstructionGeneralLedger> preSalarySettingRows;
+
     // passed parms
     private String backLocation;
     private String returnAnchor;
@@ -91,8 +100,8 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
         this.setAccountOrgHierLevels(new TypedArrayList(BudgetConstructionAccountOrganizationHierarchy.class));
-//        this.setPullupLevelKeyLabels(new ArrayList<KeyLabelPair>());
-//        this.setPushdownLevelKeyLabels(new ArrayList<KeyLabelPair>());
+        // this.setPullupLevelKeyLabels(new ArrayList<KeyLabelPair>());
+        // this.setPushdownLevelKeyLabels(new ArrayList<KeyLabelPair>());
         this.setPullupLevelKeyLabels(new TypedArrayList(BCKeyLabelPair.class));
         this.setPushdownLevelKeyLabels(new TypedArrayList(BCKeyLabelPair.class));
 
@@ -146,7 +155,18 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
     }
 
-    public void initializePersistedRequestAmounts() {
+    /**
+     * Sets the persisted request amount to the actual request amount. This is normally used right after a save to the DB If
+     * initSalarySetting is true, this also scrapes the current set of Salary Setting lines, including any 2PLG line into
+     * preSalarySettingRows. preSalarySettingRows is used after return from Salary Setting to allow detection of any changes
+     * 
+     * @param initSalarySetting
+     */
+    public void initializePersistedRequestAmounts(boolean initSalarySetting) {
+
+        if (initSalarySetting) {
+            this.setPreSalarySettingRows(new HashMap<String, PendingBudgetConstructionGeneralLedger>());
+        }
 
         BudgetConstructionDocument bcDoc = this.getBudgetConstructionDocument();
 
@@ -159,9 +179,32 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         while (expenditureLines.hasNext()) {
             PendingBudgetConstructionGeneralLedger expenditureLine = (PendingBudgetConstructionGeneralLedger) expenditureLines.next();
             expenditureLine.setPersistedAccountLineAnnualBalanceAmount(expenditureLine.getAccountLineAnnualBalanceAmount());
+
+            if (initSalarySetting) {
+                if ((expenditureLine.getLaborObject() != null && expenditureLine.getLaborObject().isDetailPositionRequiredIndicator()) || expenditureLine.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG)) {
+                    this.getPreSalarySettingRows().put(expenditureLine.getFinancialObjectCode() + expenditureLine.getFinancialSubObjectCode(), expenditureLine);
+                }
+            }
         }
     }
 
+    /**
+     * Sets the persisted request amount to the actual request amount. This is normally used right after a save to the DB.
+     */
+    public void initializePersistedRequestAmounts() {
+
+        this.initializePersistedRequestAmounts(false);
+    }
+
+    /**
+     * Populates the push or pull selection lists displayed in the drop down controls used by the pullup or pushdown actions. The
+     * population considers the current level of the document and the user's BudgetConstructionDocument type approvals setup in
+     * WorkFlow.
+     * 
+     * @param bcDoc
+     * @param levels
+     * @param isPull
+     */
     public void populatePushPullLevelKeyLabels(BudgetConstructionDocument bcDoc, List<BudgetConstructionAccountOrganizationHierarchy> levels, boolean isPull) {
 
         if (!levels.isEmpty()) {
@@ -268,6 +311,12 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         if (expenditureLine.getAccountLineAnnualBalanceAmount() != null) {
             bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(expenditureLine.getAccountLineAnnualBalanceAmount()));
         }
+        if (expenditureLine.getFinancialObjectCode().contentEquals(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG)) {
+            // 2plg record exists
+            bcDoc.setContainsTwoPlug(true);
+            bcDoc.setOld2PLGAmount(expenditureLine.getAccountLineAnnualBalanceAmount());
+
+        }
     }
 
     /**
@@ -277,17 +326,21 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      */
     private void populatePBGLLine(PendingBudgetConstructionGeneralLedger line) {
 
-        // final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject",
-        // "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
-        final List REFRESH_FIELDS;
-        if (StringUtils.isNotBlank(line.getFinancialSubObjectCode())) {
-            REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.FINANCIAL_OBJECT, KFSPropertyConstants.FINANCIAL_SUB_OBJECT, BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY }));
-        }
-        else {
-            REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.FINANCIAL_OBJECT, BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY }));
-        }
+        SpringContext.getBean(BudgetDocumentService.class).populatePBGLLine(line);
+
+        // // final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject",
+        // // "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
+        // final List REFRESH_FIELDS;
+        // if (StringUtils.isNotBlank(line.getFinancialSubObjectCode())) {
+        // REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.FINANCIAL_OBJECT,
+        // KFSPropertyConstants.FINANCIAL_SUB_OBJECT, BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY }));
+        // }
+        // else {
+        // REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.FINANCIAL_OBJECT,
+        // BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY }));
+        // }
+        // // SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
         // SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
-        SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
 
     }
 
@@ -325,17 +378,27 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         BudgetConstructionDocumentAuthorizer bcDocumentAuthorizer = (BudgetConstructionDocumentAuthorizer) documentAuthorizer;
         UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
 
-//        setEditingMode(bcDocumentAuthorizer.getEditMode(getDocument(), kualiUser));
+        // setEditingMode(bcDocumentAuthorizer.getEditMode(getDocument(), kualiUser));
         setEditingMode(bcDocumentAuthorizer.getEditModeFromSession());
 
         // use BudgetConstructionDocumentAuthorizer method version using editingMode to set action flags
         setDocumentActionFlags(bcDocumentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser, getEditingMode()));
     }
 
+    /**
+     * Gets the budgetConstructionDocument
+     * 
+     * @return
+     */
     public BudgetConstructionDocument getBudgetConstructionDocument() {
         return (BudgetConstructionDocument) getDocument();
     }
 
+    /**
+     * Sets the budgetConstructionDocument
+     * 
+     * @param budgetConstructionDocument
+     */
     public void setBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument) {
         setDocument(budgetConstructionDocument);
     }
@@ -703,27 +766,6 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         this.pullupLevelKeyLabels = pullupLevelKeyLabels;
     }
 
-
-    // /**
-    // * Gets the pullupLevels attribute.
-    // * @return Returns the pullupLevels.
-    // */
-    // public List<BudgetConstructionAccountOrganizationHierarchy> getAccountOrgHierLevels() {
-    // if (this.accountOrgHierLevels == null && this.getBudgetConstructionDocument().getDocumentNumber() != null){
-    // this.setAccountOrgHierLevels(SpringContext.getBean(BudgetDocumentService.class).getPushPullLevelList(this.getBudgetConstructionDocument(),
-    // GlobalVariables.getUserSession().getUniversalUser(), true));
-    // }
-    // return accountOrgHierLevels;
-    // }
-    //
-    // /**
-    // * Sets the pullupLevels attribute value.
-    // * @param pullupLevels The pullupLevels to set.
-    // */
-    // public void setPullupLevels(List<BudgetConstructionAccountOrganizationHierarchy> pullupLevels) {
-    // this.pullupLevels = pullupLevels;
-    // }
-
     /**
      * Gets the accountOrgHierLevels attribute.
      * 
@@ -781,24 +823,39 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         this.pushdownLevelKeyLabels = pushdownLevelKeyLabels;
     }
 
-    // /**
-    // * Gets the pushdownLevels attribute.
-    // * @return Returns the pushdownLevels.
-    // */
-    // public List<BudgetConstructionAccountOrganizationHierarchy> getPushdownLevels() {
-    // if (this.pushdownLevels == null && this.getBudgetConstructionDocument().getDocumentNumber() != null){
-    // this.setPushdownLevels(SpringContext.getBean(BudgetDocumentService.class).getPushPullLevelList(this.getBudgetConstructionDocument(),
-    // GlobalVariables.getUserSession().getUniversalUser(), false));
-    // }
-    // return pushdownLevels;
-    // }
-    //
-    // /**
-    // * Sets the pushdownLevels attribute value.
-    // * @param pushdownLevels The pushdownLevels to set.
-    // */
-    // public void setPushdownLevels(List<BudgetConstructionAccountOrganizationHierarchy> pushdownLevels) {
-    // this.pushdownLevels = pushdownLevels;
-    // }
+    /**
+     * Gets the checkTwoPlugAdjustment attribute.
+     * 
+     * @return Returns the checkTwoPlugAdjustment.
+     */
+    public boolean isCheckTwoPlugAdjustment() {
+        return checkTwoPlugAdjustment;
+    }
 
+    /**
+     * Sets the checkTwoPlugAdjustment attribute value.
+     * 
+     * @param checkTwoPlugAdjustment The checkTwoPlugAdjustment to set.
+     */
+    public void setCheckTwoPlugAdjustment(boolean checkTwoPlugAdjustment) {
+        this.checkTwoPlugAdjustment = checkTwoPlugAdjustment;
+    }
+
+    /**
+     * Gets the preSalarySettingRows attribute.
+     * 
+     * @return Returns the preSalarySettingRows.
+     */
+    public HashMap<String, PendingBudgetConstructionGeneralLedger> getPreSalarySettingRows() {
+        return preSalarySettingRows;
+    }
+
+    /**
+     * Sets the preSalarySettingRows attribute value.
+     * 
+     * @param preSalarySettingRows The preSalarySettingRows to set.
+     */
+    public void setPreSalarySettingRows(HashMap<String, PendingBudgetConstructionGeneralLedger> preSalarySettingRows) {
+        this.preSalarySettingRows = preSalarySettingRows;
+    }
 }

@@ -32,6 +32,8 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
@@ -49,8 +51,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
  * This class is the OJB implementation of the BudgetConstructionDao interface.
  */
 public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionDao {
-    
+
     private DocumentTypeService documentTypeService;
+    private LaborModuleService laborModuleService;
 
     /**
      * This gets a BudgetConstructionHeader using the candidate key chart, account, subaccount, fiscalyear
@@ -157,7 +160,8 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     public String getPositionAssociatedWithFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock) {
 
-        String positionNumber = BCConstants.POSITION_NUMBER_NOT_FOUND; // default if there is no associated position that is locked (orphaned)
+        String positionNumber = BCConstants.POSITION_NUMBER_NOT_FOUND; // default if there is no associated position that is locked
+                                                                        // (orphaned)
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("pendingBudgetConstructionAppointmentFunding.chartOfAccountsCode", budgetConstructionFundingLock.getChartOfAccountsCode());
@@ -234,8 +238,8 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getBcPullupChildOrgs(java.lang.String, java.lang.String,
-     *      java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getBcPullupChildOrgs(java.lang.String,
+     *      java.lang.String, java.lang.String)
      */
     public List getBudgetConstructionPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode) {
         List orgs = new ArrayList();
@@ -294,15 +298,16 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
 
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getDocumentPBGLFringeLines(java.lang.String, java.util.List)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getDocumentPBGLFringeLines(java.lang.String,
+     *      java.util.List)
      */
-    public List getDocumentPBGLFringeLines(String documentNumber, List fringeObjects){
+    public List getDocumentPBGLFringeLines(String documentNumber, List fringeObjects) {
         List documentPBGLfringeLines = new ArrayList();
-        
+
         // TODO need to make sure we are getting the data that was updated by the jdbc benefits calc calls
         // we probably should just add a clearcache call at the end of all JDBC public methods that update the DB
         getPersistenceBrokerTemplate().clearCache();
-        
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo("documentNumber", documentNumber);
         criteria.addIn("financialObjectCode", fringeObjects);
@@ -314,17 +319,18 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#isDelegate(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#isDelegate(java.lang.String, java.lang.String,
+     *      java.lang.String)
      */
     public boolean isDelegate(String chartOfAccountsCode, String accountNumber, String personUniversalIdentifier) {
-        
+
         boolean retval = false;
-        
+
         // active BC account delegates are marked with the BC document type or the special "ALL" document type
         List docTypes = new ArrayList();
         docTypes.add(BCConstants.DOCUMENT_TYPE_CODE_ALL);
         docTypes.add(documentTypeService.getDocumentTypeCodeByClass(BudgetConstructionDocument.class));
-        
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
@@ -332,15 +338,16 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         criteria.addEqualTo("accountDelegateActiveIndicator", "Y");
         criteria.addIn("financialDocumentTypeCode", docTypes);
         QueryByCriteria query = QueryFactory.newQuery(Delegate.class, criteria);
-        if (getPersistenceBrokerTemplate().getCount(query) > 0){
+        if (getPersistenceBrokerTemplate().getCount(query) > 0) {
             retval = true;
         }
-        
+
         return retval;
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getAccountOrgHierForAccount(java.lang.String, java.lang.String, java.lang.Integer)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getAccountOrgHierForAccount(java.lang.String,
+     *      java.lang.String, java.lang.Integer)
      */
     public List<BudgetConstructionAccountOrganizationHierarchy> getAccountOrgHierForAccount(String chartOfAccountsCode, String accountNumber, Integer universityFiscalYear) {
         List<BudgetConstructionAccountOrganizationHierarchy> accountOrgHier = new ArrayList();
@@ -355,17 +362,71 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         accountOrgHier = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
-        
+
         return accountOrgHier;
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getDetailSalarySettingLaborObjects(java.lang.Integer,
+     *      java.lang.String)
+     */
+    public List<String> getDetailSalarySettingLaborObjects(Integer universityFiscalYear, String chartOfAccountsCode) {
+        List<String> detailSalarySettingObjects = new ArrayList();
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("detailPositionRequiredIndicator", "Y");
+        String[] columns = new String[] { "financialObjectCode" };
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(laborModuleService.getLaborLedgerObjectClass(), columns, criteria, true);
+        PersistenceBroker pb = getPersistenceBroker(true);
+
+        Iterator Results = pb.getReportQueryIteratorByQuery(q);
+
+        while (Results.hasNext()) {
+            String objValue = (String) ((Object[]) Results.next())[0];
+            detailSalarySettingObjects.add(objValue);
+        }
+
+        return detailSalarySettingObjects;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getPBGLSalarySettingRows(java.lang.String,
+     *      java.util.List)
+     */
+    public List getPBGLSalarySettingRows(String documentNumber, List salarySettingObjects) {
+        List pbglSalarySettingRows = new ArrayList();
+
+        // TODO need to make sure we are getting the data that was updated by the jdbc benefits calc calls
+        // we probably should just add a clearcache call at the end of all JDBC public methods that update the DB
+        getPersistenceBrokerTemplate().clearCache();
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("documentNumber", documentNumber);
+        criteria.addIn("financialObjectCode", salarySettingObjects);
+        QueryByCriteria query = QueryFactory.newQuery(PendingBudgetConstructionGeneralLedger.class, criteria);
+        pbglSalarySettingRows = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        return pbglSalarySettingRows;
+    }
+
+    /**
      * Sets the documentTypeService attribute value.
+     * 
      * @param documentTypeService The documentTypeService to set.
      */
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }
-    
-    
+
+    /**
+     * Sets the laborModuleService attribute value.
+     * 
+     * @param laborModuleService
+     */
+    public void setlaborModuleService(LaborModuleService laborModuleService) {
+        this.laborModuleService = laborModuleService;
+    }
+
 }

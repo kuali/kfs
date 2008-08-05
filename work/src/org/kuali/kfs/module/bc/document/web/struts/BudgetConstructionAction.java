@@ -80,12 +80,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAction.class);
 
     /**
-     * Entry point to all actions
-     * Checks for cases where methodToCall is loadDocument, performAccountPullup or performAccountPushdown
-     * and creates global messages to describe the new editingMode state.  Also handles document locking
-     * if the editingMode is BudgetConstructionEditMode.FULL_ENTRY. (Re)Populates the pullup and pushdown
-     * selection controls based on the current level of the document and the user's approval access for the levels
-     * above and below the current level.
+     * Entry point to all actions Checks for cases where methodToCall is loadDocument, performAccountPullup or
+     * performAccountPushdown and creates global messages to describe the new editingMode state. Also handles document locking if
+     * the editingMode is BudgetConstructionEditMode.FULL_ENTRY. (Re)Populates the pullup and pushdown selection controls based on
+     * the current level of the document and the user's approval access for the levels above and below the current level.
      * 
      * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -108,7 +106,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
 
             if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY)) {
-                if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+                if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
                     GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_VIEW_ONLY);
                 }
                 else {
@@ -153,6 +151,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         // unlikely
                         throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(can't find document for locking)", budgetConstructionForm.isPickListMode());
                     }
+
+                    // if editing, check if 2plg adjustment needed and calc benefits
+                    // since checkTwoPlugAdjusmtent will only be set in docHandler during initial load
+                    // if document is initially view only we want the 2plg adjustment to happen if the user does a pullup to edit
+                    if (budgetConstructionForm.isCheckTwoPlugAdjustment() && budgetConstructionForm.getBudgetConstructionDocument().isContainsTwoPlug() && !budgetConstructionForm.getBudgetConstructionDocument().isSalarySettingOnly()) {
+                        // do 2plg related benefits calc and adjust 2plg for any diff - reset checkTwoPlugAdjusment
+                        budgetConstructionForm.setCheckTwoPlugAdjustment(false);
+                        this.adjustForSalarySettingChanges(budgetConstructionForm);
+                    }
                 }
 
                 // getting here implies a lock or system view mode, try to build a pullup list
@@ -162,13 +169,28 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         budgetConstructionForm.populatePushPullLevelKeyLabels(budgetConstructionForm.getBudgetConstructionDocument(), budgetConstructionForm.getAccountOrgHierLevels(), false);
                     }
                 }
-            }
+            } // FULL_ENTRY
 
             // pullup is allowed regardless of editMode
             if (!budgetConstructionForm.getAccountOrgHierLevels().isEmpty()) {
                 budgetConstructionForm.populatePushPullLevelKeyLabels(budgetConstructionForm.getBudgetConstructionDocument(), budgetConstructionForm.getAccountOrgHierLevels(), true);
             }
         }
+
+        // // if editing, check if 2plg adjustment needed and calc benefits
+        // // since checkTwoPlugAdjusmtent will only be set in docHandler, or refresh from salary setting(if editing)
+        // if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY) &&
+        // !(budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY))) {
+        //
+        // if (budgetConstructionForm.isCheckTwoPlugAdjustment() &&
+        // budgetConstructionForm.getBudgetConstructionDocument().isContainsTwoPlug() &&
+        // !budgetConstructionForm.getBudgetConstructionDocument().isSalarySettingOnly()) {
+        // // do 2plg related benefits calc and adjust 2plg for any diff - reset checkTwoPlugAdjusment
+        // budgetConstructionForm.setCheckTwoPlugAdjustment(false);
+        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "This would
+        // calc benefits and adjust the 2plg!");
+        // }
+        // }
 
         return forward;
     }
@@ -194,6 +216,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         String command = budgetConstructionForm.getCommand();
 
         loadDocument(budgetConstructionForm);
+
+        // set flag to have execute perform 2plug adjusment if the doc goes into edit mode later
+        budgetConstructionForm.setCheckTwoPlugAdjustment(true);
+
         this.initAuthorizationEditMode(budgetConstructionForm);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -264,17 +290,17 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // KualiDocumentFormBase.populate() needs this updated in the session
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
-        
+
     }
 
     /**
-     * Calculates the edit mode based on the BC security model and store it in session for later retrieval by
-     * budget by account expansion screens using BudgetConstructionDocumentAuthorizer.getEditModeFromSession()
+     * Calculates the edit mode based on the BC security model and store it in session for later retrieval by budget by account
+     * expansion screens using BudgetConstructionDocumentAuthorizer.getEditModeFromSession()
      * 
      * @param bcDoc
      */
-    private void initAuthorizationEditMode(BudgetConstructionForm bcForm){
-        BudgetConstructionDocument bcDoc = bcForm.getBudgetConstructionDocument(); 
+    private void initAuthorizationEditMode(BudgetConstructionForm bcForm) {
+        BudgetConstructionDocument bcDoc = bcForm.getBudgetConstructionDocument();
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
         FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
 
@@ -282,24 +308,63 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         String accountNumber = bcDoc.getAccountNumber();
         String subAccountNumber = bcDoc.getSubAccountNumber();
         Integer universityFiscalYear = bcDoc.getUniversityFiscalYear();
-        
+
         Map editModeMap = new HashMap();
         String editMode = budgetDocumentService.getAccessMode(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, GlobalVariables.getUserSession().getUniversalUser());
         editModeMap.put(editMode, "TRUE");
-        
+
         // adding the case where system is in view only mode in case we need this fact for functionality
         // getAccessMode() will not return FULL_ENTRY if the system is in view only mode,
         // so we may or may not need this extra map row
-        if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(universityFiscalYear)){
+        if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(universityFiscalYear)) {
             editModeMap.put(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY, "TRUE");
         }
-        
+
         GlobalVariables.getUserSession().removeObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY);
         GlobalVariables.getUserSession().addObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY, editModeMap);
-        
+
         // need to set this immediately so pull/push action methods can use it
         bcForm.setEditingMode(editModeMap);
-       
+
+    }
+
+    /**
+     * Applies adjustments due to 2plg existence at initial load or detected salary setting changes upon returning from the Quick
+     * Salary Setting screen. The adjustments consist of calculating benefits and adding any expenditure total before/after
+     * difference back into a 2plg row, creating or updating as needed. Then, validation is performed. Sucessful validation removes
+     * the 2plg row if the final, post benefits calc, adjusted amount is zero. This method assumes the set of expenditure rows in
+     * memory currently matches the DB.
+     * 
+     * @param bcForm
+     */
+    private void adjustForSalarySettingChanges(BudgetConstructionForm bcForm) {
+
+        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "This would
+        // calc benefits and adjust the 2plg!");
+
+        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+        BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) bcForm.getDocument();
+        KualiInteger oldRequestAmount = bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal();
+
+        // calc benefits also handles setting persisted amounts and populating reloaded benefit rows
+        budgetDocumentService.calculateBenefits(bcDoc);
+        // bcForm.initializePersistedRequestAmounts();
+
+        // repop and refresh refs - esp monthly so jsp can properly display state
+        // bcForm.populatePBGLLines();
+
+        // need 2plg adjustment and save, even if it is zero
+        KualiInteger newRquestAmount = bcForm.getBudgetConstructionDocument().getExpenditureAccountLineAnnualBalanceAmountTotal();
+        PendingBudgetConstructionGeneralLedger twoPlugRow = budgetDocumentService.updatePendingBudgetGeneralLedgerPlug(bcDoc, newRquestAmount.subtract(oldRequestAmount));
+
+        // run validation and remove a zero 2plg line if valid
+        budgetDocumentService.validateDocument(bcDoc);
+
+        // if the document is valid, we make it here - check for a zero 2plg record and remove from DB and memory
+        if (twoPlugRow.getAccountLineAnnualBalanceAmount().isZero()) {
+            // TODO: implement delete of 2plg row
+        }
+
     }
 
     /**
@@ -332,18 +397,26 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
                     // SpringContext.getBean(DocumentService.class).updateDocument(docForm.getDocument());
                     BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-                    budgetDocumentService.saveDocument((BudgetConstructionDocument) docForm.getDocument());
-                    budgetDocumentService.calculateBenefitsIfNeeded((BudgetConstructionDocument) docForm.getDocument());
+                    BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) docForm.getDocument();
+                    budgetDocumentService.saveDocument(bcDoc);
                     docForm.initializePersistedRequestAmounts();
+                    if (bcDoc.isBenefitsCalcNeeded() || bcDoc.isMonthlyBenefitsCalcNeeded()) {
+                        budgetDocumentService.calculateBenefitsIfNeeded(bcDoc);
 
-                    // TODO confirm save and close functionality with SME group
-                    // if (docForm.isPickListMode()){
-                    // GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
-                    // }
-                    GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
-                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                        // docForm.initializePersistedRequestAmounts();
+                        // TODO confirm save and close functionality with SME group
+                        // if (docForm.isPickListMode()){
+                        // GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+                        // }
+                        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+                        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                    }
+                    else {
+                        // else drop to close logic below
+                    }
+
                 }
-                // else go to close logic below
+                // else drop to close logic below
             }
         }
 
@@ -424,11 +497,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // documentService.saveDocument(document);
         // rolling own - next line
         budgetDocumentService.saveDocument(bcDocument);
+        budgetConstructionForm.initializePersistedRequestAmounts();
         budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
-
-        // TODO may need to move this to generic save method to handle all actions requiring save
-        budgetConstructionForm.initializePersistedRequestAmounts();
 
         // TODO not sure this is needed in BC
         budgetConstructionForm.setAnnotation("");
@@ -511,19 +582,52 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return new ActionForward(lookupUrl, true);
     }
 
+    /**
+     * Calls performMonthlyBudget for the selected revenue line
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performMonthlyRevenueBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return performMonthlyBudget(true, mapping, form, request, response);
     }
 
+    /**
+     * Calls performMonthlyBudget for the selected expenditure line
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performMonthlyExpenditureBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return performMonthlyBudget(false, mapping, form, request, response);
     }
 
+    /**
+     * Forwards the user to the monthly budget screen. Doing this in edit mode causes the document to be validated, saved and
+     * benefits calculated (if needed).
+     * 
+     * @param isRevenue
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performMonthlyBudget(boolean isRevenue, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String docNumber;
 
         // TODO adjust this to check for 2PLG and turn off SS/monthly RI check if found
         // the final save after removing 2PLG will catch any monthly discrepencies
+        // also need to save object,subobject key we are operating on so refresh can get the latest row version from DB
 
         // validate, save, etc first then goto the monthly screen or redisplay if errors
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
@@ -533,11 +637,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
             budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
-            budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
             budgetConstructionForm.initializePersistedRequestAmounts();
+            budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
 
             // repop and refresh refs - esp monthly so jsp can properly display state
-            budgetConstructionForm.populatePBGLLines();
+            // budgetConstructionForm.populatePBGLLines();
 
         }
 
@@ -578,10 +682,21 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return new ActionForward(lookupUrl, true);
     }
 
+    /**
+     * Forwards the user to the quick salary setting screen. Doing this in edit mode causes the document to be validated, saved and
+     * benefits calculated (if needed).
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String docNumber;
 
-        // TODO adjust this to check for 2PLG and turn off SS/monthly RI check if found
+        // TODO adjust this to check for 2PLG and turn off monthly RI check if found
         // the final save after removing 2PLG will catch any monthly discrepencies
 
         // validate, save, etc first then goto the SalarySetting screen or redisplay if errors
@@ -592,11 +707,14 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
             budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+
+            // init persisted property and get the current list of salary setting related rows
+            budgetConstructionForm.initializePersistedRequestAmounts(true);
+
             budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
-            budgetConstructionForm.initializePersistedRequestAmounts();
 
             // repop and refresh refs - esp monthly so jsp can properly display state
-            budgetConstructionForm.populatePBGLLines();
+            // budgetConstructionForm.populatePBGLLines();
 
         }
         PendingBudgetConstructionGeneralLedger pbglLine;
@@ -820,7 +938,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             deletePBGLLine(false, tForm, deleteIndex, expLine);
         }
 
-        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Delete Expenditure Line");
+        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Delete
+        // Expenditure Line");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -896,12 +1015,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
             // TODO do things specific to returning from MonthlyBudget
             // like refreshing the line itself if the monthly budget process overrides the annual request
-            // this would need to know what line to operate on
+            // this would need to know what line to operate on (or refresh from DB for set this in performMonthly*)
             // might not need since monthly process should just update the value directly in DB and form session object
             // need to check if editing mode
+            // calc monthly benefits if line changes
 
         }
         if (refreshCaller != null && refreshCaller.equalsIgnoreCase(BCConstants.QUICK_SALARY_SETTING_REFRESH_CALLER)) {
+
+
+            BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
             // TODO do things specific to returning from Salary Setting
             // like refreshing the line itself if the salary setting process overrides the annual request
@@ -909,10 +1032,53 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // might not need since ss process should just update the value directly in DB and form session object
             // need to check if editing mode
 
-        }
-        
+            // TODO this needs to do a line by line comparison of SS detail lines before and after
+            // if a line changes, put a fresh copy of the expenditure lines from the DB into the bc document
+            // currently just looking at existence of 2plg before/after, if either exists benefits will be calced once upon return
+            // this handles the situation but may be slow
 
-        
+            // if editing - reload expenditure and check for changes to detail salary lines and 2plg request amount
+            // populate sets the old2PLGAmount before going to salary setting
+            boolean diffFound = false;
+            if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY) && !(budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY))) {
+
+                BudgetConstructionDocument currentBCDoc = budgetConstructionForm.getBudgetConstructionDocument();
+
+                // get the current set of salary setting related rows from DB and compare against preSalarySettingRows
+
+                // TODO: code addOrUpdatePBGLRow and uncomment calls, remove breaks
+                // to update the req amount and version or add the new row to the current doc as needed here instead of below
+                List<PendingBudgetConstructionGeneralLedger> dbSalarySettingRows = budgetDocumentService.getPBGLSalarySettingRows(currentBCDoc);
+                for (PendingBudgetConstructionGeneralLedger dbSalarySettingRow : dbSalarySettingRows) {
+                    if (budgetConstructionForm.getPreSalarySettingRows().containsKey(dbSalarySettingRow.getFinancialObjectCode() + dbSalarySettingRow.getFinancialSubObjectCode())) {
+                        KualiInteger dbReqAmount = dbSalarySettingRow.getAccountLineAnnualBalanceAmount();
+                        KualiInteger preReqAmount = budgetConstructionForm.getPreSalarySettingRows().get(dbSalarySettingRow.getFinancialObjectCode() + dbSalarySettingRow.getFinancialSubObjectCode()).getAccountLineAnnualBalanceAmount();
+                        if (dbReqAmount.compareTo(preReqAmount) != 0) {
+                            budgetDocumentService.addOrUpdatePBGLRow(currentBCDoc, dbSalarySettingRow);
+                            diffFound = true;
+                        }
+                    }
+                    else {
+                        budgetDocumentService.addOrUpdatePBGLRow(currentBCDoc, dbSalarySettingRow);
+                        diffFound = true;
+                    }
+                }
+
+                if (diffFound) {
+                    // TODO: remove next two lines once the calls to addOrUpdatePBGLRow are used
+                    // BudgetConstructionDocument freshBCDoc = (BudgetConstructionDocument)
+                    // SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(currentBCDoc.getDocumentNumber());
+                    // budgetConstructionForm.getBudgetConstructionDocument().setPendingBudgetConstructionGeneralLedgerExpenditureLines(freshBCDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines());
+                    budgetConstructionForm.populatePBGLLines();
+                    budgetConstructionForm.initializePersistedRequestAmounts();
+                    this.adjustForSalarySettingChanges(budgetConstructionForm);
+
+                }
+            }
+
+        }
+
+
         // TODO populate should already handle all this
         // take this out when populate is fixed and confirmed to handle
         /*
@@ -1066,35 +1232,35 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // if system view only or view only - reload to get the latest status
         // and check that the document is still below the selected POV
-        if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) || tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY)){
+        if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) || tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY)) {
 
             prePullReadOnlyAccess = true;
             // if not system view only mode, we are in document view mode - we'll need a lock before the pullup
             // since by definition pullup puts the account at a full_entry level
             // and we need exclusive access to perform the pullup
-            if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+            if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
                 lockNeeded = true;
             }
 
             // now reload the document and get latest status info
             loadDocument(tForm);
             this.initAuthorizationEditMode(tForm);
-            if (tForm.getBudgetConstructionDocument().getOrganizationLevelCode() < Integer.parseInt(tForm.getPullupKeyCode())){
+            if (tForm.getBudgetConstructionDocument().getOrganizationLevelCode() < Integer.parseInt(tForm.getPullupKeyCode())) {
                 doAllowPullup = true;
             }
             else {
                 // document has been moved and is either at the desired level or above
                 doAllowPullup = false;
                 lockNeeded = false;
-                
+
                 // document has been moved above the desired level - let populate through an authorization exception
-                if (tForm.getBudgetConstructionDocument().getOrganizationLevelCode() > Integer.parseInt(tForm.getPullupKeyCode())){
+                if (tForm.getBudgetConstructionDocument().getOrganizationLevelCode() > Integer.parseInt(tForm.getPullupKeyCode())) {
                     GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Document has already been moved above the selected level.");
                 }
             }
-            
+
             // if the reload now shows system view only mode and we flagged that a lock was needed - turn it back off
-            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
                 lockNeeded = false;
             }
 
@@ -1106,32 +1272,32 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             prePullReadOnlyAccess = false;
             doAllowPullup = true;
         }
-        
-        if (lockNeeded || doAllowPullup){
+
+        if (lockNeeded || doAllowPullup) {
 
             // get a fresh header to use for lock and/or pullup
             HashMap primaryKey = new HashMap();
             primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, tForm.getDocument().getDocumentNumber());
             BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
-            if (budgetConstructionHeader == null){
+            if (budgetConstructionHeader == null) {
                 GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Fatal, Document not found.");
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
 
-            if (lockNeeded){
+            if (lockNeeded) {
                 // only successful lock allows pullup here
                 doAllowPullup = false;
 
                 LockService lockService = SpringContext.getBean(LockService.class);
                 BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
                 LockStatus lockStatus = bcLockStatus.getLockStatus();
-                switch (lockStatus){
+                switch (lockStatus) {
                     case SUCCESS:
                         doAllowPullup = true;
                         break;
                     case BY_OTHER:
                         String lockerName = SpringContext.getBean(UniversalUserService.class).getUniversalUser(bcLockStatus.getAccountLockOwner()).getPersonName();
-                        GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Locked by "+lockerName);
+                        GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Locked by " + lockerName);
                         break;
                     case FLOCK_FOUND:
                         GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Funding lock found.");
@@ -1140,42 +1306,43 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Optimistic lock or other failure during lock attempt.");
                         break;
                 }
-              }
+            }
 
-              // attempt pullup
-              if (doAllowPullup){
-                  budgetConstructionHeader.setOrganizationLevelCode(Integer.parseInt(tForm.getPullupKeyCode()));
-                  budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPullupKeyCode())).getOrganizationChartOfAccountsCode());
-                  budgetConstructionHeader.setOrganizationLevelOrganizationCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPullupKeyCode())).getOrganizationCode());
-                  SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionHeader); 
-                 
-                  // finally refresh the doc with the changed header info
-                  tForm.getBudgetConstructionDocument().setVersionNumber(budgetConstructionHeader.getVersionNumber());
-                  tForm.getBudgetConstructionDocument().setOrganizationLevelCode(budgetConstructionHeader.getOrganizationLevelCode());
-                  tForm.getBudgetConstructionDocument().setOrganizationLevelChartOfAccountsCode(budgetConstructionHeader.getOrganizationLevelChartOfAccountsCode());
-                  tForm.getBudgetConstructionDocument().setOrganizationLevelOrganizationCode(budgetConstructionHeader.getOrganizationLevelOrganizationCode());
-                  
-                  // refresh the lock info even though the user may be pulling while in edit mode
-                  tForm.getBudgetConstructionDocument().setBudgetLockUserIdentifier(budgetConstructionHeader.getBudgetLockUserIdentifier());
-                  
-                  // refresh organization - so UI shows new level description
-                  tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
+            // attempt pullup
+            if (doAllowPullup) {
+                budgetConstructionHeader.setOrganizationLevelCode(Integer.parseInt(tForm.getPullupKeyCode()));
+                budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPullupKeyCode())).getOrganizationChartOfAccountsCode());
+                budgetConstructionHeader.setOrganizationLevelOrganizationCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPullupKeyCode())).getOrganizationCode());
+                SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionHeader);
 
-                  this.initAuthorizationEditMode(tForm);
+                // finally refresh the doc with the changed header info
+                tForm.getBudgetConstructionDocument().setVersionNumber(budgetConstructionHeader.getVersionNumber());
+                tForm.getBudgetConstructionDocument().setOrganizationLevelCode(budgetConstructionHeader.getOrganizationLevelCode());
+                tForm.getBudgetConstructionDocument().setOrganizationLevelChartOfAccountsCode(budgetConstructionHeader.getOrganizationLevelChartOfAccountsCode());
+                tForm.getBudgetConstructionDocument().setOrganizationLevelOrganizationCode(budgetConstructionHeader.getOrganizationLevelOrganizationCode());
 
-                  // if before pullup, system was 'not system view only' goes to 'system view only' after pull
-                  // need to manually remove the system view only editingMode here to allow the user to save work since still full_entry
-                  if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !prePullReadOnlyAccess){
-                      if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
-                          tForm.getEditingMode().remove(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY);
-                      }
-                  }
-              }
+                // refresh the lock info even though the user may be pulling while in edit mode
+                tForm.getBudgetConstructionDocument().setBudgetLockUserIdentifier(budgetConstructionHeader.getBudgetLockUserIdentifier());
+
+                // refresh organization - so UI shows new level description
+                tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
+
+                this.initAuthorizationEditMode(tForm);
+
+                // if before pullup, system was 'not system view only' goes to 'system view only' after pull
+                // need to manually remove the system view only editingMode here to allow the user to save work since still
+                // full_entry
+                if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !prePullReadOnlyAccess) {
+                    if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+                        tForm.getEditingMode().remove(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY);
+                    }
+                }
+            }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Handles the document (account) pushdown action, resetting the cached editingMode as appropriate for the new level.
      * 
@@ -1198,33 +1365,33 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // This method is called only if user has edit access and there is somewhere to push to.
         // If not system view only and the intended push level is view, we need to validate and save
         // Otherwise new level is still allowing editing, just push and keep current lock
-        if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+        if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
             prePushSystemViewOnly = false;
 
             // check editing mode at the intended level
             BudgetConstructionHeader bcHdr = this.getTestHeaderFromDocument(bcDocument, Integer.parseInt(tForm.getPushdownKeyCode()));
-            String targetEditMode = budgetDocumentService.getAccessMode(bcHdr,GlobalVariables.getUserSession().getUniversalUser());
-            if (targetEditMode.equals(BudgetConstructionEditMode.VIEW_ONLY)){
+            String targetEditMode = budgetDocumentService.getAccessMode(bcHdr, GlobalVariables.getUserSession().getUniversalUser());
+            if (targetEditMode.equals(BudgetConstructionEditMode.VIEW_ONLY)) {
 
                 budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
-                budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
                 tForm.initializePersistedRequestAmounts();
+                budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
 
                 // repop and refresh refs - esp monthly so jsp can properly display state
-                tForm.populatePBGLLines();
-                
+                // tForm.populatePBGLLines();
+
                 unlockNeeded = true;
             }
             doAllowPushdown = true;
         }
         else {
             prePushSystemViewOnly = true;
-            
+
             // reload document to get most up-to-date status and recheck that we still have FULL_ENTRY access
             // anything else means the document was moved by someone else and we may no longer even have read access
             loadDocument(tForm);
             this.initAuthorizationEditMode(tForm);
-            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)){
+            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
                 doAllowPushdown = true;
             }
             else {
@@ -1236,15 +1403,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // gets here if editing and pushing to view and doc is valid and persisted
         // or we are pushing from edit to edit
         // or we are in system view only
-        if (doAllowPushdown){
+        if (doAllowPushdown) {
 
             HashMap primaryKey = new HashMap();
             primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, tForm.getDocument().getDocumentNumber());
 
             BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
-            if (budgetConstructionHeader != null){
+            if (budgetConstructionHeader != null) {
                 budgetConstructionHeader.setOrganizationLevelCode(Integer.parseInt(tForm.getPushdownKeyCode()));
-                if (Integer.parseInt(tForm.getPushdownKeyCode()) == 0){
+                if (Integer.parseInt(tForm.getPushdownKeyCode()) == 0) {
                     budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(null);
                     budgetConstructionHeader.setOrganizationLevelOrganizationCode(null);
                 }
@@ -1253,52 +1420,52 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     budgetConstructionHeader.setOrganizationLevelOrganizationCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPushdownKeyCode())).getOrganizationCode());
                 }
             }
-            
+
             // unlock if needed (which stores) - otherwise store the new level
-            if (unlockNeeded){
+            if (unlockNeeded) {
 
                 LockService lockService = SpringContext.getBean(LockService.class);
                 lockService.unlockAccount(budgetConstructionHeader);
             }
             else {
-                SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionHeader); 
-                
+                SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionHeader);
+
             }
-            
+
             // finally refresh the doc with the changed header info
             tForm.getBudgetConstructionDocument().setVersionNumber(budgetConstructionHeader.getVersionNumber());
             tForm.getBudgetConstructionDocument().setOrganizationLevelCode(budgetConstructionHeader.getOrganizationLevelCode());
             tForm.getBudgetConstructionDocument().setOrganizationLevelChartOfAccountsCode(budgetConstructionHeader.getOrganizationLevelChartOfAccountsCode());
             tForm.getBudgetConstructionDocument().setOrganizationLevelOrganizationCode(budgetConstructionHeader.getOrganizationLevelOrganizationCode());
             tForm.getBudgetConstructionDocument().setBudgetLockUserIdentifier(budgetConstructionHeader.getBudgetLockUserIdentifier());
-            
+
             // refresh organization - so UI shows new level description
             tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
-            
+
             this.initAuthorizationEditMode(tForm);
-            
+
             // if before push, system is 'not system view only' goes to 'system view only' after push
             // need to manually remove the system view only editingMode here to allow the user to save work if still full_entry
-            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)){
-                if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) && !prePushSystemViewOnly){
+            if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+                if (tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) && !prePushSystemViewOnly) {
                     tForm.getEditingMode().remove(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY);
                 }
             }
-            
+
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * Derives a BudgetConstructionHeader from a BudgetConstructionDocument and sets a testLevel
-     * to be used in finding out the access mode for the level.
-     *  
+     * Derives a BudgetConstructionHeader from a BudgetConstructionDocument and sets a testLevel to be used in finding out the
+     * access mode for the level.
+     * 
      * @param bcDoc
      * @param testLevel
      * @return
      */
-    private BudgetConstructionHeader getTestHeaderFromDocument(BudgetConstructionDocument bcDoc, Integer testLevel){
+    private BudgetConstructionHeader getTestHeaderFromDocument(BudgetConstructionDocument bcDoc, Integer testLevel) {
 
         BudgetConstructionHeader bcHdr = new BudgetConstructionHeader();
         bcHdr.setDocumentNumber(bcDoc.getDocumentNumber());
@@ -1324,7 +1491,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             tForm.initializePersistedRequestAmounts();
 
             // repop and refresh refs - esp monthly so jsp can properly display state
-            tForm.populatePBGLLines();
+            // tForm.populatePBGLLines();
         }
 
         // gets here if rules passed and doc detail gets persisted and refreshed
@@ -1384,8 +1551,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         else {
             budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
         }
-        budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
         tForm.initializePersistedRequestAmounts();
+        // budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
 
         BudgetConstructionMonthlyBudgetsCreateDeleteService monthlyBudgetService = SpringContext.getBean(BudgetConstructionMonthlyBudgetsCreateDeleteService.class);
 
@@ -1396,9 +1563,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // service returns true if benefit eligible monthly lines exist
             if (monthlyBudgetService.spreadBudgetConstructionMonthlyBudgetsExpenditure(bcDocument.getDocumentNumber(), bcDocument.getUniversityFiscalYear(), bcDocument.getChartOfAccountsCode(), bcDocument.getAccountNumber(), bcDocument.getSubAccountNumber())) {
                 bcDocument.setMonthlyBenefitsCalcNeeded(true);
-                budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
+                // budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
             }
         }
+        budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
 
         // repop and refresh refs - esp monthly so jsp can properly display state
         tForm.populatePBGLLines();
@@ -1432,8 +1600,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         else {
             budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
         }
-        budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
         tForm.initializePersistedRequestAmounts();
+        // budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
 
         BudgetConstructionMonthlyBudgetsCreateDeleteService monthlyBudgetService = SpringContext.getBean(BudgetConstructionMonthlyBudgetsCreateDeleteService.class);
 
@@ -1443,6 +1611,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         else {
             monthlyBudgetService.deleteBudgetConstructionMonthlyBudgetsExpenditure(bcDocument.getDocumentNumber(), bcDocument.getUniversityFiscalYear(), bcDocument.getChartOfAccountsCode(), bcDocument.getAccountNumber(), bcDocument.getSubAccountNumber());
         }
+        budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
 
         // repop and refresh refs - esp monthly so jsp can properly display state
         tForm.populatePBGLLines();
@@ -1461,11 +1630,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
             budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
-            budgetDocumentService.calculateBenefits(bcDocument);
             tForm.initializePersistedRequestAmounts();
+            budgetDocumentService.calculateBenefits(bcDocument);
 
             // repop and refresh refs - esp monthly so jsp can properly display state
-            tForm.populatePBGLLines();
+            // tForm.populatePBGLLines();
 
         }
 

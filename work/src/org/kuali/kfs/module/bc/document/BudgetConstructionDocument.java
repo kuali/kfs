@@ -84,7 +84,10 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     private boolean isMonthlyBenefitsCalcNeeded;
     
     private boolean isSalarySettingOnly;
-    private AccountSalarySettingOnlyCause accountSalarySettingOnlyCause; 
+    private AccountSalarySettingOnlyCause accountSalarySettingOnlyCause;
+    private boolean containsTwoPlug = false;
+    private KualiInteger old2PLGAmount = KualiInteger.ZERO;
+
 
 
     public BudgetConstructionDocument() {
@@ -741,6 +744,38 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      */
     public void setAccountSalarySettingOnlyCause(AccountSalarySettingOnlyCause accountSalarySettingOnlyCause) {
         this.accountSalarySettingOnlyCause = accountSalarySettingOnlyCause;
+    }
+
+    /**
+     * Gets the containsTwoPlug attribute. 
+     * @return Returns the containsTwoPlug.
+     */
+    public boolean isContainsTwoPlug() {
+        return containsTwoPlug;
+    }
+
+    /**
+     * Sets the containsTwoPlug attribute value.
+     * @param containsTwoPlug The containsTwoPlug to set.
+     */
+    public void setContainsTwoPlug(boolean containsTwoPlug) {
+        this.containsTwoPlug = containsTwoPlug;
+    }
+
+    /**
+     * Gets the old2PLGAmount attribute. 
+     * @return Returns the old2PLGAmount.
+     */
+    public KualiInteger getOld2PLGAmount() {
+        return old2PLGAmount;
+    }
+
+    /**
+     * Sets the old2PLGAmount attribute value.
+     * @param old2PLGAmount The old2PLGAmount to set.
+     */
+    public void setOld2PLGAmount(KualiInteger old2PLGAmount) {
+        this.old2PLGAmount = old2PLGAmount;
     }
 
     /**

@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubAccount;
@@ -221,4 +222,48 @@ public interface BudgetDocumentService {
      * @return all pending budget construction GL records associated with the given budget contruction header
      */
     public List<PendingBudgetConstructionGeneralLedger> retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader);
+
+    /**
+     * Returns a list of Pending Budget GL rows from the DB for the BudgetConstructionDocument that are associated with Salary
+     * Setting including any 2PLG rows.
+     * 
+     * @param bcDocument
+     * @return
+     */
+    public List<PendingBudgetConstructionGeneralLedger> getPBGLSalarySettingRows(BudgetConstructionDocument bcDocument);
+
+    /**
+     * Adds or Updates a Pending Budget GL row to a BudgetConstruction document with the passed in Pending Budget GL object. Any
+     * inserts are added in the proper order in the list based on object code, sub-object code sort order
+     * 
+     * @param bcDoc
+     * @param sourceRow
+     * @return
+     */
+    public BudgetConstructionDocument addOrUpdatePBGLRow(BudgetConstructionDocument bcDoc, PendingBudgetConstructionGeneralLedger sourceRow);
+
+    /**
+     * Adds or updates the 2PLG row in a BudgetConstructionDocument adding the updateAmount into any existing request amount
+     * 
+     * @param bcDoc
+     * @param updateAmount
+     * @return
+     */
+    public PendingBudgetConstructionGeneralLedger updatePendingBudgetGeneralLedgerPlug(BudgetConstructionDocument bcDoc, KualiInteger updateAmount);
+
+    /**
+     * Performs Budgetconstructiondocument validation as if saving, but does not perform the actual save. This is used to
+     * immediately give feedback to the user when returning from Salary Setting in the event there are Monthly RI issues.
+     * 
+     * @param document
+     * @throws ValidationException
+     */
+    public void validateDocument(Document document) throws ValidationException;
+
+    /**
+     * Populates references for a given Pending Budget GL row.
+     * 
+     * @param line
+     */
+    public void populatePBGLLine(PendingBudgetConstructionGeneralLedger line);
 }

@@ -48,6 +48,7 @@
 	<html-el:hidden name="KualiForm" property="chartOfAccountsCode" />
 	<html-el:hidden name="KualiForm" property="accountNumber" />
 	<html-el:hidden name="KualiForm" property="subAccountNumber" />
+	<html-el:hidden name="KualiForm" property="checkTwoPlugAdjustment" />
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 <%--

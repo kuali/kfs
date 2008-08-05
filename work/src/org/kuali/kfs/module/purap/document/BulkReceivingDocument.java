@@ -222,7 +222,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         setRequestorPersonEmailAddress(po.getRequestorPersonEmailAddress());
         
         RequisitionDocument reqDoc = SpringContext.getBean(RequisitionService.class).getRequisitionById(po.getRequisitionIdentifier());
-        String requisitionPreparer = reqDoc.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId();
+        String requisitionPreparer = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
         
         /**
          * This is to get the user name for display
@@ -233,7 +233,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
             setPreparerPersonName(wfUser.getDisplayName());
         }
         catch (EdenUserNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         
         if (getVendorNumber() != null){
@@ -895,7 +895,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
          * Since deliveryBuildingOther is not persisted, it's required to check the building code to decide when an already existing 
          * doc is opened 
          */
-        if (getDeliveryBuildingCode() != null){
+        if (getDeliveryBuildingName() != null){
             return getDeliveryBuildingName().equals(PurapConstants.DELIVERY_BUILDING_OTHER);
         }
         

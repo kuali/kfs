@@ -15,6 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-public class PurchaseOrderSplitDocumentRule extends PurchasingDocumentRuleBase {
+public class PurchaseOrderSplitDocumentRule extends PurchaseOrderDocumentRule {
 
 }

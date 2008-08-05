@@ -21,17 +21,19 @@ import java.util.Collection;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.SaveDocumentRule;
+import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.AddPendingBudgetGeneralLedgerLineRule;
 import org.kuali.kfs.module.bc.document.validation.BudgetExpansionRule;
+import org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule;
 import org.kuali.kfs.module.bc.document.validation.DeletePendingBudgetGeneralLedgerLineRule;
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
 
 /**
  * Base rule class for Budget Construction. Handles calling other expansion rule classes and the core budget document rules.
  */
-public class BudgetConstructionRules implements BudgetExpansionRule, SaveDocumentRule, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger> {
+public class BudgetConstructionRules implements BudgetExpansionRule, SaveDocumentRule, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument> {
     private Collection<BusinessRule> expansionRules;
     private BudgetConstructionDocumentRules budgetConstructionDocumentRules;
 
@@ -91,6 +93,14 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SaveDocumen
      */
     public boolean processDeletePendingBudgetGeneralLedgerLineRules(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isRevenue) {
         return ((DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>) budgetConstructionDocumentRules).processDeletePendingBudgetGeneralLedgerLineRules(budgetConstructionDocument, pendingBudgetConstructionGeneralLedger, isRevenue);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule#processDeleteMonthlySpreadRules(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
+     *      org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType)
+     */
+    public boolean processDeleteMonthlySpreadRules(BudgetConstructionDocument budgetConstructionDocument, MonthSpreadDeleteType monthSpreadDeleteType) {
+        return ((DeleteMonthlySpreadRule<BudgetConstructionDocument>) budgetConstructionDocumentRules).processDeleteMonthlySpreadRules(budgetConstructionDocument, monthSpreadDeleteType);
     }
 
 }

@@ -27,6 +27,7 @@
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/cab/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/module/cab/document/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

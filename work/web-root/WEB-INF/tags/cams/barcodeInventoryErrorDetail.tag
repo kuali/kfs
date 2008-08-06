@@ -52,9 +52,11 @@
 		<td align="right" class="${cssClass}">
 		    ${lineNumber}	
 		</td>
-	   	<c:if test="${readOnly}">&nbsp				
+
+	   	<c:if test="${readOnly}">				
 			<td align="right" class="${cssClass}">${CamsConstants.BarcodeInventoryError.statusDescription[status]}</td>
 		</c:if>
+
 		<td align=left class="${cssClass}">&nbsp		
 			<kul:htmlControlAttribute
 				attributeEntry="${barcodeInventoryDetailAttributes.assetTagNumber}"
@@ -68,6 +70,7 @@
 				property="${propertyName}.uploadScanIndicator" 
 				readOnly="true" />
 		</td>
+
 		
 		<td align=left class="${cssClass}">&nbsp
 			<kul:htmlControlAttribute

@@ -1,0 +1,68 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AssetPaymentAssetDetail" parent="AssetPaymentAssetDetail-parentBean" />
+
+  <bean id="AssetPaymentAssetDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail" />
+    
+    <property name="titleAttribute" value="capitalAssetNumber" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetPaymentAssetDetail-documentNumber" />
+        <ref bean="AssetPaymentAssetDetail-capitalAssetNumber" />
+        <ref bean="AssetPaymentAssetDetail-previousTotalCostAmount" />
+      </list>
+    </property>
+  </bean>
+        
+  <bean id="AssetPaymentAssetDetail-documentNumber" parent="AssetPaymentAssetDetail-documentNumber-parentBean" />
+  <bean id="AssetPaymentAssetDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  
+  <bean id="AssetPaymentAssetDetail-capitalAssetNumber" parent="AssetPaymentAssetDetail-capitalAssetNumber-parentBean" />
+  <bean id="AssetPaymentAssetDetail-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="capitalAssetNumber" />
+    <property name="description" value="capitalAssetNumber description..." />
+  </bean>
+  
+  <bean id="AssetPaymentAssetDetail-previousTotalCostAmount" parent="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" />
+  <bean id="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="previousTotalCostAmount" />
+    <property name="label" value="Previous Total Cost Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="summary" value="previousTotalCostAmount" />
+    <property name="description" value="previousTotalCostAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  
+  </bean>
+</beans>

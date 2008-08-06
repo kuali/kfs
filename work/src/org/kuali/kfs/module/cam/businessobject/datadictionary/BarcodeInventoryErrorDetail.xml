@@ -209,7 +209,7 @@
   <bean id="BarcodeInventoryErrorDetail-errorCorrectionStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="errorCorrectionStatusCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Error Status" />
+    <property name="label" value="Status" />
     <property name="shortLabel" value="Error Status" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >

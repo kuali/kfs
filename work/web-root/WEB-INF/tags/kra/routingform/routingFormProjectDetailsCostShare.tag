@@ -99,7 +99,7 @@
           </div>
         </td>
         <td class="infoline">
-          <div align="center"><html:image property="methodToCall.insertRoutingFormInstitutionCostShare.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add institution cost share" /></div>
+          <div align="center"><html:image property="methodToCall.insertRoutingFormInstitutionCostShare.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add institution cost share" title="add institution cost share"/></div>
         </td>
       </tr>
 </c:if>
@@ -164,7 +164,7 @@
         </td>
         <c:if test="${not readOnly and not budgetLinked}">
         <td class="neutral">
-          <div align="center"><html:image property="methodToCall.deleteRoutingFormInstitutionCostShare.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete institution cost share" /></div>
+          <div align="center"><html:image property="methodToCall.deleteRoutingFormInstitutionCostShare.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete institution cost share" title="delete institution cost share" /></div>
         </td>
         </c:if>
       </tr>
@@ -204,7 +204,7 @@
       </td>
       <td class="infoline">
         <div align=center>
-          <html:image property="methodToCall.insertRoutingFormOtherCostShare.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add 3rd party cost share" />
+          <html:image property="methodToCall.insertRoutingFormOtherCostShare.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add 3rd party cost share" title="add 3rd party cost share" />
         </div>
       </td>
     </tr>
@@ -232,7 +232,7 @@
         <c:if test="${not readOnly and not budgetLinked}">
         <td>
           <div align=center>
-            <html:image property="methodToCall.deleteRoutingFormOtherCostShare.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete 3rd party cost share" />
+            <html:image property="methodToCall.deleteRoutingFormOtherCostShare.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete 3rd party cost share" title="delete 3rd party cost share" />
           </div>
         </td>
         </c:if>

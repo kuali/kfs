@@ -55,6 +55,9 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         LOG.debug("\n\ngetSearchResults() started");
         LOG.info("Trying to log an INFO message with a some newlines \n\n\n");
 
+        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        
         // create some fake entries to test with
         CustomerAgingReportDetail matt = new CustomerAgingReportDetail();
         matt.setCustomerName("Matt");

@@ -41,6 +41,8 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/cams" prefix="cams"%>
 
+<%@ taglib tagdir="/WEB-INF/tags/cab" prefix="cab"%>
+
 <%@ taglib tagdir="/WEB-INF/tags/ar" prefix="ar" %>
 
 <%@ taglib tagdir="/WEB-INF/tags/er" prefix="er" %>

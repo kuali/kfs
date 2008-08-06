@@ -27,6 +27,8 @@
         <ref bean="PurchasingAccountsPayableItemAsset-manufacturerModelNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-versionNumber" />
+        <ref bean="PurchasingAccountsPayableItemAsset-itemLineNumber" />
+        <ref bean="PurchasingAccountsPayableItemAsset-target" />
       </list>
     </property>
   </bean>
@@ -220,6 +222,42 @@
 
   <bean id="PurchasingAccountsPayableItemAsset-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
+
+  <bean id="PurchasingAccountsPayableItemAsset-itemLineNumber" parent="PurchasingAccountsPayableItemAsset-itemLineNumber-parentBean" />
+
+  <bean id="PurchasingAccountsPayableItemAsset-itemLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
+   <property name="name" value="itemLineNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Line #" />
+    <property name="shortLabel" value="Item Line #" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  <bean id="PurchasingAccountsPayableItemAsset-target" parent="PurchasingAccountsPayableItemAsset-target-parentBean" />
+
+  <bean id="PurchasingAccountsPayableItemAsset-target-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="target" />
+    <property name="label" value="Target" />
+    <property name="shortLabel" value="Number" />
+    <property name="forceUppercase" value="true" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+     <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.cab.businessobject.options.MergeTargetValueFinder"/>
+    </property>
+    <property name="summary" value="merge target number" />
+    <property name="description" value="merge target number description..." />
+  </bean>
+
 
 <!-- Business Object Inquiry Definition -->
 

@@ -102,6 +102,7 @@
 			<ref bean="dateTimeService" />
 		</property>
 	</bean>
+	
 <!-- *********  End of pre-asset tagging batch beans ********** -->	
 <!-- Begin - CAB Batch Beans -->
 	<bean id="extractDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.ExtractDaoOjb" />
@@ -130,9 +131,9 @@
 		<property name="jobName" value="cabExtractJob" />
 		<!--  it will run every day at 7 AM -->
 		<property name="cronExpression" value="0 0 7 ? * *" />
-	</bean>
+	</bean>	
 <!-- End - CAB Batch Beans -->
-		
+	
 <!-- **** Begin of Lookupable beans **** -->
 	<bean id="purApDocumentLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.PurApDocumentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
     </bean>
@@ -142,13 +143,22 @@
             <ref bean="purApDocumentLookupableHelperService" />
         </property>
     </bean>
-	<bean id="cabGlEntryLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.CabGlEntryLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+	<bean id="generalLedgerEntryLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl" singleton="false"  parent="lookupableHelperService">
     </bean>
 
     <bean id="cabGlEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
-            <ref bean="cabGlEntryLookupableHelperService" />
+            <ref bean="generalLedgerEntryLookupableHelperService" />
         </property>
-	</bean>	
+    </bean>
+    
 <!-- **** End of Lookupable beans **** -->
+
+<!--  **** PurAp service beans **** -->
+	<bean id="purApLineService" class="org.kuali.kfs.module.cab.document.service.impl.PurApLineServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>  
+<!-- **** End of PurAp service beans **** -->
 </beans>

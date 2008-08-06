@@ -25,21 +25,24 @@
         			<td colspan="2" class="subhead">Purchase Order Processing</td>
    				</tr>
    				<tr>
-   					<th class="grid"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true" /></th>
-        			<td class="grid"><kul:htmlControlAttribute property="purchaseOrderIdentifier" attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true"/></td>								
+   					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true" /></th>
+        			<td class="grid" width="75%"><kul:htmlControlAttribute property="purchaseOrderIdentifier" attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true"/></td>								
     			</tr>
     			<tr>
-   					<th class="grid"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purApContactEmailAddress}" readOnly="true" /></th>
-        			<td class="grid"><kul:htmlControlAttribute property="purApContactEmailAddress" attributeEntry="${cabPurApDocumentAttributes.purApContactEmailAddress}" readOnly="true"/></td>								
+   					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purApContactEmailAddress}" readOnly="true" /></th>
+        			<td class="grid" width="75%"><kul:htmlControlAttribute property="purApContactEmailAddress" attributeEntry="${cabPurApDocumentAttributes.purApContactEmailAddress}" readOnly="true"/></td>								
     			</tr>
     			<tr>
-   					<th class="grid"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purApContactPhoneNumber}" readOnly="true" /></th>
-        			<td class="grid"><kul:htmlControlAttribute property="purApContactPhoneNumber" attributeEntry="${cabPurApDocumentAttributes.purApContactPhoneNumber}" readOnly="true"/></td>								
+   					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purApContactPhoneNumber}" readOnly="true" /></th>
+        			<td class="grid" width="75%"><kul:htmlControlAttribute property="purApContactPhoneNumber" attributeEntry="${cabPurApDocumentAttributes.purApContactPhoneNumber}" readOnly="true"/></td>								
     			</tr>
     		</table>
 		</div>
 	</kul:tabTop>
 
+	<cab:purApItemLines>
+	</cab:purApItemLines>
+	
 	<kul:panelFooter />
 	<div id="globalbuttons" class="globalbuttons">
         <c:if test="${not readOnly}">

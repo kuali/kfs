@@ -35,8 +35,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 /**
  * This class overrids the base getActionUrls method
  */
-public class CabGlEntryLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CabGlEntryLookupableHelperServiceImpl.class);
+public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerEntryLookupableHelperServiceImpl.class);
 
     /**
      * Custom action urls for CAB PurAp lines.

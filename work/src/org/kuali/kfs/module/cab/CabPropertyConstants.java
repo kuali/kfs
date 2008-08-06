@@ -51,22 +51,23 @@ public class CabPropertyConstants {
         public static final String TRANSACTION_DATE_TIME_STAMP = "transactionDateTimeStamp";
         public static final String DOCUMENT_NUMBER = "documentNumber";
     }
-
+    
     public static class PurchasingAccountsPayableDocument {
         public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";
         public static final String DOCUMENT_NUMBER = "documentNumber";
+        public static final String PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS = "purchasingAccountsPayableItemAssets";
     }
-
+    
     public static class PurchasingAccountsPayableItemAsset {
-        public static final String ACCOUNTS_PAYABLE_LINE_ITEM_IDENTIFIER = "accountsPayableLineItemIdentifier";
+	    public static final String ACCOUNTS_PAYABLE_LINE_ITEM_IDENTIFIER = "accountsPayableLineItemIdentifier";
         public static final String DOCUMENT_NUMBER = "documentNumber";
-
+        public static final String ITEM_LINE_NUMBER = "itemLineNumber";
     }
-
+    
     public static class Pretag {
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";
     }
-
+    
     public static final String DOCUMENT_NUMBER = "documentNumber";
 }

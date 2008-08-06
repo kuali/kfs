@@ -28,11 +28,12 @@ public class PurApLineForm extends KualiForm {
     private Integer purchaseOrderIdentifier;
     private String purApContactEmailAddress;
     private String purApContactPhoneNumber;
+    private Integer currentSeqNbr;
     
     private List<PurchasingAccountsPayableDocument> purApDocList;
     
     public PurApLineForm() {
-        purApDocList = new TypedArrayList(PurchasingAccountsPayableDocument.class);
+        this.purApDocList = new TypedArrayList(PurchasingAccountsPayableDocument.class);
     }
     
     public Integer getPurchaseOrderIdentifier() {
@@ -63,6 +64,13 @@ public class PurApLineForm extends KualiForm {
     public void setPurApContactPhoneNumber(String purApContactPhoneNumber) {
         this.purApContactPhoneNumber = purApContactPhoneNumber;
     }
-    
+
+    public Integer getCurrentSeqNbr() {
+        return currentSeqNbr;
+    }
+
+    public void setCurrentSeqNbr(Integer currentSeqNbr) {
+        this.currentSeqNbr = currentSeqNbr;
+    }
 
 }

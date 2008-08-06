@@ -44,6 +44,7 @@ import org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionForm;
 import org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -61,10 +62,8 @@ public class PurApLineAction extends KualiAction {
         
         setPurApInformation(purApLineForm,request);
         
-        setPurApItemAssets(purApLineForm);
-        
-        // refresh reference objects
-        refreshReferenceObject(purApLineForm);
+        PurApLineService purApLineService = SpringContext.getBean(PurApLineService.class);
+        purApLineService.setPurApItemAssets(purApLineForm);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -147,17 +146,5 @@ public class PurApLineAction extends KualiAction {
             
             break;
         }
-    }
-
-    private void refreshReferenceObject(PurApLineForm purApLineForm) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    private void setPurApItemAssets(PurApLineForm purApLineForm) {
-        Map<String, Object> cols = new HashMap<String, Object>();
-        cols.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purApLineForm.getPurchaseOrderIdentifier());
-        Collection<PurchasingAccountsPayableDocument> purApDocs = businessObjectService.findMatching(PurchasingAccountsPayableDocument.class, cols);
-        purApLineForm.getPurApDocList().addAll(purApDocs);
     }
 }

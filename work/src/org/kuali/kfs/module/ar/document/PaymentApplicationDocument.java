@@ -52,23 +52,19 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     public KualiDecimal getTotalUnappliedFunds() {
-        return paymentApplicationDocumentService.getTotalUnappliedFundsForPaymentApplicationDocument(getDocumentNumber());
+        return paymentApplicationDocumentService.getTotalUnappliedFundsForPaymentApplicationDocument(this);
     }
-
-    public KualiDecimal getTotalCashControl() {
-        return paymentApplicationDocumentService.getTotalCashControlForPaymentApplicationDocument(getDocumentNumber());
-    }
-
+    
     public KualiDecimal getTotalUnappliedFundsToBeApplied() {
-        return paymentApplicationDocumentService.getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(getDocumentNumber());
+        return paymentApplicationDocumentService.getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(this);
     }
 
     public KualiDecimal getTotalToBeApplied() {
-        return paymentApplicationDocumentService.getTotalToBeAppliedForPaymentApplicationDocument(getDocumentNumber());
+        return getDocumentHeader().getFinancialDocumentTotalAmount().subtract(getTotalAppliedAmount());
     }
 
     public KualiDecimal getTotalAppliedAmount() {
-        return paymentApplicationDocumentService.getTotalAppliedAmountForPaymentApplicationDocument(getDocumentNumber());
+        return paymentApplicationDocumentService.getTotalAppliedAmountForPaymentApplicationDocument(this);
     }
 
     public List<InvoicePaidApplied> getAppliedPayments() {

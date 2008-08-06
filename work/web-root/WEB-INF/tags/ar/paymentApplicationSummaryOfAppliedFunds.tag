@@ -14,7 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-
+<%@ attribute name="hasRelatedCashControlDocument" required="true"
+	description="If has related cash control document"%>
 <%@ attribute name="readOnly" required="true"
 	description="If document is in read only mode"%>
 
@@ -117,7 +118,7 @@
 											Total Unapplied Funds
 										</th>
 										<th class='tab-subhead'>
-											Unapplied Funds to be Applied
+											Balance to be Applied
 										</th>
 									</c:if>
 									<c:if test="${hasRelatedCashControlDocument}">
@@ -125,7 +126,7 @@
 											Cash Control
 										</th>
 										<th class='tab-subhead'>
-											Total to be Applied
+											Balance to be Applied
 										</th>
 									</c:if>
 									<th class='tab-subhead'>
@@ -149,7 +150,7 @@
 										<td>
 											$
 											<c:out
-												value="${KualiForm.cashControlTotalForPaymentApplicationDocument}" />
+												value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />
 										</td>
 										<td>
 											$

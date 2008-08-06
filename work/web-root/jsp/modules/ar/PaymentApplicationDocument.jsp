@@ -77,7 +77,7 @@
 		          </tr>
 		          <tr>
 		          	<th>Balance</th>
-		          	<td>TODO</td>
+		          	<td><c:out value="${KualiForm.document.totalToBeApplied}" /></td>
 		          </tr>
 		          <tr>
 		          	<th>Payment #</th>
@@ -101,7 +101,7 @@
     }
   </script>
 
-	<ar:paymentApplicationSummaryOfAppliedFunds readOnly="${readOnly}" />
+	<ar:paymentApplicationSummaryOfAppliedFunds hasRelatedCashControlDocument="${hasRelatedCashControlDocument}" readOnly="${readOnly}" />
 
 	<kul:tab tabTitle="Quick Apply to Invoice"
 		defaultOpen="${isCustomerSelected}"

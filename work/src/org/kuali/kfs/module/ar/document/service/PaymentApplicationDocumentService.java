@@ -27,15 +27,13 @@ public interface PaymentApplicationDocumentService {
 
     public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document);
 
-    public KualiDecimal getTotalUnappliedFundsForPaymentApplicationDocument(String paymentApplicationDocumentNumber);
+    public KualiDecimal getTotalUnappliedFundsForPaymentApplicationDocument(PaymentApplicationDocument document);
 
-    public KualiDecimal getTotalCashControlForPaymentApplicationDocument(String paymentApplicationDocumentNumber);
-
-    public KualiDecimal getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(String paymentApplicationDocumentNumber);
+    public KualiDecimal getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(PaymentApplicationDocument document);
 
     public KualiDecimal getTotalToBeAppliedForPaymentApplicationDocument(String paymentApplicationDocumentNumber);
 
-    public KualiDecimal getTotalAppliedAmountForPaymentApplicationDocument(String paymentApplicationDocumentNumber);
+    public KualiDecimal getTotalAppliedAmountForPaymentApplicationDocument(PaymentApplicationDocument document);
 
     /**
      * This method creates an invoice paid applied for the given customer invoice detail. If an invoice paid applied already exists for this 

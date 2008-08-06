@@ -21,43 +21,41 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class PaymentApplicationDocumentServiceImpl implements PaymentApplicationDocumentService {
     private BusinessObjectService businessObjectService;
+    private NonAppliedHoldingService nonAppliedHoldingService;
 
     public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document) {
         return getCashControlDocumentForPaymentApplicationDocumentNumber(document.getDocumentNumber());
     }
 
-    public KualiDecimal getTotalAppliedAmountForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
-        KualiDecimal total = new KualiDecimal(0);
+    public KualiDecimal getTotalAppliedAmountForPaymentApplicationDocument(PaymentApplicationDocument document) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        Collection<InvoicePaidApplied> invoicePaidApplieds = document.getAppliedPayments();
 
-        // TODO Auto-generated method stub
-        // for test purpose only
-        total = total.add(new KualiDecimal(1000));
-
-        return total;
-    }
-
-    public KualiDecimal getTotalCashControlForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
-        KualiDecimal total = new KualiDecimal(0);
-        CashControlDocument ccd = getCashControlDocumentForPaymentApplicationDocumentNumber(paymentApplicationDocumentNumber);
-        if (null != ccd && null != ccd.getCashControlTotalAmount()) {
-            total = total.add(ccd.getCashControlTotalAmount());
+        for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
+            total = total.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
         }
+
         return total;
     }
 
     public KualiDecimal getTotalToBeAppliedForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
-        KualiDecimal total = new KualiDecimal(0);
+        KualiDecimal total = KualiDecimal.ZERO;
 
         // TODO Auto-generated method stub
         // for test purpose only
@@ -66,23 +64,39 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return total;
     }
 
-    public KualiDecimal getTotalUnappliedFundsForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
-        KualiDecimal total = new KualiDecimal(0);
+    public KualiDecimal getTotalUnappliedFundsForPaymentApplicationDocument(PaymentApplicationDocument document) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        
+        ////to be removed
+        // create new accounts receivable header and set it to the payment application document
+//        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
+//        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
+//        accountsReceivableDocumentHeader.setDocumentNumber("319105");
+//        accountsReceivableDocumentHeader.setCustomerNumber(document.getAccountsReceivableDocumentHeader().getCustomerNumber());
+//        document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+//        
+//        NonAppliedHolding newNonAppliedHolding = new NonAppliedHolding();
+//        newNonAppliedHolding.setFinancialDocumentLineAmount(new KualiDecimal(1110));
+//        newNonAppliedHolding.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+//        newNonAppliedHolding.setCustomerNumber(document.getAccountsReceivableDocumentHeader().getCustomerNumber());
+//        newNonAppliedHolding.setReferenceFinancialDocumentNumber("319105");
+//        businessObjectService.save(newNonAppliedHolding);
+        ///
+        
+        String customerNumber = document.getAccountsReceivableDocumentHeader().getCustomerNumber();
+        Collection<NonAppliedHolding> nonAppliedHoldings = nonAppliedHoldingService.getNonAppliedHoldingsForCustomer(customerNumber);
 
-        // TODO Auto-generated method stub
-        // for test purpose only
-        total = total.add(new KualiDecimal(1200));
+        for (NonAppliedHolding nonAppliedHolding : nonAppliedHoldings) {
+            total = total.add(nonAppliedHolding.getFinancialDocumentLineAmount());
+        }
+
         return total;
     }
 
-    public KualiDecimal getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
-        KualiDecimal total = new KualiDecimal(0);
-
-        // TODO Auto-generated method stub
-        // for test purpose only
-        total = total.add(new KualiDecimal(1300));
-
-        return total;
+    public KualiDecimal getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(PaymentApplicationDocument document) {
+        KualiDecimal totalUnapplied = getTotalUnappliedFundsForPaymentApplicationDocument(document);
+        KualiDecimal totalApplied = getTotalAppliedAmountForPaymentApplicationDocument(document);
+        return totalUnapplied.subtract(totalApplied);
     }
 
     @SuppressWarnings("unchecked")
@@ -150,5 +164,13 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
+    }
+
+    public NonAppliedHoldingService getNonAppliedHoldingService() {
+        return nonAppliedHoldingService;
+    }
+
+    public void setNonAppliedHoldingService(NonAppliedHoldingService nonAppliedHoldingService) {
+        this.nonAppliedHoldingService = nonAppliedHoldingService;
     }
 }

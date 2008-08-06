@@ -361,8 +361,11 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             }
 
             // do RI type checks for request amount against monthly and salary setting detail if persisted amount changes
-            // also check if benefits calc needs done
-            if (isReqAmountValid && !element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())) {
+            // or a 2plg exists and the line is a salary setting detail line 
+            // Also tests if the line is has benefits associate and flags that a benefits calc needs done.
+            // Benefits calc is then called in the form action after successful rules check and save
+            boolean forceTwoPlugRICheck = (budgetConstructionDocument.isContainsTwoPlug() && (element.getLaborObject() != null && element.getLaborObject().isDetailPositionRequiredIndicator()));
+            if (isReqAmountValid && (!element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount()) || forceTwoPlugRICheck)) {
 
                 // check monthly for all rows
                 if (doMonthRICheck) {

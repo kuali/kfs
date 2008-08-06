@@ -357,8 +357,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         KualiInteger newRquestAmount = bcForm.getBudgetConstructionDocument().getExpenditureAccountLineAnnualBalanceAmountTotal();
         PendingBudgetConstructionGeneralLedger twoPlugRow = budgetDocumentService.updatePendingBudgetGeneralLedgerPlug(bcDoc, newRquestAmount.subtract(oldRequestAmount));
 
+//TODO: move this to refresh() when return from SS?? need to pass twoPlugRow for isZero() test below
         // run validation and remove a zero 2plg line if valid
-        budgetDocumentService.validateDocument(bcDoc);
+//        budgetDocumentService.validateDocument(bcDoc);
 
         // if the document is valid, we make it here - check for a zero 2plg record and remove from DB and memory
         if (twoPlugRow.getAccountLineAnnualBalanceAmount().isZero()) {
@@ -634,9 +635,19 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
 
         if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+            
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-
-            budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+            
+            // if the doc contains a 2plg line, turn off RI checking to allow cleanup.
+            // The act of attempting to remove a 2plg (delete) forces a complete RI check.
+            // The document is assumed inconsistent as long as a 2plg exists.
+            if (!isRevenue && bcDocument.isContainsTwoPlug()){
+                budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
+            }
+            else {
+                budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+                
+            }
             budgetConstructionForm.initializePersistedRequestAmounts();
             budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
 
@@ -706,7 +717,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
-            budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+            // if the doc contains a 2plg line, turn off RI checking to allow cleanup.
+            // The act of attempting to remove a 2plg (delete) forces a complete RI check.
+            // The document is assumed inconsistent as long as a 2plg exists.
+            if (bcDocument.isContainsTwoPlug()){
+                budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
+            }
+            else {
+                budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+            }
 
             // init persisted property and get the current list of salary setting related rows
             budgetConstructionForm.initializePersistedRequestAmounts(true);
@@ -906,7 +925,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * Deletes an existing PendingBudgetConstructionGeneralLedger expenditure line if rules passed Any associated monthly budget
-     * (BudgetConstructionMonthly) is also deleted.
+     * (BudgetConstructionMonthly) is also deleted. Check for the special case where the line is a 2PLG line, in which case the document
+     * is validated and RI checks are forced even if there are no current differences between persisted and request amounts.
      * 
      * @param mapping
      * @param form
@@ -929,17 +949,20 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             rulePassed = true;
         }
         else {
-            // check deletion rules and delete if passed
+            // check regular deletion rules and delete if passed
             String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_EXPENDITURE_LINES + "[" + deleteIndex + "]";
             rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new DeletePendingBudgetGeneralLedgerLineEvent(errorPath, tDoc, expLine, false));
         }
 
         if (rulePassed) {
+            
+            // if the line is a 2PLG line do document validation, which forces RI checks in no current change situation
+            if (expLine.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG)){
+                SpringContext.getBean(BudgetDocumentService.class).validateDocument(tDoc);
+            }
+            // gets here if line is not 2PLG or doc is valid from 2plg perspective
             deletePBGLLine(false, tForm, deleteIndex, expLine);
         }
-
-        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Delete
-        // Expenditure Line");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -979,6 +1002,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().remove(deleteIndex);
         }
         else {
+            if (line.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG)){
+                bcDoc.setContainsTwoPlug(true);
+            }
             bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines().remove(deleteIndex);
         }
 

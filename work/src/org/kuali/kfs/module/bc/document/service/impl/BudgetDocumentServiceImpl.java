@@ -706,6 +706,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
                     businessObjectService.save(pendingRecord);
                     expenditureRows.add(index, pendingRecord);
                     twoPlugRow = pendingRecord;
+                    bcDoc.setContainsTwoPlug(true);
                     break;
                 }
             }

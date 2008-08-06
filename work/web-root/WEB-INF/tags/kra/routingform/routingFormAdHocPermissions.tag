@@ -91,7 +91,7 @@
 					</td>
 					<c:if test="${not displayReadOnly}">
                    		<td class="infoline" ><div align=center>
-                       		<html:image property="methodToCall.insertAdHocPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert Additional Ad Hoc Person" styleClass="tinybutton"/></div>
+                       		<html:image property="methodToCall.insertAdHocPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Insert Additional Ad Hoc Person" alt="Insert Additional Ad Hoc Person" styleClass="tinybutton"/></div>
                    		</td>
                    	</c:if>
                	</tr>
@@ -115,7 +115,7 @@
 					</td>
 					<c:if test="${not displayReadOnly}">
 	                    <td class="datacell center"><div align=center>
-                           	<html:image property="methodToCall.deleteAdHocPerson.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
+                           	<html:image property="methodToCall.deleteAdHocPerson.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="delete Ad Hoc Person" alt="delete Ad Hoc Person" styleClass="tinybutton"/></div>
                     	</td>
                     </c:if>
                 </tr>
@@ -167,7 +167,7 @@
 				</td>
 				<td class="infoline">
 					<div align=center>
-						<html:image property="methodToCall.insertAdHocOrg" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" />
+						<html:image alt="Add Ad Hoc Organization Permission" title="Add Ad Hoc Organization Permission" property="methodToCall.insertAdHocOrg" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" />
 					</div>
 				</td>
 			</tr>
@@ -183,7 +183,7 @@
 					<c:if test="${not displayReadOnly}">
 						<td>
 							<div align="center">
-								<html:image property="methodToCall.deleteOrg.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" disabled="${displayReadOnly}"/>
+								<html:image property="methodToCall.deleteOrg.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" title="delete organization" alt="delete organization" disabled="${displayReadOnly}"/>
 							</div>
 							<html:hidden property="document.routingFormAdHocOrg[${status.index}].fiscalCampusCode" />
 							<html:hidden property="document.routingFormAdHocOrg[${status.index}].primaryDepartmentCode" />
@@ -236,7 +236,7 @@
 					</td>
 					<c:if test="${not displayReadOnly}">
                    		<td class="infoline"><div align=center>
-                       		<html:image property="methodToCall.insertAdHocWorkgroup" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert Additional Ad Hoc Workgroup" styleClass="tinybutton"/></div>
+                       		<html:image property="methodToCall.insertAdHocWorkgroup" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Insert Additional Ad Hoc Workgroup" alt="Insert Additional Ad Hoc Workgroup" styleClass="tinybutton"/></div>
                    		</td>
                    	</c:if>
                	</tr>
@@ -257,7 +257,7 @@
 					</td>
 					<c:if test="${not displayReadOnly}">
 	                    <td class="datacell center"><div align=center>
-                           	<html:image property="methodToCall.deleteAdHocWorkgroup.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
+                           	<html:image property="methodToCall.deleteAdHocWorkgroup.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="delete Ad Hoc Workgroup" alt="delete Ad Hoc Workgroup" styleClass="tinybutton"/></div>
                     	</td>
                     </c:if>
                 </tr>

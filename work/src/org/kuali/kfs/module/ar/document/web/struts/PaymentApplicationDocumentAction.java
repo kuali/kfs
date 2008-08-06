@@ -384,6 +384,15 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     public ActionForward goToNextInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
+        String currentInvoiceNumber = pform.getNextInvoiceDocumentNumber();
+        if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
+
+            // set entered invoice number to be the current selected invoice number
+            pform.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
+            pform.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
+            // load information for the current selected invoice
+            loadInvoice(pform, currentInvoiceNumber);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -400,7 +409,15 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     public ActionForward goToPreviousInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
+        String currentInvoiceNumber = pform.getPreviousInvoiceDocumentNumber();
+        if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
 
+            // set entered invoice number to be the current selected invoice number
+            pform.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
+            pform.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
+            // load information for the current selected invoice
+            loadInvoice(pform, currentInvoiceNumber);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

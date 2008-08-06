@@ -42,6 +42,7 @@
 		property="document.accountsReceivableDocumentHeader.processingChartOfAccountCode" />
 	<html:hidden
 		property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />
+	<html:hidden property="selectedInvoiceDocument.documentNumber" />
 	<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			<tr>
@@ -127,6 +128,20 @@
 										<c:out
 											value="Invoice ${KualiForm.selectedInvoiceDocumentNumber}" />
 										&nbsp;
+										<c:if test="${!empty KualiForm.previousInvoiceDocumentNumber}">
+											<html:image property="methodToCall.goToPreviousInvoice"
+												src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+												alt="Go To Previous Invoice" title="Go To Previous Invoice"
+												styleClass="tinybutton" />
+										</c:if>
+										<c:if
+											test="${!empty KualiForm.previousInvoiceDocumentNumber && !empty KualiForm.nextInvoiceDocumentNumber}">|</c:if>
+										<c:if test="${!empty KualiForm.nextInvoiceDocumentNumber}">
+											<html:image property="methodToCall.goToNextInvoice"
+												src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+												alt="Go To Next Invoice" title="Go To Next Invoice"
+												styleClass="tinybutton" />
+										</c:if>
 									</th>
 								</tr>
 								<tr>
@@ -134,25 +149,25 @@
 										<table width='100%' cellpadding='0' cellspacing='0'
 											class='datatable'>
 											<tr>
-												
-													<kul:htmlAttributeHeaderCell
-														labelFor="selectedInvoiceDocumentNumber"
-														literalLabel="Invoice Number/Billing Date"
-														horizontal="true" />
-											
-													<kul:htmlAttributeHeaderCell
-														labelFor="selectedInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName"
-														literalLabel="Invoice Header/Customer Name"
-														horizontal="true" />
-											
-													<kul:htmlAttributeHeaderCell
-														labelFor="selectedInvoiceBalance"
-														literalLabel="Balance/Total" horizontal="true" />
-											
-													<kul:htmlAttributeHeaderCell
-														labelFor="amountAppliedDirectlyToInvoice"
-														literalLabel="Amount Applied to Invoice" horizontal="true" />
-												
+
+												<kul:htmlAttributeHeaderCell
+													labelFor="selectedInvoiceDocumentNumber"
+													literalLabel="Invoice Number/Billing Date"
+													horizontal="true" />
+
+												<kul:htmlAttributeHeaderCell
+													labelFor="selectedInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName"
+													literalLabel="Invoice Header/Customer Name"
+													horizontal="true" />
+
+												<kul:htmlAttributeHeaderCell
+													labelFor="selectedInvoiceBalance"
+													literalLabel="Balance/Total" horizontal="true" />
+
+												<kul:htmlAttributeHeaderCell
+													labelFor="amountAppliedDirectlyToInvoice"
+													literalLabel="Amount Applied to Invoice" horizontal="true" />
+
 											</tr>
 											<tr>
 												<td>
@@ -236,9 +251,12 @@
 														</tr>
 														<logic:iterate id="customerInvoiceDetail" name="KualiForm"
 															property="customerInvoiceDetails" indexId="ctr">
-															<html:hidden property="customerInvoiceDetail[${ctr}].documentNumber" />
-															<html:hidden property="customerInvoiceDetail[${ctr}].invoiceItemDescription" />
-															<html:hidden property="customerInvoiceDetail[${ctr}].appliedAmount" />
+															<html:hidden
+																property="customerInvoiceDetail[${ctr}].documentNumber" />
+															<html:hidden
+																property="customerInvoiceDetail[${ctr}].invoiceItemDescription" />
+															<html:hidden
+																property="customerInvoiceDetail[${ctr}].appliedAmount" />
 															<tr>
 																<td>
 																	<kul:htmlControlAttribute

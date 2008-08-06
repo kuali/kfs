@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.document.web.struts;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
@@ -192,6 +193,73 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     public void setAppliedPaymentsPerCustomerInvoiceDetail(Map<String, Collection> appliedPaymentsPerCustomerInvoiceDetail) {
         this.appliedPaymentsPerCustomerInvoiceDetail = appliedPaymentsPerCustomerInvoiceDetail;
+    }
+    
+    /**
+     * This method gets the previous invoice document number
+     * 
+     * @return the previous invoice document number
+     */
+    public String getPreviousInvoiceDocumentNumber() {
+        CustomerInvoiceDocument _previousInvoiceDocument = null;
+
+        CustomerInvoiceDocument selectedInvoiceDocument = getSelectedInvoiceDocument();
+        if (null == selectedInvoiceDocument || 2 > getInvoices().size()) {
+            _previousInvoiceDocument = null;
+        }
+        else {
+            Iterator<CustomerInvoiceDocument> iterator = getInvoices().iterator();
+            CustomerInvoiceDocument previousInvoiceDocument = iterator.next();
+            String selectedInvoiceDocumentNumber = selectedInvoiceDocument.getDocumentNumber();
+            if (null != selectedInvoiceDocumentNumber && selectedInvoiceDocumentNumber.equals(previousInvoiceDocument.getDocumentNumber())) {
+                _previousInvoiceDocument = null;
+            }
+            else {
+                while (iterator.hasNext()) {
+                    CustomerInvoiceDocument currentInvoiceDocument = iterator.next();
+                    String currentInvoiceDocumentNumber = currentInvoiceDocument.getDocumentNumber();
+                    if (null != currentInvoiceDocumentNumber && currentInvoiceDocumentNumber.equals(selectedInvoiceDocument.getDocumentNumber())) {
+                        _previousInvoiceDocument = previousInvoiceDocument;
+                    }
+                    else {
+                        previousInvoiceDocument = currentInvoiceDocument;
+                    }
+                }
+            }
+        }
+
+        return null == _previousInvoiceDocument ? "" : _previousInvoiceDocument.getDocumentNumber();
+    }
+
+    /**
+     * This method gets the next invoice document number
+     * 
+     * @return the next invoice document number
+     */
+    public String getNextInvoiceDocumentNumber() {
+        CustomerInvoiceDocument _nextInvoiceDocument = null;
+
+        CustomerInvoiceDocument selectedInvoiceDocument = getSelectedInvoiceDocument();
+        if (null == selectedInvoiceDocument || 2 > getInvoices().size()) {
+            _nextInvoiceDocument = null;
+        }
+        else {
+            Iterator<CustomerInvoiceDocument> iterator = getInvoices().iterator();
+            while (iterator.hasNext()) {
+                CustomerInvoiceDocument currentInvoiceDocument = iterator.next();
+                String currentInvoiceDocumentNumber = currentInvoiceDocument.getDocumentNumber();
+                if (currentInvoiceDocumentNumber.equals(selectedInvoiceDocument.getDocumentNumber())) {
+                    if (iterator.hasNext()) {
+                        _nextInvoiceDocument = iterator.next();
+                    }
+                    else {
+                        _nextInvoiceDocument = null;
+                    }
+                }
+            }
+        }
+
+        return null == _nextInvoiceDocument ? "" : _nextInvoiceDocument.getDocumentNumber();
     }
 
 }

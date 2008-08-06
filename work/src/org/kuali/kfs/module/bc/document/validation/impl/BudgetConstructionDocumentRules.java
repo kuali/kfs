@@ -419,14 +419,20 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                         }
                     }
                 }
-                // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save
-                if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()) {
-                    // retest for added errors since testing this line started - if none, test if benefits calc required
-                    currentErrorCount = errors.getErrorCount();
-                    isReqAmountValid = (currentErrorCount == originalErrorCount);
+                
+                // only do benefits calc needed test if the user changed something - not if forcing the RI check
+                if (isReqAmountValid && !element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())){
 
-                    if (isReqAmountValid && element.getPositionObjectBenefit() != null && !element.getPositionObjectBenefit().isEmpty()) {
-                        budgetConstructionDocument.setBenefitsCalcNeeded(true);
+                    // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save
+                    if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()) {
+
+                        // retest for added errors since testing this line started - if none, test if benefits calc required
+                        currentErrorCount = errors.getErrorCount();
+                        isReqAmountValid = (currentErrorCount == originalErrorCount);
+
+                        if (isReqAmountValid && element.getPositionObjectBenefit() != null && !element.getPositionObjectBenefit().isEmpty()) {
+                            budgetConstructionDocument.setBenefitsCalcNeeded(true);
+                        }
                     }
                 }
             }

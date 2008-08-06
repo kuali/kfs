@@ -407,8 +407,8 @@
 			attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/cab/{1}.jsp" />
-			<forward name="newAssets" path="/jsp/modules/cab/newAssets.jsp" />
-			<forward name="oldAssets" path="/jsp/modules/cab/oldAssets.jsp" />
+			<forward name="newGlAssets" path="/jsp/modules/cab/NewGlAssets.jsp" />
+			<forward name="oldGlAssets" path="/jsp/modules/cab/OldGlAssets.jsp" />
 		</action>
 
 		<action path="/financial*" name="{1}Form"

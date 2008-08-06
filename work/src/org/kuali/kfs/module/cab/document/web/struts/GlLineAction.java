@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -30,6 +31,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
+import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
+import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAssetDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -49,7 +52,7 @@ public class GlLineAction extends KualiAction {
                 forward = this.performQuestionWithoutInput(mapping, form, request, response, "CabNewAssetOrOldAsset", "Do you want to create new assets or assign to existing assets? Click YES to create new assets.", KFSConstants.CONFIRMATION_QUESTION, "start", "");
             }
             else {
-                forward = mapping.findForward("oldAssets");
+                forward = mapping.findForward("oldGlAssets");
             }
         }
         else {
@@ -59,11 +62,11 @@ public class GlLineAction extends KualiAction {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if ("CabNewAssetOrOldAsset".equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 glLineForm.setNewAssetIndicator(true);
-                forward = mapping.findForward("newAssets");
+                forward = mapping.findForward("newGlAssets");
             }
             else {
                 glLineForm.setNewAssetIndicator(false);
-                forward = mapping.findForward("oldAssets");
+                forward = mapping.findForward("oldGlAssets");
             }
         }
         return forward;
@@ -87,10 +90,10 @@ public class GlLineAction extends KualiAction {
         GlLineForm glLineForm = (GlLineForm) form;
         ActionForward forward;
         if (glLineForm.isNewAssetIndicator()) {
-            forward = mapping.findForward("newAssets");
+            forward = mapping.findForward("newGlAssets");
         }
         else {
-            forward = mapping.findForward("oldAssets");
+            forward = mapping.findForward("oldGlAssets");
         }
         return forward;
     }
@@ -115,5 +118,34 @@ public class GlLineAction extends KualiAction {
     public ActionForward showAllTabs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.showAllTabs(mapping, form, request, response);
         return redirectToAssets(mapping, form);
+    }
+
+    public ActionForward addAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GlLineForm glLineForm = (GlLineForm) form;
+        GeneralLedgerEntry generalLedgerEntry = glLineForm.getGeneralLedgerEntry();
+        if (generalLedgerEntry.getGeneralLedgerEntryAssets().isEmpty()) {
+            generalLedgerEntry.getGeneralLedgerEntryAssets().add(glLineForm.getNewGeneralLedgerEntryAsset());
+        }
+        generalLedgerEntry.getGeneralLedgerEntryAssets().get(0).getGeneralLedgerEntryAssetDetails().add(glLineForm.getNewGeneralLedgerEntryAssetDetail());
+        glLineForm.setNewGeneralLedgerEntryAssetDetail(new GeneralLedgerEntryAssetDetail());
+        return redirectToAssets(mapping, form);
+    }
+
+    public ActionForward deleteAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GlLineForm glLineForm = (GlLineForm) form;
+        GeneralLedgerEntry generalLedgerEntry = glLineForm.getGeneralLedgerEntry();
+        generalLedgerEntry.getGeneralLedgerEntryAssets().get(0).getGeneralLedgerEntryAssetDetails().remove(getSelectedLine(request));
+        return redirectToAssets(mapping, form);
+    }
+
+    protected int getSelectedLine(HttpServletRequest request) {
+        int selectedLine = -1;
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            String lineNumber = StringUtils.substringBetween(parameterName, ".line", ".");
+            selectedLine = Integer.parseInt(lineNumber);
+        }
+
+        return selectedLine;
     }
 }

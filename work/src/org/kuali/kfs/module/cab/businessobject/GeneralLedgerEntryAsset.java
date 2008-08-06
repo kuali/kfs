@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 
@@ -24,12 +25,15 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
 
     private AssetType capitalAssetType;
     private List<GeneralLedgerEntryAssetDetail> generalLedgerEntryAssetDetails;
-    
+
+    public GeneralLedgerEntryAsset() {
+        this.generalLedgerEntryAssetDetails = new TypedArrayList(GeneralLedgerEntryAssetDetail.class);
+    }
+
     /**
      * Gets the generalLedgerAccountIdentifier attribute.
      * 
      * @return Returns the generalLedgerAccountIdentifier
-     * 
      */
     public Long getGeneralLedgerAccountIdentifier() {
         return generalLedgerAccountIdentifier;
@@ -39,17 +43,15 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
      * Sets the generalLedgerAccountIdentifier attribute.
      * 
      * @param generalLedgerAccountIdentifier The generalLedgerAccountIdentifier to set.
-     * 
      */
     public void setGeneralLedgerAccountIdentifier(Long generalLedgerAccountIdentifier) {
         this.generalLedgerAccountIdentifier = generalLedgerAccountIdentifier;
     }
-    
+
     /**
      * Gets the capitalAssetBuilderLineNumber attribute.
      * 
      * @return Returns the capitalAssetBuilderLineNumber
-     * 
      */
     public Integer getCapitalAssetBuilderLineNumber() {
         return capitalAssetBuilderLineNumber;
@@ -59,17 +61,15 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
      * Sets the capitalAssetBuilderLineNumber attribute.
      * 
      * @param capitalAssetBuilderLineNumber The capitalAssetBuilderLineNumber to set.
-     * 
      */
     public void setCapitalAssetBuilderLineNumber(Integer capitalAssetBuilderLineNumber) {
         this.capitalAssetBuilderLineNumber = capitalAssetBuilderLineNumber;
     }
-    
+
     /**
      * Gets the capitalAssetBuilderQuantity attribute.
      * 
      * @return Returns the capitalAssetBuilderQuantity
-     * 
      */
     public Long getCapitalAssetBuilderQuantity() {
         return capitalAssetBuilderQuantity;
@@ -79,12 +79,11 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
      * Sets the capitalAssetBuilderQuantity attribute.
      * 
      * @param capitalAssetBuilderQuantity The capitalAssetBuilderQuantity to set.
-     * 
      */
     public void setCapitalAssetBuilderQuantity(Long capitalAssetBuilderQuantity) {
         this.capitalAssetBuilderQuantity = capitalAssetBuilderQuantity;
     }
-    
+
     /**
      * Gets the capitalAssetDescription attribute.
      * 
@@ -102,7 +101,7 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
     public void setCapitalAssetDescription(String capitalAssetDescription) {
         this.capitalAssetDescription = capitalAssetDescription;
     }
-    
+
     /**
      * Gets the capitalAssetTypeCode attribute.
      * 
@@ -120,7 +119,7 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
     public void setCapitalAssetTypeCode(String capitalAssetTypeCode) {
         this.capitalAssetTypeCode = capitalAssetTypeCode;
     }
-    
+
     /**
      * Gets the vendorName attribute.
      * 
@@ -138,7 +137,7 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
     }
-    
+
     /**
      * Gets the manufacturerName attribute.
      * 
@@ -174,7 +173,7 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
     public void setManufacturerModelNumber(String manufacturerModelNumber) {
         this.manufacturerModelNumber = manufacturerModelNumber;
     }
-    
+
     /**
      * Gets the capitalAssetManagementDocumentNumber attribute.
      * 
@@ -192,7 +191,7 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
     public void setCapitalAssetManagementDocumentNumber(String capitalAssetManagementDocumentNumber) {
         this.capitalAssetManagementDocumentNumber = capitalAssetManagementDocumentNumber;
     }
-    
+
     /**
      * Gets the capitalAssetType attribute.
      * 
@@ -211,9 +210,10 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
     public void setCapitalAssetType(AssetType capitalAssetType) {
         this.capitalAssetType = capitalAssetType;
     }
-    
+
     /**
-     * Gets the generalLedgerEntryAssetDetails attribute. 
+     * Gets the generalLedgerEntryAssetDetails attribute.
+     * 
      * @return Returns the generalLedgerEntryAssetDetails.
      */
     public List<GeneralLedgerEntryAssetDetail> getGeneralLedgerEntryAssetDetails() {
@@ -222,17 +222,18 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the generalLedgerEntryAssetDetails attribute value.
+     * 
      * @param generalLedgerEntryAssetDetails The generalLedgerEntryAssetDetails to set.
      */
     public void setGeneralLedgerEntryAssetDetails(List<GeneralLedgerEntryAssetDetail> generalLedgerEntryAssetDetails) {
         this.generalLedgerEntryAssetDetails = generalLedgerEntryAssetDetails;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("capitalAssetBuilderLineNumber", this.capitalAssetBuilderLineNumber);
         m.put("generalLedgerAccountIdentifier", this.generalLedgerAccountIdentifier);
         return m;

@@ -81,11 +81,6 @@ public class GlLineForm extends KualiForm {
     public void populate(HttpServletRequest request) {
         super.populate(request);
         populateExistingAsset();
-        if (isNewAssetIndicator()) {
-            if (this.generalLedgerEntry != null) {
-                this.generalLedgerEntry.refresh();
-            }
-        }
     }
 
     private void populateExistingAsset() {

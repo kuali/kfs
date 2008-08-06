@@ -85,11 +85,66 @@
 				<td class="grid"><kul:htmlControlAttribute property="newGeneralLedgerEntryAsset.manufacturerModelNumber" attributeEntry="${glAssetAttributes.manufacturerModelNumber}" /></td>
 			</tr>
 		</table>
+		<table>
+			<tr>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.campusTagNumber}" /></th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.serialNumber}" /></th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.campusCode}" /></th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.buildingCode}" /></th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.buildingRoomNumber}" /></th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.buildingSubRoomNumber}" /></th>
+				<th>&nbsp;</th>
+			</tr>
+			<tr>				
+				<td class="infoline"><kul:htmlControlAttribute property="newGeneralLedgerEntryAssetDetail.campusTagNumber" attributeEntry="${glAssetDetailAttributes.campusTagNumber}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="newGeneralLedgerEntryAssetDetail.serialNumber" attributeEntry="${glAssetDetailAttributes.serialNumber}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="newGeneralLedgerEntryAssetDetail.campusCode" attributeEntry="${glAssetDetailAttributes.campusCode}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="newGeneralLedgerEntryAssetDetail.buildingCode" attributeEntry="${glAssetDetailAttributes.buildingCode}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="newGeneralLedgerEntryAssetDetail.buildingRoomNumber" attributeEntry="${glAssetDetailAttributes.buildingRoomNumber}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="newGeneralLedgerEntryAssetDetail.buildingSubRoomNumber" attributeEntry="${glAssetDetailAttributes.buildingSubRoomNumber}" /></td>
+				<td class="infoline" align="center"><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" property="methodToCall.addAsset" title="Add" alt="Add" /></td>
+			</tr>
+		</table>
+		</div>
+	</kul:tab>
+	<kul:tab tabTitle="Assets" defaultOpen="true">
+		<div class="tab-container" align="center">
+		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+			<tr>
+				<th>SN</th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.capitalAssetNumber}" readOnly="true" /></th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.campusTagNumber}" /></th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.serialNumber}" /></th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.campusCode}" /></th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.buildingCode}" /></th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.buildingRoomNumber}" /></th>
+				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.buildingSubRoomNumber}" /></th>
+				<th>&nbsp;</th>
+			</tr>
+			<c:if test="${not empty KualiForm.generalLedgerEntry.generalLedgerEntryAssets}">
+			<c:set var="pos" value="-1" />			
+			<c:forEach var="assetDetail" items="${KualiForm.generalLedgerEntry.generalLedgerEntryAssets[0].generalLedgerEntryAssetDetails}">
+			<c:set var="pos" value="${pos+1}" />
+			<c:set var="exprStr" value="generalLedgerEntry.generalLedgerEntryAssets[0].generalLedgerEntryAssetDetails[${pos}]" />
+			<tr>
+				<td class="infoline"><c:out value="${pos}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.capitalAssetNumber" attributeEntry="${glAssetDetailAttributes.capitalAssetNumber}"  readOnly="true" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.campusTagNumber" attributeEntry="${glAssetDetailAttributes.campusTagNumber}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.serialNumber" attributeEntry="${glAssetDetailAttributes.serialNumber}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.campusCode" attributeEntry="${glAssetDetailAttributes.campusCode}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.buildingCode" attributeEntry="${glAssetDetailAttributes.buildingCode}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.buildingRoomNumber" attributeEntry="${glAssetDetailAttributes.buildingRoomNumber}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.buildingSubRoomNumber" attributeEntry="${glAssetDetailAttributes.buildingSubRoomNumber}" /></td>
+				<td class="infoline" align="center"><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" property="methodToCall.deleteAsset.line${pos}" title="Delete" alt="Delete" /></td>
+			</tr>
+			</c:forEach>
+			</c:if>
+		</table>
 		</div>
 	</kul:tab>
 	<kul:panelFooter />
-	<div id="globalbuttons" class="globalbuttons"><c:if
-		test="${not readOnly}">
+	<div id="globalbuttons" class="globalbuttons">
+	<c:if test="${not readOnly}">
 		<html:image
 			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif"
 			styleClass="globalbuttons" property="methodToCall.save" title="save"
@@ -99,6 +154,7 @@
 			src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif"
 			styleClass="globalbuttons" property="methodToCall.close"
 			title="close" alt="close" />
-	</c:if></div>
+	</c:if>
+	</div>
 </kul:page>
 

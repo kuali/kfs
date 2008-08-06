@@ -146,6 +146,13 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
 
         return null;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.service.BudgetConstructionPositionService#isBudgetingPosition(org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition)
+     */
+    public boolean isBudgetablePosition(BudgetConstructionPosition budgetConstructionPosition) {       
+        return budgetConstructionPosition != null && budgetConstructionPosition.isBudgetedPosition() && budgetConstructionPosition.isEffective();
+    }
 
     /**
      * Sets the businessObjectService attribute value.

@@ -28,16 +28,22 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.context.SpringContext;
 
+/**
+ * provide a set of rule elements for salary setting.
+ */
 public class SalarySettingRuleUtil {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRuleUtil.class);
 
     private static LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
     private static DictionaryValidationService dictionaryValidationService = SpringContext.getBean(DictionaryValidationService.class);
     private static SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+    private static BudgetConstructionPositionService budgetConstructionPositionService = SpringContext.getBean(BudgetConstructionPositionService.class);
 
     /**
      * determine if the fields in the given appointment funding line are in the correct formats defined in the data dictionary
@@ -230,5 +236,17 @@ public class SalarySettingRuleUtil {
      */
     public static boolean hasSameExistingLine(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         return salarySettingService.findAppointmentFunding(appointmentFundings, appointmentFunding) != null;
+    }
+
+    /**
+     * determine whether the given appointment funding is associated with a valid active budgetable position
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the given appointment funding is associated with a valid active budgetable position; otherwise, false
+     */
+    public static boolean hasVaildBudgetablePosition(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
+
+        return budgetConstructionPositionService.isBudgetablePosition(position);
     }
 }

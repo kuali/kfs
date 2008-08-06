@@ -38,10 +38,12 @@
 		<bc:positionInfo/>
 	</div>
 </kul:tabTop>
+
+<c:set var="budgetConstructionPosition" value="${KualiForm.budgetConstructionPosition}" />
     
 <kul:tab tabTitle="Position Funding" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_POSITION_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align="center">
-	<c:if test="${not readOnly}">   
+	<c:if test="${not readOnly && budgetConstructionPosition.effective && budgetConstructionPosition.budgetedPosition}">   
 		<kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Add Funding">      
 			<bc:appointmentFundingLineForPosition fundingLine="${KualiForm.newBCAFLine}" fundingLineName="newBCAFLine" hasBeenAdded="false" isKeyFieldsLocked="${isKeyFieldsLocked}" countOfMajorColumns="9">
 				<html:image property="methodToCall.insertSalarySettingLine.anchorsalarynewLineLineAnchor" 

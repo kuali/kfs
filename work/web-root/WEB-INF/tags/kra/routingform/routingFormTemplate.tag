@@ -41,12 +41,12 @@
 					<td colspan="5"  scope=col>
 						<div align="center"><br>
 							Once you click the &quot;Template&quot; button, the new Routing Form will display. <br><br>
-							Copy Primary Delivery Address to the templated routing form?
-							<html:multibox property="templateAddress" value="Y"/> <br>
-							Copy Ad-Hoc Permissions to the templated routing form?
-							<html:multibox property="templateAdHocPermissions" value="Y"/> <br>
-							Copy Ad-Hoc Approvers to the templated budget?
-							<html:multibox property="templateAdHocApprovers" value="Y"/> <br><br>
+							<label for="templateAddress">Copy Primary Delivery Address to the templated routing form?</label>
+							<html:multibox styleId="templateAddress" property="templateAddress" value="Y"/> <br>
+							<label for="templateAdHocPermissions">Copy Ad-Hoc Permissions to the templated routing form?</label>
+							<html:multibox styleId="templateAdHocPermissions" property="templateAdHocPermissions" value="Y"/> <br>
+							<label for="templateAdHocApprovers">Copy Ad-Hoc Approvers to the templated budget?</label>
+							<html:multibox styleId="templateAdHocApprovers" property="templateAdHocApprovers" value="Y"/> <br><br>
 						</div>
 					</td>
 				</tr>
@@ -62,5 +62,5 @@
 </div>
 
 <div id="globalbuttons" class="globalbuttons">
-	<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_template.gif" styleClass="globalbuttons" property="methodToCall.doTemplate" alt="Copy current document" />
+	<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_template.gif" styleClass="globalbuttons" property="methodToCall.doTemplate" title="Copy current document" alt="Copy current document" />
 </div>

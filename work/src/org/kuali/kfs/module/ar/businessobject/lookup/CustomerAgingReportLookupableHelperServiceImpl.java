@@ -99,5 +99,19 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         return new CollectionIncomplete(results, new Long(results.size()));
     }    
 
-
+    /**
+     * @return a List of the names of fields which are marked in data dictionary as return fields.
+     */
+    public List getReturnKeys() {
+//        List returnKeys;
+//        if (fieldConversions != null && !fieldConversions.isEmpty()) {
+//            returnKeys = new ArrayList(fieldConversions.keySet());
+//        }
+//        else {
+//            returnKeys = getPersistenceStructureService().listPrimaryKeyFieldNames(getBusinessObjectClass());
+//        }
+//
+//        return returnKeys;
+        return null;
+    }
 }

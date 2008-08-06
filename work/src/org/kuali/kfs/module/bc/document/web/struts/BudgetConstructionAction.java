@@ -1077,14 +1077,25 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 List<PendingBudgetConstructionGeneralLedger> dbSalarySettingRows = budgetDocumentService.getPBGLSalarySettingRows(currentBCDoc);
                 for (PendingBudgetConstructionGeneralLedger dbSalarySettingRow : dbSalarySettingRows) {
                     if (budgetConstructionForm.getPreSalarySettingRows().containsKey(dbSalarySettingRow.getFinancialObjectCode() + dbSalarySettingRow.getFinancialSubObjectCode())) {
+                        
+                        // update the existing row if a difference is found
                         KualiInteger dbReqAmount = dbSalarySettingRow.getAccountLineAnnualBalanceAmount();
                         KualiInteger preReqAmount = budgetConstructionForm.getPreSalarySettingRows().get(dbSalarySettingRow.getFinancialObjectCode() + dbSalarySettingRow.getFinancialSubObjectCode()).getAccountLineAnnualBalanceAmount();
-                        if (dbReqAmount.compareTo(preReqAmount) != 0) {
+                        Long dbVersionNumber = dbSalarySettingRow.getVersionNumber();
+                        Long preReqVersionNumber = budgetConstructionForm.getPreSalarySettingRows().get(dbSalarySettingRow.getFinancialObjectCode() + dbSalarySettingRow.getFinancialSubObjectCode()).getVersionNumber();
+                        if ((dbVersionNumber.compareTo(preReqVersionNumber) != 0) || (dbReqAmount.compareTo(preReqAmount) != 0)) {
                             budgetDocumentService.addOrUpdatePBGLRow(currentBCDoc, dbSalarySettingRow);
-                            diffFound = true;
+                            
+                            // only flag for existing line diff when the request amount changes
+                            // changes in versionNumber implies offsetting updates of some sort
+                            if (dbReqAmount.compareTo(preReqAmount) != 0){
+                                diffFound = true;
+                            }
                         }
                     }
                     else {
+                        
+                        // insert the new DB row to the set in memory
                         budgetDocumentService.addOrUpdatePBGLRow(currentBCDoc, dbSalarySettingRow);
                         diffFound = true;
                     }

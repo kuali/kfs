@@ -680,7 +680,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             else {
                 if (expRowKey.compareToIgnoreCase(twoPlugKey) > 0) {
 
-                    // insert a new row
+                    // case where offsetting salary setting updates under different object codes - insert a new row
                     String objectCode = KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG;
                     String subObjectCode = KFSConstants.getDashFinancialSubObjectCode();
                     String objectTypeCode = optionsService.getOptions(bcDoc.getUniversityFiscalYear()).getFinObjTypeExpenditureexpCd();

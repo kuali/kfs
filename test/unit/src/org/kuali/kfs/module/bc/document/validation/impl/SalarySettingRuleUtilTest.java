@@ -93,47 +93,4 @@ public class SalarySettingRuleUtilTest extends KualiTestBase {
         
         assertFalse(SalarySettingRuleUtil.isRequestedFteQuantityGreaterThanZero(appointmentFunding));
     }
-
-    /**
-     * tests AdjustmentAmountIsNotEmpty with null value
-     * expected result is false
-     */
-    public void testAdjustmentAmountIsNotEmpty_nullValue() {
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
-        
-        assertFalse(SalarySettingRuleUtil.isAdjustmentAmountNotEmpty(appointmentFunding));
-    }
-
-    /**
-     * tests AdjustmentAmountIsNotEmpty with non-null value
-     * expected result is true
-     */
-    public void testAdjustmentAmountIsNotEmpty_nonNullValue() {
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
-        appointmentFunding.setAdjustmentAmount(new KualiDecimal(10));
-        
-        assertTrue(SalarySettingRuleUtil.isAdjustmentAmountNotEmpty(appointmentFunding));
-    }
-
-    /**
-     * tests AppointmentRequestedPayRateIsNotEmpty with null value
-     * expected result is false
-     */
-    public void testAppointmentRequestedPayRateIsNotEmpty_emptyValue() {
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
-       
-        
-        assertFalse(SalarySettingRuleUtil.isRequestedPayRateNotEmpty(appointmentFunding));
-    }
-
-    /**
-     * tests AppointmentRequestedPayRateIsNotEmpty with non-null value
-     * expected result is true
-     */
-    public void testAppointmentRequestedPayRateIsNotEmpty_nonEmptyValue() {
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
-        appointmentFunding.setAppointmentRequestedPayRate(new BigDecimal(10));
-        
-        assertTrue(SalarySettingRuleUtil.isRequestedPayRateNotEmpty(appointmentFunding));
-    }
 }

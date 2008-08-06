@@ -220,21 +220,29 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#canBeVacant(java.util.List,
-     *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#findVacantAppointmentFunding(java.util.List, org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public PendingBudgetConstructionAppointmentFunding findVacantAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.debug("findVacantAppointmentFunding() start");
+
+        PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = this.createVacantAppointmentFunding(appointmentFunding);
+
+        return this.findAppointmentFunding(appointmentFundings, vacantAppointmentFunding);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#findAppointmentFunding(java.util.List, org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public PendingBudgetConstructionAppointmentFunding findAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.debug("findAppointmentFunding() start");
 
         Map<String, Object> keyFieldValues = appointmentFunding.getValuesMap();
         List<String> keyFields = new ArrayList<String>();
         keyFields.addAll(keyFieldValues.keySet());
 
-        PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = this.createVacantAppointmentFunding(appointmentFunding);
-
         // determine whether there is vacant for the given appointment funding in its list
         for (PendingBudgetConstructionAppointmentFunding fundingLine : appointmentFundings) {
-            if (ObjectUtil.equals(fundingLine, vacantAppointmentFunding, keyFields)) {
+            if (ObjectUtil.equals(fundingLine, appointmentFunding, keyFields)) {
                 return fundingLine;
             }
         }

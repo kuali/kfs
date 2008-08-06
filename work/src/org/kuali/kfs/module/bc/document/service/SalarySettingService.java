@@ -134,6 +134,24 @@ public interface SalarySettingService {
     public void purgeAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
+     * find the appointment funding from the given appointment funding collection, which has the same key information as the specified vacant appointment funding
+     * 
+     * @param appointmentFundings the given appointment funding collection
+     * @param vacantAppointmentFunding the given vacant apporintment funding
+     * @return the appointment funding from the given appointment funding collection, which has the same key information as the specified vacant appointment funding
+     */
+    public PendingBudgetConstructionAppointmentFunding findVacantAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding);
+    
+    /**
+     * find the appointment funding from the given appointment funding collection, which has the same key information as the specified appointment funding
+     * 
+     * @param appointmentFundings the given appointment funding collection
+     * @param vacantAppointmentFunding the given apporintment funding
+     * @return the appointment funding from the given appointment funding collection, which has the same key information as the specified appointment funding
+     */
+    public PendingBudgetConstructionAppointmentFunding findAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    
+    /**
      * adjust the requested salary amount of the given appointment funding by amount
      * 
      * @param appointmentFunding the given appointment funding

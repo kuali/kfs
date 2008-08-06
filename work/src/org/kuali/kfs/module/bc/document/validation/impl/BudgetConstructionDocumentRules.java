@@ -85,8 +85,6 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     public BudgetConstructionDocumentRules() {
         super();
-
-        // TODO may want to get all the system param values here once, instead of the process*Rules methods??
     }
 
     /**

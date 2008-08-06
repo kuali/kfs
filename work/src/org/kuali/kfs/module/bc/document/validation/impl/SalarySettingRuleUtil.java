@@ -20,45 +20,38 @@ import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCode
 import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.NONE;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class SalarySettingRuleUtil {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRuleUtil.class);
+
+    private static LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
+    private static DictionaryValidationService dictionaryValidationService = SpringContext.getBean(DictionaryValidationService.class);
+    private static SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
 
     /**
-     * Checks that when an fte is required it is greater than zero
+     * determine if the fields in the given appointment funding line are in the correct formats defined in the data dictionary
      * 
-     * @param appointmentFunding
-     * @return
+     * @param appointmentFunding the given appointment funding
+     * @return true if the fields in the given appointment funding line are in the correct formats defined in the data dictionary;
+     *         otherwise, false
      */
-    public static boolean isRequestedFteQuantityGreaterThanZero(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        if (appointmentFunding.getAppointmentRequestedAmount().isPositive()) {
-            return appointmentFunding.getAppointmentRequestedFteQuantity().compareTo(BigDecimal.ZERO) > 0;
-        }
+    public static boolean hasValidFormat(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        dictionaryValidationService.validateBusinessObject(appointmentFunding);
+        int currentErrorCount = GlobalVariables.getErrorMap().getErrorCount();
 
-        return true;
-    }
-
-    /**
-     * Checks that adjustment amount is not empty
-     * 
-     * @param appointmentFunding
-     * @return
-     */
-    public static boolean isAdjustmentAmountNotEmpty(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        return appointmentFunding.getAdjustmentAmount() != null;
-    }
-
-    /**
-     * Checks that appointment requested payrate is not empty
-     * 
-     * @param appointmentFunding
-     * @return
-     */
-    public static boolean isRequestedPayRateNotEmpty(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        return appointmentFunding.getAppointmentRequestedPayRate() != null;
+        return currentErrorCount == originalErrorCount;
     }
 
     /**
@@ -71,8 +64,8 @@ public class SalarySettingRuleUtil {
         Integer fundingMonths = appointmentFunding.getAppointmentFundingMonth();
         Integer normalWorkMonths = appointmentFunding.getBudgetConstructionPosition().getIuNormalWorkMonths();
         String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
-        
-        if(fundingMonths == null) {
+
+        if (fundingMonths == null) {
             return false;
         }
 
@@ -95,10 +88,10 @@ public class SalarySettingRuleUtil {
         KualiInteger csfAmount = appointmentFunding.getAppointmentRequestedCsfAmount();
         String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
 
-        if(csfAmount == null) {
+        if (csfAmount == null) {
             return false;
         }
-        
+
         // Requested csf amount must be greater than 0 if there is a leave
         if (!StringUtils.equals(leaveDurationCode, NONE.durationCode)) {
             return csfAmount.isPositive();
@@ -116,8 +109,8 @@ public class SalarySettingRuleUtil {
     public static boolean isValidRequestedCsfTimePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         BigDecimal csfTimePercent = appointmentFunding.getAppointmentRequestedCsfTimePercent();
         String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
-        
-        if(csfTimePercent == null) {
+
+        if (csfTimePercent == null) {
             return false;
         }
 
@@ -138,8 +131,8 @@ public class SalarySettingRuleUtil {
     public static boolean isValidRequestedAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
         String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
-        
-        if(requestedAmount == null) {
+
+        if (requestedAmount == null) {
             return false;
         }
 
@@ -150,7 +143,7 @@ public class SalarySettingRuleUtil {
 
         return !requestedAmount.isNegative();
     }
-    
+
     /**
      * determine whether the requested fte quantity of the given appointment funding is valid
      * 
@@ -160,8 +153,8 @@ public class SalarySettingRuleUtil {
     public static boolean isValidRequestedFteQuantity(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         BigDecimal requestedFteQuantity = appointmentFunding.getAppointmentRequestedFteQuantity();
         String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
-        
-        if(requestedFteQuantity == null) {
+
+        if (requestedFteQuantity == null) {
             return false;
         }
 
@@ -170,6 +163,72 @@ public class SalarySettingRuleUtil {
             return requestedFteQuantity.compareTo(BigDecimal.ZERO) == 0;
         }
 
-        return requestedFteQuantity.compareTo(BigDecimal.ZERO) > 0;
+        return requestedFteQuantity.compareTo(BigDecimal.ZERO) >= 0;
+    }
+
+    /**
+     * determine whether the requested fte is greater than 0 when the requested salary amount is greater than 0
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the requested fte is greater than 0 when the requested salary amount is greater than 0; otherwise, false
+     */
+    public static boolean isRequestedFteQuantityGreaterThanZero(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
+        BigDecimal requestedFteQuantity = appointmentFunding.getAppointmentRequestedFteQuantity();
+
+        if (requestedAmount == null || requestedFteQuantity == null) {
+            return false;
+        }
+
+        // the requested fte is greater than 0 when the requested salary amount is greater than 0
+        if (requestedAmount.isPositive()) {
+            return requestedFteQuantity.compareTo(BigDecimal.ZERO) > 0;
+        }
+        else if (requestedAmount.isZero()) {
+            return requestedFteQuantity.compareTo(BigDecimal.ZERO) == 0;
+        }
+
+        return true;
+    }
+
+    /**
+     * determine whether the given appointment funding is required to be detail salary funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the given appointment funding is required to be detail salary funding; otherwise, false
+     */
+    public static boolean isDetailSalaryFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
+        String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
+        String objectCode = appointmentFunding.getFinancialObjectCode();
+
+        LaborLedgerObject laborObject = laborModuleService.retrieveLaborLedgerObject(fiscalYear, chartOfAccountsCode, objectCode);
+        return laborObject.isDetailPositionRequiredIndicator();
+    }
+
+    /**
+     * determine whether the object code of the given appointment funding matches the position default object code
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the object code of the given appointment funding matches the position default object code; otherwise, false
+     */
+    public static boolean isObjectCodeMatchingDefaultOfPosition(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        String defaultObjectCode = appointmentFunding.getBudgetConstructionPosition().getIuDefaultObjectCode();
+        String objectCode = appointmentFunding.getFinancialObjectCode();
+
+        return StringUtils.equals(objectCode, defaultObjectCode);
+    }
+
+    /**
+     * determine if there is an appointment funding in the given list that has the same key information as the specified appointment
+     * funding
+     * 
+     * @param appointmentFundings the given appointment funding collection
+     * @param appointmentFunding the given appointment funding
+     * @return true if there is an appointment funding in the given list that has the same key information as the specified
+     *         appointment funding; otherwise, false
+     */
+    public static boolean hasSameExistingLine(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return salarySettingService.findAppointmentFunding(appointmentFundings, appointmentFunding) != null;
     }
 }

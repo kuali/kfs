@@ -57,7 +57,7 @@
                   <html:hidden property="newRoutingFormProjectDirector.personToBeNamedIndicator" />
                   <html:hidden property="newRoutingFormProjectDirector.personUniversalIdentifier" />
                   <html:hidden property="newRoutingFormProjectDirector.user.personName"/>
-                  <html:text property="newRoutingFormProjectDirector.user.personUserIdentifier" onblur="personIDLookup('newRoutingFormProjectDirector.user.personUserIdentifier')"/>                  
+                  <html:text title="* Name" property="newRoutingFormProjectDirector.user.personUserIdentifier" onblur="personIDLookup('newRoutingFormProjectDirector.user.personUserIdentifier')"/>                  
                   <!-- <c:if test="${empty KualiForm.newRoutingFormProjectDirector.personUniversalIdentifier && !KualiForm.newRoutingFormProjectDirector.personToBeNamedIndicator}">&nbsp;</c:if> -->
 		    	  <c:if test="${KualiForm.newRoutingFormProjectDirector.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
@@ -88,7 +88,7 @@
 				  <c:if test="${hasErrors==true}">
 				    <c:set var="newPersonRoleCodeTextStyle" value="background-color: red"/>
 				  </c:if>
-                  <html:select property="newRoutingFormProjectDirector.personRoleCode" style="${newPersonRoleCodeTextStyle}" disabled="${viewOnly}"> 
+                  <html:select title="Role" property="newRoutingFormProjectDirector.personRoleCode" style="${newPersonRoleCodeTextStyle}" disabled="${viewOnly}"> 
                       <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormProjectDirectorRoles}"/> 
                       <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
                   </html:select>
@@ -115,7 +115,7 @@
                   <kul:htmlControlAttribute property="newRoutingFormProjectDirector.personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
                 </div></td>
                 <td class="infoline">&nbsp;</td>
-                <td class="infoline"><div align=center><html:image property="methodToCall.addProjectDirectorPersonLine.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add person line"/></div></td>
+                <td class="infoline"><div align=center><html:image property="methodToCall.addProjectDirectorPersonLine.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" title="add person line" alt="add person line"/></div></td>
               </tr>
               </c:if>
               
@@ -159,7 +159,7 @@
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
-                    		<html:text property="document.routingFormPersonnel[${status.index}].user.personUserIdentifier" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].user.personUserIdentifier')"/>                  
+                    		<html:text title="* Name" property="document.routingFormPersonnel[${status.index}].user.personUserIdentifier" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].user.personUserIdentifier')"/>                  
                           <kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personUniversalIdentifier,universalUser.personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
@@ -186,7 +186,7 @@
 					</c:if>
                     <c:choose>
                       <c:when test="${!viewOnly}">
-    	                <html:select property="document.routingFormPersonnel[${status.index}].personRoleCode" style="${personRoleCodeTextStyle}" disabled="${viewOnly}"> 
+    	                <html:select title="Role" property="document.routingFormPersonnel[${status.index}].personRoleCode" style="${personRoleCodeTextStyle}" disabled="${viewOnly}"> 
                         <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormProjectDirectorRoles}"/> 
                         <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
      	                </html:select>
@@ -221,8 +221,8 @@
                   <td><div align="center"><span class="infoline">
                     <kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
                   </span></div></td>
-                  <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" alt="view person line"/></div></td>
-                  <td><div align=center>&nbsp;<c:if test="${!viewOnly}"><html:image property="methodToCall.deletePersonLine.line${status.index}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line"/></c:if></div></td>
+                  <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" alt="view person line" title="view person line"/></div></td>
+                  <td><div align=center>&nbsp;<c:if test="${!viewOnly}"><html:image property="methodToCall.deletePersonLine.line${status.index}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line" title="delete person line"/></c:if></div></td>
                 </tr>
                 </c:if>
               </c:forEach>
@@ -255,7 +255,7 @@
                   <html:hidden property="newRoutingFormOtherPerson.personToBeNamedIndicator" />
                   <html:hidden property="newRoutingFormOtherPerson.personUniversalIdentifier" />
                   <html:hidden  property="newRoutingFormOtherPerson.user.personName"/>
-                  <html:text property="newRoutingFormOtherPerson.user.personUserIdentifier" onblur="personIDLookup('newRoutingFormOtherPerson.user.personUserIdentifier')"/>                  
+                  <html:text title="* Name" property="newRoutingFormOtherPerson.user.personUserIdentifier" onblur="personIDLookup('newRoutingFormOtherPerson.user.personUserIdentifier')"/>                  
                   <!--  <c:if test="${empty KualiForm.newRoutingFormOtherPerson.personUniversalIdentifier && !KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">&nbsp;</c:if> -->
             <c:if test="${KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
@@ -286,7 +286,7 @@
           <c:if test="${hasErrors==true}">
             <c:set var="newPersonRoleCodeTextStyle" value="background-color: red"/>
           </c:if>
-                  <html:select property="newRoutingFormOtherPerson.personRoleCode" style="${newPersonRoleCodeTextStyle}" disabled="${viewOnly}"> 
+                  <html:select title="Role" property="newRoutingFormOtherPerson.personRoleCode" style="${newPersonRoleCodeTextStyle}" disabled="${viewOnly}"> 
                     <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormOtherPersonRoles}"/> 
                     <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
                   </html:select>
@@ -311,7 +311,7 @@
                   <kul:htmlControlAttribute property="newRoutingFormOtherPerson.personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
                 </div></td>
                 <td class="infoline">&nbsp;</td>
-                <td class="infoline"><div align=center><html:image property="methodToCall.addOtherPersonLine.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add person line"/></div></td>
+                <td class="infoline"><div align=center><html:image property="methodToCall.addOtherPersonLine.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add person line" title="add person line"/></div></td>
               </tr>
               </c:if>
               
@@ -355,7 +355,7 @@
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
-                          <html:text property="document.routingFormPersonnel[${status.index}].user.personUserIdentifier" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].user.personUserIdentifier')"/>                  
+                          <html:text title="* Name" property="document.routingFormPersonnel[${status.index}].user.personUserIdentifier" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].user.personUserIdentifier')"/>                  
                           <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personUniversalIdentifier,personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
@@ -382,7 +382,7 @@
           </c:if>
                     <c:choose>
                       <c:when test="${!viewOnly}">
-                      <html:select property="document.routingFormPersonnel[${status.index}].personRoleCode" style="${personRoleCodeTextStyle}" disabled="${viewOnly}"> 
+                      <html:select title="Role" property="document.routingFormPersonnel[${status.index}].personRoleCode" style="${personRoleCodeTextStyle}" disabled="${viewOnly}"> 
                           <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormOtherPersonRoles}"/> 
                           <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
                         </html:select>
@@ -416,8 +416,8 @@
                   <td><div align="center"><span class="infoline">
                     <kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
                   </span></div></td>
-                  <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" alt="view person line"/></div></td>
-                  <td><div align=center>&nbsp;<c:if test="${!viewOnly}"><html:image property="methodToCall.deletePersonLine.line${status.index}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line"/></c:if></div></td>
+                  <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" alt="view person line" title="view person line"/></div></td>
+                  <td><div align=center>&nbsp;<c:if test="${!viewOnly}"><html:image property="methodToCall.deletePersonLine.line${status.index}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line" title="delete person line"/></c:if></div></td>
                 </tr>
                 </c:if>
               </c:forEach>
@@ -461,7 +461,7 @@
                   <kul:htmlControlAttribute property="newRoutingFormOrganizationCreditPercent.organizationCreditPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditPercent}" readOnly="${viewOnly}"/>
                 </div></td>
                 <td class="infoline">&nbsp;</td>
-                <td class="infoline"><div align=center><html:image property="methodToCall.addOrganizationCreditPercentLine.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add org line"/></div></td>
+                <td class="infoline"><div align=center><html:image property="methodToCall.addOrganizationCreditPercentLine.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add org line" title="add org line"/></div></td>
               </tr>
               </c:if>
               
@@ -493,7 +493,7 @@
                     <kul:htmlControlAttribute property="document.routingFormOrganizationCreditPercents[${status.index}].organizationCreditPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditPercent}" readOnly="${viewOnly}"/>
                   </span></div></td>
                   <td>&nbsp;</td>
-                  <td><div align=center>&nbsp;<c:if test="${!viewOnly}"><html:image property="methodToCall.deleteOrganizationCreditPercentLine.line${status.index}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line"/></c:if></div></td>
+                  <td><div align=center>&nbsp;<c:if test="${!viewOnly}"><html:image property="methodToCall.deleteOrganizationCreditPercentLine.line${status.index}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line" title="delete person line"/></c:if></div></td>
                 </tr>
               </c:forEach>
               

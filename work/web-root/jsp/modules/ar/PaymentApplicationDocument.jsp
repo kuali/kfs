@@ -31,7 +31,7 @@
 	value="${DataDictionary['NonAppliedHolding'].attributes}" />
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
-<c:set var="hasRelatedCashControlDocument" value="false" />
+<c:set var="hasRelatedCashControlDocument" value="${null != KualiForm.cashControlDocument}" />
 <c:set var="isCustomerSelected"
 	value="${!empty KualiForm.document.accountsReceivableDocumentHeader.customerNumber}" />
 <c:set var="invoices" value="${KualiForm.invoices}" />
@@ -55,58 +55,37 @@
 				<c:when test="${!hasRelatedCashControlDocument}">
     			No related Cash Control Document.
     		</c:when>
-				<c:otherwise>
-					<div
-						style='text-align: right; margin-top: 20px; padding: 2px 6px; width: 98%;'>
-						<style type='text/css'>
+			    		<c:otherwise>
+		      <div style='text-align: right; margin-top: 20px; padding: 2px 6px; width: 98%;'>
+		      	<style type='text/css'>
 		      		#ctrl-info th { text-align: right; }
 		      		#ctrl-info th, #ctrl-info td { width: 50%; }
 		      	</style>
-						<table id='ctrl-info' width="100%" cellpadding="0" cellspacing="0"
-							class="datatable">
-							<tr>
-								<th>
-									Org Doc #
-								</th>
-								<td>
-									TODO
-								</td>
-							</tr>
-							<tr>
-								<th>
-									Customer
-								</th>
-								<td>
-									TODO
-								</td>
-							</tr>
-							<tr>
-								<th>
-									Control Total
-								</th>
-								<td>
-									TODO
-								</td>
-							</tr>
-							<tr>
-								<th>
-									Balance
-								</th>
-								<td>
-									TODO
-								</td>
-							</tr>
-							<tr>
-								<th>
-									Payment #
-								</th>
-								<td>
-									TODO
-								</td>
-							</tr>
-						</table>
-					</div>
-				</c:otherwise>
+		        <table id='ctrl-info' width="100%" cellpadding="0" cellspacing="0" class="datatable">
+		          <tr>
+		          	<th>Org Doc #</th>
+		          	<td>${KualiForm.cashControlDocument.documentNumber}</td>
+		          </tr>
+		          <tr>
+		          	<th>Customer</th>
+		          	<td>${KualiForm.document.accountsReceivableDocumentHeader.customerNumber}</td>
+		          </tr>
+		          <tr>
+		          	<th>Control Total</th>
+		          	<td>${KualiForm.document.documentHeader.financialDocumentTotalAmount}</td>
+		          	<html:hidden property="document.documentHeader.financialDocumentTotalAmount" />
+		          </tr>
+		          <tr>
+		          	<th>Balance</th>
+		          	<td>TODO</td>
+		          </tr>
+		          <tr>
+		          	<th>Payment #</th>
+		          	<td>TODO</td>
+		          </tr>
+		        </table>
+		      </div>
+      		</c:otherwise>
 			</c:choose>
 		</div>
 	</kul:tab>

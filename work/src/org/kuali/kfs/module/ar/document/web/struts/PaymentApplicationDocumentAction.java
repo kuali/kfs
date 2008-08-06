@@ -272,15 +272,31 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     private void loadInvoices(PaymentApplicationDocumentForm applicationDocumentForm) {
         PaymentApplicationDocument applicationDocument = applicationDocumentForm.getPaymentApplicationDocument();
         String customerNumber = applicationDocument.getAccountsReceivableDocumentHeader() == null ? null : applicationDocument.getAccountsReceivableDocumentHeader().getCustomerNumber();
-        if (customerNumber == null || customerNumber.equals("")) {
-            String currentInvoiceNumber = applicationDocumentForm.getEnteredInvoiceDocumentNumber();
-            if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
-                Customer customer = customerInvoiceDocumentService.getCustomerByInvoiceDocumentNumber(currentInvoiceNumber);
-                customerNumber = customer.getCustomerNumber();
-                applicationDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
+        String currentInvoiceNumber = applicationDocumentForm.getEnteredInvoiceDocumentNumber();
+
+        // if customer number is null but invoice number is not null then get the customer number based on the invoice number
+        if ((customerNumber == null || customerNumber.equals("")) && (currentInvoiceNumber != null && !currentInvoiceNumber.equals(""))) {
+            Customer customer = customerInvoiceDocumentService.getCustomerByInvoiceDocumentNumber(currentInvoiceNumber);
+            customerNumber = customer.getCustomerNumber();
+            applicationDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
+        }
+        // get current customer invoices
+        applicationDocumentForm.setInvoices(new ArrayList(customerInvoiceDocumentService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber)));
+
+        // if no invoice number entered than get the first invoice
+        if ((customerNumber != null && !customerNumber.equals("")) && (currentInvoiceNumber == null || "".equalsIgnoreCase(currentInvoiceNumber))) {
+            if (applicationDocumentForm.getInvoices() != null && applicationDocumentForm.getInvoices().size() > 0) {
+                currentInvoiceNumber = applicationDocumentForm.getInvoices().iterator().next().getDocumentNumber();
+                applicationDocumentForm.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
             }
         }
-        applicationDocumentForm.setInvoices(new ArrayList(customerInvoiceDocumentService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber)));
+        // set the selected invoice to be the first one in the list
+        applicationDocumentForm.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
+
+        if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
+            // load information for the current selected invoice
+            loadInvoice(applicationDocumentForm, currentInvoiceNumber);
+        }
     }
 
     /**
@@ -453,23 +469,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
         loadInvoices(pform);
 
-        String currentInvoiceNumber = pform.getEnteredInvoiceDocumentNumber();
-        String customerNumber = pform.getPaymentApplicationDocument().getAccountsReceivableDocumentHeader().getCustomerNumber();
-
-        // if no invoice number entered than get the first invoice
-        if ((customerNumber != null && !customerNumber.equals("")) && (currentInvoiceNumber == null || "".equalsIgnoreCase(currentInvoiceNumber))) {
-            if (pform.getInvoices() != null && pform.getInvoices().size() > 0) {
-                currentInvoiceNumber = pform.getInvoices().iterator().next().getDocumentNumber();
-                pform.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
-            }
-        }
-        // set the selected invoice to be the first one in the list
-        pform.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
-
-        if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
-            // load information for the current selected invoice
-            loadInvoice(pform, currentInvoiceNumber);
-        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

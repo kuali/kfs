@@ -24,9 +24,12 @@ import java.util.Map;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.util.CustomerInvoiceBalanceHelper;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 
 public class PaymentApplicationDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
@@ -194,7 +197,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public void setAppliedPaymentsPerCustomerInvoiceDetail(Map<String, Collection> appliedPaymentsPerCustomerInvoiceDetail) {
         this.appliedPaymentsPerCustomerInvoiceDetail = appliedPaymentsPerCustomerInvoiceDetail;
     }
-    
+
     /**
      * This method gets the previous invoice document number
      * 
@@ -260,6 +263,16 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
 
         return null == _nextInvoiceDocument ? "" : _nextInvoiceDocument.getDocumentNumber();
+    }
+
+    /**
+     * This method gets the Cash Control document for the payment application document
+     * @return the cash control document
+     */
+    public CashControlDocument getCashControlDocument() {
+        PaymentApplicationDocumentService paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
+        CashControlDocument cashControlDocument = paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument((PaymentApplicationDocument) getDocument());
+        return cashControlDocument;
     }
 
 }

@@ -79,6 +79,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(doc.getDocumentNumber());
+        accountsReceivableDocumentHeader.setCustomerNumber(cashControlDetail.getCustomerNumber());
         doc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
         // refresh nonupdatable references and save the PaymentApplicationDocument

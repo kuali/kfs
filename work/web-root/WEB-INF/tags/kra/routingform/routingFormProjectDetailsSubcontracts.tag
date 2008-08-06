@@ -64,7 +64,7 @@
         </td>
         <td class="infoline">
           <div align=center>
-            <html:image property="methodToCall.insertRoutingFormSubcontractor.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add subcontractor"/>
+            <html:image property="methodToCall.insertRoutingFormSubcontractor.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add subcontractor" title="add subcontractor"/>
           </div>
         </td>
       </tr>
@@ -108,7 +108,7 @@
           <c:if test="${not readOnly and not budgetLinked}">
           <td>
             <div align=center>
-              <html:image property="methodToCall.deleteRoutingFormSubcontractor.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete subcontractor"/>
+              <html:image property="methodToCall.deleteRoutingFormSubcontractor.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete subcontractor" title="delete subcontractor"/>
             </div>
           </td>
           </c:if>

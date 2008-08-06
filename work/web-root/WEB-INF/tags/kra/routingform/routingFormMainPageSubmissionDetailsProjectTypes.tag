@@ -27,7 +27,7 @@
     <tr>
       <td class="nobord">
         <label>
-          <kul:htmlControlAttribute property="document.routingFormProjectTypes[${status.index}].projectTypeSelectedIndicator" attributeEntry="${routingFormProjectTypeAttributes.projectTypeSelectedIndicator}" readOnly="${viewOnly}"/>
+          <kul:htmlControlAttribute accessibilityHint=" - ${routingFormProjectType.projectType.projectTypeDescription}" property="document.routingFormProjectTypes[${status.index}].projectTypeSelectedIndicator" attributeEntry="${routingFormProjectTypeAttributes.projectTypeSelectedIndicator}" readOnly="${viewOnly}"/>
           <%-- Need to expicitly reference description because kul:htmlControlAttribute doesn't fine it withing a referenceObject. --%>
           ${routingFormProjectType.projectType.projectTypeDescription}
         </label>

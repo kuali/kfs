@@ -113,7 +113,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
                 }
 
-                // TODO: maybe move this to BC document service
+                // TODO: maybe move this to BC document service?
                 if (!budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
                     LockService lockService = SpringContext.getBean(LockService.class);
                     HashMap primaryKey = new HashMap();
@@ -121,7 +121,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
                     BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
                     if (budgetConstructionHeader != null) {
-                        BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+//                        BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                        BudgetConstructionLockStatus bcLockStatus = lockService.lockAccountAndCommit(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
 
                         // TODO: make this a switch
                         if (bcLockStatus.getLockStatus() == LockStatus.SUCCESS) {
@@ -176,22 +177,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 budgetConstructionForm.populatePushPullLevelKeyLabels(budgetConstructionForm.getBudgetConstructionDocument(), budgetConstructionForm.getAccountOrgHierLevels(), true);
             }
         }
-
-        // // if editing, check if 2plg adjustment needed and calc benefits
-        // // since checkTwoPlugAdjusmtent will only be set in docHandler, or refresh from salary setting(if editing)
-        // if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY) &&
-        // !(budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY))) {
-        //
-        // if (budgetConstructionForm.isCheckTwoPlugAdjustment() &&
-        // budgetConstructionForm.getBudgetConstructionDocument().isContainsTwoPlug() &&
-        // !budgetConstructionForm.getBudgetConstructionDocument().isSalarySettingOnly()) {
-        // // do 2plg related benefits calc and adjust 2plg for any diff - reset checkTwoPlugAdjusment
-        // budgetConstructionForm.setCheckTwoPlugAdjustment(false);
-        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "This would
-        // calc benefits and adjust the 2plg!");
-        // }
-        // }
-
+        
         return forward;
     }
 
@@ -223,26 +209,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         this.initAuthorizationEditMode(budgetConstructionForm);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
-        /**
-         * from KualiDocumentActionBase,docHandler() KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-         * String command = kualiDocumentFormBase.getCommand(); // in all of the following cases we want to load the document // if
-         * (ArrayUtils.contains(DOCUMENT_LOAD_COMMANDS, command) && kualiDocumentFormBase.getDocId() != null) {
-         * loadDocument(kualiDocumentFormBase); } else if (IDocHandler.INITIATE_COMMAND.equals(command)) {
-         * createDocument(kualiDocumentFormBase); } else { LOG.error("docHandler called with invalid parameters"); throw new
-         * IllegalStateException("docHandler called with invalid parameters"); } // attach any extra JS from the data dictionary if
-         * (LOG.isDebugEnabled()) { LOG.debug("kualiDocumentFormBase.getAdditionalScriptFile(): " +
-         * kualiDocumentFormBase.getAdditionalScriptFile()); } if (kualiDocumentFormBase.getAdditionalScriptFile() == null ||
-         * kualiDocumentFormBase.getAdditionalScriptFile().equals("")) { DocumentEntry docEntry =
-         * SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(kualiDocumentFormBase.getDocument().getClass());
-         * kualiDocumentFormBase.setAdditionalScriptFile(docEntry.getWebScriptFile()); if (LOG.isDebugEnabled()) { LOG.debug("set
-         * kualiDocumentFormBase.getAdditionalScriptFile() to: " + kualiDocumentFormBase.getAdditionalScriptFile()); } } if
-         * (IDocHandler.SUPERUSER_COMMAND.equalsIgnoreCase(command)) { kualiDocumentFormBase.setSuppressAllButtons(true); } return
-         * mapping.findForward(KFSConstants.MAPPING_BASIC);
-         */
     }
 
     /**
+     * Initially load the document from the DB
      * Coded this to look like KualiDocumentActionBase.loadDocument()
      * 
      * @param budgetConstructionForm
@@ -339,9 +309,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      */
     private void adjustForSalarySettingChanges(BudgetConstructionForm bcForm) {
 
-        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "This would
-        // calc benefits and adjust the 2plg!");
-
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
         BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) bcForm.getDocument();
         KualiInteger oldRequestAmount = bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal();
@@ -356,16 +323,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // need 2plg adjustment and save, even if it is zero
         KualiInteger newRquestAmount = bcForm.getBudgetConstructionDocument().getExpenditureAccountLineAnnualBalanceAmountTotal();
         PendingBudgetConstructionGeneralLedger twoPlugRow = budgetDocumentService.updatePendingBudgetGeneralLedgerPlug(bcDoc, newRquestAmount.subtract(oldRequestAmount));
-
-//TODO: move this to refresh() when return from SS?? need to pass twoPlugRow for isZero() test below
-        // run validation and remove a zero 2plg line if valid
-//        budgetDocumentService.validateDocument(bcDoc);
-
-        // if the document is valid, we make it here - check for a zero 2plg record and remove from DB and memory
-        if (twoPlugRow.getAccountLineAnnualBalanceAmount().isZero()) {
-            // TODO: implement delete of 2plg row
-        }
-
     }
 
     /**
@@ -1106,6 +1063,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     // BudgetConstructionDocument freshBCDoc = (BudgetConstructionDocument)
                     // SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(currentBCDoc.getDocumentNumber());
                     // budgetConstructionForm.getBudgetConstructionDocument().setPendingBudgetConstructionGeneralLedgerExpenditureLines(freshBCDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines());
+//TODO: is the next two lines needed? since the updates all populate and reset persisted amounts - verify this 
                     budgetConstructionForm.populatePBGLLines();
                     budgetConstructionForm.initializePersistedRequestAmounts();
                     this.adjustForSalarySettingChanges(budgetConstructionForm);

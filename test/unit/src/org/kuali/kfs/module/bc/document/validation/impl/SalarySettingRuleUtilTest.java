@@ -20,8 +20,13 @@ import java.math.BigDecimal;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-
+/**
+ * 
+ * Tests salary setting rules.
+ */
+@ConfigureContext
 public class SalarySettingRuleUtilTest extends KualiTestBase {
     
     /**
@@ -48,14 +53,14 @@ public class SalarySettingRuleUtilTest extends KualiTestBase {
 
     /**
      * tests AppointmentRequestedFteQuantityIsGreaterThanZero with zero amount value
-     * expected result is true
+     * expected result is false
      */
     public void testAppointmentRequestedFteQuantityIsGreaterThanZero_ZeroAmountValue() {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
         appointmentFunding.setAppointmentRequestedAmount(new KualiInteger(0));
         appointmentFunding.setAppointmentRequestedFteQuantity(new BigDecimal(10.0));
         
-        assertTrue(SalarySettingRuleUtil.isRequestedFteQuantityGreaterThanZero(appointmentFunding));
+        assertFalse(SalarySettingRuleUtil.isRequestedFteQuantityGreaterThanZero(appointmentFunding));
     }
 
     /**

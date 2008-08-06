@@ -34,7 +34,7 @@ import org.kuali.kfs.module.cab.businessobject.AccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PendingGlAccountLineGroup;
-import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableAccountLineGroup;
+import org.kuali.kfs.module.cab.businessobject.PurApAccountLineGroup;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
@@ -48,7 +48,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
     protected Set<GlAccountLineGroup> misMatchedGroups = new HashSet<GlAccountLineGroup>();
     protected HashMap<GlAccountLineGroup, GlAccountLineGroup> glEntryGroupMap = new HashMap<GlAccountLineGroup, GlAccountLineGroup>();
     protected HashMap<PendingGlAccountLineGroup, PendingGlAccountLineGroup> pendingGlEntryGroupMap = new HashMap<PendingGlAccountLineGroup, PendingGlAccountLineGroup>();
-    protected HashMap<PurchasingAccountsPayableAccountLineGroup, PurchasingAccountsPayableAccountLineGroup> purapAcctGroupMap = new HashMap<PurchasingAccountsPayableAccountLineGroup, PurchasingAccountsPayableAccountLineGroup>();
+    protected HashMap<PurApAccountLineGroup, PurApAccountLineGroup> purapAcctGroupMap = new HashMap<PurApAccountLineGroup, PurApAccountLineGroup>();
 
     /**
      * @see org.kuali.kfs.module.cab.batch.service.ReconciliationService#reconcile(java.util.Collection, java.util.Collection,
@@ -78,7 +78,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      * continuation account number.
      */
     protected void checkGroupByContinuationAccount() {
-        for (PurchasingAccountsPayableAccountLineGroup purapAcctLineGroup : purapAcctGroupMap.keySet()) {
+        for (PurApAccountLineGroup purapAcctLineGroup : purapAcctGroupMap.keySet()) {
             // if not matched
             if (!matchedGroups.contains(purapAcctLineGroup)) {
                 Account account = findAccount(purapAcctLineGroup);
@@ -128,7 +128,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
     protected void reconcileGroups(Set<GlAccountLineGroup> glKeySet) {
         for (GlAccountLineGroup glAccountLineGroup : glKeySet) {
             PendingGlAccountLineGroup pendingGlAccountLineGroup = this.pendingGlEntryGroupMap.get(glAccountLineGroup);
-            AccountLineGroup purapAccountLineGroup = purapAcctGroupMap.get(glAccountLineGroup);
+            PurApAccountLineGroup purapAccountLineGroup = purapAcctGroupMap.get(glAccountLineGroup);
             KualiDecimal pendingGlAmt = pendingGlAccountLineGroup != null ? pendingGlAccountLineGroup.getAmount() : KualiDecimal.ZERO;
             KualiDecimal glAmt = this.glEntryGroupMap.get(glAccountLineGroup).getAmount();
             KualiDecimal totalAmount = glAmt.add(pendingGlAmt);
@@ -136,6 +136,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
                 misMatchedGroups.add(glAccountLineGroup);
             }
             else {
+                glAccountLineGroup.setMatchedPurApAcctLines(purapAccountLineGroup.getSourceEntries());
                 matchedGroups.add(glAccountLineGroup);
                 misMatchedGroups.remove(glAccountLineGroup);
             }

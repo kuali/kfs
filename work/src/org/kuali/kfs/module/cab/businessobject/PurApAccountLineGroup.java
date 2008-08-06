@@ -18,33 +18,37 @@ package org.kuali.kfs.module.cab.businessobject;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * Accounting line grouped data for GL Line
  */
-public class PurchasingAccountsPayableAccountLineGroup extends AccountLineGroup {
-    private PurApAccountingLine targetEntry;
-    private List<PurApAccountingLine> sourceEntries = new ArrayList<PurApAccountingLine>();
+public class PurApAccountLineGroup extends AccountLineGroup {
+    private PurApAccountingLineBase targetEntry;
+    private List<PurApAccountingLineBase> sourceEntries = new ArrayList<PurApAccountingLineBase>();
 
     /**
-     * Constructs a PurchasingAccountsPayableAccountLineGroup from a PurApAccountingLine Line Entry
+     * Constructs a PurApAccountLineGroup from a PurApAccountingLineBase Line Entry
      * 
-     * @param entry PurApAccountingLine Line
+     * @param entry PurApAccountingLineBase Line
      */
-    public PurchasingAccountsPayableAccountLineGroup(PurApAccountingLine entry) {
-        // TODO
-        // setUniversityFiscalYear(entry.getUniversityFiscalYear());
+    public PurApAccountLineGroup(PurApAccountingLineBase entry) {
+        // TODO - check how to get fiscal year information
+        UniversityDateService dateService = SpringContext.getBean(UniversityDateService.class);
+        UniversityDate currentUniversityDate = dateService.getCurrentUniversityDate();
+        setUniversityFiscalYear(currentUniversityDate.getUniversityFiscalYear());
         setChartOfAccountsCode(entry.getChartOfAccountsCode());
         setAccountNumber(entry.getAccountNumber());
         setSubAccountNumber(entry.getSubAccountNumber());
         setFinancialObjectCode(entry.getFinancialObjectCode());
         setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
-        // setUniversityFiscalPeriodCode(entry.getUniversityFiscalPeriodCode());
+        // TODO validate this
+        setUniversityFiscalPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());
         setDocumentNumber(entry.getDocumentNumber());
+        // TODO
         // setReferenceFinancialDocumentNumber(entry.getReferenceFinancialDocumentNumber());
         this.sourceEntries.add(entry);
         this.targetEntry = entry;
@@ -52,13 +56,13 @@ public class PurchasingAccountsPayableAccountLineGroup extends AccountLineGroup 
     }
 
     /**
-     * Returns true if input PurApAccountingLine entry belongs to this account group
+     * Returns true if input PurApAccountingLineBase entry belongs to this account group
      * 
-     * @param entry PurApAccountingLine
-     * @return true if PurApAccountingLine belongs to same account line group
+     * @param entry PurApAccountingLineBase
+     * @return true if PurApAccountingLineBase belongs to same account line group
      */
-    public boolean isAccounted(PurApAccountingLine entry) {
-        PurchasingAccountsPayableAccountLineGroup test = new PurchasingAccountsPayableAccountLineGroup(entry);
+    public boolean isAccounted(PurApAccountingLineBase entry) {
+        PurApAccountLineGroup test = new PurApAccountLineGroup(entry);
         return this.equals(test);
     }
 
@@ -67,9 +71,9 @@ public class PurchasingAccountsPayableAccountLineGroup extends AccountLineGroup 
      * database. This could be a rare case that we need to address. First GL is used as the final target and rest of the GL entries
      * are adjusted.
      * 
-     * @param entry PurApAccountingLine
+     * @param entry PurApAccountingLineBase
      */
-    public void combineEntry(PurApAccountingLine srcEntry) {
+    public void combineEntry(PurApAccountingLineBase srcEntry) {
         this.sourceEntries.add(srcEntry);
         this.targetEntry.setAmount(targetEntry.getAmount().add(srcEntry.getAmount()));
         this.amount = targetEntry.getAmount().add(srcEntry.getAmount());
@@ -80,7 +84,7 @@ public class PurchasingAccountsPayableAccountLineGroup extends AccountLineGroup 
      * 
      * @return Returns the targetEntry
      */
-    public PurApAccountingLine getTargetEntry() {
+    public PurApAccountingLineBase getTargetEntry() {
         return targetEntry;
     }
 
@@ -89,7 +93,7 @@ public class PurchasingAccountsPayableAccountLineGroup extends AccountLineGroup 
      * 
      * @param targetEntry The targetEntry to set.
      */
-    public void setTargetEntry(PurApAccountingLine targetGlEntry) {
+    public void setTargetEntry(PurApAccountingLineBase targetGlEntry) {
         this.targetEntry = targetGlEntry;
     }
 
@@ -98,7 +102,7 @@ public class PurchasingAccountsPayableAccountLineGroup extends AccountLineGroup 
      * 
      * @return Returns the sourceEntries
      */
-    public List<PurApAccountingLine> getSourceEntries() {
+    public List<PurApAccountingLineBase> getSourceEntries() {
         return sourceEntries;
     }
 
@@ -107,7 +111,7 @@ public class PurchasingAccountsPayableAccountLineGroup extends AccountLineGroup 
      * 
      * @param sourceEntries The sourceEntries to set.
      */
-    public void setSourceEntries(List<PurApAccountingLine> sourceGlEntries) {
+    public void setSourceEntries(List<PurApAccountingLineBase> sourceGlEntries) {
         this.sourceEntries = sourceGlEntries;
     }
 }

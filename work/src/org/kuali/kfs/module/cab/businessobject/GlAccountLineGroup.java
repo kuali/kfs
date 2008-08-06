@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.sys.KFSConstants;
 
 /**
@@ -28,6 +29,7 @@ import org.kuali.kfs.sys.KFSConstants;
 public class GlAccountLineGroup extends AccountLineGroup {
     private Entry targetEntry;
     private List<Entry> sourceEntries = new ArrayList<Entry>();
+    private List<PurApAccountingLineBase> matchedPurApAcctLines = new ArrayList<PurApAccountingLineBase>();
 
     /**
      * Constructs a GlAccountLineGroup from a GL Line Entry
@@ -140,5 +142,23 @@ public class GlAccountLineGroup extends AccountLineGroup {
      */
     public void setSourceEntries(List<Entry> sourceGlEntries) {
         this.sourceEntries = sourceGlEntries;
+    }
+
+    /**
+     * Gets the matchedPurApAcctLines attribute.
+     * 
+     * @return Returns the matchedPurApAcctLines.
+     */
+    public List<PurApAccountingLineBase> getMatchedPurApAcctLines() {
+        return matchedPurApAcctLines;
+    }
+
+    /**
+     * Sets the matchedPurApAcctLines attribute value.
+     * 
+     * @param matchedPurApAcctLines The matchedPurApAcctLines to set.
+     */
+    public void setMatchedPurApAcctLines(List<PurApAccountingLineBase> matchedPurApAcctLines) {
+        this.matchedPurApAcctLines = matchedPurApAcctLines;
     }
 }

@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.module.cab.batch.ExtractProcessLog;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
@@ -45,16 +46,18 @@ public interface BatchExtractService {
      * Saves financial transaction lines which dont have Purchase Order number associated with it
      * 
      * @param fpLines Financial transaction lines
+     * @param processLog Process Log
      */
-    void saveFPLines(List<Entry> fpLines);
+    void saveFPLines(List<Entry> fpLines, ExtractProcessLog processLog);
 
     /**
      * Saved purchasing line transactions, this method implementation internally uses
      * {@link org.kuali.kfs.gl.batch.service.ReconciliationService} to qa the data before saving
      * 
      * @param poLines Eligible GL Lines
+     * @param processLog Process Log
      */
-    void savePOLines(List<Entry> poLines);
+    void savePOLines(List<Entry> poLines, ExtractProcessLog processLog);
 
     /**
      * Separates out transaction lines associated with purchase order from the rest

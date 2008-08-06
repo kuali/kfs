@@ -228,6 +228,8 @@
 		<!-- CAB Module Bean Definitions -->
 		<form-bean name="PurApLineForm"
 			type="org.kuali.kfs.module.cab.document.web.struts.PurApLineForm" />
+		<form-bean name="GlLineForm"
+			type="org.kuali.kfs.module.cab.document.web.struts.GlLineForm" />
 	</form-beans>
 
 	<global-exceptions>
@@ -405,6 +407,8 @@
 			attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/cab/{1}.jsp" />
+			<forward name="newAssets" path="/jsp/modules/cab/newAssets.jsp" />
+			<forward name="oldAssets" path="/jsp/modules/cab/oldAssets.jsp" />
 		</action>
 
 		<action path="/financial*" name="{1}Form"

@@ -37,6 +37,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cab.batch.ExtractProcessLog;
 import org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao;
 import org.kuali.kfs.module.cab.batch.service.BatchExtractService;
 import org.kuali.kfs.module.cab.batch.service.ReconciliationService;
@@ -170,7 +171,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @return Last run time stamp
      */
     protected Timestamp getLastRunTimestamp() {
-        String lastRunTS = parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.LAST_EXTRACT_TIME);
+        // String lastRunTS = parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class,
+        // CabConstants.Parameters.LAST_EXTRACT_TIME);
+        String lastRunTS = null;
         Timestamp lastRunTime;
         Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
         try {
@@ -195,11 +198,17 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#saveFPLines(java.util.List)
      */
-    public void saveFPLines(List<Entry> fpLines) {
+    public void saveFPLines(List<Entry> fpLines, ExtractProcessLog processLog) {
         for (Entry fpLine : fpLines) {
             // If entry is not duplicate, non-null and non-zero, then insert into CAB
             ReconciliationService reconciliationService = SpringContext.getBean(ReconciliationService.class);
-            if (fpLine.getTransactionLedgerEntryAmount() != null && !fpLine.getTransactionLedgerEntryAmount().isZero() && !reconciliationService.isDuplicateEntry(fpLine)) {
+            if (fpLine.getTransactionLedgerEntryAmount() == null || fpLine.getTransactionLedgerEntryAmount().isZero()) {
+                // amount is zero or null
+            }
+            else if (reconciliationService.isDuplicateEntry(fpLine)) {
+                // GL is duplicate
+            }
+            else {
                 GeneralLedgerEntry glEntry = new GeneralLedgerEntry(fpLine);
                 businessObjectService.save(glEntry);
             }
@@ -209,13 +218,14 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#savePOLines(java.util.List)
      */
-    public void savePOLines(List<Entry> poLines) {
+    public void savePOLines(List<Entry> poLines, ExtractProcessLog processLog) {
         // This is a list of pending GL entries created after last GL process and Cab Batch extract
         Collection<GeneralLedgerPendingEntry> purapPendingGLEntries = findPurapPendingGLEntries();
         // TODO purapAcctLines should come from PURAP module
         Collection<?> purapAcctLines = null;
         ReconciliationService reconciliationService = SpringContext.getBean(ReconciliationService.class);
         reconciliationService.reconcile(poLines, purapPendingGLEntries, purapAcctLines);
+        prepareProcessLog(processLog, reconciliationService);
         // for each valid GL entry there is a collection of valid PO Doc and Account Lines
         Set<GlAccountLineGroup> matchedGroups = reconciliationService.getMatchedGroups();
         List<PersistableBusinessObject> saveList = new ArrayList<PersistableBusinessObject>();
@@ -260,6 +270,15 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             }
             businessObjectService.save(saveList);
             saveList.clear();
+        }
+    }
+
+    private void prepareProcessLog(ExtractProcessLog processLog, ReconciliationService reconciliationService) {
+        processLog.addIgnoredGLEntries(reconciliationService.getIgnoredEntries());
+        processLog.addDuplicateGLEntries(reconciliationService.getDuplicateEntries());
+        Set<GlAccountLineGroup> misMatchedGroups = reconciliationService.getMisMatchedGroups();
+        for (GlAccountLineGroup glAccountLineGroup : misMatchedGroups) {
+            processLog.addMismatchedGLEntries(glAccountLineGroup.getSourceEntries());
         }
     }
 

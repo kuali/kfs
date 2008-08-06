@@ -51,6 +51,7 @@ public class ExtractStep extends AbstractStep {
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
+        ExtractProcessLog processLog = new ExtractProcessLog();
         Timestamp startTs = dateTimeService.getCurrentTimestamp();
         LOG.info("CAB batch started at " + startTs);
         Collection<Entry> elgibleGLEntries = batchExtractService.findElgibleGLEntries();
@@ -63,7 +64,7 @@ public class ExtractStep extends AbstractStep {
         // separate PO and non-PO lines
         batchExtractService.separatePOLines(fpLines, purapLines, elgibleGLEntries);
         // process non-PO lines
-        batchExtractService.saveFPLines(fpLines);
+        batchExtractService.saveFPLines(fpLines, processLog);
 
         // TODO - Waiting for PURAP Account lines history
 

@@ -31,6 +31,8 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
@@ -748,5 +750,13 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public KualiDecimal computePayment() {
+        KualiDecimal absAmount = getTransactionLedgerEntryAmount();
+        if (absAmount == null) {
+            return null;
+        }
+        return KFSConstants.GL_CREDIT_CODE.equals(getTransactionDebitCreditCode()) ? absAmount.multiply(new KualiDecimal(-1)) : absAmount;
     }
 }

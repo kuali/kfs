@@ -52,15 +52,15 @@ public class SalarySettingRules implements SalarySettingRule {
     public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         boolean isValid = true;
 
-        /*if (!SalarySettingRuleUtil.isAdjustmentAmountNotEmpty(appointmentFunding)) {
+        if (appointmentFunding.getAppointmentRequestedAmount()== null) {
             GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_REQUIRED);
             isValid = false;
         }
 
-        if (!SalarySettingRuleUtil.isRequestedPayRateNotEmpty(appointmentFunding)) {
+        if (appointmentFunding.getAppointmentRequestedPayRate() == null) {
             GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCKeyConstants.ERROR_PAYRATE_AMOUNT_REQUIRED);
             isValid = false;
-        }*/
+        }
 
         return isValid;
     }
@@ -69,13 +69,15 @@ public class SalarySettingRules implements SalarySettingRule {
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustAllSalarySettingLinesPercent(java.util.List)
      */
     public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
-        boolean isValid = true;
-
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            isValid = isValid && this.processAdjustSalaraySettingLinePercent(appointmentFunding);
+            boolean isValid = this.processAdjustSalaraySettingLinePercent(appointmentFunding);
+            
+            if(!isValid) {
+                return isValid;
+            }
         }
 
-        return isValid;
+        return true;
     }
 
     /**
@@ -84,10 +86,10 @@ public class SalarySettingRules implements SalarySettingRule {
     public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         boolean isValid = true;
 
-        /*if (!SalarySettingRuleUtil.isAdjustmentAmountNotEmpty(appointmentFunding)) {
+        if (appointmentFunding.getAdjustmentAmount() == null) {
             GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED);
             isValid = false;
-        }*/
+        }
         return isValid;
     }
 

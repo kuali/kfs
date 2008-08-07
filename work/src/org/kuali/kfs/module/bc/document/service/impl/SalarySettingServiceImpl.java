@@ -220,7 +220,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#findVacantAppointmentFunding(java.util.List, org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#findVacantAppointmentFunding(java.util.List,
+     *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public PendingBudgetConstructionAppointmentFunding findVacantAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.debug("findVacantAppointmentFunding() start");
@@ -229,9 +230,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         return this.findAppointmentFunding(appointmentFundings, vacantAppointmentFunding);
     }
-    
+
     /**
-     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#findAppointmentFunding(java.util.List, org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#findAppointmentFunding(java.util.List,
+     *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public PendingBudgetConstructionAppointmentFunding findAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.debug("findAppointmentFunding() start");
@@ -371,8 +373,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
         this.resetDeletedFundingLines(appointmentFundings);
-        
-        // normalize pay rate and amount for the hourly paid funding
+
+        // normalize pay rate and annual amount for the hourly paid funding
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             if (appointmentFunding.isHourlyPaid()) {
                 this.normalizePayRateAndAmount(appointmentFunding);
@@ -405,7 +407,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             this.preprocessFundingReason(appointmentFunding);
             this.preprocessLeaveRequest(appointmentFunding);
-            
+
             if (appointmentFunding.isHourlyPaid()) {
                 this.normalizePayRateAndAmount(appointmentFunding);
             }
@@ -531,12 +533,11 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         // get the organization review hierachy path for which the user could be an approver
         List<Org> organazationReviewHierachy = permissionService.getOrganizationReviewHierachy(universalUser);
-        if (organazationReviewHierachy == null) {
+        if (organazationReviewHierachy == null || organazationReviewHierachy.isEmpty()) {
             return false;
         }
 
-        // if funding line is inside the hierachy path, editing mode can be determined by the levels of user and document
-        // organization
+        // if the user is in the hierachy, access can be determined by the levels of user and document organization
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
         Integer userLevelCode = this.getUserLevelCode(documentOrganizationLevelCode, fiscalYear, account, organazationReviewHierachy);
         if (userLevelCode != null) {
@@ -546,8 +547,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             return true;
         }
 
-        // if funding line is outside the hierachy path, an organization approver of the budget construction doccument has the
-        // read-only access
+        // if not in the hierachy path, an organization approver of the budget construction doccument has the read-only access
         if (!organazationReviewHierachy.isEmpty()) {
             appointmentFunding.setDisplayOnlyMode(true);
             return true;
@@ -557,7 +557,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * retrive the user level code based on the given information
+     * retrieve the user level code based on the given information
      * 
      * @param documentOrganizationLevelCode the given document organization level code
      * @param fiscalYear the given fiscal year
@@ -595,7 +595,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * retrieve the user level codes and save them into the given level code set
+     * retrieve the user level codes and store them into the given level code set
      * 
      * @param userLevelCodes the user level code set to be updated
      * @param fiscalYear the given fiscal year

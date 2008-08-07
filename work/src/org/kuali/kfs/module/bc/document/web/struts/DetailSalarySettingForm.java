@@ -146,7 +146,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
                 return false;
             }
 
-            // not to acquire any lock for the display-only funding line
+            // not to acquire any lock for the display-only and non-budgetable funding line
             if (appointmentFunding.isDisplayOnlyMode() || !appointmentFunding.isBudgetable()) {
                 LOG.info("isDisplayOnlyMode || not isBudgetable");
                 return true;

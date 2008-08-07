@@ -62,6 +62,15 @@ public interface LockService {
     public boolean isAccountLocked(BudgetConstructionHeader bcHeader);
 
     /**
+     * This method checks the database for an accountlock according to the given appointment funding. It assumes a valid
+     * appointmentFunding parameter
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return Returns true if locked, false if not locked or not found in the database
+     */
+    public boolean isAccountLocked(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
      * Checks the given user has an account lock for the given document.
      * 
      * @param chartOfAccountsCode - chart code of account lock

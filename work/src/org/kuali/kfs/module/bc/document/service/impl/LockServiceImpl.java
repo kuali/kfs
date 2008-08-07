@@ -115,6 +115,16 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.service.LockService#isAccountLocked(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    @Transactional
+    public boolean isAccountLocked(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
+
+        return this.isAccountLocked(budgetConstructionHeader);
+    }
+
+    /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#isAccountLocked(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader)
      */
     @Transactional
@@ -242,13 +252,6 @@ public class LockServiceImpl implements LockService {
     @NonTransactional
     public BudgetConstructionLockStatus lockFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser) {
         BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
-
-        // Funding locks are mutual exclusive with account locks
-        if (this.isAccountLockedByUser(budgetConstructionHeader, universalUser)) {
-            BudgetConstructionLockStatus bcLockStatus = new BudgetConstructionLockStatus();
-            bcLockStatus.setLockStatus(LockStatus.SUCCESS);
-            return bcLockStatus;
-        }
 
         return this.lockFunding(budgetConstructionHeader, universalUser.getPersonUserIdentifier());
     }

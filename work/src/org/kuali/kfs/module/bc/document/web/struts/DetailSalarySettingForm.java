@@ -63,7 +63,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private PermissionService permissionService = SpringContext.getBean(PermissionService.class);
     private LockService lockService = SpringContext.getBean(LockService.class);
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-    
+
     private ErrorMap errorMap = GlobalVariables.getErrorMap();
 
     /**
@@ -140,10 +140,10 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
             // update the access flags of the current funding line
             boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.getUniversalUser());
-            if (!updated) {                
+            if (!updated) {
                 errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
                 this.releasePositionAndFundingLocks();
-                
+
                 LOG.info(BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
                 return false;
             }
@@ -160,17 +160,27 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
                 errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
                 this.releasePositionAndFundingLocks();
-                
+
                 LOG.info(BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION);
                 return false;
             }
 
             // acquire funding lock for the current funding line
-            BudgetConstructionLockStatus fundingLockingStatus = lockService.lockFunding(appointmentFunding, this.getUniversalUser());
+            BudgetConstructionLockStatus fundingLockingStatus = null;
+            
+            // Funding locks are not required for the lines associated with a document already open in budget by account mode 
+            if (this.isBudgetByAccountMode() && lockService.isAccountLocked(appointmentFunding)) {
+                fundingLockingStatus = new BudgetConstructionLockStatus();
+                fundingLockingStatus.setLockStatus(LockStatus.SUCCESS);
+            }
+            else {
+                fundingLockingStatus = lockService.lockFunding(appointmentFunding, this.getUniversalUser());
+            }
+            
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
                 errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.toString());
                 this.releasePositionAndFundingLocks();
-                
+
                 LOG.info(BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING);
                 return false;
             }
@@ -296,10 +306,10 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * position/incumbent.
      */
     public void pickAppointmentFundingsForSingleAccount() {
-        List<PendingBudgetConstructionAppointmentFunding> excludedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();        
+        List<PendingBudgetConstructionAppointmentFunding> excludedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         List<String> keyFields = this.getComparableFields();
 
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getAppointmentFundings()) {              
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getAppointmentFundings()) {
             if (!ObjectUtil.equals(appointmentFunding, this, keyFields)) {
                 excludedFundings.add(appointmentFunding);
             }
@@ -313,7 +323,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * being assocated with the given account if they have the same values of the fields as specified.
      */
     private List<String> getComparableFields() {
-        List<String> comparableFields = new ArrayList<String>();        
+        List<String> comparableFields = new ArrayList<String>();
         comparableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         comparableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         comparableFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
@@ -331,7 +341,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             Account account = new Account();
             account.setAccountNumber(this.getAccountNumber());
             account.setChartOfAccountsCode(this.getChartOfAccountsCode());
-            account = (Account)businessObjectService.retrieve(account);
+            account = (Account) businessObjectService.retrieve(account);
 
             // instruct the detail salary setting by single account mode if current user is an account approver or delegate
             if (permissionService.isAccountManagerOrDelegate(account, this.getUniversalUser())) {

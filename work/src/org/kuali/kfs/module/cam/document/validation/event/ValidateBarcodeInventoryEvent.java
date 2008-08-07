@@ -29,7 +29,7 @@ public final class ValidateBarcodeInventoryEvent extends KualiDocumentEventBase 
     public ValidateBarcodeInventoryEvent(String errorPathPrefix, Document document) {
         super("", errorPathPrefix, document);
     }
-    
+
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return BarcodeInventoryErrorDocumentRule.class;
@@ -40,22 +40,5 @@ public final class ValidateBarcodeInventoryEvent extends KualiDocumentEventBase 
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetail = ((BarcodeInventoryErrorDocument)getDocument()).getBarcodeInventoryErrorDetail(); 
         return ((BarcodeInventoryErrorDocumentRule) rule).validateBarcodeInventoryErrorDetail(barcodeInventoryErrorDetail);
     }
-    
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEventBase#validate()
-     */
-    /*@Override
-    public void validate() {
-        // TODO Auto-generated method stub
-        super.validate();
-    }*/
-    
-    
-    
-    
-    
-    
-    
-    
     
 }

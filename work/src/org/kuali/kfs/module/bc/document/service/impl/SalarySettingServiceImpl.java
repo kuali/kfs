@@ -372,14 +372,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         LOG.debug("saveSalarySetting() start");
 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
-        this.resetDeletedFundingLines(appointmentFundings);
-
-        // normalize pay rate and annual amount for the hourly paid funding
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            if (appointmentFunding.isHourlyPaid()) {
-                this.normalizePayRateAndAmount(appointmentFunding);
-            }
-        }
+        this.resetDeletedFundingLines(appointmentFundings); 
+        this.updateAppointmentFundingsBeforeSaving(appointmentFundings);
 
         KualiInteger requestedAmountTotal = SalarySettingCalculator.getAppointmentRequestedAmountTotal(appointmentFundings);
         KualiInteger changes = KualiInteger.ZERO;
@@ -404,14 +398,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public void saveAppointmentFundings(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
         LOG.debug("saveAppointmentFundings() start");
 
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            this.preprocessFundingReason(appointmentFunding);
-            this.preprocessLeaveRequest(appointmentFunding);
-
-            if (appointmentFunding.isHourlyPaid()) {
-                this.normalizePayRateAndAmount(appointmentFunding);
-            }
-        }
+        this.updateAppointmentFundingsBeforeSaving(appointmentFundings);
 
         businessObjectService.save(appointmentFundings);
     }
@@ -553,6 +540,25 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
 
         return false;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#saveAppointmentFundings(java.util.List)
+     */
+    public void updateAppointmentFundingsBeforeSaving(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
+        LOG.debug("updateAppointmentFundingsBeforeSaving() start");
+
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            this.preprocessFundingReason(appointmentFunding);
+            this.preprocessLeaveRequest(appointmentFunding);
+
+            if (appointmentFunding.isHourlyPaid()) {
+                this.normalizePayRateAndAmount(appointmentFunding);
+            }
+            
+            BigDecimal requestedFteQuantity = this.calculateFteQuantityFromAppointmentFunding(appointmentFunding);
+            appointmentFunding.setAppointmentRequestedFteQuantity(requestedFteQuantity);
+        }
     }
 
     /**

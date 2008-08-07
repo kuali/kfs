@@ -79,8 +79,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class DisbursementVoucherExtractServiceImpl implements DisbursementVoucherExtractService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractServiceImpl.class);
 
-    private static final String CAMPUS_BY_PAYMENT_REASON_PARAM = "CAMPUS_BY_PAYMENT_REASON";
-
     private ParameterService parameterService;
     private DisbursementVoucherDao disbursementVoucherDao;
     private DateTimeService dateTimeService;
@@ -128,7 +126,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         // Get a list of campuses that have documents with an 'A' (approved) status.
-        Set<String> campusList = getCampusListByDocumentStatusCode("A");
+        Set<String> campusList = getCampusListByDocumentStatusCode(DisbursementVoucherRuleConstants.DocumentStatusCodes.APPROVED);
 
         // Process each campus one at a time
         for (String campusCode : campusList) {
@@ -347,14 +345,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 pad.setSubAccountNbr(sal.getSubAccountNumber());
             }
             else {
-                pad.setSubAccountNbr("-----");
+                pad.setSubAccountNbr(KFSConstants.getDashSubAccountNumber());
             }
             pad.setFinObjectCode(sal.getFinancialObjectCode());
             if (StringUtils.isNotEmpty(sal.getFinancialSubObjectCode())) {
                 pad.setFinSubObjectCode(sal.getFinancialSubObjectCode());
             }
             else {
-                pad.setFinSubObjectCode("---");
+                pad.setFinSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             }
             if (StringUtils.isNotEmpty(sal.getOrganizationReferenceId())) {
                 pad.setOrgReferenceId(sal.getOrganizationReferenceId());
@@ -363,7 +361,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 pad.setProjectCode(sal.getProjectCode());
             }
             else {
-                pad.setProjectCode("----------");
+                pad.setProjectCode(KFSConstants.getDashProjectCode());
             }
             pad.setAccountNetAmount(sal.getAmount().bigDecimalValue());
             pd.addAccountDetail(pad);
@@ -546,7 +544,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             
             DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
             if (dvpd != null) {
-                List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
+                List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
                 if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
                     dvdCampusCode = campusCodes.get(0);
                 }
@@ -577,7 +575,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     
                 DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
                 if (dvpd != null) {
-                    List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
+                    List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
                     if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
                         dvdCampusCode = campusCodes.get(0);
                     }

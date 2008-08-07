@@ -653,6 +653,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         }
 
         return viewOnly;**/
+        // TODO: restore the logic above
         return false;
     }
 }

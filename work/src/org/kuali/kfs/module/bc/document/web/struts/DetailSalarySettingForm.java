@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -61,6 +62,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
     private PermissionService permissionService = SpringContext.getBean(PermissionService.class);
     private LockService lockService = SpringContext.getBean(LockService.class);
+    private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     
     private ErrorMap errorMap = GlobalVariables.getErrorMap();
 
@@ -137,7 +139,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
 
             // update the access flags of the current funding line
-            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.isSingleAccountMode(), this.getUniversalUser());
+            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.getUniversalUser());
             if (!updated) {                
                 errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
                 this.releasePositionAndFundingLocks();
@@ -329,7 +331,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             Account account = new Account();
             account.setAccountNumber(this.getAccountNumber());
             account.setChartOfAccountsCode(this.getChartOfAccountsCode());
-            account.refreshReferenceObject(KFSPropertyConstants.ORGANIZATION);
+            account = (Account)businessObjectService.retrieve(account);
 
             // instruct the detail salary setting by single account mode if current user is an account approver or delegate
             if (permissionService.isAccountManagerOrDelegate(account, this.getUniversalUser())) {

@@ -476,10 +476,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, boolean, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, org.kuali.core.bo.user.UniversalUser)
      */
-    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean singleAccountMode, UniversalUser universalUser) {
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, UniversalUser universalUser) {
         String budgetChartOfAccountsCode = salarySettingFieldsHolder.getChartOfAccountsCode();
         String budgetAccountNumber = salarySettingFieldsHolder.getAccountNumber();
         String budgetSubAccountNumber = salarySettingFieldsHolder.getSubAccountNumber();
@@ -492,11 +491,11 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         String objectCode = appointmentFunding.getFinancialObjectCode();
         String subObjectCode = appointmentFunding.getFinancialSubObjectCode();
 
-        // TODO: to be verified (I don't understand the logic behind the code)
+        // just allow edit if budget by object mode (general case of single account mode)
         if (budgetByObjectMode && StringUtils.equals(chartOfAccountsCode, budgetChartOfAccountsCode) && StringUtils.equals(accountNumber, budgetAccountNumber) && StringUtils.equals(subAccountNumber, budgetSubAccountNumber)) {
-            appointmentFunding.setDisplayOnlyMode(singleAccountMode ? true : false);
+            appointmentFunding.setDisplayOnlyMode(false);
 
-            if (!singleAccountMode && (!StringUtils.equals(objectCode, budgetObjectCode) || !StringUtils.equals(subObjectCode, budgetSubObjectCode))) {
+            if (!StringUtils.equals(objectCode, budgetObjectCode) || !StringUtils.equals(subObjectCode, budgetSubObjectCode)) {
                 appointmentFunding.setOverride2PlugMode(true);
             }
 

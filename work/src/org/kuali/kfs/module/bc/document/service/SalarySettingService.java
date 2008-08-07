@@ -215,11 +215,10 @@ public interface SalarySettingService {
      * @param appointmentFunding the given appointment funding
      * @param salarySettingFieldsHolder the field holder that contains the values passed from the user
      * @param budgetByObjectMode the budget by object mode flag
-     * @param singleAccountMode the single account mode flag
      * @param universalUser the specified user
      * @return true if the access flags are updated successfully; otherwsie, false
      */
-    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean singleAccountMode, UniversalUser universalUser);
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, UniversalUser universalUser);
 
     /**
      * update the access flags of the given appointment funding according to the user level and document organization level

@@ -66,23 +66,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
     public KualiDecimal getTotalUnappliedFundsForPaymentApplicationDocument(PaymentApplicationDocument document) {
         KualiDecimal total = KualiDecimal.ZERO;
-        
-        ////to be removed
-        // create new accounts receivable header and set it to the payment application document
-//        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-//        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
-//        accountsReceivableDocumentHeader.setDocumentNumber("319105");
-//        accountsReceivableDocumentHeader.setCustomerNumber(document.getAccountsReceivableDocumentHeader().getCustomerNumber());
-//        document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-//        
-//        NonAppliedHolding newNonAppliedHolding = new NonAppliedHolding();
-//        newNonAppliedHolding.setFinancialDocumentLineAmount(new KualiDecimal(1110));
-//        newNonAppliedHolding.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-//        newNonAppliedHolding.setCustomerNumber(document.getAccountsReceivableDocumentHeader().getCustomerNumber());
-//        newNonAppliedHolding.setReferenceFinancialDocumentNumber("319105");
-//        businessObjectService.save(newNonAppliedHolding);
-        ///
-        
+
         String customerNumber = document.getAccountsReceivableDocumentHeader().getCustomerNumber();
         Collection<NonAppliedHolding> nonAppliedHoldings = nonAppliedHoldingService.getNonAppliedHoldingsForCustomer(customerNumber);
 

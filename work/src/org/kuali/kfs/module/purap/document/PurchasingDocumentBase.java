@@ -1102,6 +1102,17 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         }
         
         return item;
-        
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        if (allowDeleteAwareCollection) {
+            managedLists.add(this.getPurchasingCapitalAssetItems());
+        }
+        return managedLists;
     }
 }

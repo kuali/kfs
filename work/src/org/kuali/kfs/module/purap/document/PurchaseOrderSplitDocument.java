@@ -18,4 +18,11 @@ package org.kuali.kfs.module.purap.document;
 
 public class PurchaseOrderSplitDocument extends PurchaseOrderDocument {
     
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderSplitDocument() {
+        super();
+    }
+    
 }

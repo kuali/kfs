@@ -62,7 +62,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
 
         // release all locks before closing the current expansion screen
-        if(!salarySettingForm.isViewOnlyEntry()) {
+        if (!salarySettingForm.isViewOnlyEntry()) {
             salarySettingForm.releasePositionAndFundingLocks();
         }
 
@@ -96,15 +96,15 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getSavableAppointmentFundings();
-        
+
         // acquire transaction locks for all funding lines
         boolean transactionLocked = salarySettingForm.acquireTransactionLocks();
-        if(!transactionLocked) {
+        if (!transactionLocked) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         Set<SalarySettingExpansion> salarySettingExpansionSet = new HashSet<SalarySettingExpansion>();
-        for (PendingBudgetConstructionAppointmentFunding fundingLine : savableAppointmentFundings) {            
+        for (PendingBudgetConstructionAppointmentFunding fundingLine : savableAppointmentFundings) {
             SalarySettingExpansion salarySettingExpansion = salarySettingService.retriveSalarySalarySettingExpansion(fundingLine);
 
             if (salarySettingExpansion != null) {
@@ -118,10 +118,10 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             salarySettingExpansion.refreshReferenceObject(BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING);
             salarySettingService.saveSalarySetting(salarySettingExpansion);
         }
-        
+
         // release all transaction locks
         salarySettingForm.releaseTransactionLocks();
-               
+
         GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -135,10 +135,10 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
         this.applyDefaultValuesIfEmpty(newAppointmentFunding);
-        
+
         // acquire a lock for the new appointment funding line
         boolean gotLocks = salarySettingForm.acquirePositionAndFundingLocks(newAppointmentFunding);
-        if(!gotLocks) {
+        if (!gotLocks) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 

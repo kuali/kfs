@@ -48,8 +48,10 @@
 			</list>
 		</property>
 		<property name="triggerNames">
+			<list>
 				<value>purchasingPreDisbursementImmediatesExtractJobTrigger</value>
 				<value>electronicInvoiceExtractJobTrigger</value>
+			</list>
 		</property>
 	</bean>
 

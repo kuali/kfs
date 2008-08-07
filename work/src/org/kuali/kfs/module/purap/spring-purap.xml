@@ -49,6 +49,7 @@
 		</property>
 		<property name="triggerNames">
 				<value>purchasingPreDisbursementImmediatesExtractJobTrigger</value>
+				<value>electronicInvoiceExtractJobTrigger</value>
 		</property>
 	</bean>
 

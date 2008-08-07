@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -25,10 +26,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.UserSession;
 import org.kuali.core.dao.DocumentDao;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.impl.DocumentServiceImpl;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -47,12 +52,15 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
+import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
 public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocumentService {
@@ -68,6 +76,8 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     private InvoicePaidAppliedService invoicePaidAppliedService;
     private NonInvoicedDistributionService nonInvoicedDistributionService;
     private CustomerInvoiceDetailService customerInvoiceDetailService;
+    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDetailsForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
@@ -83,17 +93,19 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(customerInvoiceDocumentNumber);
     }
     
-    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber)
-    {
+    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber){
         if(null == customerInvoiceDocumentNumber) { return null; }
-        CustomerInvoiceDocument customerInvoiceDocument = getInvoiceByInvoiceDocumentNumber(customerInvoiceDocumentNumber);
+        return getOpenAmountForCustomerInvoiceDocument(getInvoiceByInvoiceDocumentNumber(customerInvoiceDocumentNumber));
+    }
+    
+    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument){
         Collection<CustomerInvoiceDetail> customerInvoiceDetails = customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts();
         KualiDecimal total = new KualiDecimal(0);
         for(CustomerInvoiceDetail detail : customerInvoiceDetails) {
             total = total.add(customerInvoiceDetailService.getOpenAmount( detail));
         }
         return total;
-    }
+    }    
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getInvoicesByCustomerNumber(java.lang.String)
@@ -388,5 +400,45 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
         this.customerInvoiceDetailService = customerInvoiceDetailService;
     }
+
+    public void createCustomerInvoiceDocumentForFunctionalTesting() {
+       
+        CustomerInvoiceDocument customerInvoiceDocument;
+        try {
+            customerInvoiceDocument = (CustomerInvoiceDocument)documentService.getNewDocument(CustomerInvoiceDocument.class);
+            LOG.info("Created customer invoice document " + customerInvoiceDocument.getDocumentNumber());
+        } catch (WorkflowException e) {
+            throw new RuntimeException("Customer Invoice Document creation failed.");
+        }
+        
+        setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
+        customerInvoiceDocument.getDocumentHeader().setDocumentDescription("ADDING CUSTOMER INVOICE DOCUMENT");
+        customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber("ABB2");
+        
+        for (int i = 0; i < 10; i++) { 
+            customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument));
+        }
+        
+        try {
+            SpringContext.getBean(DocumentService.class).routeDocument(customerInvoiceDocument, null, null);
+            LOG.info("Submitted customer invoice document " + customerInvoiceDocument.getDocumentNumber());
+        } catch (WorkflowException e){
+            throw new RuntimeException("Customer Invoice Document routing failed.");
+        }
+    }
     
+    protected CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument){
+        CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
+        customerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
+        customerInvoiceDetail.setChartOfAccountsCode("BL");
+        customerInvoiceDetail.setAccountNumber("1031400");
+        customerInvoiceDetail.setFinancialObjectCode("1500");
+        customerInvoiceDetail.setAccountsReceivableObjectCode("8118");
+        customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
+        customerInvoiceDetail.setInvoiceItemUnitPrice(new KualiDecimal(10));
+        customerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(10));
+        customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0));
+        customerInvoiceDetail.setAmount(new KualiDecimal(10));
+        return customerInvoiceDetail;
+    }
 }

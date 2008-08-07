@@ -110,7 +110,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	 * @return the outstanding balance on this invoice
 	 */
 	public KualiDecimal getOpenAmount() {
-	    return SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenAmountForCustomerInvoiceDocument(documentNumber);
+	    return SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenAmountForCustomerInvoiceDocument(this);
 	}
 	
 	public void setOpenAmount(KualiDecimal openAmount){

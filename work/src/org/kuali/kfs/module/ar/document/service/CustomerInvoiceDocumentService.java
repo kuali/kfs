@@ -126,5 +126,23 @@ public interface CustomerInvoiceDocumentService {
      */
     public void closeCustomerInvoiceDocument(CustomerInvoiceDocument invoice);
     
-     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber);
+     /**
+     * This method...
+     * @param customerInvoiceDocumentNumber
+     * @return
+     */
+    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber);
+    
+    
+    /**
+     * This method...
+     * @param customerInvoiceDocumentNumber
+     * @return
+     */
+    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);    
+     
+     /**
+     * This method creates a dummy customer invoice document for functional testing
+     */
+    public void createCustomerInvoiceDocumentForFunctionalTesting();
 }

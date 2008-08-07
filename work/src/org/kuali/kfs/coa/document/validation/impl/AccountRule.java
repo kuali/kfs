@@ -49,6 +49,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 
 /**
@@ -390,19 +391,19 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         String accountNumber = newAccount.getContinuationAccountNumber();
 
         // if either chartCode or accountNumber is not entered, then we
-        // cant continue, so exit
+        // can't continue, so exit
         if (StringUtils.isBlank(chartCode) || StringUtils.isBlank(accountNumber)) {
             return result;
         }
 
         // attempt to retrieve the continuation account from the DB
         Account continuation = null;
-        Map pkMap = new HashMap();
+        Map<String, String> pkMap = new HashMap<String, String>();
         pkMap.put("chartOfAccountsCode", chartCode);
         pkMap.put("accountNumber", accountNumber);
         continuation = (Account) super.getBoService().findByPrimaryKey(Account.class, pkMap);
 
-        // if the object doesnt exist, then we cant continue, so exit
+        // if the object doesn't exist, then we can't continue, so exit
         if (ObjectUtils.isNull(continuation)) {
             return result;
         }
@@ -619,7 +620,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method checsk to see if the account expiration date is today's date or earlier
+     * This method checks to see if the account expiration date is today's date or earlier
      * 
      * @param newAccount
      * @return fails if the expiration date is null or after today's date
@@ -629,8 +630,8 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         // get today's date, with no time component
         Timestamp todaysDate = getDateTimeService().getCurrentTimestamp();
         todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime());
-        // TODO: convert this to using Wes' kuali DateUtils once we're using Date's instead of Timestamp
-
+        // TODO: convert this to using Wes' Kuali DateUtils once we're using Date's instead of Timestamp
+        
         // get the expiration date, if any
         Timestamp expirationDate = newAccount.getAccountExpirationDate();
         if (ObjectUtils.isNull(expirationDate)) {
@@ -682,12 +683,12 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         boolean result = true;
         boolean required = false;
 
-        // if the subFundGroup object is null, we cant test, so exit
+        // if the subFundGroup object is null, we can't test, so exit
         if (ObjectUtils.isNull(newAccount.getSubFundGroup())) {
             return result;
         }
 
-        // retrieve the subfundcode and fundgroupcode
+        // retrieve the sub fund code and fund group code
         String subFundGroupCode = newAccount.getSubFundGroupCode().trim();
         String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
 
@@ -695,19 +696,21 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         String requiredByLabel = "";
 
         // if this is a CG fund group, then its required
-        if (SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(newAccount.getSubFundGroup())) {
-            required = true;
-            requiredByLabel = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel();
-            requiredByValue = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue();
-        }
-
-        // if this is a general fund group, then its required
-        else if (GENERAL_FUND_CD.equalsIgnoreCase(fundGroupCode)) {
-            // unless its part of the MPRACT subfundgroup
-            if (!SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS.equalsIgnoreCase(subFundGroupCode)) {
+        if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, fundGroupCode).evaluationSucceeds()) {
+            if (SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(newAccount.getSubFundGroup())) {
                 required = true;
-                requiredByLabel = getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME);
-                requiredByValue = GENERAL_FUND_CD;
+                requiredByLabel = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel();
+                requiredByValue = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue();
+            }
+    
+            // if this is a general fund group, then its required
+            else if (GENERAL_FUND_CD.equalsIgnoreCase(fundGroupCode)) {
+                // unless its part of the MPRACT sub fund group
+                if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
+                    required = true;
+                    requiredByLabel = getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME);
+                    requiredByValue = GENERAL_FUND_CD;
+                }
             }
         }
 
@@ -770,7 +773,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
                 // Validation for financialIcrSeriesIdentifier
                 if (checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_SERIES_IDENTIFIER_CANNOT_BE_EMPTY))) {
-                    Map pkMap = new HashMap();
+                    Map<String, String> pkMap = new HashMap<String, String>();
                     pkMap.put("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier());
                     if (getBoService().countMatching(IndirectCostRecoveryRateDetail.class, pkMap) == 0) {
                         putFieldError("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_EXISTENCE, "financialIcrSeriesIdentifier");
@@ -860,7 +863,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
 
         // When updating an account expiration date, the date must be today or later
-        // Only run this test if this maint doc
+        // Only run this test if this maintenance doc
         // is an edit doc
         if (isUpdatedExpirationDateInvalid(maintenanceDocument)) {
             putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
@@ -910,7 +913,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      */
     protected boolean isUpdatedExpirationDateInvalid(MaintenanceDocument maintDoc) {
 
-        // if this isnt an Edit document, we're not interested
+        // if this isn't an Edit document, we're not interested
         if (!maintDoc.isEdit()) {
             return false;
         }
@@ -921,7 +924,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
 
         // When updating an account expiration date, the date must be today or later
-        // Only run this test if this maint doc
+        // Only run this test if this maintenance doc
         // is an edit doc
         boolean expDateHasChanged = false;
 
@@ -938,7 +941,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
             }
         }
 
-        // if the expiration date hasnt changed, we're not interested
+        // if the expiration date hasn't changed, we're not interested
         if (!expDateHasChanged) {
             return false;
         }
@@ -1054,7 +1057,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
                 // Attempt to get the right SubFundGroup code to check the following logic with. If the value isn't available, go
                 // ahead
-                // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
+                // and die, as this indicates a mis-configured application, and important business rules wont be implemented without it.
                 String capitalSubFundGroup = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, ACCT_CAPITAL_SUBFUNDGROUP);
 
                 if (capitalSubFundGroup.equalsIgnoreCase(subFundGroupCode.trim())) {
@@ -1086,7 +1089,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
                             campusCode = campusCode.toUpperCase();
                         }
 
-                        Map pkMap = new HashMap();
+                        Map<String, String> pkMap = new HashMap<String, String>();
                         pkMap.put("campusCode", campusCode);
                         pkMap.put("buildingCode", buildingCode);
 

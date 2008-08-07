@@ -7,6 +7,8 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 /**
  * @author delyea
  *
@@ -162,5 +164,22 @@ public class ElectronicInvoicePostalAddress {
    */
   public void setType(String type) {
     this.type = type;
+  }
+  
+  public String toString(){
+      
+      ToStringBuilder toString = new ToStringBuilder(this);
+      
+      toString.append("type",getType());
+      toString.append("line1",getLine1());
+      toString.append("line2",getLine2());
+      toString.append("line3",getLine3());
+      toString.append("cityName",getCityName());
+      toString.append("stateCode",getStateCode());
+      toString.append("postalCode",getPostalCode());
+      toString.append("countryCode",getCountryCode());
+      toString.append("countryName",getCountryName());
+      
+      return toString.toString();
   }
 }

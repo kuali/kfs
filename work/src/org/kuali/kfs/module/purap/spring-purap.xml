@@ -44,6 +44,7 @@
 				<value>receivingPaymentRequestJob</value>
 				<value>autoClosePurchaseOrdersJob</value>
 				<value>autoCloseRecurringOrdersJob</value>
+				<value>electronicInvoiceJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -501,6 +502,10 @@
         </property>
     </bean>
 
+    <bean id="electronicInvoiceLoadService" 
+		class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceLoadServiceImpl">
+	</bean>
+	
 	<bean id="purchasingPreDisbursementImmediatesExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -510,6 +515,11 @@
 	</bean>
 	
 	<bean id="purchasingPreDisbursementImmediatesExtractJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="purchasingPreDisbursementImmediatesExtractJob" />
+		<property name="cronExpression" value="00 00 11,15 ? * *" />
+	</bean>
+	
+	<bean id="electronicInvoiceExtractJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="purchasingPreDisbursementImmediatesExtractJob" />
 		<property name="cronExpression" value="00 00 11,15 ? * *" />
 	</bean>
@@ -556,4 +566,52 @@
 			<ref bean="parameterService"/>
 		</property>
 	</bean>
+	
+	<bean id="electronicInvoiceHelperService" class="org.kuali.kfs.module.purap.batch.service.impl.ElectronicInvoiceHelperServiceImpl">
+		<property name="batchInputFileService">
+		    <ref bean="batchInputFileService" />
+		</property>
+		<property name="electronicInvoiceInputFileType">
+		    <ref bean="electronicInvoiceInputFileType" />
+		</property>
+	</bean>
+	
+	<bean id="electronicInvoiceExtractJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="electronicInvoiceExtractStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="electronicInvoiceExtractStep" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceStep" parent="step">
+		<property name="electronicInvoiceHelperService">
+			<ref bean="electronicInvoiceHelperService" />
+		</property>
+		<property name="batchInputFileService">
+		    <ref bean="batchInputFileService" />
+		</property>
+		<property name="electronicInvoiceInputFileType">
+		    <ref bean="electronicInvoiceInputFileType" />
+		</property>
+	</bean>
+	
+	<bean id="electronicInvoiceInputFileType" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType">
+    	<property name="directoryPath">
+	       <value>${staging.directory}/purap/</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>xml</value>
+	    </property>
+	    <property name="digestorRulesFileName">
+	       <value>org/kuali/kfs/module/purap/batch/electronicInvoiceDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>org/kuali/kfs/module/purap/batch/electronicInvoice.xsd</value>
+	    </property>
+	    <property name="electronicInvoiceHelperService">
+	       <ref bean="electronicInvoiceHelperService"/>
+	    </property>
+	</bean>
+	
 </beans>

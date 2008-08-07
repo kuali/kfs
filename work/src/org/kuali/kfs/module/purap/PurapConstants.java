@@ -777,5 +777,6 @@ public class PurapConstants extends JSTLConstants {
     
     public static String PRODUCTION_ENVIRONMENT = "PRD";
 
+    public static final String ELECTRONIC_INVOICE_FILE_TYPE_INDENTIFIER = "electronicInvoiceInputFileType";
     
 }

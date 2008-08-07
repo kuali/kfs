@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 
 /**
@@ -40,6 +41,16 @@ public class ElectronicInvoiceDetailRequestHeader {
   private List invoicePartnerContacts = new ArrayList();
   private List invoiceShippingContacts = new ArrayList();  // holds the ship to address information
   private List extrinsics;
+  
+  /**
+   * Newly Added
+   */
+  private boolean isAccountingInLine;
+  private String IdReferenceCreator;
+  private String IdReferenceDescription;
+  private String IdReferenceDomain;
+  private String IdReferenceIdentifier; 
+  
   
   public ElectronicInvoiceDetailRequestHeader() {
     super();
@@ -393,4 +404,86 @@ public class ElectronicInvoiceDetailRequestHeader {
   public void setShippingDate(Date shippingDate) {
     this.shippingDate = shippingDate;
   }
+  
+  public boolean isAccountingInLine() {
+      return isAccountingInLine;
+  }
+
+  public void setAccountingInLine(boolean isAccountingInLine) {
+      this.isAccountingInLine = isAccountingInLine;
+  }
+  
+  public String getIdReferenceCreator() {
+      return IdReferenceCreator;
+  }
+
+  public void setIdReferenceCreator(String idReferenceCreator) {
+      IdReferenceCreator = idReferenceCreator;
+  }
+
+  public String getIdReferenceDescription() {
+      return IdReferenceDescription;
+  }
+
+  public void setIdReferenceDescription(String idReferenceDescription) {
+      IdReferenceDescription = idReferenceDescription;
+  }
+
+  public String getIdReferenceDomain() {
+      return IdReferenceDomain;
+  }
+
+  public void setIdReferenceDomain(String idReferenceDomain) {
+      IdReferenceDomain = idReferenceDomain;
+  }
+
+  public String getIdReferenceIdentifier() {
+      return IdReferenceIdentifier;
+  }
+
+  public void setIdReferenceIdentifier(String idReferenceIdentifier) {
+      IdReferenceIdentifier = idReferenceIdentifier;
+  }
+  
+  public void addInvoicePartnerContact(ElectronicInvoiceContact electronicInvoiceContact){
+      if (electronicInvoiceContact != null){
+          invoicePartnerContacts.add(electronicInvoiceContact);
+      }
+  }
+  
+  public ElectronicInvoiceContact[] getInvoicePartnerContactsAsArray(){
+      if (invoicePartnerContacts.size() > 0){
+          ElectronicInvoiceContact[] tempContacts = new ElectronicInvoiceContact[invoicePartnerContacts.size()];
+          invoicePartnerContacts.toArray(tempContacts);
+          return tempContacts;
+      }
+      return null;
+  }
+  
+  public String toString(){
+      
+      ToStringBuilder toString = new ToStringBuilder(this);
+      
+      toString.append("deploymentMode",getDeploymentMode());
+      toString.append("invoiceID",getInvoiceId());
+      toString.append("purpose",getPurpose());
+      toString.append("operation",getOperation());
+      toString.append("invoiceDate",getInvoiceDateString());
+      
+      toString.append("isTaxInLine",isTaxInLine());
+      toString.append("isSpecialHandlingInLine",isSpecialHandlingInLine());
+      toString.append("isShippingInLine",isShippingInLine());
+      toString.append("isDiscountInLine",isDiscountInLine());
+      toString.append("isAccountingInLine",isAccountingInLine());
+      
+      
+      
+      
+      return toString.toString();
+  }
+
+
+
+
 }
+

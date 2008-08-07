@@ -4,6 +4,8 @@
  */
 package org.kuali.kfs.module.purap.util.cxml;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 /**
  * @author local-jsissom
  *
@@ -19,6 +21,11 @@ public class CxmlHeader {
   private String senderDomain;
   private String senderType;
   private String senderUserAgent;
+  
+  /**
+   * Newly Added
+   */
+  private String senderSharedSecret;
 
   public CxmlHeader() {
     super();
@@ -174,4 +181,34 @@ public class CxmlHeader {
   public void setToType(String toType) {
     this.toType = toType;
   }
+  
+  public String getSenderSharedSecret() {
+      return senderSharedSecret;
+  }
+
+  public void setSenderSharedSecret(String senderSharedSecret) {
+      this.senderSharedSecret = senderSharedSecret;
+  }
+  
+  public String toString(){
+      
+      ToStringBuilder toString = new ToStringBuilder(this);
+      
+      toString.append("FromDomain",getFromDomain());
+      toString.append("FromIdentity",getFromIdentity());
+      toString.append("FromType",getFromType());
+      
+      toString.append("ToDomain",getToDomain());
+      toString.append("ToIdentity",getToIdentity());
+      toString.append("ToType",getToType());
+      
+      toString.append("SenderDomain",getSenderDomain());
+      toString.append("SenderIdentity",getSenderIdentity());
+      toString.append("SenderType",getSenderType());
+      toString.append("SenderSharedSecret",getSenderSharedSecret());
+      toString.append("SenderUserAgent",getSenderUserAgent());
+      
+      return toString.toString();
+  }
+
 }

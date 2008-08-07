@@ -53,6 +53,14 @@ public class ElectronicInvoice {
   private ElectronicInvoiceDetailRequestSummary invoiceDetailRequestSummary;
   
   /**
+   * Newly Added
+   */
+  private String version;
+  private String timestamp;
+  private String payloadID;
+  private String locale;
+  
+  /**
    * 
    */
   public ElectronicInvoice() {
@@ -600,6 +608,38 @@ public class ElectronicInvoice {
   public void setVendorName(String vendorName) {
     this.vendorName = vendorName;
   }
+
+public String getPayloadID() {
+    return payloadID;
+}
+
+public void setPayloadID(String payloadID) {
+    this.payloadID = payloadID;
+}
+
+public String getTimestamp() {
+    return timestamp;
+}
+
+public void setTimestamp(String timestamp) {
+    this.timestamp = timestamp;
+}
+
+public String getVersion() {
+    return version;
+}
+
+public void setVersion(String version) {
+    this.version = version;
+}
+
+public String getLocale() {
+    return locale;
+}
+
+public void setLocale(String locale) {
+    this.locale = locale;
+}
 }
 /*
 Copyright (c) 2004, 2005 The National Association of College and

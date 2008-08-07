@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE digester-rules 
+    PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" 
+    "http://jakarta.apache.org/commons/digester/dtds/digester-rules.dtd">
+
+<digester-rules>
+
+    <pattern value="cXML">
+        <object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoice" />
+		
+		<set-properties-rule>
+      		<alias attr-name="version" prop-name="version" />
+      		<alias attr-name="timestamp" prop-name="timestamp" />
+      		<alias attr-name="payloadID" prop-name="payloadID" />
+      		<alias attr-name="xml:lang" prop-name="locale" />
+	    </set-properties-rule>
+	   
+	   <!-- HEADER -->
+	   <pattern value="Header">
+		    <object-create-rule classname="org.kuali.kfs.module.purap.util.cxml.CxmlHeader" />
+		    
+		    <!-- FROM -->
+		    <set-properties-rule pattern="From/Credential">
+			   <alias attr-name="domain" prop-name="fromDomain" />
+		    </set-properties-rule>
+		    
+		    <call-method-rule pattern="From/Credential/Identity" methodname="setFromIdentity" paramcount="0" />
+		    
+		    <!-- TO -->
+		    <set-properties-rule pattern="To/Credential">
+			   <alias attr-name="domain" prop-name="toDomain" />
+		    </set-properties-rule>
+		    
+		    <call-method-rule pattern="To/Credential/Identity" methodname="setToIdentity" paramcount="0" />
+		   
+		   <!-- SENDER -->
+		   <set-properties-rule pattern="Sender/Credential">
+			   <alias attr-name="domain" prop-name="senderDomain" />
+		   </set-properties-rule>
+		    
+		   <call-method-rule pattern="Sender/Credential/Identity" methodname="setSenderIdentity" paramcount="0" />
+		   <call-method-rule pattern="Sender/Credential/SharedSecret" methodname="setSenderSharedSecret" paramcount="0" />
+		   <call-method-rule pattern="Sender/UserAgent" methodname="setSenderUserAgent" paramcount="0" />
+		    
+		   <set-next-rule methodname="setCxmlHeader" />
+		    
+	   </pattern> <!-- Header -->
+	   
+	   <!-- REQUEST -->
+	   <pattern value="Request">
+	   
+		   <object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestHeader" />
+		   
+		   <set-properties-rule>
+			   <alias attr-name="deploymentMode" prop-name="deploymentMode" />
+		   </set-properties-rule>
+		   
+		   <!-- REQUEST HEADER -->
+		   <pattern value="InvoiceDetailRequest/InvoiceDetailRequestHeader">
+		   
+		   		<set-properties-rule>
+		      		<alias attr-name="invoiceID" prop-name="invoiceId" />
+		      		<alias attr-name="purpose" prop-name="purpose" />
+		      		<alias attr-name="operation" prop-name="operation" />
+		      		<alias attr-name="invoiceDate" prop-name="invoiceDateString" />
+			    </set-properties-rule>
+			    
+			    <call-method-rule pattern="InvoiceDetailHeaderIndicator/isTaxInLine" methodname="isTaxInLine" paramcount="0" />
+			    <call-method-rule pattern="InvoiceDetailLineIndicator/isSpecialHandlingInLine" methodname="isSpecialHandlingInLine" paramcount="0" />
+			    <call-method-rule pattern="InvoiceDetailLineIndicator/isShippingInLine" methodname="isShippingInLine" paramcount="0" />
+			    <call-method-rule pattern="InvoiceDetailLineIndicator/isDiscountInLine" methodname="isDiscountInLine" paramcount="0" />
+			    <call-method-rule pattern="InvoiceDetailLineIndicator/isAccountingInLine" methodname="isAccountingInLine" paramcount="0" />
+		   		
+		   		<!-- INVOICE PARTNER -->
+		   		<pattern value="InvoicePartner">
+		   		
+		   			<!-- FIXME: It's not handled in EPIC parser... Based on sample data files, it can be deleted  -->
+		   			
+		   			<!--<set-properties-rule pattern="IdReference">
+			      		<alias attr-name="domain" prop-name="IdReferenceDomain" />
+			      		<alias attr-name="identifier" prop-name="IdReferenceIdentifier" />
+		      		</set-properties-rule>
+
+		      		<call-method-rule pattern="IdReference/Creator" methodname="setIdReferenceCreator" paramcount="0" />
+		      		<call-method-rule pattern="IdReference/Description" methodname="setIdReferenceDescription" paramcount="0" />-->
+		      		
+		      		<!-- CONTACTS -->
+		      		<pattern value="Contact">
+	
+			      		<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceContact" />
+	
+			      		<set-properties-rule>
+				      		<alias attr-name="Name" prop-name="name" />
+			      		</set-properties-rule>
+		      			
+		      			<pattern value="PostalAddress">
+		      			
+		      				<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoicePostalAddress" />
+		      				
+		      				<!-- FIXME: Is it correct???? Name==type -->
+		      				<set-properties-rule>
+				      			<alias attr-name="name" prop-name="type" />
+			      			</set-properties-rule>
+			      		
+			      			<!--<pattern value="PostalAddress/DeliverTo">
+		      					<call-method-rule pattern="City" methodname="cityName" paramcount="0" />
+		      				</pattern>
+		      				
+		      				<call-method-rule pattern="Street" methodname="isAccountingInLine" paramcount="0" />-->
+		      				
+		      				
+		      				<call-method-rule pattern="City" methodname="setCityName" paramcount="0" />
+		      				<call-method-rule pattern="State" methodname="setStateCode" paramcount="0" />
+		      				<call-method-rule pattern="PostalCode" methodname="setPostalCode" paramcount="0" />
+		      				<call-method-rule pattern="Country" methodname="setCountryName" paramcount="0" />
+		      				
+		      				<pattern value="PostalAddress/Country">
+		      					<set-properties-rule>
+					      			<alias attr-name="isoCountryCode" prop-name="countryCode" />
+				      			</set-properties-rule>
+		      				</pattern>
+		      				
+		      				<set-next-rule methodname="addPostalAddress" />
+		      				
+		      			</pattern> <!-- PostalAddress -->
+		      			
+		      			<set-next-rule methodname="addInvoicePartnerContact" />
+		      			
+		      		</pattern> <!-- Contacts -->
+		      		
+		      		
+		      		
+		   		</pattern> <!-- InvoicePartner -->
+		   		
+		   </pattern> <!-- RequestHeader -->
+		   
+		   <set-next-rule methodname="setInvoiceDetailRequestHeader" />
+		   
+	   </pattern> <!--  Request -->
+		
+    </pattern> <!-- cXML -->
+    
+</digester-rules>

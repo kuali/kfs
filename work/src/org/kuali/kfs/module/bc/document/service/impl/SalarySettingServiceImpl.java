@@ -605,7 +605,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      */
     private void getAllUserLevelCodes(Set<Integer> userLevelCodes, Integer fiscalYear, Account account, Org organazation) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fiscalYear);
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
 

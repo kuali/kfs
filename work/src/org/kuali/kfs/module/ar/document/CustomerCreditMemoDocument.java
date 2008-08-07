@@ -17,9 +17,11 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
@@ -52,6 +54,8 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     private Integer invOutstandingDays;
 
     private CustomerInvoiceDocument invoice;
+    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+
     private List<CustomerCreditMemoDetail> creditMemoDetails;
 
     protected List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
@@ -359,6 +363,12 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
 
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
         setStatusCode(ArConstants.CustomerCreditMemoStatuses.IN_PROCESS);
+        
+        //set accounts receivable document header
+        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class).getNewAccountsReceivableDocumentHeaderForCurrentUser();
+        accountsReceivableDocumentHeader.setDocumentNumber(getDocumentNumber());
+        accountsReceivableDocumentHeader.setCustomerNumber(invoice.getAccountsReceivableDocumentHeader().getCustomerNumber());
+        setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
         List<CustomerInvoiceDetail> customerInvoiceDetails = invoice.getCustomerInvoiceDetailsWithoutDiscounts();
         for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
@@ -627,5 +637,14 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     public KualiDecimal getTotalDollarAmount() {
         return crmTotalAmount;
     } 
+    
+    
+    public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
+        return accountsReceivableDocumentHeader;
+    }
+
+    public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
+        this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
+    }
 
 }

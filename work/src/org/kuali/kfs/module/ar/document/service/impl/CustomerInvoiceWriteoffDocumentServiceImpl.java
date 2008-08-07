@@ -21,13 +21,13 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -38,6 +38,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     private UniversityDateService universityDateService;
     private FinancialSystemUserService financialSystemUserService;
     private BusinessObjectService businessObjectService;
+    private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument)
@@ -47,8 +48,13 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         //update status
         customerInvoiceWriteoffDocument.setStatusCode(ArConstants.CustomerInvoiceWriteoffStatuses.IN_PROCESS);
         
-        //if writeoffs are generated based on organization accounting default, populate those fields now
+        //set accounts receivable document header
+        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
+        accountsReceivableDocumentHeader.setDocumentNumber(customerInvoiceWriteoffDocument.getDocumentNumber());
+        accountsReceivableDocumentHeader.setCustomerNumber(customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getAccountsReceivableDocumentHeader().getCustomerNumber());
+        customerInvoiceWriteoffDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
         
+        //if writeoffs are generated based on organization accounting default, populate those fields now
         String writeoffGenerationOption = parameterService.getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
         boolean isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals( writeoffGenerationOption ); 
         if( isUsingOrgAcctDefaultWriteoffFAU ){
@@ -104,6 +110,14 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }    
+    
+    public AccountsReceivableDocumentHeaderService getAccountsReceivableDocumentHeaderService() {
+        return accountsReceivableDocumentHeaderService;
+    }
+
+    public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
+        this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
     }    
 
 }

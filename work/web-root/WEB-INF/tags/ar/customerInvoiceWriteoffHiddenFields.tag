@@ -8,3 +8,9 @@
 <html:hidden property="document.projectCode" />
 <html:hidden property="document.organizationReferenceIdentifier" />
 <html:hidden property="document.invoiceWriteoffAmount" />
+
+
+<html:hidden property="document.accountsReceivableDocumentHeader.documentNumber" />
+<html:hidden property="document.accountsReceivableDocumentHeader.customerNumber" />
+<html:hidden property="document.accountsReceivableDocumentHeader.processingChartOfAccountCode" />
+<html:hidden property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />

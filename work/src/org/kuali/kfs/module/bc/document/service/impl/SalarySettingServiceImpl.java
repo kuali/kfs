@@ -523,9 +523,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             return false;
         }
 
-        // if the user is in the hierachy, access can be determined by the levels of user and document organization
+        // if the user is in the hierachy, access can be determined by the organization levels of the user and the document
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
-        Integer userLevelCode = this.getUserLevelCode(documentOrganizationLevelCode, fiscalYear, account, organazationReviewHierachy);
+        Integer userLevelCode = this.getClosestUserLevelCode(documentOrganizationLevelCode, fiscalYear, account, organazationReviewHierachy);
         if (userLevelCode != null) {
             appointmentFunding.setDisplayOnlyMode(userLevelCode != documentOrganizationLevelCode ? true : false);
             appointmentFunding.setExcludedFromTotal(userLevelCode < documentOrganizationLevelCode ? true : false);
@@ -534,12 +534,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
 
         // if not in the hierachy path, an organization approver of the budget construction doccument has the read-only access
-        if (!organazationReviewHierachy.isEmpty()) {
-            appointmentFunding.setDisplayOnlyMode(true);
-            return true;
-        }
-
-        return false;
+        appointmentFunding.setDisplayOnlyMode(true);
+        return true;
     }
     
     /**
@@ -562,15 +558,15 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * retrieve the user level code based on the given information
+     * retrieve the user level code that is closest to the given document orgianzation level code
      * 
      * @param documentOrganizationLevelCode the given document organization level code
      * @param fiscalYear the given fiscal year
      * @param account the given account
-     * @param organazationReviewHierachy a list of organization review hierachy in which the specified user is
-     * @return the user level code for the given account
+     * @param organazationReviewHierachy a list of organization review hierachy for which the specified user is an approver
+     * @return the user level code for the given account that is closest to the given document orgianzation level code
      */
-    private Integer getUserLevelCode(Integer documentOrganizationLevelCode, Integer fiscalYear, Account account, List<Org> organazationReviewHierachy) {
+    private Integer getClosestUserLevelCode(Integer documentOrganizationLevelCode, Integer fiscalYear, Account account, List<Org> organazationReviewHierachy) {
         Set<Integer> userLevelCodes = new HashSet<Integer>();
 
         for (Org organazation : organazationReviewHierachy) {
@@ -591,12 +587,12 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         userLevelCodeList.addAll(userLevelCodes);
         Collections.sort(userLevelCodeList);
 
-        int position = userLevelCodeList.indexOf(documentOrganizationLevelCode);
-        if (userLevelCodeList.size() > position) {
-            return userLevelCodeList.get(position + 1);
+        int indexOfDocumentOrganizationLevelCode = userLevelCodeList.indexOf(documentOrganizationLevelCode);
+        if (userLevelCodeList.size() > indexOfDocumentOrganizationLevelCode) {
+            return userLevelCodeList.get(indexOfDocumentOrganizationLevelCode + 1);
         }
 
-        return userLevelCodeList.get(position - 1);
+        return userLevelCodeList.get(indexOfDocumentOrganizationLevelCode - 1);
     }
 
     /**

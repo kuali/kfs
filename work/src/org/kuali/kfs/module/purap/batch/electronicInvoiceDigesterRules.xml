@@ -80,7 +80,7 @@
 		      		<alias attr-name="invoiceDate" prop-name="invoiceDateString" />
 			    </set-properties-rule>
 			    
-			    <call-method-rule pattern="InvoiceDetailHeaderIndicator/isTaxInLine" methodname="isTaxInLine" paramcount="0" />
+			    <call-method-rule pattern="InvoiceDetailLineIndicator/isTaxInLine" methodname="isTaxInLine" paramcount="0" />
 			    <call-method-rule pattern="InvoiceDetailLineIndicator/isSpecialHandlingInLine" methodname="isSpecialHandlingInLine" paramcount="0" />
 			    <call-method-rule pattern="InvoiceDetailLineIndicator/isShippingInLine" methodname="isShippingInLine" paramcount="0" />
 			    <call-method-rule pattern="InvoiceDetailLineIndicator/isDiscountInLine" methodname="isDiscountInLine" paramcount="0" />
@@ -89,7 +89,7 @@
 		   		<!-- INVOICE PARTNER -->
 		   		<pattern value="InvoicePartner">
 		   		
-		   			<!-- FIXME: It's not handled in EPIC parser... Based on sample data files, it can be deleted  -->
+		   			<!-- INFO: It's not handled in EPIC parser... Based on sample data files, it can be deleted  -->
 		   			
 		   			<!--<set-properties-rule pattern="IdReference">
 			      		<alias attr-name="domain" prop-name="IdReferenceDomain" />
@@ -105,23 +105,32 @@
 			      		<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceContact" />
 	
 			      		<set-properties-rule>
-				      		<alias attr-name="Name" prop-name="name" />
+				      		<alias attr-name="role" prop-name="role" />
+				      		<alias attr-name="addressID" prop-name="addressID" />
 			      		</set-properties-rule>
+
+						<call-method-rule pattern="Name" methodname="setName" paramcount="0" />			      		
+						
+						<!-- INFO: NOT HANDLED IN EPIC PARSER -->
+			      		<!--<pattern value="Name">
+			      			<set-properties-rule>
+				      			<alias attr-name="xml:lang" prop-name="xxxx" />
+			      			</set-properties-rule>
+			      		</pattern>-->
 		      			
 		      			<pattern value="PostalAddress">
 		      			
 		      				<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoicePostalAddress" />
 		      				
-		      				<!-- FIXME: Is it correct???? Name==type -->
+		      				<!-- EPIC parser is doing like this-->
 		      				<set-properties-rule>
 				      			<alias attr-name="name" prop-name="type" />
 			      			</set-properties-rule>
 			      		
-			      			<!--<pattern value="PostalAddress/DeliverTo">
-		      					<call-method-rule pattern="City" methodname="cityName" paramcount="0" />
-		      				</pattern>
+		      				<call-method-rule pattern="DeliverTo" methodname="addName" paramcount="0" />
 		      				
-		      				<call-method-rule pattern="Street" methodname="isAccountingInLine" paramcount="0" />-->
+		      				<!-- Have to find a better way of handling this element -->
+		      				<call-method-rule pattern="Street" methodname="addStreet" paramcount="0" />
 		      				
 		      				
 		      				<call-method-rule pattern="City" methodname="setCityName" paramcount="0" />
@@ -129,7 +138,7 @@
 		      				<call-method-rule pattern="PostalCode" methodname="setPostalCode" paramcount="0" />
 		      				<call-method-rule pattern="Country" methodname="setCountryName" paramcount="0" />
 		      				
-		      				<pattern value="PostalAddress/Country">
+		      				<pattern value="Country">
 		      					<set-properties-rule>
 					      			<alias attr-name="isoCountryCode" prop-name="countryCode" />
 				      			</set-properties-rule>
@@ -139,19 +148,101 @@
 		      				
 		      			</pattern> <!-- PostalAddress -->
 		      			
+		      			<!--<pattern value="EMail">
+		      				<set-properties-rule>
+				      			<alias attr-name="name" prop-name="countryCode" />
+			      			</set-properties-rule>
+		      			</pattern>  EMail 
+		      			
+		      			<call-method-rule pattern="EMail" methodname="addEmailAddress" paramcount="2">
+		      				<call-param-rule paramnumber="0" attrname="name" from-stack="1"/> 
+		      				<call-param-rule paramnumber="0" attrname="name" from-stack="1"/> 
+		      			</call-method-rule>-->
+		      			
 		      			<set-next-rule methodname="addInvoicePartnerContact" />
 		      			
-		      		</pattern> <!-- Contacts -->
-		      		
-		      		
+		      		</pattern> <!-- InvoicePartner/Contacts -->
 		      		
 		   		</pattern> <!-- InvoicePartner -->
 		   		
-		   </pattern> <!-- RequestHeader -->
+		   		<!-- SHIPPING DETAILS -->
+		   		<pattern value="InvoiceDetailShipping">
+		   			<set-properties-rule>
+		      			<alias attr-name="shippingDate" prop-name="setShippingDateString" />
+	      			</set-properties-rule>
+	      			
+	      			<!-- CONTACTS -->
+		      		<pattern value="Contact">
+	      				
+	      				<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceContact" />
+	      				
+	      				<set-properties-rule>
+				      		<alias attr-name="role" prop-name="role" />
+				      		<alias attr-name="addressID" prop-name="addressID" />
+			      		</set-properties-rule>
+
+						<call-method-rule pattern="Name" methodname="setName" paramcount="0" />			      		
+						
+						<!-- INFO: NOT HANDLED IN EPIC PARSER -->
+			      		<!--<pattern value="Name">
+			      			<set-properties-rule>
+				      			<alias attr-name="xml:lang" prop-name="DONO" />
+			      			</set-properties-rule>
+			      		</pattern>-->
+		      			
+		      			<pattern value="PostalAddress">
+		      			
+		      				<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoicePostalAddress" />
+		      				
+		      				<!-- EPIC parser is doing like this-->
+		      				<set-properties-rule>
+				      			<alias attr-name="name" prop-name="type" />
+			      			</set-properties-rule>
+			      		
+		      				<call-method-rule pattern="DeliverTo" methodname="addName" paramcount="0" />
+		      				
+		      				<!-- FIXME: Have to find a better way of handling this element -->
+		      				<call-method-rule pattern="Street" methodname="addStreet" paramcount="0" />
+		      				
+		      				
+		      				<call-method-rule pattern="City" methodname="setCityName" paramcount="0" />
+		      				<call-method-rule pattern="State" methodname="setStateCode" paramcount="0" />
+		      				<call-method-rule pattern="PostalCode" methodname="setPostalCode" paramcount="0" />
+		      				<call-method-rule pattern="Country" methodname="setCountryName" paramcount="0" />
+		      				
+		      				<pattern value="Country">
+		      					<set-properties-rule>
+					      			<alias attr-name="isoCountryCode" prop-name="countryCode" />
+				      			</set-properties-rule>
+		      				</pattern>
+		      				
+		      				<set-next-rule methodname="addPostalAddress" />
+		      				
+		      			</pattern> <!-- PostalAddress -->
+		      			
+		      			<set-next-rule methodname="addInvoiceShippingContacts" />
+		      			
+	      			</pattern> <!-- InvoiceDetailShipping/Contact -->
+	      			
+	      			<!-- INFO: Skipping CarrierIdentifier,ShipmentIdentifier,DocumentReference since these are not handled in EPIC -->
+	      			
+		   		</pattern> <!-- InvoiceDetailShipping -->
+		   		
+		   		<!-- INFO: PaymentTerm not handled in EPIC, but it's there in sample data file -->
+		   		
+		   </pattern> <!-- InvoiceDetailRequestHeader -->
 		   
 		   <set-next-rule methodname="setInvoiceDetailRequestHeader" />
 		   
 	   </pattern> <!--  Request -->
+		   
+	   <!-- INVOICE ORDER -->
+	   
+	   
+		   
+	   
+		   
+	   
 		
     </pattern> <!-- cXML -->
     

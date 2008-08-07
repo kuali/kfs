@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 /**
  * @author delyea
  *
@@ -146,6 +148,17 @@ public class ElectronicInvoiceContact {
    */
   public void setWebAddresses(List webAddresses) {
     this.webAddresses = webAddresses;
+  }
+  
+  public String toString(){
+      
+      ToStringBuilder toString = new ToStringBuilder(this);
+      toString.append("Role",getRole());
+      toString.append("Name",getName());
+      toString.append("AddressId",getAddressID());
+      toString.append("PostalAddress",getPostalAddresses());
+      
+      return toString.toString();
   }
 }
 

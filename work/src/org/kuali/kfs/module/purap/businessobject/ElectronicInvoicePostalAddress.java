@@ -27,6 +27,8 @@ public class ElectronicInvoicePostalAddress {
   
   private List names = new ArrayList();
   
+  private List<String> street = new ArrayList<String>();
+  
   public ElectronicInvoicePostalAddress() {
     super();
   }
@@ -85,7 +87,12 @@ public class ElectronicInvoicePostalAddress {
    * @return Returns the line1.
    */
   public String getLine1() {
-    return line1;
+//    return line1;
+      if (street.size() > 0){
+          return street.get(0);
+      }else{
+          return null;
+      }
   }
   /**
    * @param line1 The line1 to set.
@@ -97,7 +104,12 @@ public class ElectronicInvoicePostalAddress {
    * @return Returns the line2.
    */
   public String getLine2() {
-    return line2;
+//    return line2;
+      if (street.size() > 1){
+          return street.get(1);
+      }else{
+          return null;
+      }
   }
   /**
    * @param line2 The line2 to set.
@@ -109,7 +121,12 @@ public class ElectronicInvoicePostalAddress {
    * @return Returns the line3.
    */
   public String getLine3() {
-    return line3;
+//    return line3;
+      if (street.size() > 2){
+          return street.get(2);
+      }else{
+          return null;
+      }
   }
   /**
    * @param line3 The line3 to set.
@@ -166,6 +183,10 @@ public class ElectronicInvoicePostalAddress {
     this.type = type;
   }
   
+  public void addStreet(String street){
+      this.street.add(street);
+  }
+  
   public String toString(){
       
       ToStringBuilder toString = new ToStringBuilder(this);
@@ -179,6 +200,7 @@ public class ElectronicInvoicePostalAddress {
       toString.append("postalCode",getPostalCode());
       toString.append("countryCode",getCountryCode());
       toString.append("countryName",getCountryName());
+      toString.append("Names(DeliverTo)",getNames());
       
       return toString.toString();
   }

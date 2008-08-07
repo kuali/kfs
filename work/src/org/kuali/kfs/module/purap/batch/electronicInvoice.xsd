@@ -112,7 +112,7 @@
                                       <xsd:element name="PostalAddress">
                                         <xsd:complexType>
                                           <xsd:sequence>
-                                            <xsd:element minOccurs="0" maxOccurs="2" name="DeliverTo" type="xsd:string" />
+                                            <xsd:element minOccurs="0" maxOccurs="unbounded" name="DeliverTo" type="xsd:string" />
                                             <xsd:element maxOccurs="unbounded" name="Street" type="xsd:string" />
                                             <xsd:element name="City" type="xsd:string" />
                                             <xsd:element name="State" type="xsd:string" />
@@ -390,7 +390,7 @@
                         <xsd:attribute name="invoiceID" type="xsd:unsignedInt" use="required" />
                       </xsd:complexType>
                     </xsd:element>
-                    <xsd:element name="InvoiceDetailOrder">
+                    <xsd:element minOccurs="1" maxOccurs="unbounded" name="InvoiceDetailOrder">
                       <xsd:complexType>
                         <xsd:sequence>
                           <xsd:element name="InvoiceDetailOrderInfo">
@@ -400,15 +400,15 @@
                                 <xsd:element name="OrderReference">
 	                                  <xsd:complexType>
 	                                    <xsd:sequence>
-	                                      <xsd:element name="DocumentReference">
-	                                        <xsd:complexType>
-	                                          <xsd:simpleContent>
-	                                            <xsd:extension base="xsd:string">
-	                                              <xsd:attribute name="payloadID" type="xsd:string" />
-	                                            </xsd:extension>
-	                                          </xsd:simpleContent>
-	                                        </xsd:complexType>
-	                                      </xsd:element>
+		                                      <xsd:element name="DocumentReference">
+		                                        <xsd:complexType>
+		                                          <xsd:simpleContent>
+		                                            <xsd:extension base="xsd:string">
+		                                              <xsd:attribute name="payloadID" type="xsd:string" />
+		                                            </xsd:extension>
+		                                          </xsd:simpleContent>
+		                                        </xsd:complexType>
+		                                      </xsd:element>
 	                                    </xsd:sequence>
 	                                    <xsd:attribute name="orderID" type="xsd:string" use="optional" />
 	                                    <!-- Added -->
@@ -416,12 +416,44 @@
 	                                  </xsd:complexType>
                                 </xsd:element>
                                 
+                                <xsd:element minOccurs="0" maxOccurs="1" name="MasterAgreementReference">
+                                  <xsd:complexType>
+                                  		<xsd:simpleContent>
+                                            <xsd:extension base="xsd:string">
+                                              <xsd:attribute name="agreementID" type="xsd:string" use="optional"/>
+                                              <xsd:attribute name="agreementDate" type="xsd:date" use="optional" />
+                                            </xsd:extension>
+                                        </xsd:simpleContent>
+                                  </xsd:complexType>
+                                </xsd:element>
                                 
+                                <xsd:element minOccurs="0" maxOccurs="1" name="MasterAgreementIDInfo">
+                                  <xsd:complexType>
+                                   		<xsd:simpleContent>
+                                            <xsd:extension base="xsd:string">
+                                              <xsd:attribute name="agreementID" type="xsd:string" use="required"/>
+                                              <xsd:attribute name="agreementDate" type="xsd:date" use="optional" />
+                                            </xsd:extension>
+                                        </xsd:simpleContent>
+                                  </xsd:complexType>
+                                </xsd:element>
+                                
+                                <xsd:element minOccurs="0" maxOccurs="1" name="OrderIDInfo">
+                                  <xsd:complexType>
+	                                   <xsd:simpleContent>
+                                            <xsd:extension base="xsd:string">
+                                              <xsd:attribute name="orderID" type="xsd:string" use="required"/>
+                                              <xsd:attribute name="orderDate" type="xsd:date" use="optional" />
+                                            </xsd:extension>
+                                        </xsd:simpleContent>
+                                  </xsd:complexType>
+                                </xsd:element>
+	                                      
                                 <xsd:element name="SupplierOrderInfo">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:string">
-                                        <xsd:attribute name="orderID" type="xsd:string" />
+                                        <xsd:attribute name="orderID" type="xsd:string" use="required"/>
                                       </xsd:extension>
                                     </xsd:simpleContent>
                                   </xsd:complexType>

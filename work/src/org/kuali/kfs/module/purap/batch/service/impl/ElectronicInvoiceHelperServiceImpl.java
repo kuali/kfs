@@ -31,6 +31,7 @@ import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.module.purap.batch.service.ElectronicInvoiceHelperService;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceContact;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoicePostalAddress;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
@@ -66,7 +67,28 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             LOG.debug("PayloadID:"+parsedObject.getPayloadID());
             LOG.debug("From Domain:"+parsedObject.getCxmlHeader().getFromDomain());
             LOG.debug("From Identity:"+parsedObject.getCxmlHeader().getFromIdentity());
+            //REQUEST
             LOG.debug("DeploymentMode:"+parsedObject.getInvoiceDetailRequestHeader().getDeploymentMode());
+            LOG.debug("InvoiceDate:"+parsedObject.getInvoiceDetailRequestHeader().getInvoiceDateString());
+            LOG.debug("Operation:"+parsedObject.getInvoiceDetailRequestHeader().getOperation());
+            LOG.debug("Purpose:"+parsedObject.getInvoiceDetailRequestHeader().getPurpose());
+            
+            ElectronicInvoiceContact[] contacts = parsedObject.getInvoiceDetailRequestHeader().getInvoicePartnerContactsAsArray();
+            for (int i = 0; i < contacts.length; i++) {
+                LOG.debug("Partner Contact...."+contacts[i]);
+            }
+            
+            contacts = parsedObject.getInvoiceDetailRequestHeader().getInvoiceShippingContactsAsArray();
+            for (int i = 0; i < contacts.length; i++) {
+                LOG.debug("Shipping Contact...."+contacts[i]);
+            }
+            
+//            ElectronicInvoiceOrder[] orders = parsedObject.getInvoiceDetailOrdersAsArray();
+//            for (int i = 0; i < orders.length; i++) {
+//                LOG.debug("Order...."+orders[i]);
+//            }
+//            
+            
         }
         catch (IOException e) {
             LOG.error("error while getting file bytes:  " + e.getMessage(), e);

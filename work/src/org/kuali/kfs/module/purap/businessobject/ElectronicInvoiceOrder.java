@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 
@@ -423,7 +424,7 @@ public class ElectronicInvoiceOrder {
   /**
    * @param orderReferenceOrderID The orderReferenceOrderID to set.
    */
-  public void setOrderReferenceOrderID(String orderReferenceOrderID) {
+  public void setOrderReferenceOrderID(String orderReferenceOrderID) {LOG.debug("orderReferenceOrderID........"+orderReferenceOrderID);
     this.orderReferenceOrderID = orderReferenceOrderID;
   }
   /**
@@ -483,7 +484,7 @@ public class ElectronicInvoiceOrder {
   /**
    * @param supplierOrderInfoID The supplierOrderInfoID to set.
    */
-  public void setSupplierOrderInfoID(String supplierOrderInfoID) {
+  public void setSupplierOrderInfoID(String supplierOrderInfoID) {LOG.debug("supplierOrderInfoID........"+supplierOrderInfoID);
     this.supplierOrderInfoID = supplierOrderInfoID;
   }
   /**
@@ -503,5 +504,24 @@ public class ElectronicInvoiceOrder {
    */
   public String getOrderIDInfoDateString() {
     return orderIDInfoDateString;
+  }
+  
+  public String toString(){
+      
+      ToStringBuilder toString = new ToStringBuilder(this);
+      
+      toString.append("orderReferenceOrderID",getOrderReferenceOrderID());
+      toString.append("orderReferenceDocumentRefPayloadID",getOrderReferenceDocumentRefPayloadID());
+      toString.append("orderReferenceDocumentRef",getOrderReferenceDocumentRef());
+      toString.append("masterAgreementReferenceID",getMasterAgreementReferenceID());
+      toString.append("masterAgreementReferenceDateString",getMasterAgreementReferenceDateString());
+      toString.append("masterAgreementIDInfoID",getMasterAgreementIDInfoID());
+      toString.append("masterAgreementIDInfoDateString",getMasterAgreementIDInfoDateString());
+      toString.append("orderIDInfoID",getOrderIDInfoID());
+      toString.append("orderIDInfoDateString",getOrderIDInfoDateString());
+      toString.append("supplierOrderInfoID",getSupplierOrderInfoID());
+      
+      return toString.toString();
+      
   }
 }

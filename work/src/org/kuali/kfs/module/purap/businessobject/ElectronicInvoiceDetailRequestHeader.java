@@ -296,6 +296,7 @@ public class ElectronicInvoiceDetailRequestHeader {
   public void setInvoiceShippingContacts(List invoiceShippingContacts) {
     this.invoiceShippingContacts = invoiceShippingContacts;
   }
+  
   /**
    * @return Returns the isDiscountInLine.
    */
@@ -455,6 +456,19 @@ public class ElectronicInvoiceDetailRequestHeader {
       if (invoicePartnerContacts.size() > 0){
           ElectronicInvoiceContact[] tempContacts = new ElectronicInvoiceContact[invoicePartnerContacts.size()];
           invoicePartnerContacts.toArray(tempContacts);
+          return tempContacts;
+      }
+      return null;
+  }
+  
+  public void addInvoiceShippingContacts(ElectronicInvoiceContact electronicInvoiceContact){
+      invoiceShippingContacts.add(electronicInvoiceContact);
+  }
+  
+  public ElectronicInvoiceContact[] getInvoiceShippingContactsAsArray(){
+      if (invoiceShippingContacts.size() > 0){
+          ElectronicInvoiceContact[] tempContacts = new ElectronicInvoiceContact[invoiceShippingContacts.size()];
+          invoiceShippingContacts.toArray(tempContacts);
           return tempContacts;
       }
       return null;

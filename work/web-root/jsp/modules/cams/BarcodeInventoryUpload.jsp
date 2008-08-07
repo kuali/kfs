@@ -68,6 +68,15 @@
                 </td>
               </tr>
             </c:forEach>
+            
+		    <tr>
+			    <th>Description:</th>
+				<td align="left" valign="middle">
+					<html:text property="uploadDescription"  size="45" maxlength="40"/>
+				</td>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+			</tr>		    
          </table>
           
           <br>

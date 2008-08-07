@@ -16,14 +16,23 @@
 package org.kuali.kfs.module.cam.batch.service.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
+import org.kuali.core.exceptions.ValidationException;
+import org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryInputFileService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl;
+import org.kuali.kfs.sys.exception.FileStorageException;
 
 public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSetServiceImpl implements  AssetBarcodeInventoryInputFileService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetBarcodeInventoryInputFileServiceImpl.class);
@@ -59,4 +68,69 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
         return true;
     }
 
+    public Map<String, String> save(UniversalUser user, AssetBarcodeInventoryInputFileType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation, String uploadDescription) throws AuthorizationException, FileStorageException {
+        // check user is authorized to upload a file for the batch type
+        if (!isUserAuthorizedForBatchType(inputType, user)) {
+            LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to upload a file of batch type " + inputType.getFileSetTypeIdentifer());
+            throw new AuthorizationException(user.getPersonUserIdentifier(), "upload", inputType.getFileSetTypeIdentifer());
+        }
+
+        assertNoFilesInSetExist(user, inputType, fileUserIdentifier);
+
+        Map<String, File> typeToTempFiles = copyStreamsToTemporaryDirectory(user, inputType, fileUserIdentifier, typeToStreamMap);
+        
+        // null the map, because it's full of exhausted input streams that are useless 
+        typeToStreamMap = null;
+        
+        if (!inputType.validate(typeToTempFiles)) {
+            deleteTempFiles(typeToTempFiles);
+            LOG.error("Upload file validation failed for user " + user.getPersonName() + " identifier " + fileUserIdentifier);
+            throw new ValidationException("File validation failed");
+        }
+        
+        byte[] buf = new byte[1024];
+
+        Map<String, String> typeToFileNames = new LinkedHashMap<String, String>();
+        Map<String, File> typeToFiles = new LinkedHashMap<String, File>();
+        try {
+            for (String fileType : inputType.getFileTypes()) {
+                File tempFile = typeToTempFiles.get(fileType);
+                String saveFileName = inputType.getDirectoryPath(fileType) + File.separator + tempFile.getName();
+                try {
+                    InputStream fileContents = new FileInputStream(tempFile);
+                    File fileToSave = new File(saveFileName);
+    
+                    copyInputStreamToFile(fileContents, fileToSave, buf);
+                    fileContents.close();
+                    typeToFileNames.put(fileType, saveFileName);
+                    typeToFiles.put(fileType, fileToSave);
+                }
+                catch (IOException e) {
+                    LOG.error("unable to save contents to file " + saveFileName, e);
+                    throw new RuntimeException("errors encountered while writing file " + saveFileName, e);
+                }
+            }
+        }
+        finally {
+            deleteTempFiles(typeToTempFiles);
+        }
+
+        if (!suppressDoneFileCreation && inputType.isSupportsDoneFileCreation()) {
+            String doneFileName = inputType.getDoneFileDirectoryPath() + File.separator + inputType.getDoneFileName(user, fileUserIdentifier);
+            File doneFile = new File(doneFileName);
+            try {
+                doneFile.createNewFile();
+                
+                typeToFiles.put(KFSConstants.DONE_FILE_TYPE, doneFile);
+            }
+            catch (IOException e) {
+                LOG.error("unable to create done file", e);
+                throw new RuntimeException("unable to create done file", e);
+            }
+        }
+        
+        inputType.process(typeToFiles, uploadDescription);
+        
+        return typeToFileNames;
+    }
 }

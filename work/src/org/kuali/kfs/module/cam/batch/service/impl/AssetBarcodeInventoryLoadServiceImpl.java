@@ -29,6 +29,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
@@ -58,7 +59,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInventoryLoadService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetBarcodeInventoryLoadServiceImpl.class);
 
-    private static final int MAX_NUMBER_OF_COLUMNS = 9;
+    private static final int MAX_NUMBER_OF_COLUMNS = 8;
     private static final String DOCUMENT_EXPLANATION = "BARCODE ERROR INVENTORY";
 
     private BusinessObjectService businessObjectService;
@@ -203,7 +204,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
     /**
      * @see org.kuali.module.cams.service.AssetBarCodeInventoryLoadService#processFile(java.io.File)
      */
-    public boolean processFile(File file) {
+    public boolean processFile(File file, String uploadDescription) {
         LOG.debug("processFile(File file) - start");
 
         BufferedReader input = null;
@@ -222,10 +223,12 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         BarcodeInventoryErrorDetail barcodeInventoryErrorDetail;
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();
 
+        List<BarcodeInventoryErrorDocument> barcodeInventoryErrorDocuments = new ArrayList<BarcodeInventoryErrorDocument>();
         try {
             Long ln = new Long(1);
             input = new BufferedReader(new FileReader(file));
             String line = null;
+
             while ((line = input.readLine()) != null) {
                 line = StringUtils.remove(line, "\"");
                 String[] lineStrings = org.springframework.util.StringUtils.delimitedListToStringArray(line, ",");
@@ -266,14 +269,12 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 barcodeInventoryErrorDetail.setBuildingSubRoomNumber(lineStrings[6].trim());
                 barcodeInventoryErrorDetail.setAssetConditionCode(lineStrings[7].trim());
                 barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR);                
-                // barcodeInventoryErrorDetail.setRowSelected(true);
 
                 barcodeInventoryErrorDetails.add(barcodeInventoryErrorDetail);
                 ln++;
             }
-
-            BarcodeInventoryErrorDocument document = createInvalidBarcodeInventoryDocument(barcodeInventoryErrorDetails);
-            processBarcodeInventory(document);
+           // BarcodeInventoryErrorDocument document = createInvalidBarcodeInventoryDocument(barcodeInventoryErrorDetails,uploadDescription);
+            processBarcodeInventory(barcodeInventoryErrorDetails,uploadDescription);
 
             // Removing *.done files that are created automatically by the framework.
             this.removeDoneFile(file);
@@ -323,13 +324,17 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * 
      * @param barcodeInventoryErrorDetails
      */
-    public void processBarcodeInventory(BarcodeInventoryErrorDocument barcodeInventoryErrorDocument) throws Exception {
+    //public void processBarcodeInventory(BarcodeInventoryErrorDocument barcodeInventoryErrorDocument, String uploadDescription) throws Exception {
+    public void processBarcodeInventory(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails,String uploadDescription) throws Exception {
         Long lineNumber = new Long(0);
+        boolean docCreated=false;
+        //Document document;
 
+        BarcodeInventoryErrorDocument barcodeInventoryErrorDocument = createInvalidBarcodeInventoryDocument(barcodeInventoryErrorDetails,uploadDescription);
         // apply rules for the new cash control detail
         kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", barcodeInventoryErrorDocument));
 
-        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = barcodeInventoryErrorDocument.getBarcodeInventoryErrorDetail();
+        //List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = barcodeInventoryErrorDocument.getBarcodeInventoryErrorDetail();
         List<BarcodeInventoryErrorDetail> tmpBarcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();
 
         for (BarcodeInventoryErrorDetail barcodeInventoryErrorDetail : barcodeInventoryErrorDetails) {
@@ -346,16 +351,68 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 tmpBarcodeInventoryErrorDetails.add(barcodeInventoryErrorDetail);
             }
         }
-
+        //*********************************************************************
         // Storing the invalid barcode inventory records.
+        //*********************************************************************
         if (!tmpBarcodeInventoryErrorDetails.isEmpty()) {
-            barcodeInventoryErrorDocument.setBarcodeInventoryErrorDetail(tmpBarcodeInventoryErrorDetails);
-            saveInvalidBarcodeInventoryDocument(barcodeInventoryErrorDocument);
-        } else {
+            //barcodeInventoryErrorDocument.setBarcodeInventoryErrorDetail(tmpBarcodeInventoryErrorDetails);
+            //saveInvalidBarcodeInventoryDocument(barcodeInventoryErrorDocument);
+            this.createBarcodeInventoryErrorDocuments(tmpBarcodeInventoryErrorDetails, barcodeInventoryErrorDocument,uploadDescription);
+            docCreated=true;
+        }/* else {
             GlobalVariables.getMessageList().add(CamsKeyConstants.BarcodeInventory.MESSAGE_NO_DOCUMENT_CREATED);            
+        }*/
+
+        if (!docCreated) {
+            GlobalVariables.getMessageList().add(CamsKeyConstants.BarcodeInventory.MESSAGE_NO_DOCUMENT_CREATED);            
+        } else {
+            GlobalVariables.getMessageList().add(CamsKeyConstants.BarcodeInventory.MESSAGE_DOCUMENT_CREATED);            
         }
 
     }
+
+
+    /**
+     * 
+     * This method...
+     * @param bcies
+     * @param barcodeInventoryErrorDocument
+     */
+    public void createBarcodeInventoryErrorDocuments(List<BarcodeInventoryErrorDetail> bcies,BarcodeInventoryErrorDocument barcodeInventoryErrorDocument, String uploadDescription) {
+        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();
+        boolean isFirstDocument=true;
+        int ln=0;
+        int bcieCount=0;
+
+        try {
+            while(true) {
+                if ( (ln > 300) || (bcieCount >= bcies.size()) ) {
+                    //This if was added in order to not waste the document already created and not create a new one.
+                    if (!isFirstDocument) {
+                        barcodeInventoryErrorDocument = createInvalidBarcodeInventoryDocument(barcodeInventoryErrorDetails,uploadDescription);
+                    }
+                    barcodeInventoryErrorDocument.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
+                    saveInvalidBarcodeInventoryDocument(barcodeInventoryErrorDocument);
+
+                    barcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();
+
+                    if (bcieCount >= bcies.size())
+                        break;
+
+                    ln=0;
+                    isFirstDocument=false;
+                }        
+                barcodeInventoryErrorDetails.add(bcies.get(bcieCount));
+                ln++;
+                bcieCount++;
+            }    
+        } catch(Exception e) {
+            LOG.error("Error creating BCIE documents", e);
+            throw new IllegalArgumentException("Error creating BCIE documents: " + e.getMessage());            
+        }
+    }
+
+
 
     /**
      * This method updates the asset information particularly the building code, bulding room, building subrool, campus code, and
@@ -399,15 +456,15 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @param barcodeInventoryErrorDetails
      * @return BarcodeInventoryErrorDocument
      */
-    private BarcodeInventoryErrorDocument createInvalidBarcodeInventoryDocument(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails) throws WorkflowException {
+    private BarcodeInventoryErrorDocument createInvalidBarcodeInventoryDocument(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails,String uploadDescription) throws WorkflowException {
         BarcodeInventoryErrorDocument document = (BarcodeInventoryErrorDocument) documentService.getNewDocument(BarcodeInventoryErrorDocument.class);
-        
+
         document.getDocumentHeader().setExplanation(DOCUMENT_EXPLANATION);
         document.getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(0));
-        document.getDocumentHeader().setDocumentDescription(DOCUMENT_EXPLANATION);
+        document.getDocumentHeader().setDocumentDescription(uploadDescription);
         document.setUploaderUniversalIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
-        
+
         return document;
     }
 
@@ -424,8 +481,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
             // Saving....
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-            
-            GlobalVariables.getMessageList().add(CamsKeyConstants.BarcodeInventory.MESSAGE_DOCUMENT_CREATED);            
+
+            //GlobalVariables.getMessageList().add(CamsKeyConstants.BarcodeInventory.MESSAGE_DOCUMENT_CREATED);            
         }
         catch (Exception e) {
             LOG.error("Error persisting document # " + document.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);

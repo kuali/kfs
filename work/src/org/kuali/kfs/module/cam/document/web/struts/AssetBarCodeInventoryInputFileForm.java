@@ -18,8 +18,18 @@ package org.kuali.kfs.module.cam.document.web.struts;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm;
 
 public class AssetBarCodeInventoryInputFileForm extends KualiBatchInputFileSetForm {
+    private String uploadDescription;
+    
     public AssetBarCodeInventoryInputFileForm() {
         super();
         this.setSupressDoneFileCreation(true);
+    }
+
+    public String getUploadDescription() {
+        return uploadDescription;
+    }
+
+    public void setUploadDescription(String uploadDescription) {
+        this.uploadDescription = uploadDescription;
     }
 }

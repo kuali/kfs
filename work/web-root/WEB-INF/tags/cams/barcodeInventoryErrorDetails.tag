@@ -130,6 +130,7 @@
 			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" property="currentScanCode"/>
+						[Yes - No]
 					</td>
 			        <th align=right valign=middle class="grid"><div align="right">&nbsp</div></th>				
 					<td align=left class="${cssClass}">&nbsp</td>	
@@ -139,11 +140,13 @@
 			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.campusCode}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.campusCode}" property="currentCampusCode"/>
+						<kul:lookup boClassName="org.kuali.core.bo.Campus" fieldConversions="campusCode:currentCampusCode" />
 					</td>
 	
 			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.campusCode}" readOnly="true"/></div></th>				
 					<td align=left class="${cssClass}">&nbsp
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.campusCode}" property="newCampusCode"/>
+						<kul:lookup boClassName="org.kuali.core.bo.Campus" fieldConversions="campusCode:newCampusCode" />						
 					</td>
 				</tr>				
 	
@@ -151,11 +154,17 @@
 			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingCode}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingCode}" property="currentBuildingNumber"/>
+						<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building" 
+						fieldConversions="buildingCode:currentBuildingNumber,campusCode:currentCampusCode" 
+						lookupParameters="currentBuildingNumber:buildingCode,currentCampusCode:campusCode" />										
 					</td>
 	
 			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingCode}" readOnly="true"/></div></th>				
 					<td align=left class="${cssClass}">&nbsp
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingCode}" property="newBuildingNumber"/>
+						<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building" 
+						fieldConversions="buildingCode:newBuildingNumber,campusCode:newCampusCode" 
+						lookupParameters="newBuildingNumber:buildingCode,newCampusCode:campusCode" />																
 					</td>
 				</tr>				
 	
@@ -163,11 +172,17 @@
 			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" property="currentRoom"/>
+						<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" 
+						fieldConversions="buildingCode:currentBuildingNumber,campusCode:currentCampusCode,buildingRoomNumber:currentRoom" 
+						lookupParameters="currentBuildingNumber:buildingCode,currentCampusCode:campusCode" />										
 					</td>
 	
 			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" readOnly="true"/></div></th>				
 					<td align=left class="${cssClass}">&nbsp
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" property="newRoom"/>
+						<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" 
+						fieldConversions="buildingCode:newBuildingNumber,campusCode:newCampusCode,buildingRoomNumber:newRoom" 
+						lookupParameters="newBuildingNumber:buildingCode,newCampusCode:campusCode" />																
 					</td>
 				</tr>				
 	
@@ -187,11 +202,15 @@
 			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetConditionCode}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetConditionCode}" property="currentConditionCode"/>
+						<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.AssetCondition" fieldConversions="assetConditionCode:currentConditionCode"
+						lookupParameters="currentConditionCode:assetConditionCode" />									
 					</td>
 	
 			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetConditionCode}" readOnly="true"/></div></th>				
 					<td align=left class="${cssClass}">&nbsp
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetConditionCode}" property="newConditionCode"/>
+						<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.AssetCondition" fieldConversions="assetConditionCode:newConditionCode"
+						lookupParameters="newConditionCode:assetConditionCode" />															
 					</td>
 				</tr>		
 				<tr>

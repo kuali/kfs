@@ -42,7 +42,7 @@ public interface AssetBarcodeInventoryLoadService {
       * @param file
       * @return
       */
-     public boolean processFile(File file);
+     public boolean processFile(File file, String uploadDescription);
      
      
      /**

@@ -50,7 +50,7 @@ public class BudgetAdjustmentDocumentBalancedValidation extends GenericValidatio
         }
 
         // check current amounts balance, income stream balance Map should add to 0
-        Map incomeStreamMap = getAccountingDocumentForValidation().buildIncomeStreamBalanceMap();
+        Map incomeStreamMap = getAccountingDocumentForValidation().buildIncomeStreamBalanceMapForDocumentBalance();
         KualiDecimal totalCurrentAmount = new KualiDecimal(0);
         for (Iterator iter = incomeStreamMap.values().iterator(); iter.hasNext();) {
             KualiDecimal streamAmount = (KualiDecimal) iter.next();

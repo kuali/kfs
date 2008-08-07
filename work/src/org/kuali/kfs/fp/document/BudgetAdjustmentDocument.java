@@ -26,17 +26,16 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLineParser;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl;
-import org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRule;
 import org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants;
 import org.kuali.kfs.fp.document.validation.impl.TransferOfFundsDocumentRuleConstants;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
@@ -45,6 +44,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -88,7 +88,6 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         List<GeneralLedgerPendingEntry> pendingLedgerEntries = new ArrayList();
 
         GeneralLedgerPendingEntrySequenceHelper glpeSequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
-        BudgetAdjustmentDocumentRule budgetAdjustmentDocumentRule = new BudgetAdjustmentDocumentRule();
 
         BudgetAdjustmentDocument copiedBa = (BudgetAdjustmentDocument) ObjectUtils.deepCopy(this);
         copiedBa.getGeneralLedgerPendingEntries().clear();
@@ -564,7 +563,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * Returns true if accounting line is debit
      * 
      * @param financialDocument submitted financial document
-     * @param accountingLine accouting line being evaulated as a debit or not
+     * @param accountingLine accounting line being evaluated as a debit or not
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -572,7 +571,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         try {
             DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-            return isDebitUtils.isDebitConsideringType(this, (AccountingLine)postable);
+            return isDebitUtils.isDebitConsideringType(this, (AccountingLine) postable);
         }
         catch (IllegalStateException e) {
             // for all accounting lines except the transfer lines, the line amount will be 0 and this exception will be thrown
@@ -594,7 +593,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      */
     @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        AccountingLine accountingLine = (AccountingLine)glpeSourceDetail;
+        AccountingLine accountingLine = (AccountingLine) glpeSourceDetail;
 
         // determine if we are on increase or decrease side
         KualiDecimal amountSign = null;
@@ -644,10 +643,10 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
             }
 
             customizeExplicitGeneralLedgerPendingEntry(accountingLine, explicitEntry);
-            
+
             addPendingEntry(explicitEntry);
 
-            // create montly lines (MB)
+            // create monthly lines (MB)
             if (budgetAccountingLine.getFinancialDocumentMonth1LineAmount().isNonZero()) {
                 sequenceHelper.increment();
                 createMonthlyBudgetGLPE(accountingLine, sequenceHelper, BudgetAdjustmentDocumentRuleConstants.MONTH_1_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth1LineAmount().multiply(amountSign));
@@ -723,9 +722,10 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
         addPendingEntry(explicitEntry);
     }
-    
+
     /**
      * Returns an implementation of the GeneralLedgerPendingEntryService
+     * 
      * @return an implementation of the GeneralLedgerPendingEntryService
      */
     public GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
@@ -753,7 +753,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
         if (generateTransfer) {
             // map of income chart/accounts with balance as value
-            Map incomeStreamMap = buildIncomeStreamBalanceMap();
+            Map<String, KualiDecimal> incomeStreamMap = buildIncomeStreamBalanceMapForTransferOfFundsGeneration();
             GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
             for (Iterator iter = incomeStreamMap.keySet().iterator(); iter.hasNext();) {
                 String chartAccount = (String) iter.next();
@@ -842,44 +842,88 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         }
         return success;
     }
-    
+
     /**
      * Builds a map used for balancing current adjustment amounts. The map contains income chart and accounts contained on the
-     * document as the keys, and transfer amounts as the values. The transfer amount is calculated from (curr_frm_inc -
-     * curr_frm_exp) - (curr_to_inc - curr_to_exp)
+     * document as the keys, and transfer amounts as the values.  The transfer amount is calculated from (curr_frm_inc - curr_frm_exp) - (curr_to_inc - curr_to_exp)
      * 
-     * @param baDocument budget ajdustment document
+     * @param baDocument budget adjustment document
      * @return Map used to balance current amounts
      */
-    public Map buildIncomeStreamBalanceMap() {
-        Map incomeStreamBalance = new HashMap();
+    public Map buildIncomeStreamBalanceMapForTransferOfFundsGeneration() {
+        Map<String, KualiDecimal> incomeStreamBalance = new HashMap<String, KualiDecimal>();
 
-        List accountingLines = new ArrayList();
+        List<BudgetAdjustmentAccountingLine> accountingLines = new ArrayList<BudgetAdjustmentAccountingLine>();
         accountingLines.addAll(getSourceAccountingLines());
         accountingLines.addAll(getTargetAccountingLines());
-        for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
-            BudgetAdjustmentAccountingLine budgetAccountingLine = (BudgetAdjustmentAccountingLine) iter.next();
-            String incomeStreamKey = budgetAccountingLine.getAccount().getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + budgetAccountingLine.getAccount().getIncomeStreamAccountNumber();
-
-            KualiDecimal incomeStreamAmount = new KualiDecimal(0);
-            if (incomeStreamBalance.containsKey(incomeStreamKey)) {
-                incomeStreamAmount = (KualiDecimal) incomeStreamBalance.get(incomeStreamKey);
+        for (BudgetAdjustmentAccountingLine budgetAccountingLine : accountingLines) {
+            
+            Account baAccount = budgetAccountingLine.getAccount();
+            String subFundGroupCode = baAccount.getSubFundGroupCode();
+            String fundGroupCode = baAccount.getSubFundGroup().getFundGroupCode();
+            
+            ParameterService paramService = SpringContext.getBean(ParameterService.class);
+            
+            if(paramService.getParameterEvaluator(Account.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS, fundGroupCode).evaluationSucceeds() &&
+               !paramService.getParameterEvaluator(Account.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
+                
+                String incomeStreamKey = baAccount.getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + budgetAccountingLine.getAccount().getIncomeStreamAccountNumber();
+    
+                // place record in balance map
+                incomeStreamBalance.put(incomeStreamKey, getIncomeStreamAmount(budgetAccountingLine, incomeStreamBalance.get(incomeStreamKey)));
             }
-
-            // amounts need reversed for source expense lines and target income lines
-            DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-            if ((budgetAccountingLine instanceof BudgetAdjustmentSourceAccountingLine && isDebitUtils.isExpense((AccountingLine) budgetAccountingLine)) || (budgetAccountingLine instanceof BudgetAdjustmentTargetAccountingLine && isDebitUtils.isIncome((AccountingLine) budgetAccountingLine))) {
-                incomeStreamAmount = incomeStreamAmount.subtract(budgetAccountingLine.getCurrentBudgetAdjustmentAmount());
-            }
-            else {
-                incomeStreamAmount = incomeStreamAmount.add(budgetAccountingLine.getCurrentBudgetAdjustmentAmount());
-            }
-
-            // place record in balance map
-            incomeStreamBalance.put(incomeStreamKey, incomeStreamAmount);
         }
 
         return incomeStreamBalance;
+    }
+
+    /**
+     * Builds a map used for balancing current adjustment amounts. The map contains income chart and accounts contained on the
+     * document as the keys, and transfer amounts as the values. The transfer amount is calculated from (curr_frm_inc - curr_frm_exp) - (curr_to_inc - curr_to_exp)
+     * 
+     * @param baDocument budget adjustment document
+     * @return Map used to balance current amounts
+     */
+    public Map buildIncomeStreamBalanceMapForDocumentBalance() {
+        Map<String, KualiDecimal> incomeStreamBalance = new HashMap<String, KualiDecimal>();
+
+        List<BudgetAdjustmentAccountingLine> accountingLines = new ArrayList<BudgetAdjustmentAccountingLine>();
+        accountingLines.addAll(getSourceAccountingLines());
+        accountingLines.addAll(getTargetAccountingLines());
+        for (BudgetAdjustmentAccountingLine budgetAccountingLine : accountingLines) {
+            
+            String incomeStreamKey = budgetAccountingLine.getAccount().getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + budgetAccountingLine.getAccount().getIncomeStreamAccountNumber();
+
+            // place record in balance map
+            incomeStreamBalance.put(incomeStreamKey, getIncomeStreamAmount(budgetAccountingLine, incomeStreamBalance.get(incomeStreamKey)));
+        }
+
+        return incomeStreamBalance;
+    }
+
+    /**
+     * 
+     * This method calculates the appropriate income stream amount for an account using the value provided and the provided accounting line.
+     * 
+     * @param budgetAccountingLine
+     * @param incomeStreamAmount
+     * @return
+     */
+    private KualiDecimal getIncomeStreamAmount(BudgetAdjustmentAccountingLine budgetAccountingLine, KualiDecimal incomeStreamAmount) {
+        if(incomeStreamAmount == null) {
+            incomeStreamAmount = new KualiDecimal(0);
+        }
+
+        // amounts need to be reversed for source expense lines and target income lines
+        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+        if ((budgetAccountingLine instanceof BudgetAdjustmentSourceAccountingLine && isDebitUtils.isExpense((AccountingLine) budgetAccountingLine)) || (budgetAccountingLine instanceof BudgetAdjustmentTargetAccountingLine && isDebitUtils.isIncome((AccountingLine) budgetAccountingLine))) {
+            incomeStreamAmount = incomeStreamAmount.subtract(budgetAccountingLine.getCurrentBudgetAdjustmentAmount());
+        }
+        else {
+            incomeStreamAmount = incomeStreamAmount.add(budgetAccountingLine.getCurrentBudgetAdjustmentAmount());
+        }
+
+        return incomeStreamAmount;
     }
     
     /**

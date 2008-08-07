@@ -693,6 +693,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ADJUSTMENT_RESTRICTION_LEVEL_ACCOUNT = "A";
         public static final String ADJUSTMENT_RESTRICTION_LEVEL_SUBFUND = "S";
         public static final String ADJUSTMENT_RESTRICTION_LEVEL_NONE = "N";
+        public static final String CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS = "CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS";
+        public static final String CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS = "CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS";
     }
 
     public static class BudgetConstructionPositionConstants {
@@ -742,6 +744,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         // Account parms
         public static final String ACCOUNT_USER_EMP_STATUSES = "ROLE_EMPLOYEE_STATUSES";
         public static final String ACCOUNT_USER_EMP_TYPES = "ROLE_EMPLOYEE_TYPES";
+        public static final String INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS = "INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS";
+        public static final String INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS = "INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS";
 
         // Delegate parms
         public static final String DELEGATE_USER_EMP_STATUSES = "EMPLOYEE_STATUSES";
@@ -770,6 +774,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String DV_WIRETRANSFER_WORKGROUP = "WIRE_TRANSFER_GROUP";
         public static final String DV_TRAVEL_WORKGROUP = "TRAVEL_GROUP";
         public static final String ACCOUNTING_LINE_IMPORT_HELP = "ACCOUNTING_LINE_IMPORT";
+        
+        public static final String DV_CAMPUS_BY_PAYMENT_REASON_PARAM = "CAMPUS_BY_PAYMENT_REASON";
     }
 
     public static class SystemGroupParameterNames {

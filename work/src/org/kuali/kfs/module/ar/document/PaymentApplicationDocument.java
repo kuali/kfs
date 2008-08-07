@@ -17,6 +17,8 @@ package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
@@ -75,7 +77,20 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         this.appliedPayments = appliedPayments;
     }
 
+    /**
+     * This method returns non invoiced payments sorted by financial document line number.
+     * 
+     * @return
+     */
     public Collection<NonInvoiced> getNonInvoicedPayments() {
+        Collections.sort((List<NonInvoiced>)nonInvoicedPayments,new Comparator() {
+            public int compare(Object o1, Object o2) {
+                NonInvoiced ni1 = (NonInvoiced)o1;
+                NonInvoiced ni2 = (NonInvoiced)o2;
+                
+                return ni1.getFinancialDocumentLineNumber().compareTo(ni2.getFinancialDocumentLineNumber());
+            }
+        });
         return nonInvoicedPayments;
     }
 

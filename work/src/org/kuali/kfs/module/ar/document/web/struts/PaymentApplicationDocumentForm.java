@@ -24,6 +24,8 @@ import java.util.Map;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
+import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
@@ -41,6 +43,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     private KualiDecimal selectedInvoiceBalance;
     private KualiDecimal amountAppliedDirectlyToInvoice;
     private CustomerInvoiceDocument selectedInvoiceDocument;
+    private NonInvoiced nonInvoicedAddLine;
 
     private ArrayList<CustomerInvoiceDetail> customerInvoiceDetails;
     private ArrayList<CustomerInvoiceDocument> invoices;
@@ -52,12 +55,27 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public PaymentApplicationDocumentForm() {
         super();
         setDocument(new PaymentApplicationDocument());
+        nonInvoicedAddLine = new NonInvoiced();
 
         customerInvoiceDetails = new ArrayList<CustomerInvoiceDetail>();
         invoices = new ArrayList<CustomerInvoiceDocument>();
         selectedInvoiceDocument = new CustomerInvoiceDocument();
 
         appliedPaymentsPerCustomerInvoiceDetail = new HashMap<String, Collection>();
+    }
+    
+    /**
+     * @return
+     */
+    public KualiDecimal getNonArTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        if(null != getPaymentApplicationDocument()) {
+            Collection<NonInvoiced> items = getPaymentApplicationDocument().getNonInvoicedPayments();
+            for(NonInvoiced item : items) {
+                total = total.add(item.getFinancialDocumentLineAmount());
+            }
+        }
+        return total;
     }
 
     /**
@@ -273,6 +291,28 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         PaymentApplicationDocumentService paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
         CashControlDocument cashControlDocument = paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument((PaymentApplicationDocument) getDocument());
         return cashControlDocument;
+    }
+
+    public NonInvoiced getNonInvoicedAddLine() {
+        return nonInvoicedAddLine;
+    }
+
+    public void setNonInvoicedAddLine(NonInvoiced nonInvoicedAddLine) {
+        this.nonInvoicedAddLine = nonInvoicedAddLine;
+    }
+    
+    public Integer getNonInvoicedAddLineItemNumber() {
+        Integer number = new Integer(0);
+        if(null != getPaymentApplicationDocument()) {
+            Collection<NonInvoiced> items = getPaymentApplicationDocument().getNonInvoicedPayments();
+            for(NonInvoiced item : items) {
+                Integer i = item.getFinancialDocumentLineNumber();
+                if(i > number) {
+                    number = i;
+                }
+            }
+        }
+        return number+1;
     }
 
 }

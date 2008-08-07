@@ -790,6 +790,7 @@ public class KFSPropertyConstants {
     public static final String NEW_CREDIT_CARD_RECEIPT = "newCreditCardReceipt";
     public static final String NEW_ITEM = "newItem";
     public static final String NEW_MAINTAINABLE_OBJECT = KNSPropertyConstants.NEW_MAINTAINABLE_OBJECT;
+    public static final String NEW_NON_INVOICED = "newNonInvoiced";
     public static final String NEW_NONEMPLOYEE_EXPENSE_LINE = "newNonEmployeeExpenseLine";
     public static final String NEW_PRECONF_REGISTRANT_LINE = "newPreConferenceRegistrantLine";
     public static final String NEW_PREPAID_EXPENSE_LINE = "newPrePaidNonEmployeeExpenseLine";
@@ -806,6 +807,7 @@ public class KFSPropertyConstants {
     public static final String NEXT_TARGET_LINE_NUMBER = "nextTargetLineNumber";
     public static final String NEXT_YEAR_FINANCIAL_OBJECT = "nextYearFinancialObject";
     public static final String NEXT_YEAR_FINANCIAL_OBJECT_CODE = "nextYearFinancialObjectCode";
+    public static final String NON_INVOICED_LINE_AMOUNT = "financialDocumentLineAmount";
     public static final String NONPERSONNEL_CATEGORY = "nonpersonnelCategory";
     public static final String NONPERSONNEL_ITEM = "nonpersonnelItem";
     public static final String NONPERSONNEL_ITEMS = "nonpersonnelItems";

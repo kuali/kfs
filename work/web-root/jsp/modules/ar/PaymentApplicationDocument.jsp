@@ -15,22 +15,17 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="readOnly"
-	value="${!empty KualiForm.editingMode['viewOnly']}" />
-<c:set var="paymentApplicationDocumentAttributes"
-	value="${DataDictionary['PaymentApplicationDocument'].attributes}" />
-<c:set var="invoiceAttributes"
-	value="${DataDictionary['CustomerInvoiceDocument'].attributes}" />
+<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
+<c:set var="nonInvoicedPaymentAttributes" value="${DataDictionary['NonInvoiced'].attributes}" />
+<c:set var="paymentApplicationDocumentAttributes" value="${DataDictionary['PaymentApplicationDocument'].attributes}" />
+<c:set var="invoiceAttributes" value="${DataDictionary['CustomerInvoiceDocument'].attributes}" />
 <c:set var="invoicePaidAppliedAttributes"
 	value="${DataDictionary['InvoicePaidApplied'].attributes}" />
-<c:set var="customerAttributes"
-	value="${DataDictionary['Customer'].attributes}" />
+<c:set var="customerAttributes" value="${DataDictionary['Customer'].attributes}" />
 <c:set var="customerInvoiceDetailAttributes"
 	value="${DataDictionary['CustomerInvoiceDetail'].attributes}" />
-<c:set var="unappliedAttributes"
-	value="${DataDictionary['NonAppliedHolding'].attributes}" />
-<c:set var="readOnly"
-	value="${!empty KualiForm.editingMode['viewOnly']}" />
+<c:set var="unappliedAttributes" value="${DataDictionary['NonAppliedHolding'].attributes}" />
+<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 <c:set var="hasRelatedCashControlDocument" value="${null != KualiForm.cashControlDocument}" />
 <c:set var="isCustomerSelected"
 	value="${!empty KualiForm.document.accountsReceivableDocumentHeader.customerNumber}" />
@@ -166,76 +161,144 @@
 		tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">
 
 		<div class="tab-container" align="center">
+		
+			<c:choose>
+		      	<c:when test="${!isCustomerSelected}">
+		      		No Customer Selected
+		      	</c:when>
+		      	<c:otherwise>
+		
 			<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 				<tr>
-					<th>
-						Chart
-					</th>
-					<th>
-						Account
-					</th>
-					<th>
-						Sacc
-					</th>
-					<th>
-						Object
-					</th>
-					<th>
-						Sobj
-					</th>
-					<th>
-						Project
-					</th>
-					<th>
-						Amount
-					</th>
-					<th>
-						Action
-					</th>
+					<kul:htmlAttributeHeaderCell literalLabel=" "/>				
+					<kul:htmlAttributeHeaderCell literalLabel="Chart"/>
+					<kul:htmlAttributeHeaderCell literalLabel="Account"/>
+					<kul:htmlAttributeHeaderCell literalLabel="Sacc"/>
+					<kul:htmlAttributeHeaderCell literalLabel="Object"/>
+					<kul:htmlAttributeHeaderCell literalLabel="Sobj"/>
+					<kul:htmlAttributeHeaderCell literalLabel="Project"/>
+					<kul:htmlAttributeHeaderCell literalLabel="Amount"/>
+					<kul:htmlAttributeHeaderCell literalLabel="Action"/>
 				</tr>
 				<tr>
 					<td>
-						<input type='text' size=''>
+						add
 					</td>
 					<td>
-						<input type='text' size=''>
+						<kul:htmlControlAttribute
+							attributeEntry="${nonInvoicedPaymentAttributes.chartOfAccountsCode}"
+							property="nonInvoicedAddLine.chartOfAccountsCode"/>
+						<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Chart"
+							autoSearch="true"
+							lookupParameters="nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode" 
+							fieldConversions="chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode"/>
 					</td>
 					<td>
-						<input type='text' size=''>
+						<kul:htmlControlAttribute
+							attributeEntry="${nonInvoicedPaymentAttributes.accountNumber}"
+							property="nonInvoicedAddLine.accountNumber"/>
+						<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" 
+							autoSearch="true"
+							lookupParameters="nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode,nonInvoicedAddLine.accountNumber:accountNumber"
+							fieldConversions="chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode,accountNumber:nonInvoicedAddLine.accountNumber" />
 					</td>
 					<td>
-						<input type='text' size=''>
+						<kul:htmlControlAttribute
+							attributeEntry="${nonInvoicedPaymentAttributes.subAccountNumber}"
+							property="nonInvoicedAddLine.subAccountNumber"/>
+						<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubAccount" 
+							autoSearch="true"
+							lookupParameters="nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode,nonInvoicedAddLine.accountNumber:accountNumber,nonInvoicedAddLine.subAccountNumber:subAccountNumber"
+							fieldConversions="chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode,accountNumber:nonInvoicedAddLine.accountNumber,subAccountNumber:nonInvoicedAddLine.subAccountNumber" />
 					</td>
 					<td>
-						<input type='text' size=''>
+						<kul:htmlControlAttribute
+							attributeEntry="${nonInvoicedPaymentAttributes.financialObjectCode}"
+							property="nonInvoicedAddLine.financialObjectCode"/>
+						<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" 
+							autoSearch="true"
+							lookupParameters="nonInvoicedAddLine.objectCode:financialObjectCode,nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode"
+							fieldConversions="financialObjectCode:nonInvoicedAddLine.objectCode,chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode" />
 					</td>
 					<td>
-						<input type='text' size=''>
+						<kul:htmlControlAttribute
+							attributeEntry="${nonInvoicedPaymentAttributes.financialSubObjectCode}"
+							property="nonInvoicedAddLine.financialSubObjectCode"/>
+						<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" 
+							autoSearch="true"
+							lookupParameters="nonInvoicedAddLine.financialSubObjectCode:financialSubObjectCode,nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode,nonInvoicedAddLine.objectCode:financialObjectCode"
+							fieldConversions="financialSubObjectCode:nonInvoicedAddLine.financialSubObjectCode,chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode,financialObjectCode:nonInvoicedAddLine.objectCode" />
 					</td>
 					<td>
-						<input type='text' size=''>
+						<kul:htmlControlAttribute
+							attributeEntry="${nonInvoicedPaymentAttributes.projectCode}"
+							property="nonInvoicedAddLine.projectCode"/>
+						<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ProjectCode" 
+							autoSearch="true"
+							lookupParameters="nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode,nonInvoicedAddLine.projectCode:code"
+							fieldConversions="chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode,code:nonInvoicedAddLine.projectCode" />
 					</td>
 					<td>
-						<html:image property="methodToCall.addNonAr"
-							src="${ConfigProperties.externalizable.images.url}tinybutton-add1.gif"
-							alt="Add" title="Add" styleClass="tinybutton" />
+						<kul:htmlControlAttribute
+							attributeEntry="${nonInvoicedPaymentAttributes.financialDocumentLineAmount}"
+							property="nonInvoicedAddLine.financialDocumentLineAmount"/>
 					</td>
+					<td><html:image property="methodToCall.addNonAr"
+						src="${ConfigProperties.externalizable.images.url}tinybutton-add1.gif"
+						alt="Add" title="Add" styleClass="tinybutton" /></td>
 				</tr>
+				<c:forEach items="${KualiForm.paymentApplicationDocument.nonInvoicedPayments}" var="nonInvoicedPayment" varStatus="niCounter">
+					<tr>
+						<td>
+							${nonInvoicedPayment.financialDocumentLineNumber}
+						</td>
+						<td>
+							<kul:htmlControlAttribute
+								attributeEntry="${nonInvoicedPaymentAttributes.chartOfAccountsCode}"
+								property="document.nonInvoicedPayments[${niCounter.count}].chartOfAccountsCode"/>
+						</td>
+						<td>
+							<kul:htmlControlAttribute
+								attributeEntry="${nonInvoicedPaymentAttributes.accountNumber}"
+								property="document.nonInvoicedPayments[${niCounter.count}].accountNumber"/>
+						</td>
+						<td>
+							<kul:htmlControlAttribute
+								attributeEntry="${nonInvoicedPaymentAttributes.subAccountNumber}"
+								property="document.nonInvoicedPayments[${niCounter.count}].subAccountNumber"/>
+						</td>
+						<td>
+							<kul:htmlControlAttribute
+								attributeEntry="${nonInvoicedPaymentAttributes.financialObjectCode}"
+								property="document.nonInvoicedPayment[${niCounter.count}].financialObjectCode"/>
+						</td>
+						<td>
+							<kul:htmlControlAttribute
+								attributeEntry="${nonInvoicedPaymentAttributes.financialSubObjectCode}"
+								property="document.nonInvoicedPayment[${niCounter.count}].financialSubObjectCode"/>
+						</td>
+						<td>
+							<kul:htmlControlAttribute
+								attributeEntry="${nonInvoicedPaymentAttributes.projectCode}"
+								property="document.nonInvoicedPayment[${niCounter.count}].projectCode"/>
+						</td>
+						<td>
+							<kul:htmlControlAttribute
+								attributeEntry="${nonInvoicedPaymentAttributes.financialDocumentLineAmount}"
+								property="document.nonInvoicedPayment[${niCounter.count}].financialDocumentLineAmount"/>
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+				</c:forEach>
 				<tr>
-					<td colspan='5'>
-						&nbsp;
-					</td>
-					<th>
-						Non-AR Total
-					</th>
-					<td>
-						<input type='text' name='nonartotal'>
-					</td>
-					<td>
-						&nbsp;
-					</td>
+					<th colspan='6'>&nbsp;</th>
+					<kul:htmlAttributeHeaderCell literalLabel="Non-AR Total"/>
+					<td>${KualiForm.nonArTotal}</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
+			</c:otherwise>
+			</c:choose>
 		</div>
 	</kul:tab>
 
@@ -244,24 +307,15 @@
 		<div class="tab-container" align="center">
 			<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 				<tr>
-					<th>
-						<label for=''>
-							Customer
-						</label>
-					</th>
+					<kul:htmlAttributeHeaderCell literalLabel="Customer"/>	
 					<td>
 						<kul:htmlControlAttribute
 							attributeEntry="${customerAttributes.customerNumber}"
-							property="document.nonAppliedHolding.customerNumber" />
-						<kul:lookup
-							boClassName="org.kuali.kfs.module.ar.businessobject.Customer"
+							property="document.nonAppliedHolding.customerNumber"/>
+						<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" 
 							fieldConversions="document.nonAppliedHolding.customerNumber:customer.customerNumber" />
 					</td>
-					<th>
-						<label for=''>
-							Amount
-						</label>
-					</th>
+					<th><label for=''>Amount</label></th>
 					<td>
 						<kul:htmlControlAttribute
 							attributeEntry="${unappliedAttributes.financialDocumentLineAmount}"

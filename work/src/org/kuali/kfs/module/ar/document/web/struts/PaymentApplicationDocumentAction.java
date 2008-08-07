@@ -28,6 +28,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
@@ -36,6 +37,8 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
+import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
@@ -43,7 +46,9 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
+import org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 
@@ -61,7 +66,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     private CustomerInvoiceDetailService customerInvoiceDetailService;
     private InvoicePaidAppliedService invoicePaidAppliedService;
     private NonAppliedHoldingService nonAppliedHoldingService;
-
 
     /**
      * Constructs a PaymentApplicationDocumentAction.java.
@@ -237,7 +241,21 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     }
 
     public ActionForward addNonAr(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        boolean trap = true;
+        PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
+        PaymentApplicationDocument pAppDoc = (PaymentApplicationDocument) pform.getDocument();
+        NonInvoiced nonInvoiced = pform.getNonInvoicedAddLine();
+        
+        // advanceDeposit business rules
+        boolean rulePassed = validateNewNonInvoiced(nonInvoiced);
+        if (rulePassed) {
+            // add advanceDeposit
+            pAppDoc.getNonInvoicedPayments().add(nonInvoiced);
 
+            // clear the used advanceDeposit
+            pform.setNonInvoicedAddLine(new NonInvoiced());
+        }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -438,6 +456,13 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    public boolean validateNewNonInvoiced(NonInvoiced nonInvoiced) {
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.NEW_NON_INVOICED);
+        boolean isValid = PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSPropertyConstants.NEW_NON_INVOICED);
+        return isValid;
+    }
+    
     /**
      * This method...
      * 

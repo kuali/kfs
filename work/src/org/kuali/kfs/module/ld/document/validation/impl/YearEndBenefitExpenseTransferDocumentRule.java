@@ -20,4 +20,10 @@ package org.kuali.kfs.module.ld.document.validation.impl;
  */
 public class YearEndBenefitExpenseTransferDocumentRule extends BenefitExpenseTransferDocumentRule {
 
+    /**
+     * Constructs a YearEndBenefitExpenseTransferDocumentRule.java.
+     */
+    public YearEndBenefitExpenseTransferDocumentRule() {
+        super();
+    }
 }

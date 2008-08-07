@@ -133,7 +133,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="inactivationBlockingDefinitions">
       <list>
         <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="chartOfAccounts"/>
+          p:blockedReferencePropertyName="accountType"/>
       </list>
     </property>
   </bean>

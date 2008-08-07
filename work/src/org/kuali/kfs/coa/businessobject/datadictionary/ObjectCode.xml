@@ -40,8 +40,6 @@
     <property name="inactivationBlockingDefinitions">
       <list>
         <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="chartOfAccounts"/>
-        <bean parent="InactivationBlockingDefinition"
           p:blockedReferencePropertyName="financialFederalFunded"/>
         <bean parent="InactivationBlockingDefinition"
           p:blockedReferencePropertyName="financialObjectLevel"/>

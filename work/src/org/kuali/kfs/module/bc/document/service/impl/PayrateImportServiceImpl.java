@@ -91,6 +91,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                 String line = fileReader.readLine();
                 ObjectUtil.convertLineToBusinessObject(budgetConstructionPayRateHolding, line, DefaultImportFileFormat.fieldLengths, Arrays.asList(DefaultImportFileFormat.fieldNames));
                 budgetConstructionPayRateHolding.setPersonUniversalIdentifier(personUniversalIdentifier);
+                budgetConstructionPayRateHolding.setAppointmentRequestedPayRate(budgetConstructionPayRateHolding.getAppointmentRequestedPayRate().movePointLeft(2));
                 businessObjectService.save(budgetConstructionPayRateHolding);
                 this.importCount++;
             }

@@ -16,12 +16,19 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.datadictionary.InactivationBlockingMetadata;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.InactivationBlockingDetectionService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
@@ -32,6 +39,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class represents the business rules for the maintenance of {@link ObjectCodeGlobal} business objects
@@ -100,6 +109,72 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         // check simple rules
         success &= checkSimpleRulesAllLines();
         return success;
+    }
+
+    
+    @Override
+    protected boolean processInactivationBlockChecking(MaintenanceDocument maintenanceDocument) {
+        boolean success = true;
+        if (!objectCodeGlobal.isFinancialObjectActiveIndicator()) {
+            // we can only inactivate if the new active status will be false, now check whether the object codes on the document exist and are currently true
+            List<ObjectCodeGlobalDetail> objectCodeGlobalDetails = objectCodeGlobal.getObjectCodeGlobalDetails();
+            for (int i = 0; i < objectCodeGlobalDetails.size(); i++) {
+                ObjectCodeGlobalDetail objectCodeGlobalDetail = objectCodeGlobalDetails.get(i);
+                // get current object code from the DB
+                ObjectCode objectCode = objectCodeService.getByPrimaryId(objectCodeGlobalDetail.getUniversityFiscalYear(), objectCodeGlobalDetail.getChartOfAccountsCode(), objectCodeGlobal.getFinancialObjectCode());
+                if (ObjectUtils.isNotNull(objectCode)) {
+                    if (objectCode.isActive()) {
+                        // now we know that the document intends to inactivate this object code... check to see whether a record blocks it
+                        success &= processInactivationBlockChecking(objectCode, i);
+                    }
+                }
+            }
+        }
+        return success;
+    }
+
+    protected boolean processInactivationBlockChecking(ObjectCode objectCode, int index) {
+        Set<InactivationBlockingMetadata> inactivationBlockingMetadatas = ddService.getAllInactivationBlockingDefinitions(ObjectCode.class);
+        for (InactivationBlockingMetadata inactivationBlockingMetadata : inactivationBlockingMetadatas) {
+            String inactivationBlockingDetectionServiceBeanName = inactivationBlockingMetadata.getInactivationBlockingDetectionServiceBeanName();
+            if (StringUtils.isBlank(inactivationBlockingDetectionServiceBeanName)) {
+                inactivationBlockingDetectionServiceBeanName = KNSServiceLocator.DEFAULT_INACTIVATION_BLOCKING_DETECTION_SERVICE;
+            }
+            InactivationBlockingDetectionService inactivationBlockingDetectionService = KNSServiceLocator.getInactivationBlockingDetectionService(inactivationBlockingDetectionServiceBeanName);
+
+            boolean foundBlockingRecord = inactivationBlockingDetectionService.hasABlockingRecord(objectCode, inactivationBlockingMetadata);
+
+            if (foundBlockingRecord) {
+                putInactivationBlockingErrorOnPage(objectCode, inactivationBlockingMetadata, index);
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    protected void putInactivationBlockingErrorOnPage(ObjectCode objectCode, InactivationBlockingMetadata inactivationBlockingMetadata, int index) {
+        // confirm that the object code primary keys are not authorized to a specific workgroup, because this code won't honor the authorization
+        String yearWorkgroup = ddService.getAttributeDisplayWorkgroup(ObjectCode.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        String chartWorkgroup = ddService.getAttributeDisplayWorkgroup(ObjectCode.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        String objectCodeWorkgroup = ddService.getAttributeDisplayWorkgroup(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        if (StringUtils.isNotBlank(yearWorkgroup) || StringUtils.isNotBlank(chartWorkgroup) || StringUtils.isNotBlank(objectCodeWorkgroup)) {
+            throw new RuntimeException("Unexpected that Object Code primary keys are authorized to specific workgroups");
+        }
+        
+        String objectCodeSummaryString = objectCode.getUniversityFiscalYear() + " - " + objectCode.getChartOfAccountsCode() + " - " + objectCode.getFinancialObjectCode();
+        
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, inactivationBlockingMetadata.getBlockedBusinessObjectClass().getName());        
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.METHOD_DISPLAY_ALL_INACTIVATION_BLOCKERS);
+        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, objectCode.getUniversityFiscalYear().toString());
+        parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectCode.getChartOfAccountsCode());
+        parameters.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCode());
+        String blockingUrl = UrlFactory.parameterizeUrl(KNSConstants.DISPLAY_ALL_INACTIVATION_BLOCKERS_ACTION, parameters);
+        
+        String errorPropertyPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSPropertyConstants.OBJECT_CODE_GLOBAL_DETAILS + "[" + index + "]." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+        
+        // post an error about the locked document
+        GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPropertyPath, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INACTIVATION_BLOCKING, objectCodeSummaryString, blockingUrl);
     }
 
     /**

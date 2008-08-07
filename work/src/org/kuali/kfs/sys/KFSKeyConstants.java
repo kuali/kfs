@@ -381,6 +381,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_NO_CHART_FISCAL_YEAR = "error.document.objectCodeGlobalDetails.noChartFiscalYear";
     public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_FISCAL_YEAR_MUST_EXIST = "error.document.objectCodeGlobalDetails.noFiscalYear";
     public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_CHART_MUST_EXIST = "error.document.objectCodeGlobalDetails.noChart";
+    public static final String ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INACTIVATION_BLOCKING = "error.document.objectCodeGlobal.inactivationBlocking";
 
     // Object Consolidation errors
     public static final String ERROR_DOCUMENT_OBJCONSMAINT_ALREADY_EXISTS_AS_OBJLEVEL = "error.document.objConsMaintenance.alreadyExistsAsObjLevel";

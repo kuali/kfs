@@ -67,7 +67,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CampusWithBlankValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

@@ -117,7 +117,6 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
     }
 
-    @RelatesTo(JiraIssue.KFSMI1091)
     public void testActiveFieldExistInLookupAndResultSection() throws Exception{
         DataDictionaryService dataDictionaryService = (DataDictionaryService)SpringContext.getBean(DataDictionaryService.class);
         List<Class> noActiveFieldClassList = new ArrayList<Class>();

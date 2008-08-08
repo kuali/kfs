@@ -74,11 +74,12 @@ public class PaymentReasonValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", ""));
 
+        ParameterService paramService = SpringContext.getBean(ParameterService.class);
         for (PaymentReasonCode payReason : boList) {
             if(payeeSpecificCodes.contains(payReason.getCode())) {
                 // Need to retrieve parameter values for the constraint, so we can check to see if the values collection is empty.  An empty collection assumes the value is allowed by default.
-                List<String> foundParam = SpringContext.getBean(ParameterService.class).getParameterValues(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, payReason.getCode());
-                if(foundParam.isEmpty() || SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, payReason.getCode(), campusCode).evaluationSucceeds()) { 
+                List<String> foundParam = paramService.getParameterValues(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, payReason.getCode());
+                if(foundParam.isEmpty() || paramService.getParameterEvaluator(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, payReason.getCode(), campusCode).evaluationSucceeds()) { 
                     keyValues.add(new KeyLabelPair(payReason.getCode(), payReason.getCodeAndDescription()));
                 }
             }

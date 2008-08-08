@@ -33,11 +33,13 @@ public class SalarySettingRules implements SalarySettingRule {
         boolean isValid = true;
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            isValid = SalarySettingRuleUtil.isFieldFormatValid(appointmentFunding);
+            
             if (!SalarySettingRuleUtil.isValidRequestedAmount(appointmentFunding)) {
                 GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED);
                 isValid = false;
             }
-            else if (!SalarySettingRuleUtil.isRequestedFteQuantityGreaterThanZero(appointmentFunding)) {
+            else if (!SalarySettingRuleUtil.isValidRequestedFteQuantity(appointmentFunding)) {
                 GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_FTE_QUANTITY, BCKeyConstants.ERROR_FTE_GREATER_THAN_ZERO_REQUIRED);
                 isValid = false;
             }
@@ -92,5 +94,4 @@ public class SalarySettingRules implements SalarySettingRule {
         }
         return isValid;
     }
-
 }

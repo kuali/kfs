@@ -52,7 +52,7 @@ public class SalarySettingRuleUtil {
      * @return true if the fields in the given appointment funding line are in the correct formats defined in the data dictionary;
      *         otherwise, false
      */
-    public static boolean hasValidFormat(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public static boolean isFieldFormatValid(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
         dictionaryValidationService.validateBusinessObject(appointmentFunding);
         int currentErrorCount = GlobalVariables.getErrorMap().getErrorCount();
@@ -136,57 +136,25 @@ public class SalarySettingRuleUtil {
      */
     public static boolean isValidRequestedAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
-        String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
 
-        if (requestedAmount == null) {
-            return false;
-        }
-
-        // Request Salary Amount must be zero because these leave codes are for full year leave without pay.
-        if (StringUtils.equals(leaveDurationCode, LWPA.durationCode) || StringUtils.equals(leaveDurationCode, LWPF.durationCode)) {
-            return requestedAmount.isZero();
-        }
-
-        return !requestedAmount.isNegative();
+        return requestedAmount != null && !requestedAmount.isNegative();
     }
 
     /**
-     * determine whether the requested fte quantity of the given appointment funding is valid
+     * determine whether the requested FTE is valid
      * 
      * @param appointmentFunding the given appointment funding
-     * @return true if the requested fte quantity of the given appointment funding is valid; otherwise, false
+     * @return true if the requested FTE is valid; otherwise, false
      */
     public static boolean isValidRequestedFteQuantity(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        BigDecimal requestedFteQuantity = appointmentFunding.getAppointmentRequestedFteQuantity();
-        String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
-
-        if (requestedFteQuantity == null) {
-            return false;
-        }
-
-        // Request Salary Amount must be zero because these leave codes are for full year leave without pay.
-        if (StringUtils.equals(leaveDurationCode, LWPA.durationCode) || StringUtils.equals(leaveDurationCode, LWPF.durationCode)) {
-            return requestedFteQuantity.compareTo(BigDecimal.ZERO) == 0;
-        }
-
-        return requestedFteQuantity.compareTo(BigDecimal.ZERO) >= 0;
-    }
-
-    /**
-     * determine whether the requested fte is greater than 0 when the requested salary amount is greater than 0
-     * 
-     * @param appointmentFunding the given appointment funding
-     * @return true if the requested fte is greater than 0 when the requested salary amount is greater than 0; otherwise, false
-     */
-    public static boolean isRequestedFteQuantityGreaterThanZero(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
         BigDecimal requestedFteQuantity = appointmentFunding.getAppointmentRequestedFteQuantity();
+        String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
 
         if (requestedAmount == null || requestedFteQuantity == null) {
             return false;
         }
 
-        // the requested fte is greater than 0 when the requested salary amount is greater than 0
         if (requestedAmount.isPositive()) {
             return requestedFteQuantity.compareTo(BigDecimal.ZERO) > 0;
         }
@@ -194,6 +162,42 @@ public class SalarySettingRuleUtil {
             return requestedFteQuantity.compareTo(BigDecimal.ZERO) == 0;
         }
 
+        return true;
+    }
+    
+    /**
+     * request salary amount must be zero for full year leave
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if request salary amount is zero for full year leave; otherwise, false
+     */
+    public static boolean isRequestedAmountZeroWhenFullYearLeave(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
+
+        // Request Salary Amount must be zero because these leave codes are for full year leave without pay.
+        if (StringUtils.equals(leaveDurationCode, LWPA.durationCode) || StringUtils.equals(leaveDurationCode, LWPF.durationCode)) {
+            KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
+            return requestedAmount == null || requestedAmount.isZero();
+        }
+        
+        return true;
+    }
+
+    /**
+     * request fte quantity must be zero for full year leave
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the request fte quantity is zero for full year leave; otherwise, false
+     */
+    public static boolean isRequestedFteQuantityZeroWhenFullYearLeave(PendingBudgetConstructionAppointmentFunding appointmentFunding) {        
+        String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
+
+        // Request Salary Amount must be zero because these leave codes are for full year leave without pay.
+        if (StringUtils.equals(leaveDurationCode, LWPA.durationCode) || StringUtils.equals(leaveDurationCode, LWPF.durationCode)) {
+            BigDecimal requestedFteQuantity = appointmentFunding.getAppointmentRequestedFteQuantity();
+            return requestedFteQuantity == null || requestedFteQuantity.compareTo(BigDecimal.ZERO) == 0;
+        }
+        
         return true;
     }
 

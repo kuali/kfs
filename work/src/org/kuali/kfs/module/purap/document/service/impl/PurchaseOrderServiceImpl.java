@@ -68,6 +68,7 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -76,7 +77,6 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderCloseDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -1513,12 +1513,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public boolean autoCloseFullyDisencumberedOrders() {
         LOG.info("autoCloseFullyDisencumberedOrders() started");
 
-        List<String> excludedVendorChoiceCodes = new ArrayList<String>();
-        for (int i = 0; i < PurapConstants.AUTO_CLOSE_EXCLUSION_VNDR_CHOICE_CODES.length; i++) {
-            String excludedCode = PurapConstants.AUTO_CLOSE_EXCLUSION_VNDR_CHOICE_CODES[i];
-            excludedVendorChoiceCodes.add(excludedCode);
-        }
-        List<PurchaseOrderView> purchaseOrderAutoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(excludedVendorChoiceCodes);
+        List<PurchaseOrderView> purchaseOrderAutoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
 
         for (PurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
             if ((poAutoClose.getTotalAmount() != null) && ((KualiDecimal.ZERO.compareTo(poAutoClose.getTotalAmount())) != 0)) {
@@ -1539,46 +1534,26 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public boolean autoCloseRecurringOrders() {
         LOG.info("autoCloseRecurringOrders() started");
-
         boolean shouldSendEmail = true;
         MailMessage message = new MailMessage();
-        String parameterEmail = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_EMAIL_ADDRESSES);
+        String parameterEmail = parameterService.getParameterValue(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_EMAIL_ADDRESSES);
         
         if (StringUtils.isEmpty(parameterEmail)) {
             // Don't stop the show if the email address is wrong, log it and continue.
             LOG.error("autoCloseRecurringOrders(): parameterEmail is missing, we'll use batch mailing list in place of parameter email.");
             shouldSendEmail = false;
         }
-        
         if (shouldSendEmail) {
-            String toAddressList[] = parameterEmail.split(";");
-
-            if (toAddressList.length > 0) {
-                for (int i = 0; i < toAddressList.length; i++) {
-                    if (toAddressList[i] != null) {
-                        message.addToAddress(toAddressList[i].trim());
-                    }
-                }
-            }
-
-            message.setFromAddress(toAddressList[0]); 
-
-            if (kualiConfigurationService.isProductionEnvironment()) {
-                message.setSubject("Auto Close Recurring Purchase Orders");
-            }
-            else {
-                message.setSubject(kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY) + " - Auto Close Recurring Purchase Orders");
-            }
+            message = setMessageAddressesAndSubject(message, parameterEmail);
         }
-        
         StringBuffer emailBody = new StringBuffer();
-
         // There should always be a "AUTO_CLOSE_RECURRING_ORDER_DT"
         // row in the table, this method sets it to "mm/dd/yyyy" after processing.
-        String recurringOrderDateString = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_DATE);
+        String recurringOrderDateString = parameterService.getParameterValue(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_DATE);
         boolean validDate = true;
+        java.util.Date recurringOrderDate = null;
         try {
-            dateTimeService.convertToDate(recurringOrderDateString);
+            recurringOrderDate = dateTimeService.convertToDate(recurringOrderDateString);
         }
         catch (ParseException pe) {
             validDate = false;
@@ -1597,68 +1572,35 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
             }
             if (shouldSendEmail) {
-                message.setMessage(emailBody.toString());
-                try {
-                    mailService.sendMessage(message);
-                }
-                catch (Exception e) {
-                    // Don't stop the show if the email has problem, log it and continue.
-                    LOG.error("autoCloseRecurringOrders(): email problem. Message not sent.", e);
-                }
+                sendMessage(message, emailBody.toString());
             }
             LOG.info("autoCloseRecurringOrders() ended");
+            
             return false;
         }
-
         LOG.info("autoCloseRecurringOrders() The autoCloseRecurringOrdersDate found in the Application Settings table was " + recurringOrderDateString);
         if (shouldSendEmail) {
             emailBody.append("The autoCloseRecurringOrdersDate found in the Application Settings table was " + recurringOrderDateString + ".");
         }
-        Calendar appSettingsDate = Calendar.getInstance(); // Sets to today but we will reset.
-        appSettingsDate.set(Calendar.MONTH, Integer.parseInt(recurringOrderDateString.substring(0, 2)) - 1);
-        appSettingsDate.set(Calendar.DAY_OF_MONTH, Integer.parseInt(recurringOrderDateString.substring(3, 5)));
-        appSettingsDate.set(Calendar.YEAR, Integer.parseInt(recurringOrderDateString.substring(6, 10)));
-        appSettingsDate.set(Calendar.HOUR, 12);
-        appSettingsDate.set(Calendar.MINUTE, 0);
-        appSettingsDate.set(Calendar.SECOND, 0);
-        appSettingsDate.set(Calendar.MILLISECOND, 0);
-        appSettingsDate.set(Calendar.AM_PM, Calendar.AM);
+        Calendar appSettingsDate = dateTimeService.getCalendar(recurringOrderDate);
         Timestamp appSettingsDay = new Timestamp(appSettingsDate.getTime().getTime());
 
-        Calendar todayMinusThreeMonths = Calendar.getInstance(); // Set to today.
-        todayMinusThreeMonths.add(Calendar.MONTH, -3); // Back up 3 months.
-        todayMinusThreeMonths.set(Calendar.HOUR, 12);
-        todayMinusThreeMonths.set(Calendar.MINUTE, 0);
-        todayMinusThreeMonths.set(Calendar.SECOND, 0);
-        todayMinusThreeMonths.set(Calendar.MILLISECOND, 0);
-        todayMinusThreeMonths.set(Calendar.AM_PM, Calendar.AM);
+        Calendar todayMinusThreeMonths = getTodayMinusThreeMonths();
         Timestamp threeMonthsAgo = new Timestamp(todayMinusThreeMonths.getTime().getTime());
 
         if (appSettingsDate.after(todayMinusThreeMonths)) {
             LOG.info("autoCloseRecurringOrders() The appSettingsDate: " + appSettingsDay + " is after todayMinusThreeMonths: " + threeMonthsAgo + ". The program will end.");
             if (shouldSendEmail) {
                 emailBody.append("\n\nThe autoCloseRecurringOrdersDate: " + appSettingsDay + " is after todayMinusThreeMonths: " + threeMonthsAgo + ". The program will end.");
-                message.setMessage(emailBody.toString());
-                try {
-                    mailService.sendMessage(message);
-                }
-                catch (Exception e) {
-                    // Don't stop the show if the email address has problem, log it and continue.
-                    LOG.error("autoCloseRecurringOrders(): email problem. Message not sent.", e);
-                }
+                sendMessage(message, emailBody.toString());
             }
             LOG.info("autoCloseRecurringOrders() ended");
+            
             return false;
         }
 
-        List<String> excludedVendorChoiceCodes = new ArrayList<String>();
-        for (int i = 0; i < PurapConstants.AUTO_CLOSE_EXCLUSION_VNDR_CHOICE_CODES.length; i++) {
-            String excludedCode = PurapConstants.AUTO_CLOSE_EXCLUSION_VNDR_CHOICE_CODES[i];
-            excludedVendorChoiceCodes.add(excludedCode);
-        }
-        List<PurchaseOrderView> purchaseOrderAutoCloseList = purchaseOrderDao.getAutoCloseRecurringPurchaseOrders(excludedVendorChoiceCodes);
+        List<PurchaseOrderView> purchaseOrderAutoCloseList = purchaseOrderDao.getAutoCloseRecurringPurchaseOrders(getExcludedVendorChoiceCodes());
         LOG.info("autoCloseRecurringOrders(): " + purchaseOrderAutoCloseList.size() + " PO's were returned for processing.");
-
         int counter = 0;
         for (PurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
             LOG.info("autoCloseRecurringOrders(): Testing PO ID " + poAutoClose.getPurapDocumentIdentifier() + ". recurringPaymentEndDate: " + poAutoClose.getRecurringPaymentEndDate());
@@ -1675,6 +1617,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                         emailBody.append("\n\nThe following recurring Purchase Orders will be closed by auto close recurring batch job \n");
                     }
                     LOG.info("autoCloseRecurringOrders() PO ID " + poAutoClose.getPurapDocumentIdentifier() + " will be closed.");
+                    createNoteForAutoCloseRecurringOrders(document, annotation);
                     createAndRoutePotentialChangeDocument(poAutoClose.getDocumentNumber(), documentType, annotation, null, newStatus);
                     if (shouldSendEmail) {
                         emailBody.append("\n\n" + counter + " PO ID: " + poAutoClose.getPurapDocumentIdentifier() + ", End Date: " + poAutoClose.getRecurringPaymentEndDate() + ", Status: " + poAutoClose.getPurchaseOrderStatusCode() + ", VendorChoice: " + poAutoClose.getVendorChoiceCode() + ", RecurringPaymentType: " + poAutoClose.getRecurringPaymentTypeCode());
@@ -1693,18 +1636,85 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 emailBody.append("\n\nNo recurring PO's fit the conditions for closing.");
             }
         }
-
         if (shouldSendEmail) {
-            message.setMessage(emailBody.toString());
-            try {
-                mailService.sendMessage(message);
-            }
-            catch (Exception e) {
-                // Don't stop the show if the email address has problem, log it and continue.
-                LOG.error("autoCloseRecurringOrders(): email problem. Message not sent.", e);
+            sendMessage(message, emailBody.toString());
+        }
+        resetAutoCloseRecurringOrderDateParameter();
+        LOG.info("autoCloseRecurringOrders() ended");
+        
+        return true;
+    }
+
+    /**
+     * Creates and returns a Calendar object of today minus three months.
+     * 
+     * @return Calendar object of today minus three months.
+     */
+    private Calendar getTodayMinusThreeMonths() {
+        Calendar todayMinusThreeMonths = Calendar.getInstance(); // Set to today.
+        todayMinusThreeMonths.add(Calendar.MONTH, -3); // Back up 3 months.
+        todayMinusThreeMonths.set(Calendar.HOUR, 12);
+        todayMinusThreeMonths.set(Calendar.MINUTE, 0);
+        todayMinusThreeMonths.set(Calendar.SECOND, 0);
+        todayMinusThreeMonths.set(Calendar.MILLISECOND, 0);
+        todayMinusThreeMonths.set(Calendar.AM_PM, Calendar.AM);
+        return todayMinusThreeMonths;
+    }
+    
+    /**
+     * Sets the to addresses, from address and the subject of the email.
+     * 
+     * @param message         The MailMessage object of the email to be sent.
+     * @param parameterEmail  The String of email addresses with delimiters of ";" 
+     *                        obtained from the system parameter.
+     * @return                The MailMessage object after the to addresses, from 
+     *                        address and the subject have been set.
+     */
+    private MailMessage setMessageAddressesAndSubject(MailMessage message, String parameterEmail) {
+        String toAddressList[] = parameterEmail.split(";");
+
+        if (toAddressList.length > 0) {
+            for (int i = 0; i < toAddressList.length; i++) {
+                if (toAddressList[i] != null) {
+                    message.addToAddress(toAddressList[i].trim());
+                }
             }
         }
-        //This is to retrieve the Parameter object of the AUTO_CLOSE_RECURRING_ORDER_DT so that we can update to "mm/dd/yyyy".
+
+        message.setFromAddress(toAddressList[0]); 
+
+        if (kualiConfigurationService.isProductionEnvironment()) {
+            message.setSubject("Auto Close Recurring Purchase Orders");
+        }
+        else {
+            message.setSubject(kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY) + " - Auto Close Recurring Purchase Orders");
+        }
+        return message;
+    }
+    
+    /**
+     * Sends the email by calling the sendMessage method in mailService and log error if exception occurs
+     * during the attempt to send the message.
+     * 
+     * @param message    The MailMessage object containing information to be sent.
+     * @param emailBody  The String containing the body of the email to be sent.
+     */
+    private void sendMessage(MailMessage message, String emailBody) {
+        message.setMessage(emailBody);
+        try {
+            mailService.sendMessage(message);
+        }
+        catch (Exception e) {
+            // Don't stop the show if the email has problem, log it and continue.
+            LOG.error("autoCloseRecurringOrders(): email problem. Message not sent.", e);
+        }        
+    }
+    
+    /**
+     * Resets the AUTO_CLOSE_RECURRING_ORDER_DT system parameter to "mm/dd/yyyy".
+     * 
+     */
+    private void resetAutoCloseRecurringOrderDateParameter() {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("parameterName", PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_DATE);
         
@@ -1712,9 +1722,32 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         Parameter autoCloseRecurringPODate = (Parameter)result.iterator().next();
         autoCloseRecurringPODate.setParameterValue("mm/dd/yyyy");
         businessObjectService.save(autoCloseRecurringPODate);
-        
-        LOG.info("autoCloseRecurringOrders() ended");
-        return true;
     }
-
+    
+    /**
+     * Gets a List of excluded vendor choice codes from PurapConstants.
+     * 
+     * @return
+     */
+    private List<String> getExcludedVendorChoiceCodes() {
+        List<String> excludedVendorChoiceCodes = new ArrayList<String>();
+        for (int i = 0; i < PurapConstants.AUTO_CLOSE_EXCLUSION_VNDR_CHOICE_CODES.length; i++) {
+            String excludedCode = PurapConstants.AUTO_CLOSE_EXCLUSION_VNDR_CHOICE_CODES[i];
+            excludedVendorChoiceCodes.add(excludedCode);
+        }
+        return excludedVendorChoiceCodes;
+    }
+    
+    private void createNoteForAutoCloseRecurringOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation) {
+        try {
+            Note noteObj = documentService.createNoteFromDocument(purchaseOrderDocument, annotation);
+            documentService.addNoteToDocument(purchaseOrderDocument, noteObj);
+            noteService.save(noteObj);
+        }
+        catch(Exception e){
+            String errorMessage = "Error creating and saving close note for purchase order with document service";
+            LOG.error("processCloseReopenPo() " + errorMessage, e);
+            throw new RuntimeException(errorMessage, e);
+        }   
+    }
 }

@@ -1746,7 +1746,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         catch(Exception e){
             String errorMessage = "Error creating and saving close note for purchase order with document service";
-            LOG.error("processCloseReopenPo() " + errorMessage, e);
+            LOG.error("createNoteForAutoCloseRecurringOrders " + errorMessage, e);
             throw new RuntimeException(errorMessage, e);
         }   
     }

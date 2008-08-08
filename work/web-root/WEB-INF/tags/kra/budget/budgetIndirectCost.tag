@@ -93,7 +93,7 @@
           
           <c:if test="${not viewOnly}">
           <br/>
-          <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" property="methodToCall.recalculate" alt="recalculate"/>
+          <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" property="methodToCall.recalculate" alt="recalculate" title="recalculate"/>
           </c:if>
           <br/>
           <br/>

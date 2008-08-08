@@ -36,7 +36,7 @@
             <table class="datatable" cellpadding="0" cellspacing="0">
 
               <tbody><tr>
-                <td colspan="4" class="subhead"><span class="subhead-left">Personnel Expenses&nbsp;<html:image src="${ConfigProperties.kr.externalizable.images.url}edit.gif" styleClass="tinybutton" property="methodToCall.headerTab.headerDispatch.overview.navigateTo.personnel" alt="Personnel"/></span> </td>
+                <td colspan="4" class="subhead"><span class="subhead-left">Personnel Expenses&nbsp;<html:image src="${ConfigProperties.kr.externalizable.images.url}edit.gif" styleClass="tinybutton" property="methodToCall.headerTab.headerDispatch.overview.navigateTo.personnel" title="Personnel" alt="Personnel"/></span> </td>
                 <td colspan="2" class="subhead style1"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> Amount Requested</strong></span></span> </div></td>
                 <td colspan="2" class="subhead"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> Institution CS</strong><br><c:if test="${!KualiForm.document.budget.institutionCostShareIndicator}">Cost Share is set to No</c:if></span></span> </div></td>
                 <td class="subhead"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> 3rd Party CS</strong><br><c:if test="${!KualiForm.document.budget.budgetThirdPartyCostShareIndicator}">Cost Share is set to No</c:if></span> </span></div></td>
@@ -130,7 +130,7 @@
                 <td class="infoline" align="right"><div align="right"><b>--</b> </div></td>
               </tr>
               <tr>
-                <td colspan="4" class="subhead"><span class="subhead-left">Non-Personnel Expenses&nbsp;<html:image src="${ConfigProperties.kr.externalizable.images.url}edit.gif" styleClass="tinybutton" property="methodToCall.headerTab.headerDispatch.overview.navigateTo.nonpersonnel" alt="Nonpersonnel"/></span> </td>
+                <td colspan="4" class="subhead"><span class="subhead-left">Non-Personnel Expenses&nbsp;<html:image src="${ConfigProperties.kr.externalizable.images.url}edit.gif" styleClass="tinybutton" property="methodToCall.headerTab.headerDispatch.overview.navigateTo.nonpersonnel" title="Nonpersonnel" alt="Nonpersonnel"/></span> </td>
                 <td colspan="2" class="subhead style1"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> Amount Requested</strong></span></span> </div></td>
                 <td colspan="2" class="subhead"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> Institution CS</strong><br><c:if test="${!KualiForm.document.budget.institutionCostShareIndicator}">Cost Share is set to No</c:if></span></span> </div></td>
                 <td class="subhead"><div align="center"><span class="subhead-right"><span class="nowrap"><strong> 3rd Party CS</strong><br><c:if test="${!KualiForm.document.budget.budgetThirdPartyCostShareIndicator}">Cost Share is set to No</c:if></span> </span></div></td>

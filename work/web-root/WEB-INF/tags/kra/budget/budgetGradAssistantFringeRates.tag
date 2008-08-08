@@ -55,10 +55,10 @@
     <td><div align="center"> $ 
     <c:choose> 
     <c:when test="${i eq 1}"> 
-    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod1Rate}" readOnly="${viewOnly}" styleClass="amount"/> 
+    <kul:htmlControlAttribute accessibilityHint=" for ${graduateAssistantRatesLine.graduateAssistantRate.campus.campusName} for ${KualiForm.academicYearSubdivisionNames[i - 1]} Health Insurance" property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod1Rate}" readOnly="${viewOnly}" styleClass="amount"/> 
     </c:when> 
     <c:when test="${i eq 2}"> 
-    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod2Rate}" readOnly="${viewOnly}" styleClass="amount"/> 
+    <kul:htmlControlAttribute accessibilityHint=" for ${graduateAssistantRatesLine.graduateAssistantRate.campus.campusName} for ${KualiForm.academicYearSubdivisionNames[i - 1]} Health Insurance" property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod2Rate}" readOnly="${viewOnly}" styleClass="amount"/> 
     </c:when> 
     <c:when test="${i eq 3}"> 
     <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod3Rate}" readOnly="${viewOnly}" styleClass="amount"/> 
@@ -81,7 +81,7 @@
   <c:if test="${not viewOnly}">
   <tr align="left">
     <th height="22">&nbsp;</th>
-    <th height="22" colspan="2"><div align="center"><html:image property="methodToCall.copySystemGraduateAssistantLines.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-copsysrates.gif" alt="copy system rate"/></div></th>
+    <th height="22" colspan="2"><div align="center"><html:image property="methodToCall.copySystemGraduateAssistantLines.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-copsysrates.gif" alt="copy system rate" title="copy system rate"/></div></th>
   </tr>
   </c:if>
 </table>

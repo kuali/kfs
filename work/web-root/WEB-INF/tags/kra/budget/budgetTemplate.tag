@@ -43,10 +43,10 @@
 					<td colspan="5"  scope=col>
 						<div align="center"><br>
 							Once you click the &quot;Template&quot; button, the new budget will display. <br><br>
-							Copy Ad-Hoc Permissions to the templated budget?
-							<html:multibox property="includeAdHocPermissions" value="Y"/> <br><br>
-							Copy ICR Rates from this budget to the templated budget?
-							<html:multibox property="includeBudgetIdcRates" value="Y"/> <br><br>
+							<label for="includeAdHocPermissions">Copy Ad-Hoc Permissions to the templated budget?</label>
+							<html:multibox styleId="" property="includeAdHocPermissions" value="Y"/> <br><br>
+							<label for="includeBudgetIdcRates">Copy ICR Rates from this budget to the templated budget?</label>
+							<html:multibox styleId="includeBudgetIdcRates" property="includeBudgetIdcRates" value="Y"/> <br><br>
 						</div>
 					</td>
 				</tr>

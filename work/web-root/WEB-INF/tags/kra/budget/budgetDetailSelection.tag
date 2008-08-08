@@ -24,17 +24,17 @@
               <td class="annotate-t"><div align="right"><img src="${ConfigProperties.kr.externalizable.images.url}annotate-tr1.gif" alt="" align="middle" height="24" width="12"></div></td>
             </tr>
           </tbody></table>
-          <div class="annotate-container"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskName}" skipHelpUrl="true" readOnly="true" />
+          <div class="annotate-container"> <kul:htmlAttributeLabel labelFor="currentTaskNumber" attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskName}" skipHelpUrl="true" readOnly="true" />
             <html:hidden property="previousTaskNumber" value="${KualiForm.currentTaskNumber}" />
-            <html:select property="currentTaskNumber">
+            <html:select styleId="currentTaskNumber" property="currentTaskNumber">
               <c:set var="budgetTasks" value="${KualiForm.budgetDocument.budget.tasks}"/>
               <html:options collection="budgetTasks" property="budgetTaskSequenceNumber" labelProperty="budgetTaskName"/>
               <c:if test="${includeSummary && KualiForm.document.taskListSize > 1}"><html:option value="0">Summary</html:option></c:if>
             </html:select>
 
-&nbsp;&nbsp; Period:
+&nbsp;&nbsp; <label for="currentPeriodNumber">Period</label>:
             <html:hidden property="previousPeriodNumber" value="${KualiForm.currentPeriodNumber}" />
-            <html:select property="currentPeriodNumber" >
+            <html:select styleId="currentPeriodNumber" property="currentPeriodNumber" >
               <c:set var="budgetPeriods" value="${KualiForm.budgetDocument.budget.periods}"/>
               <html:options collection="budgetPeriods" property="budgetPeriodSequenceNumber" labelProperty="budgetPeriodLabel"/>
               <c:if test="${includeSummary && KualiForm.document.periodListSize > 1}"><html:option value="0">Summary</html:option></c:if>

@@ -101,7 +101,7 @@
 					<c:if test="${!viewOnly}">
 					<td rowspan="3" class="infoline">
 						<div align="center">
-							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" />
+							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" title="recalculate" alt="recalculate" />
 						</div>
 					</td>
 					</c:if>
@@ -263,13 +263,13 @@
 					</th>
 					<th class="bord-l-b">
 						<div align="right">
-							<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetThirdPartyCostShare.attributes.budgetCostShareSourceName}" skipHelpUrl="true" />
+							<kul:htmlAttributeLabel labelFor="newThirdPartyCostShare.budgetCostShareSourceName" attributeEntry="${DataDictionary.BudgetThirdPartyCostShare.attributes.budgetCostShareSourceName}" skipHelpUrl="true" />
 						</div>
 					</th>
 
 					<td class="infoline">
 						<div align="left">
-							<html:text property="newThirdPartyCostShare.budgetCostShareSourceName" styleClass="infoline" size="8" />
+							<html:text styleId="newThirdPartyCostShare.budgetCostShareSourceName" property="newThirdPartyCostShare.budgetCostShareSourceName" styleClass="infoline" size="8" />
 						</div>
 					</td>
 
@@ -277,7 +277,7 @@
 					<logic:iterate id="period" name="KualiForm" property="document.budget.periods" indexId="ctr">
 						<td class="infoline">
 							<div align="center">
-								<html:text property="newThirdPartyCostShare.budgetPeriodCostShareItem[${ctr}].budgetCostShareAmount" size="5" styleClass="amount" />
+								<html:text title="Period ${ctr+1} Amount" property="newThirdPartyCostShare.budgetPeriodCostShareItem[${ctr}].budgetCostShareAmount" size="5" styleClass="amount" />
 							</div>
 						</td>
 					</logic:iterate>
@@ -288,19 +288,19 @@
 					</td>
 					<td rowspan="2" class="infoline">
 						<div align="center">
-							<html:image property="methodToCall.insertThirdPartyCostShareDirect.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add" />
+							<html:image property="methodToCall.insertThirdPartyCostShareDirect.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add" title="add" />
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<th class="bord-l-b">
 						<div align="right">
-							<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetThirdPartyCostShare.attributes.budgetCostShareDescription}" skipHelpUrl="true" />
+							<kul:htmlAttributeLabel labelFor="newThirdPartyCostShare.budgetCostShareDescription" attributeEntry="${DataDictionary.BudgetThirdPartyCostShare.attributes.budgetCostShareDescription}" skipHelpUrl="true" />
 						</div>
 					</th>
 					<td colspan="${KualiForm.document.periodListSize+2}" class="infoline">
 						<div align="left">
-							<html:text property="newThirdPartyCostShare.budgetCostShareDescription" styleClass="infoline" size="40" />
+							<html:text styleId="newThirdPartyCostShare.budgetCostShareDescription" property="newThirdPartyCostShare.budgetCostShareDescription" styleClass="infoline" size="40" />
 						</div>
 					</td>
 				</tr>
@@ -342,7 +342,7 @@
 						<c:if test="${!viewOnly}">
 						<td rowspan="2" class="datacell">
 							<div align="center">
-								<html:image property="methodToCall.deleteThirdPartyCostShare.line${rowctr}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
+								<html:image property="methodToCall.deleteThirdPartyCostShare.line${rowctr}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" title="delete" />
 							</div>
 						</td>
 						</c:if>

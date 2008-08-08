@@ -170,7 +170,7 @@
                           <html:hidden property="document.budget.personFromList[${listIndex}].previousAppointmentTypeCode" value="${KualiForm.document.budget.personnel[listIndex].appointmentTypeCode}" />
                           <html:hidden property="document.budget.personFromList[${listIndex}].secondaryAppointmentTypeCode" />
                           <html:hidden property="document.budget.personFromList[${listIndex}].previousSecondaryAppointmentTypeCode" value="${KualiForm.document.budget.personnel[listIndex].secondaryAppointmentTypeCode}" />
-                          <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" alt="update view"/>
+                          <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" title="update view" alt="update view"/>
                         </c:if>
                       </span>
                     </td>
@@ -183,7 +183,7 @@
 		                  <tr>
 	                      <th colspan="5" class="bord-l-b"><div align="right">Base Salary:</div></th>
 	                      <td colspan="4" class="datacell">
-	                        <kul:htmlControlAttribute property="document.budget.personFromList[${listIndex}].baseSalary" attributeEntry="${budgetUserAttributes.baseSalary}" readOnly="${viewOnly}" styleClass="amount"/>
+	                        <kul:htmlControlAttribute accessibilityHint=" for Base Salary" property="document.budget.personFromList[${listIndex}].baseSalary" attributeEntry="${budgetUserAttributes.baseSalary}" readOnly="${viewOnly}" styleClass="amount"/>
  				                  <html:hidden property="document.budget.personFromList[${listIndex}].budgetSalaryFiscalYear" />
 	                      </td>
 		                    <th class="bord-l-b"><div align="right">Justification for rate change:</div></th>
@@ -221,14 +221,14 @@
 		                    <html:options collection="budgetTasks" property="budgetTaskSequenceNumber" labelProperty="budgetTaskName"/>
 		                  </html:select>
 		                  <html:hidden property="document.budget.personFromList[${listIndex}].previousTaskNumber" value="${KualiForm.document.budget.personnel[listIndex].currentTaskNumber}" />
-		                  <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" alt="update view"/> </span></td>
+		                  <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" title="update view" alt="update view"/> </span></td>
 		              </tr>
 
                  <kra-b:budgetPersonnelIndividualGrid person="${person}" personListIndex="${listIndex}" />
                   
                  <c:if test="${! viewOnly }">
                    <tr>
-                     <th colspan="14" class="bord-l-b"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-calccomp.gif" styleClass="tinybutton" property="methodToCall.calculateCompensation.anchor${currentTabIndex}" alt="calculateCompensation"/></th>
+                     <th colspan="14" class="bord-l-b"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-calccomp.gif" styleClass="tinybutton" property="methodToCall.calculateCompensation.anchor${currentTabIndex}" title="Calculate Compensation" alt="Calculate Compensation"/></th>
                    </tr>
                  </c:if>
                </tbody>

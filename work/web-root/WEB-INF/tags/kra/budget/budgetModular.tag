@@ -119,7 +119,7 @@
 							<c:choose>
 								<c:when test="${KualiForm.document.budget.modularBudget.invalidMode}">N/A</c:when>
 								<c:when test="${!viewOnly}">
-									<html:select value="${modularPeriod.budgetAdjustedModularDirectCostAmount}" property="document.budget.modularBudget.budgetModularPeriod[${i}].budgetAdjustedModularDirectCostAmount" disabled="${viewOnly}">
+									<html:select title="Adjusted Modular Direct Cost" value="${modularPeriod.budgetAdjustedModularDirectCostAmount}" property="document.budget.modularBudget.budgetModularPeriod[${i}].budgetAdjustedModularDirectCostAmount" disabled="${viewOnly}">
 										<html:options name="KualiForm" property="document.budget.modularBudget.increments"/> 
 									</html:select> 
 								</c:when>
@@ -159,7 +159,7 @@
 			</tr>
 		</table>
 		<c:if test="${not viewOnly}">
-			<br><html:image property="methodToCall.recalculate" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" disabled="${viewOnly}"/>
+			<br><html:image property="methodToCall.recalculate" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" disabled="${viewOnly}" alt="recalculate" title="recalculate"/>
 		</c:if>
 	</div>
 	

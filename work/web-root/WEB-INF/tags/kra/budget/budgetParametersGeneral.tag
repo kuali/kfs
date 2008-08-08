@@ -50,7 +50,7 @@
   <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
   
   <tr>
-    <th scope="row" ><div align="right">* ${budgetAttributes.budgetProjectDirectorUniversalIdentifier.label}:</div></th>
+    <th scope="row" ><div align="right"><label for="document.budget.projectDirector.universalUser.personUserIdentifier">* ${budgetAttributes.budgetProjectDirectorUniversalIdentifier.label}</label>:</div></th>
     <td>
     	<html:hidden property="document.budget.projectDirectorToBeNamedIndicator"/>
     	<html:hidden property="document.budget.budgetProjectDirectorUniversalIdentifier" /> 
@@ -58,7 +58,7 @@
       <html:hidden property="document.budget.projectDirector.universalUser.personUniversalIdentifier"/>
       <html:hidden property="document.budget.projectDirector.personUniversalIdentifier"/>
       <c:if test="${!viewOnly}">
-        <html:text property="document.budget.projectDirector.universalUser.personUserIdentifier" onblur="personIDLookup('document.budget.projectDirector.universalUser.personUserIdentifier')"/>
+        <html:text styleId="document.budget.projectDirector.universalUser.personUserIdentifier" property="document.budget.projectDirector.universalUser.personUserIdentifier" onblur="personIDLookup('document.budget.projectDirector.universalUser.personUserIdentifier')"/>
       	<c:if test="${KualiForm.document.budget.projectDirectorToBeNamedIndicator}">TO BE NAMED</c:if>
 	    	<kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.budget.budgetProjectDirectorUniversalIdentifier,universalUser.personName:document.budget.projectDirector.universalUser.personName," tabindexOverride="5000" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="General" />
     	</c:if>
@@ -90,7 +90,7 @@
   <tr>
     <th scope="row" ><div align="right">${budgetAttributes.budgetProgramAnnouncementName.label}:</div></th>
     <td><kul:htmlControlAttribute property="document.budget.budgetProgramAnnouncementName" attributeEntry="${budgetAttributes.budgetProgramAnnouncementName}" readOnly="${viewOnly}" tabindexOverride="5020" /></td>
-    <th scope="row" ><div align="right">* ${budgetAttributes.budgetAgency.label}:</div></th>
+    <th scope="row" ><div align="right"><label for="document.budget.budgetAgencyNumber">* ${budgetAttributes.budgetAgency.label}</;label>:</div></th>
     <td>
     	<html:hidden property="document.budget.agencyToBeNamedIndicator" />
     	<!-- <html:hidden property="document.budget.budgetAgencyNumber" /> --> 
@@ -120,7 +120,7 @@
   <tr>
     <th scope="row" ><div align="right">${budgetAttributes.budgetProgramAnnouncementNumber.label}:</div></th>
     <td><kul:htmlControlAttribute property="document.budget.budgetProgramAnnouncementNumber" attributeEntry="${budgetAttributes.budgetProgramAnnouncementNumber}" readOnly="${viewOnly}" tabindexOverride="5030" /></td>
-    <th scope="row" ><div align="right">${budgetAttributes.federalPassThroughAgency.label}:</div></th>
+    <th scope="row" ><div align="right"><label for="document.budget.federalPassThroughAgencyNumber">${budgetAttributes.federalPassThroughAgency.label}</label>:</div></th>
     <td>
     	<!-- <html:hidden property="document.budget.federalPassThroughAgencyNumber" /> -->
     	<html:hidden  property="document.budget.federalPassThroughAgency.fullName"/>
@@ -146,7 +146,7 @@
 	           </div>
 	           <div id="myDiv">
 	               <div id="newDiv">
-	                     <c:if test="${not empty KualiForm.document.budget.federalPassThroughAgencyNumber}"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-clearfptagency.jpg" styleClass="tinybutton" property="methodToCall.clearFedPassthrough.anchor${currentTabIndex}" alt="clear fed passthrough"/></c:if>
+	                     <c:if test="${not empty KualiForm.document.budget.federalPassThroughAgencyNumber}"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-clearfptagency.jpg" styleClass="tinybutton" property="methodToCall.clearFedPassthrough.anchor${currentTabIndex}" title="clear fed passthrough" alt="clear fed passthrough"/></c:if>
 	           	   </div>
 	           </div>
 	       </div>
@@ -182,7 +182,7 @@
     		<html:hidden property="budgetTypeCode[${i}].budgetTypeDescription" />
     		<c:choose>
     			<c:when test="${not viewOnly}">
-		    		<html:multibox property="selectedBudgetTypesMultiboxFix(${budgetType.budgetTypeCode})" value="${budgetType.budgetTypeCode}"/>
+		    		<html:multibox styleId="selectedBudgetTypesMultiboxFix(${budgetType.budgetTypeCode})" property="selectedBudgetTypesMultiboxFix(${budgetType.budgetTypeCode})" value="${budgetType.budgetTypeCode}"/>
 		    		<%-- <html:multibox name="KualiForm" property="document.budget.budgetTypeCodeArray"> ${budgetType.budgetTypeCode} </html:multibox> --> ${budgetType.budgetTypeDescription} <br/>
     			</c:when>
     			<c:otherwise>
@@ -190,7 +190,7 @@
     					<c:when test="${fn:contains(KualiForm.document.budget.budgetTypeCodeText, budgetType.budgetTypeCode)}"> Yes </c:when>
     					<c:otherwise> No </c:otherwise>
     				</c:choose>
-    				${budgetType.budgetTypeDescription} <br/>
+    				<label for="selectedBudgetTypesMultiboxFix(${budgetType.budgetTypeCode})>${budgetType.budgetTypeDescription}</label> <br/>
     			</c:otherwise>
     		</c:choose>
       	</logic:iterate> 

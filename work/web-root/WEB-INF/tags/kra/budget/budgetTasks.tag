@@ -36,9 +36,9 @@
   <!-- Column headers -->
   <tr>
     <th width="2%" scope="row">&nbsp;</th>
-    <th><div align="left"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskName}" skipHelpUrl="true" noColon="true" /></div></th>
-    <th width="5%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskOnCampus}" skipHelpUrl="true" noColon="true" /></div></th>
-    <th width="5%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetModular.attributes.budgetModularTaskNumber}" skipHelpUrl="true" noColon="true" /></div></th>
+    <th><div align="left"><kul:htmlAttributeLabel labelFor="newTask.budgetTaskName" attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskName}" skipHelpUrl="true" noColon="true" /></div></th>
+    <th width="5%"><div align="center"><kul:htmlAttributeLabel labelFor="newTask.budgetTaskOnCampus" attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskOnCampus}" skipHelpUrl="true" noColon="true" /></div></th>
+    <th width="5%"><div align="center"><kul:htmlAttributeLabel labelFor="document.budget.modularBudget.budgetModularTaskNumber" attributeEntry="${DataDictionary.BudgetModular.attributes.budgetModularTaskNumber}" skipHelpUrl="true" noColon="true" /></div></th>
     <c:if test="${not viewOnly}"><th width="2%">Action</th></c:if>
   </tr>
   <!-- Default add line for additional tasks
@@ -49,7 +49,7 @@
     <td class="infoline"><html:hidden property="newTask.documentNumber" /> <html:hidden property="newTask.budgetTaskSequenceNumber" /> <html:hidden property="newTask.objectId"/> <html:hidden property="newTask.versionNumber" /> <span> <kul:htmlControlAttribute property="newTask.budgetTaskName" attributeEntry="${budgetTaskAttributes.budgetTaskName}"/> </span> </td>
     <td class="infoline"><div align="center"> <kul:htmlControlAttribute property="newTask.budgetTaskOnCampus" attributeEntry="${budgetTaskAttributes.budgetTaskOnCampus}"/> </div></td>
     <td class="infoline"><div align="center">
-        <label><input type="radio" name="document.budget.modularBudget.budgetModularTaskNumber" disabled="true" value="-1" /></label>
+        <input type="radio" id="document.budget.modularBudget.budgetModularTaskNumber" name="document.budget.modularBudget.budgetModularTaskNumber" disabled="true" value="-1" /></label>
       </div></td>
     <td class="infoline"><div align="center"><html:image property="methodToCall.insertTaskLine.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="add task line" alt="add task line"/></div></td>
   </tr>

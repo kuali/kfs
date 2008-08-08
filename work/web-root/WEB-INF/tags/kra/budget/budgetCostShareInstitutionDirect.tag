@@ -112,7 +112,7 @@
 					<c:if test="${!viewOnly}">
 					<td rowspan="${institutionDirectColumns}" class="datacell">
 						<div align="center">
-							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" />
+							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" title="recalculate" />
 						</div>
 					</td>
 					</c:if>
@@ -289,7 +289,7 @@
 					<logic:iterate id="period" name="KualiForm" property="document.budget.periods" indexId="ctr">
 						<td class="infoline">
 							<div align="center">
-								<html:text property="newInstitutionCostShare.budgetPeriodCostShareItem[${ctr}].budgetCostShareAmount" size="5" styleClass="amount" />
+								<html:text title="Period ${ctr+1} Amount" property="newInstitutionCostShare.budgetPeriodCostShareItem[${ctr}].budgetCostShareAmount" size="5" styleClass="amount" />
 							</div>
 						</td>
 					</logic:iterate>
@@ -300,19 +300,19 @@
 					</td>
 					<td rowspan="${institutionDirectColumns}" class="infoline">
 						<div align="center">
-							<html:image property="methodToCall.insertInstitutionCostShareDirect.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add" />
+							<html:image property="methodToCall.insertInstitutionCostShareDirect.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add" title="add" />
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<th class="infoline">
 						<div align="right">
-							<kul:htmlAttributeLabel attributeEntry="${DataDictionary.InstitutionCostSharePersonnel.attributes.budgetInstitutionCostSharePersonnelDescription}" skipHelpUrl="true" />
+							<kul:htmlAttributeLabel labelFor="newInstitutionCostShare.budgetCostShareDescription" attributeEntry="${DataDictionary.InstitutionCostSharePersonnel.attributes.budgetInstitutionCostSharePersonnelDescription}" skipHelpUrl="true" />
 						</div>
 					</th>
 					<td colspan="${KualiForm.document.periodListSize+2}" class="infoline">
 						<div align="left">
-							<html:text property="newInstitutionCostShare.budgetCostShareDescription" styleClass="datacell" size="40" />
+							<html:text styleId="newInstitutionCostShare.budgetCostShareDescription" property="newInstitutionCostShare.budgetCostShareDescription" styleClass="datacell" size="40" />
 						</div>
 					</td>
 				</tr>
@@ -320,12 +320,12 @@
 				<tr>
 					<th class="bord-l-b">
 						<div align="right">
-							Include source in permissions?
+							<label for="newInstitutionCostShare.permissionIndicator">Include source in permissions?</label>
 						</div>
 					</th>
 					<td colspan="${KualiForm.document.periodListSize + 2}" class="infoline">
 						<div align="left">
-							<html:checkbox property="newInstitutionCostShare.permissionIndicator" />
+							<html:checkbox styleId="newInstitutionCostShare.permissionIndicator" property="newInstitutionCostShare.permissionIndicator" />
 						</div>
 					</td>
 				</tr>
@@ -372,7 +372,7 @@
 						<c:if test="${!viewOnly}">
 						<td rowspan="${institutionDirectColumns}" class="datacell">
 							<div align="center">
-								<html:image property="methodToCall.deleteInstitutionCostShareDirect.line${rowctr}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
+								<html:image property="methodToCall.deleteInstitutionCostShareDirect.line${rowctr}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" title="delete" />
 							</div>
 						</td>
 						</c:if>

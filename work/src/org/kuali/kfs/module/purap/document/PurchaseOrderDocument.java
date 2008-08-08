@@ -56,9 +56,11 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -445,14 +447,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setItems(items);
         
         //These are the steps to create the cams items for the po from the cams items for the req.
-        //When the real data structures have been created, this needs to be 
-        //renamed or do whatever to match the real data structures, then uncomment these.
-//        List<PurchaseOrderItemCapitalAsset> poCamsItems = new ArrayList<PurchaseOrderItemCapitalAsset>();
-//        for (RequisitionItemCapitalAsset reqCamsItem : requisitionDocument.getCamsItems()) {
-//            PurchaseOrderItemCapitalAsset poCamsItem = new PurchaseOrderItemCapitalAsset(reqCamsItem);
-//            poCamsItems.add(poCamsItem);
-//        }
-//        this.setCamsItems(poCamsItems);
+        List<PurchaseOrderItemCapitalAsset> poCamsItems = new ArrayList<PurchaseOrderItemCapitalAsset>();
+        for (PurchasingCapitalAssetItem camsItem : requisitionDocument.getPurchasingCapitalAssetItems()) {
+            this.getPurchasingCapitalAssetItems().add(camsItem);
+        }
     }
 
     /**

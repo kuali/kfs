@@ -42,7 +42,7 @@
     <property name="name" value="buildingCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Building Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Building" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -60,7 +60,7 @@
     <property name="name" value="buildingRoomNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Building Room Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Room" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -78,7 +78,7 @@
     <property name="name" value="campusCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Campus Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Campus" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -95,7 +95,7 @@
   <bean id="RequisitionCapitalAssetLocation-capitalAssetCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetCityName" />
     <property name="label" value="Capital Asset City Name" />
-    <property name="shortLabel" value="Name" />
+    <property name="shortLabel" value="City" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -166,7 +166,7 @@
     <property name="name" value="capitalAssetPostalCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset Postal Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Postal Code" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -184,7 +184,7 @@
     <property name="name" value="capitalAssetStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset State Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="State" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

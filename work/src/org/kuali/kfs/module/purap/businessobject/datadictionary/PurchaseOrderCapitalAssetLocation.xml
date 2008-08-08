@@ -35,7 +35,7 @@
         p:name="buildingCode"
         p:forceUppercase="false"
         p:label="Building Code"
-        p:shortLabel="Building Code"
+        p:shortLabel="Building"
         p:maxLength="10"
         p:required="false" >
     <property name="validationPattern" >
@@ -53,7 +53,7 @@
         p:name="buildingRoomNumber"
         p:forceUppercase="false"
         p:label="Building Room Number"
-        p:shortLabel="Building Room Number"
+        p:shortLabel="Room"
         p:maxLength="10"
         p:required="false" >
     <property name="validationPattern" >
@@ -71,7 +71,7 @@
         p:name="campusCode"
         p:forceUppercase="false"
         p:label="Campus Code"
-        p:shortLabel="Campus Code"
+        p:shortLabel="Campus"
         p:maxLength="10"
         p:required="false" >
     <property name="validationPattern" >
@@ -89,7 +89,7 @@
         p:name="capitalAssetCityName"
         p:forceUppercase="false"
         p:label="Capital Asset City Name"
-        p:shortLabel="Capital Asset City Name"
+        p:shortLabel="City"
         p:maxLength="10"
         p:required="false" >
     <property name="validationPattern" >
@@ -107,7 +107,7 @@
         p:name="capitalAssetCountryCode"
         p:forceUppercase="false"
         p:label="Capital Asset Country Code"
-        p:shortLabel="Capital Asset Country Code"
+        p:shortLabel="Country"
         p:maxLength="10"
         p:required="false" >
     <property name="validationPattern" >
@@ -125,7 +125,7 @@
         p:name="capitalAssetLine1Address"
         p:forceUppercase="false"
         p:label="Capital Asset Line1 Address"
-        p:shortLabel="Capital Asset Line1 Address"
+        p:shortLabel="Address"
         p:maxLength="10"
         p:required="false" >
     <property name="validationPattern" >
@@ -161,7 +161,7 @@
         p:name="capitalAssetPostalCode"
         p:forceUppercase="false"
         p:label="Capital Asset Postal Code"
-        p:shortLabel="Capital Asset Postal Code"
+        p:shortLabel="Postal Code"
         p:maxLength="10"
         p:required="false" >
     <property name="validationPattern" >
@@ -179,7 +179,7 @@
         p:name="capitalAssetStateCode"
         p:forceUppercase="false"
         p:label="Capital Asset State Code"
-        p:shortLabel="Capital Asset State Code"
+        p:shortLabel="State"
         p:maxLength="10"
         p:required="false" >
     <property name="validationPattern" >
@@ -215,7 +215,7 @@
         p:name="itemQuantity"
         p:forceUppercase="false"
         p:label="Item Quantity"
-        p:shortLabel="Item Quantity"
+        p:shortLabel="Quantity"
         p:maxLength="10"
         p:required="false" >
     <property name="validationPattern" >

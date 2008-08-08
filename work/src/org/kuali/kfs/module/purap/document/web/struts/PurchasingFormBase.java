@@ -23,6 +23,10 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
+import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
 
 /**
  * Struts Action Form for Purchasing documents.
@@ -42,6 +46,9 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     private List<PurApAccountingLine> accountDistributionsourceAccountingLines;
     private PurApAccountingLine accountDistributionnewSourceLine;
 
+    private PurchasingItemCapitalAsset newPurchasingItemCapitalAssetLine;
+    private PurchasingCapitalAssetLocation newPurchasingCapitalAssetLocationLine;
+
     private BigDecimal totalPercentageOfAccountDistributionsourceAccountingLines;
 
     /**
@@ -55,6 +62,9 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         this.accountDistributionnextSourceLineNumber = new Integer(1);
         setAccountDistributionsourceAccountingLines(new ArrayList());
         this.setAccountDistributionnewSourceLine(setupNewAccountDistributionAccountingLine());
+        
+        this.setNewPurchasingItemCapitalAssetLine(this.setupNewPurchasingItemCapitalAssetLine());
+        this.setNewPurchasingCapitalAssetLocationLine(this.setupNewPurchasingCapitalAssetLocationLine());
     }
 
     public Boolean getNotOtherDeliveryBuilding() {
@@ -203,6 +213,48 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
 
     public void setDistributePurchasingCommodityDescription(String distributePurchasingCommodityDescription) {
         this.distributePurchasingCommodityDescription = distributePurchasingCommodityDescription;
+    }
+
+    //CAMS ASSET
+    //Must be overridden
+    public PurchasingItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
+        PurchasingItemCapitalAsset asset = null;
+        return asset;
+    }
+
+    public void setNewPurchasingItemCapitalAssetLine(PurchasingItemCapitalAsset newItemCapitalAssetLine) {
+        this.newPurchasingItemCapitalAssetLine = newItemCapitalAssetLine;
+    }
+
+    public PurchasingItemCapitalAsset getNewPurchasingItemCapitalAssetLine() {
+        return newPurchasingItemCapitalAssetLine;
+    }
+
+    public PurchasingItemCapitalAsset getAndResetNewPurchasingItemCapitalAssetLine() {
+        PurchasingItemCapitalAsset asset = getNewPurchasingItemCapitalAssetLine();
+        setNewPurchasingItemCapitalAssetLine(setupNewPurchasingItemCapitalAssetLine());
+        return asset;
+    }
+
+    //CAMS LOCATION
+    //Must be overridden
+    public PurchasingCapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
+        PurchasingCapitalAssetLocation location = null;
+        return location;
+    }
+
+    public void setNewPurchasingCapitalAssetLocationLine(PurchasingCapitalAssetLocation newCapitalAssetLocationLine) {
+        this.newPurchasingCapitalAssetLocationLine = newCapitalAssetLocationLine;
+    }
+
+    public PurchasingCapitalAssetLocation getNewPurchasingCapitalAssetLocationLine() {
+        return newPurchasingCapitalAssetLocationLine;
+    }
+
+    public PurchasingCapitalAssetLocation getAndResetNewPurchasingCapitalAssetLocationLine() {
+        PurchasingCapitalAssetLocation asset = getNewPurchasingCapitalAssetLocationLine();
+        setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
+        return asset;
     }
 
 }

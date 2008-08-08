@@ -42,12 +42,12 @@ public interface PurchasingCapitalAssetItem {
 
     public PurchasingCapitalAssetSystem getPurchasingCapitalAssetSystem();
 
-    public void setRequisitionCapitalAssetSystem(RequisitionCapitalAssetSystem requisitionCapitalAssetSystem);
+    public void setPurchasingCapitalAssetSystem(PurchasingCapitalAssetSystem purchasingCapitalAssetSystem);
 
     public PurchasingDocument getDocument();
  
     public void setDocument(PurchasingDocument pd);
        
-    public PurchasingItem getPurchasingItem();        
-          
+    public PurchasingItem getPurchasingItem();                  
+    
 }

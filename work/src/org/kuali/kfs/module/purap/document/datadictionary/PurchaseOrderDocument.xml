@@ -1102,7 +1102,7 @@
 
   <bean id="PurchaseOrderDocument-capitalAssetSystemStateCode" parent="PurchaseOrderDocument-capitalAssetSystemStateCode-parentBean" />
 
-  <bean id="PurchaseOrderDocument-capitalAssetSystemStateCode-parentBean" abstract="true" parent="CapitalAssetSystemType-capitalAssetSystemTypeCode">
+  <bean id="PurchaseOrderDocument-capitalAssetSystemStateCode-parentBean" abstract="true" parent="CapitalAssetSystemState-capitalAssetSystemStateCode">
     <property name="name" value="capitalAssetSystemStateCode" />
     <property name="required" value="false" />
   </bean>

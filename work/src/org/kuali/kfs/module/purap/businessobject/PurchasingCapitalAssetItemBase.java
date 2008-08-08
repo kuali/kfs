@@ -84,8 +84,8 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
         return purchasingCapitalAssetSystem;
     }
 
-    public void setRequisitionCapitalAssetSystem(RequisitionCapitalAssetSystem requisitionCapitalAssetSystem) {
-        this.purchasingCapitalAssetSystem = requisitionCapitalAssetSystem;
+    public void setPurchasingCapitalAssetSystem(PurchasingCapitalAssetSystem purchasingCapitalAssetSystem) {
+        this.purchasingCapitalAssetSystem = purchasingCapitalAssetSystem;
     }
 
     public PurchasingDocument getDocument(){

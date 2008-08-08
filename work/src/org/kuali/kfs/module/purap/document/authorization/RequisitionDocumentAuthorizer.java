@@ -85,7 +85,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
         if (workflowDocument.stateIsEnroute()) {
             List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
-
+                        
             /**
              * CONTENT ROUTE LEVEL - Approvers can edit full detail on Requisition except they cannot change the CHART/ORG.
              */
@@ -126,6 +126,12 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             else {
                 // VIEW_ENTRY that is already being set is sufficient, but need to remove FULL_ENTRY
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
+
+                //if enroute, only content reviewers can edit, all else has cams entry locked
+                if(workflowDocument.isApprovalRequested()){
+                    editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "TRUE");
+                }
+
             }
             
             editModeMap.put(editMode, "TRUE");

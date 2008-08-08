@@ -33,15 +33,16 @@
   <bean id="CapitalAssetSystemType-capitalAssetSystemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetSystemTypeCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset System Type Code" />
-    <property name="shortLabel" value="System Type Code" />
+    <property name="label" value="Capital Asset System Type" />
+    <property name="shortLabel" value="Capital Asset System Type" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetSystemTypeValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="capitalAssetSystemTypeCode" />
     <property name="description" value="capitalAssetSystemTypeCode description..." />

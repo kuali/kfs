@@ -42,10 +42,16 @@ import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.event.ImportPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
@@ -643,4 +649,108 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    public ActionForward addItemCapitalAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingItemCapitalAsset asset = purchasingForm.getNewPurchasingItemCapitalAssetLine();
+        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
+        
+        boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
+
+        if (rulePassed) {
+            //get specific asset item and grab system as well and attach asset number
+            PurchasingCapitalAssetItem assetItem = purDocument.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
+            PurchasingCapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
+            asset = purchasingForm.getAndResetNewPurchasingItemCapitalAssetLine();
+            asset.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());            
+            system.getPurchasingItemCapitalAssets().add(asset);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteItemCapitalAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingItemCapitalAsset asset = purchasingForm.getNewPurchasingItemCapitalAssetLine();
+        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
+        
+        boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
+
+        if (rulePassed) {            
+            String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+            String assetItemIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+            String assetIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+
+            PurchasingCapitalAssetItem assetItem = purDocument.getPurchasingCapitalAssetItems().get(Integer.parseInt(assetItemIndex));
+            PurchasingCapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
+            system.getPurchasingItemCapitalAssets().remove(Integer.parseInt(assetIndex));
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward addCapitalAssetLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingCapitalAssetLocation location = purchasingForm.getNewPurchasingCapitalAssetLocationLine();
+        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
+        
+        boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
+
+        if (rulePassed) {
+            //get specific asset item and grab system as well and attach asset number
+            PurchasingCapitalAssetItem assetItem = purDocument.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
+            PurchasingCapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
+            location = purchasingForm.getAndResetNewPurchasingCapitalAssetLocationLine();
+            location.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());
+            system.getPurchasingCapitalAssetLocations().add(location);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteCapitalAssetLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingCapitalAssetLocation location = purchasingForm.getNewPurchasingCapitalAssetLocationLine();
+        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
+        
+        boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
+
+        if (rulePassed) {
+            String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+            String assetItemIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+            String locationIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+            
+            //get specific asset item and grab system as well and attach asset number
+            PurchasingCapitalAssetItem assetItem = purDocument.getPurchasingCapitalAssetItems().get(Integer.parseInt(assetItemIndex));
+            PurchasingCapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();                        
+            system.getPurchasingCapitalAssetLocations().remove(Integer.parseInt(locationIndex));            
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward selectSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
+        
+        SpringContext.getBean(PurchasingService.class).setupCAMSItems(document);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward changeSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward updateCamsView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
+        
+        SpringContext.getBean(PurchasingService.class).setupCAMSItems(document);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 }

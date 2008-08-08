@@ -1,0 +1,120 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CapitalAssetSystemState" parent="CapitalAssetSystemState-parentBean" />
+
+  <bean id="CapitalAssetSystemState-parentBean" abstract="true" parent="BusinessObjectEntry"
+        p:businessObjectClass="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState"
+        p:objectLabel="Capital Asset System State"
+        p:inquiryDefinition-ref="CapitalAssetSystemState-inquiryDefinition"
+        p:lookupDefinition-ref="CapitalAssetSystemState-lookupDefinition" >
+    <property name="attributes" >
+      <list>
+        <ref bean="CapitalAssetSystemState-active" />
+        <ref bean="CapitalAssetSystemState-capitalAssetSystemStateCode" />
+        <ref bean="CapitalAssetSystemState-capitalAssetSystemStateDescription" />
+        <ref bean="CapitalAssetSystemState-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CapitalAssetSystemState-active" parent="CapitalAssetSystemState-active-parentBean" />
+  <bean id="CapitalAssetSystemState-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" 
+        p:name="active"
+        p:required="false" />
+
+  <bean id="CapitalAssetSystemState-capitalAssetSystemStateCode" parent="CapitalAssetSystemState-capitalAssetSystemStateCode-parentBean" />
+  <bean id="CapitalAssetSystemState-capitalAssetSystemStateCode-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="capitalAssetSystemStateCode"
+        p:forceUppercase="false"
+        p:label="Capital Asset System State"
+        p:shortLabel="Capital Asset System State"
+        p:maxLength="10"
+        p:required="false" >
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetSystemStateValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+
+  <bean id="CapitalAssetSystemState-capitalAssetSystemStateDescription" parent="CapitalAssetSystemState-capitalAssetSystemStateDescription-parentBean" />
+  <bean id="CapitalAssetSystemState-capitalAssetSystemStateDescription-parentBean" parent="AttributeDefinition" abstract="true"
+        p:name="capitalAssetSystemStateDescription"
+        p:forceUppercase="false"
+        p:label="Capital Asset System State Description"
+        p:shortLabel="Capital Asset System State Description"
+        p:maxLength="45"
+        p:required="false" >
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+
+  <bean id="CapitalAssetSystemState-versionNumber" parent="CapitalAssetSystemState-versionNumber-parentBean" />
+  <bean id="CapitalAssetSystemState-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" 
+        p:name="versionNumber"
+        p:required="false" />
+
+  <bean id="CapitalAssetSystemState-inquiryDefinition" parent="CapitalAssetSystemState-inquiryDefinition-parentBean" />
+
+  <bean id="CapitalAssetSystemState-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
+        p:title="Capital Asset System State Inquiry" >
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition"
+              p:title="Capital Asset System State Attributes"
+              p:numberOfColumns="1" >
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateCode" />
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateDescription" />
+              <bean parent="FieldDefinition" p:attributeName="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CapitalAssetSystemState-lookupDefinition" parent="CapitalAssetSystemState-lookupDefinition-parentBean" />
+
+  <bean id="CapitalAssetSystemState-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition"
+        p:title="Capital Asset System State Lookup" 
+        p:instructions="Lookup a Capital Asset System State" >
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateCode" />
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateDescription" />
+        <bean parent="FieldDefinition" p:attributeName="versionNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateCode" />
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateDescription" />
+        <bean parent="FieldDefinition" p:attributeName="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+</beans>

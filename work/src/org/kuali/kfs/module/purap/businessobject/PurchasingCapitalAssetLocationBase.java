@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 
 public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusinessObjectBase implements PurchasingCapitalAssetLocation {
@@ -41,6 +43,8 @@ public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusi
 
     public PurchasingCapitalAssetLocationBase() {
         super();
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        this.campusCode = user.getCampusCode();
     }
 
     public Integer getCapitalAssetSystemIdentifier() {

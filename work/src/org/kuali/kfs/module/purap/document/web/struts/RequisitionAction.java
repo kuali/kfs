@@ -84,28 +84,4 @@ public class RequisitionAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    public ActionForward selectSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RequisitionForm rqForm = (RequisitionForm) form;
-        RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
-        
-        SpringContext.getBean(PurchasingService.class).setupCAMSItems(document);
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    public ActionForward changeSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RequisitionForm rqForm = (RequisitionForm) form;
-        RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-    
-    public ActionForward updateCamsView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RequisitionForm rqForm = (RequisitionForm) form;
-        RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
-        
-        SpringContext.getBean(PurchasingService.class).setupCAMSItems(document);
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
 }

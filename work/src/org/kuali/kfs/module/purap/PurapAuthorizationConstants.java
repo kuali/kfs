@@ -71,4 +71,8 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String LOCK_PO_DETAILS = "lockPODetails";
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
     }
+    
+    public static class CamsEditMode extends EditMode {
+        public static final String LOCK_CAMS_ENTRY = "lockCamsEntry";
+    }
 }

@@ -42,8 +42,9 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetTransactionTypeValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="CapitalAssetTransactionType-capitalAssetTransactionTypeDescription" parent="CapitalAssetTransactionType-capitalAssetTransactionTypeDescription-parentBean" />

@@ -20,8 +20,12 @@ import java.math.BigDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
+import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 /**
@@ -88,6 +92,7 @@ public class RequisitionForm extends PurchasingFormBase {
         return new RequisitionAccount();
     }
 
+
     /**
      * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase#setupNewAccountDistributionAccountingLine()
      */
@@ -97,4 +102,17 @@ public class RequisitionForm extends PurchasingFormBase {
         account.setAccountLinePercent(new BigDecimal(100));
         return account;
     }
+
+    @Override
+    public PurchasingItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
+        PurchasingItemCapitalAsset asset = new RequisitionItemCapitalAsset();
+        return asset;
+    }
+
+    @Override
+    public PurchasingCapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
+        PurchasingCapitalAssetLocation location = new RequisitionCapitalAssetLocation();
+        return location;
+    }
+
 }

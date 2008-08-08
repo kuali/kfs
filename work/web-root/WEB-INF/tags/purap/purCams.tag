@@ -15,97 +15,59 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="itemsAttributes" required="true" type="java.util.Map" description="A parameter to specify an data dictionary entry for items to get cams fields."%>
-<%@ attribute name="camsAttributes" required="true" type="java.util.Map" description="A parameter to specify an data dictionary entry for a sub-classed cams data."%>
-<%@ attribute name="ctr" required="true" description="item count"%>
+<%@ attribute name="documentAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields." %>
+<%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="camsItemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="camsSystemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="camsAssetAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="camsLocationAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 
-<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
-<c:set var="tabTitle" value="CAMS-${currentTabIndex}" />
-<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
-<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
-<!--  hit form method to increment tab index -->
-<c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
+<kul:tab tabTitle="CAMS" defaultOpen="true" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
+	<div class="tab-container" align=center>
+		
+    <table cellpadding="0" cellspacing="0" class="datatable" summary="System Selection">
+	<tr>
+		<td colspan="2" class="subhead">System Selection</td>
+	</tr>
 
-<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
-
-<c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
-
-<%-- default to closed --%>
-<c:choose>
-    <c:when test="${empty currentTab}">
-        <c:set var="isOpen" value="false" />
-    </c:when>
-    <c:when test="${!empty currentTab}">
-        <c:set var="isOpen" value="${currentTab == 'OPEN'}" />
-    </c:when>
-</c:choose>
-
-<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
-
-<table cellpadding="0" cellspacing="0" class="datatable" >
-    <tr>
-        <td colspan="4" class="subhead">
-            <span class="subhead-left">Capital Asset Detail
-                <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                    <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
-                </c:if>
-                <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                    <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
-                </c:if>
-            </span>
-        </td>
-    </tr>
-<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-    <tbody style="display: none;" id="tab-${tabKey}-div">
-</c:if>
-
-    <tr>
-        <th align=right valign=middle class="bord-l-b">
-            <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemsAttributes.capitalAssetTransactionTypeCode}" /></div>
-        </th>
+	<tr>
+ 		<th width="20%" align=right valign=middle class="bord-l-b">
+			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" /></div>
+		</th>
         <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.capitalAssetTransactionTypeCode}" 
-            	property="document.items[${ctr}].capitalAssetTransactionTypeCode"
-            	extraReadOnlyProperty="document.items[${ctr}].capitalAssetTransactionType.capitalAssetTransactionTypeDescription" 
-            	readOnly="${not (fullEntryMode or amendmentEntry)}" />
-        </td>
-        <th align=right valign=middle class="bord-l-b">
-            <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemsAttributes.addCapitalAssetNumber}" /></div>
-        </th>
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" property="document.capitalAssetSystemTypeCode" extraReadOnlyProperty="document.capitalAssetSystemType.capitalAssetSystemTypeDescription" readOnly="${!empty KualiForm.document.purchasingCapitalAssetSystems}"/>
+		</td>
+	</tr>
+	<tr>
+		<th align=right valign=middle class="bord-l-b">
+			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" /></div>
+		</th>
         <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.addCapitalAssetNumber}" property="document.items[${ctr}].addCapitalAssetNumber" readOnly="${not (fullEntryMode or amendmentEntry)}"/>&nbsp;
-            <c:if test="${fullEntryMode or amendmentEntry}">
-            	<html:image property="methodToCall.addAsset.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Asset" title="Add an Asset" styleClass="tinybutton"/>
-            </c:if>
-        </td>
-    </tr>
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" readOnly="${!empty KualiForm.document.purchasingCapitalAssetSystems}"/>
+		</td>
+	</tr>
+	<tr>
+		<th align=right valign=middle class="bord-l-b">
+			Action:
+       </th>
+	   <td align=left valign=middle class="datacell">
+			<c:choose>
+			<c:when test="${empty KualiForm.document.purchasingCapitalAssetSystems}">
+				<html:image property="methodToCall.selectSystem" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="select system" styleClass="tinybutton"/>
+			</c:when>
+			<c:otherwise>
+			<html:image property="methodToCall.changeSystem" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="select system" styleClass="tinybutton"/>
+			<html:image property="methodToCall.updateCamsView" src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" alt="Update Cams View" styleClass="tinybutton"/>
+			</c:otherwise>
+			</c:choose>
+		</td>
+	</tr>
 
-    <tr>
-        <th align=right valign=middle class="bord-l-b">
-            <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemsAttributes.itemCapitalAssetNoteText}" /></div>
-        </th>
-        <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.itemCapitalAssetNoteText}" property="document.items[${ctr}].itemCapitalAssetNoteText" readOnly="${not (fullEntryMode or amendmentEntry)}" />
-        </td>
-        <th align=right valign=middle class="bord-l-b">
-            <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsAttributes.capitalAssetNumber}" /></div>
-        </th>
-        <td align=left valign=middle class="datacell">
-            <c:forEach var="capitalAsset" items="${KualiForm.document.items[ctr].purchasingItemCapitalAssets}" varStatus="assetCtr">
-                ${capitalAsset.capitalAssetNumber}&nbsp;                
-                <html:image property="methodToCall.deleteAsset.line${ctr}.asset${assetCtr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Remove an Asset" title="Delete an Asset" styleClass="tinybutton" /><br/>
-            </c:forEach>
-            <html:hidden property="purchasingItemCapitalAssets" value="${KualiForm.document.items[ctr].purchasingItemCapitalAssets}" />
-        </td>
-    </tr>
+	</table>
 
-<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-    </tbody>
-</c:if>
+	<c:if test="${!empty KualiForm.document.purchasingCapitalAssetItems}">
+		<purap:camsItems itemAttributes="${itemAttributes}" camsItemAttributes="${camsItemAttributes}" camsSystemAttributes="${camsSystemAttributes}" camsAssetAttributes="${camsAssetAttributes}" camsLocationAttributes="${camsLocationAttributes}" />
+	</c:if>
 
-</table>
-            
-
-
-
-
+	</div>
+</kul:tab>

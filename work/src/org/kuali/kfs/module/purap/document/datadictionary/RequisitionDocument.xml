@@ -866,20 +866,9 @@
   </bean>
 
   <bean id="RequisitionDocument-capitalAssetSystemStateCode" parent="RequisitionDocument-capitalAssetSystemStateCode-parentBean" />
-  <bean id="RequisitionDocument-capitalAssetSystemStateCode-parentBean" parent="AttributeDefinition" abstract="true"
-        p:name="capitalAssetSystemStateCode"
-        p:forceUppercase="false"
-        p:label="Capital Asset System State Code"
-        p:shortLabel="System State Code"
-        p:maxLength="10"
-        p:required="false" >
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
+  <bean id="RequisitionDocument-capitalAssetSystemStateCode-parentBean" abstract="true" parent="CapitalAssetSystemState-capitalAssetSystemStateCode">
+    <property name="name" value="capitalAssetSystemStateCode" />
+    <property name="required" value="false" />
   </bean>
 
   <bean id="RequisitionDocument-capitalAssetSystemTypeCode" parent="RequisitionDocument-capitalAssetSystemTypeCode-parentBean" />

@@ -36,7 +36,7 @@
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetManufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetManufacturerName" />
     <property name="label" value="Capital Asset Manufacturer Name" />
-    <property name="shortLabel" value="Name" />
+    <property name="shortLabel" value="Manufacturer Name" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -53,7 +53,7 @@
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetModelDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetModelDescription" />
     <property name="label" value="Capital Asset Model Description" />
-    <property name="shortLabel" value="Description" />
+    <property name="shortLabel" value="Model" />
     <property name="maxLength" value="800" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -73,7 +73,7 @@
     <property name="name" value="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset Not Received Current Fiscal Year Indicator" />
-    <property name="shortLabel" value="Indicator" />
+    <property name="shortLabel" value="Not Expected to Recieve in Current FY" />
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
@@ -86,7 +86,7 @@
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetSystemDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetSystemDescription" />
     <property name="label" value="Capital Asset System Description" />
-    <property name="shortLabel" value="Description" />
+    <property name="shortLabel" value="Capital Asset System Description" />
     <property name="maxLength" value="4000" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

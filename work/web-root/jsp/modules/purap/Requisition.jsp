@@ -47,9 +47,12 @@
     	accountingLineAttributes="${DataDictionary.RequisitionAccount.attributes}" 
     	displayRequisitionFields="true"/>
 
-	<purap:camsItems documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
+	<purap:purCams documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
 		itemAttributes="${DataDictionary.RequisitionItem.attributes}" 
-		camsItemAttributes="${DataDictionary.RequisitionCapitalAssetItem.attributes}" />
+		camsItemAttributes="${DataDictionary.RequisitionCapitalAssetItem.attributes}" 
+		camsSystemAttributes="${DataDictionary.RequisitionCapitalAssetSystem.attributes}"
+		camsAssetAttributes="${DataDictionary.RequisitionItemCapitalAsset.attributes}"
+		camsLocationAttributes="${DataDictionary.RequisitionCapitalAssetLocation.attributes}" />
 
     <purap:paymentinfo
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}" />
@@ -60,11 +63,7 @@
     <purap:additional
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
         displayRequisitionFields="true" />
-    
-    <!-- purap:capitalAsset 
-    	documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
-        displayRequisitionFields="true" / -->
-     
+         
     <!-- TEMPORARILY DISABLING ACCOUNT SUMMARY FUNCTIONALITY -->
     <purap:summaryaccounts
         itemAttributes="${DataDictionary.RequisitionItem.attributes}"

@@ -83,7 +83,7 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
         RequisitionCapitalAssetSystem sys1 = (RequisitionCapitalAssetSystem)PurchasingCapitalAssetSystemFixture.ASSET_SYSTEM_BASIC_1.createPurchasingCapitalAssetSystem(RequisitionCapitalAssetSystem.class);
         requisition.getPurchasingCapitalAssetSystems().add(sys1);
 
-        requisition.getPurchasingCapitalAssetItems().get(0).setRequisitionCapitalAssetSystem(sys1);
+        requisition.getPurchasingCapitalAssetItems().get(0).setPurchasingCapitalAssetSystem(sys1);
         
         RequisitionItem item2 = (RequisitionItem)RequisitionItemFixture.REQ_ITEM_NO_APO.createRequisitionItem();
         item2.getSourceAccountingLine(0).setChartOfAccountsCode("BL");
@@ -99,7 +99,7 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
         RequisitionCapitalAssetSystem sys2 = (RequisitionCapitalAssetSystem)PurchasingCapitalAssetSystemFixture.ASSET_SYSTEM_BASIC_2.createPurchasingCapitalAssetSystem(RequisitionCapitalAssetSystem.class);
         requisition.getPurchasingCapitalAssetSystems().add(sys2);
         
-        requisition.getPurchasingCapitalAssetItems().get(1).setRequisitionCapitalAssetSystem(sys2);
+        requisition.getPurchasingCapitalAssetItems().get(1).setPurchasingCapitalAssetSystem(sys2);
         
         SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(requisition);
         

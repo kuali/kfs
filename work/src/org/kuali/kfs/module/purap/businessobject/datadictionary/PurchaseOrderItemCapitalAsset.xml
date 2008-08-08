@@ -22,20 +22,18 @@
   </bean>
 
   <bean id="PurchaseOrderItemCapitalAsset-capitalAssetNumber" parent="PurchaseOrderItemCapitalAsset-capitalAssetNumber-parentBean" />
-  <bean id="PurchaseOrderItemCapitalAsset-capitalAssetNumber-parentBean" parent="AttributeDefinition" abstract="true"
-        p:name="capitalAssetNumber"
-        p:forceUppercase="false"
-        p:label="Capital Asset Number"
-        p:shortLabel="Capital Asset Number"
-        p:maxLength="10"
-        p:required="false" >
+  <bean id="PurchaseOrderItemCapitalAsset-capitalAssetNumber-parentBean" parent="AttributeDefinition" abstract="true">
+    <property name="name" value="capitalAssetNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Number" />
+    <property name="shortLabel" value="Capital Asset Number" />
+    <property name="maxLength" value="12" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+      <bean parent="NumericValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="14" />
     </property>
   </bean>
 

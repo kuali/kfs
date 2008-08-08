@@ -319,9 +319,11 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#updateOpenInvoiceIndicator(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
-    public void closeCustomerInvoiceDocument(CustomerInvoiceDocument invoice) {
-        invoice.setOpenInvoiceIndicator(false);
-        businessObjectService.save(invoice);
+    public void closeCustomerInvoiceDocumentIfFullyPaidOff(CustomerInvoiceDocument customerInvoiceDocument) {
+        if( customerInvoiceDocument.isPaidOff()){
+            customerInvoiceDocument.setOpenInvoiceIndicator(false);
+            businessObjectService.save(customerInvoiceDocument);
+        }
     }
 
     public CustomerInvoiceDocumentDao getCustomerInvoiceDocumentDao() {

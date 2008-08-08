@@ -124,7 +124,7 @@ public interface CustomerInvoiceDocumentService {
      * This method updates the open invoice indicator if amounts have been completely paid off
      * @param invoice
      */
-    public void closeCustomerInvoiceDocument(CustomerInvoiceDocument invoice);
+    public void closeCustomerInvoiceDocumentIfFullyPaidOff(CustomerInvoiceDocument customerInvoiceDocument);
     
      /**
      * This method...

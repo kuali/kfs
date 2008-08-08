@@ -34,7 +34,9 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffCustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -238,21 +240,21 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     
     /**
      * When document is processed do the following:
-     * 3) If the document is a reversal, in addition to reversing paid applied rows, update the open paid applied indicator
+     * 
+     * 1) Apply amounts to writeoff invoice
+     * 2) Mark off invoice indiciator
      *
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange(){
         super.handleRouteStatusChange();
-        /*
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             
             // apply writeoff amounts by only retrieving only the invoice details that ARE NOT discounts
             SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(this.customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts(), documentNumber);
-            SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(customerInvoiceDocument);
+            //SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocumentIfFullyPaidOff(customerInvoiceDocument);
         }
-        */
     }    
     
     /**

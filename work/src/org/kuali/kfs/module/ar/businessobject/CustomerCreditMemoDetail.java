@@ -17,7 +17,7 @@ import org.kuali.kfs.sys.context.SpringContext;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase implements GeneralLedgerPendingEntrySourceDetail{
+public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase implements GeneralLedgerPendingEntrySourceDetail, AppliedPayment{
 
     private String documentNumber;
     private Integer referenceInvoiceItemNumber;
@@ -366,6 +366,18 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      */
     public void setFinancialDocumentReferenceInvoiceNumber(String financialDocumentReferenceInvoiceNumber) {
         this.financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber;
+    }
+
+    public KualiDecimal getAmountToApply() {
+        return getCreditMemoItemTotalAmount();
+    }
+
+    public Integer getInvoiceItemNumber() {
+        return referenceInvoiceItemNumber;
+    }
+
+    public String getInvoiceReferenceNumber() {
+        return financialDocumentReferenceInvoiceNumber;
     }
 
 }

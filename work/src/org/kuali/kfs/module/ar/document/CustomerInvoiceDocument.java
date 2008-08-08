@@ -1097,7 +1097,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             if( this.isInvoiceReversal() ){
                 try{
                     CustomerInvoiceDocument correctedCustomerInvoiceDocument = (CustomerInvoiceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentHeader().getFinancialDocumentInErrorNumber());
-                    SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(correctedCustomerInvoiceDocument);
+                    SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocumentIfFullyPaidOff(correctedCustomerInvoiceDocument);
                 } catch (WorkflowException e){
                     throw new RuntimeException("Cannot find customer invoice document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
                 }                
@@ -1369,6 +1369,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         
         return discounts;
     }    
+    
+    /**
+     * This method returns true if open amount is less than or equal to 0
+     * @return
+     */
+    public boolean isPaidOff(){
+        return KualiDecimal.ZERO.isGreaterEqual(getOpenAmount());
+    }
 }
 
 

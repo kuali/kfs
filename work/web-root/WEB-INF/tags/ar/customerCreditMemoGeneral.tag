@@ -48,7 +48,7 @@
         			</div>
         		</th>
         		<td>
-        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.invoice.accountsReceivableDocumentHeader.customerNumber}"
+        			<kul:htmlControlAttribute attributeEntry="${customerAttributes.customerNumber}"
         			                      	  property="document.invoice.accountsReceivableDocumentHeader.customerNumber"
         			                          readOnly="true" />
         		</td>
@@ -61,8 +61,8 @@
         			</div>
             	</th>
         		<td>
-        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.invoice.customerSpecialProcessing.customerSpecialProcessingDescription}"
-        			                      	property="document.invoice.customerSpecialProcessing.customerSpecialProcessingDescription"
+        			<kul:htmlControlAttribute attributeEntry="${customerAttributes.customerNumber}"
+        			                      	property="document.invoice.accountsReceivableDocumentHeader.customer.customerName"
         			                      	readOnly="true" />
         		</td>
         	</tr>

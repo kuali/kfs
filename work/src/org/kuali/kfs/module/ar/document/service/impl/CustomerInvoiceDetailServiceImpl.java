@@ -42,7 +42,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailService {
 
     private DateTimeService dateTimeService;

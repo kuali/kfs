@@ -85,9 +85,19 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
      */
     @Override
-    public KeyLabelPair getAdditionalDocInfo2() {
+    public KeyLabelPair getAdditionalDocInfo1() {
         return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.sourceTotal", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getSourceTotal()));
     }
+    
+    /**
+     * By overriding this method, we can add the invoice total amount to the document header
+     * 
+     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
+     */
+    @Override
+    public KeyLabelPair getAdditionalDocInfo2() {
+        return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.openAmount", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getOpenAmount()));
+    }    
 
 
     /**
@@ -115,6 +125,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         Map map = super.getForcedReadOnlyFields();
         map.put(KFSPropertyConstants.AMOUNT, Boolean.TRUE);
         map.put("invoiceItemTaxAmount", Boolean.TRUE);
+        map.put("openAmount", Boolean.TRUE);
         return map;
     }
 }

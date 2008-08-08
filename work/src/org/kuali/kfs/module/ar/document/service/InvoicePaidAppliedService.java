@@ -23,19 +23,19 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
-public interface InvoicePaidAppliedService<A extends AppliedPayment> {
+public interface InvoicePaidAppliedService<T extends AppliedPayment> {
     
     /**
      * This method takes a list of invoice paid applied moves and uses them to save invoicePaidAppliedMoves
      * @param invoicePaidAppliedMoves
      */
-    public void saveInvoicePaidApplieds(List<A> appliedPayments, String documentNumberForDocumentApplyingPayments);
+    public void saveInvoicePaidApplieds(List<T> appliedPayments, String documentNumberForDocumentApplyingPayments);
     
     /**
      * This method saves one paid applied
      * @param appliedPayment
      */
-    public void saveInvoicePaidApplied(A appliedPayment, Integer paidAppliedItemNumber, String documentNumberForDocumentApplyingPayments);
+    public void saveInvoicePaidApplied(T appliedPayment, Integer paidAppliedItemNumber, String documentNumberForDocumentApplyingPayments);
     
     
     /**

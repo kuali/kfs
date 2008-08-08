@@ -24,7 +24,9 @@ import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -535,6 +537,28 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     public String getFinancialDocumentTypeCode() {
         return SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(this.getClass());
     }
+    
+    /**
+     * When document is processed do the following:
+     * 
+     * 1) Apply amounts to writeoff invoice
+     * 2) Mark off invoice indiciator
+     *
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange(){
+        super.handleRouteStatusChange();
+        if (getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+            
+            //have to populate because not all the customer credit memo details are populated while doc is in workflow
+            populateCustomerCreditMemoDetailsAfterLoad();
+            
+            // apply writeoff amounts by only retrieving only the invoice details that ARE NOT discounts
+            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(getCreditMemoDetails(), documentNumber);
+            //SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocumentIfFullyPaidOff(getInvoice());
+        }
+    }        
 
     /**
      * This method creates the following GLPE's for the customer credit memo

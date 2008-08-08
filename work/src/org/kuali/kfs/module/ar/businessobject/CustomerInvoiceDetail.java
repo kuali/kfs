@@ -80,9 +80,18 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         this.balance = balance;
     }
 
+    /**
+     * This method returns an open amount for a specific detail.  If a customer invoice detail is a
+     * discount line, return null, because discount lines should NEVER have an open amount.
+     * @return
+     */
     public KualiDecimal getOpenAmount() {
-        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        return customerInvoiceDetailService.getOpenAmount(this);
+        if( isDiscountLine() ){
+            return null;
+        } else {
+            CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+            return customerInvoiceDetailService.getOpenAmount(this);            
+        }
     }
 
     public void setOpenAmount(KualiDecimal openAmount) {

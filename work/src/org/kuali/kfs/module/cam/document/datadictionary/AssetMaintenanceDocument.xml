@@ -238,7 +238,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.organizationTagNumber" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetOrganization.organizationAssetTypeIdentifier" />
+              p:name="assetOrganization.organizationAssetTypeIdentifier" 
+              p:noLookup="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.versionNumber" />
         <bean parent="MaintainableFieldDefinition"
@@ -641,19 +642,26 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyNumber" />
+              p:name="assetWarranty.warrantyNumber" 
+              p:noLookup="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyContactName" />
+              p:name="assetWarranty.warrantyContactName" 
+              p:noLookup="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyPhoneNumber" />
+              p:name="assetWarranty.warrantyPhoneNumber" 
+              p:noLookup="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyPurchaseOrderNumber" />
+              p:name="assetWarranty.warrantyPurchaseOrderNumber" 
+              p:noLookup="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyBeginningDate" />
+              p:name="assetWarranty.warrantyBeginningDate" 
+              p:noLookup="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyEndingDate" />
+              p:name="assetWarranty.warrantyEndingDate" 
+              p:noLookup="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.warrantyText" />
+              p:name="assetWarranty.warrantyText" 
+              p:noLookup="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="assetWarranty.versionNumber" />
       </list>

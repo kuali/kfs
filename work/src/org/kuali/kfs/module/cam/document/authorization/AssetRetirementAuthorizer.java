@@ -15,17 +15,16 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import static org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
+import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -36,7 +35,6 @@ import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementReason;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.ParameterService;
 
@@ -44,6 +42,7 @@ import org.kuali.kfs.sys.service.ParameterService;
  * AssetAuthorizer for Asset edit.
  */
 public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementAuthorizer.class);
 
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
@@ -58,6 +57,7 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
      * @return a new set of {@link MaintenanceDocumentAuthorizations} that marks certain fields as necessary
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
+
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
 
@@ -69,13 +69,14 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
     }
 
     /**
-     * 
      * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.UniversalUser)
-     */
+
     @Override
     public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+
         FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
+
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getDocumentBusinessObject();
         String reasonCode = assetRetirementGlobal.getRetirementReasonCode();
         Map<String, Object> pkMap = new HashMap<String, Object>();
@@ -96,22 +97,49 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
             hideActions(actionFlags);
             GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE);
         }
+
         return actionFlags;
     }
+*/
 
     /**
-     * 
      * Hide action buttons in the screen when the user not allowed to proceed.
      * 
      * @param actionFlags
      */
     private void hideActions(DocumentActionFlags actionFlags) {
-        actionFlags.setCanAdHocRoute(false);
+       actionFlags.setCanAdHocRoute(false);
         actionFlags.setCanApprove(false);
         actionFlags.setCanBlanketApprove(false);
         actionFlags.setCanRoute(false);
         actionFlags.setCanSave(false);
     }
 
+    /**
+     * Checks whether the BA document is active for the year end posting year.
+     * 
+     * @see org.kuali.core.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.core.bo.user.KualiUser)
+     */
+    @Override
+    public void canInitiate(String documentTypeName, UniversalUser user) {
+
+        super.canInitiate(documentTypeName, user);
+        String refreshCaller = GlobalVariables.getKualiForm().getRefreshCaller();
+        String reasonCode = StringUtils.substringAfter(refreshCaller, "::");  
+        LOG.info("====================================>canInitiate   reasonCode="+reasonCode);
+        Map<String, Object> pkMap = new HashMap<String, Object>();
+        pkMap.put(CamsPropertyConstants.AssetRetirementReason.RETIREMENT_REASON_CODE, reasonCode);
+
+        AssetRetirementReason assetRetirementReason = (AssetRetirementReason) businessObjectService.findByPrimaryKey(AssetRetirementReason.class, pkMap);
+        if (assetRetirementReason != null && assetRetirementReason.isRetirementReasonRestrictionIndicator()) {
+            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE, new String[]{reasonCode});
+        }
+        else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_MERGE_SEPARATE_WORKGROUP)) {
+            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_MERGE_SEPARATE_REASON_CODE, new String[]{reasonCode});
+        }
+        else if (Arrays.asList(parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_RAZE_WORKGROUP)) {
+            throw new DocumentInitiationAuthorizationException(CamsKeyConstants.Retirement.ERROR_DISALLOWED_RAZE_REASON_CODE, new String[]{reasonCode});
+        }
+    }
 
 }

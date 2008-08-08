@@ -506,6 +506,19 @@ public class ElectronicInvoiceOrder {
     return orderIDInfoDateString;
   }
   
+  public void addInvoiceItem(ElectronicInvoiceItem electronicInvoiceItem){
+      invoiceItems.add(electronicInvoiceItem);
+  }
+  
+  public ElectronicInvoiceItem[] getInvoiceItemsAsArray(){
+      if (invoiceItems.size() > 0){
+          ElectronicInvoiceItem[] tempItems = new ElectronicInvoiceItem[invoiceItems.size()];
+          invoiceItems.toArray(tempItems);
+          return tempItems;
+      }
+      return null;
+  }
+  
   public String toString(){
       
       ToStringBuilder toString = new ToStringBuilder(this);

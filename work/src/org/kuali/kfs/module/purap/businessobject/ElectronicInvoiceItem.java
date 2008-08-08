@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 
@@ -607,12 +608,68 @@ public class ElectronicInvoiceItem {
     this.unitPriceCurrency = unitPriceCurrency;
   }
 
-public ElectronicInvoiceRejectDocument getElectronicInvoiceRejectDocument() {
-    return electronicInvoiceRejectDocument;
-}
+    public ElectronicInvoiceRejectDocument getElectronicInvoiceRejectDocument() {
+        return electronicInvoiceRejectDocument;
+    }
+    
+    public void setElectronicInvoiceRejectDocument(ElectronicInvoiceRejectDocument electronicInvoiceRejectDocument) {
+        this.electronicInvoiceRejectDocument = electronicInvoiceRejectDocument;
+    }
+    
+    
+    public void addReferenceSerialNumber(String referenceSerialNumber) {
+        this.referenceSerialNumbers.add(referenceSerialNumber);
+    }
+    
+    public String[] getReferenceSerialNumbersAsArray() {
+        if (referenceSerialNumbers.size() > 0){
+            String[] serialNumbers = new String[referenceSerialNumbers.size()];
+            referenceSerialNumbers.toArray(serialNumbers);
+            return serialNumbers;
+        }
+        return null;
+    }
 
-public void setElectronicInvoiceRejectDocument(ElectronicInvoiceRejectDocument electronicInvoiceRejectDocument) {
-    this.electronicInvoiceRejectDocument = electronicInvoiceRejectDocument;
-}
+    public String toString(){
+        
+        ToStringBuilder toString = new ToStringBuilder(this);
+        
+        toString.append("invoiceLineNumber",getInvoiceLineNumber());
+        toString.append("quantity",getQuantity());
+        toString.append("catalogNumber",getCatalogNumber());
+        toString.append("unitOfMeasure",getUnitOfMeasure());
+        toString.append("unitPrice",getUnitPrice());
+        toString.append("unitPriceCurrency",getUnitPriceCurrency());
+        toString.append("subTotalAmount",getSubTotalAmount());
+        toString.append("subTotalAmountCurrency",getSubTotalAmountCurrency());
+        toString.append("invoiceLineSpecialHandlingAmount",getInvoiceLineSpecialHandlingAmount());
+        toString.append("invoiceLineSpecialHandlingAmountCurrency",getInvoiceLineSpecialHandlingAmountCurrency());
+        toString.append("invoiceLineShippingAmount",getInvoiceLineShippingAmount());
+        toString.append("invoiceLineShippingAmountCurrency",getInvoiceLineShippingAmountCurrency());
+        toString.append("taxAmount",getTaxAmount());
+        toString.append("taxAmountCurrency",getTaxAmountCurrency());
+        toString.append("taxDescription",getTaxDescription());
+        toString.append("invoiceLineGrossAmount",getInvoiceLineGrossAmount());
+        toString.append("invoiceLineGrossAmountCurrency",getInvoiceLineGrossAmountCurrency());
+        toString.append("invoiceLineDiscountAmount",getInvoiceLineDiscountAmount());
+        toString.append("invoiceLineDiscountAmountCurrency",getInvoiceLineDiscountAmountCurrency());
+        toString.append("invoiceLineNetAmount",getInvoiceLineNetAmount());
+        toString.append("invoiceLineNetAmountCurrency",getInvoiceLineNetAmountCurrency());
+        toString.append("shippingDateString",getShippingDateString());
+        
+        toString.append("referenceLineNumber",getReferenceLineNumber());
+        toString.append("referenceSerialNumber",getReferenceSerialNumber());
+        toString.append("referenceSerialNumbersList",getReferenceSerialNumbers());
+        toString.append("referenceItemIDSupplierPartID",getReferenceItemIDSupplierPartID());
+        toString.append("referenceItemIDSupplierPartAuxID",getReferenceItemIDSupplierPartAuxID());
+        toString.append("referenceDescription",getReferenceDescription());
+        toString.append("referenceManufacturerPartID",getReferenceManufacturerPartID());
+        toString.append("referenceManufacturerName",getReferenceManufacturerName());
+        toString.append("referenceCountryCode",getReferenceCountryCode());
+        toString.append("referenceCountryName",getReferenceCountryName());
+        
+        return toString.toString();
+        
+    }
   
 }

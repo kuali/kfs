@@ -39,14 +39,14 @@
           <table width="100%" summary="" cellpadding="0" cellspacing="0">
             <tr>
               <th width="120">&nbsp;</th>
-              <th> <div align="left">Browse File</div></th>
-              <th> <div align="left">File Identifier</div></th>
+              <th> <div align="left"><label for="uploadFile">Browse File</label></div></th>
+              <th> <div align="left"><label for="batchUpload.fileUserIdentifer">File Identifier</label></div></th>
               <th width="150"> <div align="center">Actions</div></th>
             </tr>
             
             <tr>
               <th scope="row"><div align="center">add:</div></th>
-              <td class="infoline"><html:file property="uploadFile"/>
+              <td class="infoline"><html:file styleId="uploadFile" property="uploadFile"/>
                 <span class="fineprint"></span> </td>
               <td class="infoline"><div align="left">
                   <kul:htmlControlAttribute attributeEntry="${batchUploadAttributes.fileUserIdentifer}" property="batchUpload.fileUserIdentifer"/>
@@ -63,16 +63,16 @@
           <table width="100%" summary="" cellpadding="0" cellspacing="0">
             <tr>
               <th width="120">&nbsp;</th>
-              <th> <div align="left">Select File</div></th>
+              <th> <div align="left"><label for="batchUpload.existingFileName">Select File</label></div></th>
               <th width="150"> <div align="center">Actions</div></th>
             </tr>
             <tr>
               <th scope="row"><div align="center">manage:</div></th>
-              <td class="infoline"><span class="fineprint"></span> <label>
-                <html:select property="batchUpload.existingFileName">
+              <td class="infoline"><span class="fineprint"></span>
+                <html:select styleId="batchUpload.existingFileName" property="batchUpload.existingFileName">
                    <html:optionsCollection property="userFiles" label="label" value="key"/>
                 </html:select>
-               </label></td><td class="infoline"><div align="center">
+               </td><td class="infoline"><div align="center">
                 <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-download.gif" styleClass="globalbuttons" property="methodToCall.download" title="Download Batch File" alt="Download Batch File" onclick="excludeSubmitRestriction=true;"/>
                 <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="globalbuttons" property="methodToCall.delete" title="Delete Batch File" alt="Delete Batch File" />
               </div></td>

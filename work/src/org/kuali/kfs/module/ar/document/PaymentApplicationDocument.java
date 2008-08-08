@@ -17,8 +17,6 @@ package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
@@ -29,15 +27,13 @@ import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 
 public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase {
 
     private List<InvoicePaidApplied> appliedPayments;
-    private Collection<NonInvoiced> nonInvoicedPayments;
+    private List<NonInvoiced> nonInvoicedPayments;
     private Collection<NonInvoicedDistribution> nonInvoicedDistributions;
     private Collection<NonAppliedDistribution> nonAppliedDistributions;
     private NonAppliedHolding nonAppliedHolding;
@@ -56,7 +52,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public KualiDecimal getTotalUnappliedFunds() {
         return paymentApplicationDocumentService.getTotalUnappliedFundsForPaymentApplicationDocument(this);
     }
-    
+
     public KualiDecimal getTotalUnappliedFundsToBeApplied() {
         return paymentApplicationDocumentService.getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(this);
     }
@@ -77,24 +73,24 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         this.appliedPayments = appliedPayments;
     }
 
-    /**
-     * This method returns non invoiced payments sorted by financial document line number.
-     * 
-     * @return
-     */
-    public Collection<NonInvoiced> getNonInvoicedPayments() {
-        Collections.sort((List<NonInvoiced>)nonInvoicedPayments,new Comparator() {
-            public int compare(Object o1, Object o2) {
-                NonInvoiced ni1 = (NonInvoiced)o1;
-                NonInvoiced ni2 = (NonInvoiced)o2;
-                
-                return ni1.getFinancialDocumentLineNumber().compareTo(ni2.getFinancialDocumentLineNumber());
-            }
-        });
-        return nonInvoicedPayments;
-    }
+    // /**
+    // * This method returns non invoiced payments sorted by financial document line number.
+    // *
+    // * @return
+    // */
+    // public List<NonInvoiced> getNonInvoicedPayments() {
+    // Collections.sort((List<NonInvoiced>)nonInvoicedPayments,new Comparator() {
+    // public int compare(Object o1, Object o2) {
+    // NonInvoiced ni1 = (NonInvoiced)o1;
+    // NonInvoiced ni2 = (NonInvoiced)o2;
+    //                
+    // return ni1.getFinancialDocumentLineNumber().compareTo(ni2.getFinancialDocumentLineNumber());
+    // }
+    // });
+    // return nonInvoicedPayments;
+    // }
 
-    public void setNonInvoicedPayments(Collection<NonInvoiced> nonInvoicedPayments) {
+    public void setNonInvoicedPayments(List<NonInvoiced> nonInvoicedPayments) {
         this.nonInvoicedPayments = nonInvoicedPayments;
     }
 
@@ -144,4 +140,24 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return (InvoicePaidApplied) appliedPayments.get(index);
     }
+
+    /**
+     * This method retrieves a specific non invoiced payment from the list, by array index
+     * 
+     * @param index the index of the non invoiced payment to retrieve
+     * @return an NonInvoiced
+     */
+    public NonInvoiced getNonInvoicedPayment(int index) {
+        if (index >= nonInvoicedPayments.size()) {
+            for (int i = nonInvoicedPayments.size(); i <= index; i++) {
+                nonInvoicedPayments.add(new NonInvoiced());
+            }
+        }
+        return (NonInvoiced) nonInvoicedPayments.get(index);
+    }
+
+    public List<NonInvoiced> getNonInvoicedPayments() {
+        return nonInvoicedPayments;
+    }
+
 }

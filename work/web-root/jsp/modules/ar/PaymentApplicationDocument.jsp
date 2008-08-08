@@ -247,7 +247,12 @@
 						src="${ConfigProperties.externalizable.images.url}tinybutton-add1.gif"
 						alt="Add" title="Add" styleClass="tinybutton" /></td>
 				</tr>
-				<c:forEach items="${KualiForm.paymentApplicationDocument.nonInvoicedPayments}" var="nonInvoicedPayment" varStatus="niCounter">
+				
+				<logic:iterate id="nonInvoicedPayment" name="KualiForm"
+							   property="paymentApplicationDocument.nonInvoicedPayments" indexId="ctr">
+							<html:hidden property="paymentApplicationDocument.nonInvoicedPayment[${ctr}].documentNumber" />
+							<html:hidden property="paymentApplicationDocument.nonInvoicedPayment[${ctr}].versionNumber" />
+							<html:hidden property="paymentApplicationDocument.nonInvoicedPayment[${ctr}].objectId" />
 					<tr>
 						<td>
 							${nonInvoicedPayment.financialDocumentLineNumber}
@@ -255,41 +260,41 @@
 						<td>
 							<kul:htmlControlAttribute
 								attributeEntry="${nonInvoicedPaymentAttributes.chartOfAccountsCode}"
-								property="document.nonInvoicedPayments[${niCounter.count}].chartOfAccountsCode"/>
+								property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].chartOfAccountsCode"/>
 						</td>
 						<td>
 							<kul:htmlControlAttribute
 								attributeEntry="${nonInvoicedPaymentAttributes.accountNumber}"
-								property="document.nonInvoicedPayments[${niCounter.count}].accountNumber"/>
+								property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].accountNumber"/>
 						</td>
 						<td>
 							<kul:htmlControlAttribute
 								attributeEntry="${nonInvoicedPaymentAttributes.subAccountNumber}"
-								property="document.nonInvoicedPayments[${niCounter.count}].subAccountNumber"/>
+								property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].subAccountNumber"/>
 						</td>
 						<td>
 							<kul:htmlControlAttribute
 								attributeEntry="${nonInvoicedPaymentAttributes.financialObjectCode}"
-								property="document.nonInvoicedPayment[${niCounter.count}].financialObjectCode"/>
+								property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].financialObjectCode"/>
 						</td>
 						<td>
 							<kul:htmlControlAttribute
 								attributeEntry="${nonInvoicedPaymentAttributes.financialSubObjectCode}"
-								property="document.nonInvoicedPayment[${niCounter.count}].financialSubObjectCode"/>
+								property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].financialSubObjectCode"/>
 						</td>
 						<td>
 							<kul:htmlControlAttribute
 								attributeEntry="${nonInvoicedPaymentAttributes.projectCode}"
-								property="document.nonInvoicedPayment[${niCounter.count}].projectCode"/>
+								property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].projectCode"/>
 						</td>
 						<td>
 							<kul:htmlControlAttribute
 								attributeEntry="${nonInvoicedPaymentAttributes.financialDocumentLineAmount}"
-								property="document.nonInvoicedPayment[${niCounter.count}].financialDocumentLineAmount"/>
+								property="paymentApplicationDocument.nonInvoicedPayment[${ctr }].financialDocumentLineAmount"/>
 						</td>
 						<td>&nbsp;</td>
 					</tr>
-				</c:forEach>
+				</logic:iterate>
 				<tr>
 					<th colspan='6'>&nbsp;</th>
 					<kul:htmlAttributeHeaderCell literalLabel="Non-AR Total"/>

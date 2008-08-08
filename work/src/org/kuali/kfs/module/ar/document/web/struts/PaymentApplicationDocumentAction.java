@@ -36,9 +36,8 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
@@ -245,7 +244,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
         PaymentApplicationDocument pAppDoc = (PaymentApplicationDocument) pform.getDocument();
         NonInvoiced nonInvoiced = pform.getNonInvoicedAddLine();
-        
+
         // advanceDeposit business rules
         boolean rulePassed = validateNewNonInvoiced(nonInvoiced);
         if (rulePassed) {
@@ -255,7 +254,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             // clear the used advanceDeposit
             pform.setNonInvoicedAddLine(new NonInvoiced());
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -462,7 +461,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSPropertyConstants.NEW_NON_INVOICED);
         return isValid;
     }
-    
+
     /**
      * This method...
      * 

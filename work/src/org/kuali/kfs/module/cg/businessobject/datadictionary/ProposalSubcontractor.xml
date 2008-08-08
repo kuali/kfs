@@ -24,6 +24,7 @@
         <ref bean="ProposalSubcontractor-subcontractor.subcontractorName" />
         <ref bean="ProposalSubcontractor-newCollectionRecord" />
         <ref bean="ProposalSubcontractor-versionNumber" />
+        <ref bean="ProposalSubcontractor-active" />
       </list>
     </property>
   </bean>
@@ -86,6 +87,11 @@
     <property name="name" value="subcontractor.subcontractorName" />
     <property name="label" value="Name" />
   </bean>
+  <bean id="ProposalSubcontractor-active" parent="ProposalSubcontractor-active-parentBean" />
+
+  <bean id="ProposalSubcontractor-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
   <bean id="ProposalSubcontractor-newCollectionRecord" parent="ProposalSubcontractor-newCollectionRecord-parentBean" />
 
   <bean id="ProposalSubcontractor-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
@@ -117,6 +123,8 @@
                     p:attributeName="proposalSubcontractorNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="subcontractorNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -146,6 +154,8 @@
               p:attributeName="proposalSubcontractorNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="subcontractorNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -158,6 +168,8 @@
               p:attributeName="proposalSubcontractorNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="subcontractorNumber" />
+         <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

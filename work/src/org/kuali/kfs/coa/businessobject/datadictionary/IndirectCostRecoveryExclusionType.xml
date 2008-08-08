@@ -97,6 +97,8 @@
                     p:attributeName="chartOfAccountsCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="objectCodeCurrent.financialObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -128,6 +130,8 @@
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -138,6 +142,8 @@
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

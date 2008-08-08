@@ -23,6 +23,7 @@
         <ref bean="ProposalProjectDirector-proposalPrimaryProjectDirectorIndicator" />
         <ref bean="ProposalProjectDirector-proposalProjectDirectorProjectTitle" />
         <ref bean="ProposalProjectDirector-newCollectionRecord" />
+        <ref bean="ProposalProjectDirector-active" />
         <ref bean="ProposalProjectDirector-versionNumber" />
       </list>
     </property>
@@ -107,6 +108,12 @@
 
   <bean id="ProposalProjectDirector-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
+  <bean id="ProposalProjectDirector-active" parent="ProposalProjectDirector-active-parentBean" />
+
+  <bean id="ProposalProjectDirector-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="ProposalProjectDirector-versionNumber" parent="ProposalProjectDirector-versionNumber-parentBean" />
 
   <bean id="ProposalProjectDirector-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -134,6 +141,8 @@
                     p:attributeName="proposalPrimaryProjectDirectorIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="proposalProjectDirectorProjectTitle" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -163,6 +172,8 @@
               p:attributeName="proposalPrimaryProjectDirectorIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="proposalProjectDirectorProjectTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -175,6 +186,8 @@
               p:attributeName="proposalPrimaryProjectDirectorIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="proposalProjectDirectorProjectTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

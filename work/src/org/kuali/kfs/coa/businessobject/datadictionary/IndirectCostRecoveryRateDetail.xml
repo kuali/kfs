@@ -241,6 +241,8 @@
                     p:attributeName="transactionDebitIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="awardIndrCostRcvyRatePct" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -275,6 +277,8 @@
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -299,6 +303,8 @@
               p:attributeName="transactionDebitIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="awardIndrCostRcvyRatePct" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

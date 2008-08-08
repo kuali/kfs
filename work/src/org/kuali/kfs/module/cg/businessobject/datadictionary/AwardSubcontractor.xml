@@ -28,6 +28,7 @@
         <ref bean="AwardSubcontractor-subcontractorContactLastName" />
         <ref bean="AwardSubcontractor-newCollectionRecord" />
         <ref bean="AwardSubcontractor-versionNumber" />
+        <ref bean="AwardSubcontractor-active" />
       </list>
     </property>
   </bean>
@@ -158,6 +159,12 @@
 
   <bean id="AwardSubcontractor-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
+  <bean id="AwardSubcontractor-active" parent="AwardSubcontractor-active-parentBean" />
+
+  <bean id="AwardSubcontractor-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="AwardSubcontractor-versionNumber" parent="AwardSubcontractor-versionNumber-parentBean" />
 
   <bean id="AwardSubcontractor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -193,6 +200,8 @@
                     p:attributeName="subcontractorContactLastName" />
               <bean parent="FieldDefinition"
                     p:attributeName="subcontractorNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -230,6 +239,8 @@
               p:attributeName="subcontractorContactLastName" />
         <bean parent="FieldDefinition"
               p:attributeName="subcontractorNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -250,6 +261,8 @@
               p:attributeName="subcontractorContactLastName" />
         <bean parent="FieldDefinition"
               p:attributeName="subcontractorNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

@@ -23,6 +23,7 @@
         <ref bean="AwardOrganization-newCollectionRecord" />
         <ref bean="AwardOrganization-versionNumber" />
         <ref bean="AwardOrganization-awardPrimaryOrganizationIndicator" />
+        <ref bean="AwardOrganization-active" />
       </list>
     </property>
   </bean>
@@ -75,8 +76,13 @@
     </property>
   </bean>
 
+  <bean id="AwardOrganization-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  </bean>
+  <bean id="AwardOrganization-active" parent="AwardOrganization-active-parentBean">
+      <property name="name" value="active" />
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
-
 
   <bean id="AwardOrganization-inquiryDefinition" parent="AwardOrganization-inquiryDefinition-parentBean" />
 
@@ -97,6 +103,8 @@
                     p:attributeName="proposalNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="awardPrimaryOrganizationIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -126,6 +134,8 @@
               p:attributeName="proposalNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="awardPrimaryOrganizationIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -138,6 +148,8 @@
               p:attributeName="proposalNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="awardPrimaryOrganizationIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

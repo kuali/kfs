@@ -30,6 +30,7 @@
         <ref bean="AwardAccount-award.kualiGroupNames" />
         <ref bean="AwardAccount-newCollectionRecord" />
         <ref bean="AwardAccount-versionNumber" />
+        <ref bean="AwardAccount-active" />
       </list>
     </property>
     <property name="relationships" >
@@ -150,6 +151,12 @@
 
   <bean id="AwardAccount-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
+  <bean id="AwardAccount-active" parent="AwardAccount-active-parentBean" />
+
+  <bean id="AwardAccount-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="AwardAccount-versionNumber" parent="AwardAccount-versionNumber-parentBean" />
 
   <bean id="AwardAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -177,6 +184,8 @@
                     p:attributeName="personUniversalIdentifier" />
               <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" /> 
             </list>
           </property>
         </bean>
@@ -206,6 +215,8 @@
               p:attributeName="personUniversalIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" /> 
       </list>
     </property>
     <property name="resultFields" >
@@ -218,6 +229,8 @@
               p:attributeName="personUniversalIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" /> 
       </list>
     </property>
   </bean>

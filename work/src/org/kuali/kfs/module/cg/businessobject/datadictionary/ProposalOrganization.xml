@@ -23,6 +23,7 @@
         <ref bean="ProposalOrganization-proposalPrimaryOrganizationIndicator" />
         <ref bean="ProposalOrganization-newCollectionRecord" />
         <ref bean="ProposalOrganization-versionNumber" />
+        <ref bean="ProposalOrganization-active" />
       </list>
     </property>
   </bean>
@@ -71,6 +72,11 @@
 
   <bean id="ProposalOrganization-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
+  <bean id="ProposalOrganization-active" parent="ProposalOrganization-active-parentBean" />
+
+  <bean id="ProposalOrganization-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
   <bean id="ProposalOrganization-versionNumber" parent="ProposalOrganization-versionNumber-parentBean" />
 
   <bean id="ProposalOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -98,6 +104,8 @@
                     p:attributeName="proposalNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="proposalPrimaryOrganizationIndicator" />
+               <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -127,6 +135,8 @@
               p:attributeName="proposalNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="proposalPrimaryOrganizationIndicator" />
+         <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -139,6 +149,8 @@
               p:attributeName="proposalNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="proposalPrimaryOrganizationIndicator" />
+         <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

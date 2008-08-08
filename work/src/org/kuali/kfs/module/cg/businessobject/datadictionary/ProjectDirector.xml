@@ -28,6 +28,7 @@
         <ref bean="ProjectDirector-universalUser.employeeStatusCode" />
         <ref bean="ProjectDirector-universalUser.employeeTypeCode" />
         <ref bean="ProjectDirector-versionNumber" />
+        <ref bean="ProjectDirector-active" />
       </list>
     </property>
     <property name="relationships" >
@@ -128,6 +129,11 @@
     <property name="label" value="Employee Type" />
     <property name="shortLabel" value="Empl Type" />
   </bean>
+  <bean id="ProjectDirector-active" parent="ProjectDirector-active-parentBean" />
+
+  <bean id="ProjectDirector-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+      <property name="name" value="active" />
+  </bean>
   <bean id="ProjectDirector-versionNumber" parent="ProjectDirector-versionNumber-parentBean" />
 
   <bean id="ProjectDirector-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -161,6 +167,8 @@
                     p:attributeName="universalUser.employeeStatusCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="universalUser.employeeTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -203,6 +211,8 @@
               p:attributeName="universalUser.employeeStatusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="universalUser.employeeTypeCode" />
+         <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -221,6 +231,8 @@
               p:attributeName="universalUser.employeeStatusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="universalUser.employeeTypeCode" />
+         <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

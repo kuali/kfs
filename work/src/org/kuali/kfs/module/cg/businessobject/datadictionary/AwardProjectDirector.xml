@@ -24,6 +24,7 @@
         <ref bean="AwardProjectDirector-awardProjectDirectorProjectTitle" />
         <ref bean="AwardProjectDirector-newCollectionRecord" />
         <ref bean="AwardProjectDirector-versionNumber" />
+        <ref bean="AwardProjectDirector-active" />
       </list>
     </property>
   </bean>
@@ -95,6 +96,12 @@
 
   <bean id="AwardProjectDirector-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
+  <bean id="AwardProjectDirector-active" parent="AwardProjectDirector-active-parentBean" />
+
+  <bean id="AwardProjectDirector-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="AwardProjectDirector-versionNumber" parent="AwardProjectDirector-versionNumber-parentBean" />
 
   <bean id="AwardProjectDirector-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -122,6 +129,8 @@
                     p:attributeName="awardPrimaryProjectDirectorIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="awardProjectDirectorProjectTitle" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -151,6 +160,8 @@
               p:attributeName="awardPrimaryProjectDirectorIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="awardProjectDirectorProjectTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -163,6 +174,8 @@
               p:attributeName="awardPrimaryProjectDirectorIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="awardProjectDirectorProjectTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

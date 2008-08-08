@@ -23,7 +23,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="defaultExistenceChecks" >
       <dd:defaultExistenceChecks>
       	<dd:check boAttribute="organization" attributeToHighlightOnFail="organizationCode" 
-      			  activeIndicatorAttribute="organizationActiveIndicator" />
+      			  activeIndicatorAttribute="active" />
       	<dd:check boAttribute="accountPhysicalCampus" attributeToHighlightOnFail="accountPhysicalCampusCode" />
       	<dd:check boAttribute="accountState" attributeToHighlightOnFail="accountStateCode" />
       	<dd:check boAttribute="postalZipCode" attributeToHighlightOnFail="accountZipCode" />

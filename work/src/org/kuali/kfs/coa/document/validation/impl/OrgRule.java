@@ -182,7 +182,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         // shortcut out with no enforcement if this org is closed
-        if (!newOrg.isOrganizationActiveIndicator()) {
+        if (!newOrg.isActive()) {
             return success;
         }
 
@@ -254,14 +254,14 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         // if its an edit, and its being closed
         if (document.isEdit()) {
-            if (oldOrg.isOrganizationActiveIndicator() && !newOrg.isOrganizationActiveIndicator()) {
+            if (oldOrg.isActive() && !newOrg.isActive()) {
                 orgBeingClosed = true;
             }
         }
 
         // if its new, and is being created as closed
         if (document.isNew()) {
-            if (!newOrg.isOrganizationActiveIndicator()) {
+            if (!newOrg.isActive()) {
                 orgBeingClosed = true;
             }
         }
@@ -350,7 +350,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         // shortcut out with no enforcement if this org is closed
-        if (!newOrg.isOrganizationActiveIndicator()) {
+        if (!newOrg.isActive()) {
             return success;
         }
 
@@ -454,7 +454,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                         }
                         else {
                             // on the first iteration, check whether the reports-to organization is active
-                            if (loopCount == 1 && !tempOrg.isOrganizationActiveIndicator()) {
+                            if (loopCount == 1 && !tempOrg.isActive()) {
                                 putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
                                 success = false;
                                 continueSearch = false;

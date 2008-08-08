@@ -110,7 +110,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<Org> getActiveFinancialOrgs() {
         Map<String, Object> criteriaMap = new HashMap<String, Object>();
         criteriaMap.put("organizationInFinancialProcessingIndicator", Boolean.TRUE);
-        criteriaMap.put("organizationActiveIndicator", Boolean.TRUE);
+        criteriaMap.put("active", Boolean.TRUE);
         return (List<Org>)boService.findMatching(Org.class, criteriaMap);
     }
     

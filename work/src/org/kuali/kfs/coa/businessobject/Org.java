@@ -58,7 +58,6 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
     private String organizationZipCode;
     private Date organizationBeginDate;
     private Date organizationEndDate;
-    private boolean organizationActiveIndicator;
     private boolean organizationInFinancialProcessingIndicator;
     private String organizationManagerUniversalId;
     private String responsibilityCenterCode;
@@ -229,24 +228,6 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
      */
     public void setOrganizationEndDate(Date organizationEndDate) {
         this.organizationEndDate = organizationEndDate;
-    }
-
-    /**
-     * Gets the organizationActiveIndicator attribute.
-     * 
-     * @return Returns the organizationActiveIndicator
-     */
-    public boolean isOrganizationActiveIndicator() {
-        return organizationActiveIndicator;
-    }
-
-    /**
-     * Sets the organizationActiveIndicator attribute.
-     * 
-     * @param organizationActiveIndicator The organizationActiveIndicator to set.
-     */
-    public void setOrganizationActiveIndicator(boolean organizationActiveIndicator) {
-        this.organizationActiveIndicator = organizationActiveIndicator;
     }
 
     /**

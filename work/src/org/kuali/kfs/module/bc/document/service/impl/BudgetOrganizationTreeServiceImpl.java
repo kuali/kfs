@@ -54,7 +54,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
         cleanPullup(personUserIdentifier);
         BudgetConstructionOrganizationReports bcOrgRpts = budgetConstructionOrganizationReportsService.getByPrimaryId(chartOfAccountsCode, organizationCode);
         if (bcOrgRpts != null) {
-            if (bcOrgRpts.getOrganization().isOrganizationActiveIndicator()) {
+            if (bcOrgRpts.getOrganization().isActive()) {
                 curLevel = 0;
                 buildSubTree(personUserIdentifier, bcOrgRpts, curLevel);
             }
@@ -95,7 +95,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
         cleanPullup(personUserIdentifier);
         BudgetConstructionOrganizationReports bcOrgRpts = budgetConstructionOrganizationReportsService.getByPrimaryId(chartOfAccountsCode, organizationCode);
         if (bcOrgRpts != null) {
-            if (bcOrgRpts.getOrganization().isOrganizationActiveIndicator()) {
+            if (bcOrgRpts.getOrganization().isActive()) {
                 curLevel = 0;
                 buildSubTreeSql(personUserIdentifier, bcOrgRpts, curLevel);
             }

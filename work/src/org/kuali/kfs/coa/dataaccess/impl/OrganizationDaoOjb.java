@@ -85,7 +85,7 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
         Criteria criteria = new Criteria();
         criteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
-        criteria.addEqualTo("organizationActiveIndicator", Boolean.TRUE);
+        criteria.addEqualTo("active", Boolean.TRUE);
 
         orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Org.class, criteria));
 
@@ -103,7 +103,7 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("organizationTypeCode", organizationTypeCode);
-        criteria.addEqualTo("organizationActiveIndicator", Boolean.TRUE);
+        criteria.addEqualTo("active", Boolean.TRUE);
 
         orgs = (List<Org>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Org.class, criteria));
 

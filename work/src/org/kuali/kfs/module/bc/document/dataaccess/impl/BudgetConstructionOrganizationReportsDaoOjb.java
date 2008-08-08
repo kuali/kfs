@@ -102,7 +102,7 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
         criteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
         criteria.addAndCriteria(cycleCheckCriteria);
-        criteria.addEqualTo("organization.organizationActiveIndicator", Boolean.TRUE);
+        criteria.addEqualTo("organization.active", Boolean.TRUE);
         orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria));
 
         if (orgs.isEmpty() || orgs.size() == 0) {
@@ -119,7 +119,7 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
         Criteria childExistsCriteria = new Criteria();
         childExistsCriteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
         childExistsCriteria.addEqualTo("reportsToOrganizationCode", organizationCode);
-        childExistsCriteria.addEqualTo("organization.organizationActiveIndicator", Boolean.TRUE);
+        childExistsCriteria.addEqualTo("organization.active", Boolean.TRUE);
 
         QueryByCriteria childExistsQuery = QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, childExistsCriteria);
 

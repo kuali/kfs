@@ -23,7 +23,7 @@
               p:displayFieldName="Chart Of Accounts Code" />
         <bean parent="ReferenceDefinition"
               p:attributeName="organization"
-              p:activeIndicatorAttributeName="organizationActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="organizationCode"
               p:displayFieldName="Organization Code" />
         <bean parent="ReferenceDefinition"
@@ -33,7 +33,7 @@
               p:displayFieldName="Reports To Chart Of Accounts Code" />
         <bean parent="ReferenceDefinition"
               p:attributeName="reportsToOrganization"
-              p:activeIndicatorAttributeName="organizationActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="reportsToOrganizationCode"
               p:displayFieldName="Reports To Organization Code" />
         <bean parent="ReferenceDefinition"

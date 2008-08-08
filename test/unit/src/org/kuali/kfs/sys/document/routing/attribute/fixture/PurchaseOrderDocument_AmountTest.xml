@@ -274,7 +274,7 @@
       <organizationStateCode>IN</organizationStateCode>
       <organizationZipCode>47405</organizationZipCode>
       <organizationBeginDate>1997-05-01</organizationBeginDate>
-      <organizationActiveIndicator>true</organizationActiveIndicator>
+      <active>true</active>
       <organizationInFinancialProcessingIndicator>false</organizationInFinancialProcessingIndicator>
       <organizationManagerUniversalId>4706809038</organizationManagerUniversalId>
       <responsibilityCenterCode>94</responsibilityCenterCode>
@@ -700,7 +700,7 @@
         <organizationStateCode>IN</organizationStateCode>
         <organizationZipCode>47405</organizationZipCode>
         <organizationBeginDate>1993-07-01</organizationBeginDate>
-        <organizationActiveIndicator>true</organizationActiveIndicator>
+        <active>true</active>
         <organizationInFinancialProcessingIndicator>false</organizationInFinancialProcessingIndicator>
         <organizationManagerUniversalId>1271304676</organizationManagerUniversalId>
         <responsibilityCenterCode>NO</responsibilityCenterCode>
@@ -742,7 +742,7 @@
           <organizationStateCode>IN</organizationStateCode>
           <organizationZipCode>47405</organizationZipCode>
           <organizationBeginDate>1993-07-01</organizationBeginDate>
-          <organizationActiveIndicator>true</organizationActiveIndicator>
+          <active>true</active>
           <organizationInFinancialProcessingIndicator>false</organizationInFinancialProcessingIndicator>
           <organizationManagerUniversalId>1189109800</organizationManagerUniversalId>
           <responsibilityCenterCode>NO</responsibilityCenterCode>
@@ -845,7 +845,7 @@
               <organizationStateCode>IN</organizationStateCode>
               <organizationZipCode>47405-1301</organizationZipCode>
               <organizationBeginDate>1993-07-01</organizationBeginDate>
-              <organizationActiveIndicator>true</organizationActiveIndicator>
+              <active>true</active>
               <organizationInFinancialProcessingIndicator>false</organizationInFinancialProcessingIndicator>
               <organizationManagerUniversalId>2362105752</organizationManagerUniversalId>
               <responsibilityCenterCode>04</responsibilityCenterCode>
@@ -2270,7 +2270,7 @@
                         <organizationStateCode>IN</organizationStateCode>
                         <organizationZipCode>47405</organizationZipCode>
                         <organizationBeginDate>1997-02-27</organizationBeginDate>
-                        <organizationActiveIndicator>true</organizationActiveIndicator>
+                        <active>true</active>
                         <organizationInFinancialProcessingIndicator>false</organizationInFinancialProcessingIndicator>
                         <organizationManagerUniversalId>2422607714</organizationManagerUniversalId>
                         <responsibilityCenterCode>04</responsibilityCenterCode>

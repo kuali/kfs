@@ -842,7 +842,7 @@ public class KFSPropertyConstants {
     public static final String ORG_REMIT_TO_LINE1_STREET_ADDR = "orgRemitToLine1StreetAddr";
     public static final String ORG_REMIT_TO_LINE2_STREET_ADDR = "orgRemitToLine2StreetAddr";
     public static final String ORGANIZATION = "organization";
-    public static final String ORGANIZATION_ACTIVE_INDICATOR = "organizationActiveIndicator";
+    public static final String ORGANIZATION_ACTIVE_INDICATOR = "active";
     public static final String ORGANIZATION_BEGIN_DATE = "organizationBeginDate";
     public static final String ORGANIZATION_CHART_OF_ACCOUNTS_CODE = "organizationChartOfAccountsCode";
     public static final String ORGANIZATION_CITY_NAME = "organizationCityName";

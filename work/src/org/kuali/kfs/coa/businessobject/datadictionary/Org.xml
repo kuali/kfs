@@ -41,12 +41,12 @@
         <ref bean="Org-reportsToOrganizationCode" />
         <ref bean="Org-organizationBeginDate" />
         <ref bean="Org-organizationEndDate" />
-        <ref bean="Org-organizationActiveIndicator" />
         <ref bean="Org-campusPlantAccountNumber" />
         <ref bean="Org-campusPlantChartCode" />
         <ref bean="Org-organizationInFinancialProcessingIndicator" />
         <ref bean="Org-editPlantAccountsSection" />
         <ref bean="Org-versionNumber" />
+        <ref bean="Org-active" />
         <ref bean="Org-editHrmsUnitSection" />
         <ref bean="Org-organizationExtension.hrmsCompany" />
         <ref bean="Org-organizationExtension.hrmsIuOrganizationAddress2" />
@@ -444,13 +444,6 @@
     <property name="label" value="Organization End Date" />
     <property name="shortLabel" value="End Date" />
   </bean>
-  <bean id="Org-organizationActiveIndicator" parent="Org-organizationActiveIndicator-parentBean" />
-
-  <bean id="Org-organizationActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="organizationActiveIndicator" />
-    <property name="label" value="Active" />
-    <property name="shortLabel" value="Act." />
-  </bean>
   <bean id="Org-campusPlantAccountNumber" parent="Org-campusPlantAccountNumber-parentBean" />
 
   <bean id="Org-campusPlantAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
@@ -495,6 +488,11 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
+  </bean>
+  <bean id="Org-active" parent="Org-active-parentBean" />
+
+  <bean id="Org-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="Org-versionNumber" parent="Org-versionNumber-parentBean" />
 
@@ -718,7 +716,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="reportsToOrganizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationActiveIndicator" />
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="editPlantAccountsSectionBlank" />
               <bean parent="FieldDefinition"
@@ -814,7 +812,7 @@
               p:attributeName="reportsToOrganizationCode" />
         <bean parent="FieldDefinition"
               p:defaultValue="Y"
-              p:attributeName="organizationActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -834,7 +832,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="reportsToOrganizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="organizationActiveIndicator" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationManagerUniversal.personName" />
       </list>

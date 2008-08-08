@@ -60,7 +60,7 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="organization"
               p:collection="awardOrganizations"
-              p:activeIndicatorAttributeName="organizationActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="organizationCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="subcontractor"

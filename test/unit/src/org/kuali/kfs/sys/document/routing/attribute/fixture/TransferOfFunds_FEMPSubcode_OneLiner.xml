@@ -264,7 +264,7 @@
                             <organizationStateCode>IN</organizationStateCode>
                             <organizationZipCode>47405</organizationZipCode>
                             <organizationBeginDate>2097-05-01</organizationBeginDate>
-                            <organizationActiveIndicator>true</organizationActiveIndicator>
+                            <active>true</active>
                             <organizationInFinancialProcessingIndicator>false</organizationInFinancialProcessingIndicator>
                             <organizationManagerUniversalId>4706809038</organizationManagerUniversalId>
                             <responsibilityCenterCode>94</responsibilityCenterCode>
@@ -314,7 +314,7 @@
                                 <organizationStateCode>IN</organizationStateCode>
                                 <organizationZipCode>47405</organizationZipCode>
                                 <organizationBeginDate>2093-07-01</organizationBeginDate>
-                                <organizationActiveIndicator>true</organizationActiveIndicator>
+                                <active>true</active>
                                 <organizationInFinancialProcessingIndicator>false</organizationInFinancialProcessingIndicator>
                                 <organizationManagerUniversalId>1271304676</organizationManagerUniversalId>
                                 <responsibilityCenterCode>NO</responsibilityCenterCode>

@@ -157,7 +157,7 @@
               p:name="reportsToOrganizationCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationActiveIndicator"
+              p:name="active"
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />

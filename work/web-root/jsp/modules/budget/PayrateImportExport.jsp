@@ -21,22 +21,30 @@
 
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetPayrateImportExport" renderMultipart="true"
-	docTitle="Payrate Import/Export"
+	docTitle=""
     transactionalDocument="false" showTabButtons="true">
-    
+	
+	<script type="text/javascript">
+	
+	        var excludeSubmitRestriction = true;
+	
+	</script>    
+	    <br>
     <html:hidden property="returnAnchor" />
     <html:hidden property="returnFormKey" />
     <html:hidden property="backLocation" />
     <html:hidden name="KualiForm" property="universityFiscalYear" />
-	<kul:tabTop tabTitle="Payrate Import/Export" defaultOpen="true">
+    
+    <strong><h2>Payrate Import/Export </h2> </strong>
+    <kul:tabTop tabTitle="Payrate Import/Export" defaultOpen="true">
 		<div class="tab-container" align=center>
-			<table bgcolor="#C0C0C0" >
+			<table >
 			<tr>
 					<td width="90%" colspan="2"><h3>Payrate Export</h3></td>
 					<td width="10%" ><h3>Action</h3></td>
 				</tr>
 				<tr >
-					<td> 
+					<td class="infoline" > 
 						<b>
 								<kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.positionUnionCode}" /></b>
 						<kul:lookup boClassName="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition" 
@@ -44,11 +52,11 @@
 								lookupParameters="positionUnionCode:positionUnionCode" /> 
 								<kul:htmlControlAttribute property="positionUnionCode" readOnly="false" attributeEntry="${payrateImportExportAttributes.positionUnionCode}"/>
 					</td> 
-					<td > 
+					<td class="infoline"  > 
 						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.csfFreezeDate}" /></b>
 						<kul:htmlControlAttribute property="csfFreezeDate" readOnly="false" attributeEntry="${payrateImportExportAttributes.csfFreezeDate}" datePicker="true" />
 					</td>
-					<td >
+					<td class="infoline"  >
 						<div align="center">
 							<html:image property="methodToCall.performExport" src="kr/static/images/buttonsmall_submit.gif"  title="Export" alt="Export" styleClass="tinybutton" /> &nbsp;&nbsp;&nbsp;
 						</div>
@@ -64,25 +72,29 @@
 				</tr>
 				
 				<tr >
-					<td> 
+					<td class="infoline" > 
 						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.fileName}" /></b>
 						<html:file property="file" />
 					</td> 
-					<td colspan="2">
+					<td class="infoline" colspan="2">
 						<div align="center">
 							<html:image property="methodToCall.performImport" src="kr/static/images/buttonsmall_submit.gif"  title="Import" alt="Import" styleClass="tinybutton" /> &nbsp;&nbsp;&nbsp;
 						</div>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="3">
-						<div align="center">
-							<html:image property="methodToCall.close" src="kr/static/images/buttonsmall_close.gif"  title="Import" alt="Import" styleClass="tinybutton" /> &nbsp;&nbsp;&nbsp;
-						</div>
+				
+			</table>
+			<table bgcolor="#C0C0C0" cellpadding="0" cellspacing="0" >
+				<tr align="center" >
+					<td class="infoline" width="50%"></td>
+					<td class="infoline"> 
+						<html:image property="methodToCall.close" src="kr/static/images/buttonsmall_close.gif"  title="Import" alt="Import" styleClass="tinybutton" />
 					</td>
 				</tr>
 			</table>
 		</div>
+		
 	</kul:tabTop>
+	<kul:panelFooter />
 	
 </kul:page>

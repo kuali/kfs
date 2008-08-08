@@ -240,7 +240,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="fullName" />
         <bean parent="FieldDefinition"
-              p:attributeName="agencyType.name" />
+              p:attributeName="agencyTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="historicalIndicator" />
       </list>
@@ -253,6 +253,8 @@
               p:attributeName="reportingName" />
         <bean parent="FieldDefinition"
               p:attributeName="fullName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="agencyTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="agencyType.name" />
         <bean parent="FieldDefinition"

@@ -270,7 +270,7 @@
     	   </set-properties-rule>
      	
      	
-     		<!-- INVOICE ITEM -->
+     	   <!-- INVOICE ITEM -->
 	   	   <pattern value="InvoiceDetailItem">	   
 	   			<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItem" />
 	   			
@@ -286,7 +286,7 @@
     				<alias attr-name="currency" prop-name="unitPriceCurrency" />
     			</set-properties-rule>
     			
-    			<!-- In EPIC parser, the element name is SubTotalAmount instead of SubtotalAmount (case problem - totalTotal)
+    			<!-- In EPIC parser, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total)
     			I think we're not using this element-->
     			<call-method-rule pattern="SubtotalAmount/Money" methodname="setSubTotalAmount" paramcount="0" />
     			<set-properties-rule pattern="SubtotalAmount/Money">
@@ -349,16 +349,84 @@
     			<call-method-rule pattern="InvoiceDetailItemReference/ManufacturerName" methodname="setReferenceManufacturerName" paramcount="0" />
     			<call-method-rule pattern="InvoiceDetailItemReference/ManufacturerPartID" methodname="setReferenceManufacturerPartID" paramcount="0" />
     			
-    			
-    			
+    			<call-method-rule pattern="InvoiceDetailItemReference/SerialNumber" methodname="addReferenceSerialNumber" paramcount="0" />
     			
 		   		<set-next-rule methodname="addInvoiceItem" />
-		   </pattern> 	  
+		   		
+		   </pattern> 	<!-- InvoiceDetailItem -->  
 		   
+		   <!-- InvoiceDetailServiceItem -->
+	   	   <pattern value="InvoiceDetailServiceItem">	   
+	   			<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItem" />
+	   			
+	   			<set-properties-rule>
+    				<alias attr-name="invoiceLineNumber" prop-name="invoiceLineNumber" />
+     				<alias attr-name="quantity" prop-name="quantity" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="UnitOfMeasure" methodname="setUnitOfMeasure" paramcount="0" />
+    			
+    			<call-method-rule pattern="UnitPrice/Money" methodname="setUnitPrice" paramcount="0" />
+    			<set-properties-rule pattern="UnitPrice/Money">
+    				<alias attr-name="currency" prop-name="unitPriceCurrency" />
+    			</set-properties-rule>
+    			
+    			<!--  FIXME : These two values should be set only if UnitPrice not available. Have to do some R&D -->
+    			<call-method-rule pattern="UnitRate/UnitOfMeasure" methodname="setUnitOfMeasure" paramcount="0" />
+    			<call-method-rule pattern="UnitRate/Money" methodname="setUnitPrice" paramcount="0" />
+    			
+    			<!-- This is not handled in EPCI, but it is needed if there is no UnitPrice/Money element-->
+    			<set-properties-rule pattern="UnitRate/Money">
+    				<alias attr-name="currency" prop-name="unitPriceCurrency" />
+    			</set-properties-rule>
+    			
+    			<!-- In EPIC parser, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total)
+    			I think we're not using this element-->
+    			<call-method-rule pattern="SubtotalAmount/Money" methodname="setSubTotalAmount" paramcount="0" />
+    			<set-properties-rule pattern="SubtotalAmount/Money">
+    				<alias attr-name="currency" prop-name="subTotalAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="Tax/Money" methodname="setTaxAmount" paramcount="0" />
+    			<set-properties-rule pattern="Tax/Money">
+    				<alias attr-name="currency" prop-name="taxAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<!-- EPIC Parser is just trying to read the value of Tax element and setting it as description. (I think it's not possible....)
+    			But there is a seperate element available for description in xsd/dtd, 
+    			HAVE TO DECIDE BASED ON MORE SAMPLE DATA FILES -->
+    			<call-method-rule pattern="Tax/Description" methodname="setTaxDescription" paramcount="0" />
+    			
+    			<call-method-rule pattern="GrossAmount/Money" methodname="setInvoiceLineGrossAmount" paramcount="0" />
+    			<set-properties-rule pattern="GrossAmount/Money">
+    				<alias attr-name="currency" prop-name="invoiceLineGrossAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="InvoiceDetailDiscount/Money" methodname="setInvoiceLineDiscountAmount" paramcount="0" />
+    			<set-properties-rule pattern="InvoiceDetailDiscount/Money">
+    				<alias attr-name="currency" prop-name="invoiceLineDiscountAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="NetAmount/Money" methodname="setInvoiceLineNetAmount" paramcount="0" />
+    			<set-properties-rule pattern="NetAmount/Money">
+    				<alias attr-name="currency" prop-name="invoiceLineNetAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="InvoiceDetailServiceItemReference/Description" methodname="setReferenceDescription" paramcount="0" />
+    			<call-method-rule pattern="InvoiceDetailServiceItemReference/ItemID/SupplierPartAuxiliaryID" methodname="setReferenceItemIDSupplierPartAuxID" paramcount="0" />
+    			<call-method-rule pattern="InvoiceDetailServiceItemReference/ItemID/SupplierPartID" methodname="setReferenceItemIDSupplierPartID" paramcount="0" />
+    			
+    			<set-properties-rule pattern="InvoiceDetailServiceItemReference">
+    				<alias attr-name="lineNumber" prop-name="referenceLineNumber" />
+    			</set-properties-rule>
+    			
+		   		<set-next-rule methodname="addInvoiceItem" />
+		   		
+		   </pattern> 	<!-- InvoiceDetailServiceItem --> 
 	   
-     		<set-next-rule methodname="addInvoiceDetailOrder" />
+     	   <set-next-rule methodname="addInvoiceDetailOrder" />
      		   
-	   </pattern> 
+	   </pattern> <!-- Request/InvoiceDetailRequest/InvoiceDetailOrder -->
 	   
 		   
 	    

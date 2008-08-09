@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -424,7 +426,7 @@ public class ElectronicInvoiceOrder {
   /**
    * @param orderReferenceOrderID The orderReferenceOrderID to set.
    */
-  public void setOrderReferenceOrderID(String orderReferenceOrderID) {LOG.debug("orderReferenceOrderID........"+orderReferenceOrderID);
+  public void setOrderReferenceOrderID(String orderReferenceOrderID) {
     this.orderReferenceOrderID = orderReferenceOrderID;
   }
   /**
@@ -484,7 +486,7 @@ public class ElectronicInvoiceOrder {
   /**
    * @param supplierOrderInfoID The supplierOrderInfoID to set.
    */
-  public void setSupplierOrderInfoID(String supplierOrderInfoID) {LOG.debug("supplierOrderInfoID........"+supplierOrderInfoID);
+  public void setSupplierOrderInfoID(String supplierOrderInfoID) {
     this.supplierOrderInfoID = supplierOrderInfoID;
   }
   /**
@@ -508,6 +510,16 @@ public class ElectronicInvoiceOrder {
   
   public void addInvoiceItem(ElectronicInvoiceItem electronicInvoiceItem){
       invoiceItems.add(electronicInvoiceItem);
+      /**
+       * TODO: This is not the right place for sorting... Have to move this to getter method with some flag to avoid
+       * this sorting whenever the getter is called
+       */
+      Collections.sort(invoiceItems, new Comparator() {
+          public int compare (Object o1, Object o2) { 
+            return (((ElectronicInvoiceItem)o1).getReferenceLineNumberInteger()).compareTo(((ElectronicInvoiceItem)o2).getReferenceLineNumberInteger()); 
+          } 
+        }
+        );
   }
   
   public ElectronicInvoiceItem[] getInvoiceItemsAsArray(){

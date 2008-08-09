@@ -889,7 +889,249 @@
                               <xsd:attribute name="invoiceLineNumber" type="xsd:unsignedByte" use="required" />
                               <xsd:attribute name="quantity" type="xsd:unsignedByte" use="required" />
                             </xsd:complexType>
-                          </xsd:element>
+                          </xsd:element> <!-- InvoiceDetailItem -->
+						  
+						  
+						  
+						  
+						  <!-- Added -->	
+                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="InvoiceDetailServiceItem">
+                          		
+                          		<xsd:complexType>	
+                          			<xsd:sequence>
+                          					
+                          					<xsd:element name="InvoiceDetailServiceItemReference" minOccurs="0" maxOccurs="unbounded">
+                          						<xsd:complexType>
+						                              <xsd:sequence>
+						                              		<xsd:element name="Classification" minOccurs="0" maxOccurs="unbounded">
+						                              			<xsd:complexType>	
+						                              				<xsd:attribute name="domain" type="xsd:string" use="required"/>
+						                              			</xsd:complexType>	
+						                              		</xsd:element> <!-- Classification -->
+						                              		<xsd:element name="ItemID" minOccurs="0" maxOccurs="1">
+							                                     <xsd:complexType>
+							                                          <xsd:sequence>
+								                                            <xsd:element name="SupplierPartID" type="xsd:string" />
+								                                            <xsd:element name="SupplierPartAuxiliaryID" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+							                                          </xsd:sequence>
+							                                      </xsd:complexType>
+						                              		</xsd:element> <!-- ItemID -->
+						                              		<xsd:element name="Description" minOccurs="0" maxOccurs="1">
+						                                        <xsd:complexType>
+						                                          <xsd:simpleContent>
+						                                            <xsd:extension base="xsd:string">
+						                                              <xsd:attribute ref="xml:lang" use="required" />
+						                                            </xsd:extension>
+						                                          </xsd:simpleContent>
+						                                        </xsd:complexType>
+						                                    </xsd:element> <!-- Description -->
+                          							  </xsd:sequence>
+                          							  <xsd:attribute name="lineNumber" type="xsd:unsignedByte" use="optional" />
+                            					 </xsd:complexType>
+                          					 </xsd:element> <!-- InvoiceDetailServiceItemReference -->
+                          					
+                          					<xsd:element name="SubtotalAmount">
+                            					<xsd:complexType>
+						                              <xsd:sequence>
+                        							        <xsd:element name="Money">
+								                                <xsd:complexType>
+	                                    							<xsd:simpleContent>
+	                                      								<xsd:extension base="xsd:decimal">
+	                                        								<xsd:attribute name="currency" type="xsd:string" use="required" />
+	                                      								</xsd:extension>
+	                                    							</xsd:simpleContent>
+	                                  							 </xsd:complexType>
+                                							 </xsd:element>
+                              							 </xsd:sequence>
+                            					  </xsd:complexType>
+                          					 </xsd:element>
+                          					
+                          					<xsd:element name="UnitRate" minOccurs="0" maxOccurs="1">
+                          						<xsd:complexType>
+			                                    	<xsd:sequence>
+			                                    		<xsd:element name="Money">
+					                                        <xsd:complexType>
+					                                          <xsd:simpleContent>
+					                                            <xsd:extension base="xsd:decimal">
+					                                              <xsd:attribute name="currency" type="xsd:string" use="required" />
+					                                            </xsd:extension>
+					                                          </xsd:simpleContent>
+					                                        </xsd:complexType>
+					                                     </xsd:element>
+					                                     <xsd:element name="UnitOfMeasure" type="xsd:anyType" />
+					                                     <xsd:element name="TermReference" minOccurs="0" maxOccurs="1">
+						                                     <xsd:complexType>
+								                                    <xsd:attribute name="termName" type="xsd:string" use="required" />
+								                                    <xsd:attribute name="term" type="xsd:string" use="required" />
+			                				                  </xsd:complexType>
+			                				              </xsd:element>    
+			                                    	</xsd:sequence>
+			                                    </xsd:complexType>
+                          					</xsd:element> <!-- UnitRate -->
+                          					
+											<xsd:element name="UnitOfMeasure" type="xsd:anyType" minOccurs="0" maxOccurs="1"/>
+											
+			                                <xsd:element name="UnitPrice" minOccurs="0" maxOccurs="1">
+			                                  <xsd:complexType>
+			                                    <xsd:sequence>
+			                                      <xsd:element name="Money">
+			                                        <xsd:complexType>
+			                                          <xsd:simpleContent>
+			                                            <xsd:extension base="xsd:decimal">
+			                                              <xsd:attribute name="currency" type="xsd:string" use="required" />
+			                                            </xsd:extension>
+			                                          </xsd:simpleContent>
+			                                        </xsd:complexType>
+			                                      </xsd:element>
+			                                    </xsd:sequence>
+			                                  </xsd:complexType>
+			                                </xsd:element> <!-- UnitPrice -->
+                                
+                                			<xsd:element name="Tax" minOccurs="0" maxOccurs="1">
+					                            <xsd:complexType>
+					                              <xsd:sequence>
+					                                <xsd:element name="Money">
+					                                  <xsd:complexType>
+					                                    <xsd:simpleContent>
+					                                      <xsd:extension base="xsd:string">
+					                                        <xsd:attribute name="currency" type="xsd:string" use="required" />
+					                                      </xsd:extension>
+					                                    </xsd:simpleContent>
+					                                  </xsd:complexType>
+					                                </xsd:element>
+					                                <xsd:element name="Description">
+					                                  <xsd:complexType>
+					                                    <xsd:simpleContent>
+					                                      <xsd:extension base="xsd:string">
+					                                        <xsd:attribute ref="xml:lang" use="required" />
+					                                      </xsd:extension>
+					                                    </xsd:simpleContent>
+					                                  </xsd:complexType>
+					                                </xsd:element>
+					                                <xsd:element maxOccurs="unbounded" name="TaxDetail" minOccurs="0">
+					                                  <xsd:complexType>
+					                                    <xsd:sequence>
+					                                      <xsd:element name="TaxableAmount">
+					                                        <xsd:complexType>
+					                                          <xsd:sequence>
+					                                            <xsd:element name="Money">
+					                                              <xsd:complexType>
+					                                                <xsd:simpleContent>
+					                                                  <xsd:extension base="xsd:decimal">
+					                                                    <xsd:attribute name="currency" type="xsd:string" use="required" />
+					                                                  </xsd:extension>
+					                                                </xsd:simpleContent>
+					                                              </xsd:complexType>
+					                                            </xsd:element>
+					                                          </xsd:sequence>
+					                                        </xsd:complexType>
+					                                      </xsd:element>
+					                                      <xsd:element name="TaxAmount">
+					                                        <xsd:complexType>
+					                                          <xsd:sequence>
+					                                            <xsd:element name="Money">
+					                                              <xsd:complexType>
+					                                                <xsd:simpleContent>
+					                                                  <xsd:extension base="xsd:decimal">
+					                                                    <xsd:attribute name="currency" type="xsd:string" use="required" />
+					                                                  </xsd:extension>
+					                                                </xsd:simpleContent>
+					                                              </xsd:complexType>
+					                                            </xsd:element>
+					                                          </xsd:sequence>
+					                                        </xsd:complexType>
+					                                      </xsd:element>
+					                                      <xsd:element minOccurs="0" name="TaxLocation">
+					                                        <xsd:complexType>
+					                                          <xsd:simpleContent>
+					                                            <xsd:extension base="xsd:string">
+					                                              <xsd:attribute ref="xml:lang" use="required" />
+					                                            </xsd:extension>
+					                                          </xsd:simpleContent>
+					                                        </xsd:complexType>
+					                                      </xsd:element>
+					                                      <!-- Added minOccurs -->
+					                                      <xsd:element minOccurs="0" name="Description">
+					                                        <xsd:complexType>
+					                                          <xsd:simpleContent>
+					                                            <xsd:extension base="xsd:string">
+					                                              <xsd:attribute ref="xml:lang" use="required" />
+					                                            </xsd:extension>
+					                                          </xsd:simpleContent>
+					                                        </xsd:complexType>
+					                                      </xsd:element>
+					                                    </xsd:sequence>
+					                                    <xsd:attribute name="purpose" type="xsd:string" use="optional" />
+					                                    <xsd:attribute name="category" type="xsd:string" use="required" />
+					                                    <xsd:attribute name="percentageRate" type="xsd:decimal" use="optional" />
+					                                  </xsd:complexType>
+					                                </xsd:element>
+					                              </xsd:sequence>
+					                            </xsd:complexType>
+					                          </xsd:element> <!-- Tax -->
+                          						
+                          					  <xsd:element name="GrossAmount">
+						                            <xsd:complexType>
+						                              <xsd:sequence>
+						                                <xsd:element name="Money">
+						                                  <xsd:complexType>
+						                                    <xsd:simpleContent>
+						                                      <xsd:extension base="xsd:decimal">
+						                                        <xsd:attribute name="currency" type="xsd:string" use="required" />
+						                                      </xsd:extension>
+						                                    </xsd:simpleContent>
+						                                  </xsd:complexType>
+						                                </xsd:element>
+						                              </xsd:sequence>
+						                            </xsd:complexType>
+						                       </xsd:element>
+						                       
+						                       <xsd:element minOccurs="0" name="InvoiceDetailDiscount">
+						                            <xsd:complexType>
+						                              <xsd:sequence>
+						                                <xsd:element name="Money">
+						                                  <xsd:complexType>
+						                                    <xsd:simpleContent>
+						                                      <xsd:extension base="xsd:decimal">
+						                                        <xsd:attribute name="currency" type="xsd:string" use="required" />
+						                                      </xsd:extension>
+						                                    </xsd:simpleContent>
+						                                  </xsd:complexType>
+						                                </xsd:element>
+						                              </xsd:sequence>
+						                              <xsd:attribute name="percentageRate" type="xsd:string" />
+						                            </xsd:complexType>
+						                         </xsd:element>
+						                         
+						                         <xsd:element name="NetAmount">
+						                            <xsd:complexType>
+						                              <xsd:sequence>
+						                                <xsd:element name="Money">
+						                                  <xsd:complexType>
+						                                    <xsd:simpleContent>
+						                                      <xsd:extension base="xsd:decimal">
+						                                        <xsd:attribute name="currency" type="xsd:string" use="required" />
+						                                      </xsd:extension>
+						                                    </xsd:simpleContent>
+						                                  </xsd:complexType>
+						                                </xsd:element>
+						                              </xsd:sequence>
+						                            </xsd:complexType>
+						                         </xsd:element>	 <!-- NetAmount -->	
+                          
+                          			</xsd:sequence>
+                              		<xsd:attribute name="invoiceLineNumber" type="xsd:unsignedByte" use="required" />
+                              		<xsd:attribute name="quantity" type="xsd:unsignedByte" use="optional" />
+                              		<xsd:attribute name="referenceDate" type="xsd:date" use="optional" />
+                              		<xsd:attribute name="inspectionDate" type="xsd:date" use="optional" />
+                           		</xsd:complexType>
+                          		
+                          		
+                          </xsd:element> <!-- InvoiceDetailServiceItem -->
+                          
+                          
+                          
+                          
                         </xsd:sequence>
                       </xsd:complexType>
                     </xsd:element>
@@ -994,7 +1236,7 @@
                                 </xsd:element>
                               </xsd:sequence>
                             </xsd:complexType>
-                          </xsd:element>
+                          </xsd:element> <!-- Tax -->
                           <xsd:element minOccurs="0" name="SpecialHandlingAmount">
                             <xsd:complexType>
                               <xsd:sequence>

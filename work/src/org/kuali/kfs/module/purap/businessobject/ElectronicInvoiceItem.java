@@ -63,7 +63,7 @@ public class ElectronicInvoiceItem {
   // following fields describe PO information
   private String referenceLineNumber; // only match available for InvoiceDetailServiceItem values
   private String referenceSerialNumber; // attribute of <InvoiceDetailItemReference> deprecated to be <SerialNumber> inside it
-  private List referenceSerialNumbers; // used only if above String field is null
+  private List<String> referenceSerialNumbers = new ArrayList<String>(); // used only if above String field is null
   private String referenceItemIDSupplierPartID;
   private String referenceItemIDSupplierPartAuxID;
   private String referenceDescription;

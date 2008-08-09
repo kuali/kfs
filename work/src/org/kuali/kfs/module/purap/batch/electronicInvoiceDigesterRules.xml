@@ -428,8 +428,67 @@
      		   
 	   </pattern> <!-- Request/InvoiceDetailRequest/InvoiceDetailOrder -->
 	   
+	    <!-- InvoiceDetailSummary -->
+	   <pattern value="Request/InvoiceDetailRequest/InvoiceDetailSummary">
+		   <object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestSummary" />
 		   
-	    
+		   <call-method-rule pattern="Tax/Money" methodname="setTaxAmount" paramcount="0" />
+   		   <set-properties-rule pattern="Tax/Money">
+   				<alias attr-name="currency" prop-name="taxAmountCurrency" />
+   	   	   </set-properties-rule>
+		   
+		   <call-method-rule pattern="Tax/Description" methodname="setTaxDescription" paramcount="0" />
+		   
+		   <!-- FIXME: If the above desc is empty, have to get the desc from TaxDetail... Have to do this check-->
+		   <call-method-rule pattern="Tax/TaxDetail/Description" methodname="setTaxDescription" paramcount="0" />
+		   
+		   <call-method-rule pattern="SpecialHandlingAmount/Money" methodname="setSpecialHandlingAmount" paramcount="0" />
+   		   <set-properties-rule pattern="SpecialHandlingAmount/Money">
+   				<alias attr-name="currency" prop-name="specialHandlingAmountCurrency" />
+   	   	   </set-properties-rule>
+		   
+		   <call-method-rule pattern="SpecialHandlingAmount/Description" methodname="setSpecialHandlingAmountDescription" paramcount="0" />
+		   
+		   <!-- In EPIC parser, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total)
+   			I think we're not using this element-->
+   			<call-method-rule pattern="SubtotalAmount/Money" methodname="setSubTotalAmount" paramcount="0" />
+   			<set-properties-rule pattern="SubtotalAmount/Money">
+   				<alias attr-name="currency" prop-name="subTotalAmountCurrency" />
+   			</set-properties-rule>
+		   
+		    <call-method-rule pattern="ShippingAmount/Money" methodname="setShippingAmount" paramcount="0" />
+   			<set-properties-rule pattern="ShippingAmount/Money">
+   				<alias attr-name="currency" prop-name="shippingAmountCurrency" />
+   			</set-properties-rule>
+		   
+		    <call-method-rule pattern="GrossAmount/Money" methodname="setGrossAmount" paramcount="0" />
+    		<set-properties-rule pattern="GrossAmount/Money">
+    			<alias attr-name="currency" prop-name="grossAmountCurrency" />
+    		</set-properties-rule>
+		   
+		    <call-method-rule pattern="InvoiceDetailDiscount/Money" methodname="setDiscountAmount" paramcount="0" />
+    		<set-properties-rule pattern="InvoiceDetailDiscount/Money">
+    			<alias attr-name="currency" prop-name="discountAmountCurrency" />
+    		</set-properties-rule>
+		   
+		    <call-method-rule pattern="NetAmount/Money" methodname="setNetAmount" paramcount="0" />
+    		<set-properties-rule pattern="NetAmount/Money">
+    			<alias attr-name="currency" prop-name="netAmountCurrency" />
+    		</set-properties-rule>
+    		
+    		<call-method-rule pattern="DepositAmount/Money" methodname="setDepositAmount" paramcount="0" />
+    		<set-properties-rule pattern="DepositAmount/Money">
+    			<alias attr-name="currency" prop-name="depositAmountCurrency" />
+    		</set-properties-rule>
+    		
+    		<call-method-rule pattern="DueAmount/Money" methodname="setDueAmount" paramcount="0" />
+    		<set-properties-rule pattern="DueAmount/Money">
+    			<alias attr-name="currency" prop-name="dueAmountCurrency" />
+    		</set-properties-rule>
+		   
+		   <set-next-rule methodname="setInvoiceDetailRequestSummary" />
+		   
+	   </pattern> <!-- Request/InvoiceDetailRequest/InvoiceDetailSummary -->
 		
     </pattern> <!-- cXML -->
     

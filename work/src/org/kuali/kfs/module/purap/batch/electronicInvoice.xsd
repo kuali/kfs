@@ -1126,15 +1126,11 @@
                               		<xsd:attribute name="inspectionDate" type="xsd:date" use="optional" />
                            		</xsd:complexType>
                           		
-                          		
                           </xsd:element> <!-- InvoiceDetailServiceItem -->
-                          
-                          
-                          
-                          
                         </xsd:sequence>
                       </xsd:complexType>
                     </xsd:element>
+                    
                     <xsd:element name="InvoiceDetailSummary">
                       <xsd:complexType>
                         <xsd:sequence>
@@ -1249,6 +1245,15 @@
                                     </xsd:simpleContent>
                                   </xsd:complexType>
                                 </xsd:element>
+                                <xsd:element name="Description" minOccurs="0" maxOccurs="1">
+                                     <xsd:complexType>
+                                       <xsd:simpleContent>
+                                         <xsd:extension base="xsd:string">
+                                           <xsd:attribute ref="xml:lang" use="required" />
+                                         </xsd:extension>
+                                       </xsd:simpleContent>
+                                     </xsd:complexType>
+                                 </xsd:element> <!-- Description -->
                               </xsd:sequence>
                             </xsd:complexType>
                           </xsd:element>

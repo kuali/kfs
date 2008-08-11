@@ -38,9 +38,11 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.validation.event.PreCalculateAccountsPayableEvent;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -369,6 +371,20 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     @Override
     protected void processAccountingLineOverrides(List accountingLines) {
         //do nothing purap handles these differently
+    }
+    
+    /**
+     * Perform calculation on item line.
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request The HttpServletRequest
+     * @param response The HttpServletResponse
+     * @return An ActionForward
+     */
+    public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //for now this doesn't do anything, a future refactor could move the Pur and AP logic 
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     

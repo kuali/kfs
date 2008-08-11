@@ -77,7 +77,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AccountsPayableFormBase baseForm = (AccountsPayableFormBase) form;
+        PurchasingAccountsPayableFormBase baseForm = (PurchasingAccountsPayableFormBase) form;
         AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) baseForm.getDocument();
 
         if (StringUtils.equals(baseForm.getRefreshCaller(), VendorConstants.VENDOR_ADDRESS_LOOKUPABLE_IMPL)) {
@@ -118,6 +118,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * @param response The HttpServletResponse
      * @return An ActionForward
      */
+    @Override
     public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
         AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
@@ -130,7 +131,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             apForm.setCalculated(true);
         }
 
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return super.calculate(mapping, form, request, response);
     }
 
     /**
@@ -384,7 +385,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
+        PurchasingAccountsPayableFormBase apForm = (PurchasingAccountsPayableFormBase) form;
         AccountsPayableDocument document = (AccountsPayableDocument) apForm.getDocument();
 
         // validate cancel rules
@@ -409,7 +410,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * @throws Exception
      */
     private ActionForward askCancelQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
+        PurchasingAccountsPayableFormBase apForm = (PurchasingAccountsPayableFormBase) form;
         String operation = "Cancel ";
         PurQuestionCallback callback = cancelCallbackMethod();
         TreeMap<String, PurQuestionCallback> questionsAndCallbacks = new TreeMap<String, PurQuestionCallback>();

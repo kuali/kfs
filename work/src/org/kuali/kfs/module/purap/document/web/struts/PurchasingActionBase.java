@@ -81,7 +81,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase baseForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase baseForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
         String refreshCaller = baseForm.getRefreshCaller();
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
@@ -301,7 +301,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      * @return An ActionForward
      */
     public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
 
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         purDocument.deleteItem(getSelectedLine(request));
@@ -320,7 +320,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      * @return An ActionForward
      */
     public ActionForward upItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         int line = getSelectedLine(request);
         purDocument.itemSwap(line, line - 1);
@@ -340,7 +340,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      * @return An ActionForward
      */
     public ActionForward downItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         int line = getSelectedLine(request);
         purDocument.itemSwap(line, line + 1);
@@ -377,7 +377,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      * @return An ActionForward
      */
     public ActionForward removeAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
 
         Object question = request.getParameter(PurapConstants.QUESTION_INDEX);
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -409,7 +409,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      * @return An ActionForward
      */
     public ActionForward clearItemsCommodityCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
 
         Object question = request.getParameter(PurapConstants.QUESTION_INDEX);
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -625,7 +625,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     public ActionForward selectSystemType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocumentBase document = (PurchasingDocumentBase) purchasingForm.getDocument();
 
         Object question = request.getParameter(PurapConstants.QUESTION_INDEX);
@@ -730,7 +730,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
 
     public ActionForward selectSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
         
         SpringContext.getBean(PurchasingService.class).setupCAMSItems(document);
@@ -739,18 +739,28 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
 
     public ActionForward changeSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     public ActionForward updateCamsView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
         
         SpringContext.getBean(PurchasingService.class).setupCAMSItems(document);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    @Override
+    public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
+        // call prorateDiscountTradeIn
+//        SpringContext.getBean(PurchasingService.class).prorateDiscountTradeIn(purDoc);
+        
+        return super.calculate(mapping, form, request, response);
     }
 
 }

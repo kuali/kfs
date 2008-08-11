@@ -20,13 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
-import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
-import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Struts Action Form for Purchasing documents.
@@ -66,6 +68,8 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         this.setNewPurchasingItemCapitalAssetLine(this.setupNewPurchasingItemCapitalAssetLine());
         this.setNewPurchasingCapitalAssetLocationLine(this.setupNewPurchasingCapitalAssetLocationLine());
     }
+    
+    
 
     public Boolean getNotOtherDeliveryBuilding() {
         return notOtherDeliveryBuilding;
@@ -255,6 +259,17 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         PurchasingCapitalAssetLocation asset = getNewPurchasingCapitalAssetLocationLine();
         setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
         return asset;
+    }
+    
+        @Override
+    public List<ExtraButton> getExtraButtons() {
+        extraButtons.clear();    
+        String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            // add the calculate button
+    //        if (purDocAuth.canCalculate()) {
+//        addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
+    //        }
+        return extraButtons;
     }
 
 }

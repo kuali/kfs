@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
@@ -113,24 +112,6 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
         }
 
         return apUser;
-    }
-
-    /**
-     * Adds a new button to the extra buttons collection.
-     * 
-     * @param property - property for button
-     * @param source - location of image
-     * @param altText - alternate text for button if images don't appear
-     */
-    protected void addExtraButton(String property, String source, String altText) {
-
-        ExtraButton newButton = new ExtraButton();
-
-        newButton.setExtraButtonProperty(property);
-        newButton.setExtraButtonSource(source);
-        newButton.setExtraButtonAltText(altText);
-
-        extraButtons.add(newButton);
     }
 
     /**

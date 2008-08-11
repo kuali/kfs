@@ -207,9 +207,13 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
-        extraButtons.clear();
+        
+        //add buttons from purapformbase
+        super.getExtraButtons();
+        
         Map buttonsMap = createButtonsMap();
 
+        
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
         
         if (auth == null) {

@@ -82,7 +82,9 @@
 	<kul:routeLog />
 
 	<kul:panelFooter />
+	
+	<c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	
 
-	<kfs:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" extraButtons="${extraButtons}" />
 
 </kul:documentPage>

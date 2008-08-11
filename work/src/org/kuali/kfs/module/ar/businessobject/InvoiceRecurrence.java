@@ -3,9 +3,12 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -13,23 +16,21 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 public class InvoiceRecurrence extends PersistableBusinessObjectBase implements Inactivateable {
 
-	private String documentNumber;
-	private String referenceFinancialDocumentNumber;
+	private String invoiceNumber;
 	private String customerNumber;
 	private Date documentRecurrenceBeginDate;
 	private Date documentRecurrenceEndDate;
 	private Integer documentTotalRecurrenceNumber;
-	//TODO looks like in OJB descriptor you were going to get the interval code BO from PURAP.  
-	//Make sure this BO gets moved out of the PURAP module and into the sys module.
 	private String documentRecurrenceIntervalCode;
 	private Long workgroupIdentifier;
 	private String documentInitiatorUserIdentifier;
 	private Date documentLastCreateDate;
 	private boolean active;
 
-    private DocumentHeader documentHeader;
-    private DocumentHeader referenceFinancialDocument;
+    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+    private CustomerInvoiceDocument customerInvoiceDocument;
     private Customer customer;
+    private UniversalUser documentInitiatorUser;
     
     
 	/**
@@ -39,47 +40,29 @@ public class InvoiceRecurrence extends PersistableBusinessObjectBase implements 
 
 	}
 
-	/**
-	 * Gets the documentNumber attribute.
-	 * 
-	 * @return Returns the documentNumber
-	 * 
-	 */
-	public String getDocumentNumber() { 
-		return documentNumber;
-	}
-
-	/**
-	 * Sets the documentNumber attribute.
-	 * 
-	 * @param documentNumber The documentNumber to set.
-	 * 
-	 */
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
 
 
-	/**
-	 * Gets the referenceFinancialDocumentNumber attribute.
-	 * 
-	 * @return Returns the referenceFinancialDocumentNumber
-	 * 
-	 */
-	public String getReferenceFinancialDocumentNumber() { 
-		return referenceFinancialDocumentNumber;
-	}
 
-	/**
-	 * Sets the referenceFinancialDocumentNumber attribute.
-	 * 
-	 * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
-	 * 
-	 */
-	public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
-		this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
-	}
+    /**
+     * Gets the invoiceNumber attribute.
+     * 
+     * @return Returns the invoiceNumber
+     * 
+     */
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
 
+
+    /**
+     * Sets the invoiceNumber attribute.
+     * 
+     * @param invoiceNumber The invoiceNumber to set.
+     * 
+     */
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+    }
 
 	/**
 	 * Gets the customerNumber attribute.
@@ -228,7 +211,29 @@ public class InvoiceRecurrence extends PersistableBusinessObjectBase implements 
 	}
 
 
-	/**
+    public UniversalUser getDocumentInitiatorUser() {
+        documentInitiatorUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(documentInitiatorUserIdentifier, documentInitiatorUser);
+        return documentInitiatorUser;
+    }
+
+    /**
+     * @param documentInitiatorUser The documentInitiatorUser to set.
+     */
+    public void setDocumentInitiatorUser(UniversalUser documentInitiatorUser) {
+        this.documentInitiatorUser = documentInitiatorUser;
+    }
+    
+    /**
+     * The network id of the document initiator
+     * 
+     * @return the network id of the document initiator
+     */
+    public String getDocumentInitiatorUserPersonUserIdentifier() {
+        return this.getDocumentInitiatorUser().getPersonUserIdentifier();
+    }
+
+
+    /**
 	 * Gets the documentLastCreateDate attribute.
 	 * 
 	 * @return Returns the documentLastCreateDate
@@ -286,46 +291,53 @@ public class InvoiceRecurrence extends PersistableBusinessObjectBase implements 
         this.customer = customer;
     }
 
-    /**
-     * Gets the documentHeader attribute. 
-     * @return Returns the documentHeader.
-     */
-    public DocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
-    /**
-     * Sets the documentHeader attribute value.
-     * @param documentHeader The documentHeader to set.
-     * @deprecated
-     */
-    public void setDocumentHeader(DocumentHeader documentHeader) {
-        this.documentHeader = documentHeader;
-    }
-
-    /**
-     * Gets the referenceFinancialDocument attribute. 
-     * @return Returns the referenceFinancialDocument.
-     */
-    public DocumentHeader getReferenceFinancialDocument() {
-        return referenceFinancialDocument;
-    }
-
-    /**
-     * Sets the referenceFinancialDocument attribute value.
-     * @param referenceFinancialDocument The referenceFinancialDocument to set.
-     * @deprecated
-     */
-    public void setReferenceFinancialDocument(DocumentHeader referenceFinancialDocument) {
-        this.referenceFinancialDocument = referenceFinancialDocument;
-    }
+    
 
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("documentNumber", this.documentNumber);
+        m.put("documentNumber", this.invoiceNumber);
 	    return m;
     }
+
+    public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
+        return accountsReceivableDocumentHeader;
+    }
+
+    /**
+     * Sets the accountsReceivableDocumentHeader attribute value.
+     * @param accountsReceivableDocumentHeader The AccountsReceivableDocumentHeader to set.
+     * @deprecated
+     */
+    public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
+        this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
+    }
+
+    
+    /**
+     * Gets the customerName attribute.
+     * 
+     * @return Returns the customerName
+     * 
+     */
+    public String getCustomerName() {
+        return this.getCustomer().getCustomerName();
+    }
+
+
+    public CustomerInvoiceDocument getCustomerInvoiceDocument() {
+        return customerInvoiceDocument;
+    }
+
+    /**
+     * Sets the customerInvoiceDocument attribute value.
+     * @param customerInvoiceDocument The customerInvoiceDocument to set.
+     * @deprecated
+     */
+    public void setCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
+        this.customerInvoiceDocument = customerInvoiceDocument;
+    }
+
 }

@@ -16,7 +16,7 @@
     </property>
     <property name="lockingKeys" >
       <list>
-        <value>documentNumber</value>
+        <value>invoiceNumber</value>
       </list>
     </property>
     <property name="label" value="Invoice Recurrence" />
@@ -24,9 +24,16 @@
     <property name="summary" value="Invoice Recurrence maintenance document" />
     <property name="description" value="Document used to create or update Invoice Recurrence objects" />
     <property name="documentTypeName" value="InvoiceRecurrenceMaintenanceDocument" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrencePreRules" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.InvoiceRecurrenceRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="INVR" />
+    <property name="webScriptFiles" >
+      <list>
+        <value>../dwr/interface/CustomerInvoiceDocumentService.js</value>
+        <value>../scripts/ar/customerInvoiceObjectInfo.js</value>
+      </list>
+    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -52,16 +59,17 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="documentNumber"
-              p:required="true" />
-<!--
-        <bean parent="MaintainableFieldDefinition"
-              p:name="referenceFinancialDocumentNumber"
-              p:required="true" />
--->
+              p:name="invoiceNumber"
+              p:required="true"
+              p:webUILeaveFieldFunction="loadCustomerNumberAndName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerNumber"
-              p:required="true" />
+              p:readOnly="true"
+              p:required="false" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customer.customerName"
+              p:readOnly="true"
+              p:required="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="documentRecurrenceBeginDate"
               p:required="true" />
@@ -81,8 +89,9 @@
               p:name="documentInitiatorUserIdentifier"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="documentLastCreateDate"
-              p:required="false" />
+              p:name="documentInitiatorUser.personUserIdentifier" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="documentInitiatorUser.personName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active"
               p:defaultValue="true" />

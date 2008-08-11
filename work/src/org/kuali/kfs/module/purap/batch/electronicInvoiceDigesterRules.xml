@@ -149,17 +149,30 @@
 	      				
 	      			</pattern> <!-- PostalAddress -->
 	      			
-	      			<!--<pattern value="EMail">
-	      				<set-properties-rule>
-			      			<alias attr-name="name" prop-name="countryCode" />
-		      			</set-properties-rule>
-	      			</pattern>  EMail 
-	      			
-	      			<call-method-rule pattern="EMail" methodname="addEmailAddress" paramcount="2">
-	      				<call-param-rule paramnumber="0" attrname="name" from-stack="1"/> 
-	      				<call-param-rule paramnumber="0" attrname="name" from-stack="1"/> 
-	      			</call-method-rule>-->
-	      			
+	      			<pattern value="Email">
+	                    <call-method-rule methodname="addEmailAddress" paramcount="2" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule paramnumber="1"/>
+                	</pattern>
+                
+                	<pattern value="Phone">
+	                    <call-method-rule methodname="addPhoneNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                	
+                    <pattern value="Fax">
+	                    <call-method-rule methodname="addFaxNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                    
+                    <call-method-rule pattern="URL" methodname="addWebAddress" paramcount="0" />
+                    
 	      			<set-next-rule methodname="addInvoicePartnerContact" />
 	      			
 	      		</pattern> <!-- InvoicePartner/Contacts -->
@@ -221,6 +234,30 @@
 	      				
 	      			</pattern> <!-- PostalAddress -->
 	      			
+	      			<pattern value="Email">
+	                    <call-method-rule methodname="addEmailAddress" paramcount="2" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule paramnumber="1"/>
+                	</pattern>
+                	
+                	<pattern value="Phone">
+	                    <call-method-rule methodname="addPhoneNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                	
+                    <pattern value="Fax">
+	                    <call-method-rule methodname="addFaxNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                    
+                    <call-method-rule pattern="URL" methodname="addWebAddress" paramcount="0" />
+                    
 	      			<set-next-rule methodname="addInvoiceShippingContacts" />
 	      			
       			</pattern> <!-- InvoiceDetailShipping/Contact -->

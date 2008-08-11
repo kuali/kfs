@@ -188,6 +188,15 @@
                                           <xsd:attribute name="name" type="xsd:string" />
                                         </xsd:complexType>
                                       </xsd:element>
+                                      <xsd:element name="URL" minOccurs="0" maxOccurs="unbounded" >
+                                         <xsd:complexType>
+                                           <xsd:simpleContent>
+                                             <xsd:extension base="xsd:string">
+                                               <xsd:attribute name="name" type="xsd:string" />
+                                             </xsd:extension>
+                                           </xsd:simpleContent>
+                                         </xsd:complexType>
+                                       </xsd:element>
                                     </xsd:sequence>
                                     <xsd:attribute name="role" type="xsd:string" use="required" />
                                     <xsd:attribute name="addressID" type="xsd:string" use="optional" />

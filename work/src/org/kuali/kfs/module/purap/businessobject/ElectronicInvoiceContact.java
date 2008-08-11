@@ -41,8 +41,18 @@ public class ElectronicInvoiceContact {
     this.emailAddresses.put(name, address);
   }
   
-  public void addPhoneNumber(String name,String number) {
-    this.phoneNumbers.put(name, number);
+  public void addPhoneNumber(String name,
+                             String countryCode,
+                             String cityOrAreaCode,
+                             String number) {
+    this.phoneNumbers.put(name, countryCode + cityOrAreaCode + number);
+  }
+  
+  public void addFaxNumber(String name,
+                           String countryCode,
+                           String cityOrAreaCode,
+                           String number) {
+     this.faxNumbers.put(name, countryCode + cityOrAreaCode + number);
   }
   
   public void addFaxNumber(String name,String number) {
@@ -157,6 +167,11 @@ public class ElectronicInvoiceContact {
       toString.append("Name",getName());
       toString.append("AddressId",getAddressID());
       toString.append("PostalAddress",getPostalAddresses());
+      toString.append("EmailAddresses",getEmailAddresses());
+      toString.append("phoneNumbers",getPhoneNumbers());
+      toString.append("FaxNumbers",getFaxNumbers());
+      toString.append("URLs",getWebAddresses());
+      
       
       return toString.toString();
   }

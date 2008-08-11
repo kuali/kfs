@@ -83,6 +83,9 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="separateSourceCapitalAssetNumber"
               p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="totalCostAmount"
+              p:readOnly="true" />
       </list>
     </property>
   </bean>

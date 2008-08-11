@@ -89,25 +89,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
-
-            /* needed?
-            UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
-            // get the correct documentAuthorizer for this document
-            MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) documentAuthorizationService.getDocumentAuthorizer(document);
-            // get a new instance of MaintenanceDocumentAuthorizations for this context
-            MaintenanceDocumentAuthorizations auths = documentAuthorizer.getFieldAuthorizations(document, user);
-            
-            // DETAIL SECTION
-            Collection detailFields = auths.getAuthFieldNames();
-            for (Iterator iter = detailFields.iterator(); iter.hasNext();) {
-                String detailFieldName = (String) iter.next();
-                LOG.info("checkAuthorizationRestrictions detailFieldName: '" + detailFieldName.toString() + "'");
-            }
-
-            // LOCATION SECTION
-            //MaintainableCollectionDefinition maintCollectionDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetGlobalMaintenanceDocument", "assetSharedDetails");
-            //LOG.info("checkAuthorizationRestrictions locationFields: '" + maintCollectionDef.getName() + "'");
-            */
             return success;
         }
         return success;
@@ -525,45 +506,48 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         String acquisitionTypeCode = assetGlobal.getAcquisitionTypeCode();
         String statusCode = assetGlobal.getInventoryStatusCode();
 
-        if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
-            UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
-            if (!universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ACQUISITION_TYPE_CODE_NOT_ALLOWED, new String[] { CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS, acquisitionTypeCode });
+        // no need to validate non-editable fields or generate GLPEs if document is Asset Separate
+        if (!assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+            if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
+                UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+                if (!universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
+                    putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ACQUISITION_TYPE_CODE_NOT_ALLOWED, new String[] { CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS, acquisitionTypeCode });
+                    success &= false;
+                }
+            }
+            if (StringUtils.isNotBlank(statusCode) && (CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(statusCode) || isStatusCodeRetired(statusCode))) {
+                putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVENTORY_STATUS_CODE_INVALID, new String[] { statusCode });
                 success &= false;
             }
-        }
-        if (StringUtils.isNotBlank(statusCode) && (CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(statusCode) || isStatusCodeRetired(statusCode))) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVENTORY_STATUS_CODE_INVALID, new String[] { statusCode });
-            success &= false;
-        }
-        if (StringUtils.isNotBlank(acquisitionTypeCode) && StringUtils.isNotBlank(statusCode)) {
-            // check if status code and acquisition type code combination is valid
-            success &= SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, CamsConstants.Parameters.INVALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, statusCode, acquisitionTypeCode).evaluateAndAddError(AssetGlobal.class, MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE);
-        }
-        success &= validateAssetType(assetGlobal);
-        if (isCapitalStatus(assetGlobal)) {
-            success &= validateVendorAndManufacturer(assetGlobal);
-        }
-
-        success &= validatePaymentCollection(assetGlobal);
-
-        // System shall not generate any GL entries for acquisition type code new
-        if ((success & super.processCustomSaveDocumentBusinessRules(document)) && !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
-            // create poster
-            AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
-            // create postables
-            if (!(success &= assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster))) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);
-                return success;
+            if (StringUtils.isNotBlank(acquisitionTypeCode) && StringUtils.isNotBlank(statusCode)) {
+                // check if status code and acquisition type code combination is valid
+                success &= SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, CamsConstants.Parameters.INVALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, statusCode, acquisitionTypeCode).evaluateAndAddError(AssetGlobal.class, MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE);
             }
-            if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
-                assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
+            success &= validateAssetType(assetGlobal);
+            if (isCapitalStatus(assetGlobal)) {
+                success &= validateVendorAndManufacturer(assetGlobal);
             }
-            else {
-                assetGlobalGlPoster.getPendingEntries().clear();
+
+            success &= validatePaymentCollection(assetGlobal);
+        
+            // System shall not generate any GL entries for acquisition type code new
+            if ((success & super.processCustomSaveDocumentBusinessRules(document)) && !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
+                // create poster
+                AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
+                // create postables
+                if (!(success &= assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster))) {
+                    putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);
+                    return success;
+                }
+                if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
+                    assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
+                }
+                else {
+                    assetGlobalGlPoster.getPendingEntries().clear();
+                }
             }
         }
-
+        
         return success;
     }
 

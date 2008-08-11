@@ -54,8 +54,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         }
         return auths;
     }
-
-
+    
     /**
      * Sets Asset Global Details fields to read only
      * 
@@ -63,7 +62,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
      * @param user
      */
     private void setAssetGlobalDetailsFieldsReadOnlyAccessMode(MaintenanceDocumentAuthorizations auths, UniversalUser user) {
-        // TODO set CAPITAL_ASSET_DESCRIPTION and ORGANIZATION_TEXT to read-only
+        // TODO set CAPITAL_ASSET_DESCRIPTION and ORGANIZATION_TEXT to read-only. see KFSMI-1208
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.AGENCY_NUMBER); // owner
@@ -75,7 +74,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.VENDOR_NAME);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.MANUFACTURER_NAME);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.MANUFACTURER_MODEL_NUMBER);
-        auths.addReadonlyAuthField(CamsPropertyConstants.AssetGlobal.ORGANIZATION_TEXT); // AssetGlobal or AssetOrganization?
+        auths.addReadonlyAuthField(CamsPropertyConstants.AssetGlobal.ORGANIZATION_TEXT);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.REP_USER_AUTH_ID);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.LAST_INVENTORY_DATE);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CREATE_DATE);
@@ -96,17 +95,5 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         // do not include add section within the payment details collection
         MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetGlobalMaintenanceDocument", "assetPaymentDetails");
         maintCollDef.setIncludeAddLine(bool);
-    }
-
-    /**
-     * TODO button actions
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
-     */
-    @Override
-    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
-        //AssetGlobal assetGlobal = (AssetGlobal) document.getDocumentBusinessObject();
-
-        return actionFlags;
     }
 }

@@ -274,18 +274,12 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
         int numberOfTotalAsset = 0;
-        LOG.info("totalPaymentByAsset assetPaymentDetails size: " + assetPaymentDetails.size() + "'");
         for (AssetGlobalDetail assetSharedDetail : assetGlobal.getAssetSharedDetails()) {
-            LOG.info("totalPaymentByAsset asset: '" + assetSharedDetail.getCapitalAssetNumber() + "'");
             numberOfTotalAsset += assetSharedDetail.getAssetGlobalUniqueDetails().size();
-            LOG.info("totalPaymentByAsset numberOfTotalAsset: '" + numberOfTotalAsset + "'");
         }
-
         for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
             totalAmount = totalAmount.add(assetPaymentDetail.getAmount());
-            LOG.info("totalPaymentByAsset asset amount: " + totalAmount + "'");
         }
-
         if (numberOfTotalAsset != 0) {
             return totalAmount.divide(new KualiDecimal(numberOfTotalAsset));
         }

@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.bc.document.validation.event;
 
-import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 
 public class AddAppointmentFundingEvent extends SalarySettingBaseEvent {
@@ -29,7 +29,7 @@ public class AddAppointmentFundingEvent extends SalarySettingBaseEvent {
      * @param errorPathPrefix the specified error path prefix
      * @param appointmentFundings the given appointment funding
      */
-    public AddAppointmentFundingEvent(String description, String errorPathPrefix, Document document, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public AddAppointmentFundingEvent(String description, String errorPathPrefix, BudgetConstructionDocument document, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         super(description, errorPathPrefix, document);
         this.appointmentFunding = appointmentFunding;
     }

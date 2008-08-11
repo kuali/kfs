@@ -26,43 +26,18 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 // TODO: update the Java Doc 
 public interface SalarySettingRule extends BusinessRule {
 
-    /**
-     * Process save business rules for the detail salary setting screen.
-     * 
-     * @param appointmentFundings the appointment funding lines associated with position
-     * @return boolean true if rules were ok, false if errors were found
-     */
-    public boolean processSave(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings);
+
+    public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
     
-    /**
-     * Process save business rules for the detail salary setting screen.
-     * 
-     * @param appointmentFundings the appointment funding lines associated with position
-     * @return boolean true if rules were ok, false if errors were found
-     */
+
     public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFundings);
     
-    /**
-     * Process save business rules for the detail salary setting screen.
-     * 
-     * @param appointmentFundings the appointment funding lines associated with position
-     * @return boolean true if rules were ok, false if errors were found
-     */
+
     public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding);
     
-    /**
-     * Process save business rules for the detail salary setting screen.
-     * 
-     * @param appointmentFundings the appointment funding lines associated with position
-     * @return boolean true if rules were ok, false if errors were found
-     */
+
     public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings);  
     
-    /**
-     * Process save business rules for the detail salary setting screen.
-     * 
-     * @param appointmentFunding the appointment funding lines associated with position
-     * @return boolean true if rules were ok, false if errors were found
-     */
+
     public boolean processAddAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 }

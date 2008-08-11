@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -51,6 +53,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     private KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+    private List<String> messageList = GlobalVariables.getMessageList();
 
     /**
      * loads the data for the expansion screen based on the passed in url parameters
@@ -109,8 +112,6 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      */
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<String> messageList = GlobalVariables.getMessageList();
-
         // return to the calller directly
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
 
@@ -164,6 +165,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
 
         salarySettingService.purgeAppointmentFunding(appointmentFundings, appointmentFunding);
+        messageList.add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -200,8 +202,15 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
 
-        this.adjustSalary(appointmentFunding);
+        KualiDecimal adjustmentAmount = appointmentFunding.getAdjustmentAmount();
+        String adjustmentMeasurement = appointmentFunding.getAdjustmentMeasurement();
+        if (adjustmentAmount == null || adjustmentMeasurement == null) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_EMPTY_ADJUSTMENT_FIELD);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
 
+        this.adjustSalary(appointmentFunding);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -214,6 +223,11 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
         KualiDecimal adjustmentAmount = salarySettingForm.getAdjustmentAmount();
         String adjustmentMeasurement = salarySettingForm.getAdjustmentMeasurement();
+
+        if (adjustmentAmount == null || adjustmentMeasurement == null) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_EMPTY_ADJUSTMENT_FIELD);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             appointmentFunding.setAdjustmentAmount(adjustmentAmount);
@@ -232,6 +246,13 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
 
+        BigDecimal payRate = appointmentFunding.getAppointmentRequestedPayRate();
+        KualiInteger annualAmount = appointmentFunding.getAppointmentRequestedAmount();
+        if (payRate == null && annualAmount == null) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_EMPTY_PAY_RATE_ANNUAL_AMOUNT);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
         salarySettingService.normalizePayRateAndAmount(appointmentFunding);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

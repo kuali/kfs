@@ -39,6 +39,7 @@ import org.kuali.kfs.module.bc.document.validation.event.AddAppointmentFundingEv
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
 import org.kuali.kfs.module.bc.document.validation.event.SaveSalarySettingEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -103,10 +104,18 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getSavableAppointmentFundings();
         
-        // validate the savable appointment funding lines 
-        boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", savableAppointmentFundings));
-        if(!isValid) {
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        for(PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
+            BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);        
+            if(document == null) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.toString());
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+                       
+            // validate the savable appointment funding lines
+            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", "", document, savableFunding));
+            if(!isValid) {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
         }
 
         // acquire transaction locks for all funding lines
@@ -145,22 +154,21 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
-        PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();        
-        BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(newAppointmentFunding);
+        PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
+        this.applyDefaultValuesIfEmpty(newAppointmentFunding);
         
-        if(document == null) {
-            //TODO: error message
+        BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(newAppointmentFunding);
+        if (document == null) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, newAppointmentFunding.toString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-              
+
         // validate the new appointment funding line
         BudgetExpansionEvent addAppointmentFundingEvent = new AddAppointmentFundingEvent("", "", document, newAppointmentFunding);
         boolean isValid = this.invokeRules(addAppointmentFundingEvent);
-        if(!isValid) {
+        if (!isValid) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
-        this.applyDefaultValuesIfEmpty(newAppointmentFunding);
 
         // acquire a lock for the new appointment funding line
         boolean gotLocks = salarySettingForm.acquirePositionAndFundingLocks(newAppointmentFunding);

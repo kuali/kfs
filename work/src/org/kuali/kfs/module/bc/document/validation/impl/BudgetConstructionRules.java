@@ -137,7 +137,10 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SalarySetti
         return salarySettingRules.processNormalizePayrateAndAmount(appointmentFunding);
     }
 
-    public boolean processSave(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
-        return salarySettingRules.processSave(appointmentFundings);
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSaveAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return salarySettingRules.processSaveAppointmentFunding(appointmentFunding);
     }
 }

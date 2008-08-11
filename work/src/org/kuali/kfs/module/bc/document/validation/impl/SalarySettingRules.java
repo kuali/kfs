@@ -27,28 +27,6 @@ public class SalarySettingRules implements SalarySettingRule {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRules.class);
 
     /**
-     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSave(java.util.List)
-     */
-    public boolean processSave(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
-        boolean isValid = true;
-
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            isValid = SalarySettingRuleUtil.isFieldFormatValid(appointmentFunding);
-
-            if (!SalarySettingRuleUtil.isValidRequestedAmount(appointmentFunding)) {
-                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED);
-                isValid = false;
-            }
-            else if (!SalarySettingRuleUtil.isValidRequestedFteQuantity(appointmentFunding)) {
-                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_FTE_QUANTITY, BCKeyConstants.ERROR_FTE_GREATER_THAN_ZERO_REQUIRED);
-                isValid = false;
-            }
-        }
-
-        return isValid;
-    }
-
-    /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processNormalizePayrateAndAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
@@ -113,5 +91,12 @@ public class SalarySettingRules implements SalarySettingRule {
         }
 
         return isValid;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSaveAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return this.processAddAppointmentFunding(appointmentFunding);
     }
 }

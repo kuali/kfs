@@ -3250,7 +3250,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.CampusParameter" table="PUR_AP_CMP_PARM_T">
+<class-descriptor class="org.kuali.kfs.vnd.businessobject.CampusParameter" table="PUR_AP_CMP_PARM_T">
     <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

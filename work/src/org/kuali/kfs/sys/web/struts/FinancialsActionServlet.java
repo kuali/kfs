@@ -38,7 +38,13 @@ public class FinancialsActionServlet extends KualiActionServlet {
 
     @Override
     public ServletConfig getServletConfig() {
-        return new KualiActionServletConfig(super.getServletConfig());
+        ServletConfig config = super.getServletConfig();
+        
+        if( config == null ) {
+            return null;
+        } else {
+            return new KualiActionServletConfig(config);
+        }     
     }
 
     /**

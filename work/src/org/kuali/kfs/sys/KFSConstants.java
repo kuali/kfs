@@ -123,7 +123,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String BALANCE_TYPE_ACTUAL = "AC";
     public static final String BALANCE_TYPE_AUDIT_TRAIL = "NB";
     public static final String BALANCE_TYPE_A21 = "A2";
-    public static final String BALANCE_TYPE_BUDGET_STATISTICS = "BS";
     public static final String BALANCE_TYPE_PRE_ENCUMBRANCE = "PE";
     public static final String BLANKET_APPROVE_METHOD = "blanketApprove";
     public static final String BUSINESS_OBJECT_CLASS_ATTRIBUTE = "businessObjectClassName";

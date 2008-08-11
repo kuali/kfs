@@ -17,7 +17,6 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.KFSConstants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_BASE_BUDGET;
-import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_BUDGET_STATISTICS;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_CURRENT_BUDGET;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_MONTHLY_BUDGET;
@@ -237,7 +236,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
                 return false;
             }
             else if (amount.isNegative()) {
-                if (!accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_BASE_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_CURRENT_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_MONTHLY_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_BUDGET_STATISTICS)) {
+                if (!accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_BASE_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_CURRENT_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_MONTHLY_BUDGET)) {
                     GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
                 }
             }

@@ -17,7 +17,6 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.KFSConstants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_BASE_BUDGET;
-import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_BUDGET_STATISTICS;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_CURRENT_BUDGET;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_MONTHLY_BUDGET;
 import static org.kuali.kfs.sys.KFSConstants.CREDIT_AMOUNT_PROPERTY_NAME;
@@ -89,7 +88,7 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
                 return false;
             }
             else if (amount.isNegative()) {
-                if (!getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_BASE_BUDGET) && !getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_CURRENT_BUDGET) && !getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_MONTHLY_BUDGET) && !getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_BUDGET_STATISTICS)) {
+                if (!getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_BASE_BUDGET) && !getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_CURRENT_BUDGET) && !getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_MONTHLY_BUDGET)) {
                     GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
                 }
             }

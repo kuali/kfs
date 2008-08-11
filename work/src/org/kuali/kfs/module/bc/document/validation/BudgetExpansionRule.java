@@ -22,7 +22,7 @@ import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
  * Defines rule methods for handling expansion events.
  */
 public interface BudgetExpansionRule extends BusinessRule {
-    
+
     /**
      * Process an expansion event.
      * 

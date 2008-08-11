@@ -31,8 +31,13 @@ import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.document.validation.event.AddAppointmentFundingEvent;
+import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
+import org.kuali.kfs.module.bc.document.validation.event.SaveSalarySettingEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -44,6 +49,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private LockService lockService = SpringContext.getBean(LockService.class);
+    private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionAction#close(org.apache.struts.action.ActionMapping,
@@ -96,6 +102,12 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getSavableAppointmentFundings();
+        
+        // validate the savable appointment funding lines 
+        boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", savableAppointmentFundings));
+        if(!isValid) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
 
         // acquire transaction locks for all funding lines
         boolean transactionLocked = salarySettingForm.acquireTransactionLocks();
@@ -129,11 +141,25 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
     /**
      * adds an appointment funding line to the set of existing funding lines
      */
-    public ActionForward insertSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addAppointmentFundingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
-        PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
+        PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();        
+        BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(newAppointmentFunding);
+        
+        if(document == null) {
+            //TODO: error message
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+              
+        // validate the new appointment funding line
+        BudgetExpansionEvent addAppointmentFundingEvent = new AddAppointmentFundingEvent("", "", document, newAppointmentFunding);
+        boolean isValid = this.invokeRules(addAppointmentFundingEvent);
+        if(!isValid) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
         this.applyDefaultValuesIfEmpty(newAppointmentFunding);
 
         // acquire a lock for the new appointment funding line

@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,8 +30,10 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.bc.BCConstants;
@@ -42,7 +43,6 @@ import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocument
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
@@ -62,12 +62,12 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         salarySettingForm.populateAuthorizationFields(new BudgetConstructionDocumentAuthorizer());
-        
+
         ActionForward forward = super.execute(mapping, form, request, response);
-        
+
         boolean isSuccessfullyProcessed = salarySettingForm.postProcessBCAFLines();
         if (!isSuccessfullyProcessed) {
             return this.returnToCaller(mapping, form, request, response);
@@ -108,13 +108,13 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<String> messageList = GlobalVariables.getMessageList();
-        
-        // return to the calller directly 
-        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form; 
-        
-        if(salarySettingForm.isViewOnlyEntry()) {
+
+        // return to the calller directly
+        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
+
+        if (salarySettingForm.isViewOnlyEntry()) {
             messageList.add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
             return this.returnToCaller(mapping, form, request, response);
         }
@@ -262,5 +262,15 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
         int indexOfSelectedLine = this.getSelectedLine(request);
         return appointmentFundings.get(indexOfSelectedLine);
+    }
+
+    /**
+     * execute the rules associated with the given event
+     * 
+     * @param event the event that just occured
+     * @return true if the rules associated with the given event pass; otherwise, false
+     */
+    protected boolean invokeRules(KualiDocumentEvent event) {
+        return SpringContext.getBean(KualiRuleService.class).applyRules(event);
     }
 }

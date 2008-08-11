@@ -23,6 +23,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 /**
  * Rule interface for <code>SalarySettingSaveEvent<code>. Rule classes wishing to respond to that event should implement this interface.
  */
+// TODO: update the Java Doc 
 public interface SalarySettingRule extends BusinessRule {
 
     /**
@@ -55,5 +56,13 @@ public interface SalarySettingRule extends BusinessRule {
      * @param appointmentFundings the appointment funding lines associated with position
      * @return boolean true if rules were ok, false if errors were found
      */
-    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings);   
+    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings);  
+    
+    /**
+     * Process save business rules for the detail salary setting screen.
+     * 
+     * @param appointmentFunding the appointment funding lines associated with position
+     * @return boolean true if rules were ok, false if errors were found
+     */
+    public boolean processAddAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 }

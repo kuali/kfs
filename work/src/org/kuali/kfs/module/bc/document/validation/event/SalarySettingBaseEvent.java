@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.validation.event;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 
@@ -30,6 +31,16 @@ public abstract class SalarySettingBaseEvent extends BudgetExpansionEvent {
      */
     public SalarySettingBaseEvent(String errorPathPrefix) {
         super(errorPathPrefix);
+    }
+
+    /**
+     * Constructs a SalarySettingBaseEvent.java.
+     * @param description the given description
+     * @param errorPathPrefix the given error path prefix
+     * @param document the specified document
+     */ 
+    public SalarySettingBaseEvent(String description, String errorPathPrefix, Document document) {
+        super(description, errorPathPrefix, document);
     }
 
     /**

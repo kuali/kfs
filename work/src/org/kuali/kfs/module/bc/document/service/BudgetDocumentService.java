@@ -178,6 +178,14 @@ public interface BudgetDocumentService {
      * @return the budget document with the information provided by the given appointment funding
      */
     public BudgetConstructionHeader getBudgetConstructionHeader(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    
+    /**
+     * get the budget document with the information provided by the given appointment funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return the budget document with the information provided by the given appointment funding
+     */
+    public BudgetConstructionDocument getBudgetConstructionDocument(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
      * determine whether the given document is budgetable

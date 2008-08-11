@@ -17,25 +17,29 @@ package org.kuali.kfs.module.bc.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.SaveDocumentRule;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.AddPendingBudgetGeneralLedgerLineRule;
 import org.kuali.kfs.module.bc.document.validation.BudgetExpansionRule;
 import org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule;
 import org.kuali.kfs.module.bc.document.validation.DeletePendingBudgetGeneralLedgerLineRule;
+import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
 
 /**
  * Base rule class for Budget Construction. Handles calling other expansion rule classes and the core budget document rules.
  */
-public class BudgetConstructionRules implements BudgetExpansionRule, SaveDocumentRule, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument> {
+public class BudgetConstructionRules implements BudgetExpansionRule, SalarySettingRule, SaveDocumentRule, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument> {
     private Collection<BusinessRule> expansionRules;
     private BudgetConstructionDocumentRules budgetConstructionDocumentRules;
+    private SalarySettingRules salarySettingRules;
 
     /**
      * Initialize expansion rule classes.
@@ -46,7 +50,9 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SaveDocumen
         try {
             budgetConstructionDocumentRules = BudgetConstructionDocumentRules.class.newInstance();
             expansionRules.add(budgetConstructionDocumentRules);
-            expansionRules.add(SalarySettingRules.class.newInstance());
+
+            salarySettingRules = SalarySettingRules.class.newInstance();
+            expansionRules.add(salarySettingRules);
         }
         catch (InstantiationException e) {
             throw new RuntimeException(e);
@@ -103,4 +109,35 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SaveDocumen
         return ((DeleteMonthlySpreadRule<BudgetConstructionDocument>) budgetConstructionDocumentRules).processDeleteMonthlySpreadRules(budgetConstructionDocument, monthSpreadDeleteType);
     }
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAddAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processAddAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return salarySettingRules.processAddAppointmentFunding(appointmentFunding);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustAllSalarySettingLinesPercent(java.util.List)
+     */
+    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
+        return salarySettingRules.processAdjustAllSalarySettingLinesPercent(appointmentFundings);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustSalaraySettingLinePercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFundings) {
+        return salarySettingRules.processAdjustSalaraySettingLinePercent(appointmentFundings);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processNormalizePayrateAndAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return salarySettingRules.processNormalizePayrateAndAmount(appointmentFunding);
+    }
+
+    public boolean processSave(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
+        return salarySettingRules.processSave(appointmentFundings);
+    }
 }

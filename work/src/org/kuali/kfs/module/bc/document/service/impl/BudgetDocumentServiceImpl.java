@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.document.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +38,6 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -67,7 +67,6 @@ import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -81,8 +80,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * such as BudgetConstructionHeader
  */
 public class BudgetDocumentServiceImpl implements BudgetDocumentService {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetDocumentServiceImpl.class);
+
     private BudgetConstructionDao budgetConstructionDao;
     private DocumentDao documentDao;
     private DocumentService documentService;
@@ -719,7 +718,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getBudgetConstructionHeader(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
-    @Transactional
+    @NonTransactional
     public BudgetConstructionHeader getBudgetConstructionHeader(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
         String accountNumber = appointmentFunding.getAccountNumber();
@@ -727,6 +726,30 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
 
         return this.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getBudgetConstructionDocument(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    @NonTransactional
+    public BudgetConstructionDocument getBudgetConstructionDocument(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, appointmentFunding.getUniversityFiscalYear());
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, appointmentFunding.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, appointmentFunding.getAccountNumber());
+        fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, appointmentFunding.getSubAccountNumber());
+
+        Collection<BudgetConstructionDocument> documents = businessObjectService.findMatching(BudgetConstructionDocument.class, fieldValues);
+        for (BudgetConstructionDocument document : documents) {
+            try {
+                return (BudgetConstructionDocument)documentService.getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException("Fail to retrieve the document for applointment fundinf" + appointmentFunding + "." + e);
+            }
+        }
+
+        return null;
     }
 
     /**

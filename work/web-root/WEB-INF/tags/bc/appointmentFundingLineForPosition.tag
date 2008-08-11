@@ -50,6 +50,7 @@
 <html:hidden property="${fundingLineName}.positionSalaryChangeIndicator" />
 <html:hidden property="${fundingLineName}.versionNumber" />  
 <html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
+<html:hidden property="${fundingLineName}.financialObjectCode" />
 
 <html:hidden property="${fundingLineName}.persistedDeleteIndicator" /> 
 <html:hidden property="${fundingLineName}.newLineIndicator" />

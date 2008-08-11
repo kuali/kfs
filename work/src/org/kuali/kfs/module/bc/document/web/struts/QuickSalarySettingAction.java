@@ -39,7 +39,10 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumben
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.document.validation.event.SaveSalarySettingEvent;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -53,6 +56,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+    private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
@@ -180,6 +184,21 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
+        List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getAppointmentFundings();
+        
+        for(PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
+            BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);        
+            if(document == null) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.toString());
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+                       
+            // validate the savable appointment funding lines
+            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", "", document, savableFunding));
+            if(!isValid) {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
 
         salarySettingService.saveSalarySetting(salarySettingExpansion);
         salarySettingExpansion.refresh();

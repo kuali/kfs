@@ -111,13 +111,12 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public KualiInteger calculateAnnualPayAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.debug("calculateAnnualPayAmount() start");
 
-        BigDecimal hourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
+        BigDecimal hourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();        
         BigDecimal fteQuantity = this.calculateFteQuantityFromAppointmentFunding(appointmentFunding);
-
         BigDecimal annualWorkingHours = BigDecimal.valueOf(BudgetParameterFinder.getAnnualWorkingHours());
-        BigDecimal totalPayHoursForYear = fteQuantity.multiply(annualWorkingHours);
+        BigDecimal totalPayHoursForYear = fteQuantity.multiply(annualWorkingHours);    
         KualiInteger annualPayAmount = new KualiInteger(hourlyPayRate.multiply(totalPayHoursForYear));
-
+        
         return annualPayAmount;
     }
 
@@ -149,7 +148,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
         BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
         if (position == null) {
-            return null;
+            return BigDecimal.ZERO;
         }
 
         Integer payMonth = position.getIuPayMonths();
@@ -167,7 +166,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         LOG.debug("calculateFteQuantity() start");
 
         if (payMonth == null || fundingMonth == null || requestedTimePercent == null) {
-            return null;
+            return BigDecimal.ZERO;
         }
 
         BigDecimal payMonthAsDecimal = BigDecimal.valueOf(payMonth);

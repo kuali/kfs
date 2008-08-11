@@ -94,7 +94,16 @@
 			<html:hidden property="${fundingLineName}.financialObjectCode" />
 			<html:hidden property="${fundingLineName}.financialSubObjectCode" />
 			<html:hidden property="${fundingLineName}.emplid" />
+			
 			<html:hidden property="${fundingLineName}.appointmentRequestedTimePercent" />
+			<html:hidden property="${fundingLineName}.appointmentFundingDurationCode" />
+		    <html:hidden property="${fundingLineName}.appointmentRequestedCsfFteQuantity" />
+		    <html:hidden property="${fundingLineName}.appointmentRequestedCsfTimePercent" />
+		    <html:hidden property="${fundingLineName}.appointmentTotalIntendedAmount" />
+		    <html:hidden property="${fundingLineName}.appointmentTotalIntendedFteQuantity" />
+		    <html:hidden property="${fundingLineName}.positionObjectChangeIndicator" />
+		    <html:hidden property="${fundingLineName}.positionSalaryChangeIndicator" />
+		    
 			<html:hidden property="${fundingLineName}.persistedDeleteIndicator" />
 			<html:hidden property="${fundingLineName}.versionNumber" />
 			<html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />

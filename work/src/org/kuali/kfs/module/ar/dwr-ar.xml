@@ -21,11 +21,19 @@
 	</init>
 	<allow>
 	   	<convert converter="bean" match="org.kuali.kfs.module.ar.businessobject.Customer">
-	   		<param name="include" value="customerName" />
+	   		<param name="include" value="customerName,customerNumber" />
 	   	</convert>
 	    <create creator="spring" javascript="CustomerService">
 	    	<param name="beanName" value="customerService" />
 	    	<include method="getByPrimaryKey" />
+	    </create>	    
+
+	   	<convert converter="bean" match="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument">
+	   		<param name="include" value="customer" />
+	   	</convert>
+	    <create creator="spring" javascript="CustomerInvoiceDocumentService">
+	    	<param name="beanName" value="customerInvoiceDocumentService" />
+	    	<include method="getInvoiceByInvoiceDocumentNumber" />
 	    </create>
 	</allow>
 </dwr>

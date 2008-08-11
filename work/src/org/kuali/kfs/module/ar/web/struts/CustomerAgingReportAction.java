@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -85,6 +87,10 @@ public class CustomerAgingReportAction extends KualiAction {
         Lookupable lookupable = lookupForm.getLookupable();
         LOG.info("\t\t\t\t\n\n lookupable is "+lookupable.toString());
 
+        if (LOG.isInfoEnabled()) {
+            LOG.info("\n\nsearch(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse) - testing my log - \nrequest=" + request + ", \nlookupForm=" + lookupForm);
+        }
+
         if (lookupable == null) {
             LOG.error("Lookupable is null.");
             throw new RuntimeException("Lookupable is null.");
@@ -98,7 +104,17 @@ public class CustomerAgingReportAction extends KualiAction {
         try {
             displayList = lookupable.performLookup(lookupForm, resultTable, true);
 
+            
+            
+            if (LOG.isInfoEnabled()) {
+                LOG.info("\n\n\n\n\t\t\tsearch(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse) - List<ResultRow> resultTable=" + resultTable.get(3));
+            }
+
             Object[] resultTableAsArray = resultTable.toArray();
+            
+            if (LOG.isInfoEnabled()) {
+                LOG.info("search(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse) - Object[] resultTableAsArray=" + resultTableAsArray);
+            }
 
             CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
             Long totalSize = ((CollectionIncomplete) displayList).getActualSizeIfTruncated();
@@ -106,49 +122,60 @@ public class CustomerAgingReportAction extends KualiAction {
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
 
             // TODO: use inheritance instead of this if statement
-            if (lookupable.getLookupableHelperService() instanceof CustomerAgingReportLookupableHelperServiceImpl) {
+            //if (lookupable.getLookupableHelperService() instanceof CustomerAgingReportLookupableHelperServiceImpl) {
+            if (true) {
+//
+//                Collection totalsTable = new ArrayList();
+//
+//                int listIndex = 0;
+//                int arrayIndex = 0;
+//                int listSize = incompleteDisplayList.size();
+//
+//                for (; listIndex < listSize;) {
+//
+//                     
+//                    CustomerAgingReportDetail balance = (CustomerAgingReportDetail) incompleteDisplayList.get(listIndex);
+//
+//                    boolean ok = true;//ObjectHelper.isOneOf(balance.getTitle(), getTotalTitles());
+//                    if (ok) {
+//
+//                        if (totalSize > 7) {
+//                            totalsTable.add(resultTableAsArray[arrayIndex]);
+//                        }
+//                        resultTable.remove(resultTableAsArray[arrayIndex]);
+//
+//                        incompleteDisplayList.remove(balance);
+//                        // account for the removal of the balance which resizes the list
+//                        listIndex--;
+//                        listSize--;
+//
+//                    }
+//
+//                    listIndex++;
+//                    arrayIndex++;
+//
+//                }
 
+                // MJM figure out what resultTable is supposed to have in it
+               //Collection totalsTable = new ArrayList();
 
-                Collection totalsTable = new ArrayList();
-
-                int listIndex = 0;
-                int arrayIndex = 0;
-                int listSize = incompleteDisplayList.size();
-
-                for (; listIndex < listSize;) {
-
-                     
-                    CustomerAgingReportDetail balance = (CustomerAgingReportDetail) incompleteDisplayList.get(listIndex);
-
-                    boolean ok = true;//ObjectHelper.isOneOf(balance.getTitle(), getTotalTitles());
-                    if (ok) {
-
-                        if (totalSize > 7) {
-                            totalsTable.add(resultTableAsArray[arrayIndex]);
-                        }
-                        resultTable.remove(resultTableAsArray[arrayIndex]);
-
-                        incompleteDisplayList.remove(balance);
-                        // account for the removal of the balance which resizes the list
-                        listIndex--;
-                        listSize--;
-
-                    }
-
-                    listIndex++;
-                    arrayIndex++;
-
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("search(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse) - List<ResultRow> resultTable=" + resultTable);
                 }
 
                 request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
 
-                request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
-                GlobalVariables.getUserSession().addObject(TOTALS_TABLE_KEY, totalsTable);
+                
+//                request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
+//                GlobalVariables.getUserSession().addObject(TOTALS_TABLE_KEY, totalsTable);
 
             }
             else {
 
-                request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("search(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse) - in FIRST ELSE - lookupable=" + lookupable);
+                }
+ request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
 
             }
 

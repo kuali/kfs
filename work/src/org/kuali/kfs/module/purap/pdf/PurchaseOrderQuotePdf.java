@@ -34,7 +34,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.CampusParameter;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
@@ -44,6 +43,7 @@ import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 
 import com.lowagie.text.Chunk;

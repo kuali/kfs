@@ -29,7 +29,6 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.businessobject.CampusParameter;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
@@ -48,6 +47,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -91,7 +91,7 @@ public class PrintServiceImpl implements PrintService {
         try {
             PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderQuoteRequestsListPdfParameters(po);
             String deliveryCampusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
-            poQuoteRequestsPdf.generatePOQuoteRequestsListPdf(po, byteArrayOutputStream);
+            poQuoteRequestsPdf.generatePOQuoteRequestsListPdf(po, byteArrayOutputStream, pdfParameters.getCampusParameter().getPurchasingInstitutionName());
             if (pdfParameters.isUseImage()) {
                 // Removes temporary images; only need to call once.
                 imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); 

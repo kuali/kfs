@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.pdf;
 
-import org.kuali.kfs.module.purap.businessobject.CampusParameter;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 
 /**
  * Contains the parameters needed for creating a purchase order pdf document.

@@ -24,11 +24,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
+import java.sql.Date;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -162,9 +164,10 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
      * 
      * @param po                     The PurchaseOrderDocument to be used to generate the pdf.
      * @param byteArrayOutputStream  The ByteArrayOutputStream to print the pdf to.
+     * @param institutionName        The purchasing institution name.
      * @return                       Collection of errors which are made of the messages from DocumentException.
      */
-    public Collection generatePOQuoteRequestsListPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream) {
+    public Collection generatePOQuoteRequestsListPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String institutionName) {
         LOG.debug("generatePOQuoteRequestsListPDF() started for po number " + po.getPurapDocumentIdentifier());
 
         Collection errors = new ArrayList();
@@ -172,7 +175,7 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         try {
             Document doc = this.getDocument();
             PdfWriter writer = PdfWriter.getInstance(doc, byteArrayOutputStream);
-            this.createPOQuoteRequestsListPdf(po, doc, writer);
+            this.createPOQuoteRequestsListPdf(po, doc, writer, institutionName);
         }
         catch (DocumentException de) {
             LOG.error(de.getMessage(), de);
@@ -188,9 +191,10 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
      * @param po               The PurchaseOrderDocument to be used to generate the pdf.
      * @param pdfFileLocation  The location to save the pdf file.
      * @param pdfFilename      The name for the pdf file.
+     * @param institutionName  The purchasing institution name.
      * @return                 Collection of errors which are made of the messages from DocumentException.    
      */
-    public Collection savePOQuoteRequestsListPdf(PurchaseOrderDocument po, String pdfFileLocation, String pdfFilename) {
+    public Collection savePOQuoteRequestsListPdf(PurchaseOrderDocument po, String pdfFileLocation, String pdfFilename, String institutionName) {
         LOG.debug("savePOQuoteRequestsListPDF() started for po number " + po.getPurapDocumentIdentifier());
 
         Collection errors = new ArrayList();
@@ -198,7 +202,7 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         try {
             Document doc = this.getDocument();
             PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(pdfFileLocation + pdfFilename));
-            this.createPOQuoteRequestsListPdf(po, doc, writer);
+            this.createPOQuoteRequestsListPdf(po, doc, writer, institutionName);
         }
         catch (DocumentException de) {
             LOG.error(de.getMessage(), de);
@@ -230,9 +234,10 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
      * @param po        The PurchaseOrderDocument to be used to create the pdf.
      * @param document  The pdf document whose margins have already been set.
      * @param writer    The PdfWriter to write the pdf document into.
+     * @param instName  The purchasing institution name
      * @throws DocumentException
      */
-    private void createPOQuoteRequestsListPdf(PurchaseOrderDocument po, Document document, PdfWriter writer) throws DocumentException {
+    private void createPOQuoteRequestsListPdf(PurchaseOrderDocument po, Document document, PdfWriter writer, String instName) throws DocumentException {
         LOG.debug("createPOQuoteRequestsListPdf() started for po number " + po.getPurapDocumentIdentifier());
 
         // These have to be set because they are used by the onOpenDocument() method.
@@ -257,7 +262,7 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         headerTable.getDefaultCell().setVerticalAlignment(Element.ALIGN_CENTER);
 
         // New row
-        cell = new PdfPCell(new Paragraph("Indiana University\nRequest for Quotation Vendor List\n\n", titleFont));
+        cell = new PdfPCell(new Paragraph(instName + "\nRequest for Quotation Vendor List\n\n", titleFont));
         cell.setBorderWidth(0);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setColspan(4);
@@ -274,9 +279,8 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         cell.setBorderWidth(0);
         headerTable.addCell(cell);
 
-        Calendar today = Calendar.getInstance();
-        // MONTH starts w January = 0.
-        cell = new PdfPCell(new Paragraph("Printed: " + (today.get(Calendar.YEAR) + "-" + today.get(Calendar.MONTH) + 1 + "-" + today.get(Calendar.DATE)), cellTextFont));
+        Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        cell = new PdfPCell(new Paragraph("Printed: " + today, cellTextFont));
         cell.setBorderWidth(0);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         headerTable.addCell(cell);

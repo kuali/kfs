@@ -137,6 +137,15 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             KualiInteger annualPayAmount = this.calculateAnnualPayAmount(appointmentFunding);
             appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
         }
+        
+        currentAnnualPayAmount = appointmentFunding.getAppointmentRequestedAmount();
+        if (currentAnnualPayAmount != null && currentAnnualPayAmount.isNonZero()) {
+            BigDecimal hourlyPayRate = this.calculateHourlyPayRate(appointmentFunding);
+            appointmentFunding.setAppointmentRequestedPayRate(hourlyPayRate);
+        }
+        else {
+            appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO);
+        }
     }
 
     /**
@@ -145,7 +154,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public BigDecimal calculateFteQuantityFromAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.debug("calculateFteQuantity() start");
 
-        appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
+        //appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
         BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
         if (position == null) {
             return BigDecimal.ZERO;

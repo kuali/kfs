@@ -926,4 +926,31 @@
 			<ref bean="financialSystemUserService" />
 		</property> 
 	</bean> 
+	
+	<bean id="csfTrackerLookupableHelperServiceImpl" class="org.kuali.kfs.module.bc.businessobject.lookup.CSFTrackerLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>	
+	</bean>
+	
+	<bean id="csfTrackerLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="csfTrackerLookupableHelperServiceImpl" />
+		</property>
+	</bean>	
 </beans>

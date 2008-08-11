@@ -214,8 +214,8 @@ FIXME: These property names don't match the table property names
 financialObjectCode and financialSubObjectCode??
 -->
                             <!-- hiddens for search criteria merging -->
-                            <html-el:hidden name="KualiForm" property="objectCode" />
-                            <html-el:hidden name="KualiForm" property="subObjectCode" />
+                            <html-el:hidden name="KualiForm" property="financialObjectCode" />
+                            <html-el:hidden name="KualiForm" property="financialSubObjectCode" />
                             
 							<b><kul:htmlAttributeLabel attributeEntry="${csfTrackerAttributes.universityFiscalYear}" /></b>
 								<kul:htmlControlAttribute property="universityFiscalYear" readOnly="true" attributeEntry="${csfTrackerAttributes.universityFiscalYear}"/>

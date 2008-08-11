@@ -377,7 +377,7 @@
 
   <bean id="CalculatedSalaryFoundationTracker-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Calculated Salary Foundation Tracker Lookup" />
-    <!-- property name="lookupableID" value="CSFTrackerBalanceLookupable" /-->
+    <property name="lookupableID" value="csfTrackerLookupable" />
     <property name="instructions" value="Look up a Calculated Salary Foundation Tracker" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

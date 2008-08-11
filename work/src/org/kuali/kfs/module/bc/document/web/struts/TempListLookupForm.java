@@ -43,10 +43,10 @@ public class TempListLookupForm extends LookupForm {
     private boolean showSalaryByPositionAction;
     private boolean showSalaryByIncumbentAction;
     private boolean addLine;
-    private String objectCode;
-    private String subObjectCode;
     private boolean budgetByAccountMode;
-
+    private String financialObjectCode;
+    private String financialSubObjectCode;
+    
     /**
      * Checks if the get new button for retrieving a position from the payroll service should be enabled.
      * 
@@ -330,42 +330,6 @@ public class TempListLookupForm extends LookupForm {
     }
 
     /**
-     * Gets the objectCode attribute.
-     * 
-     * @return Returns the objectCode.
-     */
-    public String getObjectCode() {
-        return objectCode;
-    }
-
-    /**
-     * Sets the objectCode attribute value.
-     * 
-     * @param objectCode The objectCode to set.
-     */
-    public void setObjectCode(String objectCode) {
-        this.objectCode = objectCode;
-    }
-
-    /**
-     * Gets the subObjectCode attribute.
-     * 
-     * @return Returns the subObjectCode.
-     */
-    public String getSubObjectCode() {
-        return subObjectCode;
-    }
-
-    /**
-     * Sets the subObjectCode attribute value.
-     * 
-     * @param subObjectCode The subObjectCode to set.
-     */
-    public void setSubObjectCode(String subObjectCode) {
-        this.subObjectCode = subObjectCode;
-    }
-
-    /**
      * Gets the showSalaryByIncumbentAction attribute.
      * 
      * @return Returns the showSalaryByIncumbentAction.
@@ -399,6 +363,42 @@ public class TempListLookupForm extends LookupForm {
      */
     public void setBudgetByAccountMode(boolean budgetByAccountMode) {
         this.budgetByAccountMode = budgetByAccountMode;
+    }
+    
+    /**
+     * gets finanical object code
+     * 
+     * @return
+     */
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
+    
+    /**
+     * sets financial object code
+     * 
+     * @param financialObjectCode
+     */
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
+    
+    /**
+     * gets financial subobject code
+     * 
+     * @return
+     */
+    public String getFinancialSubObjectCode() {
+        return financialSubObjectCode;
+    }
+    
+    /**
+     * sets financial subobject code
+     * 
+     * @param financialSubObjectCode
+     */
+    public void setFinancialSubObjectCode(String financialSubObjectCode) {
+        this.financialSubObjectCode = financialSubObjectCode;
     }
 
 }

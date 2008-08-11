@@ -22,29 +22,28 @@
     <div class="tab-container" align=center>		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Items">
             <tr>
-            	<td colspan="4" class="subhead">Invoice Items</td>
+            	<td colspan="5" class="subhead">Invoice Items</td>
             </tr>
 			<tr>
 			    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemQuantity}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.openAmount}" hideRequiredAsterisk="true" />				
+				<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.writeoffAmount}" hideRequiredAsterisk="true" />
 			</tr>
 			<logic:iterate
 				id="customerInvoiceDetail"
 				name="KualiForm"
-				property="document.customerInvoiceDocument.customerInvoiceDetailsWithoutDiscounts"
+				property="document.customerInvoiceDetailsForWriteoff"
 				indexId="ctr">
 						<ar:customerInvoiceWriteoffDetail
 							rowHeader="${ctr+1}"
-							invPropertyName="document.customerInvoiceDocument.customerInvoiceDetailsWithoutDiscounts[${ctr}]"
+							invPropertyName="document.customerInvoiceDetailsForWriteoff[${ctr}]"
 			        		cssClass="datacell"
 			        		 />
 			</logic:iterate>
 			<tr>
-				<td class="total-line" colspan="3">
-					<strong>Writeoff Total:</strong>
-				</td>
+				<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.invoiceWriteoffAmount}" hideRequiredAsterisk="true" align="right" colspan="4"/>
 				<!--  Customer Credit Memo Total Item Amount -->
 				<td class="total-line" style="border-left: 0px;">
 					<strong>${KualiForm.document.invoiceWriteoffAmount}</strong>

@@ -14,6 +14,8 @@ import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
+import org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -55,6 +57,10 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     private KualiDecimal appliedAmount;
     private KualiDecimal balance;
     private KualiDecimal openAmount;
+    
+    //fields used for CustomerInvoiceWriteoffDocument
+    private KualiDecimal writeoffAmount;
+    private String customerInvoiceWriteoffDocumentNumber;
 
     /**
      * Default constructor.
@@ -514,5 +520,32 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
             return getDocumentNumber();
         }
     }
+    
+    /**
+     * This method returns the writeoff amount.  If writeoff document hasn't been approved yet, display the open amount. Else display the amount
+     *  applied from the specific approved writeoff document.
+     *  
+     * @param customerInvoiceWriteoffDocumentNumber
+     * @return
+     */
+    public KualiDecimal getWriteoffAmount() {
+        if (SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class).isCustomerInvoiceWriteoffDocumentApproved(customerInvoiceWriteoffDocumentNumber)){
+            return SpringContext.getBean(CustomerInvoiceDetailService.class).getAppliedAmountFromSpecificDocument(customerInvoiceWriteoffDocumentNumber, getDocumentNumber());
+        } else {
+            return getOpenAmount();
+        }
+        
+    }
 
+    public String getCustomerInvoiceWriteoffDocumentNumber() {
+        return customerInvoiceWriteoffDocumentNumber;
+    }
+
+    public void setCustomerInvoiceWriteoffDocumentNumber(String customerInvoiceWriteoffDocumentNumber) {
+        this.customerInvoiceWriteoffDocumentNumber = customerInvoiceWriteoffDocumentNumber;
+    }
+
+    public void setWriteoffAmount(KualiDecimal writeoffAmount) {
+        this.writeoffAmount = writeoffAmount;
+    }
 }

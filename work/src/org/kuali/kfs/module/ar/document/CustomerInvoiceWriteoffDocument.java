@@ -66,6 +66,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     private ProjectCode project;
     private CustomerInvoiceDocument customerInvoiceDocument;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+    private KualiDecimal invoiceWriteoffAmount;
     
     public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
         return accountsReceivableDocumentHeader;
@@ -74,8 +75,6 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
         this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
     }
-
-    private KualiDecimal invoiceWriteoffAmount;
 
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -199,6 +198,23 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     public void setCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         this.customerInvoiceDocument = customerInvoiceDocument;
+    }
+    
+    /**
+     * This method returns all the applicable invoice details for writeoff.  This method also
+     * sets the writeoff document number on each of the invoice details for making 
+     * retrieval of the actual writeoff amount easier.
+     * 
+     * @return
+     */
+    public List<CustomerInvoiceDetail> getCustomerInvoiceDetailsForWriteoff(){
+        List<CustomerInvoiceDetail> customerInvoiceDetailsForWriteoff = new ArrayList<CustomerInvoiceDetail>();
+        for( CustomerInvoiceDetail customerInvoiceDetail : getCustomerInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts() ){
+            customerInvoiceDetail.setCustomerInvoiceWriteoffDocumentNumber(this.documentNumber);
+            customerInvoiceDetailsForWriteoff.add(customerInvoiceDetail);
+        }
+        
+        return customerInvoiceDetailsForWriteoff;
     }
 
     /**

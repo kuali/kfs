@@ -15,25 +15,15 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.UniversityDateService;
 
 
 public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
@@ -112,10 +102,7 @@ public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
        if ( isUsingOrgAcctDefaultWriteoffFAU ){
            return poster.getFinancialObjectCode();
        } else if ( isUsingChartForWriteoff ) {
-           //TODO change which object code is returned
-           //return postable.getChart().getFinAccountsPayableObjectCode();
-           //return postable.getFinancialObjectCode();
-           return "5105";
+           return SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, this.getChartOfAccountsCode() );
        } else {
            return postable.getAccountsReceivableObjectCode();
        }   

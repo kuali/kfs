@@ -172,4 +172,21 @@ public interface CustomerInvoiceDetailService {
      */
     public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoiceDetail(String documentNumber, Integer sequenceNumber);
     
+    
+    /**
+     * This method returns a collection of invoice paid applieds that were applied from a specific document
+     * 
+     * @param documentNumber
+     * @return
+     */
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsFromSpecificDocument(String documentNumber, String referenceCustomerInvoiceDocumentNumber);
+    
+    
+    /**
+     * This method returns the total applied amount from a specific document to a particular invoice
+     * 
+     * @param documentNumber
+     * @return
+     */
+    public KualiDecimal getAppliedAmountFromSpecificDocument(String documentNumber, String referenceCustomerInvoiceDocumentNumber);
 }

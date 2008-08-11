@@ -53,6 +53,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     private ParameterService parameterService;
     private InvoicePaidAppliedService invoicePaidAppliedService;
 
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAppliedAmountForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
@@ -278,6 +279,40 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         return openAmount;
     }
     
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoice(java.lang.String)
+     */
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(String customerInvoiceDocumentNumber) {
+        Map <String, String> criteria = new HashMap<String, String>();
+        criteria.put("documentNumber", customerInvoiceDocumentNumber);
+        
+        return businessObjectService.findMatching(CustomerInvoiceDetail.class, criteria);
+    }
+
+
+    public KualiDecimal getAppliedAmountFromSpecificDocument(String documentNumber, String referenceCustomerInvoiceDocumentNumber) {
+        
+        KualiDecimal appliedAmountFromSpecificDocument = KualiDecimal.ZERO;
+        Collection<InvoicePaidApplied> results = getInvoicePaidAppliedsFromSpecificDocument(documentNumber, referenceCustomerInvoiceDocumentNumber);
+        for (InvoicePaidApplied invoicePaidApplied : results ){
+            appliedAmountFromSpecificDocument = appliedAmountFromSpecificDocument.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
+        }
+        
+        return appliedAmountFromSpecificDocument;
+    }
+
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsFromSpecificDocument(String documentNumber, String referenceCustomerInvoiceDocumentNumber) {
+            return invoicePaidAppliedService.getInvoicePaidAppliedsFromSpecificDocument(documentNumber, referenceCustomerInvoiceDocumentNumber);
+    }    
+    
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoice(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
+     */
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(CustomerInvoiceDocument customerInvoiceDocument) {
+        if(null == customerInvoiceDocument) { return new ArrayList<CustomerInvoiceDetail>(); }
+        return getCustomerInvoiceDetailsForInvoice(customerInvoiceDocument.getDocumentNumber());
+    }    
+    
     
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#updateAccountsReceivableObjectCode(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
@@ -349,28 +384,14 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
     
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoice(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
-     */
-    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(CustomerInvoiceDocument customerInvoiceDocument) {
-        if(null == customerInvoiceDocument) { return new ArrayList<CustomerInvoiceDetail>(); }
-        return getCustomerInvoiceDetailsForInvoice(customerInvoiceDocument.getDocumentNumber());
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoice(java.lang.String)
-     */
-    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(String customerInvoiceDocumentNumber) {
-        Map <String, String> criteria = new HashMap<String, String>();
-        criteria.put("documentNumber", customerInvoiceDocumentNumber);
-        
-        return businessObjectService.findMatching(CustomerInvoiceDetail.class, criteria);
-    }
-
-    /**
      * @param invoicePaidAppliedService
      */
     public void setInvoicePaidAppliedService(InvoicePaidAppliedService invoicePaidAppliedService) {
         this.invoicePaidAppliedService = invoicePaidAppliedService;
     }
     
+
+    public InvoicePaidAppliedService getInvoicePaidAppliedService() {
+        return invoicePaidAppliedService;
+    }       
 }

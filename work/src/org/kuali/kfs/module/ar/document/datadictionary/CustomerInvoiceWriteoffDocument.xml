@@ -28,9 +28,10 @@
     </property>
     <property name="attributes" >
       <list>                                 
-      	<ref bean="CustomerInvoiceDocument-documentHeader.documentDescription" />
-        <ref bean="CustomerInvoiceDocument-versionNumber" />
+      	<ref bean="CustomerInvoiceWriteoffDocument-documentHeader.documentDescription" />
+        <ref bean="CustomerInvoiceWriteoffDocument-versionNumber" />
         <ref bean="CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber" />
+        <ref bean="CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" />
       </list>
     </property>
   </bean>
@@ -54,15 +55,25 @@
     <property name="description" value="Special Processing Instructions" />
   </bean>
   
-  <bean id="CustomerInvoiceDocument-documentHeader.documentDescription" parent="CustomerInvoiceDocument-documentHeader.documentDescription-parentBean" />
+  <bean id="CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" parent="CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount-parentBean" />
 
-  <bean id="CustomerInvoiceDocument-documentHeader.documentDescription-parentBean" abstract="true" parent="DocumentHeader-documentDescription">
+  <bean id="CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="invoiceWriteoffAmount" />
+    <property name="label" value="Writeoff Total" />
+    <property name="shortLabel" value="Writeoff Total" />    
+    <property name="required" value="false" />
+    <property name="description" value="Total dollar amount that has been writen off" />
+  </bean>  
+  
+  <bean id="CustomerInvoiceWriteoffDocument-documentHeader.documentDescription" parent="CustomerInvoiceWriteoffDocument-documentHeader.documentDescription-parentBean" />
+
+  <bean id="CustomerInvoiceWriteoffDocument-documentHeader.documentDescription-parentBean" abstract="true" parent="DocumentHeader-documentDescription">
     <property name="name" value="documentHeader.documentDescription" />
   </bean>
   
-  <bean id="CustomerInvoiceDocument-versionNumber" parent="CustomerInvoiceDocument-versionNumber-parentBean" />
+  <bean id="CustomerInvoiceWriteoffDocument-versionNumber" parent="CustomerInvoiceWriteoffDocument-versionNumber-parentBean" />
 
-  <bean id="CustomerInvoiceDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  <bean id="CustomerInvoiceWriteoffDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>  
 
 </beans>

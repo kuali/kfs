@@ -36,6 +36,7 @@
         <ref bean="CustomerInvoiceDetail-sequenceNumber"/>
         <ref bean="CustomerInvoiceDetail-balance"/>
         <ref bean="CustomerInvoiceDetail-openAmount"/>
+        <ref bean="CustomerInvoiceDetail-writeoffAmount"/>
       </list>
     </property>
   </bean>
@@ -115,6 +116,17 @@
     <property name="required" value="false" />
     <property name="description" value="Total dollar amount including only approved payment amounts" />
   </bean>    
+  
+  <bean id="CustomerInvoiceDetail-writeoffAmount" parent="CustomerInvoiceDetail-writeoffAmount-parentBean" />
+
+  <bean id="CustomerInvoiceDetail-writeoffAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="writeoffAmount" />
+    <property name="label" value="Writeoff Amount" />
+    <property name="shortLabel" value="Writeoff Amount" />    
+    <property name="required" value="false" />
+    <property name="description" value="Total dollar amount that has been writen off amounts" />
+  </bean>    
+    
   
   <bean id="CustomerInvoiceDetail-subAccountNumber" parent="CustomerInvoiceDetail-subAccountNumber-parentBean" />
 

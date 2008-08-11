@@ -23,6 +23,8 @@
 
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 
+<html:hidden property="${invPropertyName}.customerInvoiceWriteoffDocumentNumber" /> 
+
 <tr>
 	<!--  Line Number -->
 	<th class="${cssClass}" style="text-align:right">
@@ -51,6 +53,14 @@
 		<kul:htmlControlAttribute
 			attributeEntry="${customerInvoiceDetailAttributes.openAmount}"
 			property="${invPropertyName}.openAmount"
+			readOnly="true" />
+	</td>
+
+	<!--  Open Amount -->
+	<td class="${cssClass}" style="text-align:right" >
+		<kul:htmlControlAttribute
+			attributeEntry="${customerInvoiceDetailAttributes.writeoffAmount}"
+			property="${invPropertyName}.writeoffAmount"
 			readOnly="true" />
 	</td>
 			

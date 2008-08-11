@@ -94,7 +94,14 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
         criteria.put("invoiceItemNumber", invoiceItemNumber);
         
         return businessObjectService.countMatching(InvoicePaidApplied.class, criteria);
-            }
+    }
+    
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsFromSpecificDocument(String documentNumber, String referenceCustomerInvoiceDocumentNumber) {
+        Map criteria = new HashMap();
+        criteria.put("financialDocumentReferenceInvoiceNumber", referenceCustomerInvoiceDocumentNumber);
+        criteria.put("documentNumber", documentNumber);
+        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+    }    
             
         
 
@@ -147,6 +154,8 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
+
+
 
 
 

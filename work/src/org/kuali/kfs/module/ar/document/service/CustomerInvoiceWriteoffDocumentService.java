@@ -20,5 +20,7 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 public interface CustomerInvoiceWriteoffDocumentService {
     
     public void setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument);
+    
+    public boolean isCustomerInvoiceWriteoffDocumentApproved(String customerInvoiceWriteoffDocumentNumber);
 
 }

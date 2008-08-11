@@ -24,6 +24,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -134,4 +135,17 @@ public class PurchasingServiceImpl implements PurchasingService {
         }
         purDoc.getPurchasingCapitalAssetItems().remove(index);
     }
+    
+    public PurchasingCapitalAssetSystem setupCAMSSystem(PurchasingDocument purDoc, List<PurchasingCapitalAssetItem> camsItems) {
+        PurchasingCapitalAssetSystem resultSystem;
+        try {
+            resultSystem = (PurchasingCapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
+            //here I supposed we could set the List of camsItems to the resultSystem ?
+        }
+        catch (Exception e) {
+            return null;
+        }
+        return resultSystem;
+    }
+    
 }

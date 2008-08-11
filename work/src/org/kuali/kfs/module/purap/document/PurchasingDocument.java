@@ -513,6 +513,8 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
 
     public abstract Class getPurchasingCapitalAssetItemClass();
     
+    public abstract Class getPurchasingCapitalAssetSystemClass();
+    
     public PurchasingItem getPurchasingItem(Integer itemIdentifier);
     
     public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem(Integer itemIdentifier);

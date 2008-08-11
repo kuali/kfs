@@ -729,6 +729,15 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    //TODO: You'll likely still have to change the list of purchasingCapitalAssetItems to be passed into
+    //the setupCAMSSystem service method.
+    public ActionForward setupCAMSSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
+        SpringContext.getBean(PurchasingService.class).setupCAMSSystem(document, document.getPurchasingCapitalAssetItems());
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     public ActionForward selectSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();

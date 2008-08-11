@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
+import java.util.List;
+
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 public interface PurchasingService {
@@ -23,4 +26,7 @@ public interface PurchasingService {
     public void setupCAMSItems(PurchasingDocument purDoc);
     
     public void deleteCAMSItems(PurchasingDocument purDoc, Integer itemIdentifier);
+
+    public PurchasingCapitalAssetSystem setupCAMSSystem(PurchasingDocument purDoc, List<PurchasingCapitalAssetItem> camsItems);
+    
 }

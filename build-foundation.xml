@@ -147,7 +147,7 @@ are intended for use only by Kuali Foundation developers.
       		<os family="windows"/>
     	</condition>
     	<property name="os.safe.driver.path" value="${drivers.directory}/ojdbc14.jar" />
-    	<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${os.safe.driver.path}" />
+    	<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.2.0 -Dpackaging=jar -Dfile=${os.safe.driver.path}" />
     	<copy todir="${user.home}/kuali" overwrite="true">
       		<fileset dir="${build.user.directory}/${ant.project.name}" includes="**/**" />
       		<filterset>

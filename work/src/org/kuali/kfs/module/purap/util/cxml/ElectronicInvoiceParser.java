@@ -239,18 +239,20 @@ public class ElectronicInvoiceParser extends CxmlParser {
       for (Iterator phoneIter = postalAddressNodes.iterator(); phoneIter.hasNext();) {
         Node phoneNode = (Node) phoneIter.next();
         String name = getNodeAttribute(phoneNode, "name");
-        String number = getPossibleNodeText(phoneNode, "TelephoneNumber/CountryCode") + 
-            getPossibleNodeText(phoneNode, "TelephoneNumber/AreaOrCityCode") + getPossibleNodeText(phoneNode, "TelephoneNumber/Number");
-        contact.addPhoneNumber(name, number);
+        String countryCode = getPossibleNodeText(phoneNode, "TelephoneNumber/CountryCode");
+        String areaOrCityCode = getPossibleNodeText(phoneNode, "TelephoneNumber/AreaOrCityCode"); 
+        String number =  getPossibleNodeText(phoneNode, "TelephoneNumber/Number");
+        contact.addPhoneNumber(name, countryCode,areaOrCityCode,number);
       }
   
       List faxNodes = findNodes(n, Node.ELEMENT_NODE, "Fax");
       for (Iterator faxIter = postalAddressNodes.iterator(); faxIter.hasNext();) {
         Node faxNode = (Node) faxIter.next();
         String name = getNodeAttribute(faxNode, "name");
-        String number = getPossibleNodeText(faxNode, "TelephoneNumber/CountryCode") + 
-            getPossibleNodeText(faxNode, "TelephoneNumber/AreaOrCityCode") + getPossibleNodeText(faxNode, "TelephoneNumber/Number");
-        contact.addPhoneNumber(name, number);
+        String countryCode = getPossibleNodeText(faxNode, "TelephoneNumber/CountryCode");
+        String areaOrCityCode = getPossibleNodeText(faxNode, "TelephoneNumber/AreaOrCityCode"); 
+        String number =  getPossibleNodeText(faxNode, "TelephoneNumber/Number");
+        contact.addPhoneNumber(name, countryCode,areaOrCityCode,number);
       }
   
       List urlNodes = findNodes(n, Node.ELEMENT_NODE, "URL");

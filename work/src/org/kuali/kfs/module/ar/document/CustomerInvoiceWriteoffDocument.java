@@ -23,6 +23,7 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -34,7 +35,6 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffCustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -208,7 +208,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      * @return
      */
     public List<CustomerInvoiceDetail> getCustomerInvoiceDetailsForWriteoff(){
-        List<CustomerInvoiceDetail> customerInvoiceDetailsForWriteoff = new ArrayList<CustomerInvoiceDetail>();
+        List<CustomerInvoiceDetail> customerInvoiceDetailsForWriteoff = new TypedArrayList(CustomerInvoiceDetail.class);
         for( CustomerInvoiceDetail customerInvoiceDetail : getCustomerInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts() ){
             customerInvoiceDetail.setCustomerInvoiceWriteoffDocumentNumber(this.documentNumber);
             customerInvoiceDetailsForWriteoff.add(customerInvoiceDetail);

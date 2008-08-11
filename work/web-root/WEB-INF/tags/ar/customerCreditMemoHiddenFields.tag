@@ -5,3 +5,5 @@
 <html:hidden property="document.accountsReceivableDocumentHeader.customerNumber" />
 <html:hidden property="document.accountsReceivableDocumentHeader.processingChartOfAccountCode" />
 <html:hidden property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />
+<html:hidden property="document.accountsReceivableDocumentHeader.versionNumber" />
+<html:hidden property="document.accountsReceivableDocumentHeader.objectId" />

@@ -1,7 +1,6 @@
 package org.kuali.kfs.module.ar.document;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -14,6 +13,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -1335,7 +1335,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @return
      */
     public List<CustomerInvoiceDetail> getCustomerInvoiceDetailsWithoutDiscounts(){
-        List<CustomerInvoiceDetail> customerInvoiceDetailsWithoutDiscounts = new ArrayList<CustomerInvoiceDetail>();
+        List<CustomerInvoiceDetail> customerInvoiceDetailsWithoutDiscounts = new TypedArrayList(CustomerInvoiceDetail.class);
         
         updateDiscountAndParentLineReferences();
         
@@ -1355,7 +1355,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @return
      */
     public List<CustomerInvoiceDetail> getDiscounts(){
-        List<CustomerInvoiceDetail> discounts = new ArrayList<CustomerInvoiceDetail>();
+        List<CustomerInvoiceDetail> discounts = new TypedArrayList(CustomerInvoiceDetail.class);
         
         updateDiscountAndParentLineReferences();
         
@@ -1376,6 +1376,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     public boolean isPaidOff(){
         return KualiDecimal.ZERO.isGreaterEqual(getOpenAmount());
+    }
+    
+    public KualiDecimal getTotalDollarAmount() {
+        return getSourceTotal();
     }
 }
 

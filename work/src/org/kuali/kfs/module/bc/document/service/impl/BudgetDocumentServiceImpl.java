@@ -712,6 +712,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             }
             index++;
         }
+        bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(updateAmount.negated()));
         return twoPlugRow;
     }
 

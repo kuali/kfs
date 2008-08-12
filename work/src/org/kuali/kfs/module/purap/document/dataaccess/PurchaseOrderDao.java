@@ -60,9 +60,9 @@ public interface PurchaseOrderDao {
     public boolean itemExistsOnPurchaseOrder(Integer poItemLineNumber, String docNumber);
 
     /**
-     * This method gets all the PurchaseOrderAutoClose objects that relate to POs
+     * This method gets all the PurchaseOrderView objects that relate to POs
      * with no recurring payment type, status of 'OPEN', and total encumbrance
-     * of 0 that do not have any of the excluded vendor choice codes in the param
+     * of 0 that do not have any of the excluded vendor choice codes.
      * 
      * @param excludedVendorChoiceCodes - list of strings of excluded vendor choice codes
      * @return List of PurchaseOrderAutoClose objects
@@ -70,9 +70,9 @@ public interface PurchaseOrderDao {
     public List<PurchaseOrderView> getAllOpenPurchaseOrders(List<String> excludedVendorChoiceCodes);    
     
     /**
-     * This method gets all the PurchaseOrderAutoClose objects that relate to POs
+     * This method gets all the PurchaseOrderView objects that relate to POs
      * with a recurring payment type, status of 'OPEN', and that do not have any 
-     * of the excluded vendor choice codes in the param
+     * of the excluded vendor choice codes.
      * 
      * @param excludedVendorChoiceCodes - list of strings of excluded vendor choice codes
      * @return List of PurchaseOrderAutoClose objects

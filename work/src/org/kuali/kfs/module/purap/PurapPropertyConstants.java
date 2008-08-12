@@ -98,7 +98,9 @@ public class PurapPropertyConstants {
     public static final String QUOTE_TRANSMITTED = "purchaseOrderQuoteTransmitted";
     public static final String VENDOR_QUOTES = "purchaseOrderVendorQuotes";
     public static final String ALTERNATE_VENDOR_NAME = "alternateVendorName";
-    
+    public static final String PURCHASE_ORDER_STATUS_CODE = "purchaseOrderStatusCode";
+    public static final String TOTAL_ENCUMBRANCE = "totalEncumbrance";
+    public static final String VENDOR_CHOICE_CODE = "vendorChoiceCode";
     // Quote Language
     public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";
     // vendor quote

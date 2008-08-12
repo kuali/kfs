@@ -138,16 +138,17 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     public List<PurchaseOrderView> getAllOpenPurchaseOrders(List<String> excludedVendorChoiceCodes) {
         LOG.debug("getAllOpenPurchaseOrders() started");
         Criteria criteria = new Criteria();
-        criteria.addIsNull("recurringPaymentTypeCode");
-        criteria.addEqualTo("purchaseOrderStatusCode", PurapConstants.PurchaseOrderStatuses.OPEN);
-        criteria.addEqualTo("totalEncumbrance", new KualiDecimal(0));
-        criteria.addEqualTo("purchaseOrderCurrentIndicator", true);
+        criteria.addIsNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_STATUS_CODE, PurapConstants.PurchaseOrderStatuses.OPEN);
+        criteria.addEqualTo(PurapPropertyConstants.TOTAL_ENCUMBRANCE, new KualiDecimal(0));
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, true);
         for (String excludeCode : excludedVendorChoiceCodes) {
-            criteria.addNotEqualTo("vendorChoiceCode", excludeCode);
+            criteria.addNotEqualTo(PurapPropertyConstants.VENDOR_CHOICE_CODE, excludeCode);
         }
         QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderView.class, criteria);
         LOG.debug("getAllOpenPurchaseOrders() Query criteria is " + criteria.toString());
         List<PurchaseOrderView> l = (List<PurchaseOrderView>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        LOG.debug("getAllOpenPurchaseOrders() ended.");
         return l;
     }    
     
@@ -157,10 +158,10 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     public List<PurchaseOrderView> getAutoCloseRecurringPurchaseOrders(List<String> excludedVendorChoiceCodes) {
         LOG.debug("getAutoCloseRecurringPurchaseOrders() started.");
         Criteria criteria = new Criteria();
-        criteria.addNotNull("recurringPaymentTypeCode");
-        criteria.addEqualTo("purchaseOrderStatusCode", PurapConstants.PurchaseOrderStatuses.OPEN);
+        criteria.addNotNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_STATUS_CODE, PurapConstants.PurchaseOrderStatuses.OPEN);
         for (String excludeCode : excludedVendorChoiceCodes) {
-            criteria.addNotEqualTo("vendorChoiceCode", excludeCode);
+            criteria.addNotEqualTo(PurapPropertyConstants.VENDOR_CHOICE_CODE, excludeCode);
         }
         QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderView.class, criteria);
         LOG.debug("getAutoCloseRecurringPurchaseOrders() Query criteria is " + criteria.toString());

@@ -74,4 +74,11 @@ public interface BatchExtractService {
      * @param time Last extract start time
      */
     void updateLastExtractTime(Timestamp time);
+
+    /**
+     * Sends out status email
+     * 
+     * @param extractProcessLog ExtractProcessLog
+     */
+    void sendStatusEmail(ExtractProcessLog extractProcessLog);
 }

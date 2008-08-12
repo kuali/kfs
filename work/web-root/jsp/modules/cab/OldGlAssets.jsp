@@ -23,6 +23,7 @@
 	<c:set var="generalLedgerEntryAttributes" value="${DataDictionary.GeneralLedgerEntry.attributes}" />
 	<c:set var="assetDetailAttributes" value="${DataDictionary.GeneralLedgerEntryAssetDetail.attributes}" />
 	<html:hidden property="generalLedgerEntry.generalLedgerAccountIdentifier" />
+	<html:hidden property="generalLedgerEntry.versionNumber" />
 	<html:hidden property="newAssetIndicator" />
 	<kul:tabTop tabTitle="General Ledger Entry" defaultOpen="true">
 		<div class="tab-container" align="center">
@@ -60,7 +61,7 @@
 		</table>
 		</div>
 	</kul:tabTop>
-	<kul:tab tabTitle="Assign Asset" defaultOpen="true">
+	<kul:tab tabTitle="Assign Asset" defaultOpen="true" tabErrorKey="capitalAssetNumber">
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			<tr>
@@ -68,6 +69,7 @@
 				<td>
 				<kul:htmlControlAttribute property="capitalAssetNumber"	attributeEntry="${assetDetailAttributes.capitalAssetNumber}"/>
 				<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" fieldConversions="capitalAssetNumber:capitalAssetNumber" lookupParameters="capitalAssetNumber:capitalAssetNumber" />
+				<html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" property="methodToCall.assignAsset" title="Add" alt="Add" />
 				</td>
 			</tr>
 		</table>

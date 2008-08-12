@@ -127,7 +127,7 @@
 			<c:set var="pos" value="${pos+1}" />
 			<c:set var="exprStr" value="generalLedgerEntry.generalLedgerEntryAssets[0].generalLedgerEntryAssetDetails[${pos}]" />
 			<tr>
-				<td class="infoline"><c:out value="${pos}" /></td>
+				<td class="infoline"><c:out value="${pos+1}" /></td>
 				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.capitalAssetNumber" attributeEntry="${glAssetDetailAttributes.capitalAssetNumber}"  readOnly="true" /></td>
 				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.campusTagNumber" attributeEntry="${glAssetDetailAttributes.campusTagNumber}" /></td>
 				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.serialNumber" attributeEntry="${glAssetDetailAttributes.serialNumber}" /></td>

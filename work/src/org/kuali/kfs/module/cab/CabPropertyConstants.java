@@ -51,19 +51,19 @@ public class CabPropertyConstants {
         public static final String TRANSACTION_DATE_TIME_STAMP = "transactionDateTimeStamp";
         public static final String DOCUMENT_NUMBER = "documentNumber";
     }
-    
+
     public static class PurchasingAccountsPayableDocument {
         public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS = "purchasingAccountsPayableItemAssets";
     }
-    
+
     public static class PurchasingAccountsPayableItemAsset {
-	    public static final String ACCOUNTS_PAYABLE_LINE_ITEM_IDENTIFIER = "accountsPayableLineItemIdentifier";
+        public static final String ACCOUNTS_PAYABLE_LINE_ITEM_IDENTIFIER = "accountsPayableLineItemIdentifier";
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String ITEM_LINE_NUMBER = "itemLineNumber";
     }
-    
+
     public static class PurchasingAccountsPayableLineAssetAccount {
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String PUR_ITM_ID = "accountsPayableLineItemIdentifier";
@@ -75,6 +75,16 @@ public class CabPropertyConstants {
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";
     }
-    
+
     public static final String DOCUMENT_NUMBER = "documentNumber";
+
+    public static class GeneralLedgerPendingEntry {
+        public static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
+        public static final String UNIVERSITY_FISCAL_PERIOD_CODE = "universityFiscalPeriodCode";
+        public static final String FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE = "financialObject.financialObjectSubTypeCode";
+        public static final String FINANCIAL_BALANCE_TYPE_CODE = "financialBalanceTypeCode";
+        public static final String ACCOUNT_SUB_FUND_GROUP_CODE = "account.subFundGroupCode";
+        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+        public static final String TRANSACTION_ENTRY_PROCESSED_TS = "transactionEntryProcessedTs";
+    }
 }

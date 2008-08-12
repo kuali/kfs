@@ -28,10 +28,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.mail.InvalidAddressException;
+import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.MailService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.gl.businessobject.Entry;
@@ -61,11 +65,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class BatchExtractServiceImpl implements BatchExtractService {
-
+    private static final Logger LOG = Logger.getLogger(BatchExtractServiceImpl.class);
+    private static final String NEW_LINE = System.getProperty("line.separator");
     protected BusinessObjectService businessObjectService;
     protected ExtractDao extractDao;
     protected DateTimeService dateTimeService;
     protected ParameterService parameterService;
+    protected MailService mailService;
 
     /**
      * Creates a batch parameters object reading values from configured system parameters
@@ -135,35 +141,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return purapPendingGLEntries;
     }
 
-    /**
-     * Gets the businessOjectService attribute.
-     * 
-     * @return Returns the businessOjectService
-     */
-
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Gets the extractDao attribute.
-     * 
-     * @return Returns the extractDao
-     */
-
-    public ExtractDao getExtractDao() {
-        return extractDao;
-    }
-
-    /**
-     * Gets the dateTimeService attribute.
-     * 
-     * @return Returns the dateTimeService
-     */
-
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
 
     /**
      * Computes the last run time stamp, if null then it gives yesterday
@@ -185,15 +162,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return lastRunTime;
     }
 
-    /**
-     * Gets the parameterService attribute.
-     * 
-     * @return Returns the parameterService
-     */
-
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
 
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#saveFPLines(java.util.List)
@@ -225,7 +193,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         Collection<?> purapAcctLines = null;
         ReconciliationService reconciliationService = SpringContext.getBean(ReconciliationService.class);
         reconciliationService.reconcile(poLines, purapPendingGLEntries, purapAcctLines);
-        prepareProcessLog(processLog, reconciliationService);
+        updateProcessLog(processLog, reconciliationService);
         // for each valid GL entry there is a collection of valid PO Doc and Account Lines
         Set<GlAccountLineGroup> matchedGroups = reconciliationService.getMatchedGroups();
         List<PersistableBusinessObject> saveList = new ArrayList<PersistableBusinessObject>();
@@ -265,6 +233,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                             cabPurapDoc.getPurchasingAccountsPayableItemAssets().add(itemAsset);
                         }
                     }
+                    // TODO create records for PurchasingAccountsPayableLineAssetAccount using Purap Account Line History
+                    //
+
                     saveList.add(cabPurapDoc);
                 }
             }
@@ -273,7 +244,14 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         }
     }
 
-    private void prepareProcessLog(ExtractProcessLog processLog, ReconciliationService reconciliationService) {
+
+    /**
+     * Updates the entries into process log
+     * 
+     * @param processLog Extract Process Log
+     * @param reconciliationService Reconciliation Service data
+     */
+    protected void updateProcessLog(ExtractProcessLog processLog, ReconciliationService reconciliationService) {
         processLog.addIgnoredGLEntries(reconciliationService.getIgnoredEntries());
         processLog.addDuplicateGLEntries(reconciliationService.getDuplicateEntries());
         Set<GlAccountLineGroup> misMatchedGroups = reconciliationService.getMisMatchedGroups();
@@ -282,6 +260,12 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         }
     }
 
+    /**
+     * Finds PurchasingAccountsPayableDocument using document number
+     * 
+     * @param entry GL Entry
+     * @return PurchasingAccountsPayableDocument
+     */
     protected PurchasingAccountsPayableDocument findPurchasingAccountsPayableDocument(Entry entry) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, entry.getDocumentNumber());
@@ -290,6 +274,13 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return cabPurapDoc;
     }
 
+    /**
+     * Creates a new PurchasingAccountsPayableItemAsset using Purchasing Accounts payable item
+     * 
+     * @param cabPurapDoc Cab Purap Document
+     * @param apItem Accounts Payable Item
+     * @return PurchasingAccountsPayableItemAsset
+     */
     protected PurchasingAccountsPayableItemAsset createPurchasingAccountsPayableItemAsset(PurchasingAccountsPayableDocument cabPurapDoc, AccountsPayableItemBase apItem) {
         PurchasingAccountsPayableItemAsset itemAsset;
         // insert new because line is new or already merged or split
@@ -302,6 +293,13 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return itemAsset;
     }
 
+    /**
+     * This method creates PurchasingAccountsPayableDocument from a GL Entry and AP Document
+     * 
+     * @param entry GL Entry
+     * @param apDoc AP Document
+     * @return PurchasingAccountsPayableDocument
+     */
     protected PurchasingAccountsPayableDocument createPurchasingAccountsPayableDocument(Entry entry, AccountsPayableDocumentBase apDoc) {
         PurchasingAccountsPayableDocument cabPurapDoc;
         cabPurapDoc = new PurchasingAccountsPayableDocument();
@@ -313,6 +311,13 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return cabPurapDoc;
     }
 
+    /**
+     * Finds out the active CAB Asset Item matching the line from PurAP.
+     * 
+     * @param cabPurapDoc CAB PurAp document
+     * @param apItem AP Item
+     * @return PurchasingAccountsPayableItemAsset
+     */
     protected PurchasingAccountsPayableItemAsset findMatchingPurapAssetItem(PurchasingAccountsPayableDocument cabPurapDoc, AccountsPayableItemBase apItem) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.DOCUMENT_NUMBER, cabPurapDoc.getDocumentNumber());
@@ -358,45 +363,71 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     }
 
     /**
-     * Sets the businessObjectService attribute.
-     * 
-     * @param businessObjectService The businessObjectService to set.
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#sendStatusEmail(org.kuali.kfs.module.cab.batch.ExtractProcessLog)
      */
+    public void sendStatusEmail(ExtractProcessLog extractProcessLog) {
+        MailMessage message = new MailMessage();
+        message.setSubject("CAB Batch Process - " + (extractProcessLog.isSuccess() ? "SUCCESS" : "FAILURE"));
+        message.setFromAddress("email@ais.msu.edu");
+        message.addToAddress("email@ais.msu.edu");
+        StringBuilder msgBuilder = new StringBuilder();
+        msgBuilder.append("");
+        msgBuilder.append(NEW_LINE);
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+        msgBuilder.append("CAB Batch started at [" + extractProcessLog.getStartTime() + "] and finished at [" + extractProcessLog.getFinishTime() + "] using last extract time [" + extractProcessLog.getLastExtractTime() + "]");
+        msgBuilder.append(NEW_LINE);
+
+        msgBuilder.append("Total Number of GL Records extracted - " + extractProcessLog.getTotalGlCount());
+        msgBuilder.append(NEW_LINE);
+
+        msgBuilder.append("Number of Non-Purchasing records - " + extractProcessLog.getNonPurApGlCount());
+        msgBuilder.append(NEW_LINE);
+
+        msgBuilder.append("Number of Purchasing records - " + extractProcessLog.getPurApGlCount());
+        msgBuilder.append(NEW_LINE);
+
+        if (extractProcessLog.getIgnoredGLEntries() != null && !extractProcessLog.getIgnoredGLEntries().isEmpty()) {
+            prepareListDetails(msgBuilder, "Ignored GL Entries", extractProcessLog.getIgnoredGLEntries());
+        }
+        if (extractProcessLog.getDuplicateGLEntries() != null && !extractProcessLog.getDuplicateGLEntries().isEmpty()) {
+            prepareListDetails(msgBuilder, "Duplicate GL Entries", extractProcessLog.getDuplicateGLEntries());
+        }
+        if (extractProcessLog.getMismatchedGLEntries() != null && !extractProcessLog.getMismatchedGLEntries().isEmpty()) {
+            prepareListDetails(msgBuilder, "Mismatched GL Entries", extractProcessLog.getMismatchedGLEntries());
+        }
+        try {
+            // LOG and Email
+            LOG.info(msgBuilder.toString());
+            message.setMessage(msgBuilder.toString());
+            mailService.sendMessage(message);
+        }
+        catch (InvalidAddressException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    /**
+     * Prepares message body for a list
+     * 
+     * @param msgBuilder Message Builder
+     * @param subHdr Sub Heading
+     * @param entries GL Entries
+     */
+    protected void prepareListDetails(StringBuilder msgBuilder, String subHdr, List<Entry> entries) {
+        msgBuilder.append(NEW_LINE);
+        msgBuilder.append(subHdr);
+        msgBuilder.append(NEW_LINE);
+        for (Entry entry : entries) {
+            msgBuilder.append(entry.toString());
+            msgBuilder.append(NEW_LINE);
+        }
     }
 
     /**
-     * Sets the extractDao attribute.
-     * 
-     * @param extractDao The extractDao to set.
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractTime(java.sql.Timestamp)
      */
-
-    public void setExtractDao(ExtractDao cabExtractDao) {
-        this.extractDao = cabExtractDao;
-    }
-
-    /**
-     * Sets the dateTimeService attribute.
-     * 
-     * @param dateTimeService The dateTimeService to set.
-     */
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-    /**
-     * Sets the parameterService attribute.
-     * 
-     * @param parameterService The parameterService to set.
-     */
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
     public void updateLastExtractTime(Timestamp time) {
         Map<String, String> primaryKeys = new LinkedHashMap<String, String>();
         primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
@@ -408,6 +439,96 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             parameter.setParameterValue(format.format(time));
             businessObjectService.save(parameter);
         }
+    }
+
+    /**
+     * Gets the businessObjectService attribute.
+     * 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Gets the extractDao attribute.
+     * 
+     * @return Returns the extractDao.
+     */
+    public ExtractDao getExtractDao() {
+        return extractDao;
+    }
+
+    /**
+     * Sets the extractDao attribute value.
+     * 
+     * @param extractDao The extractDao to set.
+     */
+    public void setExtractDao(ExtractDao extractDao) {
+        this.extractDao = extractDao;
+    }
+
+    /**
+     * Gets the dateTimeService attribute.
+     * 
+     * @return Returns the dateTimeService.
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Gets the parameterService attribute.
+     * 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * 
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the mailService attribute.
+     * 
+     * @return Returns the mailService.
+     */
+    public MailService getMailService() {
+        return mailService;
+    }
+
+    /**
+     * Sets the mailService attribute value.
+     * 
+     * @param mailService The mailService to set.
+     */
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
     }
 
 

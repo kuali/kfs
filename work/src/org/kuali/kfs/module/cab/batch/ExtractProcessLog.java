@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cab.batch;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -22,9 +23,17 @@ import java.util.List;
 import org.kuali.kfs.gl.businessobject.Entry;
 
 public class ExtractProcessLog {
-    private List<Entry> ignoredGLEntries = new ArrayList<Entry>();
-    private List<Entry> duplicateGLEntries = new ArrayList<Entry>();
-    private List<Entry> mismatchedGLEntries = new ArrayList<Entry>();
+    private Timestamp startTime;
+    private Timestamp finishTime;
+    private Timestamp lastExtractTime;
+    private List<Entry> ignoredGLEntries;
+    private List<Entry> duplicateGLEntries;
+    private List<Entry> mismatchedGLEntries;
+    private String errorMessage;
+    private boolean success;
+    private Integer totalGlCount;
+    private Integer nonPurApGlCount;
+    private Integer purApGlCount;
 
     /**
      * Gets the ignoredGLEntries attribute.
@@ -86,6 +95,9 @@ public class ExtractProcessLog {
      * @param add ignoredGLEntries
      */
     public void addIgnoredGLEntries(Collection<Entry> add) {
+        if (this.ignoredGLEntries == null) {
+            this.ignoredGLEntries = new ArrayList<Entry>();
+        }
         this.ignoredGLEntries.addAll(add);
     }
 
@@ -95,6 +107,9 @@ public class ExtractProcessLog {
      * @param add duplicateGLEntries
      */
     public void addDuplicateGLEntries(Collection<Entry> add) {
+        if (this.duplicateGLEntries == null) {
+            this.duplicateGLEntries = new ArrayList<Entry>();
+        }
         this.duplicateGLEntries.addAll(add);
     }
 
@@ -104,6 +119,9 @@ public class ExtractProcessLog {
      * @param add mismatchedGLEntries
      */
     public void addMismatchedGLEntries(Collection<Entry> add) {
+        if (this.mismatchedGLEntries == null) {
+            this.mismatchedGLEntries = new ArrayList<Entry>();
+        }
         this.mismatchedGLEntries.addAll(add);
     }
 
@@ -134,7 +152,149 @@ public class ExtractProcessLog {
         this.mismatchedGLEntries.add(add);
     }
 
-    public void sendNotification() {
-        // TODO - Here log content should be prepared and notified to user group configured
+    /**
+     * Gets the startTime attribute.
+     * 
+     * @return Returns the startTime.
+     */
+    public Timestamp getStartTime() {
+        return startTime;
     }
+
+    /**
+     * Sets the startTime attribute value.
+     * 
+     * @param startTime The startTime to set.
+     */
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
+    }
+
+    /**
+     * Gets the lastExtractTime attribute.
+     * 
+     * @return Returns the lastExtractTime.
+     */
+    public Timestamp getLastExtractTime() {
+        return lastExtractTime;
+    }
+
+    /**
+     * Sets the lastExtractTime attribute value.
+     * 
+     * @param lastExtractTime The lastExtractTime to set.
+     */
+    public void setLastExtractTime(Timestamp lastExtractTime) {
+        this.lastExtractTime = lastExtractTime;
+    }
+
+    /**
+     * Gets the success attribute.
+     * 
+     * @return Returns the success.
+     */
+    public boolean isSuccess() {
+        return success;
+    }
+
+    /**
+     * Sets the success attribute value.
+     * 
+     * @param success The success to set.
+     */
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    /**
+     * Gets the finishTime attribute.
+     * 
+     * @return Returns the finishTime.
+     */
+    public Timestamp getFinishTime() {
+        return finishTime;
+    }
+
+    /**
+     * Sets the finishTime attribute value.
+     * 
+     * @param finishTime The finishTime to set.
+     */
+    public void setFinishTime(Timestamp finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    /**
+     * Gets the errorMessage attribute.
+     * 
+     * @return Returns the errorMessage.
+     */
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    /**
+     * Sets the errorMessage attribute value.
+     * 
+     * @param errorMessage The errorMessage to set.
+     */
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    /**
+     * Gets the totalGlCount attribute.
+     * 
+     * @return Returns the totalGlCount.
+     */
+    public Integer getTotalGlCount() {
+        return totalGlCount;
+    }
+
+    /**
+     * Sets the totalGlCount attribute value.
+     * 
+     * @param totalGlCount The totalGlCount to set.
+     */
+    public void setTotalGlCount(Integer totalGlCount) {
+        this.totalGlCount = totalGlCount;
+    }
+
+    /**
+     * Gets the nonPurApGlCount attribute.
+     * 
+     * @return Returns the nonPurApGlCount.
+     */
+    public Integer getNonPurApGlCount() {
+        return nonPurApGlCount;
+    }
+
+    /**
+     * Sets the nonPurApGlCount attribute value.
+     * 
+     * @param nonPurApGlCount The nonPurApGlCount to set.
+     */
+    public void setNonPurApGlCount(Integer nonPurApGlCount) {
+        this.nonPurApGlCount = nonPurApGlCount;
+    }
+
+    /**
+     * Gets the purApGlCount attribute.
+     * 
+     * @return Returns the purApGlCount.
+     */
+    public Integer getPurApGlCount() {
+        return purApGlCount;
+    }
+
+    /**
+     * Sets the purApGlCount attribute value.
+     * 
+     * @param purApGlCount The purApGlCount to set.
+     */
+    public void setPurApGlCount(Integer purApGlCount) {
+        this.purApGlCount = purApGlCount;
+    }
+
+
 }

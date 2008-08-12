@@ -29,6 +29,8 @@ public class GeneralLedgerEntryAssetDetail extends PersistableBusinessObjectBase
     private Building building;
     private Room buildingRoom;
     
+    public GeneralLedgerEntryAssetDetail(){
+    }
     /**
      * Gets the generalLedgerAccountIdentifier attribute.
      * 

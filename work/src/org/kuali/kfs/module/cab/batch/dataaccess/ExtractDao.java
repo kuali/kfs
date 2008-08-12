@@ -22,7 +22,19 @@ import org.kuali.kfs.module.cab.businessobject.BatchParameters;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 public interface ExtractDao {
+    /**
+     * This method implementation should find all GL Entries matching the parameters listed in the batch parameters
+     * 
+     * @param batchParameters Batch Parameters
+     * @return GL Entries
+     */
     Collection<Entry> findMatchingGLEntries(BatchParameters batchParameters);
 
+    /**
+     * This method implementation should find all pending GL entries created by Payment Requests (PREQ) or Credit Memos (CM)
+     * 
+     * @param batchParameters Batch Parameters
+     * @return Pending GL Entries
+     */
     Collection<GeneralLedgerPendingEntry> findPurapPendingGLEntries(BatchParameters batchParameters);
 }

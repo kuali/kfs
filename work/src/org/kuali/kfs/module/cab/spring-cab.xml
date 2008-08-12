@@ -111,6 +111,7 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="mailService" ref="mailService" />
 	</bean>
 	<bean id="reconciliationService" class="org.kuali.kfs.module.cab.batch.service.impl.ReconciliationServiceImpl" singleton="false">
 		<property name="businessObjectService" ref="businessObjectService" />

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.cab.batch.dataaccess.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -31,7 +30,9 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao {
 
-
+    /**
+     * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findMatchingGLEntries(org.kuali.kfs.module.cab.businessobject.BatchParameters)
+     */
     public Collection<Entry> findMatchingGLEntries(BatchParameters batchParameters) {
         Criteria criteria = new Criteria();
         criteria.addGreaterThan(CabPropertyConstants.Entry.TRANSACTION_DATE_TIME_STAMP, batchParameters.getLastRunTime());
@@ -46,15 +47,18 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         return glEntryList;
     }
 
+    /**
+     * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findPurapPendingGLEntries(org.kuali.kfs.module.cab.businessobject.BatchParameters)
+     */
     public Collection<GeneralLedgerPendingEntry> findPurapPendingGLEntries(BatchParameters batchParameters) {
         Criteria criteria = new Criteria();
-        criteria.addGreaterThan("transactionEntryProcessedTs", batchParameters.getLastRunTime());
-        criteria.addNotIn("chartOfAccountsCode", batchParameters.getExcludedChartCodes());
-        criteria.addNotIn("account.subFundGroupCode", batchParameters.getExcludedSubFundCodes());
-        criteria.addIn("financialBalanceTypeCode", batchParameters.getIncludedFinancialBalanceTypeCodes());
-        criteria.addIn("financialObject.financialObjectSubTypeCode", batchParameters.getIncludedFinancialObjectSubTypeCodes());
-        criteria.addNotIn("universityFiscalPeriodCode", batchParameters.getExcludedFiscalPeriods());
-        criteria.addIn("financialDocumentTypeCode", Arrays.asList(CabConstants.PREQ, CabConstants.CM));
+        criteria.addGreaterThan(CabPropertyConstants.GeneralLedgerPendingEntry.TRANSACTION_ENTRY_PROCESSED_TS, batchParameters.getLastRunTime());
+        criteria.addNotIn(CabPropertyConstants.GeneralLedgerPendingEntry.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
+        criteria.addNotIn(CabPropertyConstants.GeneralLedgerPendingEntry.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
+        criteria.addIn(CabPropertyConstants.GeneralLedgerPendingEntry.FINANCIAL_BALANCE_TYPE_CODE, batchParameters.getIncludedFinancialBalanceTypeCodes());
+        criteria.addIn(CabPropertyConstants.GeneralLedgerPendingEntry.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
+        criteria.addNotIn(CabPropertyConstants.GeneralLedgerPendingEntry.UNIVERSITY_FISCAL_PERIOD_CODE, batchParameters.getExcludedFiscalPeriods());
+        criteria.addIn(CabPropertyConstants.GeneralLedgerPendingEntry.FINANCIAL_DOCUMENT_TYPE_CODE, Arrays.asList(CabConstants.PREQ, CabConstants.CM));
         QueryByCriteria query = new QueryByCriteria(GeneralLedgerPendingEntry.class, criteria);
         Collection<GeneralLedgerPendingEntry> glPendingList = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return glPendingList;

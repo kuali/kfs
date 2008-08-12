@@ -15,27 +15,16 @@
  */
 package org.kuali.kfs.module.cab.document.web.struts;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.context.SpringContext;
 
 public class GlLineForm extends KualiForm {
 
     private GeneralLedgerEntry generalLedgerEntry;
-    private Long capitalAssetNumber;
+    private String capitalAssetNumber;
     private boolean newAssetIndicator;
     private Asset asset;
     private GeneralLedgerEntryAsset newGeneralLedgerEntryAsset;
@@ -64,7 +53,7 @@ public class GlLineForm extends KualiForm {
      * 
      * @return Returns the capitalAssetNumber.
      */
-    public Long getCapitalAssetNumber() {
+    public String getCapitalAssetNumber() {
         return capitalAssetNumber;
     }
 
@@ -73,27 +62,10 @@ public class GlLineForm extends KualiForm {
      * 
      * @param capitalAssetNumber The capitalAssetNumber to set.
      */
-    public void setCapitalAssetNumber(Long capitalAssetNumber) {
+    public void setCapitalAssetNumber(String capitalAssetNumber) {
         this.capitalAssetNumber = capitalAssetNumber;
     }
 
-    @Override
-    public void populate(HttpServletRequest request) {
-        super.populate(request);
-        populateExistingAsset();
-    }
-
-    private void populateExistingAsset() {
-        if (getCapitalAssetNumber() != null) {
-            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-            Map<String, Long> key = new HashMap<String, Long>();
-            key.put("capitalAssetNumber", getCapitalAssetNumber());
-            Asset assetVal = (Asset) boService.findByPrimaryKey(Asset.class, key);
-            if (ObjectUtils.isNotNull(assetVal)) {
-                setAsset(assetVal);
-            }
-        }
-    }
 
     /**
      * Gets the newAssetIndicator attribute.

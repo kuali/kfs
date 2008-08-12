@@ -52,43 +52,74 @@ public class ExtractStep extends AbstractStep {
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         ExtractProcessLog processLog = new ExtractProcessLog();
-        Timestamp startTs = dateTimeService.getCurrentTimestamp();
-        LOG.info("CAB batch started at " + startTs);
-        Collection<Entry> elgibleGLEntries = batchExtractService.findElgibleGLEntries();
-        if (elgibleGLEntries == null || elgibleGLEntries.size() == 0) {
-            LOG.info("No GL entries found for extract.");
-            return true;
+        try {
+            Timestamp startTs = dateTimeService.getCurrentTimestamp();
+            LOG.info("CAB batch started at " + startTs);
+            Collection<Entry> elgibleGLEntries = batchExtractService.findElgibleGLEntries();
+
+            if (elgibleGLEntries != null && !elgibleGLEntries.isEmpty()) {
+                processLog.setTotalGlCount(elgibleGLEntries.size());
+                List<Entry> fpLines = new ArrayList<Entry>();
+                List<Entry> purapLines = new ArrayList<Entry>();
+                // separate PO and non-PO lines
+                batchExtractService.separatePOLines(fpLines, purapLines, elgibleGLEntries);
+                // process non-PO lines
+                batchExtractService.saveFPLines(fpLines, processLog);
+                batchExtractService.savePOLines(purapLines, processLog);
+                processLog.setNonPurApGlCount(fpLines.size());
+                processLog.setPurApGlCount(purapLines.size());
+            }
+            else {
+                LOG.info("****** No records processed during CAB Extract *******");
+            }
+            // Update the last extract time stamp
+            batchExtractService.updateLastExtractTime(startTs);
+            LOG.info("CAB batch finished at " + dateTimeService.getCurrentTimestamp());
         }
-        List<Entry> fpLines = new ArrayList<Entry>();
-        List<Entry> purapLines = new ArrayList<Entry>();
-        // separate PO and non-PO lines
-        batchExtractService.separatePOLines(fpLines, purapLines, elgibleGLEntries);
-        // process non-PO lines
-        batchExtractService.saveFPLines(fpLines, processLog);
-
-        // TODO - Waiting for PURAP Account lines history
-
-        // Update the last extract time stamp
-        batchExtractService.updateLastExtractTime(startTs);
-        LOG.info("CAB batch finished at " + dateTimeService.getCurrentTimestamp());
+        catch (Exception e) {
+            processLog.setSuccess(false);
+            processLog.setErrorMessage("Unexpected error occured while performing CAB Extract. " + e.toString());
+            LOG.error("Unexpected error occured while performing CAB Extract.", e);
+            new RuntimeException(e);
+        }
+        finally {
+            batchExtractService.sendStatusEmail(processLog);
+        }
         return true;
     }
 
-
+    /**
+     * Gets the batchExtractService attribute.
+     * 
+     * @return Returns the batchExtractService.
+     */
     public BatchExtractService getBatchExtractService() {
         return batchExtractService;
     }
 
-    public void setBatchExtractService(BatchExtractService cabBatchExtractService) {
-        this.batchExtractService = cabBatchExtractService;
+    /**
+     * Sets the batchExtractService attribute value.
+     * 
+     * @param batchExtractService The batchExtractService to set.
+     */
+    public void setBatchExtractService(BatchExtractService batchExtractService) {
+        this.batchExtractService = batchExtractService;
     }
 
-
+    /**
+     * Gets the dateTimeService attribute.
+     * 
+     * @return Returns the dateTimeService.
+     */
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
-
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }

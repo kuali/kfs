@@ -259,9 +259,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 //        for (Iterator iter = displayList.iterator(); iter.hasNext();) {
 //            BusinessObject element = (BusinessObject) iter.next();
 //
-//            String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
-//            String actionUrls = getActionUrls(element);
-//
+//           // String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
+//           // String actionUrls = getActionUrls(element);
+//            String returnUrl = "www.bigfrickenRETURNurl";
+//            String actionUrls = "www.someACTIONurl";
+//            
 //            List<Column> columns = getColumns();
 //            for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
 //                
@@ -309,8 +311,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 //                }
 //
 //                // comparator
-////                col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
-////                col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+//                col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
+//                col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
 //                
 //                // check security on field and do masking if necessary
 //                boolean viewAuthorized = getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());

@@ -17,7 +17,9 @@ package org.kuali.kfs.module.ar.web.struts;
 
 import org.apache.log4j.Logger;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -50,6 +52,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+
 
 /**
  * This class handles Actions for lookup flow
@@ -85,11 +88,6 @@ public class CustomerAgingReportAction extends KualiAction {
         CustomerAgingReportForm lookupForm = (CustomerAgingReportForm) form;
 
         Lookupable lookupable = lookupForm.getLookupable();
-        LOG.info("\t\t\t\t\n\n lookupable is "+lookupable.toString());
-
-        if (LOG.isInfoEnabled()) {
-            LOG.info("\n\nsearch(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse) - testing my log - \nrequest=" + request + ", \nlookupForm=" + lookupForm);
-        }
 
         if (lookupable == null) {
             LOG.error("Lookupable is null.");
@@ -104,28 +102,21 @@ public class CustomerAgingReportAction extends KualiAction {
         try {
             displayList = lookupable.performLookup(lookupForm, resultTable, true);
 
-            
-            
-            if (LOG.isInfoEnabled()) {
-                LOG.info("\n\n\n\n\t\t\tsearch(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse) - List<ResultRow> resultTable=" + resultTable.get(3));
-            }
+           // resultTable = (List<ResultRow>) displayList;
 
             Object[] resultTableAsArray = resultTable.toArray();
-            
-            if (LOG.isInfoEnabled()) {
-                LOG.info("search(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse) - Object[] resultTableAsArray=" + resultTableAsArray);
-            }
+
 
             CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
             Long totalSize = ((CollectionIncomplete) displayList).getActualSizeIfTruncated();
 
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
-
-            // TODO: use inheritance instead of this if statement
-            //if (lookupable.getLookupableHelperService() instanceof CustomerAgingReportLookupableHelperServiceImpl) {
+//
+//            // TODO: use inheritance instead of this if statement
+//            //if (lookupable.getLookupableHelperService() instanceof CustomerAgingReportLookupableHelperServiceImpl) {
             if (true) {
 //
-//                Collection totalsTable = new ArrayList();
+// //               Collection totalsTable = new ArrayList();
 //
 //                int listIndex = 0;
 //                int arrayIndex = 0;
@@ -140,7 +131,7 @@ public class CustomerAgingReportAction extends KualiAction {
 //                    if (ok) {
 //
 //                        if (totalSize > 7) {
-//                            totalsTable.add(resultTableAsArray[arrayIndex]);
+//                           // totalsTable.add(resultTableAsArray[arrayIndex]);
 //                        }
 //                        resultTable.remove(resultTableAsArray[arrayIndex]);
 //
@@ -156,14 +147,15 @@ public class CustomerAgingReportAction extends KualiAction {
 //
 //                }
 
-                // MJM figure out what resultTable is supposed to have in it
-               //Collection totalsTable = new ArrayList();
 
-                if (LOG.isInfoEnabled()) {
-                    LOG.info("search(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse) - List<ResultRow> resultTable=" + resultTable);
-                }
+                //List<ResultRow> resultTable2 = new
+                java.io.File resultTableFromBalanceInquiry = new java.io.File("/java/resultTable.ser");
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream(resultTableFromBalanceInquiry));
+                // Deserialize the object
+                List<ResultRow> resultTable2 = (List<ResultRow>) in.readObject();
+                in.close();
 
-                request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
+                request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable2);
 
                 
 //                request.setAttribute(TOTALS_TABLE_KEY, totalsTable);

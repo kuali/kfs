@@ -242,10 +242,14 @@
 		<property name="encryptionService" ref="encryptionService" />
 	</bean>
 
+  <bean id="webAuthenticationService" class="org.kuali.rice.kim.v2.service.impl.AuthenticationServiceImpl">
+    <property name="validatePassword" value="${validate.password}" />
+  </bean>
+	<!-- 
 	<bean id="webAuthenticationService" class="org.kuali.kfs.sys.service.impl.WebAuthenticationServiceCas">
 		<property name="validatePassword" value="${validate.password}" />
 	</bean>
-
+  -->
 	<bean id="universalUserDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.UniversalUserDaoOjb" />
 
 	<bean id="universalUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl">

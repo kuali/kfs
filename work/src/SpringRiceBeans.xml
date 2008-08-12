@@ -30,6 +30,7 @@
         <bean class="org.kuali.rice.kns.config.KNSConfigurer">
           <property name="suppressAutoModuleConfiguration" value="true"></property>
         </bean>
+        <bean class="org.kuali.rice.kim.config.KIMConfigurer" />
       </list>
     </property>
   </bean>

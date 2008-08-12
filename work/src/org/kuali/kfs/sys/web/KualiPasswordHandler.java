@@ -23,9 +23,9 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.service.WebAuthenticationService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.service.EncryptionService;
+import org.kuali.rice.kim.v2.service.AuthenticationService;
 
 import edu.yale.its.tp.cas.auth.provider.WatchfulPasswordHandler;
 
@@ -47,12 +47,15 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
                     // }
                     // obtain the universal user record
                     UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(username.trim()));
+                    
+                    // TODO: Pull in a Principal and use it instead of the user above. For now, if it doesn't exist, fall back to the above to keep the rest of KFS running 
+                    
                     // if ( LOG.isDebugEnabled() ) {
                     // LOG.debug( "Found user " + user.getPersonName() + " with password hash: " +
                     // user.getFinancialSystemsEncryptedPasswordText() );
                     // }
                     // check if the password needs to be checked (if in a production environment or password turned on explicitly)
-                    if (SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment() || SpringContext.getBean(WebAuthenticationService.class).isValidatePassword()) {
+                    if (SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment() || SpringContext.getBean(AuthenticationService.class).validatePassword()) {
                         // if so, hash the passed in password and compare to the hash retrieved from the database
                         String hashedPassword = user.getFinancialSystemsEncryptedPasswordText();
                         if (hashedPassword == null) {

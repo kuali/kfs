@@ -21,16 +21,16 @@ import org.kuali.bus.auth.AuthorizationService;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.service.WebAuthenticationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kim.v2.service.AuthenticationService;
 
 public class ServiceBusAuthorizationService implements AuthorizationService {
     private ParameterService parameterService;
 
     public boolean isAdministrator(HttpServletRequest request) {
-        String networkId = SpringContext.getBean(WebAuthenticationService.class).getNetworkId(request);
+        String networkId = SpringContext.getBean(AuthenticationService.class).getPrincipalName(request);
         try {
             UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(networkId);
             return user.isMember(getParameterService().getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.SERVICE_BUS_ACCESS_GROUP_PARM));

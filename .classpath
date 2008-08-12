@@ -88,5 +88,7 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/javassist-3.3.ga.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jboss-common-core-2.0.4.GA.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/persistence-api-1.0.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kim-0.9.4-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kim-api-0.9.4-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

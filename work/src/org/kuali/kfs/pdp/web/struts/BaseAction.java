@@ -40,8 +40,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-
-import edu.iu.uis.eden.web.WebAuthenticationService;
+import org.kuali.rice.kim.v2.service.AuthenticationService;
 
 /**
  * This Action will do most request processing for the PDP part of appliation. Your action should override the proper methods to do
@@ -62,11 +61,6 @@ public abstract class BaseAction extends Action {
     protected KualiConfigurationService kualiConfigurationService = null;
 
     /**
-     * Web Authentication Service (to do authentication)
-     */
-    protected WebAuthenticationService webAuthenticationService = null;
-
-    /**
      * Security Service (to do authorization)
      */
     protected PdpSecurityService securityService = null;
@@ -85,7 +79,6 @@ public abstract class BaseAction extends Action {
         if (userService == null) {
             setUniversalUserService(SpringContext.getBean(UniversalUserService.class));
             setKualiConfigurationService(SpringContext.getBean(KualiConfigurationService.class));
-            setWebAuthenticationService(SpringContext.getBean(WebAuthenticationService.class));
             setSecurityService(SpringContext.getBean(PdpSecurityService.class));
         }
 
@@ -342,15 +335,6 @@ public abstract class BaseAction extends Action {
      */
     public void setKualiConfigurationService(KualiConfigurationService kcs) {
         kualiConfigurationService = kcs;
-    }
-
-    /**
-     * Have the web authentication service set for us
-     * 
-     * @param was
-     */
-    public void setWebAuthenticationService(WebAuthenticationService was) {
-        this.webAuthenticationService = was;
     }
 
     /**

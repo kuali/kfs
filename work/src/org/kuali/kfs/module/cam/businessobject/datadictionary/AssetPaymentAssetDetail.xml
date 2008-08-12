@@ -42,7 +42,7 @@
     <property name="name" value="capitalAssetNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Asset Number" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -58,8 +58,8 @@
   <bean id="AssetPaymentAssetDetail-previousTotalCostAmount" parent="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" />
   <bean id="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="previousTotalCostAmount" />
-    <property name="label" value="Previous Total Cost Amount" />
-    <property name="shortLabel" value="Amount" />
+    <property name="label" value="Previous Cost" />
+    <property name="shortLabel" value="Previous Cost" />
     <property name="summary" value="previousTotalCostAmount" />
     <property name="description" value="previousTotalCostAmount description..." />
     <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />

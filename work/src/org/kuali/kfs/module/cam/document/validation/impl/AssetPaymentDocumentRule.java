@@ -54,8 +54,9 @@ import org.kuali.rice.kns.util.KNSPropertyConstants;
 public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentDocumentRule.class);
 
-    private static AssetService assetService;
-
+    private static AssetService assetService = SpringContext.getBean(AssetService.class);
+    private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
     /**
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
@@ -63,7 +64,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) document;
 
-        if (getAssetService().isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
+        if (assetService.isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
             return false;
         }
 
@@ -77,7 +78,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) document;
 
-        if (getAssetService().isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
+        if (assetService.isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
             return false;
         }
 
@@ -125,7 +126,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
             keyToFind.put(KNSPropertyConstants.DOCUMENT_TYPE_CODE, expenditureFinancialDocumentTypeCode);
 
             if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, keyToFind) == null) {
-                label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KNSPropertyConstants.DOCUMENT_TYPE_CODE).getLabel();
+                label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KNSPropertyConstants.DOCUMENT_TYPE_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }
@@ -145,7 +146,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         boolean result = true;
         if (!StringUtils.isBlank(originationCode)) {
             if (SpringContext.getBean(OriginationCodeService.class).getByPrimaryKey(originationCode) == null) {
-                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(OriginationCode.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE).getLabel();
+                String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(OriginationCode.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }
@@ -169,8 +170,8 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD, fiscalMonth);
         
         if (SpringContext.getBean(BusinessObjectService.class).countMatching(UniversityDate.class, keyToFind) == 0) {
-            String labelFiscalYear = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR).getLabel();
-            String labelFiscalMonth = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH).getLabel();
+            String labelFiscalYear = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR).getLabel();
+            String labelFiscalMonth = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH).getLabel();
 
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalYear);
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalMonth);
@@ -194,9 +195,9 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         boolean result = true;
         Map<String, Object> keyToFind = new HashMap<String, Object>();
         keyToFind.put(KFSPropertyConstants.UNIVERSITY_DATE, postedDate);
-        
-        if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UniversityDate.class, keyToFind) == null) {
-            String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
+
+        if (businessObjectService.findByPrimaryKey(UniversityDate.class, keyToFind) == null) {
+            String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
             result = false;
         }
@@ -207,6 +208,10 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
             result = false;
         }
+        
+        
+        
+        
         return result;
     }
 
@@ -224,20 +229,5 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
             return false;
         }
         return true;
-    }
-
-
-    
-    /**
-     * 
-     * This method returns the assetService bean
-     * 
-     * @return AssetService
-     */
-    public AssetService getAssetService() {
-        if (assetService == null) {
-            assetService = SpringContext.getBean(AssetService.class);
-        }
-        return assetService;
     }
 }

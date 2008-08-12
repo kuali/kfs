@@ -15,15 +15,21 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.DocumentType;
+import org.kuali.core.exceptions.InfrastructureException;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
@@ -32,6 +38,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -43,9 +50,11 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     private static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
-
+    private static DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+    
     String capitalAssetNumber = "";
-
+    AssetPaymentAssetDetail newAssetPaymentAssetDetail;
+    
     /**
      * 
      * Constructs a AssetPaymentForm.java.
@@ -78,6 +87,21 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         return forcedLookupOptionalFields;
     }
 
+    
+    /**
+     * 
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     */
+    @Override
+    //public Map<String, Boolean> getForcedReadOnlyFields() {
+    public Map getForcedReadOnlyFields() {
+        Map forcedReadOnlyFields = super.getForcedReadOnlyFields();
+        forcedReadOnlyFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, Boolean.TRUE);
+        forcedReadOnlyFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH, Boolean.TRUE);
+        
+        return forcedReadOnlyFields;
+    }
+    
     /**
      * 
      * This method sets the asset# selected
@@ -98,13 +122,44 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         return this.capitalAssetNumber;
     }
 
+    
+    
+    /**
+     * 
+     * This method...
+     * @param newAssetPaymentAssetDetail
+     *
+    public void setNewAssetPaymentAssetDetail(AssetPaymentAssetDetail newAssetPaymentAssetDetail) {
+        this.newAssetPaymentAssetDetail = newAssetPaymentAssetDetail;
+    }*/
+    
+    /**
+     * 
+     * This returns a new asset 
+     * @return
+     *
+    public AssetPaymentAssetDetail getNewAssetPaymentAssetDetail() {
+        try {
+            if (this.newAssetPaymentAssetDetail == null)
+                return AssetPaymentAssetDetail.class.newInstance();
+            else
+                return this.newAssetPaymentAssetDetail;
+        }
+        catch (Exception e) {
+            throw new InfrastructureException("unable to create a new asset payment asset detail line", e);
+        }        
+    }*/
+    
+    
+    
+    
+    
     /**
      * 
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getNewSourceLine()
      */
     @Override
-    public SourceAccountingLine getNewSourceLine() {
-        
+    public SourceAccountingLine getNewSourceLine() {        
         //Getting the workflow document number created for the asset payment document.
         String worflowDocumentNumber = "";
         try {
@@ -134,34 +189,28 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         if (newSourceLine.getExpenditureFinancialSystemOriginationCode() == null || newSourceLine.getExpenditureFinancialSystemOriginationCode().trim().equals("")) {        
             newSourceLine.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
         }        
+        
+        if (newSourceLine.getExpenditureFinancialDocumentPostedDate() != null) {
+            Calendar postedDate = dateTimeService.getCalendar(newSourceLine.getExpenditureFinancialDocumentPostedDate());        
+            newSourceLine.setFinancialDocumentPostingYear(postedDate.get(Calendar.YEAR));
+            newSourceLine.setFinancialDocumentPostingPeriodCode(StringUtils.leftPad(Integer.toString(postedDate.get(Calendar.MONTH)),2,"0"));
+        }                
         return (SourceAccountingLine) newSourceLine;
     }
 
     /**
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
-     */
+     *
     @Override
     public void populate(HttpServletRequest request) {
-      LOG.info("****************Request Parameters*************");
-      Enumeration paramNames;
-      paramNames = request.getParameterNames();
-      while (paramNames.hasMoreElements()) {
-          String name = (String) paramNames.nextElement();            
-          String[] values = request.getParameterValues(name);
-          
-          for (int x=0;x < values.length;x++)
-              LOG.info("******Request Parameters: "+name +"["+x+"]: "+values[x]);
-                      
-      }
-      LOG.info("**********************************************");                    
-        
         super.populate(request);
+
         //This would store the latest total cost of the asset into the asset payment document.
         if (this.getAssetPaymentDocument().getAsset() != null) {
             this.getAssetPaymentDocument().refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
             this.getAssetPaymentDocument().setPreviousTotalCostAmount(this.getAssetPaymentDocument().getAsset().getTotalCostAmount());
         }
-    }
+    }*/
     
     /**
      * 

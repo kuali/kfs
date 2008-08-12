@@ -15,13 +15,9 @@
 --%>
 
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-
-<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
-<c:set var="paymentAttributes" 	value="${DataDictionary.AssetPaymentDocument.attributes}" />
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsAssetPayment"  documentTypeName="AssetPaymentDocument" renderMultipart="true"  showTabButtons="true">
-
     <kfs:hiddenDocumentFields />
   	<html:hidden property="document.capitalAssetNumber"/>
 	<html:hidden property="document.nextCapitalAssetPaymentLineNumber"/>
@@ -30,18 +26,15 @@
 
     <cams:assetPayments /> 
 
-    <cams:viewAssetDetails defaultTabHide="false" /> 
-	     
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
 		sourceAccountingLinesOnly="true"
 		isOptionalFieldsInNewRow="true"		
 		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"		
 		extraHiddenFields=",paymentApplicationDate,transferPaymentIndicator,sequenceNumber"
-		sourceTotalsOverride="${KualiForm.assetPaymentTotals}">
+		forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}">
 	</fin:accountingLines>
-	
-	<cams:viewPayments defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
+
     <kul:notes />
     <kul:adHocRecipients />
     <kul:routeLog />

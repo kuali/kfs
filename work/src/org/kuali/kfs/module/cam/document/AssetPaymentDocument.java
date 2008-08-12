@@ -29,6 +29,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAccountingLineParser;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -47,16 +48,18 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 public class AssetPaymentDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
 
-    private Long capitalAssetNumber;
+    private Long    capitalAssetNumber;
     private Integer nextCapitalAssetPaymentLineNumber;
-    KualiDecimal previousTotalCostAmount;
+    KualiDecimal    previousTotalCostAmount;
     
-    private List<AssetPaymentDetail> assetPaymentDetail;
-    private Asset asset;
+    private List<AssetPaymentDetail>        assetPaymentDetail;
+    private List<AssetPaymentAssetDetail>   assetPaymentAssetDetail;    
+    //private Asset asset;
 
     public AssetPaymentDocument() {
         super();
-        assetPaymentDetail = new ArrayList<AssetPaymentDetail>();      
+        assetPaymentDetail = new ArrayList<AssetPaymentDetail>();
+        assetPaymentAssetDetail = new ArrayList<AssetPaymentAssetDetail>();      
     }
 
     /**
@@ -69,6 +72,19 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     }
 
 
+    /**
+     * 
+     * This method...
+     * @param assetPaymentAssetDetail
+     */
+    public void addAssetPaymentAssetDetail(AssetPaymentAssetDetail assetPaymentAssetDetail) {
+        this.getAssetPaymentAssetDetail().add(assetPaymentAssetDetail);
+    }
+
+    
+    
+    
+    
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
@@ -86,7 +102,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
 
         //Assigning the line number to the just added accounting line
-        //assetPaymentDetail.setFinancialDocumentLineNumber(this.getNextSourceLineNumber());
         assetPaymentDetail.setSequenceNumber(this.getNextSourceLineNumber());
         
         //Assigning the system date to a field is not being edited on the screen.
@@ -184,13 +199,13 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.assetPaymentDetail = assetPaymentDetail;
     }
 
-    public Asset getAsset() {
-        return asset;
-    }
-
-    public void setAsset(Asset asset) {
-        this.asset = asset;
-    }
+//    public Asset getAsset() {
+//        return asset;
+//    }
+//
+//    public void setAsset(Asset asset) {
+//        this.asset = asset;
+//    }
 
     public KualiDecimal getPreviousTotalCostAmount() {
         return previousTotalCostAmount;
@@ -198,5 +213,13 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
     public void setPreviousTotalCostAmount(KualiDecimal previousTotalCostAmount) {
         this.previousTotalCostAmount = previousTotalCostAmount;
+    }
+
+    public List<AssetPaymentAssetDetail> getAssetPaymentAssetDetail() {
+        return assetPaymentAssetDetail;
+    }
+
+    public void setAssetPaymentAssetDetail(List<AssetPaymentAssetDetail> assetPaymentAssetDetail) {
+        this.assetPaymentAssetDetail = assetPaymentAssetDetail;
     }
 }

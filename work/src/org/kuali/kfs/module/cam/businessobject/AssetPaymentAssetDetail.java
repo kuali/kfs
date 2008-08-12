@@ -24,6 +24,8 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
     private Long capitalAssetNumber;
     private KualiDecimal previousTotalCostAmount;
+    private Asset asset;
+    
     
     protected LinkedHashMap<String, String> toStringMapper() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
@@ -58,6 +60,14 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
 
     public void setPreviousTotalCostAmount(KualiDecimal previousTotalCostAmount) {
         this.previousTotalCostAmount = previousTotalCostAmount;
+    }
+
+    public Asset getAsset() {
+        return asset;
+    }
+
+    public void setAsset(Asset asset) {
+        this.asset = asset;
     }
 
 }

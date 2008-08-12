@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 
 import org.kuali.kfs.module.purap.util.cxml.CxmlHeader;
@@ -680,4 +681,26 @@ public class ElectronicInvoice {
         return null;
     }
     
+    public String toString(){
+        ToStringBuilder toString = new ToStringBuilder(this);
+        toString.append("version",getVersion());
+        toString.append("timestamp",getTimestamp());
+        toString.append("payloadID",getPayloadID());
+        toString.append("locale",getLocale());
+        toString.append("customerNumber",getCustomerNumber());
+        toString.append("fileName",getFileName());
+        
+        toString.append("dunsNumber",getDunsNumber());
+        toString.append("vendorHeaderID",getVendorHeaderID());
+        toString.append("vendorDetailID",getVendorDetailID());
+        toString.append("vendorName",getVendorName());
+        toString.append("cxmlHeader",getCxmlHeader());
+        toString.append("invoiceDetailRequestHeader",getInvoiceDetailRequestHeader());
+        toString.append("invoiceDetailOrders",getInvoiceDetailOrders());
+        toString.append("invoiceDetailRequestSummary",getInvoiceDetailRequestSummary());
+        
+        
+        return toString.toString();
+        
+    }
 }

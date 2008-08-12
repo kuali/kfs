@@ -4,6 +4,8 @@
  */
 package org.kuali.kfs.module.purap.util.cxml;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 /**
  * @author delyea
  *
@@ -12,6 +14,9 @@ public class CxmlExtrinsic {
   
   private String name;
   private String value;
+  
+  public CxmlExtrinsic(){
+  }
   
   public CxmlExtrinsic(String name, String value) {
     this.name = name;
@@ -41,6 +46,13 @@ public class CxmlExtrinsic {
    */
   public void setValue(String value) {
     this.value = value;
+  }
+  
+  public String toString(){
+      ToStringBuilder toString = new ToStringBuilder(this);
+      toString.append("Name",getName());
+      toString.append("Value",getValue());
+      return toString.toString();
   }
 }
 /*

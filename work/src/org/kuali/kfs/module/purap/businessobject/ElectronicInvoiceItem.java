@@ -15,6 +15,7 @@ import java.util.Locale;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+import org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic;
 
 
 /**
@@ -629,7 +630,24 @@ public class ElectronicInvoiceItem {
         }
         return null;
     }
+    
+    public void addExtrinsic(CxmlExtrinsic extrinsic) {
+        this.extrinsic.add(extrinsic);
+    }
+    
+    public CxmlExtrinsic[] getExtrinsicAsArray() {
+        if (extrinsic.size() > 0){
+            CxmlExtrinsic[] extrinsics = new CxmlExtrinsic[extrinsic.size()];
+            extrinsic.toArray(extrinsics);
+            return extrinsics;
+        }
+        return null;
+    }
 
+    public void addComments(String comment){
+        this.comments.add(comment);
+    }
+    
     public String toString(){
         
         ToStringBuilder toString = new ToStringBuilder(this);
@@ -667,6 +685,10 @@ public class ElectronicInvoiceItem {
         toString.append("referenceManufacturerName",getReferenceManufacturerName());
         toString.append("referenceCountryCode",getReferenceCountryCode());
         toString.append("referenceCountryName",getReferenceCountryName());
+        
+        toString.append("invoiceShippingContacts",getInvoiceShippingContacts());
+        toString.append("comments",getComments());
+        toString.append("extrinsic",getExtrinsic());
         
         return toString.toString();
         

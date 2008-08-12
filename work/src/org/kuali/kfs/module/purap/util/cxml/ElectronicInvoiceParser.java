@@ -317,19 +317,19 @@ public class ElectronicInvoiceParser extends CxmlParser {
 //    }
     ElectronicInvoiceDetailRequestHeader header = new ElectronicInvoiceDetailRequestHeader(invoiceNumber,invoiceDate,purpose,operation,deploymentMode);
     // below we see if the vendor sent us information only invoice... we do not want to process such an invoice
-    header.setInformationOnly((getNodeAttribute(headerNode, "isInformationOnly") != null) && ("yes".equals(getNodeAttribute(headerNode, "isInformationOnly"))));
+    header.setbuyerInformationOnlyIndicator(getNodeAttribute(headerNode, "isInformationOnly"));
 
     Node invoiceDetailHeaderIndicator = getXMLNode(headerNode, "InvoiceDetailHeaderIndicator");
     if (invoiceDetailHeaderIndicator != null) {
-      header.setHeaderInvoiceIndicator((getNodeAttribute(invoiceDetailHeaderIndicator, "isHeaderInvoice") != null) && ("yes".equals(getNodeAttribute(invoiceDetailHeaderIndicator, "isHeaderInvoice"))));
+      header.setHeaderInvoiceInd(getNodeAttribute(invoiceDetailHeaderIndicator, "isHeaderInvoice"));
     }
     
     Node invoiceDetailLineIndicator = getXMLNode(headerNode, "InvoiceDetailLineIndicator");
     if (invoiceDetailLineIndicator != null) {
-      header.setTaxInLine((getNodeAttribute(invoiceDetailLineIndicator, "isTaxInLine") != null) && ("yes".equals(getNodeAttribute(invoiceDetailLineIndicator, "isTaxInLine"))));
-      header.setSpecialHandlingInLine((getNodeAttribute(invoiceDetailLineIndicator, "isSpecialHandlingInLine") != null) && ("yes".equals(getNodeAttribute(invoiceDetailLineIndicator, "isSpecialHandlingInLine"))));
-      header.setShippingInLine((getNodeAttribute(invoiceDetailLineIndicator, "isShippingInLine") != null) && ("yes".equals(getNodeAttribute(invoiceDetailLineIndicator, "isShippingInLine"))));
-      header.setDiscountInLine((getNodeAttribute(invoiceDetailLineIndicator, "isDiscountInLine") != null) && ("yes".equals(getNodeAttribute(invoiceDetailLineIndicator, "isDiscountInLine"))));
+      header.setTaxInfoProvidedIndicator(getNodeAttribute(invoiceDetailLineIndicator, "isTaxInLine"));
+      header.setSpecialHandlingInfoProvidedIndicator(getNodeAttribute(invoiceDetailLineIndicator, "isSpecialHandlingInLine"));
+      header.setShippingInfoProvidedIndicator(getNodeAttribute(invoiceDetailLineIndicator, "isShippingInLine"));
+      header.setDiscountInfoProvidedIndicator(getNodeAttribute(invoiceDetailLineIndicator, "isDiscountInLine"));
     }
     
     header.setExtrinsics(getExtrinsics(headerNode));

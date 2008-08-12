@@ -545,6 +545,7 @@ public class ElectronicInvoiceOrder {
       toString.append("orderIDInfoID",getOrderIDInfoID());
       toString.append("orderIDInfoDateString",getOrderIDInfoDateString());
       toString.append("supplierOrderInfoID",getSupplierOrderInfoID());
+      toString.append("invoiceItems",getInvoiceItems());
       
       return toString.toString();
       

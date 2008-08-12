@@ -79,14 +79,25 @@
 	      		<alias attr-name="purpose" prop-name="purpose" />
 	      		<alias attr-name="operation" prop-name="operation" />
 	      		<alias attr-name="invoiceDate" prop-name="invoiceDateString" />
+	      		<alias attr-name="isInformationOnly" prop-name="buyerInformationOnlyIndicator"/>
 		    </set-properties-rule>
 		    
-		    <call-method-rule pattern="InvoiceDetailLineIndicator/isTaxInLine" methodname="isTaxInLine" paramcount="0" />
-		    <call-method-rule pattern="InvoiceDetailLineIndicator/isSpecialHandlingInLine" methodname="isSpecialHandlingInLine" paramcount="0" />
-		    <call-method-rule pattern="InvoiceDetailLineIndicator/isShippingInLine" methodname="isShippingInLine" paramcount="0" />
-		    <call-method-rule pattern="InvoiceDetailLineIndicator/isDiscountInLine" methodname="isDiscountInLine" paramcount="0" />
-		    <call-method-rule pattern="InvoiceDetailLineIndicator/isAccountingInLine" methodname="isAccountingInLine" paramcount="0" />
-	   		
+		    <pattern value="InvoiceDetailHeaderIndicator">
+			    <set-properties-rule>
+		      		<alias attr-name="isHeaderInvoice" prop-name="headerInvoiceInd"/>
+			    </set-properties-rule>
+		    </pattern>
+		    
+		    <pattern value="InvoiceDetailLineIndicator">
+			    <set-properties-rule>
+				    <alias attr-name="isTaxInLine" prop-name="taxInfoProvidedIndicator"/>
+		      		<alias attr-name="isSpecialHandlingInLine" prop-name="specialHandlingInfoProvidedIndicator"/>
+		      		<alias attr-name="isShippingInLine" prop-name="shippingInfoProvidedIndicator"/>
+		      		<alias attr-name="isDiscountInLine" prop-name="discountInfoProvidedIndicator"/>
+		      		<alias attr-name="isAccountingInLine" prop-name="accountingInfoProvidedIndicator"/>
+			    </set-properties-rule>
+		    </pattern>
+		    
 	   		<!-- INVOICE PARTNER -->
 	   		<pattern value="InvoicePartner">
 	   		
@@ -266,7 +277,22 @@
       			
 	   		</pattern> <!-- InvoiceDetailShipping -->
 	   		
-	   		<!-- INFO: PaymentTerm not handled in EPIC, but it's there in sample data file -->
+	   		<set-properties-rule pattern="PaymentTerm">
+   				<alias attr-name="payInNumberOfDays" prop-name="payInNumberOfDays" paramtype="java.lang.Integer"/>
+   			</set-properties-rule>
+
+			<!-- INFO: Comments element not handled in EPIC-->    			
+			
+	   		<pattern value="Extrinsic">
+	   			<object-create-rule classname="org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic" />
+	   			
+	   			<call-method-rule methodname="setValue" paramcount="0" />
+    			<set-properties-rule>
+    				<alias attr-name="name" prop-name="name" />
+    			</set-properties-rule>
+    			
+	   			<set-next-rule methodname="addExtrinsic" />
+	   		</pattern> <!--  Extrinsic -->
 	   		
 	   		<set-next-rule methodname="setInvoiceDetailRequestHeader" />
 		   
@@ -388,6 +414,19 @@
     			
     			<call-method-rule pattern="InvoiceDetailItemReference/SerialNumber" methodname="addReferenceSerialNumber" paramcount="0" />
     			
+    			<call-method-rule pattern="Comments" methodname="addComments" paramcount="0" />
+    			
+    			<pattern value="Extrinsic">
+		   			<object-create-rule classname="org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic" />
+		   			
+		   			<call-method-rule methodname="setValue" paramcount="0" />
+	    			<set-properties-rule>
+	    				<alias attr-name="name" prop-name="name" />
+	    			</set-properties-rule>
+	    			
+		   			<set-next-rule methodname="addExtrinsic" />
+	   			</pattern> <!--  Extrinsic -->
+    			
 		   		<set-next-rule methodname="addInvoiceItem" />
 		   		
 		   </pattern> 	<!-- InvoiceDetailItem -->  
@@ -456,7 +495,20 @@
     			<set-properties-rule pattern="InvoiceDetailServiceItemReference">
     				<alias attr-name="lineNumber" prop-name="referenceLineNumber" />
     			</set-properties-rule>
-    			
+
+	   			<call-method-rule pattern="Comments" methodname="addComments" paramcount="0" />
+	   			    			
+    			<pattern value="Extrinsic">
+		   			<object-create-rule classname="org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic" />
+		   			
+		   			<call-method-rule methodname="setValue" paramcount="0" />
+	    			<set-properties-rule>
+	    				<alias attr-name="name" prop-name="name" />
+	    			</set-properties-rule>
+	    			
+		   			<set-next-rule methodname="addExtrinsic" />
+	   			</pattern> <!--  Extrinsic -->
+	   			
 		   		<set-next-rule methodname="addInvoiceItem" />
 		   		
 		   </pattern> 	<!-- InvoiceDetailServiceItem --> 

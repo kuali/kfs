@@ -12,8 +12,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic;
 
 /**
  * @author delyea
@@ -28,19 +31,22 @@ public class ElectronicInvoiceDetailRequestHeader {
   private String invoiceDateString;
   private Date invoiceDate;
   private String deploymentMode;
-  private boolean isInformationOnly = false;
-  private boolean isHeaderInvoiceIndicator = false;
-  private boolean isTaxInLine = false;
-  private boolean isSpecialHandlingInLine = false;
-  private boolean isShippingInLine = false;
-  private boolean isDiscountInLine = false;
+  /**
+   * This is needed like this instead of isInformationOnly because of variable mapping in digester rule
+   */
+  private boolean isInformationOnly;
+  private boolean isHeaderInvoiceIndicator;
+  private boolean isTaxInLine;
+  private boolean isSpecialHandlingInLine;
+  private boolean isShippingInLine;
+  private boolean isDiscountInLine;
   private String shippingDateString;
   private Date shippingDate;
   private String invoiceCustomerNumber;
   
   private List invoicePartnerContacts = new ArrayList();
   private List invoiceShippingContacts = new ArrayList();  // holds the ship to address information
-  private List extrinsics;
+  private List extrinsics = new ArrayList(); 
   
   /**
    * Newly Added
@@ -50,6 +56,7 @@ public class ElectronicInvoiceDetailRequestHeader {
   private String IdReferenceDescription;
   private String IdReferenceDomain;
   private String IdReferenceIdentifier; 
+  private int payInNumberOfDays;
   
   
   public ElectronicInvoiceDetailRequestHeader() {
@@ -306,8 +313,8 @@ public class ElectronicInvoiceDetailRequestHeader {
   /**
    * @param isDiscountInLine The isDiscountInLine to set.
    */
-  public void setDiscountInLine(boolean isDiscountInLine) {
-    this.isDiscountInLine = isDiscountInLine;
+  public void setDiscountInfoProvidedIndicator(String isDiscountInLine) {
+    this.isDiscountInLine = StringUtils.equalsIgnoreCase(StringUtils.defaultString(isDiscountInLine),"yes");;
   }
   /**
    * @return Returns the isHeaderInvoiceIndicator.
@@ -318,8 +325,8 @@ public class ElectronicInvoiceDetailRequestHeader {
   /**
    * @param isHeaderInvoiceIndicator The isHeaderInvoiceIndicator to set.
    */
-  public void setHeaderInvoiceIndicator(boolean isHeaderInvoiceIndicator) {
-    this.isHeaderInvoiceIndicator = isHeaderInvoiceIndicator;
+  public void setHeaderInvoiceInd(String isHeaderInvoiceIndicator) {
+    this.isHeaderInvoiceIndicator = StringUtils.equalsIgnoreCase(StringUtils.defaultString(isHeaderInvoiceIndicator),"yes");
   }
   /**
    * @return Returns the isInformationOnly.
@@ -330,8 +337,11 @@ public class ElectronicInvoiceDetailRequestHeader {
   /**
    * @param isInformationOnly The isInformationOnly to set.
    */
-  public void setInformationOnly(boolean isInformationOnly) {
-    this.isInformationOnly = isInformationOnly;
+  public void setbuyerInformationOnlyIndicator(String informationOnly) {
+      /**
+       * It's not possible to have the param as boolean type since yes is not a allowed boolean value in xsd (Allowed ones - true/false/1/0)
+       */
+    this.isInformationOnly = StringUtils.equalsIgnoreCase(StringUtils.defaultString(informationOnly),"yes");
   }
   /**
    * @return Returns the isShippingInLine.
@@ -342,8 +352,8 @@ public class ElectronicInvoiceDetailRequestHeader {
   /**
    * @param isShippingInLine The isShippingInLine to set.
    */
-  public void setShippingInLine(boolean isShippingInLine) {
-    this.isShippingInLine = isShippingInLine;
+  public void setShippingInfoProvidedIndicator(String isShippingInLine) {
+    this.isShippingInLine = StringUtils.equalsIgnoreCase(StringUtils.defaultString(isShippingInLine),"yes");
   }
   /**
    * @return Returns the isSpecialHandlingInLine.
@@ -354,8 +364,8 @@ public class ElectronicInvoiceDetailRequestHeader {
   /**
    * @param isSpecialHandlingInLine The isSpecialHandlingInLine to set.
    */
-  public void setSpecialHandlingInLine(boolean isSpecialHandlingInLine) {
-    this.isSpecialHandlingInLine = isSpecialHandlingInLine;
+  public void setSpecialHandlingInfoProvidedIndicator(String isSpecialHandlingInLine) {
+    this.isSpecialHandlingInLine = StringUtils.equalsIgnoreCase(StringUtils.defaultString(isSpecialHandlingInLine),"yes");
   }
   /**
    * @return Returns the isTaxInLine.
@@ -366,8 +376,8 @@ public class ElectronicInvoiceDetailRequestHeader {
   /**
    * @param isTaxInLine The isTaxInLine to set.
    */
-  public void setTaxInLine(boolean isTaxInLine) {
-    this.isTaxInLine = isTaxInLine;
+  public void setTaxInfoProvidedIndicator(String isTaxInLine) {
+    this.isTaxInLine = StringUtils.equalsIgnoreCase(StringUtils.defaultString(isTaxInLine),"yes");
   }
   /**
    * @return Returns the operation.
@@ -410,8 +420,9 @@ public class ElectronicInvoiceDetailRequestHeader {
       return isAccountingInLine;
   }
 
-  public void setAccountingInLine(boolean isAccountingInLine) {
-      this.isAccountingInLine = isAccountingInLine;
+  public void setAccountingInfoProvidedIndicator(String isAccountingInLine) {
+      LOG.error("isAccountingInLine................."+isAccountingInLine);
+      this.isAccountingInLine = StringUtils.equalsIgnoreCase(StringUtils.defaultString(isAccountingInLine),"yes");;
   }
   
   public String getIdReferenceCreator() {
@@ -474,6 +485,27 @@ public class ElectronicInvoiceDetailRequestHeader {
       return null;
   }
   
+  public void addExtrinsic(CxmlExtrinsic extrinsic) {
+      this.extrinsics.add(extrinsic);
+  }
+  
+  public CxmlExtrinsic[] getExtrinsicAsArray() {
+      if (extrinsics.size() > 0){
+          CxmlExtrinsic[] extrinsics = new CxmlExtrinsic[this.extrinsics.size()];
+          this.extrinsics.toArray(extrinsics);
+          return extrinsics;
+      }
+      return null;
+  }
+  
+  public int getPayInNumberOfDays() {
+      return payInNumberOfDays;
+  }
+
+  public void setPayInNumberOfDays(int payInNumberOfDays) {
+      this.payInNumberOfDays = payInNumberOfDays;
+  }
+  
   public String toString(){
       
       ToStringBuilder toString = new ToStringBuilder(this);
@@ -484,20 +516,26 @@ public class ElectronicInvoiceDetailRequestHeader {
       toString.append("operation",getOperation());
       toString.append("invoiceDate",getInvoiceDateString());
       
+      toString.append("isInformationOnly",isInformationOnly());
       toString.append("isTaxInLine",isTaxInLine());
       toString.append("isSpecialHandlingInLine",isSpecialHandlingInLine());
       toString.append("isShippingInLine",isShippingInLine());
       toString.append("isDiscountInLine",isDiscountInLine());
       toString.append("isAccountingInLine",isAccountingInLine());
       
+      toString.append("shippingDate",getShippingDateString());
+      toString.append("invoiceCustomerNumber",getInvoiceCustomerNumber());
+      toString.append("invoicePartnerContacts",getInvoicePartnerContacts());
+      toString.append("invoiceCustomerNumber",getInvoiceCustomerNumber());
+      toString.append("invoiceShippingContacts",getInvoiceShippingContacts());
+      toString.append("payInNumberOfDays",getPayInNumberOfDays());
       
-      
+      toString.append("invoicePartnerContacts",getInvoicePartnerContacts());
+      toString.append("invoiceShippingContacts",getInvoiceShippingContacts());
+      toString.append("extrinsics",getExtrinsics());
       
       return toString.toString();
   }
-
-
-
 
 }
 

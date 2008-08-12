@@ -75,8 +75,8 @@
                             <xsd:complexType>
                               <xsd:simpleContent>
                                 <xsd:extension base="xsd:string">
-                                  <xsd:attribute name="isHeaderInvoice" type="xsd:string" />
-                                  <xsd:attribute name="isVatRecoverable" type="xsd:string" />
+                                  <xsd:attribute name="isHeaderInvoice" type="xsd:string" use="optional"/>
+                                  <xsd:attribute name="isVatRecoverable" type="xsd:string" use="optional"/>
                                 </xsd:extension>
                               </xsd:simpleContent>
                             </xsd:complexType>
@@ -376,13 +376,12 @@
                             <xsd:complexType>
                               <xsd:simpleContent>
                                 <xsd:extension base="xsd:string">
-                                  <xsd:attribute ref="xml:lang" use="required" />
+                                  <xsd:attribute ref="xml:lang" use="optional" />
                                 </xsd:extension>
                               </xsd:simpleContent>
                             </xsd:complexType>
                           </xsd:element>
-                          
-                          
+
                           <xsd:element minOccurs="0" maxOccurs="unbounded" name="Extrinsic">
                             <xsd:complexType>
                               <xsd:simpleContent>
@@ -393,10 +392,33 @@
                             </xsd:complexType>
                           </xsd:element>
                         </xsd:sequence>
-                        <xsd:attribute name="purpose" type="xsd:string" use="required" />
-                        <xsd:attribute name="operation" type="xsd:string" use="required" />
+                        <xsd:attribute name="purpose" use="required">
+                        	<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="standard"/>
+									<xsd:enumeration value="creditMemo"/>
+									<xsd:enumeration value="debitMemo"/>
+									<xsd:enumeration value="lineLevelCreditMemo"/>
+	   							</xsd:restriction>
+  							</xsd:simpleType>
+  						</xsd:attribute>	
+                        <xsd:attribute name="operation" use="required" >
+                        	<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="new"/>
+									<xsd:enumeration value="delete"/>
+	   							</xsd:restriction>
+  							</xsd:simpleType>
+  						</xsd:attribute>	
                         <xsd:attribute name="invoiceDate" type="xsd:date" use="required" />
                         <xsd:attribute name="invoiceID" type="xsd:unsignedInt" use="required" />
+                        <xsd:attribute name="isInformationOnly" use="optional">
+                        	<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+						      		<xsd:enumeration value="yes"/>
+	   							</xsd:restriction>
+  							</xsd:simpleType>
+                        </xsd:attribute>
                       </xsd:complexType>
                     </xsd:element>
                     <xsd:element minOccurs="1" maxOccurs="unbounded" name="InvoiceDetailOrder">
@@ -880,7 +902,7 @@
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:string">
-                                        <xsd:attribute ref="xml:lang" use="required" />
+                                        <xsd:attribute ref="xml:lang" use="optional" />
                                       </xsd:extension>
                                     </xsd:simpleContent>
                                   </xsd:complexType>
@@ -1127,6 +1149,26 @@
 						                              </xsd:sequence>
 						                            </xsd:complexType>
 						                         </xsd:element>	 <!-- NetAmount -->	
+						                         
+						                         <xsd:element minOccurs="0" name="Comments">
+						                            <xsd:complexType>
+						                              <xsd:simpleContent>
+						                                <xsd:extension base="xsd:string">
+						                                  <xsd:attribute ref="xml:lang" use="optional" />
+						                                </xsd:extension>
+						                              </xsd:simpleContent>
+						                            </xsd:complexType>
+						                         </xsd:element>
+
+						                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Extrinsic">
+						                            <xsd:complexType>
+						                              <xsd:simpleContent>
+						                                <xsd:extension base="xsd:string">
+						                                  <xsd:attribute name="name" type="xsd:string" />
+						                                </xsd:extension>
+						                              </xsd:simpleContent>
+						                            </xsd:complexType>
+						                          </xsd:element>
                           
                           			</xsd:sequence>
                               		<xsd:attribute name="invoiceLineNumber" type="xsd:unsignedByte" use="required" />

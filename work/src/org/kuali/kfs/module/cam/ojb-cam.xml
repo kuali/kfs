@@ -565,6 +565,9 @@
     <reference-descriptor name="expenditureFinancialDocument" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="expenditureFinancialDocumentNumber" />
     </reference-descriptor>
+    <reference-descriptor name="expenditureFinancialDocumentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="expenditureFinancialDocumentTypeCode" />
+    </reference-descriptor>
 	<reference-descriptor name="expenditureFinancialSystemOrigination" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="expenditureFinancialSystemOriginationCode" />
 	</reference-descriptor>

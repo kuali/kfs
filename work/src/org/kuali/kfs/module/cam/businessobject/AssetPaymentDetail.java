@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -40,6 +41,7 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private AccountingPeriod financialDocumentPostingPeriod;
     private DocumentHeader documentHeader;
     private DocumentHeader expenditureFinancialDocument;
+    private DocumentType expenditureFinancialDocumentType;
     private OriginationCode expenditureFinancialSystemOrigination;
     private Account account;
     private ObjectCode objectCode;
@@ -216,10 +218,20 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     public DocumentHeader getExpenditureFinancialDocument() {
         return expenditureFinancialDocument;
     }
-
+    
 
     public void setExpenditureFinancialDocument(DocumentHeader expenditureFinancialDocument) {
         this.expenditureFinancialDocument = expenditureFinancialDocument;
+    }
+
+    
+    public DocumentType getExpenditureFinancialDocumentType() {
+        return expenditureFinancialDocumentType;
+    }
+
+    
+    public void setExpenditureFinancialDocumentType(DocumentType expenditureFinancialDocumentType) {
+        this.expenditureFinancialDocumentType = expenditureFinancialDocumentType;
     }
 
 

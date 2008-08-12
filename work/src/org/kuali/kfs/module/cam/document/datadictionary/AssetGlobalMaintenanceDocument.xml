@@ -36,6 +36,10 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="agency"
               p:attributeToHighlightOnFail="agencyNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="expenditureFinancialDocumentType"
+              p:collection="assetPaymentDetails"
+              p:attributeToHighlightOnFail="expenditureFinancialDocumentTypeCode" />
       </list>
     </property>
     <property name="lockingKeys" >

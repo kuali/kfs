@@ -950,7 +950,12 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             parameters.put("projectCode", line.getProjectCode());
         }
         if (StringUtils.isNotBlank(getObjectTypeCodeFromLine(line))) {
-            parameters.put("objectTypeCode", line.getObjectTypeCode());
+            if (!StringUtils.isBlank(line.getObjectTypeCode())) {
+                parameters.put("objectTypeCode", line.getObjectTypeCode());
+            } else {
+                line.refreshReferenceObject("objectCode");
+                parameters.put("objectTypeCode", line.getObjectCode().getFinancialObjectTypeCode());
+            }
         }
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.BALANCE_INQUIRY_REPORT_MENU_ACTION, parameters);

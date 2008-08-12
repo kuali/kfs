@@ -25,6 +25,7 @@ import org.kuali.core.datadictionary.TransactionalDocumentEntry;
  */
 public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocumentEntry {
     private Map<Class, String> validationMap;
+    private Map<String, AccountingLineGroupDefinition> accountingLineGroups;
 
     /**
      * Gets the validationMap attribute. 
@@ -41,5 +42,20 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     public void setValidationMap(Map<Class, String> validationMap) {
         this.validationMap = validationMap;
     }
-    
+
+    /**
+     * Gets the accountingLineGroups attribute. 
+     * @return Returns the accountingLineGroups.
+     */
+    public Map<String, AccountingLineGroupDefinition> getAccountingLineGroups() {
+        return accountingLineGroups;
+    }
+
+    /**
+     * Sets the accountingLineGroups attribute value.
+     * @param accountingLineGroups The accountingLineGroups to set.
+     */
+    public void setAccountingLineGroups(Map<String, AccountingLineGroupDefinition> accountingLineGroups) {
+        this.accountingLineGroups = accountingLineGroups;
+    }
 }

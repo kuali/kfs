@@ -1157,5 +1157,11 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ALL = "ALL";
         public static final String BUDGET_CONSTRUCTION = "BC";
     }
+    
+    public static final class AccountingLineViewStandardBlockNames {
+        public static final String ACTION_BLOCK = "actions";
+        public static final String SEQUENCE_NUMBER_BLOCK = "sequenceNumber";
+        public static final String SALES_TAX_BLOCK = "salesTaxInformation";
+    }
 }
 

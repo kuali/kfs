@@ -970,4 +970,6 @@ public class KFSKeyConstants {
     public static final String SUB_OBJECT_TRICKLE_DOWN_INACTIVATION = "note.trickleDownInactivation.inactivatedSubObjects";
     public static final String SUB_OBJECT_TRICKLE_DOWN_INACTIVATION_ERROR_DURING_PERSISTENCE = "note.trickleDownInactivation.inactivatedSubObjects.errorDuringPersistence";
     public static final String SUB_OBJECT_TRICKLE_DOWN_INACTIVATION_RECORD_ALREADY_MAINTENANCE_LOCKED = "note.trickleDownInactivation.inactivatedSubObjects.recordAlreadyMaintenanceLocked";
+    
+    public static final String ACCOUNTING_LINE_ACTIONS_LABEL = "accounting.line.actions.header.label";
 }

@@ -56,3 +56,5 @@
 
 <%-- utility web functions --%>
 <%@ taglib uri="/WEB-INF/tlds/kfsfunc.tld" prefix="kfsfunc" %>
+
+<%@ taglib uri="/WEB-INF/tlds/kfssys.tld" prefix="sys" %>

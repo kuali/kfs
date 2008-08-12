@@ -37,6 +37,18 @@
       </list>
     </property>
     <property name="validationMap" ref="InternalBillingDocument-validations" />
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="InternalBilling-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+	    	<entry>
+	    		<key><value>target</value></key>
+	    		<ref bean="InternalBilling-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -105,4 +117,28 @@
     	</map>
     </property>
   </bean>
+  
+  <!-- accounting line groups -->
+  <bean id="InternalBilling-sourceAccountingLineGroup" parent="InternalBilling-sourceAccountingLineGroup-parentBean" />
+  
+  <bean id="InternalBilling-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="Income" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	</bean>
+	
+	<bean id="InternalBilling-targetAccountingLineGroup" parent="InternalBilling-targetAccountingLineGroup-parentBean" />
+	
+	<bean id="InternalBilling-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
+	  <property name="groupLabel" value="Expense" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="target" />
+	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
+	</bean>
+	
 </beans>

@@ -1,0 +1,101 @@
+/*
+ * Copyright 2008 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.sys.document.datadictionary;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.core.datadictionary.exception.AttributeValidationException;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.web.AccountingLineViewLine;
+import org.kuali.kfs.sys.document.web.RenderableElement;
+import org.kuali.kfs.sys.document.web.TableJoining;
+
+/**
+ * Data dictionary definition of a collection of elements which will be rendered as one table row in the table of each accounting line.
+ */
+public class AccountingLineViewLineDefinition extends DataDictionaryDefinitionBase implements AccountingLineViewRenderableElementDefinition {
+    private List<AccountingLineViewFieldDefinition> fields;
+    private String elementName;
+
+    /**
+     * Validates that:
+     * 1) there is at least one child element
+     * @see org.kuali.core.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     */
+    public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
+        if (fields == null || fields.size() == 0) {
+            throw new AttributeValidationException("At least one field must be specified to live within an AccountingLineViewLine"+(!StringUtils.isBlank(elementName) ? " ("+elementName+")" : ""));
+        }
+    }
+
+    /**
+     * Gets the fields attribute. 
+     * @return Returns the fields.
+     */
+    public List<AccountingLineViewFieldDefinition> getFields() {
+        return fields;
+    }
+
+    /**
+     * Sets the fields attribute value.
+     * @param fields The fields to set.
+     */
+    public void setFields(List<AccountingLineViewFieldDefinition> fields) {
+        this.fields = fields;
+    }
+
+    /**
+     * Gets the elementName attribute. 
+     * @return Returns the elementName.
+     */
+    public String getElementName() {
+        return elementName;
+    }
+
+    /**
+     * Sets the elementName attribute value.
+     * @param elementName The elementName to set.
+     */
+    public void setElementName(String elementName) {
+        this.elementName = elementName;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.datadictionary.AccountingLineViewRenderableElementDefinition#createLayoutElement(java.lang.Class)
+     */
+    public TableJoining createLayoutElement(Class<? extends AccountingLine> accountingLineClass) {
+        AccountingLineViewLine line = new AccountingLineViewLine();
+        line.setDefinition(this);
+        line.setElements(getChildrenRenderableElements(accountingLineClass));
+        return line;
+    }
+    
+    /**
+     * Creates children renderable elements for all children of this line definition
+     * @param accountingLineClass accounting line class to pass through
+     * @return a List of renderable children elements
+     */
+    protected List<RenderableElement> getChildrenRenderableElements(Class<? extends AccountingLine> accountingLineClass) {
+        List<RenderableElement> elements = new ArrayList<RenderableElement>();
+        for (AccountingLineViewFieldDefinition fieldDefinition : fields) {
+            elements.add((RenderableElement)fieldDefinition.createLayoutElement(accountingLineClass));
+        }
+        return elements;
+    }
+}

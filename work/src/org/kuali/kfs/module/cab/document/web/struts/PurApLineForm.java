@@ -17,36 +17,24 @@ package org.kuali.kfs.module.cab.document.web.struts;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 
 public class PurApLineForm extends KualiForm {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);
-    
-    private Integer purchaseOrderIdentifier;
+    private String purchaseOrderIdentifier;
     private String purApContactEmailAddress;
     private String purApContactPhoneNumber;
-    private Integer currentSeqNbr;
     
-    private List<PurchasingAccountsPayableDocument> purApDocList;
+    private List<PurchasingAccountsPayableDocument> purApDocs;
     
     public PurApLineForm() {
-        this.purApDocList = new TypedArrayList(PurchasingAccountsPayableDocument.class);
-    }
-    
-    public Integer getPurchaseOrderIdentifier() {
-        return purchaseOrderIdentifier;
-    }
-    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
-        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
-    }
-    public List<PurchasingAccountsPayableDocument> getPurApDocList() {
-        return purApDocList;
-    }
-    public void setPurApDocList(List<PurchasingAccountsPayableDocument> purApDocList) {
-        this.purApDocList = purApDocList;
+        this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
     }
 
     public String getPurApContactEmailAddress() {
@@ -65,12 +53,27 @@ public class PurApLineForm extends KualiForm {
         this.purApContactPhoneNumber = purApContactPhoneNumber;
     }
 
-    public Integer getCurrentSeqNbr() {
-        return currentSeqNbr;
+    @Override
+    public void populate(HttpServletRequest request) {
+        // TODO Auto-generated method stub
+        super.populate(request);
     }
 
-    public void setCurrentSeqNbr(Integer currentSeqNbr) {
-        this.currentSeqNbr = currentSeqNbr;
+
+    public List<PurchasingAccountsPayableDocument> getPurApDocs() {
+        return purApDocs;
+    }
+
+    public void setPurApDocs(List<PurchasingAccountsPayableDocument> purApDocs) {
+        this.purApDocs = purApDocs;
+    }
+
+    public String getPurchaseOrderIdentifier() {
+        return purchaseOrderIdentifier;
+    }
+
+    public void setPurchaseOrderIdentifier(String purchaseOrderIdentifier) {
+        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
 }

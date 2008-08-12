@@ -35,6 +35,8 @@ public class CabConstants extends JSTLConstants {
     public static final String PREQ = "PREQ";
     public static final String CM = "CM";
     
+    public static final String TRADE_IN_TYPE_CODE = "TRDI";
+    
     public static final String PURAP_START_METHOD = "start";
     public static final String CB_INVOICE_LINE_ACTION = "cabPurApLine.do";
     

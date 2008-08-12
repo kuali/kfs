@@ -214,6 +214,9 @@
 		<inverse-foreignkey field-ref="accountsPayableLineItemIdentifier" />
 		<inverse-foreignkey field-ref="capitalAssetBuilderLineNumber" />
 	</collection-descriptor>
+	<reference-descriptor name="purchasingAccountsPayableDocument" class-ref="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber"/>
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableAssetDetail" table="CB_PUR_AST_DTL_T">

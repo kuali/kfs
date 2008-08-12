@@ -32,7 +32,7 @@
   <bean id="PurchasingAccountsPayableDocument-documentNumber" parent="PurchasingAccountsPayableDocument-documentNumber-parentBean" />
 
   <bean id="PurchasingAccountsPayableDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber" >
-  	<property name="label" value="PurAp Document/Notification Id" />
+  	<property name="label" value="Document/Notification Id" />
     <property name="shortLabel" value="Document/Notification Id" />
   </bean>
   <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier" parent="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" />
@@ -40,7 +40,7 @@
   <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier" >
     <property name="name" value="purapDocumentIdentifier" />
   	<property name="label" value="Invoice" />
-    <property name="shortLabel" value="Payment Request Nbr/ Credit Memo Nbr" />
+    <property name="shortLabel" value="Invoice" />
   </bean>
   <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" parent="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" />
 
@@ -63,7 +63,7 @@
   <bean id="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
   	<property name="name" value="documentTypeCode" />
   	<property name="label" value="Doc Typ" />
-    <property name="shortLabel" value="Doc Typ Code" />
+    <property name="shortLabel" value="Doc Type" />
   </bean>
   <bean id="PurchasingAccountsPayableDocument-purApContactEmailAddress" parent="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean" />
 
@@ -141,6 +141,8 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purapDocumentIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="documentTypeCode" />
         <bean parent="FieldDefinition"

@@ -64,6 +64,13 @@ public class CabPropertyConstants {
         public static final String ITEM_LINE_NUMBER = "itemLineNumber";
     }
     
+    public static class PurchasingAccountsPayableLineAssetAccount {
+        public static final String DOCUMENT_NUMBER = "documentNumber";
+        public static final String PUR_ITM_ID = "accountsPayableLineItemIdentifier";
+        public static final String CAB_LINE_NUMBER = "capitalAssetBuilderLineNumber";
+        
+    }
+    
     public static class Pretag {
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";

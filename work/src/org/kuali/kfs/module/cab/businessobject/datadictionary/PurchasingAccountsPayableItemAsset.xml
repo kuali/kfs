@@ -28,19 +28,18 @@
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-versionNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-itemLineNumber" />
-        <ref bean="PurchasingAccountsPayableItemAsset-target" />
+        <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode" />
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
-
   <bean id="PurchasingAccountsPayableItemAsset-documentNumber" parent="PurchasingAccountsPayableItemAsset-documentNumber-parentBean" />
 
   <bean id="PurchasingAccountsPayableItemAsset-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="document Number" />
+    <property name="label" value="PurAp Document Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
@@ -99,19 +98,20 @@
     <property name="name" value="accountsPayableItemQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Accounts Payable Item Quantity" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Qty" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="FixedPointValidationPattern"
+            p:precision="11"
+            p:scale="2" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="13" />
+            p:size="10" />
     </property>
     <property name="summary" value="accountsPayableItemQuantity" />
     <property name="description" value="accountsPayableItemQuantity description..." />
   </bean>
-
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetDescription" parent="PurchasingAccountsPayableItemAsset-capitalAssetDescription-parentBean" />
 
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetDescription-parentBean" abstract="true" parent="AttributeDefinition">
@@ -229,7 +229,7 @@
    <property name="name" value="itemLineNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Line #" />
-    <property name="shortLabel" value="Item Line #" />
+    <property name="shortLabel" value="Line #" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -239,26 +239,23 @@
             p:size="5" />
     </property>
   </bean>
-  <bean id="PurchasingAccountsPayableItemAsset-target" parent="PurchasingAccountsPayableItemAsset-target-parentBean" />
 
-  <bean id="PurchasingAccountsPayableItemAsset-target-parentBean" abstract="true" parent="AttributeDefinition">
-  	<property name="name" value="target" />
-    <property name="label" value="Target" />
-    <property name="shortLabel" value="Number" />
+  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode" parent="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode-parentBean" />
+
+  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetTransactionTypeCode" />
     <property name="forceUppercase" value="true" />
-    <property name="maxLength" value="3" />
+    <property name="label" value="CAMS Transaction" />
+    <property name="shortLabel" value="CAMS Transaction" />
+    <property name="maxLength" value="4" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-     <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.cab.businessobject.options.MergeTargetValueFinder"/>
+      <bean parent="TextControlDefinition"
+            p:size="6" />
     </property>
-    <property name="summary" value="merge target number" />
-    <property name="description" value="merge target number description..." />
   </bean>
-
-
 <!-- Business Object Inquiry Definition -->
 
 

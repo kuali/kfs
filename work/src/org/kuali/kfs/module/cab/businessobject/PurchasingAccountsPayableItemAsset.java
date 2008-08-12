@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 
 /**
@@ -15,7 +15,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetType;
 public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjectBase {
 
     private String documentNumber;
-    private Integer accountsPayableLineItemIdentifier; 
+    private Integer accountsPayableLineItemIdentifier;
     private Integer capitalAssetBuilderLineNumber;
     private String accountsPayableLineItemDescription;
     private KualiDecimal accountsPayableItemQuantity;
@@ -26,20 +26,51 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private String manufacturerModelNumber;
     private String capitalAssetManagementDocumentNumber;
     private boolean active;
-
+    
+    private PurchasingAccountsPayableDocument purchasingAccountsPayableDocument;
     private AssetType capitalAssetType;
     private List<PurchasingAccountsPayableAssetDetail> purchasingAccountsPayableAssetDetails;
     private List<PurchasingAccountsPayableLineAssetAccount> purchasingAccountsPayableLineAssetAccounts;
-    
+
     // non persistent fields
     private Integer itemLineNumber;
-    private Integer target;
-    
+    private String capitalAssetTransactionTypeCode;
+    private boolean additionalChargeNonTradeInIndicator;
+    private boolean tradeInIndicator;
+    private boolean itemAssignedToTradeInIndicator;
+    private KualiDecimal unitCost;
+    private String firstFincialObjectCode;
+
+
+    public boolean isTradeInIndicator() {
+        return tradeInIndicator;
+    }
+
+    public void setTradeInIndicator(boolean tradeInIndicator) {
+        this.tradeInIndicator = tradeInIndicator;
+    }
+
+    public boolean isAdditionalChargeNonTradeInIndicator() {
+        return additionalChargeNonTradeInIndicator;
+    }
+
+    public void setAdditionalChargeNonTradeInIndicator(boolean itemTypeBelowTheLineIndicator) {
+        this.additionalChargeNonTradeInIndicator = itemTypeBelowTheLineIndicator;
+    }
+
+    public String getCapitalAssetTransactionTypeCode() {
+        return capitalAssetTransactionTypeCode;
+    }
+
+    public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
+        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
+    }
+
     public PurchasingAccountsPayableItemAsset() {
         this.purchasingAccountsPayableAssetDetails = new TypedArrayList(PurchasingAccountsPayableAssetDetail.class);
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
     }
-    
+
     public List<PurchasingAccountsPayableLineAssetAccount> getPurchasingAccountsPayableLineAssetAccounts() {
         return purchasingAccountsPayableLineAssetAccounts;
     }
@@ -49,7 +80,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber.
      */
@@ -67,7 +98,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the accountsPayableLineItemIdentifier attribute. 
+     * Gets the accountsPayableLineItemIdentifier attribute.
      * 
      * @return Returns the accountsPayableLineItemIdentifier.
      */
@@ -85,7 +116,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the accountsPayableLineItemDescription attribute. 
+     * Gets the accountsPayableLineItemDescription attribute.
      * 
      * @return Returns the accountsPayableLineItemDescription.
      */
@@ -103,7 +134,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the accountsPayableItemQuantity attribute. 
+     * Gets the accountsPayableItemQuantity attribute.
      * 
      * @return Returns the accountsPayableItemQuantity.
      */
@@ -121,7 +152,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the purchasingAccountsPayableAssetDetail attribute. 
+     * Gets the purchasingAccountsPayableAssetDetail attribute.
      * 
      * @return Returns the purchasingAccountsPayableAssetDetail.
      */
@@ -135,7 +166,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * @param purchasingAccountsPayableAssetDetail The purchasingAccountsPayableAssetDetail to set.
      */
     public void setPurchasingAccountsPayableAssetDetails(List<PurchasingAccountsPayableAssetDetail> purchasingAccountsPayableAssetDetails) {
-       this.purchasingAccountsPayableAssetDetails = purchasingAccountsPayableAssetDetails;
+        this.purchasingAccountsPayableAssetDetails = purchasingAccountsPayableAssetDetails;
     }
 
     /**
@@ -155,7 +186,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setCapitalAssetBuilderLineNumber(Integer capitalAssetBuilderLineNumber) {
         this.capitalAssetBuilderLineNumber = capitalAssetBuilderLineNumber;
     }
-    
+
     /**
      * Gets the capitalAssetBuilderQuantity attribute.
      * 
@@ -173,7 +204,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setCapitalAssetBuilderQuantity(KualiDecimal capitalAssetBuilderQuantity) {
         this.accountsPayableItemQuantity = capitalAssetBuilderQuantity;
     }
-    
+
     /**
      * Gets the capitalAssetDescription attribute.
      * 
@@ -191,7 +222,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setCapitalAssetDescription(String capitalAssetDescription) {
         this.capitalAssetDescription = capitalAssetDescription;
     }
-    
+
     /**
      * Gets the capitalAssetTypeCode attribute.
      * 
@@ -209,7 +240,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setCapitalAssetTypeCode(String capitalAssetTypeCode) {
         this.capitalAssetTypeCode = capitalAssetTypeCode;
     }
-    
+
     /**
      * Gets the vendorName attribute.
      * 
@@ -227,7 +258,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
     }
-    
+
     /**
      * Gets the manufacturerName attribute.
      * 
@@ -263,7 +294,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setManufacturerModelNumber(String manufacturerModelNumber) {
         this.manufacturerModelNumber = manufacturerModelNumber;
     }
-    
+
     /**
      * Gets the capitalAssetManagementDocumentNumber attribute.
      * 
@@ -281,7 +312,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setCapitalAssetManagementDocumentNumber(String capitalAssetManagementDocumentNumber) {
         this.capitalAssetManagementDocumentNumber = capitalAssetManagementDocumentNumber;
     }
-    
+
     /**
      * Gets the capitalAssetType attribute.
      * 
@@ -300,20 +331,20 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setCapitalAssetType(AssetType capitalAssetType) {
         this.capitalAssetType = capitalAssetType;
     }
-    
+
     public Integer getItemLineNumber() {
         return itemLineNumber;
     }
-    
+
     public void setItemLineNumber(Integer itemLineNumber) {
         this.itemLineNumber = itemLineNumber;
     }
- 
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         m.put("accountsPayableLineItemIdentifier", this.accountsPayableLineItemIdentifier);
         m.put("capitalAssetBuilderLineNumber", this.capitalAssetBuilderLineNumber);
@@ -338,16 +369,37 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.active = active;
     }
 
-    public Integer getTarget() {
-        return target;
+
+    public PurchasingAccountsPayableDocument getPurchasingAccountsPayableDocument() {
+        return purchasingAccountsPayableDocument;
     }
 
-    public void setTarget(Integer target) {
-        this.target = target;
+    public void setPurchasingAccountsPayableDocument(PurchasingAccountsPayableDocument purchasingAccountsPayableDocument) {
+        this.purchasingAccountsPayableDocument = purchasingAccountsPayableDocument;
     }
 
-    public List<Integer> getTargetList() {
-        // TODO Auto-generated method stub
-        return null;
+    public void setUnitCost(KualiDecimal unitCost) {
+        this.unitCost = unitCost;
+    }
+    
+    public KualiDecimal getUnitCost(){
+        return this.unitCost;
+    }
+
+    public void setFirstFincialObjectCode(String firstFincialObjectCode) {
+        this.firstFincialObjectCode = firstFincialObjectCode;
+    }
+    
+    public String getFirstFincialObjectCode() {
+        return this.firstFincialObjectCode;
+    }
+
+    
+    public boolean isItemAssignedToTradeInIndicator() {
+        return itemAssignedToTradeInIndicator;
+    }
+
+    public void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator) {
+        this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
     }
 }

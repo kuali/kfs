@@ -24,15 +24,25 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     private DocumentType documentType;
     private FinancialSystemDocumentHeader documentHeader;
     private List<PurchasingAccountsPayableItemAsset> purchasingAccountsPayableItemAssets;
+    private List<PurchasingAccountsPayableItemAsset> assetLineItems;
+    private List<PurchasingAccountsPayableItemAsset> additionalChargeLineItems;
+    private List<PurchasingAccountsPayableItemAsset> tradeInLineItems;
 
     public PurchasingAccountsPayableDocument() {
         this.purchasingAccountsPayableItemAssets = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
+        this.assetLineItems = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
+        this.additionalChargeLineItems = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
+        this.tradeInLineItems = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
     }
     
     // non-persistent
     private String purApContactEmailAddress;
     private String purApContactPhoneNumber;
-
+    
+    public int getAdditionalChargeLineItemsSize() {
+        return this.additionalChargeLineItems.size();
+    }
+    
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -97,8 +107,32 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
         this.purchasingAccountsPayableItemAssets = purchasingAccountsPayableItemAssets;
     }
 
-    
-    public String getPurApContactEmailAddress() {
+
+    public List<PurchasingAccountsPayableItemAsset> getAssetLineItems() {
+        return assetLineItems;
+    } 
+
+   public void setAssetLineItems(List<PurchasingAccountsPayableItemAsset> assetLineItems) {
+        this.assetLineItems = assetLineItems;
+    }
+
+    public List<PurchasingAccountsPayableItemAsset> getAdditionalChargeLineItems() {
+        return additionalChargeLineItems;
+    }
+
+    public void setAdditionalChargeLineItems(List<PurchasingAccountsPayableItemAsset> additionalChargeLineItems) {
+        this.additionalChargeLineItems = additionalChargeLineItems;
+    }
+
+    public List<PurchasingAccountsPayableItemAsset> getTradeInLineItems() {
+        return tradeInLineItems;
+    }
+
+    public void setTradeInLineItems(List<PurchasingAccountsPayableItemAsset> tradeInLineItems) {
+        this.tradeInLineItems = tradeInLineItems;
+    }
+
+     public String getPurApContactEmailAddress() {
         return purApContactEmailAddress;
     }
 
@@ -122,4 +156,5 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
         m.put("documentNumber", this.documentNumber);
         return m;
     }
+
 }

@@ -59,11 +59,8 @@ public class PurApLineAction extends KualiAction {
     
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApLineForm = (PurApLineForm)form;
-        
-        setPurApInformation(purApLineForm,request);
-        
         PurApLineService purApLineService = SpringContext.getBean(PurApLineService.class);
-        purApLineService.setPurApItemAssets(purApLineForm);
+        purApLineService.setPurApInformation(purApLineForm,request);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -119,32 +116,28 @@ public class PurApLineAction extends KualiAction {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
     }
     
+    //TODO:
+    public ActionForward splitItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    //TODO:
+    public ActionForward merge(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
     
-    private void setPurApInformation(PurApLineForm purApLineForm, HttpServletRequest request) {
-        String purchaseOrderIdentifier = request.getParameter(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER);
-        purApLineForm.setPurchaseOrderIdentifier(Integer.valueOf(purchaseOrderIdentifier));
-        
-        Map<String,Object> cols = new HashMap<String, Object>();
-        cols.put(PurapPropertyConstants.PURAP_DOC_ID, purApLineForm.getPurchaseOrderIdentifier());
-        cols.put(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, "Y");
-        Collection<PurchaseOrderDocument> poDocs =  businessObjectService.findMatching(PurchaseOrderDocument.class, cols);
-        
-        for (PurchaseOrderDocument purchaseOrderDocument : poDocs) {
-            if (purchaseOrderDocument.getInstitutionContactEmailAddress() != null) {
-                purApLineForm.setPurApContactEmailAddress(purchaseOrderDocument.getInstitutionContactEmailAddress());
-            }
-            else if (purchaseOrderDocument.getRequestorPersonEmailAddress() != null) {
-                purApLineForm.setPurApContactEmailAddress(purchaseOrderDocument.getRequestorPersonEmailAddress());
-            }
-            
-            if (purchaseOrderDocument.getInstitutionContactPhoneNumber() != null ) {
-                purApLineForm.setPurApContactPhoneNumber(purchaseOrderDocument.getInstitutionContactPhoneNumber());
-            }
-            else if (purchaseOrderDocument.getRequestorPersonPhoneNumber() != null) {
-                purApLineForm.setPurApContactPhoneNumber(purchaseOrderDocument.getRequestorPersonPhoneNumber());
-            }
-            
-            break;
-        }
+    //TODO:
+    public ActionForward percentPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    //TODO:
+    public ActionForward allocate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    //TODO:
+    public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

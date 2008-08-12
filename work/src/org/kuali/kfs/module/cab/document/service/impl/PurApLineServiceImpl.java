@@ -16,55 +16,162 @@
 package org.kuali.kfs.module.cab.document.service.impl;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
-import org.kuali.kfs.module.cab.document.web.struts.PurApLineAction;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 public class PurApLineServiceImpl implements PurApLineService {
     private static final Logger LOG = Logger.getLogger(PurApLineServiceImpl.class);
     private BusinessObjectService businessObjectService;
 
-    public void setPurApItemAssets(PurApLineForm purApLineForm) {
-        Map<String, Object> cols = new HashMap<String, Object>();
-        cols.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purApLineForm.getPurchaseOrderIdentifier());
-        Collection<PurchasingAccountsPayableDocument> purApDocs = getBusinessObjectService().findMatching(PurchasingAccountsPayableDocument.class, cols);
-        purApLineForm.getPurApDocList().addAll(purApDocs);
-        
-        setPurApLineItemNumber(purApDocs);
+    public void setPurApInformation(PurApLineForm purApLineForm, HttpServletRequest request) {
+        String purchaseOrderIdentifier = request.getParameter(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER);
+        purApLineForm.setPurchaseOrderIdentifier(purchaseOrderIdentifier);
+
+        setPurchaseOrderInfo(purApLineForm, purchaseOrderIdentifier);
+        buildPurApItemAssetsList(purApLineForm, purchaseOrderIdentifier);
+
 
     }
 
-    private void setPurApLineItemNumber(Collection<PurchasingAccountsPayableDocument> purApDocs) {
-        Map<String, Object> pKeys = new HashMap<String, Object>();
-        for (PurchasingAccountsPayableDocument purchasingAccountsPayableDocument : purApDocs) {
-            for (PurchasingAccountsPayableItemAsset purchasingAccountsPayableItemAsset : purchasingAccountsPayableDocument.getPurchasingAccountsPayableItemAssets()) {
-                pKeys.put(PurapPropertyConstants.ITEM_IDENTIFIER, purchasingAccountsPayableItemAsset.getAccountsPayableLineItemIdentifier());
-                // TODO: refactoring?
-                if (CabConstants.PREQ.equalsIgnoreCase(purchasingAccountsPayableDocument.getDocumentTypeCode())) {
-                    PaymentRequestItem item = (PaymentRequestItem) getBusinessObjectService().findByPrimaryKey(PaymentRequestItem.class, pKeys);
-                    purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
-                }
-                else {
-                    CreditMemoItem item = (CreditMemoItem) getBusinessObjectService().findByPrimaryKey(CreditMemoItem.class, pKeys);
-                    purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
-                }
-                pKeys.clear();
+    private KualiDecimal calculateUnitCost(PurchasingAccountsPayableItemAsset item) {
+        KualiDecimal quantity = item.getAccountsPayableItemQuantity();
+        KualiDecimal unitCost = KualiDecimal.ZERO;
+        if (quantity != null && quantity.isNonZero()) {
+            for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
+                unitCost = unitCost.add(account.getItemAccountTotalAmount());
+            }
+            return unitCost.divide(quantity);
+        }
+        return null;
+    }
+
+    private String getFincialObjectCode(PurchasingAccountsPayableItemAsset item) {
+        for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
+            if (ObjectUtils.isNotNull(account.getGeneralLedgerEntry())) {
+                return account.getGeneralLedgerEntry().getFinancialObjectCode();
             }
         }
+        return "";
+    }
+
+    private void setPurchaseOrderInfo(PurApLineForm purApLineForm, String purchaseOrderIdentifier) {
+        Map<String, Object> cols = new HashMap<String, Object>();
+        cols.put(PurapPropertyConstants.PURAP_DOC_ID, purchaseOrderIdentifier);
+        cols.put(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, "Y");
+        Collection<PurchaseOrderDocument> poDocs = businessObjectService.findMatching(PurchaseOrderDocument.class, cols);
+
+        for (PurchaseOrderDocument purchaseOrderDocument : poDocs) {
+            if (purchaseOrderDocument.getInstitutionContactEmailAddress() != null) {
+                purApLineForm.setPurApContactEmailAddress(purchaseOrderDocument.getInstitutionContactEmailAddress());
+            }
+            else if (purchaseOrderDocument.getRequestorPersonEmailAddress() != null) {
+                purApLineForm.setPurApContactEmailAddress(purchaseOrderDocument.getRequestorPersonEmailAddress());
+            }
+
+            if (purchaseOrderDocument.getInstitutionContactPhoneNumber() != null) {
+                purApLineForm.setPurApContactPhoneNumber(purchaseOrderDocument.getInstitutionContactPhoneNumber());
+            }
+            else if (purchaseOrderDocument.getRequestorPersonPhoneNumber() != null) {
+                purApLineForm.setPurApContactPhoneNumber(purchaseOrderDocument.getRequestorPersonPhoneNumber());
+            }
+
+            break;
+        }
+    }
+
+
+    private void buildPurApItemAssetsList(PurApLineForm purApLineForm, String purchaseOrderIdentifier) {
+        Map<String, Object> cols = new HashMap<String, Object>();
+        cols.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purchaseOrderIdentifier);
+        Collection<PurchasingAccountsPayableDocument> purApDocs = businessObjectService.findMatching(PurchasingAccountsPayableDocument.class, cols);
+
+        purApLineForm.getPurApDocs().addAll(purApDocs);
+
+        List<PurchasingAccountsPayableItemAsset> tradeInItems;
+        List<PurchasingAccountsPayableItemAsset> additionalChargeItems;
+        List<PurchasingAccountsPayableItemAsset> assetItems;
+
+        for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
+            tradeInItems = purApDoc.getTradeInLineItems();
+            additionalChargeItems = purApDoc.getAdditionalChargeLineItems();
+            assetItems = purApDoc.getAssetLineItems();
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                // set fields from PurAp tables
+                setCabItemFieldsFromPurAp(item, purApDoc.getDocumentTypeCode());
+                
+                // classify items
+                if (item.isTradeInIndicator()) {
+                    tradeInItems.add(item);
+                }
+                else if (item.isAdditionalChargeNonTradeInIndicator()) {
+                    additionalChargeItems.add(item);
+                }
+                else {
+                    assetItems.add(item);
+                }
+                
+                // set unit cost
+                item.setUnitCost(calculateUnitCost(item));
+                // set financial object code
+                item.setFirstFincialObjectCode(getFincialObjectCode(item));
+            }
+        }
+
+    }
+
+
+    /**
+     * Set lineItemNumber by PaymentRequestItem.itemLineNumber or CreditMemoItem.itemLineNumber.
+     * 
+     * @param purchasingAccountsPayableItemAsset
+     * @param docTypeCode
+     */
+    private void setCabItemFieldsFromPurAp(PurchasingAccountsPayableItemAsset purchasingAccountsPayableItemAsset, String docTypeCode) {
+        Map<String, Object> pKeys = new HashMap<String, Object>();
+        pKeys.put(PurapPropertyConstants.ITEM_IDENTIFIER, purchasingAccountsPayableItemAsset.getAccountsPayableLineItemIdentifier());
+        // TODO: refactoring?
+        if (CabConstants.PREQ.equalsIgnoreCase(docTypeCode)) {
+            PaymentRequestItem item = (PaymentRequestItem) getBusinessObjectService().findByPrimaryKey(PaymentRequestItem.class, pKeys);
+            purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
+            if (item.getItemType() != null) {
+                purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+                purchasingAccountsPayableItemAsset.setTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+            }
+            purchasingAccountsPayableItemAsset.setCapitalAssetDescription(item.getItemDescription());
+            purchasingAccountsPayableItemAsset.setItemAssignedToTradeInIndicator(item.getItemAssignedToTradeInIndicator());
+        }
+        else {
+            CreditMemoItem item = (CreditMemoItem) getBusinessObjectService().findByPrimaryKey(CreditMemoItem.class, pKeys);
+            purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
+            if (item.getItemType() != null) {
+                purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+                purchasingAccountsPayableItemAsset.setTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+            }
+            purchasingAccountsPayableItemAsset.setCapitalAssetDescription(item.getItemDescription());
+            purchasingAccountsPayableItemAsset.setItemAssignedToTradeInIndicator(item.getItemAssignedToTradeInIndicator());
+        }
+        pKeys.clear();
     }
 
 

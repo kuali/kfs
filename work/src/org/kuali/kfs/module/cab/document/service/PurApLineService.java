@@ -15,8 +15,16 @@
  */
 package org.kuali.kfs.module.cab.document.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 
 public interface PurApLineService {
-    void setPurApItemAssets(PurApLineForm purApLineForm);
+    /**
+     * 
+     * Build the purApDocList collection which have the same po_id and set the field values for each items.
+     * @param purApLineForm
+     */
+    
+    public void setPurApInformation(PurApLineForm purApLineForm, HttpServletRequest request);
 }

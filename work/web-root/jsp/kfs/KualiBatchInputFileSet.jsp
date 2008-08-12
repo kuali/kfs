@@ -24,7 +24,7 @@
 
 	<strong><h2>	
 	  <bean:message key="${KualiForm.titleKey}"/> <a href="${ConfigProperties.externalizable.help.url}BatchFileFormats.pdf" tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow"  title="[Help]Upload">
-	                                        <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" alt="[Help]Upload" hspace=5 border=0  align="middle"></a>
+	                                        <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" title="[Help] Upload" alt="[Help] Upload" hspace=5 border=0  align="middle"></a>
 	  </h2></strong>
 	</br>
 	
@@ -40,14 +40,14 @@
             <tr>
               <th width="120">&nbsp;</th>
               <th> <div align="left">Browse File</div></th>
-              <th> <div align="left">File Set Identifier</div></th>
+              <th> <div align="left"><label for="batchUpload.fileUserIdentifer">File Set Identifier</label></div></th>
               <th width="150"> <div align="center">Actions</div></th>
             </tr>
             
             <c:forEach items="${KualiForm.batchInputFileSetType.fileTypes}" var="fileType" varStatus="loopStatus">
               <tr>
                 <th scope="row"><div align="right">add <c:out value="${KualiForm.batchInputFileSetType.fileTypeDescription[fileType]}"/>:</div></th>
-                <td class="infoline"><html:file property="uploadedFiles(${fileType})"/>
+                <td class="infoline"><html:file title="Browse File" property="uploadedFiles(${fileType})"/>
                   <span class="fineprint"></span>
                 </td>
                 <td class="infoline">
@@ -70,7 +70,7 @@
               <tr>
                 <th scope="row">&nbsp;</th>
                 <td class="infoline">
-                  <html:checkbox property="supressDoneFileCreation"/>Click here to prevent the done file from being created.
+                  <html:checkbox styleId="supressDoneFileCreation" property="supressDoneFileCreation"/><label for="supressDoneFileCreation">Click here to prevent the done file from being created.</label>
                 </td>
                 <td class="infoline">
                   &nbsp;
@@ -87,19 +87,19 @@
           <table width="100%" summary="" cellpadding="0" cellspacing="0">
             <tr>
               <th>&nbsp;</th>
-              <th> <div align="left">Select File Set</div></th>
+              <th> <div align="left"><label for="batchUpload.existingFileName">Select File Set</label></div></th>
               <th> <div align="center">Download</div></th>
               <th> <div align="center">Delete</div></th>
             </tr>
             <tr>
               <th scope="row"><div align="center">manage:</div></th>
-              <td class="infoline"><span class="fineprint"></span> <label>
-                <html:select property="batchUpload.existingFileName">
+              <td class="infoline"><span class="fineprint"></span>
+                <html:select styleId="batchUpload.existingFileName" property="batchUpload.existingFileName">
                    <html:optionsCollection property="fileUserIdentifiers" label="label" value="key"/>
                 </html:select>
-               </label></td>
+               </td>
               <td class="infoline"><div align="center">
-                <html:select property="downloadFileType">
+                <html:select title="File Type" property="downloadFileType">
                   <html:optionsCollection property="fileTypes" label="label" value="key"/>
                 </html:select>
                 <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-download.gif" styleClass="globalbuttons" property="methodToCall.download" title="Download Batch File" alt="Download Batch File" onclick="excludeSubmitRestriction=true;"/></div>

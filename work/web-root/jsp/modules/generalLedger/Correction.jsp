@@ -146,16 +146,16 @@
       <div class="tab-container" align="center" >
         <table cellpadding=0 class="datatable" summary=""> 
           <tr>
-            <td align="left" valign="middle" class="subhead"><span class="subhead-left"></span>Select System and Edit Method</td>
+            <td align="left" valign="middle" class="subhead"><span class="subhead-left"></span><label for="chooseSystem">Select System</label> and <label for"editMethod">Edit Method</label></td>
           </tr>
           <tr>
             <td>
               <center>
-                <html:select property="chooseSystem">
+                <html:select property="chooseSystem" styleId="chooseSystem" title="Select System">
                   <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|CorrectionChooseSystemValuesFinder" label="label" value="key"/>
                 </html:select>
                 <html:hidden property="previousChooseSystem"/>
-                <html:select property="editMethod">
+                <html:select property="editMethod" styleId="editMethod" title="Edit Method">
                   <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|CorrectionEditMethodValuesFinder" label="label" value="key"/>
                 </html:select>
                 <html:hidden property="previousEditMethod"/>
@@ -177,7 +177,7 @@
               <td colspan="2" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
                 <center>
                   <label for="inputGroupId"><strong>Origin Entry Group</strong></label><br/><br/>
-                  <html:select property="document.correctionInputGroupId" size="10" >
+                  <html:select property="document.correctionInputGroupId" size="10" styleId="inputGroupId" title="Origin Entry Group" >
                     <c:if test="${KualiForm.inputGroupIdFromLastDocumentLoadIsMissing and KualiForm.inputGroupId eq KualiForm.inputGroupIdFromLastDocumentLoad}">
                       <option value="<c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/>" selected="selected"><c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/> Document was last saved with this origin entry group selected.  Group is no longer in system.</option>
                     </c:if>
@@ -214,12 +214,12 @@
                   <html:hidden property="previousInputGroupId"/>
                   <br/><br/>
                   <c:if test="${KualiForm.editMethod eq 'R'}">
-                    <html:image property="methodToCall.confirmDeleteDocument.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-remgrpproc.gif" styleClass="tinybutton" alt="deleteDocument" title="Remove Group From Processing" />
+                    <html:image property="methodToCall.confirmDeleteDocument.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-remgrpproc.gif" styleClass="tinybutton" alt="Remove Group From Processing" title="Remove Group From Processing" />
                   </c:if>
                   <c:if test="${KualiForm.editMethod eq 'M' or KualiForm.editMethod eq 'C'}">
-                    <html:image property="methodToCall.loadGroup.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-loadgroup.gif" styleClass="tinybutton" alt="ShowAllEntries" title="Show All Entries"/>
+                    <html:image property="methodToCall.loadGroup.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-loadgroup.gif" styleClass="tinybutton" alt="Show All Entries" title="Show All Entries"/>
                   </c:if>
-                  <html:image property="methodToCall.saveToDesktop.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-cpygrpdesk.gif" styleClass="tinybutton" alt="saveToDeskTop" title="Save To Desktop" onclick="excludeSubmitRestriction=true" />
+                  <html:image property="methodToCall.saveToDesktop.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-cpygrpdesk.gif" styleClass="tinybutton" alt="Save To Desktop" title="Save To Desktop" onclick="excludeSubmitRestriction=true" />
                 </center> 
               </td>
             </tr>
@@ -230,13 +230,13 @@
     <kul:tab tabTitle="Correction File Upload" defaultOpen="true" tabErrorKey="fileUpload">
       <c:if test="${KualiForm.chooseSystem == 'U'}" >
         <div class="tab-container" align="center"> 
-            <h3>Corrections File Upload</h3>
+            <h3>Corrections <label for="sourceFile">File Upload</upload></h3>
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>
               <td class="bord-l-b" style="padding: 4px;">
                 <html:hidden property="document.correctionInputGroupId"/>
-                <html:file size="30" property="sourceFile" />
-                <html:image property="methodToCall.uploadFile.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-loaddoc.gif" styleClass="tinybutton" alt="uploadFile" title="upload file"/>
+                <html:file size="30" property="sourceFile" styleId="sourceFile" title="File Upload" />
+                <html:image property="methodToCall.uploadFile.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-loaddoc.gif" styleClass="tinybutton" alt="upload file" title="upload file"/>
               </td>
             </tr>
           </table>
@@ -315,7 +315,9 @@
                         <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column">
                        
 				          <th class="sortable">
+				          	<label for="<c:out value="${column.propertyName}"/>">
 					        <c:out value="${column.columnTitle}"/><c:if test="${empty column.columnTitle}">$nbsp;</c:if>
+					        </label>
 				          </th>
 			            </c:forEach>
                       </tr>
@@ -326,103 +328,103 @@
 						  <c:when test="${KualiForm.documentType == 'LLCP'}" >
 			            	<c:choose>
 	                          <c:when test="${KualiForm.laborEntryForManualEdit.entryId == 0}">
-    	                        <td><html:image property="methodToCall.addManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="edit"/></td>
+    	                        <td><html:image property="methodToCall.addManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="edit" title="edit"/></td>
         	                  </c:when>
             	              <c:otherwise>
                 	            <td>
                     	          <html:hidden property="laborEntryForManualEdit.versionNumber"/>
                         	      <html:hidden property="laborEntryForManualEdit.entryId"/>
                             	  <html:hidden property="laborEntryForManualEdit.entryGroupId"/>
-                              	<html:image property="methodToCall.saveManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit"/>
+                              	<html:image property="methodToCall.saveManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" title="edit"/>
                             	</td>
                          	 </c:otherwise>
 	                        </c:choose>
-                        	<td><html:text property="laborEntryUniversityFiscalYear" size="5"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.chartOfAccountsCode" size="5"/></td>
-    	                    <td><html:text property="laborEntryForManualEdit.accountNumber" size="7"/></td>
-        	                <td><html:text property="laborEntryForManualEdit.subAccountNumber" size="7"/></td>
-            	            <td><html:text property="laborEntryForManualEdit.financialObjectCode" size="5"/></td>
-                	        <td><html:text property="laborEntryForManualEdit.financialSubObjectCode" size="6"/></td>
-                    	    <td><html:text property="laborEntryForManualEdit.financialBalanceTypeCode" size="8"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.financialObjectTypeCode" size="6"/></td>
-    	                    <td><html:text property="laborEntryForManualEdit.universityFiscalPeriodCode" size="6"/></td>
-        	                <td><html:text property="laborEntryForManualEdit.financialDocumentTypeCode" size="10"/></td>
-                	        <td><html:text property="laborEntryForManualEdit.financialSystemOriginationCode" size="6"/></td>
-            	            <td><html:text property="laborEntryForManualEdit.documentNumber" size="14"/></td>
-    	                    <td><html:text property="laborEntryTransactionLedgerEntrySequenceNumber" size="9"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.positionNumber" size="14"/></td>
-        	                <td><html:text property="laborEntryForManualEdit.projectCode" size="7"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.transactionLedgerEntryDescription" size="11"/></td>
-	                        <td><html:text property="laborEntryTransactionLedgerEntryAmount" size="7"/></td>
-            	            <td><html:text property="laborEntryForManualEdit.transactionDebitCreditCode" size="9"/></td>
-                	        <td><html:text property="laborEntryTransactionDate" size="12"/></td>
-                    	    <td><html:text property="laborEntryForManualEdit.organizationDocumentNumber" size="12"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.organizationReferenceId" size="13"/></td>
-        	                <td><html:text property="laborEntryForManualEdit.referenceFinancialDocumentTypeCode" size="10"/></td>
-            	            <td><html:text property="laborEntryForManualEdit.referenceFinancialSystemOriginationCode" size="10"/></td>
-                	        <td><html:text property="laborEntryForManualEdit.referenceFinancialDocumentNumber" size="9"/></td>
-                    	    <td><html:text property="laborEntryFinancialDocumentReversalDate" size="8"/></td>
-                            <td><html:text property="laborEntryForManualEdit.transactionEncumbranceUpdateCode" size="13"/></td>
-	                        <td><html:text property="laborEntryTransactionPostingDate" size="14"/></td>
-	                        <td><html:text property="laborEntryPayPeriodEndDate" size="14"/></td>
-	                        <td><html:text property="laborEntryTransactionTotalHours" size="14"/></td>
-	                        <td><html:text property="laborEntryPayrollEndDateFiscalYear" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.payrollEndDateFiscalPeriodCode" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.emplid" size="14"/></td>
-	                        <td><html:text property="laborEntryEmployeeRecord" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.earnCode" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.payGroup" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.salaryAdministrationPlan" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.grade" size="14"/></td>
-  	                        <td><html:text property="laborEntryForManualEdit.runIdentifier" size="14"/></td>
- 	                        <td><html:text property="laborEntryForManualEdit.laborLedgerOriginalChartOfAccountsCode" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.laborLedgerOriginalAccountNumber" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.laborLedgerOriginalSubAccountNumber" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.laborLedgerOriginalFinancialObjectCode" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.laborLedgerOriginalFinancialSubObjectCode" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.hrmsCompany" size="14"/></td>
-	                        <td><html:text property="laborEntryForManualEdit.setid" size="14"/></td>
+                        	<td><html:text property="laborEntryUniversityFiscalYear" size="5" styleId="laborEntryUniversityFiscalYear"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.chartOfAccountsCode" size="5" styleId="laborEntryForManualEdit.chartOfAccountsCode"/></td>
+    	                    <td><html:text property="laborEntryForManualEdit.accountNumber" size="7" styleId="laborEntryForManualEdit.accountNumber"/></td>
+        	                <td><html:text property="laborEntryForManualEdit.subAccountNumber" size="7" styleId="laborEntryForManualEdit.subAccountNumber"/></td>
+            	            <td><html:text property="laborEntryForManualEdit.financialObjectCode" size="5" styleId="laborEntryForManualEdit.financialObjectCode"/></td>
+                	        <td><html:text property="laborEntryForManualEdit.financialSubObjectCode" size="6" styleId="laborEntryForManualEdit.financialSubObjectCode"/></td>
+                    	    <td><html:text property="laborEntryForManualEdit.financialBalanceTypeCode" size="8" styleId="laborEntryForManualEdit.financialBalanceTypeCode"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.financialObjectTypeCode" size="6" styleId="laborEntryForManualEdit.financialObjectTypeCode"/></td>
+    	                    <td><html:text property="laborEntryForManualEdit.universityFiscalPeriodCode" size="6" styleId="laborEntryForManualEdit.universityFiscalPeriodCode"/></td>
+        	                <td><html:text property="laborEntryForManualEdit.financialDocumentTypeCode" size="10" styleId="laborEntryForManualEdit.financialDocumentTypeCode"/></td>
+                	        <td><html:text property="laborEntryForManualEdit.financialSystemOriginationCode" size="6" styleId="laborEntryForManualEdit.financialSystemOriginationCode"/></td>
+            	            <td><html:text property="laborEntryForManualEdit.documentNumber" size="14" styleId="laborEntryForManualEdit.documentNumber"/></td>
+    	                    <td><html:text property="laborEntryTransactionLedgerEntrySequenceNumber" size="9" styleId="laborEntryTransactionLedgerEntrySequenceNumber"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.positionNumber" size="14" styleId="laborEntryForManualEdit.positionNumber"/></td>
+        	                <td><html:text property="laborEntryForManualEdit.projectCode" size="7" styleId="laborEntryForManualEdit.projectCode"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.transactionLedgerEntryDescription" size="11" styleId="laborEntryForManualEdit.transactionLedgerEntryDescription"/></td>
+	                        <td><html:text property="laborEntryTransactionLedgerEntryAmount" size="7" styleId="laborEntryTransactionLedgerEntryAmount"/></td>
+            	            <td><html:text property="laborEntryForManualEdit.transactionDebitCreditCode" size="9" styleId="laborEntryForManualEdit.transactionDebitCreditCode"/></td>
+                	        <td><html:text property="laborEntryTransactionDate" size="12" styleId="laborEntryTransactionDate"/></td>
+                    	    <td><html:text property="laborEntryForManualEdit.organizationDocumentNumber" size="12" styleId="laborEntryForManualEdit.organizationDocumentNumber"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.organizationReferenceId" size="13" styleId="laborEntryForManualEdit.organizationReferenceId"/></td>
+        	                <td><html:text property="laborEntryForManualEdit.referenceFinancialDocumentTypeCode" size="10" styleId="laborEntryForManualEdit.referenceFinancialDocumentTypeCode"/></td>
+            	            <td><html:text property="laborEntryForManualEdit.referenceFinancialSystemOriginationCode" size="10" styleId="laborEntryForManualEdit.referenceFinancialSystemOriginationCode"/></td>
+                	        <td><html:text property="laborEntryForManualEdit.referenceFinancialDocumentNumber" size="9" styleId="laborEntryForManualEdit.referenceFinancialDocumentNumber"/></td>
+                    	    <td><html:text property="laborEntryFinancialDocumentReversalDate" size="8" styleId="laborEntryFinancialDocumentReversalDate"/></td>
+                            <td><html:text property="laborEntryForManualEdit.transactionEncumbranceUpdateCode" size="13" styleId="laborEntryForManualEdit.transactionEncumbranceUpdateCode"/></td>
+	                        <td><html:text property="laborEntryTransactionPostingDate" size="14" styleId="laborEntryTransactionPostingDate"/></td>
+	                        <td><html:text property="laborEntryPayPeriodEndDate" size="14" styleId="laborEntryPayPeriodEndDate"/></td>
+	                        <td><html:text property="laborEntryTransactionTotalHours" size="14" styleId="laborEntryTransactionTotalHours"/></td>
+	                        <td><html:text property="laborEntryPayrollEndDateFiscalYear" size="14" styleId="laborEntryPayrollEndDateFiscalYear"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.payrollEndDateFiscalPeriodCode" size="14" styleId="laborEntryForManualEdit.payrollEndDateFiscalPeriodCode"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.emplid" size="14" styleId="laborEntryForManualEdit.emplid"/></td>
+	                        <td><html:text property="laborEntryEmployeeRecord" size="14" styleId="laborEntryEmployeeRecord"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.earnCode" size="14" styleId="laborEntryForManualEdit.earnCode"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.payGroup" size="14" styleId="laborEntryForManualEdit.payGroup"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.salaryAdministrationPlan" size="14" styleId="laborEntryForManualEdit.salaryAdministrationPlan"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.grade" size="14" styleId="laborEntryForManualEdit.grade"/></td>
+  	                        <td><html:text property="laborEntryForManualEdit.runIdentifier" size="14" styleId="laborEntryForManualEdit.runIdentifier"/></td>
+ 	                        <td><html:text property="laborEntryForManualEdit.laborLedgerOriginalChartOfAccountsCode" size="14" styleId="laborEntryForManualEdit.laborLedgerOriginalChartOfAccountsCode"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.laborLedgerOriginalAccountNumber" size="14" styleId="laborEntryForManualEdit.laborLedgerOriginalAccountNumber"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.laborLedgerOriginalSubAccountNumber" size="14" styleId="laborEntryForManualEdit.laborLedgerOriginalSubAccountNumber"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.laborLedgerOriginalFinancialObjectCode" size="14" styleId="laborEntryForManualEdit.laborLedgerOriginalFinancialObjectCode"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.laborLedgerOriginalFinancialSubObjectCode" size="14" styleId="laborEntryForManualEdit.laborLedgerOriginalFinancialSubObjectCode"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.hrmsCompany" size="14" styleId="laborEntryForManualEdit.hrmsCompany"/></td>
+	                        <td><html:text property="laborEntryForManualEdit.setid" size="14" styleId="laborEntryForManualEdit.setid"/></td>
     	 				  </c:when>
 						  <c:otherwise>
 						  <c:choose>
 	                          <c:when test="${KualiForm.entryForManualEdit.entryId == 0}">
-    	                        <td><html:image property="methodToCall.addManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="edit"/></td>
+    	                        <td><html:image property="methodToCall.addManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="edit" title="edit"/></td>
         	                  </c:when>
             	              <c:otherwise>
                 	            <td>
                     	          <html:hidden property="entryForManualEdit.versionNumber"/>
                         	      <html:hidden property="entryForManualEdit.entryId"/>
                             	  <html:hidden property="entryForManualEdit.entryGroupId"/>
-                              	<html:image property="methodToCall.saveManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit"/>
+                              	<html:image property="methodToCall.saveManualEntry.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" title="edit"/>
                             	</td>
                          	 </c:otherwise>
 	                        </c:choose>
 	                        
-			            	<td><html:text property="entryUniversityFiscalYear" size="5"/></td>
-	                        <td><html:text property="entryForManualEdit.chartOfAccountsCode" size="5"/></td>
-    	                    <td><html:text property="entryForManualEdit.accountNumber" size="7"/></td>
-        	                <td><html:text property="entryForManualEdit.subAccountNumber" size="7"/></td>
-            	            <td><html:text property="entryForManualEdit.financialObjectCode" size="5"/></td>
-                	        <td><html:text property="entryForManualEdit.financialSubObjectCode" size="6"/></td>
-                    	    <td><html:text property="entryForManualEdit.financialBalanceTypeCode" size="8"/></td>
-	                        <td><html:text property="entryForManualEdit.financialObjectTypeCode" size="6"/></td>
-    	                    <td><html:text property="entryForManualEdit.universityFiscalPeriodCode" size="6"/></td>
-        	                <td><html:text property="entryForManualEdit.financialDocumentTypeCode" size="10"/></td>
-                	        <td><html:text property="entryForManualEdit.financialSystemOriginationCode" size="6"/></td>
-            	            <td><html:text property="entryForManualEdit.documentNumber" size="14"/></td>
-    	                    <td><html:text property="entryTransactionLedgerEntrySequenceNumber" size="9"/></td>
-	                        <td><html:text property="entryForManualEdit.transactionLedgerEntryDescription" size="11"/></td>
-        	                <td><html:text property="entryTransactionLedgerEntryAmount" size="7"/></td>
-            	            <td><html:text property="entryForManualEdit.transactionDebitCreditCode" size="9"/></td>
-                	        <td><html:text property="entryTransactionDate" size="12"/></td>
-                    	    <td><html:text property="entryForManualEdit.organizationDocumentNumber" size="12"/></td>
-	                        <td><html:text property="entryForManualEdit.projectCode" size="7"/></td>
-    	                    <td><html:text property="entryForManualEdit.organizationReferenceId" size="13"/></td>
-        	                <td><html:text property="entryForManualEdit.referenceFinancialDocumentTypeCode" size="10"/></td>
-            	            <td><html:text property="entryForManualEdit.referenceFinancialSystemOriginationCode" size="10"/></td>
-                	        <td><html:text property="entryForManualEdit.referenceFinancialDocumentNumber" size="9"/></td>
-                    	    <td><html:text property="entryFinancialDocumentReversalDate" size="8"/></td>
-                        	<td><html:text property="entryForManualEdit.transactionEncumbranceUpdateCode" size="13"/></td>
+			            	<td><html:text property="entryUniversityFiscalYear" size="5" styleId="entryUniversityFiscalYear"/></td>
+	                        <td><html:text property="entryForManualEdit.chartOfAccountsCode" size="5" styleId="entryForManualEdit.chartOfAccountsCode"/></td>
+    	                    <td><html:text property="entryForManualEdit.accountNumber" size="7" styleId="entryForManualEdit.accountNumber."/></td>
+        	                <td><html:text property="entryForManualEdit.subAccountNumber" size="7" styleId="entryForManualEdit.subAccountNumber"/></td>
+            	            <td><html:text property="entryForManualEdit.financialObjectCode" size="5" styleId="entryForManualEdit.financialObjectCode"/></td>
+                	        <td><html:text property="entryForManualEdit.financialSubObjectCode" size="6" styleId="entryForManualEdit.financialSubObjectCode"/></td>
+                    	    <td><html:text property="entryForManualEdit.financialBalanceTypeCode" size="8" styleId="entryForManualEdit.financialBalanceTypeCode"/></td>
+	                        <td><html:text property="entryForManualEdit.financialObjectTypeCode" size="6" styleId="entryForManualEdit.financialObjectTypeCode"/></td>
+    	                    <td><html:text property="entryForManualEdit.universityFiscalPeriodCode" size="6" styleId="entryForManualEdit.universityFiscalPeriodCode"/></td>
+        	                <td><html:text property="entryForManualEdit.financialDocumentTypeCode" size="10" styleId="entryForManualEdit.financialDocumentTypeCode"/></td>
+                	        <td><html:text property="entryForManualEdit.financialSystemOriginationCode" size="6" styleId="entryForManualEdit.financialSystemOriginationCode"/></td>
+            	            <td><html:text property="entryForManualEdit.documentNumber" size="14" styleId="entryForManualEdit.documentNumber"/></td>
+    	                    <td><html:text property="entryTransactionLedgerEntrySequenceNumber" size="9" styleId="entryTransactionLedgerEntrySequenceNumber"/></td>
+	                        <td><html:text property="entryForManualEdit.transactionLedgerEntryDescription" size="11" styleId="entryForManualEdit.transactionLedgerEntryDescription"/></td>
+        	                <td><html:text property="entryTransactionLedgerEntryAmount" size="7" styleId="entryTransactionLedgerEntryAmount"/></td>
+            	            <td><html:text property="entryForManualEdit.transactionDebitCreditCode" size="9" styleId="entryForManualEdit.transactionDebitCreditCode"/></td>
+                	        <td><html:text property="entryTransactionDate" size="12" styleId="entryTransactionDate"/></td>
+                    	    <td><html:text property="entryForManualEdit.organizationDocumentNumber" size="12" styleId="entryForManualEdit.organizationDocumentNumber"/></td>
+	                        <td><html:text property="entryForManualEdit.projectCode" size="7" styleId="entryForManualEdit.projectCode"/></td>
+    	                    <td><html:text property="entryForManualEdit.organizationReferenceId" size="13" styleId="entryForManualEdit.organizationReferenceId"/></td>
+        	                <td><html:text property="entryForManualEdit.referenceFinancialDocumentTypeCode" size="10" styleId="entryForManualEdit.referenceFinancialDocumentTypeCode"/></td>
+            	            <td><html:text property="entryForManualEdit.referenceFinancialSystemOriginationCode" size="10" styleId="entryForManualEdit.referenceFinancialSystemOriginationCode"/></td>
+                	        <td><html:text property="entryForManualEdit.referenceFinancialDocumentNumber" size="9" styleId="entryForManualEdit.referenceFinancialDocumentNumber"/></td>
+                    	    <td><html:text property="entryFinancialDocumentReversalDate" size="8" styleId="entryFinancialDocumentReversalDate"/></td>
+                        	<td><html:text property="entryForManualEdit.transactionEncumbranceUpdateCode" size="13" styleId="entryForManualEdit.transactionEncumbranceUpdateCode"/></td>
                           </c:otherwise>	
                         </c:choose>	
                   
@@ -435,7 +437,7 @@
             <c:if test="${KualiForm.manualEditFlag == true}" >
               <td>
                 <STRONG> Do you want to edit this document? </STRONG>
-                <html:image property="methodToCall.manualEdit.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="show edit" />
+                <html:image property="methodToCall.manualEdit.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="show edit" title="show edit" />
               </td>
             </c:if>
           </table>
@@ -457,9 +459,9 @@
               <tr>
                 <td>
                   <center>
-                    <html:checkbox property="processInBatch" title="processInBatch" /> <STRONG> Process In Batch </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
+                    <html:checkbox styleId="processInBatch" property="processInBatch" /> <STRONG> <label for="processInBatch">Process In Batch</label> </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
                     <input type="hidden" name="processInBatch${Constants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION}" value="checkboxOnScreen"/>
-                    <html:checkbox property="matchCriteriaOnly" title="matchCriteriaOnly"/> <STRONG> Output only records which match criteria? </STRONG>
+                    <html:checkbox styleId="matchCriteriaOnly" property="matchCriteriaOnly" /> <STRONG> <label for="matchCriteriaOnly">Output only records which match criteria?</label> </STRONG>
                   </center>
                 </td>
               </tr>
@@ -469,11 +471,11 @@
                     <center>
                       <c:if test="${KualiForm.showOutputFlag == true}">
                         <strong>Show Input Group</strong>
-                        <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="show Input Group" />
+                        <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="show Input Group" title="show Input Group" />
                       </c:if>
                       <c:if test="${KualiForm.showOutputFlag == false}">
                         <strong>Show Output Group</strong>
-                        <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="show Output Group" />
+                        <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="show Output Group" title="show Output Group" />
                       </c:if>
                     </center>
                   </td>
@@ -487,7 +489,7 @@
               <tr>
                 <td>
                   <center>
-                    <html:checkbox property="processInBatch" title="processInBatch" /> <STRONG> Process In Batch </STRONG>
+                    <html:checkbox styleId="processInBatch" property="processInBatch" /> <STRONG> <label for="processInBatch">Process In Batch</label> </STRONG>
                     <input type="hidden" name="processInBatch${Constants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION}" value="checkboxOnScreen"/>
                   </center>
                 </td>
@@ -514,13 +516,13 @@
                   <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaNextLineNumber"/>
                   <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeNextLineNumber"/>
                   <strong>Group:</strong>
-                  <html:image property="methodToCall.removeCorrectionGroup.group${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete correction group" />
+                  <html:image property="methodToCall.removeCorrectionGroup.group${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete correction group" title="delete correction group" />
                 </td>
               </tr>
               <tr style="border-bottom: 1px solid #333;"> 
                 <td class="bord-l-b" style="padding: 4px; vertical-align: top;">
-                  Field:
-                  <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName">
+                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName">Field</label>:
+                  <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName" title="Field">
                     <option value=""></option>
 	                    <c:choose>
     	                	<c:when test="${KualiForm.documentType == 'LLCP'}" >
@@ -531,19 +533,19 @@
 		                	</c:otherwise>
 		                </c:choose>
                   </html:select>
-                  Operator:
-                  <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode">
+                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode">Operator</label>:
+                  <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode" title="Operator">
                     <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="label" value="key"/>
                   </html:select>
-                  Value:
-                  <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue"/>
-                  <html:image property="methodToCall.addCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="Add Search Criteria" /><br>
+                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue">Value</label>:
+                  <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue" title="Value"/>
+                  <html:image property="methodToCall.addCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="Add Search Criteria" title="Add Search Criteria" /><br>
                   <c:forEach items="${group.correctionCriteria}" var="criteria" varStatus="cc">
-                    Field:
+                    <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName">Field</label>:
                     <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].versionNumber"/>
                     <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].documentNumber"/>
                     <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionChangeGroupLineNumber"/>
-                    <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName">
+                    <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" title="field">
                       
                       <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
@@ -555,19 +557,19 @@
 		              </c:choose>
                       
                     </html:select>
-                    Operator:
-                    <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode">
+                    <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode">Operator</label>:
+                    <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" title="Operator">
                       <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="label" value="key"/>
                     </html:select>
-                    Value:
-                    <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue"/>
-                    <html:image property="methodToCall.removeCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}-${criteria.correctionCriteriaLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete search criterion" />
+                    <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue">Value</label>:
+                    <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" title="Value"/>
+                    <html:image property="methodToCall.removeCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}-${criteria.correctionCriteriaLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete search criterion" title="delete search criterion" />
                     <br>
                   </c:forEach>
                 </td>
                 <td class="bord-l-b" style="padding: 4px; vertical-align: top;">
-                  Field:
-                  <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionChange.correctionFieldName">
+                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionChange.correctionFieldName">Field</label>:
+                  <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionChange.correctionFieldName" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionChange.correctionFieldName" title="Field">
                     <option value=""></option>
                      <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
@@ -579,15 +581,15 @@
 		              </c:choose>
 
                   </html:select>
-                  Replacement Value:
-                  <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionChange.correctionFieldValue"/>
-                  <html:image property="methodToCall.addCorrectionChange.change${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add replacement specification" styleClass="tinybutton" /> <br>
+                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionChange.correctionFieldValue">Replacement Value</label>:
+                  <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionChange.correctionFieldValue" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionChange.correctionFieldValue" title="Replacement Value"/>
+                  <html:image property="methodToCall.addCorrectionChange.change${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add replacement specification" title="add replacement specification" styleClass="tinybutton" /> <br>
                   <c:forEach items="${group.correctionChange}" var="change">
-                    Field:
+                    <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName">Field</label>:
                     <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].versionNumber"/>
                     <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].documentNumber"/>
                     <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionChangeGroupLineNumber"/>
-                    <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName">
+                    <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName" title="Field">
 				      <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
 							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
@@ -597,9 +599,9 @@
 		                </c:otherwise>
 		              </c:choose>
                     </html:select>
-                    Replacement Value:
-                    <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldValue"/>
-                    <html:image property="methodToCall.removeCorrectionChange.change${group.correctionChangeGroupLineNumber}-${change.correctionChangeLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete search specification" styleClass="tinybutton" />
+                    <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldValue">Replacement Value</label>:
+                    <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldValue" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldValue" title="Replacement Value"/>
+                    <html:image property="methodToCall.removeCorrectionChange.change${group.correctionChangeGroupLineNumber}-${change.correctionChangeLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete search specification" title="delete search specification" styleClass="tinybutton" />
                     <br>
                   </c:forEach>
                 </td>
@@ -609,7 +611,7 @@
               <td colspan="2" align="left" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
                 <center>
                   <STRONG>Add Groups </STRONG>
-                  <html:image property="methodToCall.addCorrectionGroup.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add correction group" styleClass="tinybutton" />
+                  <html:image property="methodToCall.addCorrectionGroup.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add correction group" title="add correction group" styleClass="tinybutton" />
                 </center>
               </td>
             </tr>
@@ -634,11 +636,11 @@
                   <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaNextLineNumber"/>
                   <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeNextLineNumber"/>
                   <c:forEach items="${group.correctionCriteria}" var="criteria" varStatus="cc">
-                    Field:
+                    <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName">Field</label>:
                     <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].versionNumber"/>
                     <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].documentNumber"/>
                     <html:hidden property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionChangeGroupLineNumber"/>
-                    <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName">
+                    <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" title="Field">
                      <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
 							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
@@ -648,17 +650,17 @@
 		                </c:otherwise>
 		              </c:choose> 
                     </html:select>
-                    Operator:
-                    <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode">
+                    <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode">Operator</label>:
+                    <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" title="Operator">
                       <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="label" value="key"/>
                     </html:select>
-                    Value:
-                    <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue"/>
-                    <html:image property="methodToCall.removeCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}-${criteria.correctionCriteriaLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="Remove Search Criteria" />
+                    <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue">Value</label>:
+                    <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" title="Value"/>
+                    <html:image property="methodToCall.removeCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}-${criteria.correctionCriteriaLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="Remove Search Criteria" title="Remove Search Criteria" />
                     <br>
                   </c:forEach>
-                  Field:
-                  <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName">
+                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName">Field</labbel>:
+                  <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName" title="Field">
                     <option value=""></option>
                      <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
@@ -671,13 +673,13 @@
                     
                     
                   </html:select>
-                  Operator:
-                  <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode">
+                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode">Operator</labbel>:
+                  <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode" title="Operator">
                     <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="label" value="key"/>
                   </html:select>
-                  Value:
-                  <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue"/>
-                  <html:image property="methodToCall.addCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="Add Search Criteria" />
+                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue">Value</label>:
+                  <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue" title="Value"/>
+                  <html:image property="methodToCall.addCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="Add Search Criteria" title="Add Search Criteria" />
                 </c:forEach>
               </td>
             </tr>
@@ -686,11 +688,11 @@
                 <center>
                   <c:if test="${KualiForm.showOutputFlag == true}">
                     <strong>Show All Entries</strong>
-                    <html:image property="methodToCall.searchCancelForManualEdit.anchor${currentTabIndex - 3}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="Show Matching Entries" />
+                    <html:image property="methodToCall.searchCancelForManualEdit.anchor${currentTabIndex - 3}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="Show Matching Entries" title="Show Matching Entries" />
                   </c:if>
                   <c:if test="${KualiForm.showOutputFlag == false}">
                     <strong>Show Matching Entries</strong>
-                    <html:image property="methodToCall.searchForManualEdit.anchor${currentTabIndex - 3}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="Show All Entries" />
+                    <html:image property="methodToCall.searchForManualEdit.anchor${currentTabIndex - 3}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" styleClass="tinybutton" alt="Show All Entries" title="Show All Entries" />
                   </c:if>
                 </center>
               </td>
@@ -827,9 +829,9 @@
         <tr>
           <td>
             <center>
-              <html:checkbox property="processInBatch" title="processInBatch" disabled="true"/> <STRONG> Process In Batch </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
+              <html:checkbox styleId="processInBatch" property="processInBatch" disabled="true"/> <STRONG> <label for="processInBatch">Process In Batch</label> </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
               <c:if test="${KualiForm.document.correctionTypeCode == 'C'}" >
-                <html:checkbox property="matchCriteriaOnly" alt="matchCriteriaOnly" disabled="true"/> <STRONG> Output only records which match criteria? </STRONG>
+                <html:checkbox styleId="matchCriteriaOnly" property="matchCriteriaOnly" disabled="true"/> <STRONG> <label for="matchCriteriaOnly">Output only records which match criteria?</label> </STRONG>
                 <html:hidden property="matchCriteriaOnly"/><%--disabled checkbox above is not submitted, so we create a hidden input --%>
               </c:if>
             </center>
@@ -853,8 +855,8 @@
             <tr style="border-bottom: 1px solid #333;"> 
               <td class="bord-l-b" style="padding: 4px; vertical-align: top;">
                 <c:forEach items="${group.correctionCriteria}" var="criteria" varStatus="cc">
-                  Field:
-                  <html:select disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName">
+                  <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName">Field</label>:
+                  <html:select disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" title="Field">
                   <c:choose>
    	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
 						<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
@@ -864,19 +866,19 @@
 	                </c:otherwise>
 	              </c:choose>
                   </html:select>
-                  Operator:
-                  <html:select disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode">
+                  <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode">Operator</label>:
+                  <html:select disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" title="Operator">
                     <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="label" value="key"/>
                   </html:select>
-                  Value:
-                  <html:text disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue"/>
+                  <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue">Value</label>:
+                  <html:text disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" title="Value"/>
                   <br>
                 </c:forEach>
               </td>
               <td class="bord-l-b" style="padding: 4px; vertical-align: top;">
                 <c:forEach items="${group.correctionChange}" var="change">
-                  Field:
-                  <html:select disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName">
+                  <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName">Field</label>:
+                  <html:select disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName" title="Field">
 	              <c:choose>
    	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
 						<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
@@ -886,8 +888,8 @@
 	                </c:otherwise>
 	              </c:choose>
                   </html:select>
-                  Replacement Value:
-                  <html:text disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldValue"/>
+                  <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldValue">Replacement Value</label>:
+                  <html:text disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldValue" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldValue" title="Replacement Value"/>
                   <br>
                 </c:forEach>
               </td>

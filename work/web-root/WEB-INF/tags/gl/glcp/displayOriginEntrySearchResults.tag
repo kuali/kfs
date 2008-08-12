@@ -43,17 +43,17 @@
             </tr>
             <tr>
                 <c:if test="${KualiForm.editableFlag == true and KualiForm.showOutputFlag == false}">
-                    <th>&nbsp;</th>
+                    <td>&nbsp;</td>
                 </c:if>
                 <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column" varStatus="columnLoopStatus">
-                    <th class="sortable">
+                    <td class="sortable" style="text-align: center;">
                         <c:if test="${column.sortable}">
                             <input name="methodToCall.sort.<c:out value="${columnLoopStatus.index}"/>.anchor${currentTabIndex}.x" type="image" src="${ConfigProperties.kr.externalizable.images.url}sort.gif" alt="Sort column ${column.columnTitle}" valign="bottom" title="Sort column ${column.columnTitle}">
                         </c:if>
                         <c:if test="${!column.sortable}">
                             &nbsp;
                         </c:if>
-                    </th>
+                    </td>
                 </c:forEach>
             </tr>
         </thead>
@@ -67,8 +67,8 @@
                 <tr class="${rowclass}">
                     <c:if test="${KualiForm.editableFlag == true and KualiForm.editMethod == 'M'}">
                         <td>
-                            <html:image property="methodToCall.editManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" />
-                            <html:image property="methodToCall.deleteManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
+                            <html:image property="methodToCall.editManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" title="edit" />
+                            <html:image property="methodToCall.deleteManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" title="delete" />
                         </td>
                     </c:if>
                     <td class="infocell"><c:out value="${originEntry.universityFiscalYear}" />&nbsp;</td>

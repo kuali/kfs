@@ -118,7 +118,7 @@ public class PurchasingServiceImpl implements PurchasingService {
             camsItem = (PurchasingCapitalAssetItem)(camsItemClass.newInstance());
             camsItem.setItemIdentifier(purapItem.getItemIdentifier());
             //If the system type is INDIVIDUAL then for each of the capital asset items, we need a system attached to it.
-            if (purDoc.getCapitalAssetSystemTypeCode().equals("INDIVIDUAL")) {
+            if (purDoc.getCapitalAssetSystemTypeCode().equals("IND")) {
                 resultSystem = (PurchasingCapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
                 camsItem.setPurchasingCapitalAssetSystem(resultSystem);
             }
@@ -147,7 +147,7 @@ public class PurchasingServiceImpl implements PurchasingService {
         try {
             resultSystem = (PurchasingCapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
             //If the system type is ONE or MULTIPLE then we need a system attached to the document.
-            if (purDoc.getCapitalAssetSystemTypeCode().equals("ONE") || purDoc.getCapitalAssetSystemTypeCode().equals("MULTIPLE")) {
+            if (purDoc.getCapitalAssetSystemTypeCode().equals("ONE") || purDoc.getCapitalAssetSystemTypeCode().equals("MUL")) {
                 if (purDoc.getPurchasingCapitalAssetSystems().size() == 0) {
                     purDoc.getPurchasingCapitalAssetSystems().add(resultSystem);
                 }

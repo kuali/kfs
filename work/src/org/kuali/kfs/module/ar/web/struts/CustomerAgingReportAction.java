@@ -149,11 +149,11 @@ public class CustomerAgingReportAction extends KualiAction {
 
 
                 //List<ResultRow> resultTable2 = new
-                java.io.File resultTableFromBalanceInquiry = new java.io.File("/java/resultTable.ser");
-                ObjectInputStream in = new ObjectInputStream(new FileInputStream(resultTableFromBalanceInquiry));
-                // Deserialize the object
-                List<ResultRow> resultTable2 = (List<ResultRow>) in.readObject();
-                in.close();
+//                java.io.File resultTableFromBalanceInquiry = new java.io.File("/java/resultTable.ser");
+//                ObjectInputStream in = new ObjectInputStream(new FileInputStream(resultTableFromBalanceInquiry));
+//                // Deserialize the object
+//                List<ResultRow> resultTable2 = (List<ResultRow>) in.readObject();
+//                in.close();
 
                 request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
 

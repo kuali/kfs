@@ -555,7 +555,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
             populateCustomerCreditMemoDetailsAfterLoad();
             
             // apply writeoff amounts by only retrieving only the invoice details that ARE NOT discounts
-            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(getCreditMemoDetails(), documentNumber);
+            //SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(getCreditMemoDetails(), documentNumber);
             //SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocumentIfFullyPaidOff(getInvoice());
         }
     }        

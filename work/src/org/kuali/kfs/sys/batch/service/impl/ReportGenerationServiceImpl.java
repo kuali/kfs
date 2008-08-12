@@ -197,8 +197,8 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
      * @param subReportDirectory the directory where sub report templates are located
      */
     private void compileSubReports(Map<String, String> subReports, String subReportDirectory) throws Exception {
-        for (String key : subReports.keySet()) {
-            ClassPathResource resource = getReportTemplateClassPathResource(subReportDirectory + subReports.get(key));
+        for (Map.Entry<String, String> entry: subReports.entrySet()) {
+            ClassPathResource resource = getReportTemplateClassPathResource(subReportDirectory + entry.getValue());
             String realTemplateNameWithoutExtension = removeTemplateExtension(resource);
 
             String designTemplateName = realTemplateNameWithoutExtension.concat(DESIGN_FILE_EXTENSION);

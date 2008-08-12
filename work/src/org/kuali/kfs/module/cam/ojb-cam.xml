@@ -20,10 +20,11 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="previousTotalCostAmount" column="CPTLAST_PREV_TOT_CST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<reference-descriptor name="paymentDocument" class-ref="org.kuali.kfs.module.cam.document.AssetPaymentDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="documentNumber" />
-	</reference-descriptor>
+	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="capitalAssetNumber" />
+	</reference-descriptor>	
 </class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" table="CM_RETIRE_REAS_T">
 	<field-descriptor name="retirementReasonCode" column="AST_RETIRE_REAS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -496,6 +497,10 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>    
    <collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+        <orderby name="sequenceNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>    	
+   <collection-descriptor name="assetPaymentAssetDetail" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>    	

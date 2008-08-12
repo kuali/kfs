@@ -155,7 +155,7 @@ public class CustomerAgingReportAction extends KualiAction {
                 List<ResultRow> resultTable2 = (List<ResultRow>) in.readObject();
                 in.close();
 
-                request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable2);
+                request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
 
                 
 //                request.setAttribute(TOTALS_TABLE_KEY, totalsTable);

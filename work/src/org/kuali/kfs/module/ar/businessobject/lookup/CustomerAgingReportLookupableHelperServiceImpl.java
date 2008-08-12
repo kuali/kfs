@@ -154,6 +154,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         List returnKeys;
 //        if (fieldConversions != null && !fieldConversions.isEmpty()) {
             returnKeys = new ArrayList(fieldConversions.keySet());
+            LOG.info("\n\n\t\t THIS OVERRIDE IS WORKING (GETRETURNKEYS)... \n\n\n");
 //        }
 //        else {
 //            returnKeys = getPersistenceStructureService().listPrimaryKeyFieldNames(getBusinessObjectClass());
@@ -241,7 +242,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection displayList;
-        
+        LOG.info("\n\n\t\t THIS OVERRIDE IS WORKING (performLookup)... \n\n\n");
         // call search method to get results
         if (bounded) {
             displayList = getSearchResults(lookupForm.getFieldsForLookup());
@@ -251,97 +252,97 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         }
 // MJM get resultTable populated here
         
-//        HashMap<String,Class> propertyTypes = new HashMap<String, Class>(); 
-//        
-//        boolean hasReturnableRow = false;
-//        
-//        // iterate through result list and wrap rows with return url and action urls
-//        for (Iterator iter = displayList.iterator(); iter.hasNext();) {
-//            BusinessObject element = (BusinessObject) iter.next();
-//
-//           // String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
-//           // String actionUrls = getActionUrls(element);
-//            String returnUrl = "www.bigfrickenRETURNurl";
-//            String actionUrls = "www.someACTIONurl";
-//            
-//            List<Column> columns = getColumns();
-//            for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
-//                
-//                Column col = (Column) iterator.next();
-//                Formatter formatter = col.getFormatter();
-//
-//                // pick off result column from result list, do formatting
-//                String propValue = KNSConstants.EMPTY_STRING;
-//                Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
-//                
-//                // set comparator and formatter based on property type
-//                Class propClass = propertyTypes.get(col.getPropertyName());
-////                if ( propClass == null ) {
-////                    try {
-////                        propClass = ObjectUtils.getPropertyType( element, col.getPropertyName(), getPersistenceStructureService() );
-////                        propertyTypes.put( col.getPropertyName(), propClass );
-////                    } catch (Exception e) {
-////                        throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", e);
-////                    }
-////                }
-//
-//                // formatters
-//                if (prop != null) {
-//                    // for Booleans, always use BooleanFormatter
-//                    if (prop instanceof Boolean) {
-//                        formatter = new BooleanFormatter();
-//                    }
-//                    
-//                    // for Dates, always use DateFormatter
-//                    if (prop instanceof Date) {
-//                        formatter = new DateFormatter();
-//                    }
-//
-//                    // for collection, use the list formatter if a formatter hasn't been defined yet
-//                    if (prop instanceof Collection && formatter == null) {
-//                    formatter = new CollectionFormatter();
-//                    }
-//                    
-//                    if (formatter != null) {
-//                        propValue = (String) formatter.format(prop);
-//                    }
-//                    else {
-//                        propValue = prop.toString();
+        HashMap<String,Class> propertyTypes = new HashMap<String, Class>(); 
+        
+        boolean hasReturnableRow = false;
+        
+        // iterate through result list and wrap rows with return url and action urls
+        for (Iterator iter = displayList.iterator(); iter.hasNext();) {
+            BusinessObject element = (BusinessObject) iter.next();
+
+           // String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
+           // String actionUrls = getActionUrls(element);
+            String returnUrl = "www.bigfrickenRETURNurl";
+            String actionUrls = "www.someACTIONurl";
+            
+            List<Column> columns = getColumns();
+            for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
+                
+                Column col = (Column) iterator.next();
+                Formatter formatter = col.getFormatter();
+
+                // pick off result column from result list, do formatting
+                String propValue = KNSConstants.EMPTY_STRING;
+                Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
+                
+                // set comparator and formatter based on property type
+                Class propClass = propertyTypes.get(col.getPropertyName());
+//                if ( propClass == null ) {
+//                    try {
+//                        propClass = ObjectUtils.getPropertyType( element, col.getPropertyName(), getPersistenceStructureService() );
+//                        propertyTypes.put( col.getPropertyName(), propClass );
+//                    } catch (Exception e) {
+//                        throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", e);
 //                    }
 //                }
-//
-//                // comparator
-//                col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
-//                col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-//                
-//                // check security on field and do masking if necessary
-//                boolean viewAuthorized = getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
-//                if (!viewAuthorized) {
-//                    Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
-//                    propValue = displayMask.maskValue(propValue);
-//                }
-//                col.setPropertyValue(propValue);
-//
-//
-//                if (StringUtils.isNotBlank(propValue)) {
-//                    col.setPropertyURL(getInquiryUrl(element, col.getPropertyName()));
-//                }
-//            }
-//
-//            ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
-//            if ( element instanceof PersistableBusinessObject ) {
-//                row.setObjectId(((PersistableBusinessObject)element).getObjectId());
-//            }
-//            
-//            boolean rowReturnable = isResultReturnable(element);
-//            row.setRowReturnable(rowReturnable);
-//            if (rowReturnable) {
-//                hasReturnableRow = true;
-//            }
-//            resultTable.add(row);
-//        }
-//
-//        lookupForm.setHasReturnableRow(hasReturnableRow);
+
+                // formatters
+                if (prop != null) {
+                    // for Booleans, always use BooleanFormatter
+                    if (prop instanceof Boolean) {
+                        formatter = new BooleanFormatter();
+                    }
+                    
+                    // for Dates, always use DateFormatter
+                    if (prop instanceof Date) {
+                        formatter = new DateFormatter();
+                    }
+
+                    // for collection, use the list formatter if a formatter hasn't been defined yet
+                    if (prop instanceof Collection && formatter == null) {
+                    formatter = new CollectionFormatter();
+                    }
+                    
+                    if (formatter != null) {
+                        propValue = (String) formatter.format(prop);
+                    }
+                    else {
+                        propValue = prop.toString();
+                    }
+                }
+
+                // comparator
+                col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
+                col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+                
+                // check security on field and do masking if necessary
+                boolean viewAuthorized = getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
+                if (!viewAuthorized) {
+                    Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
+                    propValue = displayMask.maskValue(propValue);
+                }
+                col.setPropertyValue(propValue);
+
+
+                if (StringUtils.isNotBlank(propValue)) {
+                    col.setPropertyURL(getInquiryUrl(element, col.getPropertyName()));
+                }
+            }
+
+            ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
+            if ( element instanceof PersistableBusinessObject ) {
+                row.setObjectId(((PersistableBusinessObject)element).getObjectId());
+            }
+            
+            boolean rowReturnable = isResultReturnable(element);
+            row.setRowReturnable(rowReturnable);
+            if (rowReturnable) {
+                hasReturnableRow = true;
+            }
+            resultTable.add(row);
+        }
+
+        lookupForm.setHasReturnableRow(hasReturnableRow);
 
         return displayList;
     }

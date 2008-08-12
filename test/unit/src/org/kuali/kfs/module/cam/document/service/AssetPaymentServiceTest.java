@@ -98,7 +98,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         assertNull(assetPayment.getPeriod12Depreciation1Amount());
     }
 
-
+/*
     public void testProcessApprovedAssetPayment() throws Exception {
         // Creating document
         AssetPaymentDocument document = AssetPaymentServiceFixture.PAYMENT1.newAssetPaymentDocument();
@@ -163,7 +163,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
             assertEquals(assetPaymentDetail.getPaymentApplicationDate(), assetPayment.getFinancialDocumentPostingDate());
         }
     }
-
+*/
     public DocumentHeader getDocumentHeader() throws Exception {
         KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("AssetPaymentDocument", GlobalVariables.getUserSession().getUniversalUser());
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();

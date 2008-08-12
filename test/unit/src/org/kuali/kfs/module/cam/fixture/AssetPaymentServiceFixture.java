@@ -76,7 +76,7 @@ public enum AssetPaymentServiceFixture {
         Asset asset = CamsFixture.DATA_POPULATOR.buildTestDataObject(Asset.class, properties, propertyKey, fieldNames, deliminator); 
 
         assetPaymentDocument.setAssetPaymentDetail(assetPaymentDetails);
-        assetPaymentDocument.setAsset(asset);
+        //assetPaymentDocument.setAsset(asset);
         return assetPaymentDocument;
     }
 }

@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 
 public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocumentRuleBase {
 
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionOrganizationReportsRule.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionOrganizationReportsRule.class);
 
 
     private OrganizationService orgService;

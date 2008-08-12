@@ -913,7 +913,16 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property> 
-    </bean> 	
+    </bean> 
+    
+    <bean id="budgetConstructionRuleHelperService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperServiceImpl">
+		<property name="budgetDocumentService">
+			<ref bean="budgetDocumentService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+    </bean>	
     
     <bean id="humanResourcesPayrollDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.dataaccess.impl.HumanResourcesPayrollDaoJdbc">
     </bean>

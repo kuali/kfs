@@ -147,19 +147,30 @@ public class SalarySettingRuleUtil {
      * @return true if the requested FTE is valid; otherwise, false
      */
     public static boolean isValidRequestedFteQuantity(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
         BigDecimal requestedFteQuantity = appointmentFunding.getAppointmentRequestedFteQuantity();
-        String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
 
-        if (requestedAmount == null || requestedFteQuantity == null) {
+        return requestedFteQuantity != null && requestedFteQuantity.compareTo(BigDecimal.ZERO) >= 0;
+    }
+    
+    /**
+     * determine whether the requested FTE is valid
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the requested FTE is valid; otherwise, false
+     */
+    public static boolean isValidRequestedTimePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
+        BigDecimal requestedTimePercent = appointmentFunding.getAppointmentRequestedTimePercent();
+
+        if (requestedAmount == null || requestedTimePercent == null) {
             return false;
         }
 
         if (requestedAmount.isPositive()) {
-            return requestedFteQuantity.compareTo(BigDecimal.ZERO) > 0;
+            return requestedTimePercent.compareTo(BigDecimal.ZERO) > 0;
         }
         else if (requestedAmount.isZero()) {
-            return requestedFteQuantity.compareTo(BigDecimal.ZERO) == 0;
+            return requestedTimePercent.compareTo(BigDecimal.ZERO) == 0;
         }
 
         return true;

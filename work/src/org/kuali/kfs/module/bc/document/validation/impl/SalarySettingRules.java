@@ -17,78 +17,50 @@ package org.kuali.kfs.module.bc.document.validation.impl;
 
 import java.util.List;
 
+import org.kuali.core.datadictionary.DataDictionary;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
+import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 
 public class SalarySettingRules implements SalarySettingRule {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRules.class);
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processNormalizePayrateAndAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
-     */
-    public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        boolean isValid = true;
-
-        if (appointmentFunding.getAppointmentRequestedAmount() == null) {
-            GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_REQUIRED);
-            isValid = false;
-        }
-
-        if (appointmentFunding.getAppointmentRequestedPayRate() == null) {
-            GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCKeyConstants.ERROR_PAYRATE_AMOUNT_REQUIRED);
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustAllSalarySettingLinesPercent(java.util.List)
-     */
-    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            boolean isValid = this.processAdjustSalaraySettingLinePercent(appointmentFunding);
-
-            if (!isValid) {
-                return isValid;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustSalaraySettingLinePercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
-     */
-    public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        boolean isValid = true;
-
-        if (appointmentFunding.getAdjustmentAmount() == null) {
-            GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED);
-            isValid = false;
-        }
-        return isValid;
-    }
+    
+    private AccountingLineRuleHelperService accountingLineRuleHelperService = SpringContext.getBean(AccountingLineRuleHelperService.class);
+    private DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
 
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAddAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processAddAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("processAddAppointmentFunding() start");
+        boolean isValid = true;
 
-        boolean isValid = SalarySettingRuleUtil.isFieldFormatValid(appointmentFunding);
+        boolean hasValidFormat = SalarySettingRuleUtil.isFieldFormatValid(appointmentFunding);
+        
+        // if the formats of the fields are correct, check if there exist the references of a set of specified fields
+        boolean hasValidReference = true;
+        if (hasValidFormat) {
+            hasValidReference &= accountingLineRuleHelperService.isValidAccount(appointmentFunding.getAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
+            hasValidReference &= accountingLineRuleHelperService.isValidChart(appointmentFunding.getChartOfAccounts(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
+            hasValidReference &= accountingLineRuleHelperService.isValidChart(appointmentFunding.getChartOfAccounts(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
 
+            if (!KFSConstants.getDashSubAccountNumber().equals(appointmentFunding.getSubAccountNumber())) {
+                hasValidReference &= accountingLineRuleHelperService.isValidSubAccount(appointmentFunding.getSubAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
+            }
+        }
+        
         if (!SalarySettingRuleUtil.isValidRequestedAmount(appointmentFunding)) {
             GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED);
             isValid = false;
         }
-        else if (!SalarySettingRuleUtil.isValidRequestedFteQuantity(appointmentFunding)) {
-            GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_FTE_QUANTITY, BCKeyConstants.ERROR_FTE_GREATER_THAN_ZERO_REQUIRED);
-            isValid = false;
-        }
+        
 
         return isValid;
     }

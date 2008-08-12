@@ -536,6 +536,29 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         return false;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isBudgetableDocument(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
+     */
+    @NonTransactional
+    public boolean isBudgetableDocument(BudgetConstructionDocument document) {
+        if (document == null) {
+            return false;
+        }
+
+        Integer budgetYear = document.getUniversityFiscalYear();
+        Account account = document.getAccount();
+        boolean isBudgetableAccount = this.isBudgetableAccount(budgetYear, account);
+
+        if (isBudgetableAccount) {
+            SubAccount subAccount = document.getSubAccount();
+            String subAccountNumber = document.getSubAccountNumber();
+
+            return this.isBudgetableSubAccount(subAccount, subAccountNumber);
+        }
+
+        return false;
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isAssociatedWithBudgetableDocument(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
@@ -745,7 +768,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
                 return (BudgetConstructionDocument)documentService.getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
             }
             catch (WorkflowException e) {
-                throw new RuntimeException("Fail to retrieve the document for applointment fundinf" + appointmentFunding + "." + e);
+                throw new RuntimeException("Fail to retrieve the document for applointment fundinf" + appointmentFunding, e);
             }
         }
 
@@ -812,10 +835,10 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             KualiInteger newAnnaulBalanceAmount = pendingRecord.getAccountLineAnnualBalanceAmount().add(updateAmount);
             pendingRecord.setAccountLineAnnualBalanceAmount(newAnnaulBalanceAmount);
         }
-        else if (!is2PLG || (is2PLG && updateAmount.isNonZero())) { // initialize a new pending record if not plug line or plug line
-            // not zero
+        else if (!is2PLG || (is2PLG && updateAmount.isNonZero())) { 
+            // initialize a new pending record if not plug line or plug line not zero
+            
             Integer budgetYear = appointmentFunding.getUniversityFiscalYear();
-
             String objectCode = is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : appointmentFunding.getFinancialObjectCode();
             String subObjectCode = is2PLG ? KFSConstants.getDashFinancialSubObjectCode() : appointmentFunding.getFinancialSubObjectCode();
             String objectTypeCode = optionsService.getOptions(budgetYear).getFinObjTypeExpenditureexpCd();

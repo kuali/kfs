@@ -99,8 +99,6 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      * save the information in the current form into underlying data store
      */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
-
         GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

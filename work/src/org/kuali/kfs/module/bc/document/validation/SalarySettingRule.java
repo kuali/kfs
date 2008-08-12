@@ -15,29 +15,27 @@
  */
 package org.kuali.kfs.module.bc.document.validation;
 
-import java.util.List;
-
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 
 /**
- * Rule interface for <code>SalarySettingSaveEvent<code>. Rule classes wishing to respond to that event should implement this interface.
+ * Rule classes wishing to respond to that event should implement this interface.
  */
-// TODO: update the Java Doc 
 public interface SalarySettingRule extends BusinessRule {
 
-
+    /**
+     * process the rules before the given appointment funding is saved
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the appointment funding can pass all rule before saved, otherwise, false
+     */
     public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
 
-    public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFundings);
-    
-
-    public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
-
-    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings);  
-    
-
+    /**
+     * process the rules before the given appointment funding is created
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the appointment funding can pass all rule before created, otherwise, false
+     */
     public boolean processAddAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 }

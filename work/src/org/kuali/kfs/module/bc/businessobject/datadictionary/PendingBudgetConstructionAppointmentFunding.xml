@@ -147,13 +147,13 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Requested Change Amount" />
     <property name="shortLabel" value="Change Percent" />
-    <property name="maxLength" value="5" />
+    <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="6" />
+            p:size="9" />
     </property>
     <property name="summary" value="appointmentRequestedAmount" />
     <property name="description" value="appointmentRequestedAmount description..." />

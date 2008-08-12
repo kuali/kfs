@@ -125,6 +125,12 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      */
     public void normalizePayRateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.debug("normalizePayRateAndAmount() start");
+        
+        BigDecimal currentHourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
+        if (currentHourlyPayRate != null) {
+            KualiInteger annualPayAmount = this.calculateAnnualPayAmount(appointmentFunding);
+            appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
+        }
 
         KualiInteger currentAnnualPayAmount = appointmentFunding.getAppointmentRequestedAmount();
         if (currentAnnualPayAmount != null && currentAnnualPayAmount.isNonZero()) {
@@ -132,7 +138,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             appointmentFunding.setAppointmentRequestedPayRate(hourlyPayRate);
         }
 
-        BigDecimal currentHourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
+        currentHourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
         if (currentHourlyPayRate != null) {
             KualiInteger annualPayAmount = this.calculateAnnualPayAmount(appointmentFunding);
             appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
@@ -142,9 +148,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         if (currentAnnualPayAmount != null && currentAnnualPayAmount.isNonZero()) {
             BigDecimal hourlyPayRate = this.calculateHourlyPayRate(appointmentFunding);
             appointmentFunding.setAppointmentRequestedPayRate(hourlyPayRate);
-        }
-        else {
-            appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO);
         }
     }
 

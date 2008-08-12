@@ -194,6 +194,14 @@ public interface BudgetDocumentService {
      * @return true if the given document is budgetable; otherwise, false
      */
     public boolean isBudgetableDocument(BudgetConstructionHeader bcHeader);
+    
+    /**
+     * determine whether the given document is budgetable
+     * 
+     * @param document the given budget document
+     * @return true if the given document is budgetable; otherwise, false
+     */
+    public boolean isBudgetableDocument(BudgetConstructionDocument document);
 
     /**
      * determine whether the given appointment funding is associated with a budgetable document

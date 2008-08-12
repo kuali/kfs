@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 
 public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRuleBase {
 
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAccountReportsRule.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAccountReportsRule.class);
 
     private ChartService chartService;
     private BudgetConstructionAccountReports oldBCAccountReports;

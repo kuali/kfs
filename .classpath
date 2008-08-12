@@ -76,7 +76,7 @@
 	<classpathentry kind="lib" path="build/external/appserver/xapool.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-core-0.9.4-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-0.9.4-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.4-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.4-SNAPSHOT.jar" sourcepath="/java/projects/kfs-dependencies/rice-kns-0.9.4-SNAPSHOT-sources.zip"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-ksb-0.9.4-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-shared-0.9.4-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="build/log4j-1.2.14.jar"/>

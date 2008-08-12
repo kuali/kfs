@@ -100,7 +100,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     @Override
     public List getSearchResults(Map fieldValues) {
         LOG.debug("\n\ngetSearchResults() started");
-        LOG.info("Trying to log an INFO message with a some newlines \n\n\n");
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));

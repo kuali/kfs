@@ -30,10 +30,7 @@ public class ElectronicInvoiceDetailRequestHeader {
   private String operation;
   private String invoiceDateString;
   private Date invoiceDate;
-  private String deploymentMode;
-  /**
-   * This is needed like this instead of isInformationOnly because of variable mapping in digester rule
-   */
+
   private boolean isInformationOnly;
   private boolean isHeaderInvoiceIndicator;
   private boolean isTaxInLine;
@@ -69,9 +66,8 @@ public class ElectronicInvoiceDetailRequestHeader {
    * @param operation
    * @throws ParseException
    */
-  public ElectronicInvoiceDetailRequestHeader(String invoiceId,String invoiceDate,String purpose,String operation,String deploymentMode) {
+  public ElectronicInvoiceDetailRequestHeader(String invoiceId,String invoiceDate,String purpose,String operation) {
     super();
-    this.deploymentMode = deploymentMode;
     this.invoiceId = invoiceId;
     this.purpose = purpose;
     this.operation = operation;
@@ -219,18 +215,6 @@ public class ElectronicInvoiceDetailRequestHeader {
     }
   }
 
-  /**
-   * @return Returns the deploymentMode.
-   */
-  public String getDeploymentMode() {
-    return deploymentMode;
-  }
-  /**
-   * @param deploymentMode The deploymentMode to set.
-   */
-  public void setDeploymentMode(String deploymentMode) {
-    this.deploymentMode = deploymentMode;
-  }
   /**
    * @return Returns the extrinsics.
    */
@@ -421,7 +405,6 @@ public class ElectronicInvoiceDetailRequestHeader {
   }
 
   public void setAccountingInfoProvidedIndicator(String isAccountingInLine) {
-      LOG.error("isAccountingInLine................."+isAccountingInLine);
       this.isAccountingInLine = StringUtils.equalsIgnoreCase(StringUtils.defaultString(isAccountingInLine),"yes");;
   }
   
@@ -510,7 +493,6 @@ public class ElectronicInvoiceDetailRequestHeader {
       
       ToStringBuilder toString = new ToStringBuilder(this);
       
-      toString.append("deploymentMode",getDeploymentMode());
       toString.append("invoiceID",getInvoiceId());
       toString.append("purpose",getPurpose());
       toString.append("operation",getOperation());

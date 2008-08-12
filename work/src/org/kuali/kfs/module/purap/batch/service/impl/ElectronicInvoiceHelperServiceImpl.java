@@ -65,46 +65,10 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             byte[] fileByteContent = IOUtils.toByteArray(fileStream);
             parsedObject = (ElectronicInvoice) batchInputFileService.parse(electronicInvoiceInputFileType, fileByteContent);
             LOG.debug("ElectronicInvoice..."+parsedObject);
-//            LOG.debug("PayloadID:"+parsedObject.getPayloadID());
-//            LOG.debug("From Domain:"+parsedObject.getCxmlHeader().getFromDomain());
-//            LOG.debug("From Identity:"+parsedObject.getCxmlHeader().getFromIdentity());
-            //REQUEST
-            /**
-             * Deployment mode moved to ElectronicInvoice class
-             */
-//            LOG.debug("DeploymentMode:"+parsedObject.getInvoiceDetailRequestHeader().getDeploymentMode());
-//            LOG.debug("DeploymentMode:"+parsedObject.getDeploymentMode());
-//            LOG.debug("InvoiceDate:"+parsedObject.getInvoiceDetailRequestHeader().getInvoiceDateString());
-//            LOG.debug("Operation:"+parsedObject.getInvoiceDetailRequestHeader().getOperation());
-//            LOG.debug("Purpose:"+parsedObject.getInvoiceDetailRequestHeader().getPurpose());
-//            LOG.debug("isShippingInLine:"+parsedObject.getInvoiceDetailRequestHeader().isShippingInLine());
-            
-//            ElectronicInvoiceContact[] contacts = parsedObject.getInvoiceDetailRequestHeader().getInvoicePartnerContactsAsArray();
-//            for (int i = 0; i < contacts.length; i++) {
-//                LOG.debug("Partner Contact...."+contacts[i]);
-//            }
-//            
-//            contacts = parsedObject.getInvoiceDetailRequestHeader().getInvoiceShippingContactsAsArray();
-//            for (int i = 0; i < contacts.length; i++) {
-//                LOG.debug("Shipping Contact...."+contacts[i]);
-//            }
-////            
-//            ElectronicInvoiceOrder[] orders = parsedObject.getInvoiceDetailOrdersAsArray();
-//            for (int i = 0; i < orders.length; i++) {
-//                LOG.debug("Order...."+orders[i]);
-//                ElectronicInvoiceItem[] item = orders[i].getInvoiceItemsAsArray();
-//                for (int j = 0; i < item.length; i++) {
-//                    LOG.debug("item...."+item[i]);
-//                }
-//            }
-            
-            
-        }
-        catch (IOException e) {
+        }catch (IOException e) {
             LOG.error("error while getting file bytes:  " + e.getMessage(), e);
             throw new RuntimeException("Error encountered while attempting to get file bytes: " + e.getMessage(), e);
-        }
-        catch (XMLParseException e) {
+        }catch (XMLParseException e) {
             LOG.error("Error parsing xml " + e.getMessage());
             throw new RuntimeException("Error parsing xml " + e.getMessage(), e);
         }

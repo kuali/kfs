@@ -73,7 +73,8 @@ public class ElectronicInvoiceParser extends CxmlParser {
     } else {
       // setup Header
       String deploymentMode = getPossibleAttributeText(document, "cXML/Request", "deploymentMode");
-      ei.setInvoiceDetailRequestHeader(getInvoiceDetailHeader(headerNode, deploymentMode));
+      ei.setDeploymentMode(deploymentMode);
+      ei.setInvoiceDetailRequestHeader(getInvoiceDetailHeader(headerNode));
     }
     // we must have at least one orderNode to be able to process an invoice... i think
     Node orderNode = getXMLNode(document,"cXML/Request/InvoiceDetailRequest/InvoiceDetailOrder");
@@ -300,7 +301,7 @@ public class ElectronicInvoiceParser extends CxmlParser {
    * Return the invoice header indicators of the order
    * @return
    */
-  private ElectronicInvoiceDetailRequestHeader getInvoiceDetailHeader(Node headerNode, String deploymentMode) {
+  private ElectronicInvoiceDetailRequestHeader getInvoiceDetailHeader(Node headerNode) {
     LOG.debug("getInvoiceDetailHeader() started");
     String invoiceNumber = getNodeAttribute(headerNode, "invoiceID");
     String invoiceDate = getNodeAttribute(headerNode, "invoiceDate");
@@ -315,7 +316,7 @@ public class ElectronicInvoiceParser extends CxmlParser {
 //      this.isRejectedInvoice = true;
 //      this.rejectReasonCode = REJECT_REASON_INVALID_INVOICE_HEADER;
 //    }
-    ElectronicInvoiceDetailRequestHeader header = new ElectronicInvoiceDetailRequestHeader(invoiceNumber,invoiceDate,purpose,operation,deploymentMode);
+    ElectronicInvoiceDetailRequestHeader header = new ElectronicInvoiceDetailRequestHeader(invoiceNumber,invoiceDate,purpose,operation);
     // below we see if the vendor sent us information only invoice... we do not want to process such an invoice
     header.setbuyerInformationOnlyIndicator(getNodeAttribute(headerNode, "isInformationOnly"));
 

@@ -359,10 +359,10 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //            (!(EnvironmentService.PRODUCTION_ENVIRONMENT.equalsIgnoreCase(environment))) ) ||
 //          ( (!(PurapConstants.ElectronicInvoice.CXML_DEPLOYMENT_MODE_PRODUCTION.equalsIgnoreCase(header.getDeploymentMode()))) &&
 //            (EnvironmentService.PRODUCTION_ENVIRONMENT.equalsIgnoreCase(environment)) ) ) {
-    if ( (!(PurapConstants.ElectronicInvoice.CXML_DEPLOYMENT_MODE_PRODUCTION.equalsIgnoreCase(header.getDeploymentMode()))) &&
+    if ( (!(PurapConstants.ElectronicInvoice.CXML_DEPLOYMENT_MODE_PRODUCTION.equalsIgnoreCase(ei.getDeploymentMode()))) &&
             (PurapConstants.PRODUCTION_ENVIRONMENT.equalsIgnoreCase(environment)) ) {
       // we have a production e-invoice and we are NOT in production EPIC
-      String errorMessage = "File has deployment type '" + header.getDeploymentMode() + "' and EPIC environment was '" + environment + "'";
+      String errorMessage = "File has deployment type '" + ei.getDeploymentMode() + "' and EPIC environment was '" + environment + "'";
       String logMessage = this.addFileReject(ei, errorMessage);
       LOG.error("doCxmlValidationChecks() " + logMessage + "... invoice will reject");
     }

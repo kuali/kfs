@@ -6,6 +6,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 
 
@@ -371,5 +372,31 @@ public class ElectronicInvoiceDetailRequestSummary {
    */
   public void setTaxDescription(String taxDescription) {
     this.taxDescription = taxDescription;
+  }
+  
+  public String toString(){
+      ToStringBuilder toString = new ToStringBuilder(this);
+      toString.append("subTotalAmount",getSubTotalAmount());
+      toString.append("subTotalAmountCurrency",getSubTotalAmountCurrency());
+      toString.append("taxAmount",getTaxAmount());
+      toString.append("taxAmountCurrency",getTaxAmountCurrency());
+      toString.append("taxDescription",getTaxDescription());
+      toString.append("specialHandlingAmount",getSpecialHandlingAmount());
+      toString.append("specialHandlingAmountCurrency",getSpecialHandlingAmountCurrency());
+      toString.append("specialHandlingAmountDescription",getSpecialHandlingAmountDescription());
+      toString.append("shippingAmount",getShippingAmount());
+      toString.append("shippingAmountCurrency",getShippingAmountCurrency());
+      toString.append("grossAmount",getGrossAmount());
+      toString.append("grossAmountCurrency",getGrossAmountCurrency());
+      toString.append("discountAmount",getDiscountAmount());
+      toString.append("discountAmountCurrency",getDiscountAmountCurrency());
+      toString.append("netAmount",getNetAmount());
+      toString.append("netAmountCurrency",getNetAmountCurrency());
+      toString.append("depositAmount",getDepositAmount());
+      toString.append("depositAmountCurrency",getDepositAmountCurrency());
+      toString.append("dueAmount",getDueAmount());
+      toString.append("dueAmountCurrency",getDueAmountCurrency());
+      
+      return toString.toString();
   }
 }

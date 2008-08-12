@@ -153,7 +153,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     this.invoiceFileNumber = ei.getInvoiceDetailRequestHeader().getInvoiceId();
     this.invoiceFilePurposeIdentifier = ei.getInvoiceDetailRequestHeader().getPurpose();
     this.invoiceFileOperationIdentifier = ei.getInvoiceDetailRequestHeader().getOperation();
-    this.invoiceFileDeploymentModeValue = ei.getInvoiceDetailRequestHeader().getDeploymentMode();
+    this.invoiceFileDeploymentModeValue = ei.getDeploymentMode();
     this.invoiceCustomerNumber = ei.getCustomerNumber();
 
     for (Iterator fileReasonIter = ei.getFileRejectReasons().iterator(); fileReasonIter.hasNext();) {

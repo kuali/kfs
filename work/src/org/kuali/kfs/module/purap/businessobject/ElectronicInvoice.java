@@ -86,6 +86,7 @@ public class ElectronicInvoice {
   private String timestamp;
   private String payloadID;
   private String locale;
+  private String deploymentMode;
   
   /**
    * 
@@ -681,6 +682,14 @@ public class ElectronicInvoice {
         return null;
     }
     
+    public String getDeploymentMode() {
+        return deploymentMode;
+    }
+
+    public void setDeploymentMode(String deploymentMode) {
+        this.deploymentMode = deploymentMode;
+    }
+    
     public String toString(){
         ToStringBuilder toString = new ToStringBuilder(this);
         toString.append("version",getVersion());
@@ -689,6 +698,7 @@ public class ElectronicInvoice {
         toString.append("locale",getLocale());
         toString.append("customerNumber",getCustomerNumber());
         toString.append("fileName",getFileName());
+        toString.append("deploymentMode",getDeploymentMode());
         
         toString.append("dunsNumber",getDunsNumber());
         toString.append("vendorHeaderID",getVendorHeaderID());
@@ -703,4 +713,6 @@ public class ElectronicInvoice {
         return toString.toString();
         
     }
+
+    
 }

@@ -8,7 +8,7 @@
 		<c:set var="assetObject" value="document.assetPaymentAssetDetail[${ctr}].asset" />
 		<c:set var="assetValue" value="${KualiForm.document.assetPaymentAssetDetail[ctr].asset}" />
 	
-	  	<html:hidden property="document.assetPaymentAssetDetail[${ctr}]."/>
+	  	<html:hidden property="document.assetPaymentAssetDetail[${ctr}].documentNumber"/>
 
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="AssetSummary" borders="0">
 		      	<tr>

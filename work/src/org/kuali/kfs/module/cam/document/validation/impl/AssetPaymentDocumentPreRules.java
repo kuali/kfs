@@ -65,13 +65,15 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
         if (!document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
             return false;
         }
-
-        document.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
+        
+        //TODO FIX IT
+        //document.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
 
         List<String> subTypes = new ArrayList<String>();
         subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
 
-        List<AssetPayment> assetPayments = document.getAsset().getAssetPayments();
+        List<AssetPayment> assetPayments=null;
+        //List<AssetPayment> assetPayments = document.getAsset().getAssetPayments();
         List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
         List<String> validObjectSubTypes = new ArrayList<String>();
 

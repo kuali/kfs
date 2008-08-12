@@ -98,10 +98,10 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         createNewPayments(document);
         
         //Updating the asset previous cost in the asset payment document table
-        updatePaymentAssetPreviousTotalCost(document);
+        //updatePaymentAssetPreviousTotalCost(document);
         
         // Updating the total cost of the asset
-        updateAssetTotalCost(document);        
+        //updateAssetTotalCost(document);        
     }
 
     /**
@@ -109,7 +109,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      * 
      * @param asset bo where the update will occur
      * @param subTotal amount of the new asset payment detail records
-     */
+     *
     private void updateAssetTotalCost(AssetPaymentDocument assetPaymentDocument) {
         KualiDecimal subTotal = assetPaymentDocument.getSourceTotal();
         KualiDecimal totalCost = subTotal.add(assetPaymentDocument.getAsset().getTotalCostAmount());
@@ -120,34 +120,37 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         
         //Saving changes
         getBusinessObjectService().save(asset);
-     }
+     }*/
 
     /**
      * 
      * Updates asset previous cost in the asset document table
      * @param assetPaymentDocument
-     */
+     *
     private void updatePaymentAssetPreviousTotalCost(AssetPaymentDocument assetPaymentDocument) {
         assetPaymentDocument.setPreviousTotalCostAmount(assetPaymentDocument.getAsset().getTotalCostAmount());
         getBusinessObjectService().save(assetPaymentDocument);
-    }
+    }*/
      
     /**
      * Creates a new asset payment record for each new asset payment detail record and then save them
      * 
      * @param document
      */
+    //TODO FIX it
     private void createNewPayments(AssetPaymentDocument document) {
         List<AssetPaymentDetail> assetPaymentDetailLines = document.getAssetPaymentDetail();
         List<PersistableBusinessObject> assetPayments = new ArrayList<PersistableBusinessObject>();
-        Integer maxSequenceNo = this.getMaxSequenceNumber(document.getAsset().getCapitalAssetNumber());
+        Integer maxSequenceNo=new Integer(0);
+        //Integer maxSequenceNo = this.getMaxSequenceNumber(document.getAsset().getCapitalAssetNumber());
+        
 
         try {
             // Creating a new payment record for each asset payment detail.
             for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
                 AssetPayment assetPayment = new AssetPayment(assetPaymentDetail);
                 assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_N);
-                assetPayment.setCapitalAssetNumber(document.getAsset().getCapitalAssetNumber());
+                //assetPayment.setCapitalAssetNumber(document.getAsset().getCapitalAssetNumber());
                 assetPayment.setPaymentSequenceNumber(++maxSequenceNo);
                 assetPayment.setDocumentNumber(document.getDocumentNumber());
 

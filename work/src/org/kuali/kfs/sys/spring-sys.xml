@@ -428,6 +428,40 @@
     </bean>
     
     <bean id="reportGenerationService" class="org.kuali.kfs.sys.batch.service.impl.ReportGenerationServiceImpl" />
+    
+    <bean id="accountingLineAuthorizationTransformer" class="org.kuali.kfs.sys.document.service.impl.AccountingLineAuthorizationTransformerImpl" />
+    
+    <bean id="allReadOnlyNoActionsAccountingLineRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.AllReadOnlyNoActionsAccountingLineRenderingTransformationImpl" />
+    
+    <bean id="defaultValuePopulationAccountingLineFieldRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.DefaultValuePopulationAccountingLineFieldRenderingTransformationImpl" />
+    
+    <bean id="hiddenFieldRearrangementAccountingLineRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.HiddenFieldRearrangementAccountingLineRenderingTransformationImpl" />
+    
+    <bean id="removeEmptyCellsAndRowsRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.RemoveEmptyCellsAndRowsRenderingTransformationImpl" />
+    
+    <bean id="valuePopulationAccountingLineFieldRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.ValuePopulationAccountingLineFieldRenderingTransformationImpl" />
+    
+    <bean id="accountingLineRenderingService" class="org.kuali.kfs.sys.document.service.impl.AccountingLineRenderingServiceImpl">
+    	<property name="dataDictionaryService" ref="dataDictionaryService" />
+    	<property name="accountingLineAuthorizationTransformer" ref="accountingLineAuthorizationTransformer" />
+    	<property name="fieldTransformations">
+    		<list>
+    			<ref bean="defaultValuePopulationAccountingLineFieldRenderingTransformation" />
+    			<ref bean="valuePopulationAccountingLineFieldRenderingTransformation" />
+    		</list>
+    	</property>
+    	<property name="preTablificationTransformations">
+    		<list>
+    			<ref bean="allReadOnlyNoActionsAccountingLineRenderingTransformation" />
+    		</list>
+    	</property>
+    	<property name="postTablificationTransformations">
+    		<list>
+    			<ref bean="hiddenFieldRearrangementAccountingLineRenderingTransformation" />
+    			<ref bean="removeEmptyCellsAndRowsRenderingTransformation" />
+    		</list>
+    	</property>
+    </bean>
 
 	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
 	

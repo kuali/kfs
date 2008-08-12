@@ -31,7 +31,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 /**
  * Tests the spring configuration for batch jobs.
  */
-@ConfigureContext
+@ConfigureContext(initializeBatchSchedule=true)
 @AnnotationTestSuite(PreCommitSuite.class)
 public class BatchConfigurationTest extends KualiTestBase {
     private List<KualiModule> modules;

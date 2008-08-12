@@ -113,9 +113,15 @@ public class PurchasingServiceImpl implements PurchasingService {
     private PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
         Class camsItemClass = purDoc.getPurchasingCapitalAssetItemClass();
         PurchasingCapitalAssetItem camsItem;
+        PurchasingCapitalAssetSystem resultSystem;
         try {
             camsItem = (PurchasingCapitalAssetItem)(camsItemClass.newInstance());
             camsItem.setItemIdentifier(purapItem.getItemIdentifier());
+            //If the system type is INDIVIDUAL then for each of the capital asset items, we need a system attached to it.
+            if (purDoc.getCapitalAssetSystemTypeCode().equals("INDIVIDUAL")) {
+                resultSystem = (PurchasingCapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
+                camsItem.setPurchasingCapitalAssetSystem(resultSystem);
+            }
         }
         catch (Exception e) {
             return null;
@@ -136,16 +142,20 @@ public class PurchasingServiceImpl implements PurchasingService {
         purDoc.getPurchasingCapitalAssetItems().remove(index);
     }
     
-    public PurchasingCapitalAssetSystem setupCAMSSystem(PurchasingDocument purDoc, List<PurchasingCapitalAssetItem> camsItems) {
+    public void setupCAMSSystem(PurchasingDocument purDoc) {
         PurchasingCapitalAssetSystem resultSystem;
         try {
             resultSystem = (PurchasingCapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
-            //here I supposed we could set the List of camsItems to the resultSystem ?
+            //If the system type is ONE or MULTIPLE then we need a system attached to the document.
+            if (purDoc.getCapitalAssetSystemTypeCode().equals("ONE") || purDoc.getCapitalAssetSystemTypeCode().equals("MULTIPLE")) {
+                if (purDoc.getPurchasingCapitalAssetSystems().size() == 0) {
+                    purDoc.getPurchasingCapitalAssetSystems().add(resultSystem);
+                }
+            }
         }
         catch (Exception e) {
-            return null;
+           
         }
-        return resultSystem;
     }
     
 }

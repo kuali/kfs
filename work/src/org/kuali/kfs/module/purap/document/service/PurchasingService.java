@@ -27,6 +27,6 @@ public interface PurchasingService {
     
     public void deleteCAMSItems(PurchasingDocument purDoc, Integer itemIdentifier);
 
-    public PurchasingCapitalAssetSystem setupCAMSSystem(PurchasingDocument purDoc, List<PurchasingCapitalAssetItem> camsItems);
+    public void setupCAMSSystem(PurchasingDocument purDoc);
     
 }

@@ -50,7 +50,6 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.event.ImportPurchasingAccountsPayableItemEvent;
@@ -729,12 +728,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    //TODO: You'll likely still have to change the list of purchasingCapitalAssetItems to be passed into
-    //the setupCAMSSystem service method.
     public ActionForward setupCAMSSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
-        SpringContext.getBean(PurchasingService.class).setupCAMSSystem(document, document.getPurchasingCapitalAssetItems());
+        SpringContext.getBean(PurchasingService.class).setupCAMSSystem(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     

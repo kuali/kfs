@@ -1727,7 +1727,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * Gets a List of excluded vendor choice codes from PurapConstants.
      * 
-     * @return
+     * @return a List of excluded vendor choice codes
      */
     private List<String> getExcludedVendorChoiceCodes() {
         List<String> excludedVendorChoiceCodes = new ArrayList<String>();
@@ -1738,6 +1738,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return excludedVendorChoiceCodes;
     }
     
+    /**
+     * Creates and add a note to the purchase order document using the annotation String
+     * in the input parameter. This method is used by the autoCloseRecurringOrders() to
+     * add a note to the purchase order to indicate that the purchase order was closed
+     * by the batch job.
+     * 
+     * @param purchaseOrderDocument The purchase order document that is being closed by the batch job.
+     * @param annotation            The string to appear on the note to be attached to the purchase order.
+     */
     private void createNoteForAutoCloseRecurringOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation) {
         try {
             Note noteObj = documentService.createNoteFromDocument(purchaseOrderDocument, annotation);

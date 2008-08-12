@@ -362,7 +362,6 @@ public interface PurchaseOrderService {
     
 
     /**
-     * Ripierce: there was not a use case for this, so here are the specs: 
      * - PO status is OPEN - Recurring payment type code is not null 
      * - Vendor Choice is not Sub-Contract 
      * - PO End Date <= parm date (comes from app settings table) 

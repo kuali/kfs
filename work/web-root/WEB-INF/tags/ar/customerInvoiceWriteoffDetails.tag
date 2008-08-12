@@ -18,7 +18,7 @@
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 <c:set var="documentAttributes" value="${DataDictionary.CustomerInvoiceWriteoffDocument.attributes}" />            
               
-<kul:tab tabTitle="Invoice Items" defaultOpen="true">
+<kul:tab tabTitle="Invoice Items" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_WRITEOFF_DETAILS_ERRORS}">
     <div class="tab-container" align=center>		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Items">
             <tr>

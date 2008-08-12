@@ -94,6 +94,7 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
 
         // if writeoff option is set up for to use organization accounting default FAU, those values must exist before a writeoff
         // document can be initiated
+        /*
         String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
         boolean isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffGenerationOption);
         if (isUsingOrgAcctDefaultWriteoffFAU) {
@@ -114,7 +115,7 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
             else if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffAccountNumber()) || StringUtils.isEmpty(organizationAccountingDefault.getWriteoffChartOfAccountsCode()) || StringUtils.isEmpty(organizationAccountingDefault.getWriteoffFinancialObjectCode())) {
                 throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORG_ACCT_DEFAULT_WRITEOFF_MUST_EXIST, new String[] {});
             }
-        }
+        }*/
     }
 
 }

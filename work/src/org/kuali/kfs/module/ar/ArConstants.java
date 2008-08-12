@@ -141,6 +141,12 @@ public class ArConstants {
     //Customer Invoice Writeoff errors
     public static final String ERROR_ORG_ACCT_DEFAULT_FOR_USER_MUST_EXIST = "error.ar.OrganizationAccountingDefaultMustExist";
     public static final String ERROR_ORG_ACCT_DEFAULT_WRITEOFF_MUST_EXIST = "error.ar.OrganizationAccountingDefaultWriteoffMustExist";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_CHART_WRITEOFF_OBJECT_DOESNT_EXIST = "error.document.customerInvoiceWriteoff.chartWriteoffObjectDoesntExist";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_MUST_EXIST = "error.document.customerInvoiceWriteoff.writeoffFAUMustExist";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_CHART_MUST_EXIST = "error.document.customerInvoiceWriteoff.chartWriteoffFAUChartMustExist";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_ACCOUNT_MUST_EXIST = "error.document.customerInvoiceWriteoff.chartWriteoffFAUAccountMustExist";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_OBJECT_CODE_MUST_EXIST = "error.document.customerInvoiceWriteoff.chartWriteoffFAUObjectMustExist";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_HAS_CREDIT_BALANCE = "error.document.customerInvoiceWriteoff.invoiceHasCreditBalance";
 
     public static class PaymentMediumCode {
         public static final String CASH = "CA";
@@ -201,6 +207,10 @@ public class ArConstants {
 
         public static final String SHIP_TO_ADDRESS_IDENTIFIER = "customerShipToAddressIdentifier";
         public static final String BILL_TO_ADDRESS_IDENTIFIER = "customerBillToAddressIdentifier";
+    }
+    
+    public static class CustomerInvoiceWriteoffDocumentFields {
+        public static final String CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF = "customerInvoiceDetailsForWriteoff";
     }
 
     public static class OrganizationOptionsFields {

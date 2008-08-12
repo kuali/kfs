@@ -65,8 +65,8 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             
             Map<String,Object> criteria = new HashMap<String,Object>();
             criteria.put("universityFiscalYear", currentUniversityFiscalYear);
-            criteria.put("chartOfAccountsCode", currentUser.getChartOfAccountsCode());
-            criteria.put("organizationCode", currentUser.getOrganizationCode());
+            criteria.put("chartOfAccountsCode", customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBillByChartOfAccountCode());
+            criteria.put("organizationCode", customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBilledByOrganizationCode());
             
             OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault)businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
             if( ObjectUtils.isNotNull( organizationAccountingDefault ) ){

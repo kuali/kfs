@@ -15,41 +15,88 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.exceptions.UnknownDocumentIdException;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.util.KNSConstants;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRuleBase {
-    
     
     /**
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+        boolean success = super.processCustomSaveDocumentBusinessRules(document);
         
         GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
         
-        CustomerInvoiceWriteoffDocument customerCreditMemoDocument = (CustomerInvoiceWriteoffDocument)document;
+        CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument)document;
+        success &= validateWriteoffGLPEGenerationInformation( customerInvoiceWriteoffDocument);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
+
+        return success;
+    }
+    
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean success = super.processCustomSaveDocumentBusinessRules(document);
         
-        String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
-        boolean isUsingChartForWriteoff = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_CHART.equals( writeoffGenerationOption );
+        GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
         
-        if( isUsingChartForWriteoff ){
-            for( CustomerInvoiceDetail customerInvoiceDetail : customerCreditMemoDocument.getCustomerInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts())
-            isValid &= doesChartCodeHaveCorrespondingWriteoffObjectCode(customerInvoiceDetail);    
-        }
+        CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument)document;
+        success &= validateWriteoffGLPEGenerationInformation( customerInvoiceWriteoffDocument);
+        success &= doesCustomerInvoiceDocumentHaveValidBalance(customerInvoiceWriteoffDocument);
         
         GlobalVariables.getErrorMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
 
-        return isValid;
+        return success;        
+    }
+    
+    /**
+     * This method validates any writeoff GLPE required information
+     * 
+     * @param customerInvoiceWriteoffDocument
+     * @return
+     */
+    protected boolean validateWriteoffGLPEGenerationInformation(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument){
+        boolean success = true;
+        
+        String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
+        
+        if( ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_CHART.equals( writeoffGenerationOption ) ){
+            for( CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts()){
+                success &= doesChartCodeHaveCorrespondingWriteoffObjectCode(customerInvoiceDetail);    
+            }
+        } else if (ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffGenerationOption)){
+           success &= doesOrganizationAccountingDefaultHaveWriteoffInformation( customerInvoiceWriteoffDocument );
+        }        
+        
+        return success;
     }
     
     /**
@@ -60,22 +107,188 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
      * TODO
      */
     protected boolean doesChartCodeHaveCorrespondingWriteoffObjectCode(CustomerInvoiceDetail customerInvoiceDetail){
-        boolean isValid = true;
+        boolean success = true;
         
-        /*
-        customerInvoiceDetail.refreshReferenceObject("chart");
-        if (ObjectUtils.isNotNull(customerInvoiceDetail.getChart())) {
-            if (ObjectUtils.isNotNull(customerInvoiceDetail.getChart().getFinAccountsReceivableObjCode())) {
-                GlobalVariables.getErrorMap().putError("", ArConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CHART_WRITEOFF_OBJECT_DOESNT_EXIST);
-                isValid = false;
-            }
+        String writeoffObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, customerInvoiceDetail.getChartOfAccountsCode());
+        if (StringUtils.isEmpty(writeoffObjectCode)) {
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CHART_WRITEOFF_OBJECT_DOESNT_EXIST,customerInvoiceDetail.getChartOfAccountsCode());
+            success = false;
         }
-        else {
-            GlobalVariables.getErrorMap().putError("", ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
-            isValid = false;
-        }*/
 
-        return isValid;
+        return success;
+    }
+    
+    protected boolean doesOrganizationAccountingDefaultHaveWriteoffInformation(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument){
+        boolean success = true;
+        Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        String billByChartOfAccountCode = customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBillByChartOfAccountCode();
+        String billedByOrganizationCode = customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBilledByOrganizationCode();
+        
+        Map<String,Object> criteria = new HashMap<String,Object>();
+        criteria.put("universityFiscalYear", currentFiscalYear);
+        criteria.put("chartOfAccountsCode", billByChartOfAccountCode);
+        criteria.put("organizationCode", billedByOrganizationCode);
+        
+        OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+        
+        if( ObjectUtils.isNotNull(organizationAccountingDefault)){
+            success &= doesWriteoffAccountNumberExist(organizationAccountingDefault);
+            success &= doesWriteoffChartOfAccountsCodeExist(organizationAccountingDefault);
+            success &= doesWriteoffFinancialObjectCodeExist(organizationAccountingDefault);
+        } else {
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_MUST_EXIST,new String[]{currentFiscalYear.toString(),billByChartOfAccountCode,billedByOrganizationCode});
+            success = false;
+        }
+        
+        return success;
+        
+    }
+    
+    
+    
+    /**
+     * This method returns true if payment account number is provided and is valid.
+     * 
+     * @param doc
+     * @return
+     */
+    protected boolean doesWriteoffAccountNumberExist(OrganizationAccountingDefault organizationAccountingDefault) {
+
+        if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffAccountNumber())) {
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_ACCOUNT_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
+            return false;
+        }
+
+        return true;
     }
 
+    /**
+     * This method returns true if payment chart of accounts code is provided and is valid
+     * 
+     * @param doc
+     * @return
+     */
+    protected boolean doesWriteoffChartOfAccountsCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
+
+        if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffChartOfAccountsCode())) {
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_CHART_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * This method returns true if payment financial object code is provided and is valid
+     * 
+     * @param doc
+     * @return
+     */
+    protected boolean doesWriteoffFinancialObjectCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
+        if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffFinancialObjectCode())) {
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_OBJECT_CODE_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
+            return false;
+        }
+
+        return true;
+    }     
+    
+    /**
+     * This method returns true if customer invoice document for writeoff does not have a credit balance (i.e. a open amount less than or equal to 0). 
+     * 
+     * @param customerInvoiceWriteoffDocument
+     * @return
+     */
+    protected boolean doesCustomerInvoiceDocumentHaveValidBalance(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument){
+        if( KualiDecimal.ZERO.isGreaterEqual(customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getOpenAmount())){
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_HAS_CREDIT_BALANCE);
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * 
+     * This method checks if there is no another CRM in route for the invoice
+     * not in route if CRM status is one of the following: processed, cancelled, or disapproved
+     * @param invoice
+     * @return
+     */
+    public boolean checkIfThereIsNoAnotherCRMInRouteForTheInvoice(String invoiceDocumentNumber) {
+
+        KualiWorkflowDocument workflowDocument;
+        boolean success = true;
+        
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
+        
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Collection<CustomerCreditMemoDocument> customerCreditMemoDocuments = 
+            businessObjectService.findMatching(CustomerCreditMemoDocument.class, fieldValues);
+        
+        // no CRMs associated with the invoice are found
+        if (customerCreditMemoDocuments.isEmpty())
+            return success;
+        
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        
+        for(CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
+            try {
+                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(customerCreditMemoDocument.getDocumentNumber()), user);
+            }
+            catch (WorkflowException e) {
+                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + customerCreditMemoDocument.getDocumentNumber() + "'", e);
+            }
+            
+            if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved())) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
+                success = false;
+                break;
+            }
+        }
+        return success;  
+    }    
+    
+    /**
+     * 
+     * This method checks if there is no another writeoff in route for the invoice
+     * not in route if CRM status is one of the following: processed, cancelled, or disapproved
+     * @param invoice
+     * @return
+     */
+    public boolean checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(String invoiceDocumentNumber) {
+
+        KualiWorkflowDocument workflowDocument;
+        boolean success = true;
+        
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
+        
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocuments = 
+            businessObjectService.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
+        
+        
+        // no CRMs associated with the invoice are found
+        if (customerInvoiceWriteoffDocuments.isEmpty())
+            return success;
+        
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        
+        for(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument : customerInvoiceWriteoffDocuments) {
+            try {
+                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(customerInvoiceWriteoffDocument.getDocumentNumber()), user);
+            }
+            catch (WorkflowException e) {
+                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + customerInvoiceWriteoffDocument.getDocumentNumber() + "'", e);
+            }
+            
+            if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved())) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
+                success = false;
+                break;
+            }
+        }
+        return success;  
+    }    
 }

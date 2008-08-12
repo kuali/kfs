@@ -24,7 +24,7 @@
 <%@ attribute name="customerAddressAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
               
-<kul:tab tabTitle="Customer Invoice Summary" defaultOpen="true" tabErrorKey="*">
+<kul:tab tabTitle="Customer Invoice Summary" defaultOpen="true">
     <div class="tab-container" align=center>	
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Customer Invoice Information">
             <tr>

@@ -1117,6 +1117,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     
     // Customer Invoice Writeoff Document
     public static final String CUSTOMER_INVOICE_WRITEOFF_INIT_ERRORS = "document.financialDocumentReferenceInvoiceNumber*";
+    public static final String CUSTOMER_INVOICE_WRITEOFF_DETAILS_ERRORS = "document.customerInvoiceDetailsForWriteoff*";
+    
     
     // Payment Application Document
     public static final String PAYMENT_APPLICATION_DOCUMENT_ERRORS = "document";

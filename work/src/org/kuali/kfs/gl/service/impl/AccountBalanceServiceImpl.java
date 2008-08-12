@@ -144,12 +144,10 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
 
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
-                    addBalanceToTotals(bbc, incomeTotal, expenseTotal);
                     results.add(bbc);
                 }
             }
             else {
-                addBalanceToTotals(bbc, incomeTotal, expenseTotal);
                 results.add(bbc);
             }
         }
@@ -164,10 +162,12 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
                     income.add(bbc);
+                    incomeTotal.add(bbc);
                 }
             }
             else {
                 income.add(bbc);
+                incomeTotal.add(bbc);
             }
         }
 
@@ -178,10 +178,12 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
                     incomeTransfers.add(bbc);
+                    incomeTotal.add(bbc);
                 }
             }
             else {
                 incomeTransfers.add(bbc);
+                incomeTotal.add(bbc);
             }
         }
 
@@ -192,10 +194,12 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
                     expense.add(bbc);
+                    expenseTotal.add(bbc);
                 }
             }
             else {
                 expense.add(bbc);
+                expenseTotal.add(bbc);
             }
         }
 
@@ -206,10 +210,12 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
                     expenseTransfers.add(bbc);
+                    expenseTotal.add(bbc);
                 }
             }
             else {
                 expenseTransfers.add(bbc);
+                expenseTotal.add(bbc);
             }
         }
 
@@ -225,24 +231,6 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         total.getDummyBusinessObject().setGenericAmount(incomeTotal.getDummyBusinessObject().getGenericAmount().add(expenseTotal.getDummyBusinessObject().getGenericAmount()));
 
         return results;
-    }
-
-    /**
-     * Takes an account balance and, depending on the objec type, adds it to the expense total or the income total account balance
-     * 
-     * @param accountBalance the account balance to add to the totals 
-     * @param incomeTotal the account balance holding totals for income
-     * @param expenseTotal the account balance holding totals for expense
-     */
-    private void addBalanceToTotals(AccountBalance accountBalance, AccountBalance incomeTotal, AccountBalance expenseTotal) {
-        String reportingSortCode = accountBalance.getFinancialObject().getFinancialObjectType().getFinancialReportingSortCode();
-
-        if (reportingSortCode.startsWith(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B)) {
-            expenseTotal.add(accountBalance);
-        }
-        else {
-            incomeTotal.add(accountBalance);
-        }
     }
 
     /**

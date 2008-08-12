@@ -21,7 +21,7 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
- * Step used to auto approve payment requests that meet a certain criteria
+ * Step used to auto approve purchase orders that meet a certain criteria
  */
 public class AutoClosePurchaseOrdersStep extends AbstractStep {
 
@@ -32,7 +32,7 @@ public class AutoClosePurchaseOrdersStep extends AbstractStep {
     }
 
     /**
-     * Calls service method to approve payment requests
+     * Calls service method to approve fully disencumbered purchase orders
      * 
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */

@@ -1521,7 +1521,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 String newStatus = PurapConstants.PurchaseOrderStatuses.PENDING_CLOSE;
                 String annotation = "This PO was automatically closed in batch.";
                 String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
+                PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
+                createNoteForAutoCloseOrders(document, annotation);
                 createAndRoutePotentialChangeDocument(poAutoClose.getDocumentNumber(), documentType, annotation, null, newStatus);
+
             }
         }
         LOG.info("autoCloseFullyDisencumberedOrders() ended");
@@ -1540,7 +1543,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         
         if (StringUtils.isEmpty(parameterEmail)) {
             // Don't stop the show if the email address is wrong, log it and continue.
-            LOG.error("autoCloseRecurringOrders(): parameterEmail is missing, we'll use batch mailing list in place of parameter email.");
+            LOG.error("autoCloseRecurringOrders(): parameterEmail is missing, we'll not send out any emails for this job.");
             shouldSendEmail = false;
         }
         if (shouldSendEmail) {
@@ -1617,7 +1620,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                         emailBody.append("\n\nThe following recurring Purchase Orders will be closed by auto close recurring batch job \n");
                     }
                     LOG.info("autoCloseRecurringOrders() PO ID " + poAutoClose.getPurapDocumentIdentifier() + " will be closed.");
-                    createNoteForAutoCloseRecurringOrders(document, annotation);
+                    createNoteForAutoCloseOrders(document, annotation);
                     createAndRoutePotentialChangeDocument(poAutoClose.getDocumentNumber(), documentType, annotation, null, newStatus);
                     if (shouldSendEmail) {
                         emailBody.append("\n\n" + counter + " PO ID: " + poAutoClose.getPurapDocumentIdentifier() + ", End Date: " + poAutoClose.getRecurringPaymentEndDate() + ", Status: " + poAutoClose.getPurchaseOrderStatusCode() + ", VendorChoice: " + poAutoClose.getVendorChoiceCode() + ", RecurringPaymentType: " + poAutoClose.getRecurringPaymentTypeCode());
@@ -1740,14 +1743,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     
     /**
      * Creates and add a note to the purchase order document using the annotation String
-     * in the input parameter. This method is used by the autoCloseRecurringOrders() to
-     * add a note to the purchase order to indicate that the purchase order was closed
-     * by the batch job.
+     * in the input parameter. This method is used by the autoCloseRecurringOrders() and
+     * autoCloseFullyDisencumberedOrders to add a note to the purchase order to
+     * indicate that the purchase order was closed by the batch job.
      * 
      * @param purchaseOrderDocument The purchase order document that is being closed by the batch job.
      * @param annotation            The string to appear on the note to be attached to the purchase order.
      */
-    private void createNoteForAutoCloseRecurringOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation) {
+    private void createNoteForAutoCloseOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation) {
         try {
             Note noteObj = documentService.createNoteFromDocument(purchaseOrderDocument, annotation);
             documentService.addNoteToDocument(purchaseOrderDocument, noteObj);

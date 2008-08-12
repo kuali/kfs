@@ -362,16 +362,17 @@ public interface PurchaseOrderService {
     
 
     /**
-     * - PO status is OPEN - Recurring payment type code is not null 
+     * - PO status is OPEN 
+     * - Recurring payment type code is not null 
      * - Vendor Choice is not Sub-Contract 
-     * - PO End Date <= parm date (comes from app settings table) 
-     * - Verify that the app settings date entered is not greater than the current date minus three months.
+     * - PO End Date <= parm date (comes from system parameter) 
+     * - Verify that the system parameter date entered is not greater than the current date minus three months.
      *   If the date entered is invalid, the batch process will halt and an error will be generated.
      * - Close and disencumber all recurring PO's that have end dates less than
-     *   the app settings date. 
-     * - Set the app settings date to mm/dd/yyyy after processing. 
+     *   the system parameter date. 
+     * - Set the system parameter date to mm/dd/yyyy after processing. 
      * - Send email indicating that the job ran and which orders were closed. 
-     *   Mail it to the AUTO_CLOSE_RECURRING_PO_EMAIL_ADDRESSES in app settings.
+     *   Mail it to the AUTO_CLOSE_RECURRING_PO_EMAIL_ADDRESSES in system parameter.
      *   
      * @return boolean true if the job is completed successfully and false otherwise.
      */

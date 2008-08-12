@@ -549,13 +549,13 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     @Override
     public void handleRouteStatusChange(){
         super.handleRouteStatusChange();
-        if (getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             
             //have to populate because not all the customer credit memo details are populated while doc is in workflow
             populateCustomerCreditMemoDetailsAfterLoad();
             
             // apply writeoff amounts by only retrieving only the invoice details that ARE NOT discounts
-            //SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(getCreditMemoDetails(), documentNumber);
+            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(getCreditMemoDetails(), documentNumber);
             //SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocumentIfFullyPaidOff(getInvoice());
         }
     }        

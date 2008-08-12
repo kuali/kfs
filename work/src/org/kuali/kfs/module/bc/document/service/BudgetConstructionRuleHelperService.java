@@ -33,6 +33,16 @@ import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 public interface BudgetConstructionRuleHelperService {
 
     /**
+     * determine if the fields in the given appointment funding line are in the correct formats defined in the data dictionary
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @param errorMap the given error map that can hold the error message if any
+     * @return true if the fields in the given appointment funding line are in the correct formats defined in the data dictionary;
+     *         otherwise, false
+     */
+    public abstract boolean isFieldFormatValid(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+
+    /**
      * determine wether the given budget document is allowed to be budgeted
      * 
      * @param budgetConstructionDocument the given budget document
@@ -56,34 +66,34 @@ public interface BudgetConstructionRuleHelperService {
      * determine whether the given chart is valid
      * 
      * @param chart the given chart
-     * @param invalidValue the given invalid value
+     * @param invalidValue the given current value
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given chart is valid; otherwise, false
      */
-    public abstract boolean isValidChart(Chart chart, String invalidValue, ErrorMap errorMap, String errorPropertyName);
+    public abstract boolean isValidChart(Chart chart, String currentValue, ErrorMap errorMap, String errorPropertyName);
 
     /**
      * determine whether the given account is valid
      * 
      * @param account the given account
-     * @param invalidValue the given invalid value
+     * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given account is valid; otherwise, false
      */
-    public abstract boolean isValidAccount(Account account, String invalidValue, ErrorMap errorMap, String errorPropertyName);
+    public abstract boolean isValidAccount(Account account, String currentValue, ErrorMap errorMap, String errorPropertyName);
 
     /**
      * determine whether the given sub account is valid
      * 
      * @param subAccount the given sub account
-     * @param invalidValue the given invalid value
+     * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given sub account is valid; otherwise, false
      */
-    public abstract boolean isValidSubAccount(SubAccount subAccount, String invalidValue, ErrorMap errorMap, String errorPropertyName);
+    public abstract boolean isValidSubAccount(SubAccount subAccount, String currentValue, ErrorMap errorMap, String errorPropertyName);
 
     /**
      * Runs existence and active tests on the SubObjectCode reference This method is differenct than the one in
@@ -91,12 +101,12 @@ public interface BudgetConstructionRuleHelperService {
      * AccountingLineRuleHelper
      * 
      * @param subObjectCode the given sub object
-     * @param invalidValue the given invalid value
+     * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given sub object is valid; otherwise, false
      */
-    public abstract boolean isValidSubObjectCode(SubObjCd subObjectCode, String invalidValue, ErrorMap errorMap, String errorPropertyName);
+    public abstract boolean isValidSubObjectCode(SubObjCd subObjectCode, String currentValue, ErrorMap errorMap, String errorPropertyName);
 
     /**
      * Runs existence and active tests on the ObjectCode reference This method is differenct than the one in
@@ -104,42 +114,42 @@ public interface BudgetConstructionRuleHelperService {
      * AccountingLineRuleHelper
      * 
      * @param objectCode the given object code
-     * @param invalidValue the given invalid value
+     * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given object code is valid; otherwise, false
      */
-    public abstract boolean isValidObjectCode(ObjectCode objectCode, String invalidValue, ErrorMap errorMap, String errorPropertyName);
+    public abstract boolean isValidObjectCode(ObjectCode objectCode, String currentValue, ErrorMap errorMap, String errorPropertyName);
 
     /**
      * determine whether the given budget contruction position is valid
      * 
      * @param position the given budget contruction position
-     * @param invalidValue the given invalid value
+     * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given budget contruction position is valid; otherwise, false
      */
-    public abstract boolean isValidPosition(BudgetConstructionPosition position, String invalidValue, ErrorMap errorMap, String errorPropertyName);
+    public abstract boolean isValidPosition(BudgetConstructionPosition position, String currentValue, ErrorMap errorMap, String errorPropertyName);
 
     /**
      * determine whether the given budget contruction intended incumbent is valid
      * 
      * @param intendedIncumbent the given budget contruction intended incumbent
-     * @param invalidValue the given invalid value
+     * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given budget contruction intended incumbent is valid; otherwise, false
      */
-    public abstract boolean isValidIncumbent(BudgetConstructionIntendedIncumbent intendedIncumbent, String invalidValue, ErrorMap errorMap, String errorPropertyName);
+    public abstract boolean isValidIncumbent(BudgetConstructionIntendedIncumbent intendedIncumbent, String currentValue, ErrorMap errorMap, String errorPropertyName);
 
     /**
-     * build the error message with the given label and invalid value
+     * build the error message with the given label and current value
      * 
      * @param label the given label
-     * @param invalidValue the given invalid value
-     * @return the error message built from the given label and invalid value
+     * @param currentValue the given current value
+     * @return the error message built from the given label and current value
      */
-    public abstract String getErrorMessage(Class<? extends BusinessObject> businessObjectClass, String attributeName, String invalidValue);
+    public abstract String getErrorMessage(Class<? extends BusinessObject> businessObjectClass, String attributeName, String currentValue);
 
 }

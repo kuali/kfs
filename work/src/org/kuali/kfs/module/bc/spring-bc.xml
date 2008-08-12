@@ -922,6 +922,9 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
+		<property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+		</property>
     </bean>	
     
     <bean id="humanResourcesPayrollDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.dataaccess.impl.HumanResourcesPayrollDaoJdbc">

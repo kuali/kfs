@@ -122,7 +122,8 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_QUOTE_STATUS_NOT_SELECTED = "error.purchaseOrder.quote.status.not.selected";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_INACTIVE_VENDOR = "error.purchaseOrder.quote.inactive.vendor";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_DEBARRED_VENDOR = "error.purchaseOrder.quote.debarred.vendor";
-    
+    public static final String ERROR_PURCHASE_ORDER_QUOTE_AWARD_NON_PO = "error.purchaseOrder.quote.award.nonPO";
+        
     public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_INACTIVE = "error.inactive";
     public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DV_TYPE = "error.purchaseOrder.alternateVendor.dvType";
     public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DEBARRED = "error.purchaseOrder.alternateVendor.debarred";

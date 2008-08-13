@@ -75,6 +75,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -1290,6 +1291,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NOT_TRANSMITTED);
 
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+            else {
+                VendorDetail awardedVendor = SpringContext.getBean(VendorService.class).getVendorDetail(awardedQuote.getVendorHeaderGeneratedIdentifier(), awardedQuote.getVendorDetailAssignedIdentifier());
+                if (!awardedVendor.getVendorHeader().getVendorTypeCode().equals("PO")) {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_AWARD_NON_PO);
+                    
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
             }
         }
         

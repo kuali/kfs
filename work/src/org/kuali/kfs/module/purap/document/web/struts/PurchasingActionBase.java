@@ -52,6 +52,8 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingCapitalAssetLocationEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingItemCapitalAssetEvent;
 import org.kuali.kfs.module.purap.document.validation.event.ImportPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
 import org.kuali.kfs.module.purap.exception.ItemParserException;
@@ -654,7 +656,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingItemCapitalAsset asset = purchasingForm.getNewPurchasingItemCapitalAssetLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         
-        boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingItemCapitalAssetEvent("", purDocument, asset));
 
         if (rulePassed) {
             //get specific asset item and grab system as well and attach asset number
@@ -693,7 +695,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingCapitalAssetLocation location = purchasingForm.getNewPurchasingCapitalAssetLocationLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         
-        boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingCapitalAssetLocationEvent("", purDocument, location));
 
         if (rulePassed) {
             //get specific asset item and grab system as well and attach asset number
@@ -739,6 +741,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
         
+        SpringContext.getBean(PurchasingService.class).setupCAMSSystem(document);
         SpringContext.getBean(PurchasingService.class).setupCAMSItems(document);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -121,6 +121,7 @@ public class PurchasingServiceImpl implements PurchasingService {
             if (purDoc.getCapitalAssetSystemTypeCode().equals("IND")) {
                 resultSystem = (PurchasingCapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
                 camsItem.setPurchasingCapitalAssetSystem(resultSystem);
+                purDoc.getPurchasingCapitalAssetSystems().add(resultSystem);
             }
         }
         catch (Exception e) {

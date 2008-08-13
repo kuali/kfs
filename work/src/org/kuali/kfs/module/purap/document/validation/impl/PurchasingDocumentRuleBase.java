@@ -48,6 +48,7 @@ import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionTypeRule;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
@@ -55,6 +56,8 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.validation.AddPurchasingCapitalAssetLocationRule;
+import org.kuali.kfs.module.purap.document.validation.AddPurchasingItemCapitalAssetRule;
 import org.kuali.kfs.module.purap.document.validation.ChangeSystemPurapRule;
 import org.kuali.kfs.module.purap.document.validation.SelectSystemPurapRule;
 import org.kuali.kfs.module.purap.document.validation.UpdateCamsViewPurapRule;
@@ -80,7 +83,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 /**
  * Business rule(s) applicable to Purchasing document.
  */
-public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase implements ValidateCapitalAssetsForAutomaticPurchaseOrderRule<PurchasingAccountsPayableDocument>, ChangeSystemPurapRule, SelectSystemPurapRule, UpdateCamsViewPurapRule {
+public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase implements ValidateCapitalAssetsForAutomaticPurchaseOrderRule<PurchasingAccountsPayableDocument>, ChangeSystemPurapRule, SelectSystemPurapRule, UpdateCamsViewPurapRule, AddPurchasingItemCapitalAssetRule, AddPurchasingCapitalAssetLocationRule {
 
     /**
      * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to add validations for Payment Info and Delivery tabs.
@@ -1336,6 +1339,16 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @see org.kuali.kfs.module.purap.document.validation.SelectSystemPurapRule#processSelectSystemPurapBusinessRules(org.kuali.core.document.TransactionalDocument)
      */
     public boolean processSelectSystemPurapBusinessRules(TransactionalDocument document) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    public boolean processAddItemCapitalAssetBusinessRules(PurchasingDocument purchasingDocument, PurchasingItemCapitalAsset asset) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    public boolean processAddCapitalAssetLocationBusinessRules(PurchasingDocument purchasingDocument, PurchasingCapitalAssetLocation location) {
         // TODO Auto-generated method stub
         return true;
     }

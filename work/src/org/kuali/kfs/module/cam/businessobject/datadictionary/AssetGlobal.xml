@@ -39,6 +39,7 @@
         <ref bean="AssetGlobal-landParcelNumber" />
         <ref bean="AssetGlobal-financialDocumentNextLineNumber" />
         <ref bean="AssetGlobal-financialDocumentTypeCode" />
+        <ref bean="AssetGlobal-separateSourcePaymentSequenceNumber" />
       </list>
     </property>
 	<property name="relationships" >
@@ -290,4 +291,9 @@
     <property name="description" value="financialDocumentTypeCode description..." />
   </bean>
   
+  <bean id="AssetGlobal-separateSourcePaymentSequenceNumber" parent="AssetGlobal-separateSourcePaymentSequenceNumber-parentBean"/>
+  
+  <bean id="AssetGlobal-separateSourcePaymentSequenceNumber-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+   <property name="name" value="separateSourcePaymentSequenceNumber" />
+  </bean>
 </beans>

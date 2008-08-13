@@ -46,6 +46,13 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
 
     private Integer locationQuantity;
+    private String representativeUniversalIdentifier;
+    private String capitalAssetTypeCode;
+    private String capitalAssetDescription;
+    private String manufacturerName;
+    private String organizationText;
+    private String manufacturerModelNumber;
+    private Long separateSourceAmount; 
 
     // Non persistent
     private List<AssetGlobalDetail> assetGlobalUniqueDetails;
@@ -574,6 +581,62 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
             m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
         }
         return m;
+    }
+
+    public String getCapitalAssetDescription() {
+        return capitalAssetDescription;
+    }
+
+    public void setCapitalAssetDescription(String capitalAssetDescription) {
+        this.capitalAssetDescription = capitalAssetDescription;
+    }
+
+    public String getCapitalAssetTypeCode() {
+        return capitalAssetTypeCode;
+    }
+
+    public void setCapitalAssetTypeCode(String capitalAssetTypeCode) {
+        this.capitalAssetTypeCode = capitalAssetTypeCode;
+    }
+
+    public String getManufacturerModelNumber() {
+        return manufacturerModelNumber;
+    }
+
+    public void setManufacturerModelNumber(String manufacturerModelNumber) {
+        this.manufacturerModelNumber = manufacturerModelNumber;
+    }
+
+    public String getManufacturerName() {
+        return manufacturerName;
+    }
+
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
+    }
+
+    public String getOrganizationText() {
+        return organizationText;
+    }
+
+    public void setOrganizationText(String organizationText) {
+        this.organizationText = organizationText;
+    }
+
+    public String getRepresentativeUniversalIdentifier() {
+        return representativeUniversalIdentifier;
+    }
+
+    public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
+        this.representativeUniversalIdentifier = representativeUniversalIdentifier;
+    }
+
+    public Long getSeparateSourceAmount() {
+        return separateSourceAmount;
+    }
+
+    public void setSeparateSourceAmount(Long separateSourceAmount) {
+        this.separateSourceAmount = separateSourceAmount;
     }
 
 }

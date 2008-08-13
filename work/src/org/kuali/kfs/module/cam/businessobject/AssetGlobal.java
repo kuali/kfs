@@ -57,6 +57,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String agencyNumber;
     private Integer financialDocumentNextLineNumber;
     private Asset separateSourceCapitalAsset;
+    private Integer separateSourcePaymentSequenceNumber; 
     
     // Not Persisted
     private Date lastInventoryDate;
@@ -974,5 +975,13 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setSeparateSourceCapitalAssetNumber(Long separateSourceCapitalAssetNumber) {
         this.separateSourceCapitalAssetNumber = separateSourceCapitalAssetNumber;
+    }
+
+    public Integer getSeparateSourcePaymentSequenceNumber() {
+        return separateSourcePaymentSequenceNumber;
+    }
+
+    public void setSeparateSourcePaymentSequenceNumber(Integer separateSourcePaymentSequenceNumber) {
+        this.separateSourcePaymentSequenceNumber = separateSourcePaymentSequenceNumber;
     }
 }

@@ -31,6 +31,13 @@
         <ref bean="AssetGlobalDetail-locationQuantity" />
         <ref bean="AssetGlobalDetail-versionNumber" />
         <ref bean="AssetGlobalDetail-newCollectionRecord" />
+        <ref bean="AssetGlobalDetail-representativeUniversalIdentifier" />
+		<ref bean="AssetGlobalDetail-capitalAssetTypeCode" />
+		<ref bean="AssetGlobalDetail-capitalAssetDescription" />
+		<ref bean="AssetGlobalDetail-manufacturerName" />
+		<ref bean="AssetGlobalDetail-organizationText" />
+		<ref bean="AssetGlobalDetail-manufacturerModelNumber" />
+		<ref bean="AssetGlobalDetail-separateSourceAmount" />
       </list>
     </property>
   </bean>
@@ -383,5 +390,33 @@
   <bean id="AssetGlobalDetail-newCollectionRecord" parent="AssetGlobalDetail-newCollectionRecord-parentBean" />
 
   <bean id="AssetGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
+  </bean>
+  <bean id="AssetGlobalDetail-representativeUniversalIdentifier" parent="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" />
+  <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="AssetGlobal-representativeUniversalIdentifier">
+  </bean>
+  
+  <bean id="AssetGlobalDetail-capitalAssetTypeCode" parent="AssetGlobalDetail-capitalAssetTypeCode-parentBean" />
+  <bean id="AssetGlobalDetail-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetGlobal-capitalAssetTypeCode">
+  </bean>
+  
+  <bean id="AssetGlobalDetail-capitalAssetDescription" parent="AssetGlobalDetail-capitalAssetDescription-parentBean" />
+  <bean id="AssetGlobalDetail-capitalAssetDescription-parentBean" abstract="true" parent="AssetGlobal-capitalAssetDescription">
+  </bean>
+  
+  <bean id="AssetGlobalDetail-manufacturerName" parent="AssetGlobalDetail-manufacturerName-parentBean" />
+  <bean id="AssetGlobalDetail-manufacturerName-parentBean" abstract="true" parent="AssetGlobal-manufacturerName">
+  </bean>
+  
+  <bean id="AssetGlobalDetail-organizationText" parent="AssetGlobalDetail-organizationText-parentBean" />
+  <bean id="AssetGlobalDetail-organizationText-parentBean" abstract="true" parent="AssetGlobal-organizationText">
+  </bean>
+  
+  <bean id="AssetGlobalDetail-manufacturerModelNumber" parent="AssetGlobalDetail-manufacturerModelNumber-parentBean" />
+  <bean id="AssetGlobalDetail-manufacturerModelNumber-parentBean" abstract="true" parent="AssetGlobal-manufacturerModelNumber">
+  </bean>
+  
+  <bean id="AssetGlobalDetail-separateSourceAmount" parent="AssetGlobalDetail-separateSourceAmount-parentBean" />
+  <bean id="AssetGlobalDetail-separateSourceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="separateSourceAmount" />
   </bean>
 </beans>

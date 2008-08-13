@@ -25,7 +25,6 @@ import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
-import org.kuali.kfs.module.purap.document.authorization.BulkReceivingDocumentActionAuthorizer;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -42,7 +41,6 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
     public BulkReceivingForm() {
         super();
         setDocument(new BulkReceivingDocument());
-
     }
 
     public BulkReceivingDocument getBulkReceivingDocument() {
@@ -69,14 +67,13 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
+
         extraButtons.clear();
         
-        BulkReceivingDocumentActionAuthorizer auth = new BulkReceivingDocumentActionAuthorizer(this.getBulkReceivingDocument(), getEditingMode());        
-
         if (this.getEditingMode().get(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
             extraButtons.add(createBulkReceivingContinueButton());                
             extraButtons.add(createClearInitFieldsButton());
-        }else if (auth.canPrintReceivingTicket()){
+        }else if (getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute()){
             extraButtons.add(createPrintReceivingTicketButton());
         }
             
@@ -105,10 +102,6 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
         printButton.setExtraButtonAltText("Print");
         return printButton;
-    }
-
-    public boolean isStateFinal(){        
-        return this.getDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();              
     }
 
     public String getGoodsDeliveredByLabel(){

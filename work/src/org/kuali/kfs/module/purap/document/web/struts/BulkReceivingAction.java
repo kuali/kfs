@@ -86,7 +86,7 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
             return forward;
         }
         
-        //populate and save Receiving Line Document from Purchase Order        
+        //populate and save bulk Receiving Document from Purchase Order        
         SpringContext.getBean(BulkReceivingService.class).populateAndSaveBulkReceivingDocument(blkRecDoc);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -230,10 +230,11 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
                                                  HttpServletResponse response) 
     throws Exception {
         
-        String blkRecDocId = request.getParameter("docId");
+        BulkReceivingForm blkRecForm = (BulkReceivingForm) form;
+        BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkRecForm.getDocument();
         
         String basePath = getBasePath(request);
-        String docId = ((BulkReceivingForm) form).getDocId();
+        String docId = blkRecDoc.getDocumentNumber();
         String methodToCallPrintPurchaseOrderPDF = "printReceivingTicket";
         String methodToCallDocHandler = "docHandler";
         String printReceivingTicketPDFUrl = getUrlForPrintReceivingTicket(basePath, docId, methodToCallPrintPurchaseOrderPDF);

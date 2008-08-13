@@ -56,17 +56,6 @@
 	<html-el:hidden name="KualiForm" property="reportConsolidation" />
 	<html-el:hidden name="KualiForm" property="tempListLookupMode" />
 	<html-el:hidden name="KualiForm" property="forceToAccountListScreen" />
-
-<%--
-FIXME: gwp - not sure why these are here but they conflict with
-       actual search criteria fields in account select modes
-       probably should put them down in mode 6, but only the ones not displayed??
-	<html-el:hidden name="KualiForm" property="chartOfAccountsCode" />
-	<html-el:hidden name="KualiForm" property="accountNumber" />
-	<html-el:hidden name="KualiForm" property="subAccountNumber" />
-	<html-el:hidden name="KualiForm" property="objectCode" />
-	<html-el:hidden name="KualiForm" property="subObjectCode" />
---%>
 	<html-el:hidden name="KualiForm" property="showSalaryByPositionAction" />
 	<html-el:hidden name="KualiForm" property="addLine" />
 	<html-el:hidden name="KualiForm" property="showSalaryByIncumbentAction" />
@@ -151,14 +140,14 @@ FIXME: gwp - not sure why these are here but they conflict with
 	                <c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.POSITION_SELECT}">
 					  <html:image
 					  	  property="methodToCall.performExtendedPositionSearch" value="submit"
-						  src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_extended.gif" styleClass="tinybutton"
+						  src="${ConfigProperties.externalizable.images.url}buttonsmall_extended.gif" styleClass="tinybutton"
 						  alt="perform extended search" title="perform extended search" border="0"/>
 					</c:if>
 					
 	                <c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT}">
 					  <html:image
 					  	  property="methodToCall.performExtendedIncumbentSearch" value="submit"
-						  src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_extended.gif" styleClass="tinybutton"
+						  src="${ConfigProperties.externalizable.images.url}buttonsmall_extended.gif" styleClass="tinybutton"
 						  alt="perform extended search" title="perform extended search" border="0"/>
 					</c:if>
 					
@@ -166,18 +155,32 @@ FIXME: gwp - not sure why these are here but they conflict with
 					  <c:if test="${KualiForm.getNewPositionEnabled}">
 					    <html:image
 					  	    property="methodToCall.getNewPosition" value="submit"
-						    src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_getnew.gif" styleClass="tinybutton"
+						    src="${ConfigProperties.externalizable.images.url}buttonsmall_getnew.gif" styleClass="tinybutton"
 						    alt="get new position" title="get new position" border="0"/>
-					  </c:if>	  
+					  </c:if>	
+					  <c:if test="${addLine}">
+					  	<html-el:hidden name="KualiForm" property="chartOfAccountsCode" />
+	                    <html-el:hidden name="KualiForm" property="accountNumber" />
+	                    <html-el:hidden name="KualiForm" property="subAccountNumber" />
+	                    <html-el:hidden name="KualiForm" property="objectCode" />
+	                    <html-el:hidden name="KualiForm" property="subObjectCode" />
+					  </c:if>
 					</c:if>
 					
 					<c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.INTENDED_INCUMBENT}">
 					  <c:if test="${KualiForm.getNewIncumbentEnabled}">
 					    <html:image
 					  	    property="methodToCall.getNewIncumbent" value="submit"
-						    src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_getnew.gif" styleClass="tinybutton"
+						    src="${ConfigProperties.externalizable.images.url}buttonsmall_getnew.gif" styleClass="tinybutton"
 						    alt="get new incumbent" title="get new incumbent" border="0"/>
-					  </c:if>	  
+					  </c:if>
+					  <c:if test="${addLine}">
+					  	<html-el:hidden name="KualiForm" property="chartOfAccountsCode" />
+	                    <html-el:hidden name="KualiForm" property="accountNumber" />
+	                    <html-el:hidden name="KualiForm" property="subAccountNumber" />
+	                    <html-el:hidden name="KualiForm" property="objectCode" />
+	                    <html-el:hidden name="KualiForm" property="subObjectCode" />
+					  </c:if>
 					</c:if>
 				
 					<!-- Optional extra buttons --> 					

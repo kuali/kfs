@@ -35,6 +35,7 @@ import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
@@ -161,7 +162,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     public String getPositionAssociatedWithFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock) {
 
         String positionNumber = BCConstants.POSITION_NUMBER_NOT_FOUND; // default if there is no associated position that is locked
-                                                                        // (orphaned)
+        // (orphaned)
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("pendingBudgetConstructionAppointmentFunding.chartOfAccountsCode", budgetConstructionFundingLock.getChartOfAccountsCode());
@@ -409,6 +410,20 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         pbglSalarySettingRows = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         return pbglSalarySettingRows;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getAllFundingForPosition(java.lang.Integer,
+     *      java.lang.String)
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> getAllFundingForPosition(Integer universityFiscalYear, String positionNumber) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        criteria.addEqualTo(BCPropertyConstants.POSITION_NUMBER, positionNumber);
+
+        QueryByCriteria query = QueryFactory.newQuery(PendingBudgetConstructionAppointmentFunding.class, criteria);
+
+        return (List<PendingBudgetConstructionAppointmentFunding>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
     /**

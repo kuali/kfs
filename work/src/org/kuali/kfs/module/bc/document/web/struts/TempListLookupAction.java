@@ -264,31 +264,6 @@ public class TempListLookupAction extends KualiLookupAction {
     }
 
     /**
-     * Calls budget position service to refresh a position record then refreshes search results.
-     * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public ActionForward refreshPosition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
-
-        // parse position key to refresh from methodToCall request attr/parm
-        String positionKeyString = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isBlank(positionKeyString)) {
-            positionKeyString = request.getParameter(KNSConstants.METHOD_TO_CALL_PATH);
-        }
-
-        String universityFiscalYear = StringUtils.substringBetween(positionKeyString, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
-        String positionNumber = StringUtils.substringBetween(positionKeyString, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
-
-        // call service to refresh position record in budget
-        SpringContext.getBean(BudgetConstructionPositionService.class).refreshPositionFromExternal(Integer.valueOf(universityFiscalYear), positionNumber);
-
-        // refresh search results
-        return this.search(mapping, form, request, response);
-    }
-    
-    /**
      * Forwards to intended incumbent lookup.
      * 
      * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
@@ -324,7 +299,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
         return new ActionForward(lookupUrl, true);
     }
-    
+
     /**
      * Validates the get new action for incumbent then calls BudgetPositionService to pull the new incumbent record.
      * 
@@ -359,30 +334,6 @@ public class TempListLookupAction extends KualiLookupAction {
         }
 
         // perform search which should return the new incumbent
-        return this.search(mapping, form, request, response);
-    }
-    
-    /**
-     * Calls budget incumbent service to refresh a incumbent record then refreshes search results.
-     * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public ActionForward refreshIncumbent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
-
-        // parse incumbent key to refresh from methodToCall request attr/parm
-        String incumbentKeyString = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isBlank(incumbentKeyString)) {
-            incumbentKeyString = request.getParameter(KNSConstants.METHOD_TO_CALL_PATH);
-        }
-
-        String emplid = StringUtils.substringBetween(incumbentKeyString, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
-
-        // call service to refresh incumbent record in budget
-        SpringContext.getBean(BudgetConstructionIntendedIncumbentService.class).refreshIncumbentFromExternal(emplid);
-
-        // refresh search results
         return this.search(mapping, form, request, response);
     }
 

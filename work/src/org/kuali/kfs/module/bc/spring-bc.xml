@@ -145,9 +145,6 @@
 		<property name="budgetDocumentService">
 			<ref bean="budgetDocumentService" />
 		</property>
-		<property name="budgetConstructionPositionService">
-			<ref bean="budgetConstructionPositionService"/>
-		</property>
 	</bean>
 
 	<bean id="permissionService" class="org.kuali.kfs.module.bc.document.service.impl.PermissionServiceImpl">
@@ -249,7 +246,7 @@
 		</property>
 	</bean>
 	
-	<bean id="budgetPositionLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="budgetPositionLookupable" class="org.kuali.kfs.module.bc.businessobject.lookup.TempListLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="budgetPositionLookupableHelperService" />
 		</property>
@@ -261,7 +258,7 @@
 		</property>
 	</bean>
 
-	<bean id="budgetIntendedIncumbentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="budgetIntendedIncumbentLookupable" class="org.kuali.kfs.module.bc.businessobject.lookup.TempListLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="budgetIntendedIncumbentLookupableHelperService" />
 		</property>
@@ -906,6 +903,9 @@
 		</property> 
 		<property name="humanResourcesPayrollService">
 			<ref bean="humanResourcesPayrollService" />
+		</property> 	
+		<property name="budgetConstructionDao">
+			<ref bean="budgetConstructionDao" />
 		</property> 		
     </bean>	
     
@@ -913,7 +913,7 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property> 
-    </bean> 
+    </bean> 	
     
     <bean id="budgetConstructionRuleHelperService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperServiceImpl">
 		<property name="budgetDocumentService">

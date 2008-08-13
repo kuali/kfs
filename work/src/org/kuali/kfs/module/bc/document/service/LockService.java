@@ -401,4 +401,25 @@ public interface LockService {
      * @return
      */
     public BudgetConstructionLockStatus lockAccountAndCommit(BudgetConstructionHeader bcHeader, String personUniversalIdentifier);
+
+    /**
+     * Locks the position record for the given key if not already locked. Then retrieves all active funding lines for the position
+     * that are not marked as delete and attempts to lock each one.
+     * 
+     * @param universityFiscalYear budget fiscal year, primary key field for position record
+     * @param positionNumber position number, primary key field for position record
+     * @param personUniversalIdentifier current user requesting the lock
+     * @return <code>BudgetConstructionLockStatus</code> indicating the status of the lock attempt. Success is returned if all lock attempts were successful, else one of the Failure status codes are returned
+     */
+    public BudgetConstructionLockStatus lockPositionAndActiveFunding(Integer universityFiscalYear, String positionNumber, String personUniversalIdentifier);
+    
+    /**
+     * Unlocks the position and all associated funding lines not marked as delete.
+     * 
+     * @param universityFiscalYear budget fiscal year, primary key field for position record
+     * @param positionNumber position number, primary key field for position record
+     * @param personUniversalIdentifier current user requesting the unlock
+     * @return <code>LockStatus</code> indicating the status of the unlock attempt.
+     */
+    public LockStatus unlockPositionAndActiveFunding(Integer universityFiscalYear, String positionNumber, String personUniversalIdentifier);
 }

@@ -122,6 +122,7 @@ public class BCKeyConstants {
     public static final String ERROR_REQUIRED_FOR_GET_NEW_INCUMBENT = "error.budget.requiredGetNewIncumbent";
     public static final String ERROR_BUDGET_INCUMBENT_ALREADY_EXISTS = "error.budget.incumbentAlreadyExists";
     public static final String ERROR_EXTERNAL_INCUMBENT_NOT_FOUND = "error.budget.externalIncumbentNotFound";
+    public static final String ERROR_POSITION_LOCK_NOT_OBTAINED = "error.budget.positionLockNotObtained";   
     
     public static final String ERROR_PAYRATE_EXPORT_INVALID_POSITION_UNION_CODE = "error.budget.payrate.export.invalidPositionUnionCode";
     public static final String ERROR_PAYRATE_EXPORT_POSITION_UNION_CODE_REQUIRED = "error.budget.payrate.export.positionUnionCodeRequired";

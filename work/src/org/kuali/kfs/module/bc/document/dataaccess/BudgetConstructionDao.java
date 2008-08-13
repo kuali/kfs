@@ -23,6 +23,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizat
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 
 
@@ -87,7 +88,7 @@ public interface BudgetConstructionDao {
      * @return Collection<BudgetConstructionFundingLock>
      */
     public Collection<BudgetConstructionFundingLock> getFlocksForAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear);
-    
+
     /**
      * Returns the position number associated with a funding lock or the not found string if the lock is an orphan.
      * 
@@ -137,7 +138,7 @@ public interface BudgetConstructionDao {
      * @return
      */
     public List getBudgetConstructionPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode);
-    
+
     /**
      * Returns the sum of the salary detail request amounts for an accounting line
      * 
@@ -145,7 +146,7 @@ public interface BudgetConstructionDao {
      * @return
      */
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine);
-    
+
     /**
      * returns a list of fringe benefit accounting lines for a document
      * 
@@ -156,8 +157,8 @@ public interface BudgetConstructionDao {
     public List getDocumentPBGLFringeLines(String documentNumber, List fringeObjects);
 
     /**
-     * Determines is a user is an active Budget Construction document delegate approver for
-     * the Budget Construction document type or the 'ALL' document type
+     * Determines is a user is an active Budget Construction document delegate approver for the Budget Construction document type or
+     * the 'ALL' document type
      * 
      * @param chartCd
      * @param accountNbr
@@ -165,7 +166,7 @@ public interface BudgetConstructionDao {
      * @return
      */
     public boolean isDelegate(String chartCd, String accountNbr, String personUniversalIdentifier);
-    
+
     /**
      * Returns a list of account organization hierarchy levels for an account
      * 
@@ -175,7 +176,7 @@ public interface BudgetConstructionDao {
      * @return
      */
     public List<BudgetConstructionAccountOrganizationHierarchy> getAccountOrgHierForAccount(String chartOfAccountsCode, String accountNumber, Integer universityFiscalYear);
-    
+
     /**
      * Returns a list of labor objects that are Salary Setting detail related
      * 
@@ -183,15 +184,24 @@ public interface BudgetConstructionDao {
      * @param chartOfAccountsCode
      * @return
      */
-    public List<String> getDetailSalarySettingLaborObjects (Integer universityFiscalYear, String chartOfAccountsCode);
-    
+    public List<String> getDetailSalarySettingLaborObjects(Integer universityFiscalYear, String chartOfAccountsCode);
+
     /**
-     * Returns a list of Pending Budget GL rows that are Salary Setting detail related,
-     * based on the set of salarySettingObjects passed in
+     * Returns a list of Pending Budget GL rows that are Salary Setting detail related, based on the set of salarySettingObjects
+     * passed in
      * 
      * @param documentNumber
      * @param salarySettingObjects
      * @return
      */
     public List getPBGLSalarySettingRows(String documentNumber, List salarySettingObjects);
+
+    /**
+     * Retrieves all <code>PendingBudgetConstructionAppointmentFunding</code> records for the given position key.
+     * 
+     * @param universityFiscalYear budget fiscal year, primary key field for position record
+     * @param positionNumber position number, primary key field for position record
+     * @return List of PendingBudgetConstructionAppointmentFunding objects
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> getAllFundingForPosition(Integer universityFiscalYear, String positionNumber);
 }

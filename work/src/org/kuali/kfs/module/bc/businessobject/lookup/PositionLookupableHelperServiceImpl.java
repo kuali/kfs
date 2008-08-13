@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.businessobject.lookup;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.UrlFactory;
@@ -69,18 +70,14 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
         BudgetConstructionPosition position = (BudgetConstructionPosition) businessObject;
 
         boolean payrollPositionFeed = BudgetParameterFinder.getPayrollPositionFeedIndicator();
-        if (payrollPositionFeed) {
-            String imageDirectory = kualiConfigurationService.getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        if (!payrollPositionFeed) {
+            String url = super.getActionUrls(businessObject);
+            url = StringUtils.replace(url, KFSConstants.MAINTENANCE_ACTION, KFSConstants.RICE_PATH_PREFIX + KFSConstants.MAINTENANCE_ACTION);
 
-            String buttonSubmit = "<input name=\"" + KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + BCConstants.TEMP_LIST_REFRESH_POSITION_METHOD + ".";
-            buttonSubmit += KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL + position.getUniversityFiscalYear() + KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL;
-            buttonSubmit += KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL + position.getPositionNumber() + KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL;
-            buttonSubmit += "src=\"" + imageDirectory + BCConstants.REFRESH_POSITION_BUTTON_NAME + "\"  type=\"image\" styleClass=\"tinybutton\" alt=\"refresh position\" title=\"refresh position\" border=\"0\" />";
-
-            return buttonSubmit;
+            return url;
         }
 
-        return super.getActionUrls(businessObject);
+        return "";
     }
 
     /**
@@ -126,17 +123,17 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
         else {
             parameters.put(BCPropertyConstants.ADD_LINE, "false");
         }
-        
+
         if (requestParameters.containsKey(KNSConstants.DOC_FORM_KEY)) {
             String[] requestParm = (String[]) requestParameters.get(KNSConstants.DOC_FORM_KEY);
-            parameters.put(BCConstants.RETURN_FORM_KEY, requestParm[0]);           
+            parameters.put(BCConstants.RETURN_FORM_KEY, requestParm[0]);
         }
-        
+
         if (requestParameters.containsKey(KFSConstants.BACK_LOCATION)) {
             String[] requestParm = (String[]) requestParameters.get(KFSConstants.BACK_LOCATION);
-            parameters.put(KFSConstants.BACK_LOCATION, requestParm[0]);           
+            parameters.put(KFSConstants.BACK_LOCATION, requestParm[0]);
         }
-        
+
         if (requestParameters.containsKey(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
             String[] requestParm = (String[]) requestParameters.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
             parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, requestParm[0]);
@@ -161,7 +158,7 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
             String[] requestParm = (String[]) requestParameters.get(KFSPropertyConstants.SUB_OBJECT_CODE);
             parameters.put(KFSPropertyConstants.SUB_OBJECT_CODE, requestParm[0]);
         }
-        
+
         if (requestParameters.containsKey(BCPropertyConstants.SINGLE_ACCOUNT_MODE)) {
             String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.SINGLE_ACCOUNT_MODE);
             parameters.put(BCPropertyConstants.SINGLE_ACCOUNT_MODE, requestParm[0]);

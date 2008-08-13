@@ -15,18 +15,21 @@
  */
 package org.kuali.kfs.module.bc.service.impl;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.Position;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.module.bc.exception.BudgetPositionAlreadyExistsException;
 import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation of BudgetConstructionPositionService that uses the HumanResourcesPayrollService
@@ -39,6 +42,7 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
 
     private HumanResourcesPayrollService humanResourcesPayrollService;
     private BusinessObjectService businessObjectService;
+    private BudgetConstructionDao budgetConstructionDao;
 
     /**
      * @see org.kuali.kfs.module.bc.service.BudgetConstructionPositionService#pullNewPositionFromExternal(java.lang.Integer,
@@ -48,15 +52,16 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
         // call humanResourcesPayrollService service to pull record
         Position position = humanResourcesPayrollService.getPosition(universityFiscalYear, positionNumber);
 
-        // populate BudgetConstructionPosition
-        BudgetConstructionPosition budgetConstructionPosition = buildBudgetPosition(position);
-
         // check if position already exists in budget position table, if not add position
         BudgetConstructionPosition retrievedPosition = getByPrimaryId(universityFiscalYear.toString(), positionNumber);
         if (retrievedPosition != null) {
             throw new BudgetPositionAlreadyExistsException(universityFiscalYear, positionNumber);
         }
+        
+        // populate BudgetConstructionPosition
+        BudgetConstructionPosition budgetConstructionPosition = buildBudgetPosition(position, retrievedPosition);
 
+        // insert position record
         businessObjectService.save(budgetConstructionPosition);
     }
 
@@ -64,31 +69,57 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
      * @see org.kuali.kfs.module.bc.service.BudgetConstructionPositionService#refreshPositionFromExternal(java.lang.Integer,
      *      java.lang.String)
      */
-    public void refreshPositionFromExternal(Integer universityFiscalYear, String positionNumber) {
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public synchronized void refreshPositionFromExternal(Integer universityFiscalYear, String positionNumber) {
         // call humanResourcesPayrollService service to pull record
         Position position = humanResourcesPayrollService.getPosition(universityFiscalYear, positionNumber);
 
-        // populate BudgetConstructionPosition
-        BudgetConstructionPosition budgetConstructionPosition = buildBudgetPosition(position);
-
         // update budget record
         BudgetConstructionPosition retrievedPosition = getByPrimaryId(universityFiscalYear.toString(), positionNumber);
-        budgetConstructionPosition.setVersionNumber(retrievedPosition.getVersionNumber());
+        
+        // populate BudgetConstructionPosition
+        BudgetConstructionPosition budgetConstructionPosition = buildBudgetPosition(position, retrievedPosition);
 
+        // update position record
         businessObjectService.save(budgetConstructionPosition);
+
+        // update funding position change indicators
+        updateFundingPositionChangeIndicators(universityFiscalYear, positionNumber);
+    }
+
+    /**
+     * Retrieves all funding lines for the position that are not marked as delete and sets the position change indicator fields to
+     * true.
+     * 
+     * @param universityFiscalYear budget fiscal year for the position
+     * @param positionNumber position number for the record
+     */
+    protected void updateFundingPositionChangeIndicators(Integer universityFiscalYear, String positionNumber) {
+        // retrieve funding records for the position
+        List<PendingBudgetConstructionAppointmentFunding> allPositionFunding = budgetConstructionDao.getAllFundingForPosition(universityFiscalYear, positionNumber);
+
+        // update indicators if the line is not marked for delete
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : allPositionFunding) {
+            if (!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
+                appointmentFunding.setPositionObjectChangeIndicator(true);
+                appointmentFunding.setPositionSalaryChangeIndicator(true);
+                appointmentFunding.setVersionNumber(appointmentFunding.getVersionNumber());
+                
+                businessObjectService.save(appointmentFunding);
+            }
+        }
     }
 
     /**
      * Populates a new <code>BudgetConstructionPosition</code> object from a <code>Position</code> object.
      * 
      * @param position object to copy
+     * @param budgetConstructionPosition bc position to populate
      * @return BudgetConstructionPosition populated from <code>Position</code>
      * @see org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition
      * @see org.kuali.kfs.module.bc.businessobject.Position
      */
-    protected BudgetConstructionPosition buildBudgetPosition(Position position) {
-        BudgetConstructionPosition budgetConstructionPosition = new BudgetConstructionPosition();
-
+    protected BudgetConstructionPosition buildBudgetPosition(Position position, BudgetConstructionPosition budgetConstructionPosition) {
         budgetConstructionPosition.setBudgetedPosition(position.isBudgetedPosition());
         budgetConstructionPosition.setConfidentialPosition(position.isConfidentialPosition());
         budgetConstructionPosition.setIuDefaultObjectCode(position.getIuDefaultObjectCode());
@@ -130,27 +161,9 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.service.BudgetConstructionPositionService#getLockedPositionByPrimaryId(java.lang.String,
-     *      java.lang.String, java.lang.String)
-     */
-    public BudgetConstructionPosition getLockedPositionByPrimaryId(Integer fiscalYear, String positionNumber, String positionLockUserIdentifier) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.POSITION_NUMBER, positionNumber);
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        fieldValues.put(BCPropertyConstants.POSITION_LOCK_USER_IDENTIFIER, positionLockUserIdentifier);
-
-        Collection<BudgetConstructionPosition> positions = businessObjectService.findMatching(BudgetConstructionPosition.class, fieldValues);
-        for (BudgetConstructionPosition position : positions) {
-            return position;
-        }
-
-        return null;
-    }
-    
-    /**
      * @see org.kuali.kfs.module.bc.service.BudgetConstructionPositionService#isBudgetingPosition(org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition)
      */
-    public boolean isBudgetablePosition(BudgetConstructionPosition budgetConstructionPosition) {       
+    public boolean isBudgetablePosition(BudgetConstructionPosition budgetConstructionPosition) {
         return budgetConstructionPosition != null && budgetConstructionPosition.isBudgetedPosition() && budgetConstructionPosition.isEffective();
     }
 
@@ -171,4 +184,14 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
     public void setHumanResourcesPayrollService(HumanResourcesPayrollService humanResourcesPayrollService) {
         this.humanResourcesPayrollService = humanResourcesPayrollService;
     }
+
+    /**
+     * Sets the budgetConstructionDao attribute value.
+     * 
+     * @param budgetConstructionDao The budgetConstructionDao to set.
+     */
+    public void setBudgetConstructionDao(BudgetConstructionDao budgetConstructionDao) {
+        this.budgetConstructionDao = budgetConstructionDao;
+    }
+
 }

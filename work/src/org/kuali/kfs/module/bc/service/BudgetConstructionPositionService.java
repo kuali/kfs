@@ -30,6 +30,7 @@ public interface BudgetConstructionPositionService {
      * @param universityFiscalYear budget fiscal year for the position
      * @param positionNumber position number for the record
      * @exception BudgetPositionAlreadyExistsException thrown when position is already in the budget table
+     * @exception PositionLockNotObtainedException thrown when the position and associated funding locks could not be obtained
      */
     public void pullNewPositionFromExternal(Integer universityFiscalYear, String positionNumber) throws BudgetPositionAlreadyExistsException;
 
@@ -50,16 +51,6 @@ public interface BudgetConstructionPositionService {
      * @return a Budget Construction Position object retrived by its primary key
      */
     public BudgetConstructionPosition getByPrimaryId(String fiscalYear, String positionNumber);
-
-    /**
-     * retrieve a Budget Construction Position object by its primary key, which is locked by the specified user.
-     * 
-     * @param fiscalYear the given fiscal year
-     * @param positionNumber the given position number
-     * @param positionLockUserIdentifier the user id who owns a lock on the position
-     * @return a Budget Construction Position object retrived by its primary key, which is locked by the specified user.
-     */
-    public BudgetConstructionPosition getLockedPositionByPrimaryId(Integer fiscalYear, String positionNumber, String positionLockUserIdentifier);
 
     /**
      * determine whether the given position is budgetable (valid, active and budgeted)

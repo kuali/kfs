@@ -26,10 +26,14 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -61,7 +65,28 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         }
 
         if (positionSalarySettingForm.isRefreshPositionBeforeSalarySetting()) {
-            budgetConstructionPositionService.refreshPositionFromExternal(positionSalarySettingForm.getUniversityFiscalYear(), positionSalarySettingForm.getPositionNumber());
+            Integer universityFiscalYear = positionSalarySettingForm.getUniversityFiscalYear();
+            String positionNumber = positionSalarySettingForm.getPositionNumber();
+            String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+
+            // attempt to lock position and associated funding
+            BudgetConstructionLockStatus bcLockStatus = SpringContext.getBean(LockService.class).lockPositionAndActiveFunding(universityFiscalYear, positionNumber, personUniversalIdentifier);
+            if (!bcLockStatus.getLockStatus().equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_POSITION_LOCK_NOT_OBTAINED, new String[] { universityFiscalYear.toString(), positionNumber });
+                return this.returnToCaller(mapping, form, request, response);
+            }
+
+            try {
+                budgetConstructionPositionService.refreshPositionFromExternal(universityFiscalYear, positionNumber);
+            }
+            finally {
+                // release locks
+                LockStatus lockStatus = SpringContext.getBean(LockService.class).unlockPositionAndActiveFunding(universityFiscalYear, positionNumber, personUniversalIdentifier);
+                if (!lockStatus.equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
+                    LOG.error(String.format("unable to unlock position and active funding records: %s, %s, %s", universityFiscalYear, positionNumber, personUniversalIdentifier));
+                    throw new RuntimeException(String.format("unable to unlock position and active funding records: %s, %s, %s", universityFiscalYear, positionNumber, personUniversalIdentifier));
+                }
+            }
         }
 
         positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);
@@ -69,7 +94,7 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             positionSalarySettingForm.pickAppointmentFundingsForSingleAccount();
         }
         
-        //acquire position and funding locks for the associated funding lines
+        // acquire position and funding locks for the associated funding lines
         if(!positionSalarySettingForm.isViewOnlyEntry()) {
             positionSalarySettingForm.postProcessBCAFLines();
             positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());

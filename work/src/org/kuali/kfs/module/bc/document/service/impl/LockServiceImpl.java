@@ -37,7 +37,6 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableException;
-import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
@@ -62,7 +61,6 @@ public class LockServiceImpl implements LockService {
     private BudgetConstructionDao budgetConstructionDao;
     private BudgetConstructionLockDao budgetConstructionLockDao;
     private BudgetDocumentService budgetDocumentService;
-    private BudgetConstructionPositionService budgetConstructionPositionService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#lockAccount(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
@@ -445,20 +443,19 @@ public class LockServiceImpl implements LockService {
      */
     @Transactional
     public LockStatus unlockPosition(String positionNumber, Integer fiscalYear, String personUniversalIdentifier) {
-        BudgetConstructionPosition bcPosition = budgetConstructionPositionService.getLockedPositionByPrimaryId(fiscalYear, positionNumber, personUniversalIdentifier);
-        if (bcPosition != null) {
-            try {
-                bcPosition.setPositionLockUserIdentifier(null);
-                budgetConstructionDao.saveBudgetConstructionPosition(bcPosition);
-
-                return LockStatus.SUCCESS;
-            }
-            catch (DataAccessException ex) {
-                return LockStatus.OPTIMISTIC_EX;
-            }
+        BudgetConstructionPosition bcPosition = budgetConstructionDao.getByPrimaryId(positionNumber, fiscalYear);
+        if (bcPosition == null || !personUniversalIdentifier.equals(bcPosition.getPositionLockUserIdentifier())) {
+            return LockStatus.NO_DOOR;
         }
-        else {
-            return LockStatus.NO_DOOR; // target not found
+
+        try {
+            bcPosition.setPositionLockUserIdentifier(null);
+            budgetConstructionDao.saveBudgetConstructionPosition(bcPosition);
+
+            return LockStatus.SUCCESS;
+        }
+        catch (DataAccessException ex) {
+            return LockStatus.OPTIMISTIC_EX;
         }
     }
 
@@ -804,17 +801,6 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * Sets the budgetConstructionPositionService attribute value.
-     * 
-     * @param budgetConstructionPositionService The budgetConstructionPositionService to set.
-     */
-    @NonTransactional
-    public void setBudgetConstructionPositionService(BudgetConstructionPositionService budgetConstructionPositionService) {
-        this.budgetConstructionPositionService = budgetConstructionPositionService;
-    }
-
-
-    /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#lockAccountAndCommit(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
      *      java.lang.String)
      */
@@ -822,4 +808,68 @@ public class LockServiceImpl implements LockService {
     public BudgetConstructionLockStatus lockAccountAndCommit(BudgetConstructionHeader bcHeader, String personUniversalIdentifier) {
         return lockAccount(bcHeader, personUniversalIdentifier);
     }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.LockService#lockPositionAndActiveFunding(java.lang.Integer, java.lang.String,
+     *      java.lang.String)
+     */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public BudgetConstructionLockStatus lockPositionAndActiveFunding(Integer universityFiscalYear, String positionNumber, String personUniversalIdentifier) {
+        // attempt to lock position first
+        BudgetConstructionLockStatus lockStatus = lockPosition(positionNumber, universityFiscalYear, personUniversalIdentifier);
+        if (!lockStatus.getLockStatus().equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
+            return lockStatus;
+        }
+
+        // retrieve funding records for the position
+        List<PendingBudgetConstructionAppointmentFunding> allPositionFunding = budgetConstructionDao.getAllFundingForPosition(universityFiscalYear, positionNumber);
+
+        // lock funding if not marked as delete
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : allPositionFunding) {
+            if (!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
+                BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
+                BudgetConstructionLockStatus fundingLockStatus = lockFunding(budgetConstructionHeader, personUniversalIdentifier);
+
+                if (!fundingLockStatus.getLockStatus().equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
+                    return lockStatus;
+                }
+            }
+        }
+
+        // successfully obtained all locks
+        BudgetConstructionLockStatus bcLockStatus = new BudgetConstructionLockStatus();
+        bcLockStatus.setLockStatus(LockStatus.SUCCESS);
+
+        return bcLockStatus;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPositionAndActiveFunding(java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public LockStatus unlockPositionAndActiveFunding(Integer universityFiscalYear, String positionNumber, String personUniversalIdentifier) {
+        // unlock position
+        LockStatus lockStatus = unlockPosition(positionNumber, universityFiscalYear, personUniversalIdentifier);
+        if (!lockStatus.equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
+            return lockStatus;
+        }
+        
+        // retrieve funding records for the position
+        List<PendingBudgetConstructionAppointmentFunding> allPositionFunding = budgetConstructionDao.getAllFundingForPosition(universityFiscalYear, positionNumber);
+
+        // unlock funding if not marked as delete
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : allPositionFunding) {
+            if (!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
+                LockStatus fundingLockStatus = unlockFunding(appointmentFunding.getChartOfAccountsCode(), appointmentFunding.getAccountNumber(), appointmentFunding.getSubAccountNumber(), appointmentFunding.getUniversityFiscalYear(), personUniversalIdentifier);
+             
+                if (!fundingLockStatus.equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
+                    return lockStatus;
+                }
+            }
+        }
+        
+        // successfully completed unlocks
+        return LockStatus.SUCCESS;
+    }
+
 }

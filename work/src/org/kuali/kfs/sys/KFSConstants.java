@@ -216,6 +216,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String OVERRIDE_KEYS = "overrideKeys";
     public static final String[] LLCP_GROUP_FILTER_EXCEPTION = new String[] { "LLGL" };
     public static final String PERCENTAGE_SIGN = "%";
+    public static final String RICE_PATH_PREFIX = "kr/";
 
     /**
      * This value denotes that a max length has not been defined for a given lookup results field
@@ -1118,7 +1119,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     // Customer Invoice Writeoff Document
     public static final String CUSTOMER_INVOICE_WRITEOFF_INIT_ERRORS = "document.financialDocumentReferenceInvoiceNumber*";
     public static final String CUSTOMER_INVOICE_WRITEOFF_DETAILS_ERRORS = "document.customerInvoiceDetailsForWriteoff*";
-    
     
     // Payment Application Document
     public static final String PAYMENT_APPLICATION_DOCUMENT_ERRORS = "document";

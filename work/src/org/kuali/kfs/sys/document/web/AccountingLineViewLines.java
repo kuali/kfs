@@ -94,13 +94,29 @@ public class AccountingLineViewLines implements TableJoining, ReadOnlyable {
      * @see org.kuali.kfs.sys.document.web.TableJoining#joinTable(java.util.List)
      */
     public void joinTable(List<AccountingLineTableRow> rows) {
+        final int maxExpectedLineWidth = getMaxExpectedLineWidth();
+        
         int count = 0;
         for (AccountingLineViewLine line : elements) {
             if (line.getRequestedRowCount() == 2) {
                 line.joinRow(rows.get(count), rows.get(count+1));
+                
+                int shorterThanMax = maxExpectedLineWidth - line.getDisplayingFieldWidth();
+                if (shorterThanMax > 0) {
+                    PlaceHoldingLayoutElement placeHolder = new PlaceHoldingLayoutElement(shorterThanMax);
+                    placeHolder.joinRow(rows.get(count), rows.get(count+1));
+                }
+                
                 count += 2;
             } else {
                 line.joinRow(rows.get(count), null);
+                
+                int shorterThanMax = maxExpectedLineWidth - line.getDisplayingFieldWidth();
+                if (shorterThanMax > 0) {
+                    PlaceHoldingLayoutElement placeHolder = new PlaceHoldingLayoutElement(shorterThanMax);
+                    placeHolder.joinRow(rows.get(count), null);
+                }
+                
                 count += 1;
             }
         }
@@ -150,6 +166,7 @@ public class AccountingLineViewLines implements TableJoining, ReadOnlyable {
         }
         elements.removeAll(linesToRemove);
     }
+    
     /**
      * @see org.kuali.kfs.sys.document.web.TableJoining#performFieldTransformation(org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation, org.kuali.kfs.sys.businessobject.AccountingLine, java.util.Map, java.util.Map)
      */
@@ -159,4 +176,17 @@ public class AccountingLineViewLines implements TableJoining, ReadOnlyable {
         }
     }
     
+    /**
+     * @return the maximum expected width of any of the child line elements in cells
+     */
+    public int getMaxExpectedLineWidth() {
+        int maxWidth = 0;
+        for (AccountingLineViewLine line: elements) {
+            int width = line.getDisplayingFieldWidth();
+            if (width > maxWidth) {
+                maxWidth = width;
+            }
+        }
+        return maxWidth;
+    }
 }

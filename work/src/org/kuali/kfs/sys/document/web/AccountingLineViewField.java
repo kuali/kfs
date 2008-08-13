@@ -265,6 +265,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param accountingLine the accounting line being rendered
      */
     protected void prepareFieldRenderer(FieldRenderer fieldRenderer, AccountingLine accountingLine) {
+        
         fieldRenderer.setField(field);
     }
     
@@ -340,10 +341,11 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     }
     
     /**
+     * Adds the wrapped field to the list
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
      */
-    public void appendFieldNames(List<String> fieldNames) {
-        fieldNames.add(getField().getPropertyName());
+    public void appendFields(List<Field> fields) {
+        fields.add(getField());
     }
     
     /**

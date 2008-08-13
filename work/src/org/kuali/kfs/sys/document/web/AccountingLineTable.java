@@ -21,7 +21,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.core.web.ui.Field;
 import org.kuali.kfs.sys.document.web.renderers.TableRenderer;
 
 /**
@@ -109,9 +109,9 @@ public class AccountingLineTable implements RenderableElement {
     /**
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
      */
-    public void appendFieldNames(List<String> fieldNames) {
+    public void appendFields(List<Field> fields) {
         for (AccountingLineTableRow row : rows) {
-            row.appendFieldNames(fieldNames);
+            row.appendFields(fields);
         }
     }
 

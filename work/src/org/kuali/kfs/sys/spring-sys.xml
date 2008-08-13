@@ -439,15 +439,12 @@
     
     <bean id="removeEmptyCellsAndRowsRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.RemoveEmptyCellsAndRowsRenderingTransformationImpl" />
     
-    <bean id="valuePopulationAccountingLineFieldRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.ValuePopulationAccountingLineFieldRenderingTransformationImpl" />
-    
     <bean id="accountingLineRenderingService" class="org.kuali.kfs.sys.document.service.impl.AccountingLineRenderingServiceImpl">
     	<property name="dataDictionaryService" ref="dataDictionaryService" />
     	<property name="accountingLineAuthorizationTransformer" ref="accountingLineAuthorizationTransformer" />
     	<property name="fieldTransformations">
     		<list>
     			<ref bean="defaultValuePopulationAccountingLineFieldRenderingTransformation" />
-    			<ref bean="valuePopulationAccountingLineFieldRenderingTransformation" />
     		</list>
     	</property>
     	<property name="preTablificationTransformations">

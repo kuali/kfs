@@ -65,7 +65,7 @@ public class TableCellRenderer implements Renderer {
         builder.append("<");
         builder.append(getTagName());
         if (cell.getColSpan() > 1) {
-            builder.append(" cellspan=\"");
+            builder.append(" colspan=\"");
             builder.append(cell.getColSpan());
             builder.append('"');
         }

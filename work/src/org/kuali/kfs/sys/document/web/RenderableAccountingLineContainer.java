@@ -17,11 +17,14 @@ package org.kuali.kfs.sys.document.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.kuali.core.util.FieldUtils;
+import org.kuali.core.web.ui.Field;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 
 /**
@@ -35,7 +38,9 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     private String accountingLineProperty;
     private boolean renderHelp = false;
     private boolean showDetails = true;
+    private List<Field> fields;
     private List<String> fieldNames;
+    private Map unconvertedValues;
     
     /**
      * Gets the accountingLine attribute. 
@@ -224,12 +229,12 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     }
     
     /**
-     * Appends all field names from rows that this contains
+     * Appends all fields from rows that this contains
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
      */
-    public void appendFieldNames(List<String> fieldNames) {
+    public void appendFields(List<Field> fields) {
         for (AccountingLineTableRow row : rows) {
-            row.appendFieldNames(fieldNames);
+            row.appendFields(fields);
         }
     }
     
@@ -237,26 +242,25 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * Returns all of the field names within the accounting line to render
      * @return a List of field names with the accounting line property prefixed
      */
-    public List<String> getFieldNamesForAccountingLine() {
-        if (fieldNames == null) {
-            fieldNames = new ArrayList<String>();
-            appendFieldNames(fieldNames);
-            fieldNames = prefixPropertyFieldNames(fieldNames);
+    public List<Field> getFieldsForAccountingLine() {
+        if (fields == null) {
+            fields = new ArrayList<Field>();
+            appendFields(fields);
         }
-        return fieldNames;
+        return fields;
     }
     
     /**
-     * Prefixes given field names with the name of the accounting line property
-     * @param fieldNames the field names to prefix
-     * @return a list of prefixed field names
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getFieldNamesForAccountingLine()
      */
-    protected List<String> prefixPropertyFieldNames(List<String> fieldNames) {
-        List<String> fixedFieldNames = new ArrayList<String>(fieldNames.size() * 2);
-        for (String fieldName : fieldNames) {
-            fixedFieldNames.add(accountingLineProperty + "." + fieldName);
+    public List<String> getFieldNamesForAccountingLine() {
+        if (fieldNames == null) {
+            fieldNames = new ArrayList<String>();
+            for (Field field : getFieldsForAccountingLine()) {
+                fieldNames.add(accountingLineProperty+"."+field.getPropertyName());
+            }
         }
-        return fixedFieldNames;
+        return fieldNames;
     }
     
     /**
@@ -267,4 +271,35 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
             row.populateWithTabIndexIfRequested(passIndexes, reallyHighIndex);
         }
     }
+    
+    /**
+     * Gets the unconvertedValues attribute. 
+     * @return Returns the unconvertedValues.
+     */
+    public Map getUnconvertedValues() {
+        return unconvertedValues;
+    }
+    
+    /**
+     * Sets the unconvertedValues attribute value.
+     * @param unconvertedValues The unconvertedValues to set.
+     */
+    public void setUnconvertedValues(Map unconvertedValues) {
+        this.unconvertedValues = unconvertedValues;
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#populateValuesForFields()
+     */
+    public void populateValuesForFields() {
+        FieldUtils.populateFieldsFromBusinessObject(getFieldsForAccountingLine(), accountingLine);
+        
+        for (Field field : getFieldsForAccountingLine()) {
+            String propertyName = accountingLineProperty+"."+field.getPropertyName();
+            if (unconvertedValues.get(propertyName) != null) {
+                field.setPropertyValue((String)unconvertedValues.get(propertyName));
+            }
+        }
+    }
+    
 }

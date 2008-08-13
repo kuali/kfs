@@ -106,7 +106,7 @@ public class AccountingLineViewSequenceNumberField extends FieldTableJoiningWith
      * sequence number is never really related to lookups, so this implementation does nothing
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
      */
-    public void appendFieldNames(List<String> fieldNames) {
+    public void appendFields(List<Field> fields) {
         // take a nap   
     }
 

@@ -37,6 +37,7 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
     private Class<? extends AccountingLineAuthorizer> accountingLineAuthorizerClass;
     private int forceColumnCount = -1;
     private int tabIndexPasses = 2;
+    private String errorKey;
     
     private AccountingLineAuthorizer accountingLineAuthorizer;
 
@@ -204,6 +205,22 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
      */
     public void setTabIndexPasses(int tabIndexPasses) {
         this.tabIndexPasses = tabIndexPasses;
+    }
+
+    /**
+     * Gets the errorKey attribute. 
+     * @return Returns the errorKey.
+     */
+    public String getErrorKey() {
+        return errorKey;
+    }
+
+    /**
+     * Sets the errorKey attribute value.
+     * @param errorKey The errorKey to set.
+     */
+    public void setErrorKey(String errorKey) {
+        this.errorKey = errorKey;
     }
 
     /**

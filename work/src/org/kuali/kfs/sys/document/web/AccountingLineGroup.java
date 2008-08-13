@@ -24,15 +24,12 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.TotalDefinition;
 import org.kuali.kfs.sys.document.web.renderers.CellCountCurious;
+import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
 import org.kuali.kfs.sys.document.web.renderers.ImportLineRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * This represents an accounting line group in renderable state
@@ -46,6 +43,8 @@ public class AccountingLineGroup {
     private int cellCount = 0;
     private int renderTabIndex;
     private int arbitrarilyHighIndex;
+    private List errors;
+    private Map displayedErrors;
 
     /**
      * Constructs a AccountingLineGroup
@@ -53,12 +52,16 @@ public class AccountingLineGroup {
      * @param containers the containers within this group
      * @param collectionPropertyName the property name of the collection of accounting lines owned by this group
      * @param editModes the Map of edit modes
+     * @param errors a List of errors keys for errors on the page
+     * @param displayedErrors a Map of errors that have already been displayed
      */
-    public AccountingLineGroup(AccountingLineGroupDefinition groupDefinition, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, Map editModes) {
+    public AccountingLineGroup(AccountingLineGroupDefinition groupDefinition, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, Map editModes, List errors, Map displayedErrors) {
         this.groupDefinition = groupDefinition;
         this.containers = containers;
         this.collectionPropertyName = collectionPropertyName;
         this.editModes = editModes;
+        this.errors = errors;
+        this.displayedErrors = displayedErrors;
     }
     
     /**
@@ -113,6 +116,21 @@ public class AccountingLineGroup {
             importLineRenderer.render(pageContext, parentTag);
             importLineRenderer.clear();
         }
+        
+        if (errors != null && errors.size() > 0) {
+            GroupErrorsRenderer errorRenderer = new GroupErrorsRenderer();
+            errorRenderer.setErrorKeyMatch(groupDefinition.getErrorKey());
+            errorRenderer.setColSpan(getWidthInCells());
+            errorRenderer.setErrorPropertyList(errors);
+            errorRenderer.setSectionTitle(groupDefinition.getGroupLabel());
+            errorRenderer.render(pageContext, parentTag);
+            
+            for (String displayedErrorKey : errorRenderer.getErrorsRendered()) {
+                displayedErrors.put(displayedErrorKey, "true");
+            }
+            
+            errorRenderer.clear();
+        }
     }
     
     /**
@@ -122,6 +140,7 @@ public class AccountingLineGroup {
      */
     protected void renderAccountingLineContainers(PageContext pageContext, Tag parentTag) throws JspException {
         for (RenderableAccountingLineContainer container : containers) {
+            container.populateValuesForFields();
             int[] passIndexes = generateNextTabIndexes();
             container.populateWithTabIndexIfRequested(passIndexes, arbitrarilyHighIndex);
             container.renderElement(pageContext, parentTag, container);
@@ -195,4 +214,21 @@ public class AccountingLineGroup {
     public void setArbitrarilyHighIndex(int arbitrarilyHighIndex) {
         this.arbitrarilyHighIndex = arbitrarilyHighIndex;
     }
+
+    /**
+     * Gets the errors attribute. 
+     * @return Returns the errors.
+     */
+    public List getErrorKeys() {
+        return errors;
+    }
+
+    /**
+     * Sets the errors attribute value.
+     * @param errors The errors to set.
+     */
+    public void setErrorKeys(List errors) {
+        this.errors = errors;
+    }
+    
 }

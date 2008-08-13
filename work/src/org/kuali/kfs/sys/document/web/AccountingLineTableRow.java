@@ -22,7 +22,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.core.web.ui.Field;
 import org.kuali.kfs.sys.document.web.renderers.TableRowRenderer;
 
 /**
@@ -133,9 +133,9 @@ public class AccountingLineTableRow implements RenderableElement {
      * Dutifully appends the names of any fields it knows about to the given List of field names
      * @param fieldNames a List of field names to append other names to
      */
-    public void appendFieldNames(List<String> fieldNames) {
+    public void appendFields(List<Field> fields) {
         for (AccountingLineTableCell cell : cells) {
-            cell.appendFieldNames(fieldNames);
+            cell.appendFields(fields);
         }
     }
 

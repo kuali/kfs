@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.document.web;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,17 +29,14 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
-import org.kuali.kfs.sys.document.datadictionary.TotalDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
-import org.kuali.kfs.sys.document.web.renderers.CellCountCurious;
-import org.kuali.kfs.sys.document.web.renderers.ImportLineRenderer;
-import org.kuali.kfs.sys.document.web.renderers.Renderer;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
@@ -151,7 +147,7 @@ public class AccountingLineGroupTag extends TagSupport {
     public int doStartTag() throws JspException {
         super.doStartTag();
         List<RenderableAccountingLineContainer> containers = generateContainersForAllLines();
-        group = new AccountingLineGroup(groupDefinition, containers, collectionPropertyName, ((AccountingLineTag)getParent()).getEditModes());
+        group = new AccountingLineGroup(groupDefinition, containers, collectionPropertyName, getEditModes(), getErrors(), getForm().getDisplayedErrors());
         if (getParent() instanceof AccountingLineTag) {
             ((AccountingLineTag)getParent()).addGroupToRender(group);
             resetTag();
@@ -192,7 +188,7 @@ public class AccountingLineGroupTag extends TagSupport {
      */
     protected AccountingLineGroupDefinition getGroupDefinition() {
         if (groupDefinition == null) {
-            final String documentTypeClassName = ((AccountingLineTag)this.getParent()).getDocument().getClass().getName();
+            final String documentTypeClassName = getDocument().getClass().getName();
             final FinancialSystemTransactionalDocumentEntry documentEntry = (FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(documentTypeClassName);
             final Map<String, AccountingLineGroupDefinition> groupDefinitions = documentEntry.getAccountingLineGroups();
             groupDefinition = groupDefinitions.get(attributeGroupName);
@@ -210,9 +206,9 @@ public class AccountingLineGroupTag extends TagSupport {
     protected List<AccountingLineTableRow> getRenderableElementsForLine(AccountingLineGroupDefinition groupDefinition, AccountingLine accountingLine, boolean newLine) {
         List<TableJoining> layoutElements = groupDefinition.getAccountingLineView().getAccountingLineLayoutElements(accountingLine.getClass());
         AccountingLineRenderingService renderingService = SpringContext.getBean(AccountingLineRenderingService.class);
-        renderingService.performPreTablificationTransformations(layoutElements, groupDefinition, ((AccountingLineTag)getParent()).getDocument(), accountingLine, newLine, ((AccountingLineTag)getParent()).getForm().getUnconvertedValues());
+        renderingService.performPreTablificationTransformations(layoutElements, groupDefinition, getDocument(), accountingLine, newLine, getForm().getUnconvertedValues());
         List<AccountingLineTableRow> renderableElements = renderingService.tablify(layoutElements);
-        renderingService.performPostTablificationTransformations(renderableElements, groupDefinition, ((AccountingLineTag)getParent()).getDocument(), accountingLine, newLine);
+        renderingService.performPostTablificationTransformations(renderableElements, groupDefinition, getDocument(), accountingLine, newLine);
         return renderableElements;
     }
     
@@ -220,14 +216,14 @@ public class AccountingLineGroupTag extends TagSupport {
      * @return the new accounting line from the form
      */
     protected AccountingLine getNewAccountingLine() {
-        return (AccountingLine)ObjectUtils.getPropertyValue(((AccountingLineTag)getParent()).getForm(), newLinePropertyName);
+        return (AccountingLine)ObjectUtils.getPropertyValue(getForm(), newLinePropertyName);
     }
     
     /**
      * @return the collection of accounting lines that this tag is supposed to render
      */
     protected List<AccountingLine> getAccountingLineCollection() {
-        return (List<AccountingLine>)ObjectUtils.getPropertyValue(((AccountingLineTag)getParent()).getForm(), collectionPropertyName);
+        return (List<AccountingLine>)ObjectUtils.getPropertyValue(getForm(), collectionPropertyName);
     }
     
     /**
@@ -237,7 +233,7 @@ public class AccountingLineGroupTag extends TagSupport {
         List<RenderableAccountingLineContainer> containers = new ArrayList<RenderableAccountingLineContainer>();
         
         final AccountingLineGroupDefinition groupDefinition = getGroupDefinition();
-        final AccountingDocument document = ((AccountingLineTag)getParent()).getDocument();
+        final AccountingDocument document = getDocument();
         final FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         
         if (!shouldRenderAsReadOnly() && !StringUtils.isBlank(newLinePropertyName)) {
@@ -268,9 +264,10 @@ public class AccountingLineGroupTag extends TagSupport {
         container.setActions(groupDefinition.getAccountingLineAuthorizer().getActions(accountingDocument, accountingLine, accountingLinePropertyName, (count == null ? -1 : count.intValue()), currentUser, ((AccountingLineTag)getParent()).getEditModes()));
         container.setNewLine(count == null);
         container.setRows(getRenderableElementsForLine(groupDefinition, accountingLine, (count == null)));
-        KualiAccountingDocumentFormBase form = (KualiAccountingDocumentFormBase)((AccountingLineTag)getParent()).getForm();
+        KualiAccountingDocumentFormBase form = (KualiAccountingDocumentFormBase)getForm();
         container.setRenderHelp(form.isFieldLevelHelpEnabled());
         container.setShowDetails(!form.isHideDetails());
+        container.setUnconvertedValues(form.getUnconvertedValues());
         return container;
     }
     
@@ -279,7 +276,7 @@ public class AccountingLineGroupTag extends TagSupport {
      * @return true if the group should be rendered as read only, false otherwise
      */
     protected boolean shouldRenderAsReadOnly() {
-        return ((AccountingLineTag)getParent()).getEditModes().containsKey(AuthorizationConstants.EditMode.VIEW_ONLY);
+        return getEditModes().containsKey(AuthorizationConstants.EditMode.VIEW_ONLY);
     }
 
     /**
@@ -290,5 +287,33 @@ public class AccountingLineGroupTag extends TagSupport {
     public void release() {
         super.release();
         resetTag();
+    }
+    
+    /**
+     * @return the edit modes for the document
+     */
+    protected Map getEditModes() {
+        return ((AccountingLineTag)getParent()).getEditModes();
+    }
+    
+    /**
+     * @return the form that this document is currently using
+     */
+    protected KualiDocumentFormBase getForm() {
+        return ((AccountingLineTag)getParent()).getForm();
+    }
+    
+    /**
+     * @return the ErrorPropertyList from the request
+     */
+    protected List getErrors() {
+        return (List)pageContext.getRequest().getAttribute("ErrorPropertyList");
+    }
+    
+    /**
+     * @return the document this tag is helping to display
+     */
+    protected AccountingDocument getDocument() {
+        return ((AccountingLineTag)getParent()).getDocument();
     }
 }

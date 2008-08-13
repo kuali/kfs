@@ -17,6 +17,8 @@ package org.kuali.kfs.sys.document.web;
 
 import java.util.List;
 
+import org.kuali.core.web.ui.Field;
+
 /**
  * Base class for header labels
  */
@@ -68,7 +70,7 @@ public abstract class HeaderLabel implements RenderableElement {
      * Header labels aren't really fields, so they append nothing
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
      */
-    public void appendFieldNames(List<String> fieldNames) {
+    public void appendFields(List<Field> fields) {
         // zzzz! zzzz!
     }
     

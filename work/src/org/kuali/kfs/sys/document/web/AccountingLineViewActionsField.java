@@ -84,7 +84,7 @@ public class AccountingLineViewActionsField extends FieldTableJoiningWithHeader 
      * This doesn't hold a field, so this imlementation does nothing
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
      */
-    public void appendFieldNames(List<String> fieldNames) { }
+    public void appendFields(List<Field> fields) { }
 
     /**
      * Populated on the second pass

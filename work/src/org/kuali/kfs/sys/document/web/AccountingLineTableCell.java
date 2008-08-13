@@ -22,7 +22,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.kfs.sys.document.web.renderers.NonBreakingSpaceRenderer;
+import org.kuali.core.web.ui.Field;
 import org.kuali.kfs.sys.document.web.renderers.TableCellRenderer;
 import org.kuali.kfs.sys.document.web.renderers.TableHeaderRenderer;
 
@@ -163,12 +163,8 @@ public class AccountingLineTableCell implements RenderableElement {
      * @throws JspException Oh.  Shoot.  Something went...wrong.
      */
     public void renderChildrenElements(PageContext pageContext, Tag parentTag) throws JspException {
-        if (renderableElements.size() > 0) {
-            for (RenderableElement element : renderableElements) {
-                element.renderElement(pageContext, parentTag, renderingContext);
-            }
-        } else {
-            new NonBreakingSpaceRenderer().render(pageContext, parentTag);
+        for (RenderableElement element : renderableElements) {
+            element.renderElement(pageContext, parentTag, renderingContext);
         }
     }
     
@@ -176,9 +172,9 @@ public class AccountingLineTableCell implements RenderableElement {
      * Goes through fields, appending field names
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
      */
-    public void appendFieldNames(List<String> fieldNames) {
+    public void appendFields(List<Field> fields) {
         for (RenderableElement element : renderableElements) {
-            element.appendFieldNames(fieldNames);
+            element.appendFields(fields);
         }
     }
     

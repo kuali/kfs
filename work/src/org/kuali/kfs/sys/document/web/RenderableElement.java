@@ -21,6 +21,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.kuali.core.web.ui.Field;
+
 /**
  * Methods needed by elements of accounting lines that plan on rendering themselves
  */
@@ -52,11 +54,11 @@ public interface RenderableElement {
     public abstract void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException;
     
     /**
-     * Asks that the renderable element appends the names of any field names it knows of to the given list; this is so that proper quick finders can be generated
-     * when fields themselves are rendered
-     * @param fieldNames the List of field names to append names to
+     * Asks that the renderable element appends any field names it knows of to the given list; this is so that proper quick finders can be generated
+     * and population accomplished when fields themselves are rendered
+     * @param fieldNames the List of fields to append fields to
      */
-    public abstract void appendFieldNames(List<String> fieldNames);
+    public abstract void appendFields(List<Field> fields);
     
     /**
      * If the renderable element is a TabIndexRequestor and asks for the tab index on a pass within passIndexes, then the tab index will be populated 

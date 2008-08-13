@@ -128,6 +128,7 @@
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
 	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
 	</bean>
 	
 	<bean id="InternalBilling-targetAccountingLineGroup" parent="InternalBilling-targetAccountingLineGroup-parentBean" />
@@ -139,6 +140,7 @@
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="target" />
 	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
 	</bean>
 	
 </beans>

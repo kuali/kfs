@@ -186,4 +186,17 @@ public class AccountingLineViewLine implements TableJoining, ReadOnlyable {
         }
     }
     
+    /**
+     * Finds the number of table cells this line expects to take up
+     * @return the number of displayed table cells this line expects to render as
+     */
+    public int getDisplayingFieldWidth() {
+        int count = 0;
+        for (RenderableElement element : elements) {
+            if (!element.isHidden()) {
+                count += 1;
+            }
+        }
+        return count;
+    }
 }

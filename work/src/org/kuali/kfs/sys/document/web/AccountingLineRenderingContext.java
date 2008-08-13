@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.web;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 
@@ -62,4 +63,15 @@ public interface AccountingLineRenderingContext {
      * @return a list of properly prefixed field names
      */
     public abstract List<String> getFieldNamesForAccountingLine();
+    
+    /**
+     * Returns a Map of all values from the request which were unconverted to actuall business objects
+     * @return the Map of unconverted values
+     */
+    public abstract Map getUnconvertedValues();
+    
+    /**
+     * Forces the population of values for all fields used to render the accounting line
+     */
+    public abstract void populateValuesForFields();
 }

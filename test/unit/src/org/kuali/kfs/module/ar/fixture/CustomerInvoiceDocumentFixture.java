@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.fixture;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -104,7 +105,7 @@ public enum CustomerInvoiceDocumentFixture {
     public String billByChartOfAccountsCode;
     public String billedByOrganizationCode;
     
-    private CustomerInvoiceDocumentFixture( String customerNumber, String processingChartOfAccountsCode, String processingOrganizationCode, String paymentChartOfAccountsCode, String paymentAccountNumber, String paymentSubAccountNumber, String paymentFinancialObjectCode, String paymentFinancialSubObjectCode, String paymentProjectCode, String paymentOrganizationReferenceIdentifier, String financialDocumentInErrorNumbe, String billByChartOfAccountsCode, String billedByOrganizationCode ){
+    private CustomerInvoiceDocumentFixture( String customerNumber, String processingChartOfAccountsCode, String processingOrganizationCode, String paymentChartOfAccountsCode, String paymentAccountNumber, String paymentSubAccountNumber, String paymentFinancialObjectCode, String paymentFinancialSubObjectCode, String paymentProjectCode, String paymentOrganizationReferenceIdentifier, String financialDocumentInErrorNumber, String billByChartOfAccountsCode, String billedByOrganizationCode ){
         this.customerNumber = customerNumber;
         this.processingOrganizationCode = processingOrganizationCode;
         this.processingChartOfAccountsCode = processingChartOfAccountsCode;
@@ -162,8 +163,12 @@ public enum CustomerInvoiceDocumentFixture {
         customerInvoiceDocument.setPaymentProjectCode(paymentProjectCode);
         customerInvoiceDocument.setPaymentOrganizationReferenceIdentifier(paymentOrganizationReferenceIdentifier);
         customerInvoiceDocument.getDocumentHeader().setFinancialDocumentInErrorNumber(financialDocumentInErrorNumber);
-        customerInvoiceDocument.setBillByChartOfAccountCode(billByChartOfAccountsCode);
-        customerInvoiceDocument.setBilledByOrganizationCode(billedByOrganizationCode);
+        if( StringUtils.isNotEmpty(billByChartOfAccountsCode)){
+            customerInvoiceDocument.setBillByChartOfAccountCode(billByChartOfAccountsCode);
+        }
+        if( StringUtils.isNotEmpty(billedByOrganizationCode)){
+            customerInvoiceDocument.setBilledByOrganizationCode(billedByOrganizationCode);
+        }
         
         //set AR doc Header
         AccountsReceivableDocumentHeader arDocHeader = new AccountsReceivableDocumentHeader();

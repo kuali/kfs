@@ -111,4 +111,13 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
         SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(requisition);
         assertTrue(afterDeletion.size() == 1);
     }
+    
+    public void testSetupCAMSSystem() {
+        RequisitionDocument requisition = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+        requisition.getDocumentHeader().setDocumentDescription("ct unit testDeleteCAMSItems()");
+        requisition.setCapitalAssetSystemTypeCode("ONE");
+        SpringContext.getBean(PurchasingService.class).setupCAMSSystem(requisition);
+        
+        assertTrue(requisition.getPurchasingCapitalAssetSystems().size() == 1);
+    }
 }

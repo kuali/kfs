@@ -50,6 +50,7 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
 
     public void testSetupCAMSItems() {
         RequisitionDocument requisition = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
+        requisition.setCapitalAssetSystemTypeCode("IND");
         RequisitionItem item1 = (RequisitionItem)requisition.getItem(0);
         item1.getSourceAccountingLine(0).setAccountNumber("0212001");
         item1.getSourceAccountingLine(0).setFinancialObjectCode("7099");
@@ -65,11 +66,16 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
         List<PurchasingCapitalAssetItem> afterSecondCall = requisition.getPurchasingCapitalAssetItems();
         assertTrue(afterSecondCall.size() == 2);
         
+        for (PurchasingCapitalAssetItem camsItem : afterSecondCall) {
+            assertTrue(camsItem.getPurchasingCapitalAssetSystem() != null);
+        }
+        
     }
 
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public void testDeleteCAMSItems() {
         RequisitionDocument requisition = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+        requisition.setCapitalAssetSystemTypeCode("IND");
         requisition.getDocumentHeader().setDocumentDescription("ct unit testDeleteCAMSItems()");
         RequisitionItem item1 = (RequisitionItem)requisition.getItem(0);
         item1.getSourceAccountingLine(0).setChartOfAccountsCode("BL");
@@ -78,13 +84,8 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
         item1.getSourceAccountingLine(0).setFinancialSubObjectCode(null);
         item1.getSourceAccountingLine(0).setSubAccountNumber(null);    
         
-        SpringContext.getBean(PurchasingService.class).setupCAMSItems(requisition);
-    
-        RequisitionCapitalAssetSystem sys1 = (RequisitionCapitalAssetSystem)PurchasingCapitalAssetSystemFixture.ASSET_SYSTEM_BASIC_1.createPurchasingCapitalAssetSystem(RequisitionCapitalAssetSystem.class);
-        requisition.getPurchasingCapitalAssetSystems().add(sys1);
+        SpringContext.getBean(PurchasingService.class).setupCAMSItems(requisition);    
 
-        requisition.getPurchasingCapitalAssetItems().get(0).setPurchasingCapitalAssetSystem(sys1);
-        
         RequisitionItem item2 = (RequisitionItem)RequisitionItemFixture.REQ_ITEM_NO_APO.createRequisitionItem();
         item2.getSourceAccountingLine(0).setChartOfAccountsCode("BL");
         item2.getSourceAccountingLine(0).setAccountNumber("0212001");
@@ -95,12 +96,7 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
         requisition.addItem(item2);
 
         SpringContext.getBean(PurchasingService.class).setupCAMSItems(requisition);
-        
-        RequisitionCapitalAssetSystem sys2 = (RequisitionCapitalAssetSystem)PurchasingCapitalAssetSystemFixture.ASSET_SYSTEM_BASIC_2.createPurchasingCapitalAssetSystem(RequisitionCapitalAssetSystem.class);
-        requisition.getPurchasingCapitalAssetSystems().add(sys2);
-        
-        requisition.getPurchasingCapitalAssetItems().get(1).setPurchasingCapitalAssetSystem(sys2);
-        
+
         SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(requisition);
         
         //now do the deletion
@@ -110,6 +106,10 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
      
         SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(requisition);
         assertTrue(afterDeletion.size() == 1);
+        
+        for (PurchasingCapitalAssetItem camsItem : afterDeletion) {
+            assertTrue(camsItem.getPurchasingCapitalAssetSystem() != null);
+        }
     }
     
     public void testSetupCAMSSystem() {

@@ -261,4 +261,67 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         return result.toString();
     }
     
+    @Override
+    public ActionForward refresh(ActionMapping mapping, 
+                                 ActionForm form, 
+                                 HttpServletRequest request, 
+                                 HttpServletResponse response) 
+    throws Exception {
+        
+        BulkReceivingForm blkRecForm = (BulkReceivingForm) form;
+        BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkRecForm.getDocument();
+        
+        String refreshCaller = blkRecForm.getRefreshCaller();
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        PhoneNumberService phoneNumberService = SpringContext.getBean(PhoneNumberService.class);
+
+        // Format phone numbers
+        blkRecDoc.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(blkRecDoc.getInstitutionContactPhoneNumber()));
+        blkRecDoc.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(blkRecDoc.getRequestorPersonPhoneNumber()));
+        blkRecDoc.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(blkRecDoc.getDeliveryToPhoneNumber()));
+
+        // Refreshing the fields after returning from a vendor lookup in the vendor tab
+        if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL) && 
+            blkRecDoc.getVendorDetailAssignedIdentifier() != null && 
+            blkRecDoc.getVendorHeaderGeneratedIdentifier() != null) {
+            
+            // retrieve vendor based on selection from vendor lookup
+            blkRecDoc.refreshReferenceObject("vendorDetail");
+            blkRecDoc.setVendorName(blkRecDoc.getVendorDetail().getVendorName());
+
+            // populate default address based on selected vendor
+            VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).
+                                                getVendorDefaultAddress(blkRecDoc.getVendorDetail().getVendorAddresses(), 
+                                                                        blkRecDoc.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), 
+                                                                        "");
+            if (ObjectUtils.isNotNull(defaultAddress)) {
+                blkRecDoc.setVendorLine1Address(defaultAddress.getVendorLine1Address());
+                blkRecDoc.setVendorLine2Address(defaultAddress.getVendorLine2Address());
+                blkRecDoc.setVendorCityName(defaultAddress.getVendorCityName());
+                blkRecDoc.setVendorStateCode(defaultAddress.getVendorStateCode());
+                blkRecDoc.setVendorPostalCode(defaultAddress.getVendorZipCode());
+                blkRecDoc.setVendorCountryCode(defaultAddress.getVendorCountryCode());
+            }
+        }
+
+        // Refreshing the fields after returning from an address lookup in the vendor tab
+        if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_ADDRESS_LOOKUPABLE_IMPL)) {
+            if (StringUtils.isNotEmpty(request.getParameter(KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.VENDOR_ADDRESS_ID))) {
+                // retrieve address based on selection from address lookup
+                VendorAddress refreshVendorAddress = new VendorAddress();
+                refreshVendorAddress.setVendorAddressGeneratedIdentifier(blkRecDoc.getVendorAddressGeneratedIdentifier());
+                refreshVendorAddress = (VendorAddress) businessObjectService.retrieve(refreshVendorAddress);
+                if (ObjectUtils.isNotNull(refreshVendorAddress)) {
+                    blkRecDoc.setVendorLine1Address(refreshVendorAddress.getVendorLine1Address());
+                    blkRecDoc.setVendorLine2Address(refreshVendorAddress.getVendorLine2Address());
+                    blkRecDoc.setVendorCityName(refreshVendorAddress.getVendorCityName());
+                    blkRecDoc.setVendorStateCode(refreshVendorAddress.getVendorStateCode());
+                    blkRecDoc.setVendorPostalCode(refreshVendorAddress.getVendorZipCode());
+                    blkRecDoc.setVendorCountryCode(refreshVendorAddress.getVendorCountryCode());
+                }
+            }
+        }
+
+        return super.refresh(mapping, form, request, response);
+    }
 }    

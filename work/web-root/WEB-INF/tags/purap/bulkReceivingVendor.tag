@@ -173,7 +173,7 @@
 	                    <c:if test="${fullEntryMode}" >
 	                        <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" 
 	                        			 lookupParameters="'Y':activeIndicator, 'PO':vendorHeader.vendorTypeCode"
-	                        			 fieldConversions="vendorNumber:document.vendorNumber,vendorName:document.vendorName,vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier,defaultAddressLine1:document.vendorLine1Address,defaultAddressLine2:document.vendorLine2Address,defaultAddressCity:document.vendorCityName,defaultAddressPostalCode:document.vendorPostalCode,defaultAddressStateCode:document.vendorStateCode,defaultAddressInternationalProvince:document.vendorAddressInternationalProvinceName,defaultAddressCountryCode:document.vendorCountryCode"/>
+	                        			 fieldConversions="vendorNumber:document.vendorNumber,vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier,defaultAddressLine1:document.vendorLine1Address,defaultAddressLine2:document.vendorLine2Address,defaultAddressCity:document.vendorCityName,defaultAddressPostalCode:document.vendorPostalCode,defaultAddressStateCode:document.vendorStateCode,defaultAddressInternationalProvince:document.vendorAddressInternationalProvinceName,defaultAddressCountryCode:document.vendorCountryCode"/>
 	                    </c:if>
                 	</td>
 	                <th align=right valign=middle class="bord-l-b" width="25%">

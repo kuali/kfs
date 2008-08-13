@@ -37,6 +37,7 @@ import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.BCConstants.RequestImportErrorCode;
 import org.kuali.kfs.module.bc.BCConstants.RequestImportFileType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
@@ -336,8 +337,11 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
                 recordMap.put(recordToLoad.getSubAccountingString(), recordToLoad);
             }
-
-            if (recordToLoad.getHasAccess() && recordToLoad.getHasLock() && StringUtils.isBlank(recordToLoad.getRequestUpdateErrorCode())) {
+            
+            //since error codes are copied based on the locking key, the previous records error code from the updateBudgetAmounts may have been copied to this record and should be ignored.
+            String updateAmountPreviousErrorMessage =BCConstants.RequestImportErrorCode.UPDATE_ERROR_CODE_MONTHLY_BUDGET_DELETED.getErrorCode();
+            if (recordToLoad.getHasAccess() && recordToLoad.getHasLock() && 
+                    ( StringUtils.isBlank(recordToLoad.getRequestUpdateErrorCode()) || recordToLoad.getRequestUpdateErrorCode().endsWith(updateAmountPreviousErrorMessage)) ) {
                 String updateBudgetAmountErrorMessage = updateBudgetAmounts(fileType, recordToLoad, header, budgetYear);
                 if (!StringUtils.isEmpty(updateBudgetAmountErrorMessage))
                     errorMessages.add(recordToLoad.getErrorLinePrefixForLogFile() + updateBudgetAmountErrorMessage);

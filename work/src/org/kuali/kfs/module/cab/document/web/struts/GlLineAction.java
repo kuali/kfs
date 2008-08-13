@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cab.document.web.struts;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,11 +37,13 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class GlLineAction extends KualiAction {
+
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineForm glLineForm = (GlLineForm) form;
         ActionForward forward = mapping.findForward("basic");
@@ -56,6 +59,7 @@ public class GlLineAction extends KualiAction {
             glLineForm.setGeneralLedgerEntry(generalLedgerEntry);
             if (newAssetIndicator) {
                 glLineForm.setNewAssetIndicator(true);
+                glLineForm.setNewGeneralLedgerEntryAsset(generalLedgerEntry.getGeneralLedgerEntryAssets().get(0));
                 forward = mapping.findForward("newGlAssets");
             }
             else {
@@ -129,7 +133,12 @@ public class GlLineAction extends KualiAction {
         ActionForward forward = null;
         GlLineForm glLineForm = (GlLineForm) form;
         if (glLineForm.isNewAssetIndicator()) {
-
+            GeneralLedgerEntry entry = findGeneralLedgerEntry(glLineForm.getGeneralLedgerEntry().getGeneralLedgerAccountIdentifier());
+            if (!entry.getGeneralLedgerEntryAssets().isEmpty()) {
+                SpringContext.getBean(BusinessObjectService.class).delete(entry.getGeneralLedgerEntryAssets().get(0));
+            }
+            GeneralLedgerEntryAsset newEntryAsset = glLineForm.getNewGeneralLedgerEntryAsset();
+            SpringContext.getBean(BusinessObjectService.class).save(newEntryAsset);
         }
         else {
             DictionaryValidationService validationService = SpringContext.getBean(DictionaryValidationService.class);
@@ -201,12 +210,15 @@ public class GlLineAction extends KualiAction {
 
     public ActionForward addAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineForm glLineForm = (GlLineForm) form;
-        GeneralLedgerEntry generalLedgerEntry = glLineForm.getGeneralLedgerEntry();
-        if (generalLedgerEntry.getGeneralLedgerEntryAssets().isEmpty()) {
-            generalLedgerEntry.getGeneralLedgerEntryAssets().add(glLineForm.getNewGeneralLedgerEntryAsset());
+        GeneralLedgerEntryAsset newGeneralLedgerEntryAsset = glLineForm.getNewGeneralLedgerEntryAsset();
+        if (newGeneralLedgerEntryAsset != null) {
+            GeneralLedgerEntryAssetDetail newGeneralLedgerEntryAssetDetail = glLineForm.getNewGeneralLedgerEntryAssetDetail();
+            newGeneralLedgerEntryAssetDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+            newGeneralLedgerEntryAssetDetail.setNewAssetIndicator(true);
+            newGeneralLedgerEntryAsset.getGeneralLedgerEntryAssetDetails().add(newGeneralLedgerEntryAssetDetail);
+            glLineForm.setNewGeneralLedgerEntryAssetDetail(new GeneralLedgerEntryAssetDetail());
+            newGeneralLedgerEntryAsset.setCapitalAssetBuilderQuantity(Long.valueOf(newGeneralLedgerEntryAsset.getGeneralLedgerEntryAssetDetails().size()));
         }
-        generalLedgerEntry.getGeneralLedgerEntryAssets().get(0).getGeneralLedgerEntryAssetDetails().add(glLineForm.getNewGeneralLedgerEntryAssetDetail());
-        glLineForm.setNewGeneralLedgerEntryAssetDetail(new GeneralLedgerEntryAssetDetail());
         return redirectToAssets(mapping, form);
     }
 
@@ -239,8 +251,7 @@ public class GlLineAction extends KualiAction {
 
     public ActionForward deleteAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineForm glLineForm = (GlLineForm) form;
-        GeneralLedgerEntry generalLedgerEntry = glLineForm.getGeneralLedgerEntry();
-        generalLedgerEntry.getGeneralLedgerEntryAssets().get(0).getGeneralLedgerEntryAssetDetails().remove(getSelectedLine(request));
+        glLineForm.getNewGeneralLedgerEntryAsset().getGeneralLedgerEntryAssetDetails().remove(getSelectedLine(request));
         return redirectToAssets(mapping, form);
     }
 

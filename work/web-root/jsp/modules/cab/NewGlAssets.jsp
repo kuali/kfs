@@ -24,8 +24,10 @@
 	<c:set var="glAssetAttributes" value="${DataDictionary.GeneralLedgerEntryAsset.attributes}" />
 	<c:set var="glAssetDetailAttributes" value="${DataDictionary.GeneralLedgerEntryAssetDetail.attributes}" />
 	<html:hidden property="generalLedgerEntry.generalLedgerAccountIdentifier" />
+	<html:hidden property="generalLedgerEntry.universityFiscalPeriodCode" />
+	<html:hidden property="generalLedgerEntry.versionNumber" />
 	<html:hidden property="newAssetIndicator" />
-	<kul:tabTop tabTitle="General Ledger Entry" defaultOpen="true">
+	<kul:tabTop tabTitle="General Ledger Entry" defaultOpen="true" tabErrorKey="GeneralLedgerEntry">
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			<tr>
@@ -65,6 +67,12 @@
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			<tr>
+				<th class="grid" align="right"><kul:htmlAttributeLabel attributeEntry="${glAssetAttributes.capitalAssetBuilderQuantity}" /></th>
+				<td class="grid"><kul:htmlControlAttribute property="newGeneralLedgerEntryAsset.capitalAssetBuilderQuantity" attributeEntry="${glAssetAttributes.capitalAssetBuilderQuantity}" readOnly="true" /></td>
+			</tr>
+			<tr>
+				<html:hidden property="newGeneralLedgerEntryAsset.generalLedgerAccountIdentifier" value="${KualiForm.generalLedgerEntry.generalLedgerAccountIdentifier}" />				
+				<html:hidden property="newGeneralLedgerEntryAsset.capitalAssetBuilderLineNumber" value="1" />
 				<th class="grid" align="right"><kul:htmlAttributeLabel attributeEntry="${glAssetAttributes.capitalAssetDescription}" /></th>
 				<td class="grid"><kul:htmlControlAttribute property="newGeneralLedgerEntryAsset.capitalAssetDescription" attributeEntry="${glAssetAttributes.capitalAssetDescription}" /></td>
 			</tr>
@@ -84,6 +92,7 @@
 				<th class="grid" align="right"><kul:htmlAttributeLabel attributeEntry="${glAssetAttributes.manufacturerModelNumber}" /></th>
 				<td class="grid"><kul:htmlControlAttribute property="newGeneralLedgerEntryAsset.manufacturerModelNumber" attributeEntry="${glAssetAttributes.manufacturerModelNumber}" /></td>
 			</tr>
+			<kul:htmlControlAttribute property="newGeneralLedgerEntryAsset.versionNumber" attributeEntry="${glAssetAttributes.versionNumber}" />
 		</table>
 		<table>
 			<tr>
@@ -121,12 +130,15 @@
 				<th><kul:htmlAttributeLabel noColon="true" attributeEntry="${glAssetDetailAttributes.buildingSubRoomNumber}" /></th>
 				<th>&nbsp;</th>
 			</tr>
-			<c:if test="${not empty KualiForm.generalLedgerEntry.generalLedgerEntryAssets}">
+			<c:if test="${KualiForm.newGeneralLedgerEntryAsset != null}">
 			<c:set var="pos" value="-1" />			
-			<c:forEach var="assetDetail" items="${KualiForm.generalLedgerEntry.generalLedgerEntryAssets[0].generalLedgerEntryAssetDetails}">
+			<c:forEach var="assetDetail" items="${KualiForm.newGeneralLedgerEntryAsset.generalLedgerEntryAssetDetails}">
 			<c:set var="pos" value="${pos+1}" />
-			<c:set var="exprStr" value="generalLedgerEntry.generalLedgerEntryAssets[0].generalLedgerEntryAssetDetails[${pos}]" />
+			<c:set var="exprStr" value="newGeneralLedgerEntryAsset.generalLedgerEntryAssetDetails[${pos}]" />
 			<tr>
+				<html:hidden property="${exprStr}.generalLedgerAccountIdentifier" value="${KualiForm.generalLedgerEntry.generalLedgerAccountIdentifier}" />				
+				<html:hidden property="${exprStr}.capitalAssetBuilderLineNumber" value="1" />
+				<html:hidden property="${exprStr}.newAssetIndicator" value="${assetDetail.newAssetIndicator}" />
 				<td class="infoline"><c:out value="${pos+1}" /></td>
 				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.capitalAssetNumber" attributeEntry="${glAssetDetailAttributes.capitalAssetNumber}"  readOnly="true" /></td>
 				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.campusTagNumber" attributeEntry="${glAssetDetailAttributes.campusTagNumber}" /></td>
@@ -136,6 +148,7 @@
 				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.buildingRoomNumber" attributeEntry="${glAssetDetailAttributes.buildingRoomNumber}" /></td>
 				<td class="infoline"><kul:htmlControlAttribute property="${exprStr}.buildingSubRoomNumber" attributeEntry="${glAssetDetailAttributes.buildingSubRoomNumber}" /></td>
 				<td class="infoline" align="center"><html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" property="methodToCall.deleteAsset.line${pos}" title="Delete" alt="Delete" /></td>
+				<kul:htmlControlAttribute property="${exprStr}.versionNumber" attributeEntry="${glAssetDetailAttributes.versionNumber}" />
 			</tr>
 			</c:forEach>
 			</c:if>

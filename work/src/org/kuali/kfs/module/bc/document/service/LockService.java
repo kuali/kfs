@@ -77,10 +77,10 @@ public interface LockService {
      * @param accountNumber - account number of account lock
      * @param subAccountNumber - sub account number of account lock
      * @param fiscalYear - fiscal year of account lock
-     * @param personUserIdentifier - lock user id
+     * @param personUniversalIdentifier - lock user id
      * @return true if locked, false if not locked or not found in the database
      */
-    public boolean isAccountLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier);
+    public boolean isAccountLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
 
     /**
      * This method attempts to unlock the given BudgetConstructionHeader.
@@ -153,10 +153,10 @@ public interface LockService {
      * @param accountNumber - account number of funding lock
      * @param subAccountNumber - sub account number of funding lock
      * @param fiscalYear - fiscal year of funding lock
-     * @param personUserIdentifier - lock user id
+     * @param personUniversalIdentifier - lock user id
      * @return true if locked, false if not locked or not found in the database
      */
-    public boolean isFundingLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier);
+    public boolean isFundingLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
 
     /**
      * This locks the position, meaning it sets the position lock id field with the puid. Finding the position already locked by the
@@ -194,10 +194,10 @@ public interface LockService {
      * 
      * @param positionNumber - position number of position record
      * @param fiscalYear - fiscal year of position record
-     * @param personUserIdentifier - lock user id
+     * @param personUniversalIdentifier - lock user id
      * @return true if locked, false if not locked or not found in the database
      */
-    public boolean isPositionLockedByUser(String positionNumber, Integer fiscalYear, String personUserIdentifier);
+    public boolean isPositionLockedByUser(String positionNumber, Integer fiscalYear, String personUniversalIdentifier);
 
     /**
      * Checks the given user has an position/funding lock for the given position number and accounting key.
@@ -207,10 +207,10 @@ public interface LockService {
      * @param accountNumber - account number of funding lock
      * @param subAccountNumber - sub account number of funding lock
      * @param fiscalYear - fiscal year of position and funding record
-     * @param personUserIdentifier - lock user id
+     * @param personUniversalIdentifier - lock user id
      * @return true if locked, false if not locked or not found in the database
      */
-    public boolean isPositionFundingLockedByUser(String positionNumber, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier);
+    public boolean isPositionFundingLockedByUser(String positionNumber, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
 
     /**
      * This removes an existing positionlock
@@ -289,10 +289,10 @@ public interface LockService {
      * @param accountNumber - account number of transaction lock
      * @param subAccountNumber - sub account number of transaction lock
      * @param fiscalYear - fiscal year of transaction lock
-     * @param personUserIdentifier - lock user id
+     * @param personUniversalIdentifier - lock user id
      * @return true if locked, false if not locked or not found in the database
      */
-    public boolean isTransactionLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier);
+    public boolean isTransactionLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
 
     /**
      * This removes an existing transactionlock for a BC EDoc (account).

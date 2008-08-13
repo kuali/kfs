@@ -174,9 +174,6 @@
 		</property>
 		<property name="permissionService">
 			<ref bean="permissionService" />
-		</property>	
-		<property name="lockService">
-			<ref bean="lockService" />
 		</property>				
 	</bean>
 

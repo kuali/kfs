@@ -142,10 +142,10 @@ public class LockServiceImpl implements LockService {
      *      java.lang.String, java.lang.Integer, java.lang.String)
      */
     @Transactional
-    public boolean isAccountLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier) {
+    public boolean isAccountLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier) {
         BudgetConstructionHeader freshBcHeader = budgetConstructionDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
         if (freshBcHeader != null) {
-            if (freshBcHeader.getBudgetLockUserIdentifier() != null && freshBcHeader.getBudgetLockUserIdentifier().equals(personUserIdentifier)) {
+            if (freshBcHeader.getBudgetLockUserIdentifier() != null && freshBcHeader.getBudgetLockUserIdentifier().equals(personUniversalIdentifier)) {
                 return true;
             }
         }
@@ -251,7 +251,7 @@ public class LockServiceImpl implements LockService {
     public BudgetConstructionLockStatus lockFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser) {
         BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
 
-        return this.lockFunding(budgetConstructionHeader, universalUser.getPersonUserIdentifier());
+        return this.lockFunding(budgetConstructionHeader, universalUser.getPersonUniversalIdentifier());
     }
 
     /**
@@ -286,7 +286,7 @@ public class LockServiceImpl implements LockService {
         String accountNumber = appointmentFunding.getAccountNumber();
         String subAccountNumber = appointmentFunding.getSubAccountNumber();
 
-        return this.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, universalUser.getPersonUserIdentifier());
+        return this.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, universalUser.getPersonUniversalIdentifier());
     }
 
     /**
@@ -304,8 +304,8 @@ public class LockServiceImpl implements LockService {
      *      java.lang.String, java.lang.Integer, java.lang.String)
      */
     @Transactional
-    public boolean isFundingLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier) {
-        BudgetConstructionFundingLock budgetConstructionFundingLock = budgetConstructionDao.getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier);
+    public boolean isFundingLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier) {
+        BudgetConstructionFundingLock budgetConstructionFundingLock = budgetConstructionDao.getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUniversalIdentifier);
         if (budgetConstructionFundingLock != null) {
             return true;
         }
@@ -359,9 +359,9 @@ public class LockServiceImpl implements LockService {
     public BudgetConstructionLockStatus lockPosition(BudgetConstructionPosition position, UniversalUser universalUser) {
         String positionNumber = position.getPositionNumber();
         Integer fiscalYear = position.getUniversityFiscalYear();
-        String personUserIdentifier = universalUser.getPersonUserIdentifier();
+        String personUniversalIdentifier = universalUser.getPersonUniversalIdentifier();
 
-        return this.lockPosition(positionNumber, fiscalYear, personUserIdentifier);
+        return this.lockPosition(positionNumber, fiscalYear, personUniversalIdentifier);
     }
 
     /**
@@ -389,9 +389,9 @@ public class LockServiceImpl implements LockService {
      *      java.lang.String)
      */
     @Transactional
-    public boolean isPositionLockedByUser(String positionNumber, Integer fiscalYear, String personUserIdentifier) {
+    public boolean isPositionLockedByUser(String positionNumber, Integer fiscalYear, String personUniversalIdentifier) {
         BudgetConstructionPosition bcPosition = budgetConstructionDao.getByPrimaryId(positionNumber, fiscalYear);
-        if (bcPosition != null && bcPosition.getPositionLockUserIdentifier() != null && bcPosition.getPositionLockUserIdentifier().equals(personUserIdentifier)) {
+        if (bcPosition != null && bcPosition.getPositionLockUserIdentifier() != null && bcPosition.getPositionLockUserIdentifier().equals(personUniversalIdentifier)) {
             return true;
         }
 
@@ -403,8 +403,8 @@ public class LockServiceImpl implements LockService {
      *      java.lang.String, java.lang.String, java.lang.Integer, java.lang.String)
      */
     @Transactional
-    public boolean isPositionFundingLockedByUser(String positionNumber, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier) {
-        return this.isPositionLockedByUser(positionNumber, fiscalYear, personUserIdentifier) && this.isFundingLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier);
+    public boolean isPositionFundingLockedByUser(String positionNumber, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier) {
+        return this.isPositionLockedByUser(positionNumber, fiscalYear, personUniversalIdentifier) && this.isFundingLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUniversalIdentifier);
     }
 
     /**
@@ -468,7 +468,7 @@ public class LockServiceImpl implements LockService {
         Integer fiscalYear = position.getUniversityFiscalYear();
         String positionNumber = position.getPositionNumber();
 
-        return this.unlockPosition(positionNumber, fiscalYear, universalUser.getPersonUserIdentifier());
+        return this.unlockPosition(positionNumber, fiscalYear, universalUser.getPersonUniversalIdentifier());
     }
 
     /**
@@ -533,9 +533,8 @@ public class LockServiceImpl implements LockService {
         String accountNumber = appointmentFunding.getAccountNumber();
         String subAccountNumber = appointmentFunding.getSubAccountNumber();
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
-        String personUserIdentifier = universalUser.getPersonUserIdentifier();
 
-        return this.lockTransaction(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier);
+        return this.lockTransaction(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, universalUser.getPersonUniversalIdentifier());
     }
 
     /**
@@ -564,9 +563,9 @@ public class LockServiceImpl implements LockService {
      *      java.lang.String, java.lang.Integer, java.lang.String)
      */
     @Transactional
-    public boolean isTransactionLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier) {
+    public boolean isTransactionLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier) {
         BudgetConstructionHeader freshBcHeader = budgetConstructionDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
-        if (freshBcHeader != null && freshBcHeader.getBudgetTransactionLockUserIdentifier() != null && freshBcHeader.getBudgetTransactionLockUserIdentifier().equals(personUserIdentifier)) {
+        if (freshBcHeader != null && freshBcHeader.getBudgetTransactionLockUserIdentifier() != null && freshBcHeader.getBudgetTransactionLockUserIdentifier().equals(personUniversalIdentifier)) {
             return true;
         }
 
@@ -614,9 +613,9 @@ public class LockServiceImpl implements LockService {
         String accountNumber = appointmentFunding.getAccountNumber();
         String subAccountNumber = appointmentFunding.getSubAccountNumber();
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
-        String personUserIdentifier = universalUser.getPersonUserIdentifier();
+        String personUniversalIdentifier = universalUser.getPersonUniversalIdentifier();
 
-        if (this.isTransactionLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier)) {
+        if (this.isTransactionLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUniversalIdentifier)) {
             this.unlockTransaction(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
         }
     }
@@ -739,7 +738,7 @@ public class LockServiceImpl implements LockService {
         String accountNumber = budgetConstructionHeader.getAccountNumber();
         String subAccountNumber = budgetConstructionHeader.getSubAccountNumber();
         Integer fiscalYear = budgetConstructionHeader.getUniversityFiscalYear();
-        return this.isAccountLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, universalUser.getPersonUserIdentifier());
+        return this.isAccountLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, universalUser.getPersonUniversalIdentifier());
     }
 
     @NonTransactional
@@ -844,7 +843,8 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPositionAndActiveFunding(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPositionAndActiveFunding(java.lang.Integer, java.lang.String,
+     *      java.lang.String)
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public LockStatus unlockPositionAndActiveFunding(Integer universityFiscalYear, String positionNumber, String personUniversalIdentifier) {
@@ -853,7 +853,7 @@ public class LockServiceImpl implements LockService {
         if (!lockStatus.equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
             return lockStatus;
         }
-        
+
         // retrieve funding records for the position
         List<PendingBudgetConstructionAppointmentFunding> allPositionFunding = budgetConstructionDao.getAllFundingForPosition(universityFiscalYear, positionNumber);
 
@@ -861,13 +861,13 @@ public class LockServiceImpl implements LockService {
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : allPositionFunding) {
             if (!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
                 LockStatus fundingLockStatus = unlockFunding(appointmentFunding.getChartOfAccountsCode(), appointmentFunding.getAccountNumber(), appointmentFunding.getSubAccountNumber(), appointmentFunding.getUniversityFiscalYear(), personUniversalIdentifier);
-             
+
                 if (!fundingLockStatus.equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
                     return lockStatus;
                 }
             }
         }
-        
+
         // successfully completed unlocks
         return LockStatus.SUCCESS;
     }

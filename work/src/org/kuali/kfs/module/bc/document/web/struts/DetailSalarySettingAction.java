@@ -33,13 +33,11 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
-import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.document.validation.event.AddAppointmentFundingEvent;
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
 import org.kuali.kfs.module.bc.document.validation.event.SaveSalarySettingEvent;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -49,7 +47,6 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingAction.class);
 
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
-    private LockService lockService = SpringContext.getBean(LockService.class);
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
     /**

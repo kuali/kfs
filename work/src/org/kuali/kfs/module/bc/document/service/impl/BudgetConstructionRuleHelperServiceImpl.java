@@ -174,7 +174,12 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
     public boolean isDetailPositionRequiredObjectCode(ObjectCode financialObject, String currentValue, ErrorMap errorMap, String errorPropertyName) {
-
+        if (ObjectUtils.isNull(financialObject)) {
+            String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, currentValue);
+            errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
+            return false;
+        }
+        
         LaborLedgerObject laborObject = laborModuleService.retrieveLaborLedgerObject(financialObject);
         if (laborObject == null || laborObject.isDetailPositionRequiredIndicator()) {
             // TODO:

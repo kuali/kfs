@@ -201,19 +201,10 @@
   </bean>
   <bean id="AssetTransferDocument-offCampusZipCode" parent="AssetTransferDocument-offCampusZipCode-parentBean" />
 
-  <bean id="AssetTransferDocument-offCampusZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetTransferDocument-offCampusZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="offCampusZipCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="ZipcodeValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
-    </property>
     <property name="summary" value="offCampusZipCode" />
     <property name="description" value="offCampusZipCode description..." />
   </bean>

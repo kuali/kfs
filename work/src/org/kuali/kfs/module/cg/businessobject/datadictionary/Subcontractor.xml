@@ -131,20 +131,9 @@
   </bean>
   <bean id="Subcontractor-subcontractorZipCode" parent="Subcontractor-subcontractorZipCode-parentBean" />
 
-  <bean id="Subcontractor-subcontractorZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Subcontractor-subcontractorZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="subcontractorZipCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="ZIP Code" />
-    <property name="shortLabel" value="ZIP" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="ZipcodeValidationPattern" />
-    </property>
     <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
   </bean>
   <bean id="Subcontractor-subcontractorCountryCode" parent="Subcontractor-subcontractorCountryCode-parentBean" />
 

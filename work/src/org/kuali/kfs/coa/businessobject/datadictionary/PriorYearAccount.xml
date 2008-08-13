@@ -436,19 +436,10 @@
   </bean>
   <bean id="PriorYearAccount-accountZipCode" parent="PriorYearAccount-accountZipCode-parentBean" />
 
-  <bean id="PriorYearAccount-accountZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PriorYearAccount-accountZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="accountZipCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Account Zip Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
-    </property>
   </bean>
   <bean id="PriorYearAccount-accountsFringesBnftIndicator" parent="PriorYearAccount-accountsFringesBnftIndicator-parentBean" />
 

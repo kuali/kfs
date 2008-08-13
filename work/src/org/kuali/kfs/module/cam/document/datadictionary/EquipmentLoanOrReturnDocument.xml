@@ -257,38 +257,19 @@
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageZipCode" parent="EquipmentLoanOrReturnDocument-borrowerStorageZipCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="borrowerStorageZipCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="ZipcodeValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
-    </property>
     <property name="summary" value="borrowerStorageZipCode" />
     <property name="description" value="borrowerStorageZipCode description..." />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerZipCode" parent="EquipmentLoanOrReturnDocument-borrowerZipCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="borrowerZipCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="ZipcodeValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
-    </property>
     <property name="summary" value="borrowerZipCode" />
     <property name="description" value="borrowerZipCode description..." />
   </bean>

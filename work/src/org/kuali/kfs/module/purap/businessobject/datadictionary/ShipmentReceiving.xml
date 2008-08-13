@@ -212,19 +212,10 @@
   </bean>
   <bean id="ShipmentReceiving-deliveryPostalCode" parent="ShipmentReceiving-deliveryPostalCode-parentBean" />
 
-  <bean id="ShipmentReceiving-deliveryPostalCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ShipmentReceiving-deliveryPostalCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="deliveryPostalCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Delivery Postal Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
-    </property>
   </bean>
   <bean id="ShipmentReceiving-deliveryRequiredDate" parent="ShipmentReceiving-deliveryRequiredDate-parentBean" />
 
@@ -478,19 +469,10 @@
   </bean>
   <bean id="ShipmentReceiving-vendorPostalCode" parent="ShipmentReceiving-vendorPostalCode-parentBean" />
 
-  <bean id="ShipmentReceiving-vendorPostalCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ShipmentReceiving-vendorPostalCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="vendorPostalCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Postal Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
-    </property>
   </bean>
   <bean id="ShipmentReceiving-vendorShippingPaymentTermsCode" parent="ShipmentReceiving-vendorShippingPaymentTermsCode-parentBean" />
 

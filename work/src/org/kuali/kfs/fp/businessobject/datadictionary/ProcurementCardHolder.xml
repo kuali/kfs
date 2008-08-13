@@ -170,16 +170,10 @@
   </bean>
   <bean id="ProcurementCardHolder-cardHolderZipCode" parent="ProcurementCardHolder-cardHolderZipCode-parentBean" />
 
-  <bean id="ProcurementCardHolder-cardHolderZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ProcurementCardHolder-cardHolderZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="cardHolderZipCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Card Holder Postal (ZIP) Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="20" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
-    </property>
   </bean>
   <bean id="ProcurementCardHolder-cardLimit" parent="ProcurementCardHolder-cardLimit-parentBean" />
 

@@ -238,19 +238,8 @@
   </bean>
   <bean id="CustomerAddress-customerZipCode" parent="CustomerAddress-customerZipCode-parentBean" />
 
-  <bean id="CustomerAddress-customerZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerAddress-customerZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="customerZipCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Postal Code" />
-    <property name="shortLabel" value="Zip" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
-    </property>
     <property name="summary" value="customerZipCode" />
     <property name="description" value="customerZipCode description..." />
   </bean>

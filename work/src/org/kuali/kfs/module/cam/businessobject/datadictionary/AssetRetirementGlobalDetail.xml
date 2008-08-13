@@ -311,19 +311,10 @@
   </bean>
   <bean id="AssetRetirementGlobalDetail-retirementZipCode" parent="AssetRetirementGlobalDetail-retirementZipCode-parentBean" />
 
-  <bean id="AssetRetirementGlobalDetail-retirementZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetRetirementGlobalDetail-retirementZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="retirementZipCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Retirement Postal Code" />
     <property name="shortLabel" value="Postal Code" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="ZipcodeValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
-    </property>
     <property name="summary" value="retirementZipCode" />
     <property name="description" value="retirementZipCode description..." />
   </bean>

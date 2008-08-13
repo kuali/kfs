@@ -39,7 +39,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Zip" />
-    <property name="maxLength" value="11" />
+    <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="ZipcodeValidationPattern" />
     </property>

@@ -152,19 +152,10 @@
   </bean>
   <bean id="Building-buildingAddressZipCode" parent="Building-buildingAddressZipCode-parentBean" />
 
-  <bean id="Building-buildingAddressZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Building-buildingAddressZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="buildingAddressZipCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Building Address Postal Code" />
     <property name="shortLabel" value="Bldg. Postal Code" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="ZipcodeValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
-    </property>
     <property name="summary" value="buildingAddressZipCode" />
     <property name="description" value="buildingAddressZipCode description..." />
   </bean>

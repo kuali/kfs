@@ -310,20 +310,11 @@
   </bean>
   <bean id="Org-organizationZipCode" parent="Org-organizationZipCode-parentBean" />
 
-  <bean id="Org-organizationZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Org-organizationZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="organizationZipCode" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Postal Code" />
     <property name="shortLabel" value="Postal Code" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="ZipcodeValidationPattern" />
-    </property>
     <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
-    </property>
   </bean>
   <bean id="Org-organizationStateCode" parent="Org-organizationStateCode-parentBean" />
 

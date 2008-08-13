@@ -352,19 +352,10 @@
   </bean>
   <bean id="RoutingFormAgency-agencyZipCode" parent="RoutingFormAgency-agencyZipCode-parentBean" />
 
-  <bean id="RoutingFormAgency-agencyZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="RoutingFormAgency-agencyZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="agencyZipCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Agency Zip Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
     <property name="summary" value="agencyZipCode" />
     <property name="description" value="agencyZipCode description..." />
   </bean>

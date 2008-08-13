@@ -446,19 +446,10 @@
   </bean>
   <bean id="RoutingFormPersonnel-personZipCode" parent="RoutingFormPersonnel-personZipCode-parentBean" />
 
-  <bean id="RoutingFormPersonnel-personZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="RoutingFormPersonnel-personZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="personZipCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Zip" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="ZipcodeValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
     <property name="summary" value="personZipCode" />
     <property name="description" value="personZipCode description..." />
   </bean>

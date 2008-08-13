@@ -182,20 +182,8 @@
   </bean>
   <bean id="VendorGenericAttributes-zipCode" parent="VendorGenericAttributes-zipCode-parentBean" />
 
-  <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="zipCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Postal Code" />
-    <property name="shortLabel" value="Postal Code" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
-    </property>
   </bean>
   <bean id="VendorGenericAttributes-cityName" parent="VendorGenericAttributes-cityName-parentBean" />
 

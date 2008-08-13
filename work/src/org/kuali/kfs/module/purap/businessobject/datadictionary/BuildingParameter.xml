@@ -82,19 +82,10 @@
   </bean>
   <bean id="BuildingParameter-buildingOverrideAddressZipCode" parent="BuildingParameter-buildingOverrideAddressZipCode-parentBean" />
 
-  <bean id="BuildingParameter-buildingOverrideAddressZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BuildingParameter-buildingOverrideAddressZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="buildingOverrideAddressZipCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Building Override Address Zip Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
-    </property>
   </bean>
   <bean id="BuildingParameter-buildingOverrideCode" parent="BuildingParameter-buildingOverrideCode-parentBean" />
 

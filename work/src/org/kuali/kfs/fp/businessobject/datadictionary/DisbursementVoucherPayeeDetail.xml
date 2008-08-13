@@ -106,7 +106,7 @@
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" />
 
-  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" abstract="true" parent="VendorAddress-vendorZipCode">
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="disbVchrPayeeZipCode" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode-parentBean" />
@@ -156,7 +156,7 @@
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode" parent="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode-parentBean" />
 
-  <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode-parentBean" abstract="true" parent="VendorAddress-vendorZipCode">
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="disbVchrSpecialHandlingZipCode" />
     <property name="label" value="Special Handling Postal Code" />
     <property name="shortLabel" value="Special Handling Postal" />

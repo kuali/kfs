@@ -19,50 +19,59 @@ import java.util.List;
 
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService;
+import org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 
 public class SalarySettingRules implements SalarySettingRule {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRules.class);
-    
-    private AccountingLineRuleHelperService accountingLineRuleHelperService = SpringContext.getBean(AccountingLineRuleHelperService.class);
-    private DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
+
+    private BudgetConstructionRuleHelperService budgetConstructionRuleHelperService = SpringContext.getBean(BudgetConstructionRuleHelperService.class);
+    private SalarySettingRuleHelperService salarySettingRuleHelperService = SpringContext.getBean(SalarySettingRuleHelperService.class);
+    private ErrorMap errorMap = GlobalVariables.getErrorMap();
 
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAddAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processAddAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("processAddAppointmentFunding() start");
-        boolean isValid = true;
 
-        boolean hasValidFormat = SalarySettingRuleUtil.isFieldFormatValid(appointmentFunding);
-        
+        boolean hasValidFormat = budgetConstructionRuleHelperService.isFieldFormatValid(appointmentFunding, errorMap);
+        if (!hasValidFormat) {
+            return hasValidFormat;
+        }
+
         // if the formats of the fields are correct, check if there exist the references of a set of specified fields
-        boolean hasValidReference = true;
-        if (hasValidFormat) {
-            hasValidReference &= accountingLineRuleHelperService.isValidAccount(appointmentFunding.getAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
-            hasValidReference &= accountingLineRuleHelperService.isValidChart(appointmentFunding.getChartOfAccounts(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
-            hasValidReference &= accountingLineRuleHelperService.isValidChart(appointmentFunding.getChartOfAccounts(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
+        boolean hasValidReference = budgetConstructionRuleHelperService.hasValidChart(appointmentFunding, errorMap);
+        hasValidReference &= budgetConstructionRuleHelperService.hasValidAccount(appointmentFunding, errorMap);
+        hasValidReference &= budgetConstructionRuleHelperService.hasValidObjectCode(appointmentFunding, errorMap);
+        hasValidReference &= budgetConstructionRuleHelperService.hasValidSubAccount(appointmentFunding, errorMap);
+        hasValidReference &= budgetConstructionRuleHelperService.hasValidSubObjectCode(appointmentFunding, errorMap);
+        hasValidReference &= budgetConstructionRuleHelperService.hasDetailPositionRequiredObjectCode(appointmentFunding, errorMap);
+        hasValidReference &= budgetConstructionRuleHelperService.hasValidPosition(appointmentFunding, errorMap);
+        hasValidReference &= budgetConstructionRuleHelperService.hasValidIncumbent(appointmentFunding, errorMap);
 
-            if (!KFSConstants.getDashSubAccountNumber().equals(appointmentFunding.getSubAccountNumber())) {
-                hasValidReference &= accountingLineRuleHelperService.isValidSubAccount(appointmentFunding.getSubAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
-            }
+        if (!hasValidReference) {
+            return hasValidReference;
         }
-        
-        if (!SalarySettingRuleUtil.isValidRequestedAmount(appointmentFunding)) {
-            GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED);
-            isValid = false;
-        }
-        
 
-        return isValid;
+        boolean hasValidAmount = salarySettingRuleHelperService.hasValidRequestedAmount(appointmentFunding, errorMap);
+           
+        return hasValidAmount;
     }
 
     /**

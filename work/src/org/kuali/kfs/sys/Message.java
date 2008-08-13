@@ -19,8 +19,8 @@ package org.kuali.kfs.sys;
  * This class represents an error message (severity type and actual message).
  */
 public class Message {
-    public static int TYPE_FATAL = 1;
-    public static int TYPE_WARNING = 0;
+    public static final int TYPE_FATAL = 1;
+    public static final int TYPE_WARNING = 0;
 
     private String message;
     private int type;
@@ -49,6 +49,4 @@ public class Message {
     public void setType(int type) {
         this.type = type;
     }
-
-
 }

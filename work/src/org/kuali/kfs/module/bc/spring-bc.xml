@@ -930,6 +930,12 @@
 		</property>
     </bean>	
     
+    <bean id="salarySettingRuleHelperService" class="org.kuali.kfs.module.bc.document.service.impl.SalarySettingRuleHelperServiceImpl">
+		<property name="salarySettingService">
+			<ref bean="salarySettingService" />
+		</property>
+    </bean>
+    
     <bean id="humanResourcesPayrollDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.dataaccess.impl.HumanResourcesPayrollDaoJdbc">
     </bean>
     

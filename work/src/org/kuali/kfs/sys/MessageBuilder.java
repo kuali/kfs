@@ -19,6 +19,9 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.datadictionary.DataDictionary;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -27,6 +30,8 @@ import org.kuali.kfs.sys.context.SpringContext;
  */
 public class MessageBuilder {
     private static KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+    private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+    private static DataDictionary dataDictionary = dataDictionaryService.getDataDictionary();
 
     /**
      * add the given message into the given message list
@@ -95,5 +100,29 @@ public class MessageBuilder {
      */
     public static String getPropertyString(String messageKey) {
         return kualiConfigurationService.getPropertyString(messageKey);
+    }
+
+    /**
+     * build the error message with the given label and current value
+     * 
+     * @param label the given label
+     * @param currentValue the given current value
+     * @return the error message built from the given label and current value
+     */
+    public static String buildErrorMessageWithDataDictionary(Class<? extends BusinessObject> businessObjectClass, String attributeName, String currentValue) {
+        String label = getShortLabel(businessObjectClass, attributeName);
+
+        return label + ":" + currentValue;
+    }
+
+    /**
+     * get the label of the specified attribute of the given business object
+     * 
+     * @param businessObjectClass the given business object
+     * @param attributeName the specified attribute name
+     * @return the label of the specified attribute of the given business object
+     */
+    public static String getShortLabel(Class<? extends BusinessObject> businessObjectClass, String attributeName) {
+        return dataDictionary.getBusinessObjectEntry(businessObjectClass.getName()).getAttributeDefinition(attributeName).getShortLabel();
     }
 }

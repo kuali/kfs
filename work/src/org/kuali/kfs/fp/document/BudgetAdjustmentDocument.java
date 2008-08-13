@@ -865,7 +865,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
             ParameterService paramService = SpringContext.getBean(ParameterService.class);
             
             if(paramService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS, fundGroupCode).evaluationSucceeds() &&
-               !paramService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
+               paramService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
                 
                 String incomeStreamKey = baAccount.getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + budgetAccountingLine.getAccount().getIncomeStreamAccountNumber();
     

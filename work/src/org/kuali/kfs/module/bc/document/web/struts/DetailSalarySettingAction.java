@@ -109,7 +109,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             }
                        
             // validate the savable appointment funding lines
-            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", "", document, savableFunding));
+            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", "", document, savableAppointmentFundings, savableFunding));
             if(!isValid) {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }

@@ -15,11 +15,17 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.NONE;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -28,6 +34,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -93,12 +100,12 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         if (positionSalarySettingForm.isSingleAccountMode()) {
             positionSalarySettingForm.pickAppointmentFundingsForSingleAccount();
         }
-        
+
         // acquire position and funding locks for the associated funding lines
-        if(!positionSalarySettingForm.isViewOnlyEntry()) {
+        if (!positionSalarySettingForm.isViewOnlyEntry()) {
             positionSalarySettingForm.postProcessBCAFLines();
             positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
-            
+
             boolean gotLocks = positionSalarySettingForm.acquirePositionAndFundingLocks();
             if (!gotLocks) {
                 return this.returnToCaller(mapping, form, request, response);
@@ -106,5 +113,68 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * enable to send warning after saving
+     * 
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingAction#save(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward saveAction = super.save(mapping, form, request, response);
+        
+        PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
+        this.sendWarnings(positionSalarySettingForm, GlobalVariables.getMessageList());
+        
+        return saveAction;
+    }
+
+    /**
+     * send warning messsages back to the caller
+     * 
+     * @param positionSalarySettingForm the given position salary setting form
+     * @param warnings the warning list that can hold the warning messages if any
+     */
+    public void sendWarnings(PositionSalarySettingForm positionSalarySettingForm, List<String> warnings) {
+        List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings = positionSalarySettingForm.getActiveFundingLines();
+        if (activeAppointmentFundings == null || activeAppointmentFundings.isEmpty()) {
+            return;
+        }
+
+        boolean hasFundingLineInvolveLeave = this.hasFundingLineInvolveLeave(activeAppointmentFundings);
+        BudgetConstructionPosition budgetConstructionPosition = positionSalarySettingForm.getBudgetConstructionPosition();
+
+        BigDecimal positionFte = budgetConstructionPosition.getPositionFullTimeEquivalency();
+        BigDecimal requestedFteQuantityTotal = positionSalarySettingForm.getAppointmentRequestedFteQuantityTotal();
+        if (!hasFundingLineInvolveLeave && requestedFteQuantityTotal.compareTo(positionFte) != 0) {
+            warnings.add(BCKeyConstants.WARNING_FTE_NOT_EQUAL);
+        }
+
+        BigDecimal positionStandardHours = budgetConstructionPosition.getPositionStandardHoursDefault();
+        BigDecimal requestedStandardHoursTotal = positionSalarySettingForm.getAppointmentRequestedStandardHoursTotal();
+        if (!hasFundingLineInvolveLeave && requestedStandardHoursTotal.compareTo(positionStandardHours) != 0) {
+            warnings.add(BCKeyConstants.WARNING_WORKING_HOUR_NOT_EQUAL);
+        }
+        
+        for(PendingBudgetConstructionAppointmentFunding activeFunding : activeAppointmentFundings) {
+            if(activeFunding.isPositionSalaryChangeIndicator()) {
+                warnings.add(BCKeyConstants.WARNING_RECALCULATE_NEEDED);
+            }
+        }
+    }
+
+    // determine whether any active funding line is invloved leave
+    private boolean hasFundingLineInvolveLeave(List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings) {
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : activeAppointmentFundings) {
+            String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
+
+            if (!StringUtils.equals(leaveDurationCode, NONE.durationCode)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

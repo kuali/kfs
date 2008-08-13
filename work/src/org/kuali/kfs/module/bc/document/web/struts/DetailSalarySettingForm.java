@@ -284,6 +284,20 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
         return releasableAppointmentFundings;
     }
+    
+    /**
+     * determine whether there is any active funding line in the given savable appointment funding lines
+     */ 
+    public List<PendingBudgetConstructionAppointmentFunding> getActiveFundingLines() {       
+        List<PendingBudgetConstructionAppointmentFunding> activeFundingLines = new ArrayList<PendingBudgetConstructionAppointmentFunding>(); 
+        
+        for(PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getSavableAppointmentFundings()) {
+            if(!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
+                activeFundingLines.add(appointmentFunding);
+            }
+        }
+        return activeFundingLines;
+    }
 
     /**
      * sets the default fields not setable by the user for added lines and any other required initialization

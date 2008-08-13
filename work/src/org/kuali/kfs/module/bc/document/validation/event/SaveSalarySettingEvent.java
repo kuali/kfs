@@ -26,6 +26,7 @@ import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
  * Event triggered when the detail salary setting screen is saved.
  */
 public class SaveSalarySettingEvent extends SalarySettingBaseEvent {
+    List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings;
     PendingBudgetConstructionAppointmentFunding appointmentFunding;
 
     /**
@@ -34,11 +35,13 @@ public class SaveSalarySettingEvent extends SalarySettingBaseEvent {
      * @param description the given description
      * @param errorPathPrefix the specified error path prefix
      * @param document the specified budget construction document
-     * @param savableFunding the given appointment fundings
+     * @param savableAppointmentFundings the given savable appointment fundings
+     * @param appointmentFunding the current appointment funding being varified
      */
-    public SaveSalarySettingEvent(String description, String errorPathPrefix, BudgetConstructionDocument document, PendingBudgetConstructionAppointmentFunding savableFunding) {
+    public SaveSalarySettingEvent(String description, String errorPathPrefix, BudgetConstructionDocument document, List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         super(description, errorPathPrefix, document);
-        this.appointmentFunding = savableFunding;
+        this.savableAppointmentFundings = savableAppointmentFundings;
+        this.appointmentFunding = appointmentFunding;
     }
 
     /**
@@ -46,6 +49,6 @@ public class SaveSalarySettingEvent extends SalarySettingBaseEvent {
      */
     @Override
     public boolean invokeExpansionRuleMethod(BusinessRule rule) {
-        return ((SalarySettingRule) rule).processSaveAppointmentFunding(appointmentFunding);
+        return ((SalarySettingRule) rule).processSaveAppointmentFunding(savableAppointmentFundings, appointmentFunding);
     }
 }

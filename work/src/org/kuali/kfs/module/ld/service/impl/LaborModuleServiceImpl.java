@@ -31,6 +31,7 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
@@ -268,6 +269,21 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
         return (LaborLedgerObject) getBusinessObjectService().findByPrimaryKey(getLaborLedgerObjectClass(),searchCriteria);
+    }
+    
+    /**
+     * @see org.kuali.kfs.integration.service.LaborModuleService#retrieveLaborLedgerObject(org.kuali.kfs.coa.businessobject.ObjectCode)
+     */
+    public LaborLedgerObject retrieveLaborLedgerObject(ObjectCode financialObject) {
+        if(financialObject == null) {
+            throw new IllegalArgumentException("The given financial object cannot be null.");
+        }
+        
+        Integer fiscalYear = financialObject.getUniversityFiscalYear();
+        String chartOfAccountsCode = financialObject.getChartOfAccountsCode();
+        String financialObjectCode = financialObject.getFinancialObjectCode();
+        
+        return this.retrieveLaborLedgerObject(fiscalYear, chartOfAccountsCode, financialObjectCode);
     }
 
     /**

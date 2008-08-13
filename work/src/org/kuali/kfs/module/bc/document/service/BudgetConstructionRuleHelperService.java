@@ -122,6 +122,17 @@ public interface BudgetConstructionRuleHelperService {
     public abstract boolean isValidObjectCode(ObjectCode objectCode, String currentValue, ErrorMap errorMap, String errorPropertyName);
 
     /**
+     * determine whether the given object requires a detail position
+     * 
+     * @param financialObject the given financial object
+     * @param currentValue the given current value
+     * @param errorMap the given error map that can hold the error message if any
+     * @param errorPropertyName the specified property name that is tested
+     * @return true if the given object requires a detail position; otherwise, false
+     */
+    public boolean isDetailPositionRequiredObjectCode(ObjectCode financialObject, String currentValue, ErrorMap errorMap, String errorPropertyName);
+
+    /**
      * determine whether the given budget contruction position is valid
      * 
      * @param position the given budget contruction position

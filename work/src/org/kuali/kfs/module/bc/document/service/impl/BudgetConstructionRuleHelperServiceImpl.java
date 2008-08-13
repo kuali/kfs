@@ -28,6 +28,8 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
@@ -49,6 +51,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
     private DictionaryValidationService dictionaryValidationService;
     private DataDictionary dataDictionary;
     
+    private LaborModuleService laborModuleService;
     private BudgetDocumentService budgetDocumentService;
     
     /**
@@ -191,6 +194,22 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
 
         return true;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#isDetailPositionRequiredObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
+     */
+    public boolean isDetailPositionRequiredObjectCode(ObjectCode financialObject, String currentValue, ErrorMap errorMap, String errorPropertyName) {
+        
+        LaborLedgerObject laborObject = laborModuleService.retrieveLaborLedgerObject(financialObject);
+        if(laborObject== null || laborObject.isDetailPositionRequiredIndicator()) {
+            //TODO:
+            String errorMessage = this.getErrorMessage(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, currentValue);
+            errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, errorMessage);
+            return false;
+        }
+        
+        return true;
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperService#isValidPosition(org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition,
@@ -282,5 +301,13 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      */
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
         this.dictionaryValidationService = dictionaryValidationService;
+    }
+
+    /**
+     * Sets the laborModuleService attribute value.
+     * @param laborModuleService The laborModuleService to set.
+     */
+    public void setLaborModuleService(LaborModuleService laborModuleService) {
+        this.laborModuleService = laborModuleService;
     }
 }

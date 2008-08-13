@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
@@ -187,7 +188,6 @@ public interface LaborModuleService {
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceForEffortCertificationClass();
 
-
     /**
      * retrieves a specific LaborLedgerObject from the database using primary key
      * 
@@ -197,6 +197,14 @@ public interface LaborModuleService {
      * @return a labor object retrieved based on the given information
      */
     public LaborLedgerObject retrieveLaborLedgerObject(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
+    
+    /**
+     * retrieves a specific LaborLedgerObject based on the information of the given financial object
+     * 
+     * @param financialObject the given financial object
+     * @return a labor object retrieved based on the given information
+     */
+    public LaborLedgerObject retrieveLaborLedgerObject(ObjectCode financialObject);
 
     /**
      * Retrieves LaborLedgerPositionObjectBenefits for a LaborLedgerObject key

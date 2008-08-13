@@ -49,7 +49,7 @@ import java.util.List;
 
 public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     
-    public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentTestUtil.class);
+    public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocumentRuleTest.class);
     
     private CustomerCreditMemoDocumentRule rule;
     private CustomerCreditMemoDocument document;

@@ -26,57 +26,69 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public enum CustomerInvoiceDocumentFixture {
     
-    BASE_CIDOC_NO_CUSTOMER( null, //customerNumber 
-            "BA", //processingChartOfAccountsCode
-            "ACAC", //processingOrganizationCode
-            null, //paymentChartOfAccountsCode
-            null, //paymentAccountNumber
-            null, //paymentSubAccountNumber
-            null, //paymentFinancialObjectCode
-            null, //paymentSubObjectCode
-            null, //paymentProjectCode
+    BASE_CIDOC_NO_CUSTOMER(null, // customerNumber
+            "BA", // processingChartOfAccountsCode
+            "ACAC", // processingOrganizationCode
+            null, // paymentChartOfAccountsCode
+            null, // paymentAccountNumber
+            null, // paymentSubAccountNumber
+            null, // paymentFinancialObjectCode
+            null, // paymentSubObjectCode
+            null, // paymentProjectCode
+            null, // financialDocumentHeader 
             null, 
-            null //financialDocumentHeader
+            null, //billByChartOfAccountsCode
+            null //billedByOrganizationCode
     ),
-    
-    BASE_CIDOC_WITH_CUSTOMER( "ABB2", //customerNumber 
-            "BA", //processingChartOfAccountsCode
-            "ACAC", //processingOrganizationCode
-            null, //paymentChartOfAccountsCode
-            null, //paymentAccountNumber
-            null, //paymentSubAccountNumber
-            null, //paymentFinancialObjectCode
-            null, //paymentSubObjectCode
-            null, //paymentProjectCode
-            null,
-            null
-    ),    
-    
-    REVERSAL_CIDOC( null, //customerNumber 
-            "BA", //processingChartOfAccountsCode
-            "ACAC", //processingOrganizationCode
-            null, //paymentChartOfAccountsCode
-            null, //paymentAccountNumber
-            null, //paymentSubAccountNumber
-            null, //paymentFinancialObjectCode
-            null, //paymentSubObjectCode
-            null, //paymentProjectCode
-            null,
-            "123456"
-    ),    
-    
-    CIDOC_WITH_FAU_RECEIVABLE( "ABB2", //customerNumber 
-            "BA", //processingChartOfAccountsCode
-            "ACAC", //processingOrganizationCode
-            "BA", //paymentChartOfAccountsCode
-            "6044900", //paymentAccountNumber
-            "ARREC", //paymentSubAccountNumber
-            "1466", //paymentFinancialObjectCode
-            "001", //paymentSubObjectCode
-            null, //paymentProjectCode
-            "FAU" //FAU
-, null
-    );
+
+    BASE_CIDOC_WITH_CUSTOMER("ABB2", // customerNumber
+            "BA", // processingChartOfAccountsCode
+            "ACAC", // processingOrganizationCode
+            null, // paymentChartOfAccountsCode
+            null, // paymentAccountNumber
+            null, // paymentSubAccountNumber
+            null, // paymentFinancialObjectCode
+            null, // paymentSubObjectCode
+            null, // paymentProjectCode
+            null, null, null, null),
+            
+    BASE_CIDOC_WITH_CUSTOMER_WITH_BILLING_INFO("ABB2", // customerNumber
+            "BA", // processingChartOfAccountsCode
+            "ACAC", // processingOrganizationCode
+            null, // paymentChartOfAccountsCode
+            null, // paymentAccountNumber
+            null, // paymentSubAccountNumber
+            null, // paymentFinancialObjectCode
+            null, // paymentSubObjectCode
+            null, // paymentProjectCode
+            null, // financialDocumentHeader 
+            null, 
+            "UA", //billByChartOfAccountsCode
+            "VPIT" //billedByOrganizationCode
+    ),            
+
+    REVERSAL_CIDOC(null, // customerNumber
+            "BA", // processingChartOfAccountsCode
+            "ACAC", // processingOrganizationCode
+            null, // paymentChartOfAccountsCode
+            null, // paymentAccountNumber
+            null, // paymentSubAccountNumber
+            null, // paymentFinancialObjectCode
+            null, // paymentSubObjectCode
+            null, // paymentProjectCode
+            null, "123456", null, null),
+
+    CIDOC_WITH_FAU_RECEIVABLE("ABB2", // customerNumber
+            "BA", // processingChartOfAccountsCode
+            "ACAC", // processingOrganizationCode
+            "BA", // paymentChartOfAccountsCode
+            "6044900", // paymentAccountNumber
+            "ARREC", // paymentSubAccountNumber
+            "1466", // paymentFinancialObjectCode
+            "001", // paymentSubObjectCode
+            null, // paymentProjectCode
+            "FAU" // FAU
+            , null, null, null);
     
     public String customerNumber;
     public String processingChartOfAccountsCode;
@@ -89,8 +101,10 @@ public enum CustomerInvoiceDocumentFixture {
     public String paymentProjectCode;
     public String paymentOrganizationReferenceIdentifier;
     public String financialDocumentInErrorNumber;
+    public String billByChartOfAccountsCode;
+    public String billedByOrganizationCode;
     
-    private CustomerInvoiceDocumentFixture( String customerNumber, String processingChartOfAccountsCode, String processingOrganizationCode, String paymentChartOfAccountsCode, String paymentAccountNumber, String paymentSubAccountNumber, String paymentFinancialObjectCode, String paymentFinancialSubObjectCode, String paymentProjectCode, String paymentOrganizationReferenceIdentifier, String financialDocumentInErrorNumber ){
+    private CustomerInvoiceDocumentFixture( String customerNumber, String processingChartOfAccountsCode, String processingOrganizationCode, String paymentChartOfAccountsCode, String paymentAccountNumber, String paymentSubAccountNumber, String paymentFinancialObjectCode, String paymentFinancialSubObjectCode, String paymentProjectCode, String paymentOrganizationReferenceIdentifier, String financialDocumentInErrorNumbe, String billByChartOfAccountsCode, String billedByOrganizationCode ){
         this.customerNumber = customerNumber;
         this.processingOrganizationCode = processingOrganizationCode;
         this.processingChartOfAccountsCode = processingChartOfAccountsCode;
@@ -102,6 +116,8 @@ public enum CustomerInvoiceDocumentFixture {
         this.paymentProjectCode = paymentProjectCode;
         this.paymentOrganizationReferenceIdentifier = paymentOrganizationReferenceIdentifier;
         this.financialDocumentInErrorNumber = financialDocumentInErrorNumber;
+        this.billByChartOfAccountsCode = billByChartOfAccountsCode;
+        this.billedByOrganizationCode = billedByOrganizationCode;
     }
     
     /**
@@ -146,6 +162,8 @@ public enum CustomerInvoiceDocumentFixture {
         customerInvoiceDocument.setPaymentProjectCode(paymentProjectCode);
         customerInvoiceDocument.setPaymentOrganizationReferenceIdentifier(paymentOrganizationReferenceIdentifier);
         customerInvoiceDocument.getDocumentHeader().setFinancialDocumentInErrorNumber(financialDocumentInErrorNumber);
+        customerInvoiceDocument.setBillByChartOfAccountCode(billByChartOfAccountsCode);
+        customerInvoiceDocument.setBilledByOrganizationCode(billedByOrganizationCode);
         
         //set AR doc Header
         AccountsReceivableDocumentHeader arDocHeader = new AccountsReceivableDocumentHeader();

@@ -49,6 +49,7 @@ import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivabl
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableFinancialSubObjectCodeValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableProjectCodeValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceReceivableSubAccountNumberValidationTest;
+import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffDocumentRuleTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerRuleTest;
 import org.kuali.kfs.module.ar.document.validation.impl.OrganizationAccountingDefaultRuleTest;
 import org.kuali.kfs.module.ar.document.validation.impl.SystemInformationRuleTest;
@@ -100,6 +101,7 @@ public class AllAccountsReceivableTests {
         suite.addTestSuite(CustomerCreditMemoDetailServiceTest.class);
         suite.addTestSuite(CustomerCreditMemoDocumentServiceTest.class);
         suite.addTestSuite(CustomerCreditMemoDocumentRuleTest.class);
+        suite.addTestSuite(CustomerInvoiceWriteoffDocumentRuleTest.class);
 
         return suite;
     }

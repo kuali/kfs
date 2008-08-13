@@ -113,7 +113,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="a21SubAccount.subAccountTypeCode"
               p:defaultValue="EX"
-              p:required="true" />
+              p:required="true"
+              p:webUILeaveFieldFunction="clearICR" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
         <bean parent="MaintainableFieldDefinition"

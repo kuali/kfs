@@ -13,10 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ function clearICR( subAccountTypeCodeField ) {
+	var subAccountTypeCode = getElementValue( subAccountTypeCodeField.name );
+
+    // clear Edit CG ICR data if subAccountTypeCode is CS 
+	if( subAccountTypeCode == "CS" )
+	{
+		// check if the current user has permissions to the ICR fields
+		if ( kualiElements["document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier"].type.toLowerCase() != "hidden" ) {
+			setElementValue( "document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier", "" );
+			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryChartOfAccountsCode", "" );
+			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryAccountNumber", "" );
+			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryTypeCode", "" );
+		}
+	}
+}
+
 function updateICR( acctField, callbackFunction ) {
 	var chartCode = getElementValue( findElPrefix( acctField.name ) + ".chartOfAccountsCode" );
 	var accountCode = getElementValue( acctField.name );
-	if ( accountCode != "" && chartCode != "" ) {
+	var subAccountTypeCode = getElementValue( findElPrefix( acctField.name ) + ".a21SubAccount.subAccountTypeCode" );
+	
+	if ( accountCode != "" && chartCode != "" && subAccountTypeCode != "CS" ) {
 		var dwrReply = {
 			callback:callbackFunction,
 			errorHandler:function( errorMessage ) { 

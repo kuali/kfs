@@ -85,7 +85,7 @@
 					</c:if>
 					<c:if test="${!readOnly}">
 
-						<html:select property="checkEntryMode" onchange="submitForm()">
+						<html:select title="change check entry mode" property="checkEntryMode" onchange="submitForm()">
 							<html:optionsCollection property="checkEntryModes" label="label"
 								value="value" />
 						</html:select>

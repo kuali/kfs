@@ -75,7 +75,7 @@
 							</c:forEach>
 						</select>
 						<NOSCRIPT><html:submit value="refresh"
-							alt="press this button to refresh the page after changing the accounting period" />
+							title="press this button to refresh the page after changing the accounting period" alt="press this button to refresh the page after changing the accounting period" />
 						</NOSCRIPT>
 					</c:if></td>
 				</tr>
@@ -120,7 +120,7 @@
 							</c:forEach>
 						</select>
 						<NOSCRIPT><html:submit value="refresh"
-							alt="press this button to refresh the page after changing the balance type" />
+							title="press this button to refresh the page after changing the balance type" alt="press this button to refresh the page after changing the balance type" />
 						</NOSCRIPT>
 						<kul:lookup
 							boClassName="org.kuali.kfs.coa.businessobject.BalanceTyp"

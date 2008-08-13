@@ -156,7 +156,7 @@ function checkCheckAllOrNone() {
 					<div align="center"><input type="checkbox" name="masterCRCheckBox"
 						onclick="checkCRAllOrNone();" id="masterCRCheckBox" /></div>
 					</td>
-					<kul:htmlAttributeHeaderCell literalLabel="#" scope="col" />
+					<kul:htmlAttributeHeaderCell labelFor="masterCRCheckBox" literalLabel="#" scope="col" />
 					<kul:htmlAttributeHeaderCell literalLabel="Document Number"
 						scope="col" />
 					<kul:htmlAttributeHeaderCell literalLabel="Description" scope="col" />
@@ -178,11 +178,11 @@ function checkCheckAllOrNone() {
 					<tr>
 						<td>
 						<div align="center"><html:checkbox
-							property="depositWizardHelper[${ctr}].selectedValue"
+							styleId="depositWizardHelper[${ctr}].selectedValue" property="depositWizardHelper[${ctr}].selectedValue"
 							value="${cashReceipt.documentNumber}" /></div>
 						</td>
 						<td>
-						<div align="center"><b>${(ctr + 1)}</b></div>
+						<div align="center"><b><label for="depositWizardHelper[${ctr}].selectedValue">${(ctr + 1)}</label></b></div>
 						</td>
 						<td>
 						<div align="center"><a

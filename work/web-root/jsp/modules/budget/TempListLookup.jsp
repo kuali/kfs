@@ -132,11 +132,20 @@
 						  	src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="tinybutton"
 						  	alt="submit" title="submit" border="0" onclick="excludeSubmitRestriction=true"/>
 					</c:if>
-						<html:image
-						property="methodToCall.cancel" value="cancel"
-						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="tinybutton"
-						alt="cancel" title="cancel" border="0" />
-	            
+					<c:choose>
+						<c:when test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.CSF_TRACKER_POSITION_LOOKUP}" >
+							<html:image
+							property="methodToCall.cancel" value="cancel"
+							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="tinybutton"
+							onclick="window.close()" alt="cancel" title="cancel" border="0" />
+						</c:when>
+						<c:otherwise>
+							<html:image
+							property="methodToCall.cancel" value="cancel"
+							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="tinybutton"
+							alt="cancel" title="cancel" border="0" />
+						</c:otherwise>
+	            	</c:choose>
 	                <c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.POSITION_SELECT}">
 					  <html:image
 					  	  property="methodToCall.performExtendedPositionSearch" value="submit"

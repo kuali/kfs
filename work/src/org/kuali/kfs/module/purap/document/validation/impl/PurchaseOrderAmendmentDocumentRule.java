@@ -26,6 +26,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
@@ -150,6 +151,32 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
             return true;
         }else{
             return super.checkAccountingLineAccountAccessibility(financialDocument, accountingLine, action);
+        }
+    }
+    
+    /**
+     * Overrides the method in PurchasingDocumentRuleBase to provide additional
+     * validation condition. If the accounts on the item are editable in the amendment document then
+     * we should continue doing the processAccountValidation in the superclass, otherwise
+     * we should just return true so that the account won't be validated, because if
+     * the items contain accounts that aren't editable, it doesn't make sense to give
+     * the user account validation errors.
+     * 
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase#processAccountValidation(org.kuali.kfs.sys.document.AccountingDocument, java.util.List, java.lang.String)
+     */
+    @Override
+    public boolean processAccountValidation(AccountingDocument accountingDocument, List<PurApAccountingLine> purAccounts, String itemLineNumber) {
+        PurchaseOrderDocument document = (PurchaseOrderDocument)accountingDocument;
+        //This is because the itemLineNumber in the input parameter is "Item x", so we only need the x for the int
+        int itemLineNumberInt = Integer.parseInt(itemLineNumber.substring(5));
+        PurchaseOrderItem itemLine = (PurchaseOrderItem) document.getItemByLineNumber(itemLineNumberInt);
+        if (itemLine.isItemActiveIndicator() && (! (document.getContainsUnpaidPaymentRequestsOrCreditMemos() && itemLine.getItemInvoicedTotalAmount() != null))) {
+            //This means the accounts on the item are editable, so we'll call super's processAccountValidation.
+            return super.processAccountValidation(accountingDocument, purAccounts, itemLineNumber);
+        }
+        else {
+            //This means the accounts on the item are not editable, so we'll return true so that it won't do any further validations on the accounts.
+            return true;
         }
     }
 }

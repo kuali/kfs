@@ -93,7 +93,7 @@
         <logic:notEqual name="b" property="active" value="true">Not Active</logic:notEqual>   
       </td>
       <td nowrap="nowrap" class="datacell">
-        <fmt:formatDate value="${b.lastUpdate}"/> by <c:out value="${b.lastUpdateUser.networkId}"/>
+        <fmt:formatDate value="${b.lastUpdate}"/> by <c:out value="${b.lastUpdateUser.personUserIdentifier}"/>
       </td>
     </tr>
     </logic:iterate>

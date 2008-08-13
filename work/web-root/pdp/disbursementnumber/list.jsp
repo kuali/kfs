@@ -95,7 +95,7 @@
         <fmt:formatDate value="${b.disbNbrExpirationDt}" pattern="MM/dd/yyyy" />&nbsp;
       </td>
       <td nowrap="nowrap" class="datacell">
-        <fmt:formatDate value="${b.lastUpdate}" pattern="MM/dd/yyyy" /> by <c:out value="${b.lastUpdateUser.networkId}"/>
+        <fmt:formatDate value="${b.lastUpdate}" pattern="MM/dd/yyyy" /> by <c:out value="${b.lastUpdateUser.personUserIdentifier}"/>
       </td>
     </tr>
     </logic:iterate>

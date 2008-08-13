@@ -123,6 +123,7 @@ public class PurchasingServiceImpl implements PurchasingService {
                 camsItem.setPurchasingCapitalAssetSystem(resultSystem);
                 purDoc.getPurchasingCapitalAssetSystems().add(resultSystem);
             }
+            camsItem.setDocument(purDoc);
         }
         catch (Exception e) {
             return null;

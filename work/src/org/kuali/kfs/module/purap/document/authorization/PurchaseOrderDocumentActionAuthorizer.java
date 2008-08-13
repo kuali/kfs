@@ -292,13 +292,14 @@ public class PurchaseOrderDocumentActionAuthorizer {
      */
     public boolean canSplitPo() {
         // Can't initiate another split during the splitting process.
-        if (editMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION) || 
-           (purchaseOrder.getDocumentHeader().getWorkflowDocument().stateIsEnroute())) {
+        if (editMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION)) {
             return false;
         }
         
         // The PO must be in either "In Process" or "Awaiting Purchasing Review"
-        if (docStatus.equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS) || (docStatus.equals(PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW))) {
+        if ((docStatus.equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS) && 
+           !(purchaseOrder.getDocumentHeader().getWorkflowDocument().stateIsEnroute())) || 
+           (docStatus.equals(PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW))) {
             // The Requisition Source must not be B2B.
             if (!purchaseOrder.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
                 // The PO must have more than one line item.

@@ -62,7 +62,7 @@ public class TaxDistrictRule extends KfsMaintenanceDocumentRuleBase {
             {
                 if(taxDistrictRate.getTaxRate().intValue()>1 || taxDistrictRate.getTaxRate().intValue()<0)
                 {
-                    GlobalVariables.getErrorMap().putError("effectiveDate", 
+                    GlobalVariables.getErrorMap().putError("taxRate", 
                             KFSKeyConstants.ERROR_DOCUMENT_TAX_DISTRICT_TAX_RATE_BETWEEN0AND1);
                     success = false;
                 }

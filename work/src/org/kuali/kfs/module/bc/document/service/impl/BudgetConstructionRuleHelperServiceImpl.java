@@ -334,6 +334,10 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
     public boolean isValidSubObjectCode(SubObjCd subObjectCode, String currentValue, ErrorMap errorMap, String errorPropertyName) {
+        if (KFSConstants.getDashFinancialSubObjectCode().equals(currentValue)) {
+            return true;
+        }
+        
         if (ObjectUtils.isNull(subObjectCode)) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);

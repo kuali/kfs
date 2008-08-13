@@ -37,6 +37,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 
+/**
+ * the rule implementation for the actions of salary setting component
+ */
 public class SalarySettingRules implements SalarySettingRule {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRules.class);
 
@@ -45,17 +48,80 @@ public class SalarySettingRules implements SalarySettingRule {
     private ErrorMap errorMap = GlobalVariables.getErrorMap();
 
     /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSaveAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.info("processSaveAppointmentFunding() start");
+        
+        boolean hasValidFormat = budgetConstructionRuleHelperService.isFieldFormatValid(appointmentFunding, errorMap);
+        if (!hasValidFormat) {
+            return hasValidFormat;
+        }
+
+        boolean hasValidReferences = this.hasValidRefences(appointmentFunding, errorMap);
+        if (!hasValidReferences) {
+            return hasValidReferences;
+        }
+        
+        boolean isObjectCodeMatching = salarySettingRuleHelperService.hasObjectCodeMatchingDefaultOfPosition(appointmentFunding, errorMap);
+        if(!isObjectCodeMatching) {
+            return isObjectCodeMatching;
+        }
+        
+        boolean isAssociatedWithBudgetableDocument = budgetConstructionRuleHelperService.isAssociatedWithValidDocument(appointmentFunding, errorMap, KFSConstants.EMPTY_STRING);
+        if(!isAssociatedWithBudgetableDocument) {
+            return isAssociatedWithBudgetableDocument;
+        }
+
+        boolean hasValidAmounts = this.hasValidAmounts(appointmentFunding, errorMap);
+        if(!hasValidAmounts) {
+            return hasValidAmounts;
+        }
+        
+        return true;
+    }
+    
+    /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAddAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
-    public boolean processAddAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public boolean processAddAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("processAddAppointmentFunding() start");
+
+        boolean hasExistingFunding = salarySettingRuleHelperService.hasSameExistingLine(existingAppointmentFundings, appointmentFunding, errorMap);
+        if (hasExistingFunding) {
+            return false;
+        }
 
         boolean hasValidFormat = budgetConstructionRuleHelperService.isFieldFormatValid(appointmentFunding, errorMap);
         if (!hasValidFormat) {
             return hasValidFormat;
         }
 
-        // if the formats of the fields are correct, check if there exist the references of a set of specified fields
+        boolean hasValidReferences = this.hasValidRefences(appointmentFunding, errorMap);
+        if (!hasValidReferences) {
+            return hasValidReferences;
+        }
+        
+        boolean isObjectCodeMatching = salarySettingRuleHelperService.hasObjectCodeMatchingDefaultOfPosition(appointmentFunding, errorMap);
+        if(!isObjectCodeMatching) {
+            return isObjectCodeMatching;
+        }
+        
+        boolean isAssociatedWithBudgetableDocument = budgetConstructionRuleHelperService.isAssociatedWithValidDocument(appointmentFunding, errorMap, KFSConstants.EMPTY_STRING);
+        if(!isAssociatedWithBudgetableDocument) {
+            return isAssociatedWithBudgetableDocument;
+        }
+        
+        boolean hasValidAmounts = this.hasValidAmounts(appointmentFunding, errorMap);
+        if(!hasValidAmounts) {
+            return hasValidAmounts;
+        }
+        
+        return true;
+    }
+
+    // test if all references of the given appointment funding are valid
+    private boolean hasValidRefences(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         boolean hasValidReference = budgetConstructionRuleHelperService.hasValidChart(appointmentFunding, errorMap);
         hasValidReference &= budgetConstructionRuleHelperService.hasValidAccount(appointmentFunding, errorMap);
         hasValidReference &= budgetConstructionRuleHelperService.hasValidObjectCode(appointmentFunding, errorMap);
@@ -65,19 +131,20 @@ public class SalarySettingRules implements SalarySettingRule {
         hasValidReference &= budgetConstructionRuleHelperService.hasValidPosition(appointmentFunding, errorMap);
         hasValidReference &= budgetConstructionRuleHelperService.hasValidIncumbent(appointmentFunding, errorMap);
 
-        if (!hasValidReference) {
-            return hasValidReference;
-        }
-
-        boolean hasValidAmount = salarySettingRuleHelperService.hasValidRequestedAmount(appointmentFunding, errorMap);
-           
-        return hasValidAmount;
+        return hasValidReference;
     }
 
-    /**
-     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSaveAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
-     */
-    public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        return this.processAddAppointmentFunding(appointmentFunding);
+    // test if all amounts are legal
+    private boolean hasValidAmounts(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+        boolean hasValidAmounts = salarySettingRuleHelperService.hasValidRequestedAmount(appointmentFunding, errorMap);
+        hasValidAmounts &= salarySettingRuleHelperService.hasValidRequestedFteQuantity(appointmentFunding, errorMap);
+        hasValidAmounts &= salarySettingRuleHelperService.hasValidRequestedFundingMonth(appointmentFunding, errorMap);
+        hasValidAmounts &= salarySettingRuleHelperService.hasValidRequestedTimePercent(appointmentFunding, errorMap);
+        hasValidAmounts &= salarySettingRuleHelperService.hasRequestedAmountZeroWhenFullYearLeave(appointmentFunding, errorMap);
+        hasValidAmounts &= salarySettingRuleHelperService.hasRequestedFteQuantityZeroWhenFullYearLeave(appointmentFunding, errorMap);
+        hasValidAmounts &= salarySettingRuleHelperService.hasValidRequestedCsfAmount(appointmentFunding, errorMap);
+        hasValidAmounts &= salarySettingRuleHelperService.hasValidRequestedCsfTimePercent(appointmentFunding, errorMap);
+        
+        return hasValidAmounts;
     }
 }

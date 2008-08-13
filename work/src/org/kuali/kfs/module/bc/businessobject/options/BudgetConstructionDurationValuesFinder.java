@@ -28,22 +28,26 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionDuration;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
- * This class...
+ * a value finder built from the budget construction duration codes
  */
 public class BudgetConstructionDurationValuesFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @SuppressWarnings("unchecked")
     public List getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection<BudgetConstructionDuration> budgetConstructionDurationCodes = boService.findAll(BudgetConstructionDuration.class);
 
         List<KeyLabelPair> durationKeyLabels = new ArrayList<KeyLabelPair>();
         for (BudgetConstructionDuration budgetConstructionDurationCode : budgetConstructionDurationCodes) {
+            if (!budgetConstructionDurationCode.isRowActiveIndicator()) {
+                continue;
+            }
+
             String code = budgetConstructionDurationCode.getAppointmentDurationCode();
-            
-            if(StringUtils.equals(code, BCConstants.AppointmentFundingDurationCodes.NONE.durationCode)) {
+            if (StringUtils.equals(code, BCConstants.AppointmentFundingDurationCodes.NONE.durationCode)) {
                 durationKeyLabels.add(0, new KeyLabelPair(code, code));
             }
             else {

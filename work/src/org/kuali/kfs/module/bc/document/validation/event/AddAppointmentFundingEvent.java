@@ -15,12 +15,15 @@
  */
 package org.kuali.kfs.module.bc.document.validation.event;
 
+import java.util.List;
+
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 
 public class AddAppointmentFundingEvent extends SalarySettingBaseEvent {
+    List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFunding;
     PendingBudgetConstructionAppointmentFunding appointmentFunding;
 
     /**
@@ -29,9 +32,10 @@ public class AddAppointmentFundingEvent extends SalarySettingBaseEvent {
      * @param errorPathPrefix the specified error path prefix
      * @param appointmentFundings the given appointment funding
      */
-    public AddAppointmentFundingEvent(String description, String errorPathPrefix, BudgetConstructionDocument document, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public AddAppointmentFundingEvent(String description, String errorPathPrefix, BudgetConstructionDocument document, List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFunding, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         super(description, errorPathPrefix, document);
         this.appointmentFunding = appointmentFunding;
+        this.existingAppointmentFunding = existingAppointmentFunding;
     }
 
     /**
@@ -39,6 +43,6 @@ public class AddAppointmentFundingEvent extends SalarySettingBaseEvent {
      */
     @Override
     public boolean invokeExpansionRuleMethod(BusinessRule rule) {
-        return ((SalarySettingRule) rule).processAddAppointmentFunding(appointmentFunding);
+        return ((SalarySettingRule) rule).processAddAppointmentFunding(existingAppointmentFunding, appointmentFunding);
     }
 }

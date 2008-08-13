@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.bc.document.validation;
 
+import java.util.List;
+
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 
@@ -34,8 +36,9 @@ public interface SalarySettingRule extends BusinessRule {
     /**
      * process the rules before the given appointment funding is created
      * 
+     * @param existingAppointmentFundings the existing appointment fundings
      * @param appointmentFunding the given appointment funding
      * @return true if the appointment funding can pass all rule before created, otherwise, false
      */
-    public boolean processAddAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    public boolean processAddAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
 }

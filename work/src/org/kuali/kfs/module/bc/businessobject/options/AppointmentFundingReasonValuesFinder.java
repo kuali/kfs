@@ -26,21 +26,28 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundi
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
+/**
+ * a value finder built from the budget construction appointment funding reason codes
+ */
 public class AppointmentFundingReasonValuesFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @SuppressWarnings("unchecked")
     public List getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection<BudgetConstructionAppointmentFundingReasonCode> reasonCodes = boService.findAll(BudgetConstructionAppointmentFundingReasonCode.class);
 
         List<KeyLabelPair> reasonCodeKeyLabels = new ArrayList<KeyLabelPair>();
         reasonCodeKeyLabels.add(new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
-        
-        for (BudgetConstructionAppointmentFundingReasonCode reasonCode : reasonCodes) {
-            String code = reasonCode.getAppointmentFundingReasonCode();
 
+        for (BudgetConstructionAppointmentFundingReasonCode reasonCode : reasonCodes) {
+            if (!reasonCode.isRowActiveIndicator()) {
+                continue;
+            }
+
+            String code = reasonCode.getAppointmentFundingReasonCode();
             reasonCodeKeyLabels.add(new KeyLabelPair(code, code));
         }
 

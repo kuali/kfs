@@ -112,8 +112,8 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SalarySetti
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAddAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
-    public boolean processAddAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        return salarySettingRules.processAddAppointmentFunding(appointmentFunding);
+    public boolean processAddAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return salarySettingRules.processAddAppointmentFunding(existingAppointmentFundings, appointmentFunding);
     }
 
     /**

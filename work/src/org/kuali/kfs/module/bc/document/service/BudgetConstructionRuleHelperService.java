@@ -32,11 +32,11 @@ import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 public interface BudgetConstructionRuleHelperService {
 
     /**
-     * test if the given appointment funding is associted with a detail position required object
+     * test if the given appointment funding is associted with a labor detail allowed object
      * 
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
-     * @return true if the given appointment funding is associted with a detail position required object; otherwise, false
+     * @return true if the given appointment funding is associted with a labor detail allowed object; otherwise, false
      */
     public boolean hasDetailPositionRequiredObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
 

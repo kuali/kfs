@@ -88,7 +88,7 @@
 						              <c:out value="${item.paymentChange.description}"/>&nbsp;
 												</td>
 											  <td class="datacell">
-						              <c:out value="${item.changeUser.networkId}"/>&nbsp;
+						              <c:out value="${item.changeUser.personUserIdentifier}"/>&nbsp;
 												</td>
 						            <td class="datacell">
 						              <c:out value="${item.disbursementType.description}"/>&nbsp;

@@ -85,7 +85,7 @@
                           </td>
                           <th align=right nowrap >Submitter User ID:</th>
                           <td align=left class="datacell">
-                            <c:out value="${BatchDetail.submiterUser.networkId}" />&nbsp;
+                            <c:out value="${BatchDetail.submiterUser.personUserIdentifier}" />&nbsp;
                           </td>
                         </tr>
                       </tbody>

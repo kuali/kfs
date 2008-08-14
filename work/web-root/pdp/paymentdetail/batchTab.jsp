@@ -66,7 +66,7 @@
 				            	Formatted by User:
 				            </th>
 				            <td align=left class="datacell">						
-				              <c:out value="${PaymentDetail.paymentGroup.process.processUser.networkId}"/>
+				              <c:out value="${PaymentDetail.paymentGroup.process.processUser.personUserIdentifier}"/>
 				            	&nbsp;
 										</td>	
 				          </tr>

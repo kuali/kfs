@@ -18,6 +18,6 @@
 <br>
 <c:if test='${backdoor == "Y"}'>
 <center class="bodytext">
-<font color="green"><b>Backdoor Id is enabled. Id is <c:out value="${user.networkId}"/>.</b></font>
+<font color="green"><b>Backdoor Id is enabled. Id is <c:out value="${user.personUserIdentifier}"/>.</b></font>
 </center>
 </c:if>

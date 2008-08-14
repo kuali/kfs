@@ -93,7 +93,7 @@
               <tr>
                 <td class="datacell"><a href="<%= request.getContextPath().toString() %>/pdp/formatsummary.do?id=<c:out value="${item.id}"/>"><c:out value="${item.id}"/></a></td>
                 <td class="datacell"><c:out value="${item.campus}"/></td>
-                <td class="datacell"><c:out value="${item.processUser.networkId}"/></td>
+                <td class="datacell"><c:out value="${item.processUser.personUserIdentifier}"/></td>
                 <td class="datacell" align="right"><fmt:formatDate value="${item.processTimestamp}" pattern="MM/dd/yyyy'  at  'hh:mm a"/></td>
               </tr>
             </c:forEach>

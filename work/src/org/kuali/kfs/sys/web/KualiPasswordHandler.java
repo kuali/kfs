@@ -16,14 +16,20 @@
 package org.kuali.kfs.sys.web;
 
 import java.security.GeneralSecurityException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.service.EncryptionService;
+import org.kuali.rice.kim.v2.bo.Principal;
+import org.kuali.rice.kim.v2.bo.impl.PrincipalImpl;
 import org.kuali.rice.kim.v2.service.AuthenticationService;
 import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.UniversalUserService;
 
@@ -39,25 +45,23 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
         if (super.authenticate(request, username, password) != false) {
             try {
                 if (username != null && !username.trim().equals("")) {
-                    // check the username and password against the db
-                    // return true if they are there and have a valid password
-                    // if ( LOG.isDebugEnabled() ) {
-                    // LOG.debug( "Attempting login for user id: " + username + " and password hash: " +
-                    // SpringContext.getBean(EncryptionService.class).hash( password.trim() ) );
-                    // }
-                    // obtain the universal user record
-                    UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(username.trim()));
+                    //UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(username.trim()));                  
+                    // Once the IdentityService facade is in place, we should use it to get the principal and clean up this code.
+                    Principal principal = null;
+                    Map criteria = new HashMap();
+                    criteria.put("principalName", username);
+                    Collection principals = KNSServiceLocator.getBusinessObjectService().findMatching(PrincipalImpl.class, criteria);
+                    if (principals.isEmpty() || principals.size() > 1) {
+                        throw new UserNotFoundException("User " + username + " was not found in the KIM Principal table.");
+                    } else {
+                        principal = (Principal) principals.iterator().next();
+                    }
                     
-                    // TODO: Pull in a Principal and use it instead of the user above. For now, if it doesn't exist, fall back to the above to keep the rest of KFS running 
-                    
-                    // if ( LOG.isDebugEnabled() ) {
-                    // LOG.debug( "Found user " + user.getPersonName() + " with password hash: " +
-                    // user.getFinancialSystemsEncryptedPasswordText() );
-                    // }
                     // check if the password needs to be checked (if in a production environment or password turned on explicitly)
                     if (SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment() || SpringContext.getBean(AuthenticationService.class).validatePassword()) {
                         // if so, hash the passed in password and compare to the hash retrieved from the database
-                        String hashedPassword = user.getFinancialSystemsEncryptedPasswordText();
+                        //String hashedPassword = user.getFinancialSystemsEncryptedPasswordText();
+                        String hashedPassword = principal.getPassword();
                         if (hashedPassword == null) {
                             hashedPassword = "";
                         }

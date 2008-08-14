@@ -1,0 +1,178 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="FunctionalFieldDescription" parent="FunctionalFieldDescription-parentBean" />
+
+  <bean id="FunctionalFieldDescription-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" />
+<!--
+	<property name="inquiryDefinition" >
+      <ref bean="FunctionalFieldDescription-inquiryDefinition" />
+    </property>
+-->
+    <property name="lookupDefinition" >
+      <ref bean="FunctionalFieldDescription-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="namespaceCode" />
+    <property name="objectLabel" value="Functional Field Description" />
+    <property name="attributes" >
+      <list>
+        <ref bean="FunctionalFieldDescription-namespaceCode" />
+        <ref bean="FunctionalFieldDescription-componentClass" />
+        <ref bean="FunctionalFieldDescription-propertyName" />
+        <ref bean="FunctionalFieldDescription-functionalFieldDescription" />
+        <ref bean="FunctionalFieldDescription-active" />
+        <ref bean="FunctionalFieldDescription-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="FunctionalFieldDescription-componentClass" parent="FunctionalFieldDescription-componentClass-parentBean" />
+
+  <bean id="FunctionalFieldDescription-componentClass-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="componentClass" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Component" />
+    <property name="shortLabel" value="Component" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Component" />
+    <property name="description" value="Name of the component." />
+  </bean>
+
+  <bean id="FunctionalFieldDescription-propertyName" parent="FunctionalFieldDescription-propertyName-parentBean" />
+  
+  <bean id="FunctionalFieldDescription-propertyName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="propertyName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Field" />
+    <property name="shortLabel" value="Field" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Field" />
+    <property name="description" value="The code uniquely identifies a field." />
+  </bean>
+
+  <bean id="FunctionalFieldDescription-functionalFieldDescription" parent="FunctionalFieldDescription-functionalFieldDescription-parentBean" />
+  
+  <bean id="FunctionalFieldDescription-functionalFieldDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="functionalFieldDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Functional Field Description" />
+    <property name="shortLabel" value="Functional Field Description" />
+    <property name="maxLength" value="500" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Field" />
+    <property name="description" value="Functional Field Description." />
+  </bean>
+ 
+  <bean id="FunctionalFieldDescription-namespaceCode" parent="FunctionalFieldDescription-namespaceCode-parentBean" />
+ 
+  <bean id="FunctionalFieldDescription-namespaceCode-parentBean" abstract="true" parent="ParameterNamespace-code" >
+    <property name="name" value="namespaceCode" />
+	<property name="label" value="Parameter Namespace Code" />
+  </bean>
+
+  <bean id="FunctionalFieldDescription-active" parent="FunctionalFieldDescription-active-parentBean" />
+
+  <bean id="FunctionalFieldDescription-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
+      <property name="name" value="active" />
+  </bean>
+
+  <bean id="FunctionalFieldDescription-versionNumber" parent="FunctionalFieldDescription-versionNumber-parentBean" />
+
+  <bean id="FunctionalFieldDescription-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
+
+<!-- Business Object Lookup Definition -->
+
+  <bean id="FunctionalFieldDescription-lookupDefinition" parent="FunctionalFieldDescription-lookupDefinition-parentBean" />
+
+  <bean id="FunctionalFieldDescription-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Functional Field Description Lookup" />
+    <property name="instructions" value="Lookup a Functional Field Description" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>componentClass</value>
+            <value>propertyName</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="componentClass" />
+        <bean parent="FieldDefinition"
+              p:attributeName="propertyName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" 
+              p:noLookup="true" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="componentClass"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="propertyName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="functionalFieldDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+           
+      </list>
+    </property>
+  </bean>
+<!--  
+  <bean id="FunctionalFieldDescription-inquiryDefinition" parent="FunctionalFieldDescription-inquiryDefinition-parentBean" />
+
+  <bean id="FunctionalFieldDescription-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" 
+  	p:title="Functional Field Description Inquiry">
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Functional Field Description Attributes" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="componentClass" p:noInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="propertyName" />
+              <bean parent="FieldDefinition" p:attributeName="functionalFieldDescription" />
+              <bean parent="FieldDefinition" p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+-->  
+</beans>

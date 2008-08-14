@@ -685,5 +685,18 @@
 	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" table="SH_FNCTNL_FIELD_DESCR_T">
+	    <field-descriptor name="namespaceCode" column="NMSPC_CD" jdbc-type="VARCHAR" primarykey="true" />
+	    <field-descriptor name="componentClass" column="CMPNT_CLSS" jdbc-type="VARCHAR" primarykey="true" />
+	    <field-descriptor name="propertyName" column="PRPRTY_NM" jdbc-type="VARCHAR" primarykey="true" />
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	    <field-descriptor name="functionalFieldDescription" column="FNCTNL_FIELD_DESCR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />        
+        <reference-descriptor name="parameterNamespace" class-ref="org.kuali.core.bo.ParameterNamespace" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="namespaceCode" />
+        </reference-descriptor>
+ 	</class-descriptor>
 	    
 </descriptor-repository>

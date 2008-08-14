@@ -50,6 +50,7 @@ import org.kuali.kfs.vnd.businessobject.VendorCustomerNumber;
 import org.kuali.kfs.vnd.businessobject.VendorDefaultAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.kfs.vnd.service.TaxNumberService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -1388,5 +1389,20 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
 
+    }
+
+    @Override
+    public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
+        if (collectionName.equals(VendorPropertyConstants.VENDOR_CONTRACT)) {
+            VendorDetail vendorDetail = (VendorDetail)document.getDocumentBusinessObject();
+            vendorDetail.getVendorHeader().refreshReferenceObject("vendorType");
+            VendorType vendorType = vendorDetail.getVendorHeader().getVendorType();
+            if (!vendorType.isVendorContractAllowedIndicator()) {
+                String propertyName = "add." + collectionName + "." + VendorPropertyConstants.VENDOR_CONTRACT_NAME;
+                putFieldError(propertyName, VendorKeyConstants.ERROR_VENDOR_CONTRACT_NOT_ALLOWED);
+                return false;
+            }
+        }
+        return super.processAddCollectionLineBusinessRules(document, collectionName, bo);
     }
 }

@@ -693,7 +693,7 @@
 	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	    <field-descriptor name="functionalFieldDescription" column="FNCTNL_FIELD_DESCR" jdbc-type="VARCHAR"/>
-        <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />        
+        <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />        
         <reference-descriptor name="parameterNamespace" class-ref="org.kuali.core.bo.ParameterNamespace" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="namespaceCode" />
         </reference-descriptor>

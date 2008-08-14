@@ -163,7 +163,7 @@
 				<fmt:formatNumber value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfAmount}" 
 					var="formattedCsfAmount" type="number" groupingUsed="true"/>		
 				<td class="datacell" style="text-align: right;">
-					<a href="${ConfigProperties.application.url}/budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTracker&universityFiscalYear=${KualiForm.universityFiscalYear}&chartOfAccountsCode=${KualiForm.chartOfAccountsCode}&accountNumber=${KualiForm.accountNumber}&subAccountNumber=${KualiForm.subAccountNumber}&financialObjectCode=${KualiForm.financialObjectCode}&financialSubObjectCode=${KualiForm.financialSubObjectCode}&hideReturnLink=true&suppressActions=true&tempListLookupMode=6&showInitialResults=true&docFormKey=${KualiForm.returnFormKey}&backLocation=${KualiForm.backLocation}"  target="_blank">
+					<a href="${ConfigProperties.application.url}/budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTracker&universityFiscalYear=${KualiForm.universityFiscalYear-1}&chartOfAccountsCode=${KualiForm.chartOfAccountsCode}&accountNumber=${KualiForm.accountNumber}&subAccountNumber=${KualiForm.subAccountNumber}&financialObjectCode=${KualiForm.financialObjectCode}&financialSubObjectCode=${KualiForm.financialSubObjectCode}&hideReturnLink=true&suppressActions=true&tempListLookupMode=6&showInitialResults=true&docFormKey=${KualiForm.returnFormKey}&backLocation=${KualiForm.backLocation}"  target="_blank">
     					${formattedCsfAmount}
     				</a>
     			</td>

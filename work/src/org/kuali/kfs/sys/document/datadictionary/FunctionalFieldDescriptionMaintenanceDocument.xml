@@ -8,7 +8,7 @@
 
   <bean id="FunctionalFieldDescriptionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="FunctionalFieldDescriptionMaintenanceDocument-CreateFunctionalFieldDescriptionFields" />
@@ -27,7 +27,7 @@
       </list>
     </property>
     
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     <property name="workflowProperties" >
       <ref bean="BuildingMaintenanceDocument-workflowProperties" />
     </property>
@@ -46,13 +46,15 @@
     <property name="lockingKeys" >
       <list>
         <value>namespaceCode</value>
+        <value>componentClass</value>
+        <value>propertyName</value>
       </list>
     </property>
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" p:parameterName="FUNCTIONAL_FIELD_DESCRIPTION" />
     </property>
     <property name="documentTypeName" value="FunctionalFieldDescriptionMaintenanceDocument" />
-    <property name="documentTypeCode" value="FUNCTIONALFD" />
+    <property name="documentTypeCode" value="FFD" />
      
   </bean>
 

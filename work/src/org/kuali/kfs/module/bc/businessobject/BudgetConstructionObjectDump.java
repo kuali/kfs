@@ -18,13 +18,13 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
@@ -360,7 +360,7 @@ public class BudgetConstructionObjectDump extends PersistableBusinessObjectBase 
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

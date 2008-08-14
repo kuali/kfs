@@ -15,15 +15,15 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
      * This method sets the convenience objects like newDefinition and oldDefinition, so you have short and easy handles to the new and
      * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
      * all sub-objects from the DB by their primary keys, if available.
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
      */
     @Override
     public void setupConvenienceObjects() {
@@ -56,7 +56,7 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
      * <li>{@link OffsetDefinitionRule#checkDocTypeActiveFinancialObjCode(MaintenanceDocument)}</li>
      * </ul>
      * This rule does not fail on business rule failures
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -69,7 +69,7 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
      * <li>{@link OffsetDefinitionRule#checkDocTypeActiveFinancialObjCode(MaintenanceDocument)}</li>
      * </ul>
      * This rule fails on business rule failures
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -80,7 +80,7 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
      * 
      * This checks that the doctype used for this {@link OffsetDefinition} is valid and active
      * @param document
-     * @return false if the {@link org.kuali.core.bo.Parameter} evaluation fails and the financial object code is either null or inactive
+     * @return false if the {@link org.kuali.rice.kns.bo.Parameter} evaluation fails and the financial object code is either null or inactive
      */
     private boolean checkDocTypeActiveFinancialObjCode(MaintenanceDocument document) {
         boolean success = true;

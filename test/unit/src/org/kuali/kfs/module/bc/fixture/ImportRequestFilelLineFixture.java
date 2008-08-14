@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.core.util.KualiInteger;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCConstants.RequestImportFieldSeparator;
 import org.kuali.kfs.module.bc.BCConstants.RequestImportTextFieldDelimiter;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;

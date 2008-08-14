@@ -17,10 +17,10 @@ package org.kuali.kfs.gl.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Represents a expenditure transaction for a specific fiscal year, COA code, account number,

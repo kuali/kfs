@@ -30,11 +30,11 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class is used to parse an <code>AuxiliaryVocherDocument</code> accounting line.
@@ -99,7 +99,7 @@ public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBa
     }
 
     /**
-     * @see org.kuali.core.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
+     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {

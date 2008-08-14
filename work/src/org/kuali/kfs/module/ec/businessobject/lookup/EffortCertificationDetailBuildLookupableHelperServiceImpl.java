@@ -15,14 +15,14 @@
  */
 package org.kuali.kfs.module.ec.businessobject.lookup;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.kfs.module.ec.businessobject.inquiry.EffortLedgerBalanceInquirableImpl;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class EffortCertificationDetailBuildLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override

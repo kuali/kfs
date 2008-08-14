@@ -17,9 +17,9 @@ package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 /**
  * Event Base class for Purchasing Item Capital Asset

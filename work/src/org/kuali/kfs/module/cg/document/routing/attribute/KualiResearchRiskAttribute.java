@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.RuleExtension;
-import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
+import org.kuali.rice.kew.lookupable.Row;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.RuleExtension;
+import org.kuali.rice.kew.rule.RuleExtensionValue;
+import org.kuali.rice.kew.rule.WorkflowAttribute;
 
 public class KualiResearchRiskAttribute implements WorkflowAttribute {
 

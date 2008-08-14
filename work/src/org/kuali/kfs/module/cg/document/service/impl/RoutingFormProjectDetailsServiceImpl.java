@@ -20,12 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.cg.businessobject.QuestionType;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormQuestion;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.module.cg.document.service.RoutingFormProjectDetailsService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class RoutingFormProjectDetailsServiceImpl implements RoutingFormProjectDetailsService {
 

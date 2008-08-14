@@ -20,11 +20,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.fp.businessobject.CreditCardType;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class...

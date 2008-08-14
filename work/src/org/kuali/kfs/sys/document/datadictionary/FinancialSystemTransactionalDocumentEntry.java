@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.document.datadictionary;
 
 import java.util.Map;
 
-import org.kuali.core.datadictionary.TransactionalDocumentEntry;
+import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
 
 /**
  * An extension of the Rice TransactionalDocumentEntry that allows for KFS-centric properties, such as

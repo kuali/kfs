@@ -18,9 +18,9 @@ package org.kuali.kfs.fp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class returns list of payee type value pairs.

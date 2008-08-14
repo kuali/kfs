@@ -18,12 +18,6 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -53,6 +47,12 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business rules for the Credit Memo Document.

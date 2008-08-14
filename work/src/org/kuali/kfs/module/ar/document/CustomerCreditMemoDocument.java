@@ -6,16 +6,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
@@ -455,7 +455,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     /**
      * do all the calculations before the document gets saved
      * gets called for 'Submit', 'Save', and 'Blanket Approved'
-     * @see org.kuali.core.document.Document#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.kns.document.Document#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     public void prepareForSave(KualiDocumentEvent event) {
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)event.getDocument();

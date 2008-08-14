@@ -17,7 +17,7 @@
 
 <dwr>
 	<init>
-		<creator id="spring" class="org.kuali.core.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
+		<creator id="spring" class="org.kuali.rice.kns.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
 		<converter id="kualinumber" class="org.kuali.kfs.sys.KualiNumberConverter"/>
 	</init>
 	<allow>		
@@ -37,6 +37,6 @@
 			<include method="calculateFringeBenefit" />
 		</create>
 		
-	    <convert match="org.kuali.core.util.KualiDecimal" converter="kualinumber" />	
+	    <convert match="org.kuali.rice.kns.util.KualiDecimal" converter="kualinumber" />	
 	</allow>
 </dwr>

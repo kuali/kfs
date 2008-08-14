@@ -25,11 +25,6 @@ import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -38,6 +33,11 @@ import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * Tag that is responsible for rendering an accounting line group

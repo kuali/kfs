@@ -20,11 +20,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Value Finder for Recurring Payment Frequencies.
@@ -34,7 +34,7 @@ public class RecurringPaymentFrequencyValuesFinder extends KeyValuesBase {
     /**
      * Returns code/description pairs of all Recurring Payment Frequencies.
      * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);

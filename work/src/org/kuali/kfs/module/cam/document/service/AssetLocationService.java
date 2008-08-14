@@ -17,9 +17,9 @@ package org.kuali.kfs.module.cam.document.service;
 
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
+import org.kuali.rice.kns.bo.BusinessObject;
 
 public interface AssetLocationService {
 

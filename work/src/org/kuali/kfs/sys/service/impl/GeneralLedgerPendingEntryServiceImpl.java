@@ -28,14 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.exceptions.ReferentialIntegrityException;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -57,6 +49,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -71,6 +64,13 @@ import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.exception.ReferentialIntegrityException;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -26,13 +26,13 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.cache.MethodCacheInterceptor;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.cache.MethodCacheInterceptor;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;

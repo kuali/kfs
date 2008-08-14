@@ -19,9 +19,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.kfs.module.ld.service.LaborPositionObjectBenefitService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class provides its clients with access to labor position object benefit entries in the backend data store.

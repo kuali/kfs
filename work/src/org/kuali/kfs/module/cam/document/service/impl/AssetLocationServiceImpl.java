@@ -19,9 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -29,6 +26,9 @@ import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetLocationServiceImpl implements AssetLocationService {
 

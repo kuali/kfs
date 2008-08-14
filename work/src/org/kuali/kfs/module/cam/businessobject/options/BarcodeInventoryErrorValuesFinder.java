@@ -15,22 +15,15 @@
  */
 package org.kuali.kfs.module.cam.businessobject.options;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.module.cam.businessobject.AssetType;
-import org.kuali.kfs.sys.DynamicCollectionComparator;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 public class BarcodeInventoryErrorValuesFinder extends KeyValuesBase {
     private List keyValues;
 
     /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
 //        CertificationReportForm form = (CertificationReportForm) GlobalVariables.getKualiForm();

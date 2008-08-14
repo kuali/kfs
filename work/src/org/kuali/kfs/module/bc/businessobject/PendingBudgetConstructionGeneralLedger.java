@@ -22,11 +22,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -41,6 +36,11 @@ import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessObjectBase {
 
@@ -591,7 +591,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

@@ -23,12 +23,12 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.AccountGlobal;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.DelegateGlobal;

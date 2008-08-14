@@ -15,15 +15,14 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class PaymentApplicationDocumentRuleUtil {
     public static boolean validateNonInvoiced(NonInvoiced nonInvoiced) {

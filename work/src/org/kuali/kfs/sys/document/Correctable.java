@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.document;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Defines methods a Correctable document must implement.

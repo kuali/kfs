@@ -22,9 +22,6 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.STROUD;
 
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.impl.DocumentServiceImpl;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -37,8 +34,10 @@ import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.suite.RelatesTo;
 import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
-
-import edu.iu.uis.eden.EdenConstants;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Used to create and test populated Purchase Order Documents of various kinds. 
@@ -93,13 +92,13 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         changeCurrentUser(PARKE);
         PurchaseOrderAmendmentDocument amendDoc = (PurchaseOrderAmendmentDocument) SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(poNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AMENDMENT);
         documentService.routeDocument(amendDoc, "Test routing as PARKE", null);
-        WorkflowTestUtils.waitForStatusChange(amendDoc.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(amendDoc.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         // 5. use the PO number to create a Close PO and have it go final
         changeCurrentUser(PARKE);
         PurchaseOrderCloseDocument closeDoc = (PurchaseOrderCloseDocument) SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(poNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PurchaseOrderStatuses.PENDING_CLOSE);
         documentService.routeDocument(closeDoc, "Test routing as PARKE", null);
-        WorkflowTestUtils.waitForStatusChange(closeDoc.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(closeDoc.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         LOG.info("Requisition document: " + reqDoc.getDocumentNumber());
         LOG.info("PO document: " + poDoc.getDocumentNumber());
@@ -142,7 +141,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         documentService.approveDocument(paymentRequestDocument, "Test approving as GHATTEN", null); 
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 //
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());    

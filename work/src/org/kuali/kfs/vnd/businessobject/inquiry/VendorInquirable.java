@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.vnd.businessobject.inquiry;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class adds in some new sections for {@link Org} inquiries, specifically Org Hierarchy Org Review Hierarchy

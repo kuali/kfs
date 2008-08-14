@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Business rule(s) applicable to Service Billing documents. They differ from {@link InternalBillingDocumentRule} by not routing for
@@ -70,8 +70,8 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
      * @param action The constant used to identify which error key to use when reporting errors.
      * @return True if the account is accessible, false otherwise.
      * 
-     * @see FinancialDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.financial.rules.FinancialDocumentRuleBase.AccountingLineAction)
+     * @see FinancialDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.financial.rules.FinancialDocumentRuleBase.AccountingLineAction)
      * @see AccountingDocumentRuleBase.AccountingLineAction
      */
     @Override

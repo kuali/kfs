@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.integration.businessobject;
 
-import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 
 public interface LaborLedgerPositionObjectGroup extends PersistableBusinessObject{

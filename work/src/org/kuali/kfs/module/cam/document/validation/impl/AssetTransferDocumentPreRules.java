@@ -16,27 +16,27 @@
 package org.kuali.kfs.module.cam.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.Document;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.web.struts.AssetTransferForm;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetTransferDocumentPreRules extends PreRulesContinuationBase {
 
     /**
      * This method asks a question to confirm if transfer needs to be proceeded for a loaned equipment
      * 
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean doRules(Document document) {

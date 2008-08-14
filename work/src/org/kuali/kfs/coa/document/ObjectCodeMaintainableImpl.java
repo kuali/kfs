@@ -17,14 +17,14 @@ package org.kuali.kfs.coa.document;
 
 import java.util.List;
 
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class ObjectCodeMaintainableImpl extends KualiMaintainableImpl {
 

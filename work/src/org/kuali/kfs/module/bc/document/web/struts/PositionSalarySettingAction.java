@@ -29,8 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
@@ -42,6 +40,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * the struts action for the salary setting for position

@@ -22,14 +22,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class...
@@ -71,7 +71,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {

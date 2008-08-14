@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.ObjectHelper;
@@ -33,6 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This class helps generate the entries for the nominal activity closing year end job.

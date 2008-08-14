@@ -19,11 +19,11 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class BatchStepRunner {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchStepRunner.class);

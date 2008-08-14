@@ -18,8 +18,8 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object that represents selected/unselected sub fund group code for a user.
@@ -115,7 +115,7 @@ public class BudgetConstructionSubFundPick extends PersistableBusinessObjectBase
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

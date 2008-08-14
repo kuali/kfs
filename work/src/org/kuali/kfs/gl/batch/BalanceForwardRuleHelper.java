@@ -19,8 +19,6 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
@@ -40,6 +38,8 @@ import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * A class to hold significant state for a balance forward job; it also has the methods that actually accomplish the job

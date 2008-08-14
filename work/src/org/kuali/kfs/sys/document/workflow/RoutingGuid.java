@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.document.workflow;
 
-import org.kuali.core.util.Guid;
+import org.kuali.rice.kns.util.Guid;
 
 public final class RoutingGuid extends RoutingObject {
     String routingGuid;

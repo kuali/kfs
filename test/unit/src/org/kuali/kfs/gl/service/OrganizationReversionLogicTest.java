@@ -25,8 +25,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;

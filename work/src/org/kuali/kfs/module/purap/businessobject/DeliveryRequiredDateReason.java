@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Delivery Required Date Reason Business Object. Defines the reason why a delivery date is required.
@@ -61,7 +61,7 @@ public class DeliveryRequiredDateReason extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

@@ -55,7 +55,7 @@
     <property name="shortLabel" value="Amount" />
     <property name="summary" value="previousTotalCostAmount" />
     <property name="description" value="previousTotalCostAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>    
   <!-- Validations -->
   

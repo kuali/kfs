@@ -23,16 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormAgency;
@@ -50,8 +40,17 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class...

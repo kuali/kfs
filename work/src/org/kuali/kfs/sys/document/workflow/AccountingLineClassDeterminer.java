@@ -19,14 +19,13 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.kuali.core.service.DocumentTypeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-
-import edu.iu.uis.eden.routetemplate.xmlrouting.XPathHelper;
 
 /**
  * This class determines the classes of the accounting lines of a workflow created XML document.

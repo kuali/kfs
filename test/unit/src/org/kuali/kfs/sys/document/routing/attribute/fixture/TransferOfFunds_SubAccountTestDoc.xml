@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<documentContent><applicationContent><org.kuali.core.workflow.KualiDocumentXmlMaterializer>
+<documentContent><applicationContent><org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer>
   <kualiTransactionalDocumentInformation>
     <documentInitiator>
       <universalUser>
@@ -35,7 +35,7 @@
         <staff>true</staff>
         <faculty>false</faculty>
         <affiliate>false</affiliate>
-        <campus class="org.kuali.core.bo.Campus--EnhancerByCGLIB--ec0268a3">
+        <campus class="org.kuali.rice.kns.bo.Campus--EnhancerByCGLIB--ec0268a3">
           <campusCode>BL</campusCode>
           <campusName>BLOOMINGTON</campusName>
           <campusShortName>BLOOMINGTON</campusShortName>
@@ -54,7 +54,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </campus>
-        <employeeStatus class="org.kuali.core.bo.EmployeeStatus--EnhancerByCGLIB--91f64d6c">
+        <employeeStatus class="org.kuali.rice.kns.bo.EmployeeStatus--EnhancerByCGLIB--91f64d6c">
           <rowActiveIndicator>true</rowActiveIndicator>
           <code>A</code>
           <name>Active</name>
@@ -64,7 +64,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </employeeStatus>
-        <employeeType class="org.kuali.core.bo.EmployeeType--EnhancerByCGLIB--df5082f4">
+        <employeeType class="org.kuali.rice.kns.bo.EmployeeType--EnhancerByCGLIB--df5082f4">
           <rowActiveIndicator>true</rowActiveIndicator>
           <code>P</code>
           <name>Professional</name>
@@ -405,7 +405,7 @@
         <acctSufficientFundsFinObjCd>GENX</acctSufficientFundsFinObjCd>
         <transactionEntryOffsetIndicator>false</transactionEntryOffsetIndicator>
         <transactionEntryProcessedTs>2007-05-16</transactionEntryProcessedTs>
-        <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--71fe7729">
+        <documentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--71fe7729">
           <documentTypeCode>TF</documentTypeCode>
           <documentName>TRANSFER OF FUNDS</documentName>
           <documentTypeActiveIndicator>true</documentTypeActiveIndicator>
@@ -417,14 +417,14 @@
           <transactionScrubberOffsetGenerationIndicator>false</transactionScrubberOffsetGenerationIndicator>
 -->
           <documentTypeAttributes class="org.apache.ojb.broker.core.proxy.ListProxyDefaultImpl">
-            <org.kuali.core.bo.DocumentTypeAttribute>
+            <org.kuali.rice.kns.bo.DocumentTypeAttribute>
               <id>2</id>
               <key>TRANSACTION_SCRUBBER_OFFSET_GENERATION</key>
               <label>Scrubber Offset Indicator</label>
               <value>N</value>
               <active>Y</active>
               <documentTypeCode>TF</documentTypeCode>
-            </org.kuali.core.bo.DocumentTypeAttribute>
+            </org.kuali.rice.kns.bo.DocumentTypeAttribute>
           </documentTypeAttributes>
           <versionNumber>1</versionNumber>
           <objectId>053BCA133ECD9D86E043814FD8819D86</objectId>
@@ -438,7 +438,7 @@
           <financialDocumentTotalAmount>
             <value>40.00</value>
           </financialDocumentTotalAmount>
-          <documentStatus class="org.kuali.core.bo.DocumentStatus--EnhancerByCGLIB--30f80861">
+          <documentStatus class="org.kuali.rice.kns.bo.DocumentStatus--EnhancerByCGLIB--30f80861">
             <financialDocumentStatusCode>R</financialDocumentStatusCode>
             <financialDocumentStatusName>Pend Specl</financialDocumentStatusName>
             <versionNumber>1</versionNumber>
@@ -565,7 +565,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </originationCode>
-        <referenceDocumentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--71fe7729"/>
+        <referenceDocumentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--71fe7729"/>
         <versionNumber>3</versionNumber>
         <objectId>81F25EF0-12FE-4D74-1518-A1D6B6396756</objectId>
         <newCollectionRecord>false</newCollectionRecord>
@@ -599,7 +599,7 @@
         <acctSufficientFundsFinObjCd>ASST</acctSufficientFundsFinObjCd>
         <transactionEntryOffsetIndicator>true</transactionEntryOffsetIndicator>
         <transactionEntryProcessedTs>2007-05-16</transactionEntryProcessedTs>
-        <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--71fe7729" reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/documentType"/>
+        <documentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--71fe7729" reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/documentType"/>
         <documentHeader reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/documentHeader"/>
         <option class="org.kuali.kfs.sys.businessobject.Options--EnhancerByCGLIB--4bb10d55" reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/option"/>
         <chart reference="../../../sourceAccountingLines/org.kuali.kfs.bo.SourceAccountingLine/chart"/>
@@ -647,7 +647,7 @@
           <genericAmount reference="../../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/dummyBusinessObject/genericAmount"/>
         </dummyBusinessObject>
         <originationCode reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/originationCode"/>
-        <referenceDocumentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--71fe7729"/>
+        <referenceDocumentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--71fe7729"/>
         <versionNumber>3</versionNumber>
         <objectId>B30B6B75-D5B5-21DE-276A-3B038E45336B</objectId>
         <newCollectionRecord>false</newCollectionRecord>
@@ -681,7 +681,7 @@
         <acctSufficientFundsFinObjCd>GENX</acctSufficientFundsFinObjCd>
         <transactionEntryOffsetIndicator>false</transactionEntryOffsetIndicator>
         <transactionEntryProcessedTs>2007-05-16</transactionEntryProcessedTs>
-        <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--71fe7729" reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/documentType"/>
+        <documentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--71fe7729" reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/documentType"/>
         <documentHeader reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/documentHeader"/>
         <option class="org.kuali.kfs.sys.businessobject.Options--EnhancerByCGLIB--4bb10d55" reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/option"/>
         <chart reference="../../../sourceAccountingLines/org.kuali.kfs.bo.SourceAccountingLine/chart"/>
@@ -697,7 +697,7 @@
           <genericAmount reference="../../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/dummyBusinessObject/genericAmount"/>
         </dummyBusinessObject>
         <originationCode reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/originationCode"/>
-        <referenceDocumentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--71fe7729"/>
+        <referenceDocumentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--71fe7729"/>
         <versionNumber>3</versionNumber>
         <objectId>864811B8-E9E3-47A5-F470-C05DA23ED16D</objectId>
         <newCollectionRecord>false</newCollectionRecord>
@@ -731,7 +731,7 @@
         <acctSufficientFundsFinObjCd>ASST</acctSufficientFundsFinObjCd>
         <transactionEntryOffsetIndicator>true</transactionEntryOffsetIndicator>
         <transactionEntryProcessedTs>2007-05-16</transactionEntryProcessedTs>
-        <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--71fe7729" reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/documentType"/>
+        <documentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--71fe7729" reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/documentType"/>
         <documentHeader reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/documentHeader"/>
         <option class="org.kuali.kfs.sys.businessobject.Options--EnhancerByCGLIB--4bb10d55" reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/option"/>
         <chart reference="../../../sourceAccountingLines/org.kuali.kfs.bo.SourceAccountingLine/chart"/>
@@ -747,7 +747,7 @@
           <genericAmount reference="../../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/dummyBusinessObject/genericAmount"/>
         </dummyBusinessObject>
         <originationCode reference="../../org.kuali.kfs.bo.GeneralLedgerPendingEntry/originationCode"/>
-        <referenceDocumentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--71fe7729"/>
+        <referenceDocumentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--71fe7729"/>
         <versionNumber>3</versionNumber>
         <objectId>F0D79962-F7A7-4F4A-C599-AECD0312B2D1</objectId>
         <newCollectionRecord>false</newCollectionRecord>
@@ -827,4 +827,4 @@
     <newCollectionRecord>false</newCollectionRecord>
     <boNotes/>
   </document>
-</org.kuali.core.workflow.KualiDocumentXmlMaterializer></applicationContent></documentContent>
+</org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer></applicationContent></documentContent>

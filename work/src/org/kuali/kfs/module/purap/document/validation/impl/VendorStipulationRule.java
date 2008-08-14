@@ -18,11 +18,11 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.VendorStipulation;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * Business rule(s) applicable to Purchase Order Contract Language maintenance document.
@@ -33,7 +33,7 @@ public class VendorStipulationRule extends MaintenanceDocumentRuleBase {
     private BusinessObjectService boService;
 
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
      */
     @Override
     public void setupConvenienceObjects() {
@@ -44,7 +44,7 @@ public class VendorStipulationRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomApproveDocumentBusinessRules called");
@@ -54,7 +54,7 @@ public class VendorStipulationRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomRouteDocumentBusinessRules called");
@@ -64,7 +64,7 @@ public class VendorStipulationRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomSaveDocumentBusinessRules called");

@@ -18,12 +18,6 @@ package org.kuali.kfs.module.cam.document.validation.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -33,14 +27,18 @@ import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
-import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
-import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business rules applicable to AssetLocationGlobal documents.
@@ -60,7 +58,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
      */
     @Override
     public void setupConvenienceObjects() {
@@ -76,7 +74,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * 
      * @param document MaintenanceDocument type of document to be processed.
      * @return boolean true when success
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -125,8 +123,8 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {

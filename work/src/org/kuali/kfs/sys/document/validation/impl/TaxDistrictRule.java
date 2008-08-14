@@ -17,16 +17,13 @@ package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.Date;
 
-import org.apache.struts.taglib.tiles.GetTag;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.TaxDistrict;
 import org.kuali.kfs.sys.businessobject.TaxDistrictRate;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class implements add collection line business rule for tax district rate.
@@ -37,7 +34,7 @@ public class TaxDistrictRule extends KfsMaintenanceDocumentRuleBase {
      * Rules:
      * 1) Effective date should be a future date.
      * 2) Tax rate should be a numeric value between 0 and 1 (inclusive).
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument, java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(

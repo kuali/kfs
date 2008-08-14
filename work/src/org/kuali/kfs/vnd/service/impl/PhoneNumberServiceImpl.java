@@ -17,11 +17,11 @@ package org.kuali.kfs.vnd.service.impl;
 
 import java.util.List;
 
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PhoneNumberServiceImpl implements PhoneNumberService {
 
@@ -44,7 +44,7 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
      * 
      * @param phone The phone number String to be converted
      * @return A String in the default valid format
-     * @see org.kuali.core.web.format.PhoneNumberFormatter
+     * @see org.kuali.rice.kns.web.format.PhoneNumberFormatter
      */
     public String formatNumberIfPossible(String unformattedNumber) {
         if (ObjectUtils.isNull(unformattedNumber)) {

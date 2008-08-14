@@ -21,11 +21,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.PersistenceService;
 
 
 /**
@@ -43,7 +42,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {

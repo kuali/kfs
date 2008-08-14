@@ -19,25 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.PersonTaxId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.service.NoteService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent;
@@ -59,6 +40,25 @@ import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.PersonTaxId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 /**
@@ -89,7 +89,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param document submitted disbursement voucher document
      * @return true if disbursement voucher can be saved successfully
      * 
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -135,8 +135,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param action accounting line action
      * @return true if accounting line is accessible
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.financial.rules.FinancialDocumentRuleBase.AccountingLineAction)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.financial.rules.FinancialDocumentRuleBase.AccountingLineAction)
      */
     @Override
     protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
@@ -171,8 +171,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param updatedAccountingLine updated accounting line
      * @return same value as processCustomAddAccountingLineBusinessRules(financialDocument, updatedAccountingLine)
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
@@ -186,7 +186,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param approveEvent event fired when approving document
      * @return true check total did not decrease
      * 
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.rice.kns.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
@@ -230,8 +230,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @return true if accounting line can be added successfully (i.e. payment reason and payee must be selected before
      * accounting line can be entered) 
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -289,7 +289,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param document submitted disbursement voucher document
      * @return true is disbursement voucher document can be routed with out any problems
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -1120,7 +1120,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param financialDocument submitted accounting document
      * @return true
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
@@ -1146,8 +1146,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param accountingLine accounting line document
      * @return true if there is no non-resident alien tax provided parent class call to isAmountValid(document, accountingLine) returns true OR
      * if there is a non-resident alien tax provided if accounting line sequence number is included in tax line numbers
-     * @see org.kuali.core.rule.AccountingLineRule#isAmountValid(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isAmountValid(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {

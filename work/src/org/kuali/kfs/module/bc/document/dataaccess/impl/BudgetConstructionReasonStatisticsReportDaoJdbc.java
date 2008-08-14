@@ -18,12 +18,12 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.Guid;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.Guid;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * build the set of rows for the salary reason statistics report
@@ -407,7 +407,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
     
     /**
      * 
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#reportReasonStatisticsWithAThreshold(java.lang.String, java.lang.Integer, boolean, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#reportReasonStatisticsWithAThreshold(java.lang.String, java.lang.Integer, boolean, org.kuali.rice.kns.util.KualiDecimal)
      */
     public void updateReasonStatisticsReportsWithAThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportIncreasesAtOrAboveTheThreshold, KualiDecimal thresholdPercent) {
 

@@ -18,10 +18,10 @@ package org.kuali.kfs.module.ld.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Option Finder for Offset.
@@ -29,14 +29,14 @@ import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
 public class OffsetOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         return JournalVoucherOffsetType.NO_OFFSET.typeCode;
     }
 
     /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List labels = new ArrayList();

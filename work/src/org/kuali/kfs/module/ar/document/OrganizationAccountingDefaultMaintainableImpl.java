@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.web.ui.Section;
 
 public class OrganizationAccountingDefaultMaintainableImpl extends KualiMaintainableImpl {
 

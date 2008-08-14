@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 /**
  * Purchasing Item Interface.

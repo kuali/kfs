@@ -21,10 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.module.ld.businessobject.LaborCalculatedSalaryFoundationTracker;
 import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.LaborCalculatedSalaryFoundationTrackerInquirableImpl;
@@ -32,6 +28,10 @@ import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquira
 import org.kuali.kfs.module.ld.service.LaborCalculatedSalaryFoundationTrackerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 /**
  * The CSFTrackerBalanceLookupableHelperServiceImpl class is the front-end for all Calculated Salary Foundation balance inquiry
@@ -44,7 +44,7 @@ public class LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl e
     private LaborCalculatedSalaryFoundationTrackerService laborCalculatedSalaryFoundationTrackerService;
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override
@@ -64,7 +64,7 @@ public class LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl e
     }
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {

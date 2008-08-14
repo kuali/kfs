@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.kfs.sys.businessobject.HomeOrigination;
 import org.kuali.kfs.sys.dataaccess.HomeOriginationDao;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 @NonTransactional
 public class HomeOriginationServiceImpl implements HomeOriginationService {

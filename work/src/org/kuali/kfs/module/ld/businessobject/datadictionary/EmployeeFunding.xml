@@ -129,7 +129,7 @@
     <property name="name" value="outstandingEncumbrance" />
     <property name="label" value="Encumbance Amount" />
     <property name="shortLabel" value="Encumb" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="EmployeeFunding-currentAmount" parent="EmployeeFunding-currentAmount-parentBean" />
 
@@ -137,7 +137,7 @@
     <property name="name" value="currentAmount" />
     <property name="label" value="Current Amount" />
     <property name="shortLabel" value="Current" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="EmployeeFunding-totalAmount" parent="EmployeeFunding-totalAmount-parentBean" />
 
@@ -145,14 +145,14 @@
     <property name="name" value="totalAmount" />
     <property name="label" value="Total Amount" />
     <property name="shortLabel" value="Total" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="EmployeeFunding-month1Amount" parent="EmployeeFunding-month1Amount-parentBean" />
 
   <bean id="EmployeeFunding-month1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month1Amount" />
     <property name="label" value="YTD Actual" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="EmployeeFunding-csfAmount" parent="EmployeeFunding-csfAmount-parentBean" />
 

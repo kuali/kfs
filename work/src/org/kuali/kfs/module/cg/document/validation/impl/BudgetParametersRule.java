@@ -21,11 +21,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
@@ -39,6 +34,11 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class BudgetParametersRule {
     private String MAXIMUM_PERIOD_LENGTH;

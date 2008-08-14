@@ -22,16 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.fp.businessobject.Bank;
 import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
@@ -62,9 +52,18 @@ import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This is the default implementation of the CashManagementService interface.

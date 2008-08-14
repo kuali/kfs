@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.sys.document.validation.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class represents the add accounting line event. This could be triggered when a user presses the add button for a given
@@ -38,14 +38,14 @@ public final class AddAccountingLineEvent extends AccountingLineEventBase {
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return AddAccountingLineRule.class;
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddAccountingLineRule) rule).processAddAccountingLineBusinessRules((AccountingDocument) getDocument(), getAccountingLine());

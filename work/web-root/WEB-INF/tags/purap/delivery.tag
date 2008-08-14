@@ -59,7 +59,7 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToName}" 
                     	property="document.deliveryToName" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
                     <c:if test="${fullEntryMode && not(deliveryReadOnly)}">
-                        <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" 
+                        <kul:lookup boClassName="org.kuali.rice.kns.bo.user.UniversalUser" 
                         	fieldConversions="personName:document.deliveryToName,personEmailAddress:document.deliveryToEmailAddress,personLocalPhoneNumber:document.deliveryToPhoneNumber"/>
                     </c:if>
                 </td>

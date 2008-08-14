@@ -17,8 +17,8 @@ package org.kuali.kfs.sys.spring.datadictionary;
 
 import java.util.ArrayList;
 
-import org.kuali.core.datadictionary.ReferenceDefinition;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.datadictionary.ReferenceDefinition;
 import org.springframework.beans.factory.config.ListFactoryBean;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;

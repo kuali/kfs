@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.service.impl;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.Incumbent;
 import org.kuali.kfs.module.bc.businessobject.Position;
@@ -25,6 +24,7 @@ import org.kuali.kfs.module.bc.exception.PositionNotFoundException;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -18,13 +18,13 @@ package org.kuali.kfs.module.cam.businessobject.lookup;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupableHelperService;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class overrides the base getActionUrls method for Asset Payment. Even though it's a payment lookup
@@ -36,7 +36,7 @@ public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelp
     private BusinessObjectService businessObjectService;
     
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public String getActionUrls(BusinessObject businessObject) {

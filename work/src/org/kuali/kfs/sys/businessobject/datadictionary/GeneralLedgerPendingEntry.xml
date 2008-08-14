@@ -156,7 +156,7 @@
     <property name="shortLabel" value="Amount" />
     <property name="summary" value="transactionLedgerEntryAmount" />
     <property name="description" value="transactionLedgerEntryAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="GeneralLedgerPendingEntry-referenceFinancialSystemOriginationCode" parent="GeneralLedgerPendingEntry-referenceFinancialSystemOriginationCode-parentBean" />
 
@@ -348,12 +348,12 @@
     <property name="maxLength" value="2" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.ApprovedDocumentIndicatorValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.ApprovedDocumentIndicatorValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Pending Entry approved Indicator indicates whether a GLPE is approved or not." />
     <property name="description" value="Radioboxes that allow the user to include or exclude Pending Ledger Entries from the results. Options include: Approved Only or All. When a financial transaction E-Doc is initiated, Pending Ledger Entries are created. These entries remain in the Pending Ledger Entry table until they are posted to the General Ledger." />
-    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -22,9 +22,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.PersistenceService;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.kuali.kfs.integration.businessobject.LaborLedgerEntry;
 import org.kuali.kfs.integration.service.LaborModuleService;

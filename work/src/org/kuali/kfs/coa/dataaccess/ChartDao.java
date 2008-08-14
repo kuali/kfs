@@ -18,8 +18,8 @@ package org.kuali.kfs.coa.dataaccess;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * This interface defines what methods of data retrieval should be allowed for {@link org.kuali.kfs.coa.businessobject.Chart}

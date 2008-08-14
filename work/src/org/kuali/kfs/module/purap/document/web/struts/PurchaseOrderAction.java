@@ -33,24 +33,24 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.kuali.core.bo.Note;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.form.BlankFormFile;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.form.BlankFormFile;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -77,7 +77,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Struts Action for Purchase Order document.
@@ -86,7 +86,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAction.class);
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -390,10 +390,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // Also need to send an FYI to the AP workgroup.
         // KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         // PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
-        // WorkgroupVO workgroupVO =
+        // WorkgroupDTO workgroupDTO =
         // SpringContext.getBean(WorkflowGroupService.class).getWorkgroupByGroupName(PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         // SpringContext.getBean(PurchaseOrderService.class).sendFYItoWorkgroup(po, kualiDocumentFormBase.getAnnotation(),
-        // workgroupVO.getWorkgroupId() );
+        // workgroupDTO.getWorkgroupId() );
 
         return forward;
     }
@@ -1160,7 +1160,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * its action forward from the superclass, it also invokes the <code>checkForPOWarnings</code> method to check on a few
      * conditions that could have caused warning messages to be displayed on top of Purchase Order page.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -1432,7 +1432,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -1464,7 +1464,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -1598,7 +1598,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingAccountsPayableActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingAccountsPayableActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

@@ -24,15 +24,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.format.Formatter;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -42,6 +33,15 @@ import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.format.Formatter;
 
 public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private VendorService vendorService;
@@ -53,7 +53,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     /**
      * Allows only active parent vendors to create new divisions
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public String getActionUrls(BusinessObject bo) {
@@ -76,7 +76,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      * is not a parent, or if the vendor is a parent and the link is not the create new division link (i.e. if the link is "edit").
      * We'll always add the vendor header id in the query string in all links.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getMaintenanceUrl(org.kuali.core.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getMaintenanceUrl(org.kuali.rice.kns.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override
@@ -123,7 +123,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      * vendor name as the search criteria, we want to search both the vendor detail table and the vendor alias table for the vendor
      * name. Display the vendor's default address state in the search results.
      * 
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List<BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -243,7 +243,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      * method and the various validation methods side-effect the adding of errors to the global error map when the input is found to
      * have an issue.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
      */
     @Override
     public void validateSearchParameters(Map fieldValues) {

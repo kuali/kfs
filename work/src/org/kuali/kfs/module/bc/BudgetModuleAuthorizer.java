@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.bc;
 
-import org.kuali.core.authorization.AuthorizationType;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeAction;
 import org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase;
+import org.kuali.rice.kns.authorization.AuthorizationType;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * This class...
@@ -26,8 +26,8 @@ import org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase;
 public class BudgetModuleAuthorizer extends FinancialSystemModuleAuthorizerBase {
 
     /**
-     * @see org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase#isAuthorized(org.kuali.core.bo.user.UniversalUser,
-     *      org.kuali.core.authorization.AuthorizationType)
+     * @see org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser,
+     *      org.kuali.rice.kns.authorization.AuthorizationType)
      */
     @Override
     public boolean isAuthorized(UniversalUser user, AuthorizationType authorizationType) {

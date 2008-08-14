@@ -16,9 +16,9 @@
 package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.metadata.MetadataManager;
-import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
+import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 
 /**
  * This class performs actions against the database through direct SQL command calls.

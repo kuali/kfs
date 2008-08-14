@@ -21,9 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -35,6 +32,9 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class handles specific Actions requests for the ProcurementCard.
@@ -97,7 +97,7 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
      * at the end.
      * 
      * @see org.kuali.module.financial.web.struts.action.KualiFinancialDocumentActionBase#insertAccountingLine(boolean,
-     *      org.kuali.module.financial.web.struts.form.KualiFinancialDocumentFormBase, org.kuali.core.bo.AccountingLine)
+     *      org.kuali.module.financial.web.struts.form.KualiFinancialDocumentFormBase, org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     protected void insertAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, AccountingLine line) {
@@ -139,7 +139,7 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
     /**
      * Ensures that ProcurementCardForm.newTargetLines is cleared. Otherwise works like super.reload.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

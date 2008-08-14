@@ -17,11 +17,10 @@ package org.kuali.kfs.module.bc.businessobject.lookup;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 /**
  * Base lookupable helper service for budget selection lookups.
@@ -32,7 +31,7 @@ public class CSFTrackerLookupableHelperServiceImpl extends KualiLookupableHelper
      * Super impl clears out hidden values but we need to keep personUniversalIdentifier hidden field in the criteria. 
      * Overridding here so that the call to clear hiddens is not executed.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {

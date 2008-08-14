@@ -23,11 +23,11 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.cab.batch.PreAssetTaggingInputFileType;
 import org.kuali.kfs.module.cab.batch.service.PreAssetTaggingService;
 import org.kuali.kfs.module.cab.businessobject.Pretag;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.util.StringUtils;
 
 

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.document.validation.event;
 
-import org.kuali.core.bo.AdHocRouteWorkgroup;
-import org.kuali.core.document.Document;
+import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * An attributed version (AccountingRulesEngine version) of the AddAdHocRouteWorkgroupEvent.

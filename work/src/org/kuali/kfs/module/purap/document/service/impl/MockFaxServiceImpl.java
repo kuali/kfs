@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.FaxService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class MockFaxServiceImpl implements FaxService {
 

@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.fixture.CustomerFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
@@ -27,7 +27,7 @@ import org.kuali.kfs.module.ec.service.impl.EffortCertificationDocumentServiceIm
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 public class CustomerInvoiceDocumentTestUtil {
     

@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.ar.document.validation.event;
 
-import org.kuali.core.document.Document;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
+import org.kuali.rice.kns.document.Document;
 
 public class RecalculateCustomerInvoiceDetailEvent extends AttributedDocumentEventBase {
 

@@ -19,8 +19,8 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Purchase Order Vendor Stipulation.
@@ -93,7 +93,7 @@ public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBas
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

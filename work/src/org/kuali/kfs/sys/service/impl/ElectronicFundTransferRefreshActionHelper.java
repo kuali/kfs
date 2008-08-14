@@ -23,15 +23,15 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Represents a web action that occurs when a user returns a bunch of selected claims and redirects to the electronic funds transfer "claimng" page
@@ -45,7 +45,7 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
     private static final String PORTAL_FORWARD = "portal";
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.core.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
+     * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.rice.kns.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map params, String basePath) {
         // is the current user able to claim electronic funds?

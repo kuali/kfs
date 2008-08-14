@@ -21,10 +21,6 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 
 import java.util.List;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.kfs.module.purap.fixture.ContractManagerAssignmentDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -32,11 +28,12 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class is used to test create and route populated Assign Contract Manager Documents.
@@ -74,7 +71,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         assertFalse("R".equals(acmDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
         routeDocument(acmDocument, "saving copy source document", documentService);
-        WorkflowTestUtils.waitForStatusChange(acmDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(acmDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
         Document document = documentService.getByDocumentHeaderId(acmDocument.getDocumentNumber());
         assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
@@ -92,7 +89,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         assertFalse("R".equals(acmDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
         routeDocument(acmDocument, "saving copy source document", documentService);
-        WorkflowTestUtils.waitForStatusChange(acmDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(acmDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
         ContractManagerAssignmentDocument document = (ContractManagerAssignmentDocument) documentService.getByDocumentHeaderId(acmDocument.getDocumentNumber());
         assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
         return acmDocument.getContractManagerAssignmentDetail(0).getRequisition().getDocumentNumber();
@@ -179,7 +176,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
         assertTrue("RORENFRO should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as RORENFRO", null);
 
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(KHUNTLEY);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
@@ -209,7 +206,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
         assertTrue("RORENFRO should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as vputman", null);
 
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(KHUNTLEY);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);

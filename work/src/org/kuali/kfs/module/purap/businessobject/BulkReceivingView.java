@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.List;
 
-import org.kuali.core.bo.Note;
+import org.kuali.rice.kns.bo.Note;
 
 /**
  * Bulk Receiving View Business Object.

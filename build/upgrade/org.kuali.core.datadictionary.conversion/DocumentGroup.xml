@@ -3,7 +3,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.bo.DocumentGroup">
+    <businessObject businessObjectClass="org.kuali.rice.kns.bo.DocumentGroup">
  
         <inquiry>
             <title>Document Group Inquiry</title>
@@ -90,7 +90,7 @@
                 <description>financialDocumentGroupName description...</description>
 			</attribute>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
     </businessObject>

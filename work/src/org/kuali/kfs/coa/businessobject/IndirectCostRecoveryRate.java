@@ -18,11 +18,11 @@ package org.kuali.kfs.coa.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase {
     

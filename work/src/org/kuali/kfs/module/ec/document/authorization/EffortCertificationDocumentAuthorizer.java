@@ -18,14 +18,14 @@ package org.kuali.kfs.module.ec.document.authorization;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.ec.EffortConstants.EffortCertificationEditMode;
 import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Document Authorizer for the Effort Certification document.
@@ -34,8 +34,8 @@ public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransa
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentAuthorizer.class);
 
     /**
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -62,8 +62,8 @@ public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransa
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public Map<String, String> getEditMode(Document document, UniversalUser universalUser) {

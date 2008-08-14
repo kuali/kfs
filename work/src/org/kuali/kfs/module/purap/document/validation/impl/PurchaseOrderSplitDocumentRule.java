@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 public class PurchaseOrderSplitDocumentRule extends PurchaseOrderDocumentRule {
     

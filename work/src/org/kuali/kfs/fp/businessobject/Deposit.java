@@ -21,11 +21,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**
@@ -254,7 +254,7 @@ public class Deposit extends PersistableBusinessObjectBase {
 
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

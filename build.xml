@@ -204,7 +204,7 @@
   	<target name="filter-project-spring-ide" unless="no.filter.project.spring.ide" depends="init-properties">
 		<delete dir="${rice.datadictionary.directory}" failonerror="false" quiet="true"/>
 		<mkdir dir="${rice.datadictionary.directory}"/>
-		<unjar src="${lib.directory}/${rice.name}-${rice.kns.name}-${rice.version}.jar" dest="${rice.datadictionary.directory}">
+		<unjar src="${lib.directory}/${rice.name}-${rice.impl.name}-${rice.version}.jar" dest="${rice.datadictionary.directory}">
 			<patternset>
 				<include name="${spring.ide.support.datadictionary.files}"/>
 				<exclude name="**/conversion/**"/>

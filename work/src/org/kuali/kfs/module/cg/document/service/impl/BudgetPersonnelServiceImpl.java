@@ -25,11 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AppointmentType;
 import org.kuali.kfs.module.cg.businessobject.AppointmentTypeEffectiveDate;
@@ -46,6 +41,11 @@ import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

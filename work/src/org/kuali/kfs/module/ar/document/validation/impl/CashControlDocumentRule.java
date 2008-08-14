@@ -20,16 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.rules.TransactionalDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -46,6 +36,16 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class holds the business rules for the AR Cash Control Document
@@ -55,7 +55,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentRule.class);
 
     /**
-     * @see org.kuali.core.rules.TransactionalDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
+     * @see org.kuali.rice.kns.rules.TransactionalDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -79,7 +79,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.core.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
+     * @see org.kuali.rice.kns.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -100,7 +100,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.core.rules.TransactionalDocumentRuleBase#processCustomApproveDocumentBusinessRules(Document)
+     * @see org.kuali.rice.kns.rules.TransactionalDocumentRuleBase#processCustomApproveDocumentBusinessRules(Document)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
@@ -283,7 +283,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.validation.AddCashControlDetailRule#processAddCashControlDetailBusinessRules(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.kfs.module.ar.document.validation.AddCashControlDetailRule#processAddCashControlDetailBusinessRules(org.kuali.rice.kns.document.TransactionalDocument,
      *      org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
     public boolean processAddCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
@@ -464,7 +464,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule#processDeleteCashControlDetailBusinessRules(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule#processDeleteCashControlDetailBusinessRules(org.kuali.rice.kns.document.TransactionalDocument,
      *      org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
     public boolean processDeleteCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
@@ -476,7 +476,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule#processGenerateReferenceDocumentBusinessRules(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule#processGenerateReferenceDocumentBusinessRules(org.kuali.rice.kns.document.TransactionalDocument)
      */
     public boolean processGenerateReferenceDocumentBusinessRules(CashControlDocument transactionalDocument) {
 

@@ -11,8 +11,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceContact;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItem;

@@ -15,13 +15,12 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
 
 public interface PurApWorkflowIntegrationService {
 
@@ -56,5 +55,5 @@ public interface PurApWorkflowIntegrationService {
      */
     public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail);
 
-    public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws EdenUserNotFoundException;
+    public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws KEWUserNotFoundException;
 }

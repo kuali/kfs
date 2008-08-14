@@ -16,7 +16,7 @@
 
 package org.kuali.kfs.module.ld.businessobject;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Labor business object for Account Status (Base Funds).

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.document;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Any class that implements this interface should provide a document total.

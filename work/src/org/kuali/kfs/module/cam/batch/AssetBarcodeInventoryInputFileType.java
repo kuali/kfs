@@ -28,15 +28,13 @@ import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.gl.batch.EnterpriseFeedStep;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.module.cam.CamsConstants.BarcodeInventoryError;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * Batch input type for the barcode inventory document.
@@ -106,7 +104,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * @param fileUserIdentifer String representing user who uploaded file
      * @return String enterprise feeder formated file name string using information from user and file user identifier
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileName(java.lang.String, org.kuali.core.bo.user.UniversalUser, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileName(java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String)
      */
     public String getFileName(String fileType, UniversalUser user, String fileUserIdentifer) {
         StringBuilder buf = new StringBuilder();
@@ -130,7 +128,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * @param batchFile file being checked for authorization
      * @return true if user is authorized to download or delete
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.core.bo.user.UniversalUser, java.io.File)
+     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kns.bo.user.UniversalUser, java.io.File)
      */
     public boolean checkAuthorization(UniversalUser user, File batchFile) {
         boolean isAuthorized = false;
@@ -208,7 +206,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * @param fileUserIdentifier the file identifier
      * @return String done file name
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileName(org.kuali.core.bo.user.UniversalUser, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileName(org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String)
      */
     public String getDoneFileName(UniversalUser user, String fileUserIdentifer) {
         StringBuilder buf = new StringBuilder();
@@ -225,7 +223,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * @param files list of files objects
      * @return Set containing all user identifiers from list of files
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#extractFileUserIdentifiers(org.kuali.core.bo.user.UniversalUser, java.util.List)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#extractFileUserIdentifiers(org.kuali.rice.kns.bo.user.UniversalUser, java.util.List)
      */
     public Set<String> extractFileUserIdentifiers(UniversalUser user, List<File> files) {
         Set<String> extractedFileUserIdentifiers = new TreeSet<String>();

@@ -22,11 +22,11 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.BulkReceivingDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class BulkReceivingDaoOjb  extends PlatformAwareDaoBaseOjb implements BulkReceivingDao {
     

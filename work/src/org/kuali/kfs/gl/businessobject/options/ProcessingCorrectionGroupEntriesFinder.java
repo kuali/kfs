@@ -20,11 +20,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class returns a list of correction groups with a process flag set to yes key value pairs.
@@ -36,7 +36,7 @@ public class ProcessingCorrectionGroupEntriesFinder extends KeyValuesBase {
      * the value is the name of the origin entry group
      * 
      * @return a List of key value pair options
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();

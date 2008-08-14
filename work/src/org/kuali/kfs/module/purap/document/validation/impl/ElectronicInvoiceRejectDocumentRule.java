@@ -17,11 +17,11 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Business rule(s) applicable to Payment Request documents.
@@ -43,7 +43,7 @@ public class ElectronicInvoiceRejectDocumentRule extends AccountsPayableDocument
     }
 
     /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {

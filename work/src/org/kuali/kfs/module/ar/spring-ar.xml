@@ -330,7 +330,7 @@
 	
 	<bean id="systemInformationLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.SystemInformationLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 	
-	<bean id="systemInformationLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="systemInformationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="systemInformationLookupHelperService" />
 		</property>
@@ -338,7 +338,7 @@
 	
 	<bean id="customerLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 	
-    <bean id="customerLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="customerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="customerLookupHelperService" />
 		</property>
@@ -455,7 +455,7 @@
 		</property>
 	</bean>
 	
-	<bean id="arCustomerAgingReportLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="arCustomerAgingReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="arCustomerAgingReportLookupableHelperService" />
 		</property>

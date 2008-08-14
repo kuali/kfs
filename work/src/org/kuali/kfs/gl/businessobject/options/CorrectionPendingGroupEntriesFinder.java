@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class returns list origin entry groups that can be selected within the GLCP document
@@ -34,7 +34,7 @@ public class CorrectionPendingGroupEntriesFinder extends KeyValuesBase {
      * Returns a list of origin entry group ids (as keys) and lengthy descriptions of the origin entry groups including source, date of creation, and count of entries for the display
      * 
      * @return a List of all the origin entry groups in the database
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();

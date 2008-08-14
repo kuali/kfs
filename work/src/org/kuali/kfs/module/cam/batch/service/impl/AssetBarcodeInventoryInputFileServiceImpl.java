@@ -24,22 +24,22 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.exceptions.ValidationException;
 import org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryInputFileService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl;
 import org.kuali.kfs.sys.exception.FileStorageException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.exception.ValidationException;
 
 public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSetServiceImpl implements  AssetBarcodeInventoryInputFileService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetBarcodeInventoryInputFileServiceImpl.class);
     
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl#delete(org.kuali.core.bo.user.UniversalUser, org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl#delete(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
      */
     @Override
     public boolean delete(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {

@@ -24,11 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
@@ -39,8 +34,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * DocumentAuthorizer containing common, reusable document-level authorization code for financial (i.e. Transactional) documents
@@ -52,8 +51,8 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
     
     
     /**
-     * @see org.kuali.core.authorization.FinancialDocumentAuthorizer#getAccountingLineEditableFields(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.FinancialDocumentAuthorizer#getAccountingLineEditableFields(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     public Map getAccountingLineEditableFields(Document document, UniversalUser user) {
         return new HashMap();
@@ -74,8 +73,8 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
      * Note that document types which route straight to final will get an edit mode of VIEW_ONLY or FULL_ENTRY, never EXPENSE_ENTRY,
      * because even if the state is briefly enroute, the route level is never ORG_REVIEW or ACCOUNT_REVIEW.
      * 
-     * @see org.kuali.module.financial.document.authorization.FinancialDocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
+     * @see org.kuali.module.financial.document.authorization.FinancialDocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser, java.util.List, java.util.List)
      */
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
         FinancialSystemUser financialSystemUser = getKfsUserService().convertUniversalUserToFinancialSystemUser(user);
@@ -165,7 +164,7 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
     }
 
     /**
-     * @see org.kuali.module.financial.document.authorization.FinancialDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.module.financial.document.authorization.FinancialDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
      *      org.kuali.module.chart.bo.KfsUser)
      */
     public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {

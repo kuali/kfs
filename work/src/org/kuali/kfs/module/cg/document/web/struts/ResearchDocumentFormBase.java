@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.cg.document.web.struts;
 
-import org.kuali.core.datadictionary.HeaderNavigation;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
 

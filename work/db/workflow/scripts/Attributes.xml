@@ -66,14 +66,14 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiWorkflowInitiatorRoleAttribute</name>
-      <className>edu.iu.uis.eden.routetemplate.InitiatorRoleAttribute</className>
+      <className>org.kuali.rice.kew.rule.InitiatorRoleAttribute</className>
       <label>Kuali Workflow Initiator Role Attribute</label>
       <description>Attribute to identify the initiator of the document</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>RuleRoutingAttribute</name>
-      <className>edu.iu.uis.eden.routetemplate.RuleRoutingAttribute</className>
+      <className>org.kuali.rice.kew.rule.RuleRoutingAttribute</className>
       <label>foo</label>
       <description>foo</description>
       <type>RuleAttribute</type>
@@ -196,12 +196,12 @@
         <fieldDef name="requisitionDocumentDeliveryCampus" title="kuali_dd_label(RequisitionDocument)">
           <display>
             <type>select</type>
-            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />
           </visibility>
-          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.rice.kns.bo.Campus-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/deliveryCampusCode')</xpathexpression>
           </fieldEvaluation>
@@ -414,10 +414,10 @@
         <fieldDef name="purchaseOrderRemoveHoldNotify" title="kuali_dd_label(PurchaseOrderDocument)" workflowType="ALL">
           <display>
             <type>select</type>
-            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder)</values>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.rice.kns.bo.Campus-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/deliveryCampusCode') = wf:ruledata('purchaseOrderRemoveHoldNotify')</xpathexpression>
           </fieldEvaluation>
@@ -544,12 +544,12 @@
         <fieldDef name="purchaseOrderDocumentDeliveryCampus" title="kuali_dd_label(PurchaseOrderDocument)">
           <display>
             <type>select</type>
-            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />
           </visibility>
-          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.rice.kns.bo.Campus-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/deliveryCampusCode')</xpathexpression>
           </fieldEvaluation>
@@ -905,7 +905,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiContractsAndGrantsDocSearchResultProcessor</name>
-      <className>edu.iu.uis.eden.docsearch.xml.DocumentSearchXMLResultProcessorImpl</className>
+      <className>org.kuali.rice.kew.docsearch.xml.DocumentSearchXMLResultProcessorImpl</className>
       <label>Contracts &amp; Grants Document Search Result Processor</label>
       <description>Attribute to allow for custom search results for Contracts &amp; Grants documents</description>
       <type>DocumentSearchXMLResultProcessorAttribute</type>
@@ -1149,12 +1149,12 @@
         <fieldDef name="paymentRequestProcessCampus" title="kuali_dd_label(PaymentRequestDocument)">
           <display>
             <type>select</type>
-            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />
           </visibility>
-          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.rice.kns.bo.Campus-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/processingCampusCode')</xpathexpression>
           </fieldEvaluation>
@@ -1520,12 +1520,12 @@
         <fieldDef name="creditMemoProcessCampus" title="kuali_dd_label(CreditMemoDocument)">
           <display>
             <type>select</type>
-            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />
           </visibility>
-          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.rice.kns.bo.Campus-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/processingCampusCode')</xpathexpression>
           </fieldEvaluation>
@@ -1740,7 +1740,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>WorkflowRoutedByUserRoleAttribute</name>
-      <className>edu.iu.uis.eden.routetemplate.RoutedByUserRoleAttribute</className>
+      <className>org.kuali.rice.kew.rule.RoutedByUserRoleAttribute</className>
       <label>Workflow Routed By User Role Attribute</label>
       <description>Attribute to identify the user who routed the document</description>
       <type>RuleAttribute</type>
@@ -2015,14 +2015,14 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>RemoveReplaceWorkgroupTypeRoutingAttribute</name>
-      <className>edu.iu.uis.eden.routetemplate.RemoveReplaceWorkgroupTypeRoutingAttribute</className>
+      <className>org.kuali.rice.kew.rule.RemoveReplaceWorkgroupTypeRoutingAttribute</className>
       <label>RemoveReplaceWorkgroupTypeRoutingAttribute</label>
       <description>An attribute for routing workgroups that have been changed via the Remove/Replace User document</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>RemoveReplaceRuleRoutingAttribute</name>
-      <className>edu.iu.uis.eden.routetemplate.RemoveReplaceRuleRoutingAttribute</className>
+      <className>org.kuali.rice.kew.rule.RemoveReplaceRuleRoutingAttribute</className>
       <label>RemoveReplaceRuleRoutingAttribute</label>
       <description>An attribute for routing rules that have been changed via the Remove/Replace User document</description>
       <type>RuleAttribute</type>

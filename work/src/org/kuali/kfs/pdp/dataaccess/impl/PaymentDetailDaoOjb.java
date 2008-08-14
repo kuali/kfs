@@ -32,10 +32,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpConstants.PurapParameterConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
@@ -49,6 +45,10 @@ import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentDetailDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailDaoOjb.class);

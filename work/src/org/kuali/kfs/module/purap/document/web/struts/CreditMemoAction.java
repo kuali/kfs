@@ -22,9 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
@@ -36,8 +33,10 @@ import org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPay
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * Struts Action for Credit Memo document.
@@ -48,7 +47,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     /**
      * Do initialization for a new credit memo.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

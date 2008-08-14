@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.web.struts;
 
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class CashDrawerCorrectionForm extends KualiForm {
     private CashDrawer cashDrawer;

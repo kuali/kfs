@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
@@ -293,7 +293,7 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

@@ -20,8 +20,6 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -32,6 +30,8 @@ import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Just as Balance is a summarization of Entry, so AccountBalance is a summarization of Balance.
@@ -167,7 +167,7 @@ public class AccountBalance extends PersistableBusinessObjectBase {
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
 

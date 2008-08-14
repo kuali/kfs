@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -26,6 +23,9 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AssetTransferDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
@@ -35,8 +35,8 @@ public class AssetTransferDocumentAuthorizer extends FinancialSystemTransactiona
     }
 
     /**
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser) This method determines if user can continue with transfer action or not, following
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser) This method determines if user can continue with transfer action or not, following
      *      conditions are checked to decide
      *      <li>Check if asset is active and not retired</li>
      *      <li>Find all pending documents associated with this asset, if any found disable the transfer action</li>

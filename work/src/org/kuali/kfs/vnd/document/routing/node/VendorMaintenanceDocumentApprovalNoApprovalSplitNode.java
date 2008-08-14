@@ -20,11 +20,10 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.service.VendorService;
-
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.engine.RouteHelper;
-import edu.iu.uis.eden.engine.node.SplitNode;
-import edu.iu.uis.eden.engine.node.SplitResult;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.engine.RouteHelper;
+import org.kuali.rice.kew.engine.node.SplitNode;
+import org.kuali.rice.kew.engine.node.SplitResult;
 
 /**
  * Checks for conditions on a Vendor Maintenance document that allow auto-approval by the initiator. If these conditions are not

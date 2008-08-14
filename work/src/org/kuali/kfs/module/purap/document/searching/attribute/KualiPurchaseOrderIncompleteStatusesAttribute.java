@@ -19,11 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl;
-
-import edu.iu.uis.eden.docsearch.SearchableAttributeStringValue;
-import edu.iu.uis.eden.docsearch.SearchableAttributeValue;
-import edu.iu.uis.eden.lookupable.Field;
+import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
+import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
+import org.kuali.rice.kew.lookupable.Field;
+import org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl;
 
 /**
  * This class...

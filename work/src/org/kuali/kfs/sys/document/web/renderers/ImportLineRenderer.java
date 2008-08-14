@@ -25,10 +25,9 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.html.FileTag;
 import org.apache.struts.taglib.html.ImageTag;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.BusinessObject;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
  * Renders the standard group header/import line
@@ -94,7 +93,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.kns.bo.BusinessObject)
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
         try {

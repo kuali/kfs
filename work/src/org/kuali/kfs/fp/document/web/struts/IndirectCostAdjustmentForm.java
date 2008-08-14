@@ -79,7 +79,7 @@ public class IndirectCostAdjustmentForm extends KualiAccountingDocumentFormBase 
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
      */
     @Override
     public Map getForcedReadOnlyFields() {

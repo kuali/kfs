@@ -16,11 +16,11 @@
 package org.kuali.kfs.sys.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 

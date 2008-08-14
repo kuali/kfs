@@ -20,11 +20,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Value Finder for Campus with no blank value.

@@ -18,22 +18,25 @@ package org.kuali.kfs.module.purap.document.web.struts;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.ui.ExtraButton;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentActionAuthorizer;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Struts Action Form for Payment Request document.
@@ -60,32 +63,23 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         setDocument(purchaseOrderDocument);
     }
 
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
-     */
     @Override
-    public KeyLabelPair getAdditionalDocInfo1() {
+    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
         if (ObjectUtils.isNotNull(this.getPaymentRequestDocument().getPurapDocumentIdentifier())) {
-            return new KeyLabelPair("DataDictionary.PaymentRequestDocument.attributes.purapDocumentIdentifier", ((PaymentRequestDocument) this.getDocument()).getPurapDocumentIdentifier().toString());
+            getDocInfo().add(new HeaderField("DataDictionary.PaymentRequestDocument.attributes.purapDocumentIdentifier", ((PaymentRequestDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
         }
         else {
-            return new KeyLabelPair("DataDictionary.PaymentRequestDocument.attributes.purapDocumentIdentifier", "Not Available");
+            getDocInfo().add(new HeaderField("DataDictionary.PaymentRequestDocument.attributes.purapDocumentIdentifier", "Not Available"));
         }
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
-     */
-    @Override
-    public KeyLabelPair getAdditionalDocInfo2() {
         if (ObjectUtils.isNotNull(this.getPaymentRequestDocument().getStatus())) {
-            return new KeyLabelPair("DataDictionary.PaymentRequestDocument.attributes.statusCode", ((PaymentRequestDocument) this.getDocument()).getStatus().getStatusDescription());
+            getDocInfo().add(new HeaderField("DataDictionary.PaymentRequestDocument.attributes.statusCode", ((PaymentRequestDocument) this.getDocument()).getStatus().getStatusDescription()));
         }
         else {
-            return new KeyLabelPair("DataDictionary.PaymentRequestDocument.attributes.statusCode", "Not Available");
+            getDocInfo().add(new HeaderField("DataDictionary.PaymentRequestDocument.attributes.statusCode", "Not Available"));
         }
     }
-
+    
     /**
      * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase#setupNewPurchasingItemLine()
      */

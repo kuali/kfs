@@ -15,13 +15,12 @@
  */
 package org.kuali.kfs.sys.monitor;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
 
@@ -37,16 +36,16 @@ public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
 
     public boolean valueChanged() throws WorkflowException {
         KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, user);
-        if (EdenConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestedCode)) {
+        if (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestedCode)) {
             return document.isCompletionRequested();
         }
-        else if (EdenConstants.ACTION_REQUEST_APPROVE_REQ.equals(actionRequestedCode)) {
+        else if (KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(actionRequestedCode)) {
             return document.isApprovalRequested();
         }
-        else if (EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ.equals(actionRequestedCode)) {
+        else if (KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ.equals(actionRequestedCode)) {
             return document.isAcknowledgeRequested();
         }
-        else if (EdenConstants.ACTION_REQUEST_FYI_REQ.equals(actionRequestedCode)) {
+        else if (KEWConstants.ACTION_REQUEST_FYI_REQ.equals(actionRequestedCode)) {
             return document.isFYIRequested();
         }
         return false;

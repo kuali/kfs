@@ -23,8 +23,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.sys.ObjectUtil;
 

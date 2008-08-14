@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.purap.PurapConstants.CAMSValidationStrings;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;

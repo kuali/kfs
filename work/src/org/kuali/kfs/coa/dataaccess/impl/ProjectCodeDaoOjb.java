@@ -17,9 +17,9 @@ package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.dataaccess.ProjectCodeDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 
 /**

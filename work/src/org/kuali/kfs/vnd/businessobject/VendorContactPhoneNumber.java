@@ -18,8 +18,8 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Phone number for a Vendor Contact.
@@ -112,7 +112,7 @@ public class VendorContactPhoneNumber extends PersistableBusinessObjectBase impl
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

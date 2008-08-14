@@ -18,8 +18,8 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents an association between an award and a project director. It's like a reference to the project director from
@@ -133,21 +133,21 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.core.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
     @Override

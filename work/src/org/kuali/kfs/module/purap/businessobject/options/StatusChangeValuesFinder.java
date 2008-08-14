@@ -18,10 +18,10 @@ package org.kuali.kfs.module.purap.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Value Finder for manual Purchase Order Status Changes.
@@ -31,7 +31,7 @@ public class StatusChangeValuesFinder extends KeyValuesBase {
     /**
      * Returns code/description pairs of all manual Purchase Order Status Changes.
      * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List labels = new ArrayList();

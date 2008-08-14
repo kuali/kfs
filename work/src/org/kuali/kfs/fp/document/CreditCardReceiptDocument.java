@@ -20,14 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.document.Copyable;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.kfs.fp.businessobject.CreditCardDetail;
@@ -37,11 +29,19 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * This is the business object that represents the CreditCardReceipt document in Kuali. This is a transactional document that will
@@ -216,7 +216,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     /**
      * Overrides super to call super and then also add in the new list of credit card receipts that have to be managed.
      * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -241,7 +241,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
      * @param sequenceHelper helper class for keep track of sequence for GLPEs
      * @return true if generation of GLPE's is successful for credit card receipt document
      * 
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {

@@ -16,7 +16,7 @@
 package org.kuali.kfs.sys.web.struts;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * This class is the action form for balance inquiries.

@@ -28,11 +28,6 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -61,6 +56,11 @@ import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class has the logic for the scrubber. It is required because the scrubber process needs instance variables. Instance

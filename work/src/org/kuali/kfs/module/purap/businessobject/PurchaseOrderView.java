@@ -18,11 +18,11 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.kuali.core.bo.Note;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Purchase Order View Business Object.

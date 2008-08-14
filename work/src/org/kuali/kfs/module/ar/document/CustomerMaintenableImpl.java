@@ -19,15 +19,15 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerMaintenableImpl extends KualiMaintainableImpl {

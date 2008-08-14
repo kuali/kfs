@@ -22,12 +22,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.service.impl.FiscalYearFunctionControlServiceImpl;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * Business object that represents a selected/unselected object code for a user.
@@ -130,7 +130,7 @@ public class BudgetConstructionObjectPick extends PersistableBusinessObjectBase 
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

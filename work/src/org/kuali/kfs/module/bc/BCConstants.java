@@ -20,15 +20,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionRequestImportAction;
 import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetAction;
 import org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeAction;
 import org.kuali.kfs.module.bc.document.web.struts.QuickSalarySettingAction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.util.JSTLConstants;
+import org.kuali.rice.core.util.JSTLConstants;
 
 public class BCConstants extends JSTLConstants {
 

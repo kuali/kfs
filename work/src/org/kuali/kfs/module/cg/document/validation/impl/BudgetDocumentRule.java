@@ -20,10 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCost;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
@@ -33,6 +29,10 @@ import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class...

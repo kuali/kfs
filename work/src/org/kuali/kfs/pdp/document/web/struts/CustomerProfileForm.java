@@ -28,10 +28,10 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 
 /**

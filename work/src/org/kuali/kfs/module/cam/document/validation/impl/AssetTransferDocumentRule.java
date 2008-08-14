@@ -20,14 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -48,6 +40,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
 
@@ -69,7 +69,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     private AssetService assetService;
 
     /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -110,7 +110,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     }
 
     /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {

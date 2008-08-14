@@ -19,10 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
@@ -31,6 +27,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class returns list of payment reason value pairs.

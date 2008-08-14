@@ -27,12 +27,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.web.format.FormatException;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.format.FormatException;
 /**
  * Purap Object Utils.
  * Similar to the nervous system ObjectUtils this class contains methods to reflectively set and get values on

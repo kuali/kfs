@@ -17,12 +17,12 @@ package org.kuali.kfs.module.cam.document.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 
 /**

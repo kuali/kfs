@@ -20,12 +20,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class returns list of correction group entries key value pairs.
@@ -36,7 +36,7 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
      * Returns a list of key/value pairs to display correction groups that can be used in a Labor Ledger Correction Document
      * 
      * @return a List of key/value pairs for correction groups
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();

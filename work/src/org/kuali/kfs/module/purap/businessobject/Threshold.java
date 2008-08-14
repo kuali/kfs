@@ -17,8 +17,6 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.AcctType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -26,6 +24,8 @@ import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class Threshold extends PersistableBusinessObjectBase {
 

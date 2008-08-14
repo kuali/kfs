@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -34,8 +31,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * The default implementation of AccountingLineAuthorizer

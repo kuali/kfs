@@ -17,8 +17,8 @@ package org.kuali.kfs.module.bc.document.validation;
 
 import java.util.List;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Rule classes wishing to respond to that event should implement this interface.

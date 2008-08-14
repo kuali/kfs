@@ -18,14 +18,14 @@ package org.kuali.kfs.sys.web;
 import java.security.GeneralSecurityException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kim.v2.service.AuthenticationService;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 import edu.yale.its.tp.cas.auth.provider.WatchfulPasswordHandler;
 

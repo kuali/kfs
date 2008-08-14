@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.sys.document.validation.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.UpdateAccountingLineRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class represents the update accounting line event. This could be triggered when a user changes one or more values in an
@@ -52,7 +52,7 @@ public final class UpdateAccountingLineEvent extends AccountingLineEventBase {
 
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return UpdateAccountingLineRule.class;
@@ -60,7 +60,7 @@ public final class UpdateAccountingLineEvent extends AccountingLineEventBase {
 
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((UpdateAccountingLineRule) rule).processUpdateAccountingLineBusinessRules((AccountingDocument) getDocument(), getAccountingLine(), getUpdatedAccountingLine());
@@ -68,7 +68,7 @@ public final class UpdateAccountingLineEvent extends AccountingLineEventBase {
 
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#validate()
      */
     public void validate() {
         super.validate();

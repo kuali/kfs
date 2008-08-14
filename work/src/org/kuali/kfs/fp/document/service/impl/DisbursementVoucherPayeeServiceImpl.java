@@ -21,15 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.AdHocRoutePerson;
-import org.kuali.core.bo.AdHocRouteRecipient;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
@@ -37,9 +28,17 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.AdHocRoutePerson;
+import org.kuali.rice.kns.bo.AdHocRouteRecipient;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class...
@@ -191,7 +190,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
      */
     private AdHocRouteRecipient buildFyiRecipient(String userId) {
         AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
-        adHocRouteRecipient.setActionRequested(EdenConstants.ACTION_REQUEST_FYI_REQ);
+        adHocRouteRecipient.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);
         adHocRouteRecipient.setId(userId);
         return adHocRouteRecipient;
     }

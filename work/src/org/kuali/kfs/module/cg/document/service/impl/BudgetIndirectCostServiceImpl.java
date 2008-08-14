@@ -22,10 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetBaseCode;
@@ -45,6 +41,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService {
 

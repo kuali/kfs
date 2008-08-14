@@ -23,10 +23,10 @@ import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 import org.apache.ojb.broker.metadata.DescriptorRepository;
 import org.apache.ojb.broker.metadata.FieldDescriptor;
 import org.apache.ojb.broker.metadata.MetadataManager;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.exceptions.ClassNotPersistableException;
 import org.kuali.kfs.gl.batch.dataaccess.ReconciliationDao;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.exception.ClassNotPersistableException;
 
 /**
  * Uses OJB to determine the column name -> java attribute name mapping

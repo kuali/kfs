@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -25,6 +22,9 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Business Prerules applicable to ReceivingAddressMaintenanceDocument. 
@@ -40,7 +40,7 @@ public class ReceivingAddressPreRules extends MaintenancePreRulesBase {
      * to the user; and if proceed, enforce the rule by updating the related receiving address as well.
      * Note: this method relies on the condition that the current status of the DB satisfies the constraints.
      * 
-     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean doCustomPreRules( MaintenanceDocument document ) {                

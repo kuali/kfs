@@ -20,9 +20,9 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.NumberUtils;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.NumberUtils;
 
 /**
  * This class represents a check in the system. It is a generalized check business object that will be used by the Cash Receipts
@@ -213,7 +213,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

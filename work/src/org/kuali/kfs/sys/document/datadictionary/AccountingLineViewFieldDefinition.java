@@ -16,13 +16,13 @@
 package org.kuali.kfs.sys.document.datadictionary;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.MaintainableFieldDefinition;
-import org.kuali.core.util.FieldUtils;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.FieldBridge;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.document.web.TableJoining;
+import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
+import org.kuali.rice.kns.util.FieldUtils;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.FieldBridge;
 
 /**
  * Data dictionary definition of a field to be rendered as part of an accounting line view.

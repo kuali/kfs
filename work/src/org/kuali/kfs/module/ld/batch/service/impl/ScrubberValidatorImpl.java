@@ -22,10 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountService;
@@ -51,6 +47,10 @@ import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 
 /**
  * Service implementation of ScrubberValidator.

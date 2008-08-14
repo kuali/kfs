@@ -19,9 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface BulkReceivingService {
 

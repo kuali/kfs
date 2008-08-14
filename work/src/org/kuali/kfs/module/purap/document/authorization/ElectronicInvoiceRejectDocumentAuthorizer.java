@@ -18,15 +18,7 @@ package org.kuali.kfs.module.purap.document.authorization;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -37,6 +29,12 @@ import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.service.KualiGroupService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Document Authorizer for the PREQ document.
@@ -44,8 +42,8 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 public class ElectronicInvoiceRejectDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
@@ -59,8 +57,8 @@ public class ElectronicInvoiceRejectDocumentAuthorizer extends AccountingDocumen
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
@@ -99,8 +97,8 @@ public class ElectronicInvoiceRejectDocumentAuthorizer extends AccountingDocumen
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

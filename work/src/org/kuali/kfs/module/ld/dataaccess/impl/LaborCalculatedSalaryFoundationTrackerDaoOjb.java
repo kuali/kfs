@@ -25,7 +25,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -36,6 +35,7 @@ import org.kuali.kfs.module.ld.dataaccess.LaborCalculatedSalaryFoundationTracker
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * This is the data access object for calculated salary foundation tracker

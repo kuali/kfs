@@ -18,11 +18,6 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -33,6 +28,11 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business PreRules applicable to Purchasing documents
@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
 
     /**
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean doRules(Document document) {

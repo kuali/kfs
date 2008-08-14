@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.bo.EmployeeType">
+    <businessObject businessObjectClass="org.kuali.rice.kns.bo.EmployeeType">
 
 
         <inquiry>
@@ -108,9 +108,9 @@
                 <description>Employee Type Active Indicator</description>
             </attribute>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+            <attributeReference name="objectId" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
         </attributes>
     </businessObject>
 </dictionaryEntry>

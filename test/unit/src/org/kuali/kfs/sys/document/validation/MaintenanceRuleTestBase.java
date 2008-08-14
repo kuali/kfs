@@ -18,24 +18,24 @@ package org.kuali.kfs.sys.document.validation;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRule;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.MaintenanceDocumentDictionaryService;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRule;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 @ConfigureContext
 public abstract class MaintenanceRuleTestBase extends KualiTestBase {

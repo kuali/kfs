@@ -237,7 +237,7 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="ObjectCode-financialBudgetAggregationCd" parent="ObjectCode-financialBudgetAggregationCd-parentBean" />
 

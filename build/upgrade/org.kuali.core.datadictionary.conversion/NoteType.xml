@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.bo.NoteType">
+    <businessObject businessObjectClass="org.kuali.rice.kns.bo.NoteType">
 
 
         <inquiry>

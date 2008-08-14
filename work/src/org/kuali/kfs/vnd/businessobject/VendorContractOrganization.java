@@ -19,13 +19,13 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * A relation between a particular <code>Org</code> and a <code>VendorContract</code> indicating that the Org uses this Vendor
@@ -169,7 +169,7 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

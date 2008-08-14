@@ -20,15 +20,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location assets
@@ -40,7 +40,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     /**
      * Populates any empty fields from Asset primary key
      * 
-     * @see org.kuali.core.maintenance.Maintainable#addNewLineToCollection(java.lang.String)
+     * @see org.kuali.rice.kns.maintenance.Maintainable#addNewLineToCollection(java.lang.String)
      */
     
     @Override
@@ -82,7 +82,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     /**
      * This creates the particular locking representation for this global location document.
      * 
-     * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {

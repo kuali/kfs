@@ -18,10 +18,10 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.kuali.core.bo.DocumentType;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.rice.kns.bo.DocumentType;
 
 /**
  * Labor business object for Labor Transaction

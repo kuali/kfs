@@ -18,9 +18,9 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class defines an agency as it is used and referenced within the Contracts and Grants portion of a college or university
@@ -232,7 +232,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

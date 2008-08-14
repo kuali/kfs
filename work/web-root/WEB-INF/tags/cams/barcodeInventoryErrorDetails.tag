@@ -140,13 +140,13 @@
 			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.campusCode}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.campusCode}" property="currentCampusCode"/>
-						<kul:lookup boClassName="org.kuali.core.bo.Campus" fieldConversions="campusCode:currentCampusCode" />
+						<kul:lookup boClassName="org.kuali.rice.kns.bo.Campus" fieldConversions="campusCode:currentCampusCode" />
 					</td>
 	
 			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.campusCode}" readOnly="true"/></div></th>				
 					<td align=left class="${cssClass}">&nbsp
 						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.campusCode}" property="newCampusCode"/>
-						<kul:lookup boClassName="org.kuali.core.bo.Campus" fieldConversions="campusCode:newCampusCode" />						
+						<kul:lookup boClassName="org.kuali.rice.kns.bo.Campus" fieldConversions="campusCode:newCampusCode" />						
 					</td>
 				</tr>				
 	

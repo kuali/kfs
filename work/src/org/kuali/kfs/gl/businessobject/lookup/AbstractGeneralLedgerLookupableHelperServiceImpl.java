@@ -22,16 +22,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * The abstract parent class for GL Lookupables, providing base implementations of methods

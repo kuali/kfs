@@ -17,8 +17,8 @@ package org.kuali.kfs.fp.document.service;
 
 import java.util.List;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;

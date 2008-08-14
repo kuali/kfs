@@ -35,16 +35,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
@@ -62,8 +52,17 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
 /**
@@ -159,7 +158,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      * accounting line from the retrieved balance record, using parsed period name as the pay period, and parsed amount as the new
      * line amount. 5) Call insertAccountingLine
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest,
      *      HttpServletResponse)
      */
     @Override
@@ -248,7 +247,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
     /**
      * Overload the method in order to have balance importing section be populated with the last search criteria
      * 
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -324,7 +323,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
     /**
      * Copy a single accounting line
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#copyAccountingLine(ActionMapping, ActionForm,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#copyAccountingLine(ActionMapping, ActionForm,
      *      HttpServletRequest, HttpServletResponse)
      */
     public ActionForward copyAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

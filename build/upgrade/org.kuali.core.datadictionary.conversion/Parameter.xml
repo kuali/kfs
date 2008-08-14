@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.bo.Parameter">
+    <businessObject businessObjectClass="org.kuali.rice.kns.bo.Parameter">
 
         <inquiry>
             <title>Parameter Inquiry</title>
@@ -66,11 +66,11 @@
         <titleAttribute>parameterName</titleAttribute>
 
         <attributes>
-            <attributeReference name="parameterNamespaceCode" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="code">
+            <attributeReference name="parameterNamespaceCode" sourceClassName="org.kuali.rice.kns.bo.ParameterNamespace" sourceAttributeName="code">
                 <required>true</required>
                 <control>
                     <select
-                        valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterNamespaceValuesFinder"
+                        valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.ParameterNamespaceValuesFinder"
                     />
                         <!--  
                             script="this.form.submit();"
@@ -82,7 +82,7 @@
                     This value is used to categorize parameters by namespace.
                 </description>
             </attributeReference>
-            <attributeReference name="parameterDetailTypeCode" sourceClassName="org.kuali.core.bo.ParameterDetailType" sourceAttributeName="parameterDetailTypeCode" >
+            <attributeReference name="parameterDetailTypeCode" sourceClassName="org.kuali.rice.kns.bo.ParameterDetailType" sourceAttributeName="parameterDetailTypeCode" >
                 <required>true</required>
             
             </attributeReference>
@@ -139,7 +139,7 @@
                 <maxLength>1</maxLength>
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterOperatorValuesFinder" />
+                    <select valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.ParameterOperatorValuesFinder" />
                 </control>
 
                 <summary>parameterConstraintCode</summary>
@@ -147,14 +147,14 @@
             </attribute>
             
             
-            <attributeReference name="parameterTypeCode" sourceClassName="org.kuali.core.bo.ParameterType" sourceAttributeName="code" >
+            <attributeReference name="parameterTypeCode" sourceClassName="org.kuali.rice.kns.bo.ParameterType" sourceAttributeName="code" >
                 <required>true</required>
                 <control>
-                	<radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterTypeValuesFinder" />
+                	<radio valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.ParameterTypeValuesFinder" />
                 </control>
             </attributeReference>
 
-            <attributeReference name="parameterType.name" sourceClassName="org.kuali.core.bo.ParameterType" sourceAttributeName="name">
+            <attributeReference name="parameterType.name" sourceClassName="org.kuali.rice.kns.bo.ParameterType" sourceAttributeName="name">
                 <label>Parameter Type</label>
                 <required>false</required>
             </attributeReference>
@@ -177,14 +177,14 @@
                 </description>
             </attribute>
             
-            <attributeReference name="parameterNamespace.codeAndDescription" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="codeAndDescription"></attributeReference>
+            <attributeReference name="parameterNamespace.codeAndDescription" sourceClassName="org.kuali.rice.kns.bo.ParameterNamespace" sourceAttributeName="codeAndDescription"></attributeReference>
             
             <attributeReference name="objectId"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy"
                 sourceAttributeName="objectId"
             />
             <attributeReference name="versionNumber"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy"
                 sourceAttributeName="versionNumber"
             />
         </attributes>

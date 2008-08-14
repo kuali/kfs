@@ -21,13 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -55,6 +48,13 @@ import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

@@ -18,9 +18,6 @@ package org.kuali.kfs.gl.businessobject;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -30,6 +27,9 @@ import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Represents the encumbrance amount for a specific university fiscal year, 

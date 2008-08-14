@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.dao.LookupDao;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.dao.LookupDao;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,7 +36,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     
     /**
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -53,7 +53,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     }
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
      */
     @Override
     public void validateSearchParameters(Map fieldValues) {
@@ -64,7 +64,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     }
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#isResultReturnable(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#isResultReturnable(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public boolean isResultReturnable(BusinessObject claimAsBO) {

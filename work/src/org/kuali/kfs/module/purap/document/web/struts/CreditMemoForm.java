@@ -20,11 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.ui.ExtraButton;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -35,8 +30,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-
-import edu.iu.uis.eden.EdenConstants;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Struts Action Form for Credit Memo document.
@@ -51,26 +53,17 @@ public class CreditMemoForm extends AccountsPayableFormBase {
         setDocument(new CreditMemoDocument());
     }
 
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
-     */
     @Override
-    public KeyLabelPair getAdditionalDocInfo1() {
+    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
         if (ObjectUtils.isNotNull(((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier())) {
-            return new KeyLabelPair("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", ((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier().toString());
+            getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", ((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier().toString()));
         }
-        return new KeyLabelPair("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", "Not Available");
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
-     */
-    @Override
-    public KeyLabelPair getAdditionalDocInfo2() {
+        getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", "Not Available"));
         if (ObjectUtils.isNotNull(((CreditMemoDocument) getDocument()).getStatus())) {
-            return new KeyLabelPair("DataDictionary.CreditMemoDocument.attributes.statusCode", ((CreditMemoDocument) getDocument()).getStatus().getStatusDescription());
+            getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.statusCode", ((CreditMemoDocument) getDocument()).getStatus().getStatusDescription()));
         }
-        return new KeyLabelPair("DataDictionary.CreditMemoDocument.attributes.statusCode", "Not Available");
+        getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.statusCode", "Not Available"));
     }
 
     /**
@@ -155,22 +148,22 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     /**
      * Overrides the method in KualiDocumentFormBase to provide only FYI and ACK.
      * 
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#getAdHocActionRequestCodes()
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getAdHocActionRequestCodes()
      */
     @Override
     public Map getAdHocActionRequestCodes() {
         Map adHocActionRequestCodes = new HashMap();
         if (getWorkflowDocument() != null) {
             if (getWorkflowDocument().isFYIRequested()) {
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
             }
             else if (getWorkflowDocument().isAcknowledgeRequested()) {
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
             }
             else if (getWorkflowDocument().isApprovalRequested() || getWorkflowDocument().isCompletionRequested() || getWorkflowDocument().stateIsInitiated() || getWorkflowDocument().stateIsSaved()) {
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
             }
         }
         return adHocActionRequestCodes;

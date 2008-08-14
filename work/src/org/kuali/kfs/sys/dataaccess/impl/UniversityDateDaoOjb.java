@@ -22,11 +22,11 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
  * The OJB implementation of the UniversityDateDao

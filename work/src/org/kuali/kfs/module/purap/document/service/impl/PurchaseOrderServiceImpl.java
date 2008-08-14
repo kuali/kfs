@@ -30,34 +30,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.AdHocRoutePerson;
-import org.kuali.core.bo.AdHocRouteRecipient;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.DocumentBase;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.mail.MailMessage;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.MailService;
-import org.kuali.core.service.MaintenanceDocumentService;
-import org.kuali.core.service.NoteService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.KualiWorkflowInfo;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -107,10 +79,37 @@ import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorPhoneNumber;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.AdHocRoutePerson;
+import org.kuali.rice.kns.bo.AdHocRouteRecipient;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.DocumentBase;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.mail.MailMessage;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.service.MaintenanceDocumentService;
+import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
@@ -507,17 +506,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     private void takeWorkflowActionsForDocumentTransmission(PurchaseOrderDocument po, String annotation) {
         try {
-            List<ActionRequestVO> docTransRequests = new ArrayList<ActionRequestVO>();
-            ActionRequestVO[] actionRequests = workflowInfoService.getActionRequests(Long.valueOf(po.getDocumentNumber()));
-            for (ActionRequestVO actionRequestVO : actionRequests) {
-                if (actionRequestVO.isActivated()) {
-                    if (StringUtils.equals(actionRequestVO.getNodeName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName())) {
-                        docTransRequests.add(actionRequestVO);
+            List<ActionRequestDTO> docTransRequests = new ArrayList<ActionRequestDTO>();
+            ActionRequestDTO[] actionRequests = workflowInfoService.getActionRequests(Long.valueOf(po.getDocumentNumber()));
+            for (ActionRequestDTO actionRequestDTO : actionRequests) {
+                if (actionRequestDTO.isActivated()) {
+                    if (StringUtils.equals(actionRequestDTO.getNodeName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName())) {
+                        docTransRequests.add(actionRequestDTO);
                     }
                 }
             }
             if (!docTransRequests.isEmpty()) {
-                for (ActionRequestVO actionRequest : docTransRequests) {
+                for (ActionRequestDTO actionRequest : docTransRequests) {
                     po.getDocumentHeader().getWorkflowDocument().superUserActionRequestApprove(actionRequest.getActionRequestId(), annotation);
                 }
             }

@@ -20,8 +20,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
@@ -32,6 +30,8 @@ import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * The LaborInquiryOptionsService class is a service that will generate Pending Ledger and Consilidation options for balance

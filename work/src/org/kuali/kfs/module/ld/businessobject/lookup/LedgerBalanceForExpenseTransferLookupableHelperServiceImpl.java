@@ -26,18 +26,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.datadictionary.mask.Mask;
-import org.kuali.core.service.AuthorizationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.comparator.CellComparatorHelper;
-import org.kuali.core.web.format.BooleanFormatter;
-import org.kuali.core.web.format.Formatter;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Column;
-import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kfs.integration.businessobject.SegmentedBusinessObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
@@ -46,6 +34,18 @@ import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquira
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.datadictionary.mask.Mask;
+import org.kuali.rice.kns.service.AuthorizationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
+import org.kuali.rice.kns.web.format.BooleanFormatter;
+import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
  * Service implementation of LedgerBalanceForExpenseTransferLookupableHelperService.
@@ -55,7 +55,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
     private static final Log LOG = LogFactory.getLog(LedgerBalanceForExpenseTransferLookupableHelperServiceImpl.class);
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {

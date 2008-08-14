@@ -17,7 +17,7 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 /**
  * Used to represent a dynamic options selection using explicitly typed key/label pair
@@ -51,7 +51,7 @@ public class BCKeyLabelPair extends TransientBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

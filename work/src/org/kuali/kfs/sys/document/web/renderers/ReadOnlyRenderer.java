@@ -24,8 +24,8 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Renderer which displays a read only field

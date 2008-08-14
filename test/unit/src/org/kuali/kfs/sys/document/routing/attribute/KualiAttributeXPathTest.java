@@ -27,8 +27,8 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 
-import edu.iu.uis.eden.exception.InvalidXmlException;
-import edu.iu.uis.eden.routeheader.DocumentContent;
+import org.kuali.rice.kew.exception.InvalidXmlException;
+import org.kuali.rice.kew.routeheader.DocumentContent;
 
 /**
  * This class...

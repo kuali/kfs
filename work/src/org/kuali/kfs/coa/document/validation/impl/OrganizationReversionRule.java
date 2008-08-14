@@ -17,13 +17,13 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import java.util.List;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class implements the business rules specific to the {@link OrganizationReversion} Maintenance Document.
@@ -48,7 +48,7 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
      * <li>{@link OrganizationReversionRule#validateDetailBusinessObjects(OrganizationReversion)}</li>
      * </ul>
      * This rule fails on business rule failures
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {

@@ -21,17 +21,16 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.kuali.workflow.attribute.KualiXmlAttribute;
-import org.kuali.workflow.attribute.KualiXmlAttributeHelper;
+import org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute;
+import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
+import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kew.util.XmlHelper;
+import org.kuali.rice.kns.workflow.attribute.KualiXmlAttribute;
+import org.kuali.rice.kns.workflow.attribute.KualiXmlAttributeHelper;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute;
-import edu.iu.uis.eden.routetemplate.xmlrouting.XPathHelper;
-import edu.iu.uis.eden.util.Utilities;
-import edu.iu.uis.eden.util.XmlHelper;
 
 /**
  * This class extends the workflow xml rule attribute implementation to use the information in the data dictionary to generate
@@ -56,7 +55,7 @@ public class MyXmlRuleAttributeImpl extends StandardGenericXMLRuleAttribute impl
      * This method overrides the super class and modifies the XML that it operates on to put the name and the title in the place
      * where the super class expects to see them, even though they may no longer exist in the original XML.
      * 
-     * @see edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute#getConfigXML()
+     * @see org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute#getConfigXML()
      */
     public Element getConfigXML() {
         Element root = getAttributeConfigXML();

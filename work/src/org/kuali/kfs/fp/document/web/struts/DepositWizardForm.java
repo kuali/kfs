@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.fp.businessobject.Bank;
 import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.Check;
@@ -30,6 +29,7 @@ import org.kuali.kfs.fp.businessobject.DepositWizardHelper;
 import org.kuali.kfs.fp.businessobject.format.CashReceiptDepositTypeFormatter;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * This class is the action form for the deposit document wizard.

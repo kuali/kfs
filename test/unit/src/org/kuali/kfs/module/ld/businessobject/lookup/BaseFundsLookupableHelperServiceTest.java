@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.core.lookup.LookupableHelperService;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.PersistenceService;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.web.TestDataGenerator;

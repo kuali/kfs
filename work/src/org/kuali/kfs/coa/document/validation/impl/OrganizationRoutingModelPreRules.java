@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.kfs.coa.businessobject.OrganizationRoutingModel;
 import org.kuali.kfs.coa.businessobject.OrganizationRoutingModelName;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
  * 
@@ -32,7 +32,7 @@ public class OrganizationRoutingModelPreRules extends MaintenancePreRulesBase {
      * <ul>
      * <li>{@link OrganizationRoutingModelPreRules#copyKeyAttributesToModelDetail(OrganizationRoutingModelName)}</li>
      * </ul>
-     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean doCustomPreRules(MaintenanceDocument maintDoc) {

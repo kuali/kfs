@@ -21,19 +21,19 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.mail.InvalidAddressException;
-import org.kuali.core.mail.MailMessage;
-import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.service.MailService;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.KualiGroup;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.mail.InvalidAddressException;
+import org.kuali.rice.kns.mail.MailMessage;
+import org.kuali.rice.kns.service.KualiGroupService;
+import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * Parses data from a government web page listing the valid CFDA codes. The codes are then compared with what's in the CFDA table in

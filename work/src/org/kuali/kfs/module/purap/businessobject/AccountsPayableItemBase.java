@@ -18,9 +18,9 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Base class for Accounts Payable Item Business Objects.

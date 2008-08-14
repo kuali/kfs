@@ -19,8 +19,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.Guid;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.Guid;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;

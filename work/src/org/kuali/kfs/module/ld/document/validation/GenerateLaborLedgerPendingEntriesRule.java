@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.ld.document.validation;
 
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Defines a rule which gets invoked whenever pending entries for a document need to be re/generated (which is usually when the

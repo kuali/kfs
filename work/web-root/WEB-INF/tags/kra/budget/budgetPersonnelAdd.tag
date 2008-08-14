@@ -62,7 +62,7 @@
 							              </c:if>
 							              <html:hidden property="newPersonnel.user.personName" write="true" />
                           </label>
-						              <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newPersonnel.personUniversalIdentifier,personName:newPersonnel.user.personName,personBaseSalaryAmount:newPersonnel.baseSalary" />
+						              <kul:lookup boClassName="org.kuali.rice.kns.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newPersonnel.personUniversalIdentifier,personName:newPersonnel.user.personName,personBaseSalaryAmount:newPersonnel.baseSalary" />
 						              <html:hidden property="newPersonnel.documentNumber" />
 						              <html:hidden property="newPersonnel.budgetUserSequenceNumber" />
 						              <html:hidden property="newPersonnel.baseSalary" />

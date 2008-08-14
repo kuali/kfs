@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ld.document;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Labor Document Class for the Salary Expense Transfer Document.

@@ -26,15 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelper;
@@ -47,8 +38,16 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This class piggy backs on all of the functionality in the FinancialSystemTransactionalDocumentActionBase but is necessary for this document
@@ -69,7 +68,7 @@ public class JournalVoucherAction extends VoucherAction {
      * Overrides the parent and then calls the super method after building the array lists for valid accounting periods and balance
      * types.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
      *      HttpServletResponse response)
      */
     @Override
@@ -101,7 +100,7 @@ public class JournalVoucherAction extends VoucherAction {
      * Overrides the parent to first prompt the user appropriately to make sure that they want to submit and out of balance
      * document, then calls super's route method.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -451,7 +450,7 @@ public class JournalVoucherAction extends VoucherAction {
      * Overrides the parent to make sure that the JV specific accounting line helper forms are properly populated when the document
      * is first loaded. This first calls super, then populates the helper objects.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

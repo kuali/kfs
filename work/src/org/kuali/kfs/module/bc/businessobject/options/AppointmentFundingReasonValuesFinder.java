@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * a value finder built from the budget construction appointment funding reason codes
@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class AppointmentFundingReasonValuesFinder extends KeyValuesBase {
 
     /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
     public List getKeyValues() {

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.coa.businessobject.defaultvalue;
 
-import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
 
 /**
  * A value finder that returns the current user's default organization code.
@@ -26,7 +26,7 @@ public class CurrentUserOrgValueFinder implements ValueFinder {
     /**
      * returns the current user's default organization code
      * 
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         FinancialSystemUser currentUser = ValueFinderUtil.getCurrentFinancialSystemUser();

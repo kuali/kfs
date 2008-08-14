@@ -21,15 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -47,6 +38,15 @@ import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.ui.Section;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
@@ -59,7 +59,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     /**
      * Get Asset from AssetGlobal
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.core.document.MaintenanceDocument, java.util.Map)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
      */
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
@@ -215,7 +215,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     /**
      * Hide specific document sections
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.core.maintenance.Maintainable)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
     @Override
     public List<Section> getCoreSections(Maintainable oldMaintainable) {
@@ -237,7 +237,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     /**
      * Hook for quantity and setting asset numbers.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override
     public void addNewLineToCollection(String collectionName) {
@@ -290,7 +290,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     /**
      * This creates the particular locking representation for this global document.
      * 
-     * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {

@@ -18,11 +18,11 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class LedgerBalanceForYearEndBalanceForward extends PersistableBusinessObjectBase {
 

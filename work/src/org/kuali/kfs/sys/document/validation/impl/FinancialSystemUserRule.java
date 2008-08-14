@@ -19,12 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.format.PhoneNumberFormatter;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -32,6 +26,12 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.web.format.PhoneNumberFormatter;
 
 public class FinancialSystemUserRule extends KfsMaintenanceDocumentRuleBase {
 

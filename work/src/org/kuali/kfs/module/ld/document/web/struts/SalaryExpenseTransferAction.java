@@ -23,11 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
@@ -38,6 +33,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * Struts action class for Salary Expense Transfer Document. This class extends the parent FinancialSystemTransactionalDocumentActionBase
@@ -60,7 +60,7 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     /**
      * If user is approving document, capture the object code balances for comparison in business rules on route
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -90,7 +90,7 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -104,7 +104,7 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#blanketApprove(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#blanketApprove(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

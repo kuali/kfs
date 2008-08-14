@@ -18,9 +18,9 @@ package org.kuali.kfs.sys.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.service.PostalZipCodeService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class PostalZipCodeServiceImpl implements PostalZipCodeService {
 

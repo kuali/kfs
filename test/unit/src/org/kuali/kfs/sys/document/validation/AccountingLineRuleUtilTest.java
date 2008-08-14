@@ -29,8 +29,8 @@ import static org.kuali.kfs.sys.fixture.AccountFixture.EXPIRIED_ACCOUNT_NO_CONTI
 import static org.kuali.kfs.sys.fixture.ObjectCodeFixture.OBJECT_CODE_BUDGETED_OBJECT_CODE;
 import static org.kuali.kfs.sys.fixture.ObjectCodeFixture.OBJECT_CODE_NON_BUDGET_OBJECT_CODE;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;

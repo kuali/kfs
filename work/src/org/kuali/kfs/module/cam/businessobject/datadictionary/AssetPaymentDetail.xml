@@ -217,7 +217,7 @@
     </property>
     <property name="summary" value="primaryDepreciationPaymentAmount" />
     <property name="description" value="primaryDepreciationPaymentAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="AssetPaymentDetail-purchaseOrderNumber" parent="AssetPaymentDetail-purchaseOrderNumber-parentBean" />
 
@@ -272,7 +272,7 @@
     </property>
     <property name="summary" value="secondaryDepreciationPaymentAmount" />
     <property name="description" value="secondaryDepreciationPaymentAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="AssetPaymentDetail-transferPaymentIndicator" parent="AssetPaymentDetail-transferPaymentIndicator-parentBean" />
 

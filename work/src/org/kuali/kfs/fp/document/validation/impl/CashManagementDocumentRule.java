@@ -21,11 +21,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.Deposit;
@@ -41,6 +36,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business rule(s) applicable to Cash Management Document.
@@ -55,7 +55,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * 
      * @param document submitted cash management document
      * @return true if there are no issues processing rules associated with saving a cash management document
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -77,7 +77,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * 
      * @param document submitted cash management document
      * @return true if there are no issues processing rules associated with routing a cash management document
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {

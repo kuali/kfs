@@ -211,7 +211,7 @@
 
 </attribute>
 
-<attributeReference name="deliveryRequiredDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+<attributeReference name="deliveryRequiredDate" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
     <label>Date Required</label>
     <shortLabel>Date Required</shortLabel>
 </attributeReference>
@@ -225,7 +225,7 @@
 
 </attributeReference>
 
-<attributeReference name="deliveryToEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
+<attributeReference name="deliveryToEmailAddress" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
     <required>false</required>
 
 </attributeReference>
@@ -265,7 +265,7 @@
     </control>
 </attributeReference>
 
-<attributeReference name="institutionContactEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
+<attributeReference name="institutionContactEmailAddress" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
     <label>Contact Email</label>
     <shortLabel>Address</shortLabel>
 
@@ -334,19 +334,19 @@
 
 </attributeReference>
 
-<attributeReference name="purchaseOrderBeginDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+<attributeReference name="purchaseOrderBeginDate" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
     <label>Begin/End Date</label>
     <shortLabel>Date</shortLabel>
 
 </attributeReference>
 
-<attributeReference name="purchaseOrderEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+<attributeReference name="purchaseOrderEndDate" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
     <label>Begin/End Date</label>
     <shortLabel>Date</shortLabel>
 
 </attributeReference>
 
-<attributeReference name="purchaseOrderTotalLimit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+<attributeReference name="purchaseOrderTotalLimit" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
     <label>PO Total Cannot Exceed</label>
     <shortLabel>Limit</shortLabel>
 
@@ -370,7 +370,7 @@
 
 </attributeReference>
 
-<attributeReference name="requestorPersonEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
+<attributeReference name="requestorPersonEmailAddress" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
     <label>Requestor Email</label>
     <shortLabel>Email</shortLabel>
     <required>true</required>

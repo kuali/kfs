@@ -24,11 +24,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * This class handles Actions for the balance inquiry report menu

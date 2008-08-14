@@ -21,8 +21,8 @@ import java.io.Reader;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.batch.service.ReconciliationParserService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Format of the reconciliation file:

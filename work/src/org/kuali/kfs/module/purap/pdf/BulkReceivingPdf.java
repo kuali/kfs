@@ -15,35 +15,16 @@
  */
 package org.kuali.kfs.module.purap.pdf;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
-import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.ExceptionConverter;
 import com.lowagie.text.Image;
@@ -52,7 +33,6 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfTable;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**

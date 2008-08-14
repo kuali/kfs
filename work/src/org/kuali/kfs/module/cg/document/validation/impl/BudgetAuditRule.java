@@ -20,10 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
@@ -36,6 +32,10 @@ import org.kuali.kfs.module.cg.document.web.struts.BudgetCostShareFormHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class BudgetAuditRule {
 

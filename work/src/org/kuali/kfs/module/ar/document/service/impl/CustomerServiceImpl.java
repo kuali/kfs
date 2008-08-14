@@ -17,13 +17,13 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.Collection;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

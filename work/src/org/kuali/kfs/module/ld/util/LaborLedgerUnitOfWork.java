@@ -18,12 +18,12 @@ package org.kuali.kfs.module.ld.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class is a working unit of labor origin entry. It is formed by a group of slimilar labor origin entries. If any two entries

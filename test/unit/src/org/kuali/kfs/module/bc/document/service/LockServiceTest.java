@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedSet;
 
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;

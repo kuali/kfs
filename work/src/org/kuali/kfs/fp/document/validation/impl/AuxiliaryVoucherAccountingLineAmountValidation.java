@@ -27,11 +27,11 @@ import static org.kuali.kfs.sys.KFSConstants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * The Auxiliary Voucher's customization of the accounting line amount validation.

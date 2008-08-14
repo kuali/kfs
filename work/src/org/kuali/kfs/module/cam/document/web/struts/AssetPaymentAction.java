@@ -15,41 +15,25 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
-import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.fp.document.AdvanceDepositDocument;
-import org.kuali.kfs.fp.document.web.struts.AdvanceDepositForm;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
-import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PersistenceService;
 
 public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentAction.class);
@@ -70,7 +54,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     
     /**
      * 
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      *
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

@@ -29,21 +29,21 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.NoteService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -92,7 +92,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * This class provides services of use to a payment request document
@@ -254,7 +254,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * NOTE: in the event of auto-approval failure, this method may throw a RuntimeException, indicating to Spring
      * transactional management that the transaction should be rolled back.
      * 
-     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#autoApprovePaymentRequest(java.lang.String, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#autoApprovePaymentRequest(java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
      */
     public boolean autoApprovePaymentRequest(String docNumber, KualiDecimal defaultMinimumLimit) {
         PaymentRequestDocument paymentRequestDocument = null;
@@ -292,7 +292,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * NOTE: in the event of auto-approval failure, this method may throw a RuntimeException, indicating to Spring
      * transactional management that the transaction should be rolled back.
      * 
-     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#autoApprovePaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#autoApprovePaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument, org.kuali.rice.kns.util.KualiDecimal)
      */
     public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit) {
         if (isEligibleForAutoApproval(doc, defaultMinimumLimit)) {
@@ -559,7 +559,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer, org.kuali.core.util.KualiDecimal, java.sql.Date)
+     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer, org.kuali.rice.kns.util.KualiDecimal, java.sql.Date)
      */
     public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate) {
         LOG.debug("getPaymentRequestsByPOIdInvoiceAmountInvoiceDate() started");
@@ -839,7 +839,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
         boolean canHold = false;
@@ -859,7 +859,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
         boolean canRemoveHold = false;
@@ -937,7 +937,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
         /*
@@ -957,7 +957,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * This method determines if a user has permission to remove a request for cancel on a payment request document.
      * 
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
         String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);

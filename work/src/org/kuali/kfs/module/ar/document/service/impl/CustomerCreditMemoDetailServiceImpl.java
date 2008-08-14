@@ -17,14 +17,13 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerCreditMemoDetailServiceImpl implements CustomerCreditMemoDetailService {
 

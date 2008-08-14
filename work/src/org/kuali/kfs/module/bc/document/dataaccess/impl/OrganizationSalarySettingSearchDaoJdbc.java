@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
-import org.kuali.core.util.Guid;
 import org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao;
+import org.kuali.rice.kns.util.Guid;
 
 /**
  * This class...

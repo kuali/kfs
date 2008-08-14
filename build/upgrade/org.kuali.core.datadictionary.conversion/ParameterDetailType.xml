@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.bo.ParameterDetailType">
+    <businessObject businessObjectClass="org.kuali.rice.kns.bo.ParameterDetailType">
 
         <inquiry>
             <title>Parameter Detail Type Inquiry</title>
@@ -62,10 +62,10 @@
         <titleAttribute>parameterDetailTypeName</titleAttribute>
 
         <attributes>
-            <attributeReference name="parameterNamespaceCode" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="code">
+            <attributeReference name="parameterNamespaceCode" sourceClassName="org.kuali.rice.kns.bo.ParameterNamespace" sourceAttributeName="code">
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ParameterNamespaceValuesFinder"/>
+                    <select valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.ParameterNamespaceValuesFinder"/>
                 </control>
             </attributeReference>
             <attribute name="parameterDetailTypeCode" forceUppercase="false">
@@ -100,18 +100,18 @@
                     The name of the parameter detail type.
                 </description>
             </attribute>
-            <attributeReference name="parameterNamespace.codeAndDescription" sourceClassName="org.kuali.core.bo.ParameterNamespace" sourceAttributeName="codeAndDescription"></attributeReference>
+            <attributeReference name="parameterNamespace.codeAndDescription" sourceClassName="org.kuali.rice.kns.bo.ParameterNamespace" sourceAttributeName="codeAndDescription"></attributeReference>
             <attributeReference name="active"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy"
                 sourceAttributeName="activeIndicator"
             >
             </attributeReference>
             <attributeReference name="objectId"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy"
                 sourceAttributeName="objectId"
             />
             <attributeReference name="versionNumber"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy"
                 sourceAttributeName="versionNumber"
             />
         </attributes>

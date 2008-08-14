@@ -6,8 +6,8 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author delyea
@@ -136,7 +136,7 @@ public class ElectronicInvoiceRejectReason extends PersistableBusinessObjectBase
   }
   
   /**
-   * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+   * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
    */
   protected LinkedHashMap toStringMapper() {
       LinkedHashMap m = new LinkedHashMap();

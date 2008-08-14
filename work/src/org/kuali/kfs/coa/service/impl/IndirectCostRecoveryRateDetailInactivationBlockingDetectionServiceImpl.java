@@ -15,21 +15,18 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import java.util.Collection;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.datadictionary.InactivationBlockingMetadata;
-import org.kuali.core.service.InactivationBlockingDetectionService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.service.impl.InactivationBlockingDetectionServiceImpl;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl;
 
 public class IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceImpl extends InactivationBlockingDetectionServiceImpl {
     protected PersistenceService persistenceService;

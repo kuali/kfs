@@ -18,11 +18,11 @@ package org.kuali.kfs.sys.document.authorization;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 
 /**
  * Extension to TransactionalDocumentAuthorizer interface which adds financial-document-specific methods.

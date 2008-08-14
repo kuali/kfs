@@ -18,10 +18,6 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ChartService;
@@ -29,6 +25,10 @@ import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * PreRules checks for the {@link ObjectCode} that needs to occur while still in the Struts processing. This includes defaults, confirmations,
@@ -61,7 +61,7 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
      * <p>
      * Additionally if the object level is null or inactive it confirms with the user that this
      * is actually the object level code they wish to use
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     public boolean doRules(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;

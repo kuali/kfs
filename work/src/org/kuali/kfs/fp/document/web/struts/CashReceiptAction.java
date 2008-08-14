@@ -25,13 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.Timer;
-import org.kuali.core.util.WebUtils;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
@@ -47,8 +40,14 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.Timer;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * 
@@ -301,7 +300,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
 
 
     /**
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -336,7 +335,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
     }
 
     /**
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

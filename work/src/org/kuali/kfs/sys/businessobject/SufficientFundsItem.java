@@ -17,13 +17,13 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.io.Serializable;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Represents a sufficient fund item which is used to show if a document has sufficient funds

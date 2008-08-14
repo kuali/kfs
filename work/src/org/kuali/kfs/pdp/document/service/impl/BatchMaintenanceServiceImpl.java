@@ -21,7 +21,6 @@ package org.kuali.kfs.pdp.document.service.impl;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.pdp.businessobject.Code;
 import org.kuali.kfs.pdp.businessobject.PaymentChange;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
@@ -34,6 +33,7 @@ import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
 import org.kuali.kfs.pdp.exception.CancelPaymentException;
 import org.kuali.kfs.pdp.exception.PdpException;
 import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.springframework.transaction.annotation.Transactional;
 
 

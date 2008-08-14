@@ -17,9 +17,9 @@ package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This is a wrapper for BudgetNonpersonnel business object. It's useful on the copy over page because it assists in housing and

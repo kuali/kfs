@@ -1,11 +1,11 @@
 package org.kuali.kfs.module.purap.businessobject;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 import org.kuali.kfs.module.purap.exception.PurError;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

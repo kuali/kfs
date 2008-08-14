@@ -29,10 +29,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.gl.OJBUtility;
@@ -46,6 +42,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
  * 

@@ -27,8 +27,8 @@ import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.iu.uis.eden.exception.InvalidXmlException;
-import edu.iu.uis.eden.routeheader.DocumentContent;
+import org.kuali.rice.kew.exception.InvalidXmlException;
+import org.kuali.rice.kew.routeheader.DocumentContent;
 
 /**
  * This class...
@@ -41,7 +41,7 @@ public class KualiAccountAttributeTest extends KualiTestBase {
         DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.TOF_FEMP_SUBCODE_ONELINER, "TransferOfFundsDocument");
 
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
-        NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
+        NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.rice.kns.bo.SourceAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
 
         String chart = "";
         String accountNumber = "";
@@ -58,7 +58,7 @@ public class KualiAccountAttributeTest extends KualiTestBase {
 
     public void testSearchableAccountAttributeXPathTest() throws IOException, InvalidXmlException, XPathExpressionException {
 
-        final String xpathQuery = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/accountNumber') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/accountNumber')";
+        final String xpathQuery = "wf:xstreamsafe('//org.kuali.rice.kns.bo.SourceAccountingLine/accountNumber') | wf:xstreamsafe('//org.kuali.rice.kns.bo.TargetAccountingLine/accountNumber')";
 
         DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.TOF_FEMP_SUBCODE_ONELINER, "TransferOfFundsDocument");
 

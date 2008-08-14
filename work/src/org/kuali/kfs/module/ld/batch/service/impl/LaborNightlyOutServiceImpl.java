@@ -19,8 +19,6 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
@@ -34,6 +32,8 @@ import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

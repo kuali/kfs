@@ -21,12 +21,12 @@ import java.text.FieldPosition;
 import java.text.SimpleDateFormat;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.gl.batch.service.CollectorHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * Batch input type for the collector job.
@@ -67,7 +67,7 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
      * @param userIdentifier user identifier for user who uploaded file
      * @return String returns file name using the convention mentioned in the description
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.core.bo.user.UniversalUser, java.lang.Object,
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kns.bo.user.UniversalUser, java.lang.Object,
      *      java.lang.String)
      */
     public String getFileName(UniversalUser user, Object parsedFileContents, String userIdentifier) {
@@ -99,7 +99,7 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
      * @param batchFile uploaded batch file
      * @return true if user's username in in file
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#checkAuthorization(org.kuali.core.bo.user.UniversalUser, java.io.File)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#checkAuthorization(org.kuali.rice.kns.bo.user.UniversalUser, java.io.File)
      */
     public boolean checkAuthorization(UniversalUser user, File batchFile) {
         boolean isAuthorized = false;

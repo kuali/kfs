@@ -20,10 +20,6 @@ import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_I
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
@@ -40,6 +36,10 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 /**
@@ -53,7 +53,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      * @param document submitted cash receipt document
      * @return true if cash, check, and coin totals are not negative
      * 
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -93,7 +93,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      * @param check check added to cash receipt document
      * @return true if check is valid (i.e. non-zero and not negative)
      * 
-     * @see org.kuali.core.rule.AddCheckRule#processAddCheckBusinessRules(org.kuali.core.document.FinancialDocument,
+     * @see org.kuali.rice.kns.rule.AddCheckRule#processAddCheckBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.kfs.fp.businessobject.Check)
      */
     public boolean processAddCheckBusinessRules(AccountingDocument financialDocument, Check check) {
@@ -109,7 +109,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      * @param check check deleted from cash receipt document
      * @return true 
      * 
-     * @see org.kuali.core.rule.DeleteCheckRule#processDeleteCheckBusinessRules(org.kuali.core.document.FinancialDocument,
+     * @see org.kuali.rice.kns.rule.DeleteCheckRule#processDeleteCheckBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.kfs.fp.businessobject.Check)
      */
     public boolean processDeleteCheckBusinessRules(AccountingDocument financialDocument, Check check) {
@@ -125,7 +125,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      * @param check check updated from cash receipt document
      * @return true if updated check is valid (i.e. non-zero and not negative)
      * 
-     * @see org.kuali.core.rule.UpdateCheckRule#processUpdateCheckRule(org.kuali.core.document.FinancialDocument,
+     * @see org.kuali.rice.kns.rule.UpdateCheckRule#processUpdateCheckRule(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.kfs.fp.businessobject.Check)
      */
     public boolean processUpdateCheckRule(AccountingDocument financialDocument, Check check) {

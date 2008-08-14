@@ -17,9 +17,9 @@ package org.kuali.kfs.module.purap.batch;
 
 import java.util.Date;
 
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.module.purap.service.PdpExtractService;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class ExtractPdpImmediatesStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractPdpImmediatesStep.class);

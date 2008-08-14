@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.integration.businessobject;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Information about fringe benefits needed by the BudgetAdjustment document to create fringe benefit lines

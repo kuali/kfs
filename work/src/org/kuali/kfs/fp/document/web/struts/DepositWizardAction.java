@@ -29,18 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.fp.businessobject.Bank;
 import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
@@ -63,8 +51,19 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
  * This class handles actions for the deposit wizard, which is used to create deposits that bundle groupings of Cash Receipt
@@ -189,7 +188,7 @@ public class DepositWizardAction extends KualiAction {
     /**
      * Reloads the CashReceipts, leaving everything else unchanged
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

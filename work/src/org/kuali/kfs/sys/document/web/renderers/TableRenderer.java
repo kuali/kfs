@@ -22,8 +22,6 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.web.AccountingLineTable;
 
 /**

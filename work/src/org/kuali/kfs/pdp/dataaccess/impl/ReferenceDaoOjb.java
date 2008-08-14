@@ -26,14 +26,14 @@ import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.pdp.businessobject.Code;
 import org.kuali.kfs.pdp.businessobject.UserRequired;
 import org.kuali.kfs.pdp.dataaccess.ReferenceDao;
 import org.kuali.kfs.pdp.exception.ConfigurationError;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 
 /**

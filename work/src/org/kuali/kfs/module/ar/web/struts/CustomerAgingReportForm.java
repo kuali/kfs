@@ -23,16 +23,16 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.lookup.Lookupable;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * This class is the action form for Customer Aging Reports.
@@ -57,7 +57,7 @@ public class CustomerAgingReportForm extends LookupForm {
     /**
      * Picks out business object name from the request to get retrieve a lookupable and set properties.
      * 
-     * @see org.kuali.core.web.struts.form.LookupForm#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.form.LookupForm#populate(javax.servlet.http.HttpServletRequest)
      */
     public void populate(HttpServletRequest request) {
         super.populate(request);

@@ -19,26 +19,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.core.web.struts.form.KualiMaintenanceForm;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubAccountTrickleDownInactivationService;
 import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class overrides the saveBusinessObject() method which is called during post process from the KualiPostProcessor so that it
@@ -51,7 +42,7 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
     /**
      * Automatically deactivates {@link SubAccount}s after saving the {@link Account}
      * 
-     * @see org.kuali.core.maintenance.Maintainable#saveBusinessObject()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#saveBusinessObject()
      */
     @Override
     public void saveBusinessObject() {
@@ -70,7 +61,7 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
     /**
      * After a copy is done set specific fields on {@link Account} to default values
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterCopy()
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy()
      */
     @Override
     public void processAfterCopy( MaintenanceDocument document, Map<String,String[]> parameters ) {

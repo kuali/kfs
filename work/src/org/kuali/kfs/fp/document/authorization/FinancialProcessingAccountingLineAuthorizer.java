@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.document.authorization;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DocumentTypeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
@@ -29,6 +28,7 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseCons
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.DocumentTypeService;
 
 /**
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents

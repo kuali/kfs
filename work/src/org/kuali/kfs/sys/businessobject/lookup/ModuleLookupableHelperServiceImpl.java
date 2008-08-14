@@ -20,15 +20,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.KualiModule;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.KualiModuleBO;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.KualiModule;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiModuleService;
 
 public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 

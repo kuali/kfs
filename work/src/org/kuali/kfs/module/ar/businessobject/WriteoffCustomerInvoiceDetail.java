@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -24,6 +23,7 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {

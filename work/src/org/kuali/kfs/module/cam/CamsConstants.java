@@ -18,10 +18,8 @@ package org.kuali.kfs.module.cam;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants.EditMode;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.util.JSTLConstants;
+import org.kuali.rice.core.util.JSTLConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
 
 
 /**

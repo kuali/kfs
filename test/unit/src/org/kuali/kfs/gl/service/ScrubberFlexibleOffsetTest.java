@@ -17,7 +17,7 @@ package org.kuali.kfs.gl.service;
 
 import java.util.Calendar;
 
-import org.kuali.core.util.Guid;
+import org.kuali.rice.kns.util.Guid;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;

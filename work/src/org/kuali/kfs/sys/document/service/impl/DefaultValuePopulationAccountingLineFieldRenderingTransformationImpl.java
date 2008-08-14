@@ -17,13 +17,12 @@ package org.kuali.kfs.sys.document.service.impl;
 
 import java.util.Map;
 
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.web.ui.Field;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * A field transformer that populates a field with its default value

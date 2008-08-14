@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface PaymentSummaryService {
     /**

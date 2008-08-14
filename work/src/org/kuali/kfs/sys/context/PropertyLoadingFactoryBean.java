@@ -21,10 +21,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import org.kuali.rice.core.util.ClassLoaderUtils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.DefaultResourceLoader;
-
-import edu.iu.uis.eden.util.ClassLoaderUtils;
 
 public class PropertyLoadingFactoryBean implements FactoryBean {
     private static final String PROPERTY_FILE_NAMES_KEY = "property.files";

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.util.KualiInteger;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnelTest;

@@ -22,10 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
@@ -35,6 +31,10 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * Struts Action Form for the Salary Expense Transfer document. This method extends the parent ExpenseTransferDocumentFormBase class
@@ -80,7 +80,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {

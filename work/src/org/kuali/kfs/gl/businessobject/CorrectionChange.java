@@ -19,8 +19,8 @@ package org.kuali.kfs.gl.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * A class that represents a change to any origin entry that was altered within a GLCP Document
@@ -118,7 +118,7 @@ public class CorrectionChange extends PersistableBusinessObjectBase implements C
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

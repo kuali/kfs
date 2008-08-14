@@ -25,9 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
@@ -37,8 +34,10 @@ import org.kuali.kfs.module.cg.document.service.RoutingFormService;
 import org.kuali.kfs.module.cg.document.validation.event.RoutingFormBudgetLinkEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class RoutingFormLinkAction extends RoutingFormAction {
 

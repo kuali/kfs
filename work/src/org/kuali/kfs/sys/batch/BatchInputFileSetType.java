@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * Declares methods that must be implemented for batch input file set type classes, which provides functionaliy needed to manage

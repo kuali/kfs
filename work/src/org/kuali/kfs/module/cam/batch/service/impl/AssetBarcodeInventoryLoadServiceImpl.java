@@ -29,15 +29,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -49,8 +40,14 @@ import org.kuali.kfs.module.cam.document.validation.event.ValidateBarcodeInvento
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * Implementation of the AssetBarcodeInventoryLoadService interface. Handles loading, parsing, and storing of

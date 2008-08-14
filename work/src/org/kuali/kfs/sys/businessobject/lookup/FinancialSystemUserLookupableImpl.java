@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.businessobject.lookup;
 
-import org.kuali.core.lookup.KualiLookupableImpl;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 
 /**
  *  Overrides the base lookupable to force the FinancialSystemUser class in wherever this used.

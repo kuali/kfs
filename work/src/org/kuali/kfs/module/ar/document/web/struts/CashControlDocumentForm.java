@@ -17,15 +17,14 @@ package org.kuali.kfs.module.ar.document.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CashControlDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentForm.class);
@@ -46,7 +45,7 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {

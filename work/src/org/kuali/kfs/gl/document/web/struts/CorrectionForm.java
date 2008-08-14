@@ -24,9 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
-import org.kuali.core.web.ui.Column;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.document.CorrectionDocument;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
@@ -35,6 +32,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
+import org.kuali.rice.kns.web.ui.Column;
 
 
 /**
@@ -139,7 +139,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {
@@ -672,7 +672,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     /**
      * Adds the origin entry max file size to the list of max file sizes.
      * 
-     * @see org.kuali.core.web.struts.pojo.PojoFormBase#customInitMaxUploadSizes()
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#customInitMaxUploadSizes()
      */
     @Override
     protected void customInitMaxUploadSizes() {

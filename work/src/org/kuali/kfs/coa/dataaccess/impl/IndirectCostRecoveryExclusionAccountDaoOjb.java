@@ -21,9 +21,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionAccountDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * This class implements the {@link IndirectCostRecoveryExclusionAccountDao} data access methods using Ojb

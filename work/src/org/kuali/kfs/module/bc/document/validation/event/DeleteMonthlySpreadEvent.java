@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.bc.document.validation.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 /**
  * This class...
@@ -38,7 +38,7 @@ public class DeleteMonthlySpreadEvent extends KualiDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         // TODO Auto-generated method stub
@@ -46,7 +46,7 @@ public class DeleteMonthlySpreadEvent extends KualiDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((DeleteMonthlySpreadRule) rule).processDeleteMonthlySpreadRules(budgetConstructionDocument, monthSpreadDeleteType);

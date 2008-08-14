@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.exception;
 
-import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 
 /**

@@ -18,9 +18,9 @@ package org.kuali.kfs.module.cab.businessobject;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Accounting line grouped data for a Pending GL Entry

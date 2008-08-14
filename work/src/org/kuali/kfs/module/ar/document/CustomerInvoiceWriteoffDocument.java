@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -276,7 +276,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     /**
      * do all the calculations before the document gets saved
      * gets called for 'Submit', 'Save', and 'Blanket Approved'
-     * @see org.kuali.core.document.Document#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.kns.document.Document#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     public void prepareForSave(KualiDocumentEvent event) {
         

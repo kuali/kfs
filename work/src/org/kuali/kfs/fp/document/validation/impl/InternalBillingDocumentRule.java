@@ -17,10 +17,6 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.fp.document.validation.impl.InternalBillingDocumentRuleConstants.CAPITAL_OBJECT_SUB_TYPE_CODES;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.util.ExceptionUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.fp.document.InternalBillingDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -31,6 +27,10 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.ExceptionUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Business rule(s) applicable to InternalBilling document.

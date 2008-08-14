@@ -19,12 +19,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableRestrictedMaterial;
 import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * CommodityCode Business Object
@@ -116,7 +116,7 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     }    
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

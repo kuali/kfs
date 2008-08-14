@@ -20,10 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -35,6 +31,10 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 

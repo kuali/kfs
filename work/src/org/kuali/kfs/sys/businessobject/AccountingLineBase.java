@@ -24,10 +24,6 @@ import java.util.Map;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -40,6 +36,10 @@ import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This is the generic class which contains all the elements on a typical line of accounting elements. These are all the accounting
@@ -614,7 +614,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
@@ -643,14 +643,14 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.core.bo.AccountingLine#isSourceAccountingLine()
+     * @see org.kuali.rice.kns.bo.AccountingLine#isSourceAccountingLine()
      */
     public boolean isSourceAccountingLine() {
         return (this instanceof SourceAccountingLine);
     }
 
     /**
-     * @see org.kuali.core.bo.AccountingLine#isTargetAccountingLine()
+     * @see org.kuali.rice.kns.bo.AccountingLine#isTargetAccountingLine()
      */
     public boolean isTargetAccountingLine() {
         return (this instanceof TargetAccountingLine);
@@ -658,7 +658,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
 
     /**
-     * @see org.kuali.core.bo.AccountingLine#getAccountKey()
+     * @see org.kuali.rice.kns.bo.AccountingLine#getAccountKey()
      */
     public String getAccountKey() {
         String key = getChartOfAccountsCode() + ":" + getAccountNumber();
@@ -667,7 +667,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
 
     /**
-     * @see org.kuali.core.bo.AccountingLine#copyFrom(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.bo.AccountingLine#copyFrom(org.kuali.rice.kns.bo.AccountingLine)
      */
     public void copyFrom(AccountingLine other) {
         if (other == null) {
@@ -739,7 +739,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
 
     /**
-     * @see org.kuali.core.bo.AccountingLine#isLike(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.bo.AccountingLine#isLike(org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean isLike(AccountingLine other) {
         boolean isLike = false;

@@ -81,7 +81,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.OpenCloseValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.OpenCloseValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

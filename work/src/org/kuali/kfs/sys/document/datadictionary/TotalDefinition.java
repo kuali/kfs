@@ -15,9 +15,8 @@
  */
 package org.kuali.kfs.sys.document.datadictionary;
 
-import org.kuali.core.datadictionary.DataDictionaryDefinitionBase;
-import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
+import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
 
 /**
  * Metadata about something that will be responsible for rendering some total of some accounting line group sometime, or something

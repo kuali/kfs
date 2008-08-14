@@ -17,7 +17,6 @@ package org.kuali.kfs.sys.document.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -26,6 +25,7 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Default implementation of the DebitDeterminerService.

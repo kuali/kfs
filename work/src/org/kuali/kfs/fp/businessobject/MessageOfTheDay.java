@@ -18,8 +18,8 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * This class is used to represent a "message of the day" object.  These messages are displayed on the associated 
@@ -96,7 +96,7 @@ public class MessageOfTheDay extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

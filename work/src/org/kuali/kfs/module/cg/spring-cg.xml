@@ -86,7 +86,7 @@
 	
 	<bean id="proposalLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ProposalLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
-	<bean id="proposalLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="proposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="proposalLookupableHelperService" />
 		</property>
@@ -94,7 +94,7 @@
 
     <bean id="awardLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
-    <bean id="awardLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="awardLookupableHelperService" />
         </property>

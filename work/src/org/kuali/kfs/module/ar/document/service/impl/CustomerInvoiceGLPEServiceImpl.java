@@ -15,16 +15,14 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
-import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class CustomerInvoiceGLPEServiceImpl implements CustomerInvoiceGLPEService {
 

@@ -19,19 +19,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -110,7 +107,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#createInvoicePaidAppliedForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail,
-     *      org.kuali.core.util.KualiDecimal)
+     *      org.kuali.rice.kns.util.KualiDecimal)
      */
     public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNbr, Integer universityFiscalYear, String universityFiscalPeriodCode, KualiDecimal amount, Integer invoicePaidAppliedItemNbr) {
 

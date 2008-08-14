@@ -15,11 +15,6 @@
  */
 package org.kuali.kfs.module.ar;
 
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ProjectCode;
-import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
 
 public class ArConstants {
 

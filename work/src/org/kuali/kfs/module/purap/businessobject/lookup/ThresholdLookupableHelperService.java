@@ -20,22 +20,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This lookupable helper service is used to support lookups on the Threshold BO because it deals with the vendor number,
  * which isn't really a field, but rather a combination of 2 fields.
  * 
- * This code mostly copies {@link org.kuali.core.lookup.KualiLookupableHelperServiceImpl}, but differs in that this class will
+ * This code mostly copies {@link org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl}, but differs in that this class will
  * not remove search criteria containing values corresponding to hidden fields.
  * 
  */
@@ -113,7 +113,7 @@ public class ThresholdLookupableHelperService extends AbstractLookupableHelperSe
      * @param fieldValues - Map containing prop name keys and search values
      *
      * @return List found business objects
-     * @see org.kuali.core.lookup.LookupableHelperService#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getSearchResults(java.util.Map)
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {        
         return getSearchResultsHelper(LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues), false);
@@ -126,7 +126,7 @@ public class ThresholdLookupableHelperService extends AbstractLookupableHelperSe
      * @param fieldValues - Map containing prop name keys and search values
      * 
      * @return List found business objects
-     * @see org.kuali.core.lookup.LookupableHelperService#getSearchResultsUnbounded(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getSearchResultsUnbounded(java.util.Map)
      */
     public List<? extends BusinessObject> getSearchResultsUnbounded(Map<String, String> fieldValues) {
         return getSearchResultsHelper(LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues), true);

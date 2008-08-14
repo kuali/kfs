@@ -15,23 +15,11 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.module.purap.fixture.PurchaseOrderItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.RJWEISS;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.TransactionalDocumentDictionaryService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
 import org.kuali.kfs.module.purap.fixture.LineItemReceivingDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
@@ -40,10 +28,12 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.kfs.sys.fixture.UserNameFixture;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Used to create and test populated Receiving Line Documents of various kinds. 
@@ -83,7 +73,7 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
         receivingLineDocument.prepareForSave();
         assertFalse("R".equals(receivingLineDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
         routeDocument(receivingLineDocument, "routing line item receiving document", documentService);
-        WorkflowTestUtils.waitForStatusChange(receivingLineDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);        
+        WorkflowTestUtils.waitForStatusChange(receivingLineDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);        
         Document document = documentService.getByDocumentHeaderId(receivingLineDocument.getDocumentNumber());
         assertTrue("Document should now be final.", receivingLineDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }

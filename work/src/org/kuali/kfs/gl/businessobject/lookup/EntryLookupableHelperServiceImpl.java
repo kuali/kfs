@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
@@ -53,7 +53,7 @@ public class EntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLooku
      * Validate the university fiscal year that has been queried on
      * 
      * @param fieldValues the queried fields
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
      */
     @Override
     public void validateSearchParameters(Map fieldValues) {
@@ -76,7 +76,7 @@ public class EntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLooku
      * @param bo the business object with a property being drilled down on
      * @param propertyName the name of the property being drilled down on
      * @return a String with the URL of the property
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getInquiryUrl(BusinessObject businessObject, String propertyName) {
@@ -93,7 +93,7 @@ public class EntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLooku
      * Generates the list of search results for this inquiry
      * @param fieldValues the field values of the query to carry out
      * @return List the search results returned by the lookup
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {

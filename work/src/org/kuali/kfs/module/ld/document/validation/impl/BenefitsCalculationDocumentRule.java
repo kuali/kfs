@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.ld.document.validation.impl;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business rule(s) applicable to Benefit Calculation Documents.
@@ -43,7 +43,7 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
      * 
      * @param document MaintenanceDocument type of document to be processed.
      * @return boolean true when success
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -61,7 +61,7 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
      * 
      * @param document MaintenanceDocument type of document to be processed.
      * @return boolean true when success
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -81,7 +81,7 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
      * 
      * @param document MaintenanceDocument type of document to be processed.
      * @return boolean true when success
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {

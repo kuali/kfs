@@ -22,7 +22,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.TransactionalEditMode;
-import org.kuali.rice.util.JSTLConstants;
+import org.kuali.rice.core.util.JSTLConstants;
 
 /**
  * General constants for the effort reporting module.

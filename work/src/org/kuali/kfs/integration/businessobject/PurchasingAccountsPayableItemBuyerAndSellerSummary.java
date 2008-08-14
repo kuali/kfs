@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.businessobject;
 
 import java.sql.Date;
 
-import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 /**
  * Buyer / seller summary of a Purchase Order Item.

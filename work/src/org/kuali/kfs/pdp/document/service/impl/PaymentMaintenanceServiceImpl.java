@@ -20,10 +20,6 @@ package org.kuali.kfs.pdp.document.service.impl;
 
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.mail.InvalidAddressException;
-import org.kuali.core.mail.MailMessage;
-import org.kuali.core.service.MailService;
 import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
@@ -48,6 +44,10 @@ import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.mail.InvalidAddressException;
+import org.kuali.rice.kns.mail.MailMessage;
+import org.kuali.rice.kns.service.MailService;
 import org.springframework.transaction.annotation.Transactional;
 
 

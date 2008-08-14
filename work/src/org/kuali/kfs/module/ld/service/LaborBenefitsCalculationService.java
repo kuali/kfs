@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.ld.service;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
 import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * The interface provides its clients with access to the benefit calculation.

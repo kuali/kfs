@@ -18,15 +18,15 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.SubObjCdGlobal;
 import org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -65,7 +65,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link SubObjCdGlobalRule#checkSimpleRulesAllLines()}</li>
      * </ul>
      * This rule fails on business rule failures
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -85,7 +85,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link SubObjCdGlobalRule#checkSimpleRulesAllLines()}</li>
      * </ul>
      * This rule fails on business rule failures
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -105,7 +105,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link SubObjCdGlobalRule#checkSimpleRulesAllLines()}</li>
      * </ul>
      * This rule does not fail on business rule failures
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -121,7 +121,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      * that the account and chart are filled in, in the case of SubObjCdGlobalDetail it also checks
      * that the object code and fiscal year are filled in
      * If any of these fail, it fails to add the new line to the collection
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument, java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;

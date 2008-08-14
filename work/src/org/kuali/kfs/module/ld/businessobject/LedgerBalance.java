@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -32,6 +30,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Labor business object for LedgerBalance.
@@ -308,7 +308,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * Adds amounts in a period.
      * 
      * @param period, amount
-     * @see org.kuali.kfs.gl.businessobject.Balance#addAmount(java.lang.String, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.gl.businessobject.Balance#addAmount(java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
      */
     @Override
     public void addAmount(String period, KualiDecimal amount) {

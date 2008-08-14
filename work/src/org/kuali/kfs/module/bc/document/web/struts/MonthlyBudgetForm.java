@@ -18,12 +18,12 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class MonthlyBudgetForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MonthlyBudgetForm.class);

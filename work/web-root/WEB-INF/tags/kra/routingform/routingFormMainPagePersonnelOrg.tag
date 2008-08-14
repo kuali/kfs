@@ -259,7 +259,7 @@
                   <!--  <c:if test="${empty KualiForm.newRoutingFormOtherPerson.personUniversalIdentifier && !KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">&nbsp;</c:if> -->
             <c:if test="${KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
-                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormOtherPerson.personUniversalIdentifier,personName:newRoutingFormOtherPerson.user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormOtherPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                    <kul:lookup boClassName="org.kuali.rice.kns.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormOtherPerson.personUniversalIdentifier,personName:newRoutingFormOtherPerson.user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormOtherPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                   </c:if>
 		          <div id="newRoutingFormOtherPerson.user.personName.div" >
 		             <c:if test="${!empty KualiForm.newRoutingFormOtherPerson.user.personUserIdentifier}">
@@ -356,7 +356,7 @@
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
                           <html:text title="* Name" property="document.routingFormPersonnel[${status.index}].user.personUserIdentifier" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].user.personUserIdentifier')"/>                  
-                          <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personUniversalIdentifier,personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                          <kul:lookup boClassName="org.kuali.rice.kns.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personUniversalIdentifier,personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
                     </c:if>

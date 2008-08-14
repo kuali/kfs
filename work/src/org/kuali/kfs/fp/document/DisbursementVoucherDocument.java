@@ -27,19 +27,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Copyable;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
@@ -81,8 +68,19 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This is the business object that represents the DisbursementVoucher document in Kuali.
@@ -887,7 +885,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @see org.kuali.core.document.Document#prepareForSave()
+     * @see org.kuali.rice.kns.document.Document#prepareForSave()
      */
     @Override
     public void prepareForSave() {
@@ -921,7 +919,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * need to be computed and saved to the DV Payee Detail BO so they can be serialized to XML for routing.  Some of 
      * the routing rules rely on these variables.
      * 
-     * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
+     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {
@@ -1064,7 +1062,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -1108,8 +1106,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param accountingLine accounting line in accounting document
      * @return true if document is debit
      * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // disallow error corrections
@@ -1130,8 +1128,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param accountingLine accounting line in submitted accounting document 
      * @param explicitEntry explicit GLPE 
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry) {
@@ -1154,7 +1152,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param sequenceHelper helper class to keep track of GLPE sequence
      * @return true if GLPE's are generated successfully
      * 
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {

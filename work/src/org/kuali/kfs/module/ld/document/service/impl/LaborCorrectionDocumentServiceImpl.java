@@ -30,13 +30,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.dao.DocumentDao;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.comparator.NumericValueComparator;
-import org.kuali.core.web.comparator.StringValueComparator;
-import org.kuali.core.web.comparator.TemporalValueComparator;
-import org.kuali.core.web.ui.Column;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
@@ -54,6 +47,13 @@ import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.dao.DocumentDao;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.comparator.NumericValueComparator;
+import org.kuali.rice.kns.web.comparator.StringValueComparator;
+import org.kuali.rice.kns.web.comparator.TemporalValueComparator;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

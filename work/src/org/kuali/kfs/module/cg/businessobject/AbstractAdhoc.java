@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Timestamp;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Abstract class that represents all KRA ad-hoc types.

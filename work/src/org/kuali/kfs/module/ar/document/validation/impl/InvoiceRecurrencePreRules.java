@@ -19,29 +19,21 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import org.apache.commons.lang.StringUtils;
-
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class InvoiceRecurrencePreRules extends PreRulesContinuationBase {
 
     /**
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean doRules(Document document) {

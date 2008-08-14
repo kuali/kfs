@@ -18,12 +18,12 @@ package org.kuali.kfs.module.cg.document.service;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This class...

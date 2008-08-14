@@ -20,7 +20,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.ConfigureContext;

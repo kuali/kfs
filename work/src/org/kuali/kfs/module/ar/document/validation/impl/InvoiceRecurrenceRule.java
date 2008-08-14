@@ -2,47 +2,29 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.exceptions.UnknownDocumentIdException;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.KualiWorkflowInfo;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
-import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
-
-import edu.iu.uis.eden.clientapp.vo.WorkgroupNameIdVO;
-import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.dto.WorkgroupDTO;
+import org.kuali.rice.kew.dto.WorkgroupNameIdDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceRule.class);
@@ -264,7 +246,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
  *    
     private boolean validateWorkGroup(InvoiceRecurrence newInvoiceRecurrence) {
         boolean success = true;
-        WorkgroupVO workgroupVo = SpringContext.getBean(KualiWorkflowInfo.class).getWorkgroup(new WorkgroupNameIdVO(newInvoiceRecurrence.getWorkgroupIdentifier() .getWorkgroupIdentifier()));
+        WorkgroupDTO workgroupVo = SpringContext.getBean(KualiWorkflowInfo.class).getWorkgroup(new WorkgroupNameIdDTO(newInvoiceRecurrence.getWorkgroupIdentifier() .getWorkgroupIdentifier()));
         
         
         Map<String, String> criteria = new HashMap<String, String>();
@@ -286,7 +268,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
      */
     private static boolean workgroupExistsAndIsActive(String name) {
         try {
-            WorkgroupVO workgroupVo = SpringContext.getBean(KualiWorkflowInfo.class).getWorkgroup(new WorkgroupNameIdVO(name));
+            WorkgroupDTO workgroupVo = SpringContext.getBean(KualiWorkflowInfo.class).getWorkgroup(new WorkgroupNameIdDTO(name));
             return workgroupVo != null && workgroupVo.isActiveInd();
         }
         catch (WorkflowException e) {

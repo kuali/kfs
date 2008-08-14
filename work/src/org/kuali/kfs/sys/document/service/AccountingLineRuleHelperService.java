@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.document.service;
 
-import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -24,6 +23,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
 
 public interface AccountingLineRuleHelperService {
     /**

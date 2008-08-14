@@ -22,20 +22,20 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.GlobalBusinessObject;
-import org.kuali.core.bo.GlobalBusinessObjectDetail;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.GlobalBusinessObject;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
@@ -89,14 +89,14 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     /**
-     * @see org.kuali.core.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
     }
 
     /**
-     * @see org.kuali.core.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.rice.kns.bo.BusinessObject)
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
 
@@ -881,7 +881,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
@@ -890,7 +890,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     /**
-     * @see org.kuali.core.document.GlobalBusinessObject#isPersistable()
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#isPersistable()
      */
     public boolean isPersistable() {
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
@@ -916,7 +916,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

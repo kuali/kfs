@@ -20,10 +20,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class PurApLineForm extends KualiForm {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);

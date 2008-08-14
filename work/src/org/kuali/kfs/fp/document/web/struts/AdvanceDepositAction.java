@@ -23,14 +23,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This is the action class for the Advance Deposit document.

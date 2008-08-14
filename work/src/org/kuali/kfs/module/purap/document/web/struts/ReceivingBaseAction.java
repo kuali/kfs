@@ -25,18 +25,18 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.Note;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.util.ReceivingQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class ReceivingBaseAction extends FinancialSystemTransactionalDocumentActionBase {
 

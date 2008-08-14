@@ -26,23 +26,11 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.rules.TransactionalDocumentRuleBase;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypeUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
@@ -62,7 +50,18 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypeUtils;
 
 public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDocumentRules.class);
@@ -95,7 +94,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * benefits calculated, etc. Each of these operations require the document's data be in a consistent state with respect to
      * business rules before the operation be performed.
      * 
-     * @see org.kuali.core.rules.DocumentRuleBase#processSaveDocument(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processSaveDocument(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean processSaveDocument(Document document) {

@@ -19,15 +19,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class FinancialSystemUserLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {

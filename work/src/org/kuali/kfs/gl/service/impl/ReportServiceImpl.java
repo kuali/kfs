@@ -28,9 +28,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.batch.service.PosterService;
 import org.kuali.kfs.gl.businessobject.CorrectionChange;
@@ -65,6 +62,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.ExceptionConverter;

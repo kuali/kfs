@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * An interface that represents a transformation on a single field; they can be grouped

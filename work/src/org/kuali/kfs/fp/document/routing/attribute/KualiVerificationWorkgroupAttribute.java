@@ -27,19 +27,18 @@ import javax.xml.xpath.XPath;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
-
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.plugin.attributes.RoleAttribute;
-import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
-import edu.iu.uis.eden.routetemplate.Role;
-import edu.iu.uis.eden.routetemplate.RuleExtension;
-import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
-import edu.iu.uis.eden.workgroup.GroupId;
-import edu.iu.uis.eden.workgroup.GroupNameId;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+import org.kuali.rice.kew.lookupable.Row;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+import org.kuali.rice.kew.rule.Role;
+import org.kuali.rice.kew.rule.RoleAttribute;
+import org.kuali.rice.kew.rule.RuleExtension;
+import org.kuali.rice.kew.rule.RuleExtensionValue;
+import org.kuali.rice.kew.rule.WorkflowAttribute;
+import org.kuali.rice.kew.workgroup.GroupId;
+import org.kuali.rice.kew.workgroup.GroupNameId;
 
 public class KualiVerificationWorkgroupAttribute implements RoleAttribute, WorkflowAttribute {
 
@@ -57,7 +56,7 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
         this.verificationWorkgoupName = verificationWorkgoupName;
     }
 
-    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
+    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws KEWUserNotFoundException {
         Set verificationWorkgroups = new HashSet();
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
         String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
@@ -93,7 +92,7 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
         return roles;
     }
 
-    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
+    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws KEWUserNotFoundException {
         try {
             List members = new ArrayList();
             String annotation = "";

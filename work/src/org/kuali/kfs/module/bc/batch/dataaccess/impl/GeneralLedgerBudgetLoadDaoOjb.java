@@ -20,15 +20,12 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
@@ -41,6 +38,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.service.HomeOriginationService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelperDaoOjb implements GeneralLedgerBudgetLoadDao {
 

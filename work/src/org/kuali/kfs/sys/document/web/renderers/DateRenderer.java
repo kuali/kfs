@@ -22,8 +22,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Renders a field as a text field with a date picker
@@ -41,7 +41,7 @@ public class DateRenderer extends TextRenderer {
 
     /**
      * 
-     * @see org.kuali.kfs.sys.document.web.renderers.TextRenderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.renderers.TextRenderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
@@ -107,7 +107,7 @@ public class DateRenderer extends TextRenderer {
 
     /**
      * Overridden to do nothing - date fields never need quick finders
-     * @see org.kuali.kfs.sys.document.web.renderers.FieldRendererBase#renderQuickFinderIfNecessary(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.renderers.FieldRendererBase#renderQuickFinderIfNecessary(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     protected void renderQuickFinderIfNecessary(PageContext pageContext, Tag parentTag) throws JspException {

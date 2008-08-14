@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.fixture;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;

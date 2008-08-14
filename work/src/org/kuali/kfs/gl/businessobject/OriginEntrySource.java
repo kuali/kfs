@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
-import org.kuali.core.bo.KualiCodeBase;
+import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * A class that defines all the source codes for all types of Origin Entry groups

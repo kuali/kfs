@@ -188,7 +188,7 @@
     </property>
     <property name="summary" value="Senior Key Personnel" />
     <property name="description" value="Senior Key Personnel" />
-    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="BudgetUser-personProjectDirectorIndicator" parent="BudgetUser-personProjectDirectorIndicator-parentBean" />
 
@@ -203,7 +203,7 @@
     </property>
     <property name="summary" value="Project Directory" />
     <property name="description" value="Project Directory" />
-    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="BudgetUser-personSecretarialClericalIndicator" parent="BudgetUser-personSecretarialClericalIndicator-parentBean" />
 
@@ -218,7 +218,7 @@
     </property>
     <property name="summary" value="Secretarial/Clerical" />
     <property name="description" value="Secretarial/Clerical" />
-    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="BudgetUser-personPostDoctoralIndicator" parent="BudgetUser-personPostDoctoralIndicator-parentBean" />
 
@@ -233,7 +233,7 @@
     </property>
     <property name="summary" value="Post Doctoral" />
     <property name="description" value="Post Doctoral" />
-    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="BudgetUser-objectId" parent="BudgetUser-objectId-parentBean" />
 

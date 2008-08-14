@@ -18,9 +18,9 @@ package org.kuali.kfs.gl.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Represents a specific university date
@@ -39,7 +39,7 @@ public class UniversityDate extends PersistableBusinessObjectBase {
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();

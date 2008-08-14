@@ -17,8 +17,6 @@ package org.kuali.kfs.gl.batch;
 
 import java.sql.Date;
 
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
@@ -38,6 +36,8 @@ import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * A helper to create origin entries to carry forward different types of encumbrances.

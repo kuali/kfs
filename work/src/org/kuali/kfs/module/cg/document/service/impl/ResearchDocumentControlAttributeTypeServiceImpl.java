@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.cg.businessobject.ControlAttributeType;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentControlAttributeTypeService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class is used to access and retrieve ControlAttributeType attributes and related information.

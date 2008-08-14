@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.GlSummary;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

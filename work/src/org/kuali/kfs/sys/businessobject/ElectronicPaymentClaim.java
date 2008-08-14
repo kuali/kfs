@@ -18,16 +18,15 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * This class is used to represent an electronic payment claim.
@@ -239,7 +238,7 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
     }
     
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

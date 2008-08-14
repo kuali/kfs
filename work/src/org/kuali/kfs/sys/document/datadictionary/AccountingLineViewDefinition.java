@@ -18,10 +18,10 @@ package org.kuali.kfs.sys.document.datadictionary;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.datadictionary.DataDictionaryDefinitionBase;
-import org.kuali.core.datadictionary.exception.AttributeValidationException;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.web.TableJoining;
+import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
 
 /**
  * Data dictionary definition of information about how to render an accounting line.
@@ -32,7 +32,7 @@ public class AccountingLineViewDefinition extends DataDictionaryDefinitionBase {
     /**
      * Checks that this accounting line view has at least one child renderable element.  Also checks
      * that none of its direct children elements are "line" elements 
-     * @see org.kuali.core.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         if (elements == null || elements.size() == 0) {

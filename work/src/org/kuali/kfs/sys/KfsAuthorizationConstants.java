@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.core.authorization.AuthorizationConstants.EditMode;
-import org.kuali.rice.util.JSTLConstants;
+import org.kuali.rice.core.util.JSTLConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
 
 public class KfsAuthorizationConstants extends JSTLConstants {
 

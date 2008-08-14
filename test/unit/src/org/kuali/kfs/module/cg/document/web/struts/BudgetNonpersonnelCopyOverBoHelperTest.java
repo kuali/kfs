@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cg.document.web.struts;
 
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertEquality;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 import org.kuali.kfs.sys.context.KualiTestBase;

@@ -21,9 +21,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
 import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
@@ -39,9 +36,11 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This is the Procurement Card Document Class. The procurement cards distributes expenses from clearing accounts. It is a two-sided
@@ -210,7 +209,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -220,8 +219,8 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     }
 
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeVO statusChangeEvent) throws Exception {
-        if (EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws Exception {
+        if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusChangeEvent.getNewRouteStatus())) {
             Document retrievedDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(statusChangeEvent.getRouteHeaderId().toString());
             String financialStatusCode = null;
             if (retrievedDocument instanceof FinancialSystemTransactionalDocument) {
@@ -229,7 +228,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
             } else if (retrievedDocument instanceof FinancialSystemMaintenanceDocument) {
                 financialStatusCode = ((FinancialSystemMaintenanceDocument) retrievedDocument).getDocumentHeader().getFinancialDocumentStatusCode();
             }
-            if (EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(retrievedDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()) && !EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(financialStatusCode)) {
+            if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(retrievedDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()) && !KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(financialStatusCode)) {
                 throw new RuntimeException("KFS document status is out of sync with Workflow document status");
             }
         }
@@ -244,7 +243,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
      * @throws Throws an IllegalStateException if one of the following rules are violated: the accounting line amount
      *         is zero or the accounting line is not an expense or income accounting line.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDebit(FinancialDocument, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDebit(FinancialDocument, org.kuali.rice.kns.bo.AccountingLine)
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase.IsDebitUtils#isDebitConsideringSection(AccountingDocumentRuleBase, AccountingDocument, AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {

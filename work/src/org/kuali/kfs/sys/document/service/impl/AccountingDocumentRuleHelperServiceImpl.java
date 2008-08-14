@@ -19,13 +19,6 @@ import java.sql.Date;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.kuali.core.datadictionary.AttributeDefinition;
-import org.kuali.core.datadictionary.DataDictionaryEntry;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.service.ObjectTypeService;
@@ -34,6 +27,13 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * The default implementation of the AccountingDocumentRuleHelperService

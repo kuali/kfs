@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.ar.businessobject.defaultvalue;
 
-import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
 
 
 /**

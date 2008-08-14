@@ -27,12 +27,12 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
  * This is the data access object for ledger entry.

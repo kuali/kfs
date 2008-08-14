@@ -21,9 +21,8 @@ import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetService;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
 public class ResearchDocumentServiceImpl implements ResearchDocumentService {

@@ -21,13 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.document.Copyable;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
@@ -42,6 +35,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * This is the business object that represents the CashReceiptDocument in Kuali. This is a transactional document that will
@@ -208,7 +208,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * is associated with is FINAL approved, this status will be set to APPROVED ("A") to be picked up by the GL for processing.
      * That's done in the handleRouteStatusChange() method in the CashManagementDocument.
      * 
-     * @see org.kuali.core.document.Document#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.Document#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {
@@ -384,7 +384,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
 
     /**
-     * @see org.kuali.core.document.DocumentBase#prepareForSave()
+     * @see org.kuali.rice.kns.document.DocumentBase#prepareForSave()
      */
     @Override
     public void prepareForSave() {
@@ -401,7 +401,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#processAfterRetrieve()
+     * @see org.kuali.rice.kns.document.DocumentBase#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
@@ -421,7 +421,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
@@ -501,7 +501,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

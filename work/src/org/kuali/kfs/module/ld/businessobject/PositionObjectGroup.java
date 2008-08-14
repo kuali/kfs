@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ld.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectGroup;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Labor business object for PositionObjectGroup
@@ -93,7 +93,7 @@ public class PositionObjectGroup extends PersistableBusinessObjectBase implement
     /**
      * construct the key list of the business object.
      * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

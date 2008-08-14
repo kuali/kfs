@@ -19,12 +19,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
 
 /**
  * Authorization permissions specific to the Credit Card Receipt document.
@@ -34,8 +34,8 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
     /**
      * Overrides to use the parent's implementation, with the exception that CCR docs can't be error corrected.
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
@@ -48,7 +48,7 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
     /**
      * Overrides to always return false because there is never FO routing or FO approval for CCR docs.
      * 
-     * @see org.kuali.module.financial.document.FinancialDocumentAuthorizer#userOwnsAnyAccountingLine(org.kuali.core.bo.user.KualiUser,
+     * @see org.kuali.module.financial.document.FinancialDocumentAuthorizer#userOwnsAnyAccountingLine(org.kuali.rice.kns.bo.user.KualiUser,
      *      java.util.List)
      */
     protected boolean userOwnsAnyAccountingLine(UniversalUser user, List accountingLines) {
@@ -58,8 +58,8 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
     /**
      * Overrides parent to return an empty Map since FO routing doesn't apply to the CCR doc.
      * 
-     * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
         return new HashMap();

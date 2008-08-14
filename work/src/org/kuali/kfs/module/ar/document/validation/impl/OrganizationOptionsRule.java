@@ -19,15 +19,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationOptionsRule.class);

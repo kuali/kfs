@@ -17,12 +17,12 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerInvoiceDetailItemQuantityValidation extends GenericValidation {
 

@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
@@ -33,6 +32,7 @@ import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

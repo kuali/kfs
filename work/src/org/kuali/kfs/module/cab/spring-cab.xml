@@ -139,7 +139,7 @@
 	<bean id="purApDocumentLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.PurApDocumentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
     </bean>
 
-    <bean id="cabPurApDocumentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="cabPurApDocumentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="purApDocumentLookupableHelperService" />
         </property>
@@ -147,7 +147,7 @@
 	<bean id="generalLedgerEntryLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl" singleton="false"  parent="lookupableHelperService">
     </bean>
 
-    <bean id="cabGlEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="cabGlEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="generalLedgerEntryLookupableHelperService" />
         </property>

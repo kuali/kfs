@@ -47,7 +47,7 @@ public class YearEndGeneralErrorCorrectionDocument extends GeneralErrorCorrectio
      * @param explicitEntry The explicit general ledger pending entry to be customized.
      * 
      * @see org.kuali.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentRule#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.sys.document.AccountingDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      * @see YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
      */

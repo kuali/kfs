@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
-import org.kuali.core.util.Guid;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao;
+import org.kuali.rice.kns.util.Guid;
 
 /**
  * Implements BudgetOrganizationPushPullDao using raw SQL and populating temporary tables with the potential set of documents to

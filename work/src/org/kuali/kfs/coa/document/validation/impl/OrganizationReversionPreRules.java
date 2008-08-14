@@ -16,9 +16,9 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
  * PreRules checks for the {@link OrganizationReversion} that needs to occur while still in the Struts processing. This includes defaults
@@ -32,7 +32,7 @@ public class OrganizationReversionPreRules extends MaintenancePreRulesBase {
 
     /**
      * This calls the {@link OrganizationReversionPreRules#copyKeyAttributesToDetail(OrganizationReversion)}
-     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean doCustomPreRules(MaintenanceDocument document) {

@@ -19,11 +19,11 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
-import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 
@@ -60,7 +60,7 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
 
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

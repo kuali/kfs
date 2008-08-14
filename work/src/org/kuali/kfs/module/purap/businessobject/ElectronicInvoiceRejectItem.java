@@ -7,8 +7,8 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 
 /**
@@ -539,7 +539,7 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     this.invoiceReferenceItemSupplierPartIdentifier = itemReferenceSupplierPartId;
   }
   /**
-   * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+   * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
    */
   protected LinkedHashMap toStringMapper() {
       LinkedHashMap m = new LinkedHashMap();

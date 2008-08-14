@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
@@ -43,6 +41,8 @@ import org.kuali.kfs.gl.service.ReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

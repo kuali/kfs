@@ -28,7 +28,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.batch.service.VerifyTransaction;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -48,6 +47,7 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

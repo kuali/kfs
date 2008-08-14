@@ -89,7 +89,7 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.campusCode}" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.campusCode" attributeEntry="${assetTransferAttributes.campusCode}" />
 				&nbsp;
-                <kul:lookup boClassName="org.kuali.core.bo.Campus" fieldConversions="campusCode:document.campusCode" lookupParameters="document.campusCode:campusCode" />
+                <kul:lookup boClassName="org.kuali.rice.kns.bo.Campus" fieldConversions="campusCode:document.campusCode" lookupParameters="document.campusCode:campusCode" />
 				</td>						
 			</tr>
 			<tr>

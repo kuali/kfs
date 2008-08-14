@@ -22,10 +22,10 @@ package org.kuali.kfs.pdp.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.pdp.businessobject.Code;
 import org.kuali.kfs.pdp.dataaccess.ReferenceDao;
 import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.springframework.transaction.annotation.Transactional;
 
 

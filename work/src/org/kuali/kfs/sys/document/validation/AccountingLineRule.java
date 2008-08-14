@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.sys.document.validation;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Defines methods common to all *AccountingLineRule interfaces

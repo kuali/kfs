@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import java.util.ArrayList;
 
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

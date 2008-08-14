@@ -28,10 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.lookup.LookupResultsService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.cg.businessobject.Keyword;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormKeyword;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganizationCreditPercent;
@@ -39,6 +35,10 @@ import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class RoutingFormMainPageAction extends RoutingFormAction {
 
@@ -202,7 +202,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
      * <li>For personnel lookups it sets the chart / org to the appropriate line (or new) field.</li>
      * </ul>
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

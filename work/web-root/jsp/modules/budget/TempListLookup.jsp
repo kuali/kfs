@@ -273,7 +273,7 @@ financialObjectCode and financialSubObjectCode??
 				requestURI="budgetTempListLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}&backLocation=${KualiForm.backLocation}&businessObjectClassName=${KualiForm.businessObjectClassName}&hideReturnLink=${KualiForm.hideReturnLink}&tempListLookupMode=${KualiForm.tempListLookupMode}&docFormKey=${KualiForm.formKey}&suppressActions=${KualiForm.suppressActions}">
 
 				<c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
-          <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.core.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
+          <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
 					<c:choose>
 						<%--NOTE: Check if exporting first, as this should be outputted without extra HTML formatting --%>
 						<c:when	test="${param['d-16544-e'] != null}">
@@ -293,12 +293,12 @@ financialObjectCode and financialSubObjectCode??
 						<c:when test="${column.columnTitle == 'Project Code'}">
 							<display:column class="${colClass}" sortable="${column.sortable}"
 								title="${column.columnTitle}" comparator="${column.comparator}"
-								maxLength="${column.maxLength}" decorator="org.kuali.core.web.ui.FormatAwareDecorator"><div style="white-space: nowrap"><c:out value="${column.propertyValue}" />&nbsp;</div></display:column>
+								maxLength="${column.maxLength}" decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"><div style="white-space: nowrap"><c:out value="${column.propertyValue}" />&nbsp;</div></display:column>
                         </c:when>
 						<c:otherwise>
 							<display:column class="${colClass}" sortable="${column.sortable}"
 								title="${column.columnTitle}" comparator="${column.comparator}"
-								maxLength="${column.maxLength}" decorator="org.kuali.core.web.ui.FormatAwareDecorator"><c:out value="${column.propertyValue}"/>&nbsp;</display:column>
+								maxLength="${column.maxLength}" decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"><c:out value="${column.propertyValue}"/>&nbsp;</display:column>
                         </c:otherwise>
 					</c:choose>
 				</c:forEach>

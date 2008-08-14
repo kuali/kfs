@@ -18,8 +18,8 @@ package org.kuali.kfs.fp.businessobject;
 import java.sql.Date;
 
 import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**

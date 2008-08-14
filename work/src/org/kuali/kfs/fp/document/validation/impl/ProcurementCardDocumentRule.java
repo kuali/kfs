@@ -26,11 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
@@ -45,8 +40,12 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 /**
@@ -63,8 +62,8 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
      * @param updatedAccoutingLine The updated version of the accounting line.
      * @return True if the business rules all pass for the update, false otherwise.
      * 
-     * @see org.kuali.core.rule.UpdateAccountingLineRule#processUpdateAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.UpdateAccountingLineRule#processUpdateAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean processUpdateAccountingLineBusinessRules(AccountingDocument transactionalDocument, AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
@@ -82,8 +81,8 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
      * @param accountingLine The new accounting line being added.
      * @return True if the business rules all pass, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument transactionalDocument, AccountingLine accountingLine) {
@@ -120,8 +119,8 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
      * @param updatedAccoutingLine The updated version of the accounting line.
      * @return True if the business rules all pass for the update, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument transactionalDocument, AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
@@ -136,8 +135,8 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
      * @param accountingLine The accounting line being validated.
      * @return True if the business rules all pass, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomReviewAccountingLineBusinessRules(AccountingDocument transactionalDocument, AccountingLine accountingLine) {
@@ -301,8 +300,8 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
      * @return True if the document is 'enroute' and will pass through the account review full edit node or if the super 
      *         method returns true, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#accountIsAccessible(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#accountIsAccessible(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     protected boolean accountIsAccessible(AccountingDocument transactionalDocument, AccountingLine accountingLine) {
@@ -334,8 +333,8 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
      * @param accountingLine The accountingline the amount will be retrieved from.
      * @return True if the amount is not zero, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAmountValid(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAmountValid(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {

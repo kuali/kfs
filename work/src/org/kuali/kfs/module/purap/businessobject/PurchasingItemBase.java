@@ -16,13 +16,12 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Purchasing Item Base Business Object.

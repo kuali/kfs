@@ -18,12 +18,6 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.coa.businessobject.DelegateGlobal;
@@ -33,6 +27,12 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class executes specific rules for the {@link DelegateGlobalMaintenanceDocument}
@@ -79,7 +79,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * </ul>
      * fails if any rules fail
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -104,7 +104,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * </ul>
      * fails if any rules fail
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -129,7 +129,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * </ul>
      * fails if any rules fail
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -552,8 +552,8 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link DelegateGlobalRule#checkPrimaryRouteRules(List, DelegateGlobalDetail, Integer, boolean)}</li>
      * </ul>
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;

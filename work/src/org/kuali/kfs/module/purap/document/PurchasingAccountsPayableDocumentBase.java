@@ -24,12 +24,6 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.dao.ojb.DocumentDaoOjb;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
@@ -50,8 +44,13 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.dao.impl.DocumentDaoOjb;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Base class for Purchasing-Accounts Payable Documents.
@@ -150,7 +149,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public abstract String getPurApSourceDocumentLabelIfPossible();
 
     /**
-     * @see org.kuali.core.document.DocumentBase#prepareForSave()
+     * @see org.kuali.rice.kns.document.DocumentBase#prepareForSave()
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
@@ -172,7 +171,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
+     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {
@@ -322,7 +321,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

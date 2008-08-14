@@ -20,12 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ObjectTypeCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
 

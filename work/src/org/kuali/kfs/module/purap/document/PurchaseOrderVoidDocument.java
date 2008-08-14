@@ -20,7 +20,6 @@ import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 
 import java.util.ArrayList;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -31,6 +30,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  * Purchase Order Void Document
@@ -49,7 +49,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
      * General Ledger pending entries are not created on save for this document. They are created when the document has been finally
      * processed. Overriding this method so that entries are not created yet.
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {

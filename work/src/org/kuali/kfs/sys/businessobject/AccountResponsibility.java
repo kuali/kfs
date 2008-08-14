@@ -18,9 +18,9 @@ package org.kuali.kfs.sys.businessobject;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.TransientBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class holds respnsibility information pertaining to an account specifically whether or not the responsibility is of type
@@ -107,7 +107,7 @@ public class AccountResponsibility extends TransientBusinessObjectBase implement
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

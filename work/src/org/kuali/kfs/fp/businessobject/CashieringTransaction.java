@@ -22,11 +22,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.TransientBusinessObjectBase;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class represents a cashiering-related transaction used in the cash management document
@@ -358,7 +358,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

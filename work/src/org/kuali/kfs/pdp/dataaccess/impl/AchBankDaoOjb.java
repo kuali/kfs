@@ -17,9 +17,9 @@ package org.kuali.kfs.pdp.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.pdp.businessobject.AchBank;
 import org.kuali.kfs.pdp.dataaccess.AchBankDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class AchBankDaoOjb extends PlatformAwareDaoBaseOjb implements AchBankDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchBankDaoOjb.class);

@@ -17,9 +17,9 @@ package org.kuali.kfs.module.cg.document.service;
 
 import java.util.List;
 
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This interface defines methods that a BudgetModular service must provide

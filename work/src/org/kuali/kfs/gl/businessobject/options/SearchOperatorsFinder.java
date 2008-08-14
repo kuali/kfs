@@ -18,8 +18,8 @@ package org.kuali.kfs.gl.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * An extension of KeyValueBase that gives the user a choice of search operator options
@@ -30,7 +30,7 @@ public class SearchOperatorsFinder extends KeyValuesBase {
      * Returns a list of all valid search operations that can be carried out by certain GL inquiries
      * 
      * @return a List of key/value pair options
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();

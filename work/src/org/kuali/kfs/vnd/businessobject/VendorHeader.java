@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.TypedArrayList;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Contains information specific to a parent Vendor, which may be shared by its division Vendors if it has any. Contained by a
@@ -260,7 +260,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

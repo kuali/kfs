@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess;
 
-import java.util.List;
-
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 
 public interface PayrateExportDao {
     

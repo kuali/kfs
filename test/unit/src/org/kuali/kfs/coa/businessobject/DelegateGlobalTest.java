@@ -22,19 +22,18 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.GlobalBusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.exceptions.BusinessObjectNotFoundException;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.GlobalBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.exception.BusinessObjectNotFoundException;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = KHUNTLEY)
 public class DelegateGlobalTest extends KualiTestBase {

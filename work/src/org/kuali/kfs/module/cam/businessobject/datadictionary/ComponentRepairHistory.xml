@@ -82,7 +82,7 @@
     <property name="name" value="componentRepairAmount" />
     <property name="label" value="Repair Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="ComponentRepairHistory-componentRepairContactName" parent="ComponentRepairHistory-componentRepairContactName-parentBean" />
 

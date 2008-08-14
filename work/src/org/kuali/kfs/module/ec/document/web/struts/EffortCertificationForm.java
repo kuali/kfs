@@ -25,13 +25,6 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.BusinessObjectRelationship;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.inquiry.Inquirable;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -48,6 +41,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.BusinessObjectRelationship;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.inquiry.Inquirable;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Action form for Effort Certification Document.
@@ -118,7 +118,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {

@@ -18,11 +18,11 @@ package org.kuali.kfs.module.cg.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.cg.businessobject.ControlAttributeType;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentControlAttributeTypeService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class is used to acquire and build a collection of possible ControlAttributeTypes that can be used to generate user drop
@@ -42,7 +42,7 @@ public class ResearchControlAttributeTypeCodeValuesFinder extends KeyValuesBase 
      * values.
      * 
      * @return A collection of KeyLabelPair objects representing the possible ControlAttributeType codes.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
 

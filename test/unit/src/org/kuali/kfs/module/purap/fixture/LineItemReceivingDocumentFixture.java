@@ -17,16 +17,16 @@ package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
 
-import org.kuali.core.bo.Campus;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 public enum LineItemReceivingDocumentFixture {
 

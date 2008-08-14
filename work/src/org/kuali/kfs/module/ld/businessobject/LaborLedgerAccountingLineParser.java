@@ -50,7 +50,7 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
      * Gets the LABOR_LEDGER_FORMAT the SourceAccountingLineFormat.
      * 
      * @return Returns the LABOR_LEDGER_FORMAT.
-     * @see org.kuali.core.bo.AccountingLineParser#getSourceAccountingLineFormat()
+     * @see org.kuali.rice.kns.bo.AccountingLineParser#getSourceAccountingLineFormat()
      */
     public String[] getSourceAccountingLineFormat() {
         return LABOR_LEDGER_FORMAT;
@@ -60,7 +60,7 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
      * Gets the LABOR_LEDGER_FORMAT the TargetAccountingLineFormat.
      * 
      * @return Returns the LABOR_LEDGER_FORMAT.
-     * @see org.kuali.core.bo.AccountingLineParser#getTargetAccountingLineFormat()
+     * @see org.kuali.rice.kns.bo.AccountingLineParser#getTargetAccountingLineFormat()
      */
     public String[] getTargetAccountingLineFormat() {
         return LABOR_LEDGER_FORMAT;

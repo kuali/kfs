@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.sys.KFSConstants;
@@ -34,6 +31,9 @@ import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Document Authorizer for the Disbursement Voucher document.
@@ -49,8 +49,8 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
     /**
      * Overrides to call super and then blanketly set the canBlanketApprove flag to false, since this is never allowed on a DV.
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -64,8 +64,8 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
     }
 
     /**
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceLines, List targetLines) {
@@ -185,8 +185,8 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
     }
 
     /**
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getAccountingLineEditableFields(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getAccountingLineEditableFields(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public Map getAccountingLineEditableFields(Document document, UniversalUser user) {

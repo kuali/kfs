@@ -23,24 +23,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.sys.service.ParameterService;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.Id;
-import edu.iu.uis.eden.actiontaken.ActionTakenValue;
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
-import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
-import edu.iu.uis.eden.routetemplate.Role;
-import edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute;
-import edu.iu.uis.eden.workgroup.GroupNameId;
+import org.kuali.rice.kew.actiontaken.ActionTakenValue;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+import org.kuali.rice.kew.identity.Id;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+import org.kuali.rice.kew.rule.Role;
+import org.kuali.rice.kew.rule.UnqualifiedRoleAttribute;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.workgroup.GroupNameId;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * A document should stop in the Separation of Duties Route Node if the following two conditions are met:
@@ -74,7 +73,7 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute#getRoleNames()
+     * @see org.kuali.rice.kew.rule.UnqualifiedRoleAttribute#getRoleNames()
      */
     @Override
     public List<Role> getRoleNames() {
@@ -89,14 +88,14 @@ public class KualiSeparationOfDutiesRoleAttribute extends UnqualifiedRoleAttribu
      * @return a ResolvedQualifiedRole
      */
     @Override
-    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
+    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws KEWUserNotFoundException {
         DocumentRouteHeaderValue document = routeContext.getDocument();
         Set documentReviewers = new HashSet();
         // get a list of all people who have approved or completed this document in it's routing lifespan
         // currently this will get the COMPLETE request that the router of the document
         for (Iterator iter = document.getActionsTaken().iterator(); iter.hasNext();) {
             ActionTakenValue actionTaken = (ActionTakenValue) iter.next();
-            if ((actionTaken.getActionTaken().equals(EdenConstants.ACTION_TAKEN_APPROVED_CD)) || (actionTaken.getActionTaken().equals(EdenConstants.ACTION_TAKEN_COMPLETED_CD))) {
+            if ((actionTaken.getActionTaken().equals(KEWConstants.ACTION_TAKEN_APPROVED_CD)) || (actionTaken.getActionTaken().equals(KEWConstants.ACTION_TAKEN_COMPLETED_CD))) {
                 documentReviewers.add(actionTaken.getWorkflowUser().getWorkflowUserId().getWorkflowId());
             }
         }

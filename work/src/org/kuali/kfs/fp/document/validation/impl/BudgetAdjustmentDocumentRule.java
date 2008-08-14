@@ -25,13 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
@@ -45,6 +38,13 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * Business rule(s) applicable to Budget Adjustment Card document.
@@ -60,8 +60,8 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase {
      * @param financialDocument submitted document
      * @param accountingLine validated accouting line
      * @return true if validation criteria listed above is true
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -93,7 +93,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase {
      * 
      * @param document submitted document
      * @return true if criteria above is met
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -303,8 +303,8 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase {
      * 
      * @param document submitted accounting document
      * @param accountingLine accounting line where current, base, and monthly amounts are being validated.
-     * @see org.kuali.core.rule.AccountingLineRule#isAmountValid(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isAmountValid(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
@@ -348,7 +348,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase {
      * 
      * @param sumbmitted financial document
      * @return true if base amounts are equal and current amounts balance and income stream balance should equal 0
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isDocumentBalanceValid(AccountingDocument financialDocument) {
@@ -404,7 +404,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase {
      * 
      * @param financialDocument submitted financial document
      * @return true if both source and target lines are NOT empty
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
@@ -424,7 +424,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase {
      * 
      * @param financialDocument submitted financial document
      * @return true
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument FinancialDocument) {
@@ -436,7 +436,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase {
      * 
      * @param financialDocument submitted accounting document
      * @return true if account line totals remains unchanged fromw what was entered and what was persisted before
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAccountingLineTotalsUnchanged(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAccountingLineTotalsUnchanged(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isAccountingLineTotalsUnchanged(AccountingDocument financialDocument) {

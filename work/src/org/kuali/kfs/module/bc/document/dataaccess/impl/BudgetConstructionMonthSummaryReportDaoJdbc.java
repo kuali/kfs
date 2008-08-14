@@ -17,11 +17,11 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.ArrayList;
 
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.Guid;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthSummaryReportDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.Guid;
 
 /**
  * report general ledger and monthly summaries from the budget by organization, subfund group, and object code 

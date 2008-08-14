@@ -19,7 +19,6 @@ import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocument
 import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE;
 
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
@@ -29,6 +28,7 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Validates the sub object type and object level of an object code entered on an accounting line on an Auxiliary Voucher document.

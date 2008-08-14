@@ -18,15 +18,15 @@ package org.kuali.kfs.module.ld.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  * Labor Document base class implementation for all labor eDocs that are transactional, meaning implementing
@@ -110,7 +110,7 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {

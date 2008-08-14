@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
-import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 
 /**
  * Simple bean used to indicate which operations are allowed for the current user on the associated document.

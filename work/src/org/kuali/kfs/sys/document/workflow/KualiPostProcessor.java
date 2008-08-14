@@ -19,16 +19,15 @@ package org.kuali.kfs.sys.document.workflow;
 import java.rmi.RemoteException;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.service.PostProcessorService;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.clientapp.PostProcessorRemote;
-import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
-import edu.iu.uis.eden.clientapp.vo.AfterProcessEventVO;
-import edu.iu.uis.eden.clientapp.vo.BeforeProcessEventVO;
-import edu.iu.uis.eden.clientapp.vo.DeleteEventVO;
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO;
+import org.kuali.rice.kew.dto.ActionTakenEventDTO;
+import org.kuali.rice.kew.dto.AfterProcessEventDTO;
+import org.kuali.rice.kew.dto.BeforeProcessEventDTO;
+import org.kuali.rice.kew.dto.DeleteEventDTO;
+import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.postprocessor.PostProcessorRemote;
+import org.kuali.rice.kns.service.PostProcessorService;
 
 /**
  * This class is the public entry point by which workflow communicates status changes, level changes, and other useful changes. Note
@@ -42,38 +41,38 @@ public class KualiPostProcessor implements PostProcessorRemote {
     private static Logger LOG = Logger.getLogger(KualiPostProcessor.class);
 
     /**
-     * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doRouteStatusChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO)
+     * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doRouteStatusChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteStatusChangeDTO)
      */
-    public boolean doRouteStatusChange(DocumentRouteStatusChangeVO statusChangeEvent) throws RemoteException {
+    public boolean doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws RemoteException {
         return SpringContext.getBean(PostProcessorService.class).doRouteStatusChange(statusChangeEvent);
     }
 
     /**
-     * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doActionTaken(edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO)
+     * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doActionTaken(org.kuali.rice.kew.clientapp.vo.ActionTakenEventDTO)
      */
-    public boolean doActionTaken(ActionTakenEventVO event) throws RemoteException {
+    public boolean doActionTaken(ActionTakenEventDTO event) throws RemoteException {
         return SpringContext.getBean(PostProcessorService.class).doActionTaken(event);
     }
 
     /**
-     * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doDeleteRouteHeader(edu.iu.uis.eden.clientapp.vo.DeleteEventVO)
+     * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doDeleteRouteHeader(org.kuali.rice.kew.clientapp.vo.DeleteEventDTO)
      */
-    public boolean doDeleteRouteHeader(DeleteEventVO event) throws RemoteException {
+    public boolean doDeleteRouteHeader(DeleteEventDTO event) throws RemoteException {
         return SpringContext.getBean(PostProcessorService.class).doDeleteRouteHeader(event);
     }
 
     /**
-     * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
-    public boolean doRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) throws RemoteException {
+    public boolean doRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) throws RemoteException {
         return SpringContext.getBean(PostProcessorService.class).doRouteLevelChange(levelChangeEvent);
     }
 
-    public boolean afterProcess(AfterProcessEventVO arg0) throws Exception {
+    public boolean afterProcess(AfterProcessEventDTO arg0) throws Exception {
         return true;
     }
 
-    public boolean beforeProcess(BeforeProcessEventVO arg0) throws Exception {
+    public boolean beforeProcess(BeforeProcessEventDTO arg0) throws Exception {
         return true;
     }
 }

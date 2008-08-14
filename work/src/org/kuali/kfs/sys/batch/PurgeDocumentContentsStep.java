@@ -22,14 +22,13 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * This class loads documents that have been final a parameterized number of days and purges the xml document contents.

@@ -19,9 +19,9 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.BUTT;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -35,7 +35,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * This class tests the rules in CashControlDocumentRule

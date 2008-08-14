@@ -16,10 +16,10 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * PreRules checks for the {@link IndirectCostRecoveryExclusionAccount} that needs to occur while still in the Struts processing.
@@ -38,7 +38,7 @@ public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePre
      * This sets up the convenience objects and calls
      * {@link IndirectCostRecoveryExclusionAccountPreRules#checkForContinuationAccounts()}
      * 
-     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);

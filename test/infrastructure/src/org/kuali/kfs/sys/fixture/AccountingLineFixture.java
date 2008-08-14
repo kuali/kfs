@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.fixture;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;

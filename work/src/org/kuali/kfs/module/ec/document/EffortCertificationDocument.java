@@ -22,11 +22,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
@@ -43,6 +38,11 @@ import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Effort Certification Document Class.
@@ -226,7 +226,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
@@ -247,7 +247,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {
@@ -563,7 +563,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#processAfterRetrieve()
+     * @see org.kuali.rice.kns.document.DocumentBase#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
@@ -635,7 +635,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
+     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {

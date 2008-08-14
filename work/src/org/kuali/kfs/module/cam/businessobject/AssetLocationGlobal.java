@@ -5,14 +5,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.GlobalBusinessObject;
-import org.kuali.core.bo.GlobalBusinessObjectDetail;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.GlobalBusinessObject;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -85,7 +85,7 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
     }
 
     /**
-     * @see org.kuali.core.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
@@ -94,7 +94,7 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
     /**
      * This returns a list of Assets to update
      * 
-     * @see org.kuali.core.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
+     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         // the list of persist-ready BOs
@@ -147,7 +147,7 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
     }
     
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

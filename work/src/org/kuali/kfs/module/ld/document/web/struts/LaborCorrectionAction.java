@@ -35,14 +35,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
-import org.kuali.core.web.ui.Column;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.gl.businessobject.CorrectionChange;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
@@ -71,6 +63,14 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Struts Action Class for the Labor Ledger Correction Process.
@@ -82,7 +82,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * This needs to be done just in case they decide to execute.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#excute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#excute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -154,7 +154,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * This needs to be done just in case they decide to save.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -910,7 +910,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Sort labor correction document by selected column
      * 
-     * @see org.kuali.core.web.struts.action.KualiTableRenderAction#sort(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiTableRenderAction#sort(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward sort(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

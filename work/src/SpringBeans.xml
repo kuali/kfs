@@ -27,7 +27,7 @@
         <property name="defaultTimeout" value="${transaction.timeout}"/>
     </bean>
 
-	<bean id="dataSource" class="org.kuali.rice.database.XAPoolDataSource">
+	<bean id="dataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
 		<property name="transactionManager" ref="jotm" />
 		<property name="driverClassName" value="${datasource.driver.class}" />
 		<property name="maxSize" value="${datasource.pool.size}" />
@@ -40,19 +40,19 @@
 		<property name="preparedStmtCacheSize" value="${datasource.maximum.cached.preparedstatements}" />
 	</bean>
 
-	<bean id="dbPlatformFactory" class="org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory">
+	<bean id="dbPlatformFactory" class="org.kuali.rice.kns.dbplatform.ConfigurableKualiDBPlatformFactory">
 		<property name="ojbPlatform" value="${datasource.ojb.platform}" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<bean id="dbPlatform" factory-bean="dbPlatformFactory" factory-method="getPlatform" />
 	
-	<bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc">
+	<bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc">
 		<property name="dataSource" ref="dataSource" />
 		<property name="dbPlatform" ref="dbPlatform" />
 	</bean>
 
-	<bean id="platformAwareDao" abstract="true" class="org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb">
+	<bean id="platformAwareDao" abstract="true" class="org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb">
 		<property name="jcdAlias" value="knsDataSource" />
 		<property name="dbPlatform" ref="dbPlatform" />
 	</bean>
@@ -141,7 +141,7 @@
 		<property name="transactionInterceptor" ref="transactionInterceptor" />
 	</bean>
 
-	<bean id="transactionAdvisorClassFilter" class="org.kuali.core.util.spring.ClassOrMethodAnnotationFilter">
+	<bean id="transactionAdvisorClassFilter" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationFilter">
 		<constructor-arg value="org.springframework.transaction.annotation.Transactional" />
 	</bean>
 
@@ -150,7 +150,7 @@
 		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
 	</bean>
 
-	<bean id="transactionAttributeSource" class="org.kuali.core.util.spring.AnnotationAndNameMatchingTransactionAttributeSource">
+	<bean id="transactionAttributeSource" class="org.kuali.rice.kns.util.spring.AnnotationAndNameMatchingTransactionAttributeSource">
 		<property name="annotationTransactionAttributeSource" ref="annotationTransactionAttributeSource" />
 		<property name="transactionTimeout" value="${transaction.timeout}" />
 	</bean>
@@ -167,14 +167,14 @@
         <property name="pointcut" ref="methodCacheNoCopyPointcut" />
     </bean>
 
-	<bean id="methodCacheInterceptor" class="org.kuali.core.util.cache.MethodCacheInterceptor">
+	<bean id="methodCacheInterceptor" class="org.kuali.rice.kns.util.cache.MethodCacheInterceptor">
 		<property name="cache" ref="methodCache" />
 		<property name="expirationTimeInSeconds">
 			<value>60</value>
 		</property>
 	</bean>
 
-    <bean id="methodCacheNoCopyInterceptor" class="org.kuali.core.util.cache.MethodCacheNoCopyInterceptor">
+    <bean id="methodCacheNoCopyInterceptor" class="org.kuali.rice.kns.util.cache.MethodCacheNoCopyInterceptor">
         <property name="cache" ref="methodCacheNoCopy" />
         <property name="expirationTimeInSeconds">
             <value>600</value>
@@ -190,7 +190,7 @@
 				<prop key="cache.key">__oscache_mrcache</prop>
 				<prop key="cache.persistence.overflow.only">false</prop>
 				<prop key="cache.capacity">1000</prop>
-				<prop key="cache.event.listeners">org.kuali.core.util.cache.MethodResultsCacheMonitor</prop>
+				<prop key="cache.event.listeners">org.kuali.rice.kns.util.cache.MethodResultsCacheMonitor</prop>
 			</props>
 		</constructor-arg>
 	</bean>
@@ -204,17 +204,17 @@
                 <prop key="cache.key">__oscache_mrcache</prop>
                 <prop key="cache.persistence.overflow.only">false</prop>
                 <prop key="cache.capacity">1000</prop>
-                <prop key="cache.event.listeners">org.kuali.core.util.cache.MethodResultsCacheNoCopyMonitor</prop>
+                <prop key="cache.event.listeners">org.kuali.rice.kns.util.cache.MethodResultsCacheNoCopyMonitor</prop>
             </props>
         </constructor-arg>
     </bean>
 
-	<bean id="methodCachePointcut" class="org.kuali.core.util.spring.ClassOrMethodAnnotationPointcut">
-		<constructor-arg value="org.kuali.core.util.spring.Cached" />
+	<bean id="methodCachePointcut" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationPointcut">
+		<constructor-arg value="org.kuali.rice.kns.util.spring.Cached" />
 	</bean>
 
-    <bean id="methodCacheNoCopyPointcut" class="org.kuali.core.util.spring.ClassOrMethodAnnotationPointcut">
-        <constructor-arg value="org.kuali.core.util.spring.CacheNoCopy" />
+    <bean id="methodCacheNoCopyPointcut" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationPointcut">
+        <constructor-arg value="org.kuali.rice.kns.util.spring.CacheNoCopy" />
 	</bean>
 
 	<bean id="methodLoggingAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
@@ -222,21 +222,21 @@
 		<property name="pointcut" ref="methodLoggingPointcut" />
 	</bean>
 
-	<bean id="methodLoggingInterceptor" class="org.kuali.core.util.spring.MethodLoggingInterceptor" />
+	<bean id="methodLoggingInterceptor" class="org.kuali.rice.kns.util.spring.MethodLoggingInterceptor" />
 
-	<bean id="methodLoggingPointcut" class="org.kuali.core.util.spring.ClassOrMethodAnnotationPointcut">
-		<constructor-arg value="org.kuali.core.util.spring.Logged" />
+	<bean id="methodLoggingPointcut" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationPointcut">
+		<constructor-arg value="org.kuali.rice.kns.util.spring.Logged" />
 	</bean>
 
-	<bean id="sequenceAccessorDao" parent="platformAwareDaoJdbc" class="org.kuali.core.dao.jdbc.SequenceAccessorDaoJdbc" />
+	<bean id="sequenceAccessorDao" parent="platformAwareDaoJdbc" class="org.kuali.rice.kns.dao.jdbc.SequenceAccessorDaoJdbc" />
 
-	<bean id="sequenceAccessorService" class="org.kuali.core.service.impl.SequenceAccessorServiceImpl">
+	<bean id="sequenceAccessorService" class="org.kuali.rice.kns.service.impl.SequenceAccessorServiceImpl">
 		<property name="sequenceAccessorDao" ref="sequenceAccessorDao" />
 	</bean>
 
-	<bean id="postDataLoadEncryptionDao" parent="platformAwareDaoJdbc" class="org.kuali.core.dao.jdbc.PostDataLoadEncryptionDaoJdbc" />
+	<bean id="postDataLoadEncryptionDao" parent="platformAwareDaoJdbc" class="org.kuali.rice.kns.dao.jdbc.PostDataLoadEncryptionDaoJdbc" />
 
-	<bean id="postDataLoadEncryptionService" class="org.kuali.core.service.impl.PostDataLoadEncryptionServiceImpl">
+	<bean id="postDataLoadEncryptionService" class="org.kuali.rice.kns.service.impl.PostDataLoadEncryptionServiceImpl">
 		<property name="postDataLoadEncryptionDao" ref="postDataLoadEncryptionDao" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="encryptionService" ref="encryptionService" />
@@ -250,7 +250,7 @@
 		<property name="validatePassword" value="${validate.password}" />
 	</bean>
   -->
-	<bean id="universalUserDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.UniversalUserDaoOjb" />
+	<bean id="universalUserDao" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.UniversalUserDaoOjb" />
 
 	<bean id="universalUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl">
 		<property name="universalUserDao" ref="universalUserDao" />
@@ -263,7 +263,7 @@
 		<property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
 		<property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
 		<property name="workflowUserCapabilities">
-			<bean class="edu.iu.uis.eden.user.UserCapabilities">
+			<bean class="org.kuali.rice.kew.user.UserCapabilities">
 				<property name="lookupSupported" value="true" />
 				<property name="reportSupported" value="true" />
 			</bean>
@@ -271,7 +271,7 @@
 	</bean>
     <alias name="universalUserService" alias="financialSystemUserService"/>
 
-	<bean id="kualiModuleUserServiceBase" class="org.kuali.core.service.impl.KualiModuleUserServiceBaseImpl" abstract="true">
+	<bean id="kualiModuleUserServiceBase" class="org.kuali.rice.kns.service.impl.KualiModuleUserServiceBaseImpl" abstract="true">
 		<property name="universalUserService">
 			<ref bean="universalUserService" />
 		</property>
@@ -291,7 +291,7 @@
 		</property>
 	</bean>
 
-	<bean id="workflowLookupable" class="org.kuali.core.workflow.attribute.WorkflowLookupableImpl" singleton="false">
+	<bean id="workflowLookupable" class="org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl" singleton="false">
 		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -300,7 +300,7 @@
 		</property>
 	</bean>
 
-	<bean id="maintenanceDocumentRuleBase" class="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" abstract="true">
+	<bean id="maintenanceDocumentRuleBase" class="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" abstract="true">
 		<property name="configService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -336,53 +336,53 @@
 		</property>
 	</bean>
 
-	<bean id="dataDictionaryService" class="org.kuali.core.service.impl.DataDictionaryServiceImpl">
+	<bean id="dataDictionaryService" class="org.kuali.rice.kns.service.impl.DataDictionaryServiceImpl">
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 		<property name="authorizationService" ref="authorizationService" />
 		<property name="kualiGroupService" ref="kualiGroupService" />
 		<property name="kualiModuleService" ref="kualiModuleService" />
         <property name="baselinePackages">
             <list>
-				<value>classpath:org/kuali/core/bo/datadictionary/DataDictionaryBaseTypes.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/AdHocRoutePerson.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/AdHocRouteWorkgroup.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/Attachment.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/AttributeReferenceDummy.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/BusinessObjectAttributeEntry.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/Campus.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/CampusType.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/DocumentHeader.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/DocumentType.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/EmployeeStatus.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/EmployeeType.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/AdHocRoutePerson.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/AdHocRouteWorkgroup.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/Attachment.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/AttributeReferenceDummy.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/BusinessObjectAttributeEntry.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/Campus.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/CampusType.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/DocumentHeader.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/DocumentType.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/EmployeeStatus.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/EmployeeType.xml</value>
 
-                <value>classpath:org/kuali/core/bo/datadictionary/ParameterNamespace.xml</value>
-                <value>classpath:org/kuali/core/bo/datadictionary/ParameterType.xml</value>
-                <value>classpath:org/kuali/core/bo/datadictionary/ParameterDetailType.xml</value>
-                <value>classpath:org/kuali/core/bo/datadictionary/Parameter.xml</value>
+                <value>classpath:org/kuali/rice/kns/bo/datadictionary/ParameterNamespace.xml</value>
+                <value>classpath:org/kuali/rice/kns/bo/datadictionary/ParameterType.xml</value>
+                <value>classpath:org/kuali/rice/kns/bo/datadictionary/ParameterDetailType.xml</value>
+                <value>classpath:org/kuali/rice/kns/bo/datadictionary/Parameter.xml</value>
 
-				<value>classpath:org/kuali/core/bo/datadictionary/Note.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/NoteType.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/UniversalUser.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/RiceUser.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/Note.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/NoteType.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/UniversalUser.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/RiceUser.xml</value>
 
-                <value>classpath:org/kuali/core/document/datadictionary/ParameterNamespaceMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/core/document/datadictionary/ParameterTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/core/document/datadictionary/ParameterDetailTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/core/document/datadictionary/ParameterMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/kns/document/datadictionary/ParameterNamespaceMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/kns/document/datadictionary/ParameterTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/kns/document/datadictionary/ParameterDetailTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/kns/document/datadictionary/ParameterMaintenanceDocument.xml</value>
 
-				<value>classpath:org/kuali/core/document/datadictionary/CampusMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/core/document/datadictionary/CampusTypeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/core/document/datadictionary/DocumentTypeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/core/document/datadictionary/EmployeeStatusMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/core/document/datadictionary/EmployeeTypeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/core/document/datadictionary/UniversalUserMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/core/document/datadictionary/RiceUserMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/rice/kns/document/datadictionary/CampusMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/rice/kns/document/datadictionary/CampusTypeMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/rice/kns/document/datadictionary/DocumentTypeMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/rice/kns/document/datadictionary/EmployeeStatusMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/rice/kns/document/datadictionary/EmployeeTypeMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/rice/kns/document/datadictionary/UniversalUserMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/rice/kns/document/datadictionary/RiceUserMaintenanceDocument.xml</value>
             </list>
         </property>
 	</bean>
 
-	<bean id="businessObjectService" class="org.kuali.core.service.impl.BusinessObjectServiceImpl">
+	<bean id="businessObjectService" class="org.kuali.rice.kns.service.impl.BusinessObjectServiceImpl">
 		<property name="businessObjectDao">
 			<ref bean="businessObjectDao" />
 		</property>
@@ -400,17 +400,17 @@
 		</property>
 	</bean>
 
-	<bean id="kualiConfigurationService" class="org.kuali.core.service.impl.KualiConfigurationServiceImpl" depends-on="rice"/>
+	<bean id="kualiConfigurationService" class="org.kuali.rice.kns.service.impl.KualiConfigurationServiceImpl" depends-on="rice"/>
 
-	<bean id="authorizationService" class="org.kuali.core.service.impl.AuthorizationServiceImpl">
+	<bean id="authorizationService" class="org.kuali.rice.kns.service.impl.AuthorizationServiceImpl">
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
 	</bean>
 
-	<bean id="kualiModuleService" class="org.kuali.core.service.impl.KualiModuleServiceImpl" />
+	<bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />
 
-	<bean id="mailService" class="org.kuali.core.service.impl.MailServiceImpl">
+	<bean id="mailService" class="org.kuali.rice.kns.service.impl.MailServiceImpl">
 		<property name="mailSender">
 			<ref bean="mailSender" />
 		</property>
@@ -421,9 +421,9 @@
 		<property name="host" value="${mail.relay.server}" />
 	</bean>
 		
-	<bean id="workflowInfoService" class="org.kuali.core.workflow.service.impl.KualiWorkflowInfoImpl" />
+	<bean id="workflowInfoService" class="org.kuali.rice.kns.workflow.service.impl.KualiWorkflowInfoImpl" />
 
-	<bean id="xmlObjectSerializerService" class="org.kuali.core.service.impl.XmlObjectSerializerServiceImpl"></bean>
+	<bean id="xmlObjectSerializerService" class="org.kuali.rice.kns.service.impl.XmlObjectSerializerServiceImpl"></bean>
 
 	<bean id="documentService" class="org.kuali.kfs.sys.document.service.impl.FinancialSystemDocumentServiceImpl">
 		<property name="documentDao">
@@ -461,13 +461,13 @@
 		</property>
 	</bean>
 
-	<bean id="documentHeaderService" class="org.kuali.core.service.impl.DocumentHeaderServiceImpl">
+	<bean id="documentHeaderService" class="org.kuali.rice.kns.service.impl.DocumentHeaderServiceImpl">
 		<property name="documentHeaderDao">
 			<ref bean="documentHeaderDao" />
 		</property>
 	</bean>
 
-	<bean id="kualiRuleService" class="org.kuali.core.service.impl.KualiRuleServiceImpl">
+	<bean id="kualiRuleService" class="org.kuali.rice.kns.service.impl.KualiRuleServiceImpl">
 		<property name="transactionalDocumentDictionaryService">
 			<ref bean="transactionalDocumentDictionaryService" />
 		</property>
@@ -482,7 +482,7 @@
 		</property>
 	</bean>
 
-	<bean id="dateTimeService" class="org.kuali.core.service.impl.DateTimeServiceImpl">
+	<bean id="dateTimeService" class="org.kuali.rice.kns.service.impl.DateTimeServiceImpl">
 		<property name="sqlDateFormats">
 			<list>
 				<value>yyyy-MM-dd</value>
@@ -496,7 +496,7 @@
 		<property name="stringDateTimeFormat" value="MM/dd/yyyy hh:mm a" />
 	</bean>
 
-	<bean id="businessObjectDictionaryService" class="org.kuali.core.service.impl.BusinessObjectDictionaryServiceImpl">
+	<bean id="businessObjectDictionaryService" class="org.kuali.rice.kns.service.impl.BusinessObjectDictionaryServiceImpl">
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -505,19 +505,19 @@
 		</property>
 	</bean>
 
-	<bean id="maintenanceDocumentDictionaryService" class="org.kuali.core.service.impl.MaintenanceDocumentDictionaryServiceImpl">
+	<bean id="maintenanceDocumentDictionaryService" class="org.kuali.rice.kns.service.impl.MaintenanceDocumentDictionaryServiceImpl">
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
 	</bean>
 
-	<bean id="transactionalDocumentDictionaryService" class="org.kuali.core.service.impl.TransactionalDocumentDictionaryServiceImpl">
+	<bean id="transactionalDocumentDictionaryService" class="org.kuali.rice.kns.service.impl.TransactionalDocumentDictionaryServiceImpl">
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
 	</bean>
 
-	<bean id="documentTypeService" class="org.kuali.core.service.impl.DocumentTypeServiceImpl">
+	<bean id="documentTypeService" class="org.kuali.rice.kns.service.impl.DocumentTypeServiceImpl">
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -526,7 +526,7 @@
 		</property>
 	</bean>
 
-	<bean id="lookupService" class="org.kuali.core.service.impl.LookupServiceImpl">
+	<bean id="lookupService" class="org.kuali.rice.kns.service.impl.LookupServiceImpl">
 		<property name="lookupDao">
 			<ref bean="lookupDao" />
 		</property>
@@ -544,28 +544,28 @@
 		</property>
 	</bean>
 
-	<bean id="kualiGroupService" class="org.kuali.rice.web.RiceGroupServiceImpl">
+	<bean id="kualiGroupService" class="org.kuali.rice.kns.web.RiceGroupServiceImpl">
 		<property name="workflowGroupService">
-			<bean class="org.kuali.core.workflow.service.impl.WorkflowGroupServiceImpl" />
+			<bean class="org.kuali.rice.kns.workflow.service.impl.WorkflowGroupServiceImpl" />
 		</property>
 		<property name="kualiWorkflowInfo">
 			<ref bean="workflowInfoService" />
 		</property>
 	</bean>
 
-	<bean id="workflowDocumentService" class="org.kuali.core.workflow.service.impl.WorkflowDocumentServiceImpl">
+	<bean id="workflowDocumentService" class="org.kuali.rice.kns.workflow.service.impl.WorkflowDocumentServiceImpl">
 		<property name="workflowInfoService">
 			<ref bean="workflowInfoService" />
 		</property>
 	</bean>
 
-	<bean id="maintenanceDocumentService" class="org.kuali.core.service.impl.MaintenanceDocumentServiceImpl">
+	<bean id="maintenanceDocumentService" class="org.kuali.rice.kns.service.impl.MaintenanceDocumentServiceImpl">
 		<property name="maintenanceDocumentDao">
 			<ref bean="maintenanceDocumentDao" />
 		</property>
 	</bean>
 
-	<bean id="noteService" class="org.kuali.core.service.impl.NoteServiceImpl">
+	<bean id="noteService" class="org.kuali.rice.kns.service.impl.NoteServiceImpl">
 		<property name="noteDao">
 			<ref bean="noteDao" />
 		</property>
@@ -580,26 +580,26 @@
 		</property>	
 	</bean>
 
-	<bean id="attachmentService" class="org.kuali.core.service.impl.AttachmentServiceImpl">
+	<bean id="attachmentService" class="org.kuali.rice.kns.service.impl.AttachmentServiceImpl">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
 
-  	<bean id="persistenceStructureService" class="org.kuali.core.service.impl.PersistenceStructureServiceOjbImpl" />
+  	<bean id="persistenceStructureService" class="org.kuali.rice.kns.service.impl.PersistenceStructureServiceOjbImpl" />
 
-  	<bean id="persistenceService" class="org.kuali.core.service.impl.PersistenceServiceOjbImpl">
+  	<bean id="persistenceService" class="org.kuali.rice.kns.service.impl.PersistenceServiceOjbImpl">
     	<property name="persistenceDao" ref="persistenceDao" />
     	<property name="moduleService" ref="kualiModuleService" />
   	</bean>
   
-	<bean id="persistenceDao" class="org.kuali.core.dao.proxy.PersistenceDaoProxy">
+	<bean id="persistenceDao" class="org.kuali.rice.kns.dao.proxy.PersistenceDaoProxy">
     	<property name="persistenceDaoOjb" ref="persistenceDaoOjb" />
 	</bean>
 
-  <bean id="persistenceDaoOjb" parent="platformAwareDao" class="org.kuali.core.dao.ojb.PersistenceDaoOjb" />
+  <bean id="persistenceDaoOjb" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.PersistenceDaoOjb" />
 
-	<bean id="dictionaryValidationService" class="org.kuali.core.service.impl.DictionaryValidationServiceImpl">
+	<bean id="dictionaryValidationService" class="org.kuali.rice.kns.service.impl.DictionaryValidationServiceImpl">
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -620,13 +620,13 @@
 		</property>
 	</bean>
 
-	<bean id="documentAuthorizationService" class="org.kuali.core.service.impl.DocumentAuthorizationServiceImpl">
+	<bean id="documentAuthorizationService" class="org.kuali.rice.kns.service.impl.DocumentAuthorizationServiceImpl">
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
 	</bean>
 	
-	<bean id="keyValuesService" class="org.kuali.core.service.impl.KeyValuesServiceImpl">
+	<bean id="keyValuesService" class="org.kuali.rice.kns.service.impl.KeyValuesServiceImpl">
 		<property name="businessObjectDao">
 			<ref bean="businessObjectDao" />
 		</property>
@@ -635,7 +635,7 @@
 		</property>
 	</bean>
 
-	<bean id="postProcessorService" class="org.kuali.core.service.impl.PostProcessorServiceImpl">
+	<bean id="postProcessorService" class="org.kuali.rice.kns.service.impl.PostProcessorServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -644,19 +644,19 @@
 		</property>
 	</bean>
 
-	<bean id="kualiModuleUserPropertyService" class="org.kuali.core.service.impl.KualiModuleUserPropertyServiceImpl">
+	<bean id="kualiModuleUserPropertyService" class="org.kuali.rice.kns.service.impl.KualiModuleUserPropertyServiceImpl">
 		<property name="moduleUserPropertyDao">
 			<ref bean="moduleUserPropertyDao" />
 		</property>
 	</bean>
 
-	<bean id="kualiLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="kualiLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="lookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="lookupableHelperService" class="org.kuali.core.lookup.KualiLookupableHelperServiceImpl" singleton="false">
+	<bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -689,7 +689,7 @@
 		</property>
 	</bean>	
 
-	<bean id="lookupResultsService" class="org.kuali.core.lookup.LookupResultsServiceImpl">
+	<bean id="lookupResultsService" class="org.kuali.rice.kns.lookup.LookupResultsServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -698,9 +698,9 @@
 		</property>
 	</bean>
 
-	<bean id="persistedLookupMetadataDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.PersistedLookupMetadataDaoOjb" />
+	<bean id="persistedLookupMetadataDao" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.PersistedLookupMetadataDaoOjb" />
 
-	<bean id="businessObjectMetaDataService" class="org.kuali.core.service.impl.BusinessObjectMetaDataServiceImpl">
+	<bean id="businessObjectMetaDataService" class="org.kuali.rice.kns.service.impl.BusinessObjectMetaDataServiceImpl">
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
 		</property>
@@ -712,9 +712,9 @@
 		</property>
 	</bean>
 
-	<bean id="universalUserLookupable" class="org.kuali.core.lookup.UniversalUserLookupableImpl" parent="kualiLookupable">
+	<bean id="universalUserLookupable" class="org.kuali.rice.kns.lookup.UniversalUserLookupableImpl" parent="kualiLookupable">
 		<property name="lookupableHelperService">
-			<bean id="universalUserLookupableHelperService" class="org.kuali.core.lookup.UniversalUserLookupableHelperServiceImpl" parent="lookupableHelperService">
+			<bean id="universalUserLookupableHelperService" class="org.kuali.rice.kns.lookup.UniversalUserLookupableHelperServiceImpl" parent="lookupableHelperService">
 				<property name="configService" ref="kualiConfigurationService" />
 			</bean>
 		</property>
@@ -732,7 +732,7 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="lookupUtils" class="org.kuali.core.lookup.LookupUtils">
+	<bean id="lookupUtils" class="org.kuali.rice.kns.lookup.LookupUtils">
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
 		</property>
@@ -748,9 +748,9 @@
         <property name="kualiConfigurationService" ref="kualiConfigurationService" />
 	</bean>
 
-	<bean id="kualiInquirable" class="org.kuali.core.inquiry.KualiInquirableImpl" singleton="false" />
+	<bean id="kualiInquirable" class="org.kuali.rice.kns.inquiry.KualiInquirableImpl" singleton="false" />
 
-	<bean id="confirmationQuestion" class="org.kuali.core.question.ConfirmationQuestion" singleton="false" />
+	<bean id="confirmationQuestion" class="org.kuali.rice.kns.question.ConfirmationQuestion" singleton="false" />
     
 	<bean id="documentDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentDaoOjb">
 		<property name="businessObjectDao">
@@ -760,26 +760,26 @@
 
 	<bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb" />
 
-	<bean id="lookupDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.LookupDaoOjb">
+	<bean id="lookupDao" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.LookupDaoOjb">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
-	<bean id="moduleUserPropertyDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.KualiModuleUserPropertyDaoOjb" />
+	<bean id="moduleUserPropertyDao" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.KualiModuleUserPropertyDaoOjb" />
 
-	<bean id="maintenanceDocumentDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.MaintenanceDocumentDaoOjb" />
+	<bean id="maintenanceDocumentDao" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.MaintenanceDocumentDaoOjb" />
 
-	<bean id="noteDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.NoteDaoOjb" />
+	<bean id="noteDao" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.NoteDaoOjb" />
 
-	<bean id="businessObjectDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.BusinessObjectDaoOjb">
+	<bean id="businessObjectDao" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.BusinessObjectDaoOjb">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
 	</bean>
 
-	<bean id="inactivationBlockingDetectionService" class="org.kuali.core.service.impl.InactivationBlockingDetectionServiceImpl">
+	<bean id="inactivationBlockingDetectionService" class="org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl">
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService"/>
 		</property>
@@ -791,7 +791,7 @@
 		</property>
 	</bean>
 	
-	<bean id="inactivationBlockingDisplayService" class="org.kuali.core.service.impl.InactivationBlockingDisplayServiceImpl">
+	<bean id="inactivationBlockingDisplayService" class="org.kuali.rice.kns.service.impl.InactivationBlockingDisplayServiceImpl">
 		<property name="persistenceService">
 			<ref bean="persistenceService"/>
 		</property>

@@ -19,12 +19,12 @@ import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implements DisbursementVoucherDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDaoOjb.class);

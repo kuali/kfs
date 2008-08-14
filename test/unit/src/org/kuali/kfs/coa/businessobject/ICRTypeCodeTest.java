@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

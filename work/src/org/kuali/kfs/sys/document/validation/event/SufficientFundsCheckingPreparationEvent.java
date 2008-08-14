@@ -17,17 +17,17 @@ package org.kuali.kfs.sys.document.validation.event;
 
 import java.util.List;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.validation.SufficientFundsCheckingPreparationRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class represents the Sufficient Funds Checking Preparation event that is part of an eDoc in Kuali. This is triggered on
@@ -45,14 +45,14 @@ public final class SufficientFundsCheckingPreparationEvent extends KualiDocument
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return SufficientFundsCheckingPreparationRule.class;
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         LOG.debug("invokeRuleMethod() started");

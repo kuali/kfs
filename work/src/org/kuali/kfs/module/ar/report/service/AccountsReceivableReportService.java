@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.ar.report.service;
 
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * The interface defines the methods that extract Labor Ledger records of the employees who were paid on a grant or cost shared

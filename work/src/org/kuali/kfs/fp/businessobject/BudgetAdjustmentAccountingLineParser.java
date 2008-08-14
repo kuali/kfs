@@ -55,7 +55,7 @@ public class BudgetAdjustmentAccountingLineParser extends AccountingLineParserBa
     }
 
     /**
-     * @see org.kuali.core.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
+     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
@@ -63,7 +63,7 @@ public class BudgetAdjustmentAccountingLineParser extends AccountingLineParserBa
     }
 
     /**
-     * @see org.kuali.core.bo.AccountingLineParser#getTargetAccountingLineFormat()
+     * @see org.kuali.rice.kns.bo.AccountingLineParser#getTargetAccountingLineFormat()
      */
     @Override
     public String[] getTargetAccountingLineFormat() {

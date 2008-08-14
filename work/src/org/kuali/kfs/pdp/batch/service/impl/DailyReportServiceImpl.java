@@ -23,11 +23,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.gl.report.TransactionReport.PageHelper;
 import org.kuali.kfs.pdp.batch.service.DailyReportService;
 import org.kuali.kfs.pdp.businessobject.DailyReport;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;

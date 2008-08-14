@@ -34,7 +34,7 @@
   <param name="log4j.settings.path">${log4j.settings.file}</param>
   <param name="log4j.settings.reloadInterval">${log4j.reload.minutes}</param>
 
-  <param name="filter.cas.class">org.kuali.core.web.filter.KualiCasFilter</param>
+  <param name="filter.cas.class">org.kuali.rice.kns.web.filter.KualiCasFilter</param>
   <param name="filter.cas.edu.yale.its.tp.cas.client.filter.loginUrl">${application.url}/${cas.application}/login</param>
   <param name="filter.cas.edu.yale.its.tp.cas.client.filter.validateUrl">${application.url}/${cas.application}/serviceValidate</param>
   <param name="filtermapping.cas.1">/*</param>

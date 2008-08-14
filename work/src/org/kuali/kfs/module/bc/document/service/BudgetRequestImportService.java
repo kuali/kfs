@@ -20,9 +20,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 
 import com.lowagie.text.DocumentException;
 

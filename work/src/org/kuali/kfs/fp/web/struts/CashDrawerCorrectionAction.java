@@ -23,18 +23,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class CashDrawerCorrectionAction extends KualiAction {
     public static final String CASH_MANAGEMENT_FORWARD = "cashManagementReturn";
@@ -45,7 +45,7 @@ public class CashDrawerCorrectionAction extends KualiAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

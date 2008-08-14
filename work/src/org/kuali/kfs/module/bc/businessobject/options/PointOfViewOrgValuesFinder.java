@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class...
@@ -35,7 +35,7 @@ public class PointOfViewOrgValuesFinder extends KeyValuesBase {
     private List pointOfViewOrgKeyLabels;
 
     /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);

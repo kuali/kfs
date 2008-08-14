@@ -18,15 +18,6 @@ package org.kuali.kfs.module.ec.document.validation.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Note;
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.rules.TransactionalDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
@@ -46,6 +37,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
@@ -138,7 +138,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     }
 
     /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
      */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
@@ -164,7 +164,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     }
 
     /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean processCustomRouteDocumentBusinessRules(Document document) {

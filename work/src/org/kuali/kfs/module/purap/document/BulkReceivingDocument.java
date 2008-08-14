@@ -21,21 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
@@ -46,23 +32,24 @@ import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.dto.UserIdDTO;
+import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.user.UserService;
+import org.kuali.rice.kew.user.WorkflowUser;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
-
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.UserIdVO;
-import edu.iu.uis.eden.clientapp.vo.UserVO;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.exception.WorkflowRuntimeException;
-import edu.iu.uis.eden.user.UserService;
-import edu.iu.uis.eden.user.WorkflowUser;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentBase implements ReceivingDocument{
 
@@ -228,11 +215,11 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
          * This is to get the user name for display
          */
         try {
-            UserIdVO userVO = new NetworkIdVO(requisitionPreparer);
-            WorkflowUser wfUser = SpringContext.getBean(UserService.class).getWorkflowUser(userVO);
+            UserIdDTO userDTO = new NetworkIdDTO(requisitionPreparer);
+            WorkflowUser wfUser = SpringContext.getBean(UserService.class).getWorkflowUser(userDTO);
             setPreparerPersonName(wfUser.getDisplayName());
         }
-        catch (EdenUserNotFoundException e) {
+        catch (KEWUserNotFoundException e) {
             throw new RuntimeException(e);
         }
         

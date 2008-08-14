@@ -26,7 +26,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.kuali.core.util.ErrorMap;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.service.impl.DocumentGroupData;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
@@ -36,6 +35,7 @@ import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.sys.Message;
+import org.kuali.rice.kns.util.ErrorMap;
 
 /**
  * This class aggregates all of the status information together from all of the collector-related processes. Note: this code assumes

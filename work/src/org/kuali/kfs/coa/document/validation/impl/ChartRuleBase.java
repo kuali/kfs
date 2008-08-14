@@ -16,14 +16,14 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.rule.RouteDocumentRule;
-import org.kuali.core.rule.SaveDocumentRule;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.rule.RouteDocumentRule;
+import org.kuali.rice.kns.rule.SaveDocumentRule;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class provides some basic saving and routing rules for Chart documents
@@ -34,7 +34,7 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
     /**
      * This routes the document
      * 
-     * @see org.kuali.core.rule.RouteDocumentRule#processRouteDocument(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.RouteDocumentRule#processRouteDocument(org.kuali.rice.kns.document.Document)
      */
     public boolean processRouteDocument(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
@@ -50,7 +50,7 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
     /**
      * This saves the document
      * 
-     * @see org.kuali.core.rule.SaveDocumentRule#processSaveDocument(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.SaveDocumentRule#processSaveDocument(org.kuali.rice.kns.document.Document)
      */
     public boolean processSaveDocument(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;

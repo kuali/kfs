@@ -19,15 +19,15 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * PreRules checks for the Account that needs to occur while still in the Struts processing. This includes defaults, confirmations,
@@ -69,7 +69,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
      * <li>{@link AccountPreRules#setStateFromZip}</li>
      * </ul>
      * This does not fail on rule failures
-     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);

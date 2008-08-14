@@ -29,10 +29,6 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.UserSession;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 import org.kuali.kfs.pdp.service.PdpSecurityService;
@@ -40,7 +36,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kim.v2.service.AuthenticationService;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * This Action will do most request processing for the PDP part of appliation. Your action should override the proper methods to do

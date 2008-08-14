@@ -32,7 +32,7 @@
 				</th>
 			    <td>
 			    	<kul:inquiry 
-						boClassName="org.kuali.core.bo.user.UniversalUser" 
+						boClassName="org.kuali.rice.kns.bo.user.UniversalUser" 
 						keyValues="personPayrollIdentifier=${document.emplid}&personUniversalIdentifier=${document.employee.personUniversalIdentifier}" 
 						render="true">
 						${document.employee.personName}

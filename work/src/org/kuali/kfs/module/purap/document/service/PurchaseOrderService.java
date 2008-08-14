@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.core.bo.Note;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
@@ -30,6 +28,8 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Defines methods that must be implemented by classes providing a PurchaseOrderService.

@@ -18,11 +18,11 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCons;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class ObjectLevelRule extends MaintenanceDocumentRuleBase {
      * <li>{@link ObjectLevelRule#checkObjConsCode()}</li>
      * </ul>
      * This rule does not fail on business rule failures
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -49,7 +49,7 @@ public class ObjectLevelRule extends MaintenanceDocumentRuleBase {
      * <li>{@link ObjectLevelRule#checkObjConsCode()}</li>
      * </ul>
      * This rule fails on business rule failures
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {

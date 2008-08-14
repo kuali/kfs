@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.context;
 
-import edu.iu.uis.eden.plugin.Plugin;
-import edu.iu.uis.eden.plugin.client.PluginListener;
+import org.kuali.rice.kew.plugin.Plugin;
+import org.kuali.rice.kew.plugin.PluginListener;
 
 public class PluginInitListener implements PluginListener {
 

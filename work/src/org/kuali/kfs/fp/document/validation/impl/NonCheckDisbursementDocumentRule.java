@@ -19,9 +19,6 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -29,6 +26,9 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Business rule(s) applicable to NonCheckDisbursement documents.
@@ -38,7 +38,7 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
     /**
      * Overrides to consider the object types.<br/>
      * <p>
-     * Note: This <code>{@link org.kuali.core.document.Document}</code> is always balanced because it only has From: lines.
+     * Note: This <code>{@link org.kuali.rice.kns.document.Document}</code> is always balanced because it only has From: lines.
      *
      * @param financialDocument The document whose balance is being validated.
      * @return Always returns true, because this type of document is always balanced.
@@ -59,8 +59,8 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
      * @param accountingLine The new accounting line being added.
      * @return True if the business rules all pass, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean processCustomAddAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
@@ -78,7 +78,7 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
      * @param financialDocument The document to be routed.
      * @return True if the document contains source accounting lines, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
@@ -99,7 +99,7 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
      * @param financialDocument The document to be routed.
      * @return This method always returns true.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {

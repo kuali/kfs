@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
@@ -28,6 +27,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -126,7 +126,7 @@
 						
 						<c:choose>
 							    <c:when test="${location.objectId == null}">
-							        <c:set var="newObjectId" value="<%= (new org.kuali.core.util.Guid()).toString()%>" />
+							        <c:set var="newObjectId" value="<%= (new org.kuali.rice.kns.util.Guid()).toString()%>" />
 					                     <c:set var="tabKey" value="Item-${newObjectId}" />
 					                     <html:hidden property="document.item[${ctr}].objectId" value="${newObjectId}" />
 						    </c:when>

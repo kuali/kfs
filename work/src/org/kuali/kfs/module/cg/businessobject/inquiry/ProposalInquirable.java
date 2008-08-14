@@ -20,18 +20,18 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.datadictionary.InquirySectionDefinition;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.Section;
-import org.kuali.core.web.ui.SectionBridge;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.kns.web.ui.SectionBridge;
 
 /**
  * Used for wiring up {@link Proposal} for inquiries.
@@ -44,7 +44,7 @@ public class ProposalInquirable extends KfsInquirableImpl {
     private transient static String centralReviewWorkgroupName;
 
     /**
-     * @see org.kuali.core.inquiry.KualiInquirableImpl#getSections(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.kns.bo.BusinessObject)
      */
     public List<Section> getSections(BusinessObject bo) {
 

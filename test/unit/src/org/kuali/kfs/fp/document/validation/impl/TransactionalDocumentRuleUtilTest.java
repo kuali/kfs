@@ -17,7 +17,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
-import org.kuali.core.service.DateTimeService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;

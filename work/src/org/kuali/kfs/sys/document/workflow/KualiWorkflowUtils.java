@@ -27,19 +27,18 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.workflow.WorkflowUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kew.doctype.DocumentType;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.WorkflowUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-
-import edu.iu.uis.eden.doctype.DocumentType;
-import edu.iu.uis.eden.engine.RouteContext;
 
 /**
  * This class contains static utility methods used by the Kuali Workflow Attribute Classes.

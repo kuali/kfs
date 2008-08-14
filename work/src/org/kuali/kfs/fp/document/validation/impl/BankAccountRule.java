@@ -19,15 +19,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This is the rules class that is used for the default implementation of the Bank Account maintenance document.
@@ -43,7 +43,7 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
      * 
      * @param document submitted document
      * @return true if objects are completed filled out, sub account number exists, and sub object code exists
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         // default to success
@@ -62,7 +62,7 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
      * 
      * @param document submitted document
      * @return true if objects are completed filled out, sub account number exists, and sub object code exists
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         // default to success
@@ -81,7 +81,7 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
      * 
      * @param document submitted document
      * @return true always
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         checkPartiallyFilledOutReferences();

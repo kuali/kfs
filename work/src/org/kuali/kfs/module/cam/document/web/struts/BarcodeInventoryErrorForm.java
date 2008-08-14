@@ -15,26 +15,12 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.FormatException;
-import org.kuali.core.web.format.Formatter;
-import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
-import org.kuali.kfs.module.ar.document.CashControlDocument;
-import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 
 /**
  * 

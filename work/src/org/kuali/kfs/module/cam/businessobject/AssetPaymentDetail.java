@@ -4,14 +4,14 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 
@@ -57,7 +57,7 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap<String,String> toStringMapper() {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();

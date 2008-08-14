@@ -23,8 +23,8 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.bean.WriteTag;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * The standard renderer of totals for an accounting line group

@@ -23,11 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.format.TimestampAMPMFormatter;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
 import org.kuali.kfs.fp.businessobject.Check;
@@ -46,6 +41,11 @@ import org.kuali.kfs.sys.KFSConstants.DepositConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.web.format.TimestampAMPMFormatter;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This class is the action form for CashManagement
@@ -1081,7 +1081,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.pojo.PojoFormBase#postprocessRequestParameters(java.util.Map)
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#postprocessRequestParameters(java.util.Map)
      */
     @Override
     public void postprocessRequestParameters(Map requestParameters) {

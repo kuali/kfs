@@ -17,11 +17,11 @@ package org.kuali.kfs.vnd.document.service;
 
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface VendorService {
 

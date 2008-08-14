@@ -22,13 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -47,10 +40,16 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinitio
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This is an implemeation of Effort Certification Extract process, which extracts Labor Ledger records of the employees who were

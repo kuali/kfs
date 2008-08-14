@@ -2,7 +2,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
-  <bean id="rice" class="org.kuali.rice.config.RiceConfigurer">
+  <bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
     <property name="dataSource" ref="dataSource" />
 	<property name="transactionManager" ref="jotm" />
 	<property name="userTransaction" ref="jotm" />
@@ -14,7 +14,7 @@
     <property name="rootResourceLoader" ref="kfsRootResourceLoader" />
     <property name="modules">
       <list>
-        <bean class="edu.iu.uis.eden.messaging.config.KSBConfigurer">
+        <bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
                     <property name="messageDataSource" ref="dataSource"/>
                     <property name="registryDataSource" ref="registryDataSource"/>
           <property name="serviceServletUrl" value="${workflow.url}/remote" />
@@ -23,7 +23,7 @@
                       <bean class="org.kuali.kfs.sys.service.impl.ServiceBusAuthorizationService"/>
                     </property>
         </bean>
-        <bean class="org.kuali.workflow.config.KEWConfigurer">
+        <bean class="org.kuali.rice.kew.config.KEWConfigurer">
           <property name="clientProtocol" value="local" />
                     <property name="dataSource" ref="kewDataSource"/>
         </bean>

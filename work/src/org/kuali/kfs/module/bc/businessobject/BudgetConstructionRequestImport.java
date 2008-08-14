@@ -17,7 +17,7 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 public class BudgetConstructionRequestImport extends TransientBusinessObjectBase {
     private String fileName;

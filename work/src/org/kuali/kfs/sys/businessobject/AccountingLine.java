@@ -17,9 +17,6 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.Map;
 
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -29,6 +26,9 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.fp.businessobject.SalesTax;
+import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * An AccountLine contains all the accounting items typically necessary to create a pending entry to the G/L. All transaction
@@ -322,12 +322,12 @@ public interface AccountingLine extends PersistableBusinessObject, GeneralLedger
     public void setSalesTaxRequired(boolean salesTaxRequired);
 
     /**
-     * @see org.kuali.core.bo.AccountingLine#isSourceAccountingLine()
+     * @see org.kuali.rice.kns.bo.AccountingLine#isSourceAccountingLine()
      */
     public boolean isSourceAccountingLine();
 
     /**
-     * @see org.kuali.core.bo.AccountingLine#isTargetAccountingLine()
+     * @see org.kuali.rice.kns.bo.AccountingLine#isTargetAccountingLine()
      */
     public boolean isTargetAccountingLine();
 

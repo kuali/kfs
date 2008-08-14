@@ -20,8 +20,6 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_ORIGIN_CODE;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -32,6 +30,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * Business rule(s) applicable to <code>{@link org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument}</code>
@@ -77,7 +77,7 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
      * @param transactionalDocument submitted accounting document
      * @return true if number of account line required is met
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isAccountingLinesRequiredNumberForRoutingMet(AccountingDocument transactionalDocument) {
@@ -91,8 +91,8 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
      * @param accountingLine accounting line in accounting document
      * @return true if accounting line can be added without any problems
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean processCustomAddAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
@@ -112,8 +112,8 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
      * @param accountingLine accounting line in document
      * @return true if accounting line can be reviewed without any problems
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean processCustomReviewAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {

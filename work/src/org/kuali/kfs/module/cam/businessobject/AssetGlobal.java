@@ -5,16 +5,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.GlobalBusinessObject;
-import org.kuali.core.bo.GlobalBusinessObjectDetail;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
@@ -24,6 +14,16 @@ import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.GlobalBusinessObject;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -696,7 +696,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * @see org.kuali.core.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
@@ -705,7 +705,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     /**
      * This returns a list of Object Codes to Update and/or Add
      * 
-     * @see org.kuali.core.bo.GlobalBusinessObject#generateGlobalChangesToPersist() becomes an asset
+     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#generateGlobalChangesToPersist() becomes an asset
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
@@ -824,7 +824,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap<String, String> toStringMapper() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();

@@ -38,17 +38,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.Timer;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -72,8 +61,18 @@ import org.kuali.kfs.sys.exception.AccountingLineParserException;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.Timer;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * This class handles UI actions for all shared methods of financial documents.
@@ -117,7 +116,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     /**
      * All document-creation gets routed through here
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -137,7 +136,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     /**
      * All document-load operations get routed through here
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -173,7 +172,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     /**
      * Needed to override this to keep from losing Sales Tax information
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -187,7 +186,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     /**
      * Needed to override this to keep from losing Sales Tax information
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#toggleTab(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#toggleTab(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

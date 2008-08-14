@@ -19,18 +19,17 @@ import junit.framework.Assert;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowNodeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowRequestMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class WorkflowTestUtils {
     private static final Log LOG = LogFactory.getLog(WorkflowTestUtils.class);
@@ -69,7 +68,7 @@ public class WorkflowTestUtils {
 
     public static void waitForApproveRequest(Long docHeaderId, UniversalUser user) throws Exception {
         LOG.info("Entering: waitForApproveRequest(" + docHeaderId + "," + user.getPersonUserIdentifier() + ")");
-        DocumentWorkflowRequestMonitor monitor = new DocumentWorkflowRequestMonitor(docHeaderId, user, EdenConstants.ACTION_REQUEST_APPROVE_REQ);
+        DocumentWorkflowRequestMonitor monitor = new DocumentWorkflowRequestMonitor(docHeaderId, user, KEWConstants.ACTION_REQUEST_APPROVE_REQ);
         Assert.assertTrue("waitForApproveRequest(" + docHeaderId + "," + user.getPersonUserIdentifier() + ") timed out", ChangeMonitor.waitUntilChange(monitor, 240, 5));
     }
 

@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.ld.document.authorization;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * Labor Docuemnt Implements special document authorization for the labor expense documents.
@@ -28,8 +28,8 @@ public class LaborExpenseDocumentAuthorizerBase extends AccountingDocumentAuthor
     /**
      * Override to disallow copy and error correction.
      * 
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

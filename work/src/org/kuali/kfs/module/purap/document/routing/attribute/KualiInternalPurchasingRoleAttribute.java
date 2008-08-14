@@ -21,11 +21,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
@@ -34,17 +29,21 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-
-import edu.iu.uis.eden.Id;
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
-import edu.iu.uis.eden.routetemplate.Role;
-import edu.iu.uis.eden.routetemplate.RuleExtension;
-import edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute;
-import edu.iu.uis.eden.workgroup.GroupNameId;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.identity.Id;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+import org.kuali.rice.kew.rule.Role;
+import org.kuali.rice.kew.rule.RuleExtension;
+import org.kuali.rice.kew.rule.UnqualifiedRoleAttribute;
+import org.kuali.rice.kew.workgroup.GroupNameId;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * A document should stop in the Internal Purchasing Review route node if the following conditions are met:<br>
@@ -72,7 +71,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute#getRoleNames()
+     * @see org.kuali.rice.kew.rule.UnqualifiedRoleAttribute#getRoleNames()
      */
     @Override
     public List<Role> getRoleNames() {
@@ -80,7 +79,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.AbstractRoleAttribute#isMatch(edu.iu.uis.eden.routeheader.DocumentContent, java.util.List)
+     * @see org.kuali.rice.kew.rule.AbstractRoleAttribute#isMatch(org.kuali.rice.kew.routeheader.DocumentContent, java.util.List)
      */
     @Override
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
@@ -105,7 +104,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
                 throw new RuntimeException(errorMsg);
             }
         }
-        catch (EdenUserNotFoundException u) {
+        catch (KEWUserNotFoundException u) {
             String errorMsg = "Error trying to get routed by user from doc id '" + documentNumber + "'";
             LOG.error(errorMsg, u);
             throw new RuntimeException(errorMsg, u);
@@ -130,7 +129,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
      * @return a ResolvedQualifiedRole
      */
     @Override
-    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
+    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws KEWUserNotFoundException {
         // assume isMatch above has done it's job
         String workgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.INTERNAL_PURCHASING_WORKGROUP_NAME);
         return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));

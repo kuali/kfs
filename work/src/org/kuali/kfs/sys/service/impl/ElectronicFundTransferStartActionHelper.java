@@ -20,13 +20,13 @@ import java.util.Properties;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * An action for Electronic Fund Transfer that simply redirects to either the claiming or non-claiming lookup.

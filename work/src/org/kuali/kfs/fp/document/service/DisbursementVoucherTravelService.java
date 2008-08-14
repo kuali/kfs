@@ -17,7 +17,7 @@ package org.kuali.kfs.fp.document.service;
 
 import java.sql.Timestamp;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 

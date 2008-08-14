@@ -25,12 +25,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.dataaccess.CustomerProfileDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao;
 import org.kuali.kfs.pdp.service.paymentparser.PdpFileHandler;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * @author jsissom

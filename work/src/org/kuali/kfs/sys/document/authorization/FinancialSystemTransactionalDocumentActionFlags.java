@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
-import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 
 
 /**

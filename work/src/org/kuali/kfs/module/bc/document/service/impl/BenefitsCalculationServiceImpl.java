@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.bc.document.service.impl;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

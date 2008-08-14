@@ -16,7 +16,6 @@
 
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.util.LinkedHashMap;
 
 /**
  * Purchase Order Item Capital Asset Business Object.

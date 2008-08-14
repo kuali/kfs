@@ -22,10 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.sys.KFSConstants;
@@ -34,6 +30,10 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Validates content of a <code>{@link AccountDelegate}</code> maintenance document upon triggering of a approve, save, or route
@@ -61,7 +61,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
      * <li>{@link DelegateRule#checkDelegateUserRules(MaintenanceDocument)}</li>
      * </ul>
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      * @return doesn't fail on save, even if sub-rules fail
      */
     @Override
@@ -90,7 +90,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
      * <li>{@link DelegateRule#checkDelegateUserRules(MaintenanceDocument)}</li>
      * </ul>
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      * @return fails if sub-rules fail
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -120,7 +120,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
      * <li>{@link DelegateRule#checkDelegateUserRules(MaintenanceDocument)}</li>
      * </ul>
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
 

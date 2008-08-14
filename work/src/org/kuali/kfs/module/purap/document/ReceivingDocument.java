@@ -17,16 +17,15 @@ package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 
-import org.kuali.core.bo.Campus;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 public interface ReceivingDocument extends TransactionalDocument, PurapItemOperations {

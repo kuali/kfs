@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class BankRule extends MaintenanceDocumentRuleBase {
 
@@ -26,7 +26,7 @@ public class BankRule extends MaintenanceDocumentRuleBase {
      * 
      * @param document submitted document
      * @return true
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return super.processCustomApproveDocumentBusinessRules(document);
@@ -35,7 +35,7 @@ public class BankRule extends MaintenanceDocumentRuleBase {
     /**
      * Returns MaintenanceDocumentRuleBase.processCustomRouteDocumentBusinessRules()
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return super.processCustomRouteDocumentBusinessRules(document);
@@ -44,7 +44,7 @@ public class BankRule extends MaintenanceDocumentRuleBase {
     /**
      * Returns MaintenanceDocumentRuleBase.processCustomSaveDocumentBusinessRules()
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         return super.processCustomSaveDocumentBusinessRules(document);

@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.lookup.LookupableHelperService;
-import org.kuali.core.service.DateTimeService;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kfs.gl.web.TestDataGenerator;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;

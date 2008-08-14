@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountPresenceService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class helps implement AccountingLine overrides. It is not persisted itself, but it simplifies working with the persisted

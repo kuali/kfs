@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCost;
 import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCostLookup;
 import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
@@ -32,6 +31,7 @@ import org.kuali.kfs.module.cg.document.validation.event.RecalculateIndirectCost
 import org.kuali.kfs.module.cg.document.validation.event.UpdateIndirectCostEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiRuleService;
 
 /**
  * This class handles Actions for Research Administration.

@@ -17,12 +17,12 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.List;
 
-import org.kuali.core.util.Guid;
 import org.kuali.kfs.module.bc.BCConstants.Report.BuildMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao;
+import org.kuali.rice.kns.util.Guid;
 
 /**
  * JCBC implementation of BudgetReportsControlListDaoJdbc

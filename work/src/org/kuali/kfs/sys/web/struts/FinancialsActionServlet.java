@@ -23,9 +23,9 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.collections.iterators.IteratorEnumeration;
-import org.kuali.core.web.struts.action.KualiActionServlet;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.PropertyLoadingFactoryBean;
+import org.kuali.rice.kns.web.struts.action.KualiActionServlet;
 
 /**
  * FinancialsActionServlet implementation which overrides {@link #getServletConfig()} to filter out the

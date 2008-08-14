@@ -19,12 +19,12 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Note;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.format.DateFormatter;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.web.format.DateFormatter;
 
 /**
  * Payment Request View Business Object.

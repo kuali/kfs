@@ -18,11 +18,11 @@ package org.kuali.kfs.sys.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.KualiModule;
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KualiModuleService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.KualiModule;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Value Finder for Units Of Measure.
@@ -32,7 +32,7 @@ public class KualiModuleValuesFinder extends KeyValuesBase {
     /**
      * Returns code/description pairs of all Units Of Measure.
      * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
         KualiModuleService moduleService = SpringContext.getBean(KualiModuleService.class);

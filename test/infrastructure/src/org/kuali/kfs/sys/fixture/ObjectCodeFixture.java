@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.fixture;
 
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 
 public enum ObjectCodeFixture {

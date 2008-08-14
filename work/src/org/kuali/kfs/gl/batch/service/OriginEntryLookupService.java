@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.gl.batch.service;
 
-import org.kuali.core.bo.DocumentType;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -30,6 +29,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.rice.kns.bo.DocumentType;
 
 /**
  * An interface of methods that duplicate the relationships that OriginEntryFull has.

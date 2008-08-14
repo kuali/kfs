@@ -31,11 +31,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
@@ -45,6 +40,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Base implementation to manipulate batch input file sets from the batch upload screen
@@ -102,7 +102,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#delete(org.kuali.core.bo.user.UniversalUser,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#delete(org.kuali.rice.kns.bo.user.UniversalUser,
      *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
      */
     public boolean delete(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
@@ -168,7 +168,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#hasBeenProcessed(org.kuali.core.bo.user.UniversalUser,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#hasBeenProcessed(org.kuali.rice.kns.bo.user.UniversalUser,
      *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
      */
     public boolean hasBeenProcessed(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) {
@@ -178,7 +178,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#download(org.kuali.core.bo.user.UniversalUser,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#download(org.kuali.rice.kns.bo.user.UniversalUser,
      *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
      */
     public File download(UniversalUser user, BatchInputFileSetType inputType, String fileType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
@@ -221,7 +221,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
 
     /**
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#isUserAuthorizedForBatchType(org.kuali.kfs.sys.batch.BatchInputFileSetType,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean isUserAuthorizedForBatchType(BatchInputFileSetType batchInputFileSetType, UniversalUser user) {
         if (batchInputFileSetType == null || user == null) {
@@ -236,7 +236,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
 
     /**
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#listBatchTypeFilesForUser(org.kuali.kfs.sys.batch.BatchInputFileSetType,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public Set<String> listBatchTypeFileUserIdentifiersForUser(BatchInputFileSetType batchInputFileSetType, UniversalUser user) throws AuthorizationException {
         List<File> files = new ArrayList<File>();
@@ -249,7 +249,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#save(org.kuali.core.bo.user.UniversalUser,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#save(org.kuali.rice.kns.bo.user.UniversalUser,
      *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String, java.util.Map)
      */
     public Map<String, String> save(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation) throws AuthorizationException, FileStorageException {

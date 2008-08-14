@@ -17,11 +17,11 @@ package org.kuali.kfs.sys.businessobject.defaultvalue;
 
 import java.util.Collection;
 
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.kfs.fp.businessobject.MessageOfTheDay;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 public class MessageOfTheDayFinder implements ValueFinder {
 

@@ -20,9 +20,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.util.LabelValueBean;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.format.SimpleBooleanFormatter;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.document.CashManagementDocument;
@@ -36,6 +33,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
 
 /**
  * This class is the action form for Cash Receipts.

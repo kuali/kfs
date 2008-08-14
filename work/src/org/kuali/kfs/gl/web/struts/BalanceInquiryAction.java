@@ -30,15 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.lookup.Lookupable;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.ResultRow;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByConsolidationLookupableHelperServiceImpl;
@@ -46,6 +37,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * This class handles Actions for lookup flow
@@ -198,7 +198,7 @@ public class BalanceInquiryAction extends KualiAction {
     /**
      * Refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

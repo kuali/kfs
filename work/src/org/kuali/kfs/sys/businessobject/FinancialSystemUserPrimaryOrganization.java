@@ -17,13 +17,13 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.KualiModule;
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.KualiModuleService;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.KualiModule;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiModuleService;
 
 public class FinancialSystemUserPrimaryOrganization extends PersistableBusinessObjectBase implements ChartOrgHolder, Inactivateable {
 

@@ -15,16 +15,16 @@
  */
 package org.kuali.kfs.module.ld.document.validation.impl;
 
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.module.ld.LaborConstants ;
-import org.kuali.kfs.module.ld.LaborKeyConstants; 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument ;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Validates that an accounting line has fringe benefit object code 

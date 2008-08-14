@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.ld.util;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This is a registry of the reports. The registry typically holds the key elements of a report: its file name and title.

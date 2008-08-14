@@ -22,10 +22,8 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.web.ui.Field;
-import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * Base class for all renderers which render fields
@@ -39,7 +37,7 @@ public abstract class FieldRendererBase implements FieldRenderer {
 
     /**
      * Sets the field to render
-     * @see org.kuali.kfs.sys.document.web.renderers.FieldRenderer#setField(org.kuali.core.web.ui.Field)
+     * @see org.kuali.kfs.sys.document.web.renderers.FieldRenderer#setField(org.kuali.rice.kns.web.ui.Field)
      */
     public void setField(Field field) {
         this.field = field;

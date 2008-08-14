@@ -28,8 +28,8 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;

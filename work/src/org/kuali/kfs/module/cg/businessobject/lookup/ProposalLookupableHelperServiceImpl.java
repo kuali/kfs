@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 /**
  * Allows custom handling of Proposals within the lookup framework.
@@ -36,7 +36,7 @@ public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperSe
     private static final String PROJECT_DIRECTOR_USER_ID_LOOKUP_FIELD = "universalUser.personUserIdentifier";
 
     /**
-     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
+     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
      */
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {

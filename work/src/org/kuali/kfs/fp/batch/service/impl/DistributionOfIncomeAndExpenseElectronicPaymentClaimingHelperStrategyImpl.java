@@ -17,20 +17,19 @@ package org.kuali.kfs.fp.batch.service.impl;
 
 import java.util.List;
 
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.DocumentTypeService;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.ParameterService;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 
 public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.class);
@@ -79,7 +78,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
         url.append(URL_PREFIX);
         url.append(getClaimingDocumentWorkflowDocumentType().replace("Document", ""));
         url.append(URL_MIDDLE);
-        url.append(IDocHandler.ACTIONLIST_COMMAND);
+        url.append(KEWConstants.ACTIONLIST_COMMAND);
         url.append(URL_SUFFIX);
         url.append(doc.getDocumentNumber());
         return url.toString();
@@ -182,7 +181,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
 
     /**
      * This always returns true if the given user in the claiming workgroup.
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean userMayUseToClaim(UniversalUser claimingUser) {
         return electronicPaymentClaimingService.isUserMemberOfClaimingGroup(claimingUser);

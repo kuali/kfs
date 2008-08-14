@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.document;
 import static org.kuali.kfs.sys.KFSConstants.EMPTY_STRING;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Copyable;
 import org.kuali.kfs.fp.businessobject.NonCheckDisbursementDocumentAccountingLineParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -31,6 +30,7 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.rice.kns.document.Copyable;
 
 /**
  * This is the business object that represents the NonCheckDisbursementDocument in Kuali. The "Non-Check Disbursement" document is
@@ -78,8 +78,8 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
      * @throws IllegalStateException Thrown if accounting line attributes are invalid.
      * 
      * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);

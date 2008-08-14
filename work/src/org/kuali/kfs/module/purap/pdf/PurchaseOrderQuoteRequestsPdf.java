@@ -23,14 +23,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.sql.Date;
 
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

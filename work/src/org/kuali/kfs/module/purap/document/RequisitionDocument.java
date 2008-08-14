@@ -23,19 +23,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.Copyable;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.KualiWorkflowInfo;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -64,11 +51,23 @@ import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * Document class for the Requisition.
@@ -94,7 +93,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
     @Override
     public boolean isBoNotesSupport() {
@@ -154,7 +153,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * a set number of days have passed since the document's creation.
      * 
      * @return True if copying of this requisition is allowed.
-     * @see org.kuali.core.document.Document#getAllowsCopy()
+     * @see org.kuali.rice.kns.document.Document#getAllowsCopy()
      */
     @Override
     public boolean getAllowsCopy() {
@@ -182,7 +181,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * Performs logic needed to copy Requisition Document.
      * 
-     * @see org.kuali.core.document.Document#toCopy()
+     * @see org.kuali.rice.kns.document.Document#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException, ValidationException {
@@ -270,7 +269,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {
@@ -310,18 +309,18 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeVO change) {
+    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
         LOG.debug("handleRouteLevelChange() started");
         super.handleRouteLevelChange(change);
         try {
             String newNodeName = change.getNewNodeName();
             if (StringUtils.isNotBlank(newNodeName)) {
-                ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
-                reportCriteriaVO.setTargetNodeName(newNodeName);
-                if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ })) {
+                ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(getDocumentNumber()));
+                reportCriteriaDTO.setTargetNodeName(newNodeName);
+                if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ })) {
                     NodeDetails currentNode = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
                     if (ObjectUtils.isNotNull(currentNode)) {
                         if (StringUtils.isNotBlank(currentNode.getAwaitingStatusCode())) {
@@ -480,7 +479,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * @see org.kuali.core.document.Document#getDocumentTitle()
+     * @see org.kuali.rice.kns.document.Document#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {

@@ -21,16 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
-import org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class CustomerInvoiceWriteoffDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
     
@@ -39,7 +36,7 @@ public class CustomerInvoiceWriteoffDocumentAction extends FinancialSystemTransa
      * 
      * TODO This initation stuff does the exact same thing as customer credit memo. this should really be abstracted out...
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

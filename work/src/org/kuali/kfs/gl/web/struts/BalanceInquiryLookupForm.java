@@ -17,12 +17,12 @@ package org.kuali.kfs.gl.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.lookup.Lookupable;
-import org.kuali.core.web.struts.form.MultipleValueLookupForm;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
+import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 
 /**
  * Balance inquiries are pretty much just lookups already, but are not used in the traditional sense. In most cases, balance

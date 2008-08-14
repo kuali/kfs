@@ -212,7 +212,7 @@
     <property name="name" value="accountLineAnnualBalanceAmount" />
     <property name="label" value="Account Line Annual Balance Amount" />
     <property name="shortLabel" value="Account Line Annual Balance Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-financialBeginningBalanceLineAmount" parent="LedgerBalanceForSalaryExpenseTransfer-financialBeginningBalanceLineAmount-parentBean" />
 
@@ -220,7 +220,7 @@
     <property name="name" value="financialBeginningBalanceLineAmount" />
     <property name="label" value="Beginning Balance Line Amount" />
     <property name="shortLabel" value="Beginning Balance Line Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-contractsGrantsBeginningBalanceAmount" parent="LedgerBalanceForSalaryExpenseTransfer-contractsGrantsBeginningBalanceAmount-parentBean" />
 
@@ -228,98 +228,98 @@
     <property name="name" value="contractsGrantsBeginningBalanceAmount" />
     <property name="label" value="Contracts Grants Beginning Balance Amount" />
     <property name="shortLabel" value="CG Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month1Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month1Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month1Amount" />
     <property name="label" value="July" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month2Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month2Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month2Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month2Amount" />
     <property name="label" value="August" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month3Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month3Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month3Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month3Amount" />
     <property name="label" value="September" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month4Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month4Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month4Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month4Amount" />
     <property name="label" value="October" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month5Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month5Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month5Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month5Amount" />
     <property name="label" value="November" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month6Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month6Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month6Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month6Amount" />
     <property name="label" value="December" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month7Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month7Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month7Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month7Amount" />
     <property name="label" value="January" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month8Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month8Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month8Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month8Amount" />
     <property name="label" value="February" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month9Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month9Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month9Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month9Amount" />
     <property name="label" value="March" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month10Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month10Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month10Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month10Amount" />
     <property name="label" value="April" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month11Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month11Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month11Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month11Amount" />
     <property name="label" value="May" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month12Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month12Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month12Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month12Amount" />
     <property name="label" value="June" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month13Amount" parent="LedgerBalanceForSalaryExpenseTransfer-month13Amount-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-month13Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="month13Amount" />
     <property name="label" value="Year End" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LedgerBalanceForSalaryExpenseTransfer-transactionDateTimeStamp" parent="LedgerBalanceForSalaryExpenseTransfer-transactionDateTimeStamp-parentBean" />
 
@@ -338,7 +338,7 @@
     <property name="name" value="dummyBusinessObject.genericAmount" />
     <property name="label" value="Year End Close" />
     <property name="shortLabel" value="Year End Close" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

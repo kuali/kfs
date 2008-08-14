@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.cg.document.validation.impl;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCost;
@@ -26,6 +22,10 @@ import org.kuali.kfs.module.cg.businessobject.BudgetTaskPeriodIndirectCost;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class BudgetIndirectCostRule {
 

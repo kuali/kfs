@@ -20,13 +20,13 @@ import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao {
 

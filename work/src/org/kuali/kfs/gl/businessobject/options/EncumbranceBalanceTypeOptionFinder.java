@@ -18,12 +18,12 @@ package org.kuali.kfs.gl.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * An implementation of ValueFinder that returns all balance types, but which defaults to external encumbrance
@@ -34,7 +34,7 @@ public class EncumbranceBalanceTypeOptionFinder extends KeyValuesBase implements
      * Returns the default value of this ValueFinder, in this case, external encumbrance
      * 
      * @return a String with the key of the default value
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         OptionsService os = SpringContext.getBean(OptionsService.class);
@@ -47,7 +47,7 @@ public class EncumbranceBalanceTypeOptionFinder extends KeyValuesBase implements
      * Returns a list of all balance types
      * 
      * @return a List of key/value pairs to populate a drop down box
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List labels = new ArrayList();

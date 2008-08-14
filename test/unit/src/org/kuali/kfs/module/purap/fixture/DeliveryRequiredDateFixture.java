@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
 
-import org.kuali.core.service.DateTimeService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 

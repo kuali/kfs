@@ -83,7 +83,7 @@
     </property>
     <property name="summary" value="Budget Task On Campus?" />
     <property name="description" value="Budget Task On Campus?" />
-    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="BudgetTask-budgetTaskName" parent="BudgetTask-budgetTaskName-parentBean" />
 

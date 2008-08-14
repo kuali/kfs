@@ -20,11 +20,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.coa.businessobject.FederalFundedCode;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class returns list of {@link FederalFundedCode} key value pairs.
@@ -34,7 +34,7 @@ public class FederalFundedCodeValuesFinder extends KeyValuesBase {
     /**
      * Creates a list of {@link FederalFundedCode} using their code as the key and their code "-" name
      * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
 

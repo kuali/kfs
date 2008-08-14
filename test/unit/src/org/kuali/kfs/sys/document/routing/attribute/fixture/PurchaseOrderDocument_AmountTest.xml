@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<documentContent><applicationContent><org.kuali.core.workflow.KualiDocumentXmlMaterializer>
+<documentContent><applicationContent><org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer>
   <kualiTransactionalDocumentInformation>
     <documentInitiator>
       <universalUser>
@@ -35,7 +35,7 @@
         <staff>true</staff>
         <faculty>false</faculty>
         <affiliate>false</affiliate>
-        <campus class="org.kuali.core.bo.Campus--EnhancerByCGLIB--4968dd25">
+        <campus class="org.kuali.rice.kns.bo.Campus--EnhancerByCGLIB--4968dd25">
           <campusCode>BL</campusCode>
           <campusName>BLOOMINGTON</campusName>
           <campusShortName>BLOOMINGTON</campusShortName>
@@ -54,7 +54,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </campus>
-        <employeeStatus class="org.kuali.core.bo.EmployeeStatus--EnhancerByCGLIB--ef5cc1ee">
+        <employeeStatus class="org.kuali.rice.kns.bo.EmployeeStatus--EnhancerByCGLIB--ef5cc1ee">
           <rowActiveIndicator>true</rowActiveIndicator>
           <code>A</code>
           <name>Active</name>
@@ -64,7 +64,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </employeeStatus>
-        <employeeType class="org.kuali.core.bo.EmployeeType--EnhancerByCGLIB--3cb6f776">
+        <employeeType class="org.kuali.rice.kns.bo.EmployeeType--EnhancerByCGLIB--3cb6f776">
           <rowActiveIndicator>true</rowActiveIndicator>
           <code>P</code>
           <name>Professional</name>
@@ -156,31 +156,31 @@
     <purchaseOrderConfirmedIndicator>false</purchaseOrderConfirmedIndicator>
     <purchaseOrderCurrentIndicator>true</purchaseOrderCurrentIndicator>
     <pendingActionIndicator>false</pendingActionIndicator>
-    <purchaseOrderVendorStipulations class="org.kuali.core.util.TypedArrayList" serialization="custom">
+    <purchaseOrderVendorStipulations class="org.kuali.rice.kns.util.TypedArrayList" serialization="custom">
       <list>
         <default>
           <size>0</size>
         </default>
         <int>10</int>
       </list>
-      <org.kuali.core.util.TypedArrayList>
+      <org.kuali.rice.kns.util.TypedArrayList>
         <default>
           <listObjectType>org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation</listObjectType>
         </default>
-      </org.kuali.core.util.TypedArrayList>
+      </org.kuali.rice.kns.util.TypedArrayList>
     </purchaseOrderVendorStipulations>
-    <purchaseOrderVendorQuotes class="org.kuali.core.util.TypedArrayList" serialization="custom">
+    <purchaseOrderVendorQuotes class="org.kuali.rice.kns.util.TypedArrayList" serialization="custom">
       <list>
         <default>
           <size>0</size>
         </default>
         <int>10</int>
       </list>
-      <org.kuali.core.util.TypedArrayList>
+      <org.kuali.rice.kns.util.TypedArrayList>
         <default>
           <listObjectType>org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote</listObjectType>
         </default>
-      </org.kuali.core.util.TypedArrayList>
+      </org.kuali.rice.kns.util.TypedArrayList>
     </purchaseOrderVendorQuotes>
     <purchaseOrderVendorChoice>
       <purchaseOrderVendorChoiceCode>SMAL</purchaseOrderVendorChoiceCode>
@@ -909,9 +909,9 @@
                 <hrmsLastUpdateDate>2004-08-19 00:00:00.0</hrmsLastUpdateDate>
                 <chartOfAccounts reference="../../../chartOfAccounts"/>
                 <organization reference="../.."/>
-                <hrmsPersonnelApproverUniversal class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--3a314bf9"/>
+                <hrmsPersonnelApproverUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--3a314bf9"/>
                 <hrmsIuCampus reference="../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
-                <fiscalApproverUniversal class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--3a314bf9"/>
+                <fiscalApproverUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--3a314bf9"/>
                 <versionNumber>1</versionNumber>
                 <objectId>11400DC3EF85041EE043814FD881041E</objectId>
                 <newCollectionRecord>false</newCollectionRecord>
@@ -1355,18 +1355,18 @@
         <itemIdentifier>1266</itemIdentifier>
         <itemTypeCode>FRHT</itemTypeCode>
         <itemAssignedToTradeInIndicator>false</itemAssignedToTradeInIndicator>
-        <sourceAccountingLines class="org.kuali.core.util.TypedArrayList" serialization="custom">
+        <sourceAccountingLines class="org.kuali.rice.kns.util.TypedArrayList" serialization="custom">
           <list>
             <default>
               <size>0</size>
             </default>
             <int>10</int>
           </list>
-          <org.kuali.core.util.TypedArrayList>
+          <org.kuali.rice.kns.util.TypedArrayList>
             <default>
               <listObjectType>org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount</listObjectType>
             </default>
-          </org.kuali.core.util.TypedArrayList>
+          </org.kuali.rice.kns.util.TypedArrayList>
         </sourceAccountingLines>
         <itemType>
           <itemTypeCode>FRHT</itemTypeCode>
@@ -1396,18 +1396,18 @@
         <itemIdentifier>1267</itemIdentifier>
         <itemTypeCode>SPHD</itemTypeCode>
         <itemAssignedToTradeInIndicator>false</itemAssignedToTradeInIndicator>
-        <sourceAccountingLines class="org.kuali.core.util.TypedArrayList" serialization="custom">
+        <sourceAccountingLines class="org.kuali.rice.kns.util.TypedArrayList" serialization="custom">
           <list>
             <default>
               <size>0</size>
             </default>
             <int>10</int>
           </list>
-          <org.kuali.core.util.TypedArrayList>
+          <org.kuali.rice.kns.util.TypedArrayList>
             <default>
               <listObjectType>org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount</listObjectType>
             </default>
-          </org.kuali.core.util.TypedArrayList>
+          </org.kuali.rice.kns.util.TypedArrayList>
         </sourceAccountingLines>
         <itemType>
           <itemTypeCode>SPHD</itemTypeCode>
@@ -1955,7 +1955,7 @@
           <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
           <organization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--e73483c1" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/organization"/>
           <accountType class="org.kuali.kfs.coa.businessobject.AcctType--EnhancerByCGLIB--a1180de8" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountType"/>
-          <accountPhysicalCampus class="org.kuali.core.bo.Campus--EnhancerByCGLIB--4968dd25" reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+          <accountPhysicalCampus class="org.kuali.rice.kns.bo.Campus--EnhancerByCGLIB--4968dd25" reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
           <accountState class="org.kuali.kfs.sys.businessobject.State--EnhancerByCGLIB--762d2ec2" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountState"/>
           <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--e1b6a31d">
             <subFundGroupCode>DFRES</subFundGroupCode>
@@ -3559,4 +3559,4 @@
     <newCollectionRecord>false</newCollectionRecord>
     <boNotes/>
   </document>
-</org.kuali.core.workflow.KualiDocumentXmlMaterializer></applicationContent></documentContent>
+</org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer></applicationContent></documentContent>

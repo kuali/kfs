@@ -20,20 +20,19 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.Id;
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
-import edu.iu.uis.eden.routetemplate.Role;
-import edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute;
-import edu.iu.uis.eden.user.AuthenticationUserId;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.identity.Id;
+import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+import org.kuali.rice.kew.rule.Role;
+import org.kuali.rice.kew.rule.UnqualifiedRoleAttribute;
+import org.kuali.rice.kew.user.AuthenticationUserId;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * TODO delyea - documentation
@@ -53,7 +52,7 @@ public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAt
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.UnqualifiedRoleAttribute#getRoleNames()
+     * @see org.kuali.rice.kew.rule.UnqualifiedRoleAttribute#getRoleNames()
      */
     @Override
     public List<Role> getRoleNames() {
@@ -76,7 +75,7 @@ public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAt
      * @return a ResolvedQualifiedRole
      */
     @Override
-    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws EdenUserNotFoundException {
+    public ResolvedQualifiedRole resolveRole(RouteContext routeContext, String roleName) throws KEWUserNotFoundException {
         String documentNumber = null;
         try {
             documentNumber = routeContext.getDocument().getRouteHeaderId().toString();

@@ -87,7 +87,7 @@
     <property name="name" value="july1BudgetAmount" />
     <property name="label" value="July1 Budget Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="July1PositionFunding-july1BudgetFteQuantity" parent="July1PositionFunding-july1BudgetFteQuantity-parentBean" />
 
@@ -118,7 +118,7 @@
     <property name="name" value="dummyBusinessObject.genericAmount" />
     <property name="label" value="Year End Close" />
     <property name="shortLabel" value="Year End Close" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

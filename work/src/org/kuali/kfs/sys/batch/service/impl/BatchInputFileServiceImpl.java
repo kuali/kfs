@@ -37,10 +37,6 @@ import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rules;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
@@ -52,6 +48,10 @@ import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.kfs.sys.exception.XmlErrorHandler;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.xml.sax.SAXException;
 
@@ -168,7 +168,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#save(org.kuali.core.bo.user.UniversalUser,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#save(org.kuali.rice.kns.bo.user.UniversalUser,
      *      org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.String, java.io.InputStream)
      */
     public String save(UniversalUser user, BatchInputFileType batchInputFileType, String fileUserIdentifier, InputStream fileContents, Object parsedObject) throws AuthorizationException, FileStorageException {
@@ -241,7 +241,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#delete(org.kuali.core.bo.user.UniversalUser,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#delete(org.kuali.rice.kns.bo.user.UniversalUser,
      *      org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.String)
      */
     public boolean delete(UniversalUser user, BatchInputFileType batchInputFileType, String deleteFileNameWithNoPath) throws AuthorizationException, FileNotFoundException {
@@ -316,7 +316,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#download(org.kuali.core.bo.user.UniversalUser,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#download(org.kuali.rice.kns.bo.user.UniversalUser,
      *      org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.String)
      */
     public File download(UniversalUser user, BatchInputFileType batchInputFileType, String downloadFileNameWithNoPath) throws AuthorizationException, FileNotFoundException {
@@ -405,7 +405,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
     /**
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#isUserAuthorizedForBatchType(org.kuali.kfs.sys.batch.BatchInputFileType,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean isUserAuthorizedForBatchType(BatchInputFileType batchInputFileType, UniversalUser user) {
         if (batchInputFileType == null || user == null) {
@@ -422,7 +422,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * implementation for finer grained security. If the method returns true, the filename is added to the user's list.
      * 
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#listBatchTypeFilesForUser(org.kuali.kfs.sys.batch.BatchInputFileType,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public List<String> listBatchTypeFilesForUser(BatchInputFileType batchInputFileType, UniversalUser user) throws AuthorizationException {
         if (batchInputFileType == null || user == null) {

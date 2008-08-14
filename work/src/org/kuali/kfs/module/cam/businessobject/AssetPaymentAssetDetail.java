@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     private String documentNumber;

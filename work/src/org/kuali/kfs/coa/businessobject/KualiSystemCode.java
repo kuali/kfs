@@ -18,11 +18,11 @@ package org.kuali.kfs.coa.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.KualiCode;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.inquiry.KualiInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.KualiCodeService;
+import org.kuali.rice.kns.bo.KualiCode;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 
 public class KualiSystemCode extends PersistableBusinessObjectBase implements KualiCode {
 
@@ -139,7 +139,7 @@ public class KualiSystemCode extends PersistableBusinessObjectBase implements Ku
 
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     final protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

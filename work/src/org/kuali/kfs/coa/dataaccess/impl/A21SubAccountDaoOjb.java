@@ -18,9 +18,9 @@ package org.kuali.kfs.coa.dataaccess.impl;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.dataaccess.A21SubAccountDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * This class provides data access to {@link A21SubAccount} through OJB

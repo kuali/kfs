@@ -22,12 +22,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
 
 
 /**
@@ -39,7 +39,7 @@ public class AuxiliaryVoucherAction extends VoucherAction {
     /**
      * Overrides the parent and then calls the super method after checking to see if the user just changed the voucher type.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
      *      HttpServletResponse response)
      */
     @Override
@@ -91,7 +91,7 @@ public class AuxiliaryVoucherAction extends VoucherAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

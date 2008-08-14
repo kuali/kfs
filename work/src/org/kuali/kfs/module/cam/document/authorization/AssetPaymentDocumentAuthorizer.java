@@ -19,18 +19,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.TransactionalDocument;
 
 
 public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     /**
      * Overrides parent to return an empty Map since FO routing doesn't apply to the AD doc.
      * 
-     * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {

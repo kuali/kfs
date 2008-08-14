@@ -19,8 +19,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.core.bo.BusinessObject;
-
 /**
  * The contract needed by renderers of all stripes to render controls
  */

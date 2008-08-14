@@ -28,12 +28,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
@@ -45,6 +39,12 @@ import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Service implementation of LedgerBalanceLookupableHelperService. The class is the front-end for all Ledger balance inquiry
@@ -57,7 +57,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
     private LaborInquiryOptionsService laborInquiryOptionsService;
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -76,7 +76,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
     }
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {

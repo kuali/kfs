@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.purap.service.impl;
 
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -28,6 +25,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRuleHelperServiceImpl implements PurapAccountingLineRuleHelperService{
     private PurchasingAccountsPayableDocument document;
@@ -52,7 +52,7 @@ public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRule
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
     public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName) {
         
@@ -80,7 +80,7 @@ public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRule
     }
     
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
     public boolean isValidSubObjectCode(SubObjCd subObjectCode, DataDictionary dataDictionary, String errorPropertyName) {
 

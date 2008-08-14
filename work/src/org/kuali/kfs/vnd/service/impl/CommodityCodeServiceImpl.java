@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.vnd.service.impl;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.dataaccess.CommodityCodeDao;
 import org.kuali.kfs.vnd.service.CommodityCodeService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

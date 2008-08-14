@@ -17,10 +17,10 @@ package org.kuali.kfs.sys.service.impl;
 
 import java.util.Collection;
 
-import org.kuali.core.bo.KualiCode;
 import org.kuali.kfs.sys.dataaccess.KualiCodeDao;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.bo.KualiCode;
 
 /**
  * This class is the service implementation for the KualiCodeBase structure. This is the default implementation, that is delivered
@@ -69,7 +69,7 @@ public class KualiCodeServiceImpl implements KualiCodeService {
     }
 
     /**
-     * @see org.kuali.core.service.KualiCodeService#getAll(java.lang.Class)
+     * @see org.kuali.rice.kns.service.KualiCodeService#getAll(java.lang.Class)
      */
     public Collection getAll(Class queryClass) {
         return kualiCodeDao.getAll(queryClass);

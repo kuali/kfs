@@ -16,17 +16,16 @@
 package org.kuali.kfs.sys.document;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.exception.WorkflowRuntimeException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowRuntimeException;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.TransactionalDocumentBase;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
  * This class is a KFS specific TransactionalDocumentBase class
@@ -44,7 +43,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#getDocumentHeader()
+     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentHeader()
      */
     @Override
     public FinancialSystemDocumentHeader getDocumentHeader() {
@@ -52,7 +51,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#setDocumentHeader(org.kuali.core.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.document.DocumentBase#setDocumentHeader(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
     public void setDocumentHeader(DocumentHeader documentHeader) {
@@ -65,7 +64,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     /**
      * If the document has a total amount, call method on document to get the total and set in doc header.
      * 
-     * @see org.kuali.core.document.Document#prepareForSave()
+     * @see org.kuali.rice.kns.document.Document#prepareForSave()
      */
     @Override
     public void prepareForSave() {
@@ -78,7 +77,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     /**
      * This is the default implementation which ensures that document note attachment references are loaded.
      * 
-     * @see org.kuali.core.document.Document#processAfterRetrieve()
+     * @see org.kuali.rice.kns.document.Document#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
@@ -101,7 +100,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     /**
      * This is the default implementation which checks for a different workflow statuses, and updates the Kuali status accordingly.
      * 
-     * @see org.kuali.core.document.Document#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.Document#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {
@@ -125,7 +124,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     }
 
     /**
-     * @see org.kuali.core.document.FinancialSystemTransactionDocument#getAllowsErrorCorrection()
+     * @see org.kuali.rice.kns.document.FinancialSystemTransactionDocument#getAllowsErrorCorrection()
      * Checks if error correction is set to true in data dictionary and the document instance implements
      * Correctable. Furthermore, a document cannot be error corrected twice.
      */

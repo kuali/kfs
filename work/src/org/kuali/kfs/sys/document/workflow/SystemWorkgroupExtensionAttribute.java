@@ -21,29 +21,28 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.KualiModule;
-import org.kuali.core.bo.Campus;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.lookup.keyvalues.CampusValuesFinder;
-import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.core.lookup.keyvalues.ModuleValuesFinder;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiModuleService;
-import org.kuali.core.util.FieldUtils;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.KualiModuleBO;
 import org.kuali.kfs.sys.businessobject.options.ParameterValuesFinder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.workflow.attribute.ExtensionAttribute;
-
-import edu.iu.uis.eden.lookupable.Field;
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.validation.ValidationContext;
-import edu.iu.uis.eden.validation.ValidationResults;
+import org.kuali.rice.kew.attribute.ExtensionAttribute;
+import org.kuali.rice.kew.lookupable.Field;
+import org.kuali.rice.kew.lookupable.Row;
+import org.kuali.rice.kew.validation.ValidationContext;
+import org.kuali.rice.kew.validation.ValidationResults;
+import org.kuali.rice.kns.KualiModule;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
+import org.kuali.rice.kns.lookup.keyvalues.ModuleValuesFinder;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.FieldUtils;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * A workgroup type extension attribute that supports the extension information associated with System workgroups
@@ -83,7 +82,7 @@ public class SystemWorkgroupExtensionAttribute implements ExtensionAttribute {
      * @return a Row for campus code
      */
     private Row buildCampusDropdownRow() {
-        org.kuali.core.web.ui.Field kualiCampusField = FieldUtils.getPropertyField(Campus.class, KFSPropertyConstants.CAMPUS_CODE, false);
+        org.kuali.rice.kns.web.ui.Field kualiCampusField = FieldUtils.getPropertyField(Campus.class, KFSPropertyConstants.CAMPUS_CODE, false);
         KeyValuesFinder campusFinder = new CampusValuesFinder();
         List campusFields = new ArrayList();
         campusFields.add(new Field("Campus", KualiWorkflowUtils.getHelpUrl(kualiCampusField), Field.DROPDOWN, false, CAMPUS_CODE, "", campusFinder.getKeyValues(), null, null));
@@ -96,7 +95,7 @@ public class SystemWorkgroupExtensionAttribute implements ExtensionAttribute {
      * @return a Row for the module code
      */
     private Row buildModuleDropdownRow() {
-        org.kuali.core.web.ui.Field kualiModuleField = FieldUtils.getPropertyField(KualiModuleBO.class, MODULE_CODE, false);
+        org.kuali.rice.kns.web.ui.Field kualiModuleField = FieldUtils.getPropertyField(KualiModuleBO.class, MODULE_CODE, false);
         KeyValuesFinder modulesFinder = new ModuleValuesFinder();
         List moduleFields = new ArrayList();
         moduleFields.add(new Field("Module", KualiWorkflowUtils.getHelpUrl(kualiModuleField), Field.DROPDOWN, false, MODULE_CODE, "", modulesFinder.getKeyValues(), null, null));
@@ -144,7 +143,7 @@ public class SystemWorkgroupExtensionAttribute implements ExtensionAttribute {
      * given is one of the ones within the area parameter)
      * @param validationContext the workgroup validation context to validate
      * @return the ValidationResults returned by the check
-     * @see org.kuali.workflow.attribute.ExtensionAttribute#validate(edu.iu.uis.eden.validation.ValidationContext)
+     * @see org.kuali.workflow.attribute.ExtensionAttribute#validate(org.kuali.rice.kew.validation.ValidationContext)
      */
     public ValidationResults validate(ValidationContext validationContext) {
         Map<String, String> extensions = (Map<String, String>) validationContext.getParameters().get(EXTENSIONS_PARAM);

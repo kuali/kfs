@@ -47,11 +47,6 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.SELECTED_ACCOUNTING_PERIOD;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.ObjectType;
@@ -62,6 +57,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class holds document specific business rules for the Journal Voucher. It overrides methods in the base rule class to apply
@@ -83,8 +83,8 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param accountingLine The new accounting line being added.
      * @return True if the business rules all pass, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean processCustomAddAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
@@ -99,8 +99,8 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param accountingLine The accounting line being validated.
      * @return True if the business rules all pass, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean processCustomReviewAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
@@ -117,8 +117,8 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param updatedAccoutingLine The updated version of the accounting line.
      * @return True if the business rules all pass for the update, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
@@ -146,7 +146,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param document The document being saved.
      * @return True if the document being saved passed all the business rules, false otherwise.
      * 
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -199,8 +199,8 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param acocuntingLine The accounting line to be validated.
      * @return True if the accounting line amount is valid, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAmountValid(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAmountValid(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
@@ -292,7 +292,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param financialDocument The document containing the target accounting lines being validated.
      * @return This method always returns true because Journal Vouchers do not contain target accounting lines.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
@@ -306,7 +306,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param financialDocument The document containing the source accounting lines being validated.
      * @return True if there is one or more source accounting lines in the given document.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
@@ -327,7 +327,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param accountingLine The accounting line containing the object code being validated.
      * @return This method always returns true.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isObjectCodeAllowed(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isObjectCodeAllowed(org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isObjectCodeAllowed(Class documentClass, AccountingLine accountingLine) {
@@ -394,7 +394,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param accountingLine The accounting line the object type code will be retrieved from.
      * @return True if the object type code exists, false otherwise.
      * 
-     * @see org.kuali.core.rule.AddAccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AddAccountingLineRule#isObjectTypeAllowed(org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isObjectTypeAllowed(Class documentClass, AccountingLine accountingLine) {
@@ -412,7 +412,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
 
     // /**
     //  * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(FinancialDocument,
-    //  *      org.kuali.core.bo.SourceAccountingLine)
+    //  *      org.kuali.rice.kns.bo.SourceAccountingLine)
     // */
     // @Override
     // protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(FinancialDocument
@@ -468,7 +468,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
     // /**
     // *
     // * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(FinancialDocument,
-    // *      org.kuali.core.bo.TargetAccountingLine)
+    // *      org.kuali.rice.kns.bo.TargetAccountingLine)
     // */
     // @Override
     // protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(FinancialDocument

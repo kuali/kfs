@@ -23,8 +23,6 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -36,6 +34,8 @@ import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Payment Request Item Business Object.
@@ -322,7 +322,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     /**
      * Refreshes payment request object.
      * 
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {

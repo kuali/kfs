@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
@@ -48,6 +45,9 @@ import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ReportService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

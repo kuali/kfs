@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.web.ui.Field;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewLinesDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;

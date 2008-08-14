@@ -24,11 +24,11 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.Threshold;
 import org.kuali.kfs.module.purap.document.dataaccess.ThresholdDao;
 import org.kuali.kfs.module.purap.util.ThresholdField;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements ThresholdDao {
 

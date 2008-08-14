@@ -19,11 +19,11 @@ import java.io.File;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * Batch input type for the pre-asset tagging job.
@@ -49,7 +49,7 @@ public class PreAssetTaggingInputFileType extends BatchInputFileTypeBase {
      * Builds the file name using the following construction: All pre-asset tagging files start with pre_asset_tagging the username of the user
      * uploading the file append the supplied user identifier finally append the current timestamp
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.core.bo.user.UniversalUser, java.lang.Object,
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kns.bo.user.UniversalUser, java.lang.Object,
      *      java.lang.String)
      */
     public String getFileName(UniversalUser user, Object parsedFileContents, String userIdentifier) {
@@ -70,7 +70,7 @@ public class PreAssetTaggingInputFileType extends BatchInputFileTypeBase {
 
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#checkAuthorization(org.kuali.core.bo.user.UniversalUser, java.io.File)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#checkAuthorization(org.kuali.rice.kns.bo.user.UniversalUser, java.io.File)
      */
     public boolean checkAuthorization(UniversalUser user, File batchFile) {
         return true;

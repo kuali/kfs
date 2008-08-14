@@ -18,9 +18,9 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Auto Approve Exclude Business Object. Defines attributes in maintenance document for excluding payment request from automatic
@@ -89,7 +89,7 @@ public class AutoApproveExclude extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

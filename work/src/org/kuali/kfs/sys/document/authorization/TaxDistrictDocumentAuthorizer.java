@@ -17,14 +17,14 @@ package org.kuali.kfs.sys.document.authorization;
 
 import java.util.Date;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.sys.businessobject.TaxDistrict;
 import org.kuali.kfs.sys.businessobject.TaxDistrictRate;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * This class implements authorization for Tax District Maintenance Document.
@@ -34,7 +34,7 @@ public class TaxDistrictDocumentAuthorizer extends MaintenanceDocumentAuthorizer
     /**
      * If a effective date for a tax rate is not in future, make it read only.
      *   
-     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getFieldAuthorizations(org.kuali.core.document.MaintenanceDocument, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(
             MaintenanceDocument document, UniversalUser user) {

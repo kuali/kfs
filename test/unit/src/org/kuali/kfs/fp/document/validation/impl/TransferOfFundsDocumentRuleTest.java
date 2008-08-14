@@ -45,10 +45,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;

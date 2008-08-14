@@ -15,27 +15,13 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
-import java.sql.Date;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
@@ -47,6 +33,14 @@ import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     private static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
@@ -90,7 +84,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     
     /**
      * 
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
      */
     @Override
     //public Map<String, Boolean> getForcedReadOnlyFields() {
@@ -199,7 +193,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      *
     @Override
     public void populate(HttpServletRequest request) {

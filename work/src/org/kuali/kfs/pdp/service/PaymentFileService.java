@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.pdp.service;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.exception.PaymentLoadException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 public interface PaymentFileService {
     /**

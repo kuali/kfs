@@ -25,20 +25,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.dao.MaintenanceDocumentDao;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentHeaderService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.MaintenanceDocumentDictionaryService;
-import org.kuali.core.service.NoteService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
@@ -46,10 +32,18 @@ import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.dao.MaintenanceDocumentDao;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentHeaderService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
+import org.kuali.rice.kns.service.NoteService;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
 public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTrickleDownInactivationService {

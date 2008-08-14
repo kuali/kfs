@@ -18,7 +18,6 @@ package org.kuali.kfs.gl.batch;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
@@ -32,6 +31,7 @@ import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * A helper class which contains the more complicated logic involved in the year end encumbrance closing process. This logic is

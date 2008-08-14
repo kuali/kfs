@@ -393,7 +393,7 @@
     <property name="shortLabel" value="Price" />
     <property name="summary" value="estimatedSellingPrice" />
     <property name="description" value="estimatedSellingPrice description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-expectedReturnDate" parent="Asset-expectedReturnDate-parentBean" />
 
@@ -410,7 +410,7 @@
     <property name="shortLabel" value="Amount" />
     <property name="summary" value="fabricationEstimatedTotalAmount" />
     <property name="description" value="fabricationEstimatedTotalAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-financialDocumentPostingPeriodCode" parent="Asset-financialDocumentPostingPeriodCode-parentBean" />
 
@@ -499,7 +499,7 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetStatus"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="true"
             p:keyAttribute="inventoryStatusCode"
             p:labelAttribute="inventoryStatusName" />
@@ -653,7 +653,7 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetDepreciationMethod"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="true"
             p:keyAttribute="depreciationMethodCode"
             p:labelAttribute="depreciationMethodName" />
@@ -676,7 +676,7 @@
     <property name="shortLabel" value="Amount" />
     <property name="summary" value="replacementAmount" />
     <property name="description" value="replacementAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-retirementAccountNumber" parent="Asset-retirementAccountNumber-parentBean" />
 
@@ -785,7 +785,7 @@
     <property name="shortLabel" value="Price" />
     <property name="summary" value="salePrice" />
     <property name="description" value="salePrice description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-salvageAmount" parent="Asset-salvageAmount-parentBean" />
 
@@ -795,7 +795,7 @@
     <property name="shortLabel" value="Amount" />
     <property name="summary" value="salvageAmount" />
     <property name="description" value="salvageAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-secondaryDepreciationMethodCode" parent="Asset-secondaryDepreciationMethodCode-parentBean" />
 
@@ -851,7 +851,7 @@
     <property name="shortLabel" value="Amount" />
     <property name="summary" value="totalCostAmount" />
     <property name="description" value="totalCostAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-transferOfFundsFinancialDocumentNumber" parent="Asset-transferOfFundsFinancialDocumentNumber-parentBean" />
 
@@ -1058,7 +1058,7 @@
     <property name="shortLabel" value="Accumulated" />
     <property name="summary" value="Accumulated Depreciation" />
     <property name="description" value="Accumulated Depreciation Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-baseAmount" parent="Asset-baseAmount-parentBean" />
 
@@ -1068,7 +1068,7 @@
     <property name="shortLabel" value="Base" />
     <property name="summary" value="Base Amount" />
     <property name="description" value="Base Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-bookValue" parent="Asset-bookValue-parentBean" />
 
@@ -1078,7 +1078,7 @@
     <property name="shortLabel" value="Book Value" />
     <property name="summary" value="Book Value" />
     <property name="description" value="Book Value" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-prevYearDepreciation" parent="Asset-prevYearDepreciation-parentBean" />
 
@@ -1088,7 +1088,7 @@
     <property name="shortLabel" value="Previous Year" />
     <property name="summary" value="Previous Year Depreciation" />
     <property name="description" value="Previous Year Depreciation" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-yearToDateDepreciation" parent="Asset-yearToDateDepreciation-parentBean" />
 
@@ -1098,7 +1098,7 @@
     <property name="shortLabel" value="Year To Date" />
     <property name="summary" value="Year To Date Depreciation" />
     <property name="description" value="Year To Date Depreciation" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-currentMonthDepreciation" parent="Asset-currentMonthDepreciation-parentBean" />
 
@@ -1108,7 +1108,7 @@
     <property name="shortLabel" value="Current Month" />
     <property name="summary" value="Current Month Depreciation" />
     <property name="description" value="Current Month Depreciation" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-paymentTotalCost" parent="Asset-paymentTotalCost-parentBean" />
 
@@ -1116,7 +1116,7 @@
     <property name="name" value="paymentTotalCost" />
     <property name="label" value="Display Total Cost" />
     <property name="shortLabel" value="Total Cost" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-federalContribution" parent="Asset-federalContribution-parentBean" />
 
@@ -1124,7 +1124,7 @@
     <property name="name" value="federalContribution" />
     <property name="label" value="Federal Contribution" />
     <property name="shortLabel" value="Contribution" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-assetWarranty.warrantyNumber" parent="Asset-assetWarranty.warrantyNumber-parentBean" />
 

@@ -331,7 +331,7 @@
     </property>
     <property name="summary" value="insuranceChargeAccountNumber" />
     <property name="description" value="insuranceChargeAccountNumber description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-insuranceChartOfAccountsCode" parent="EquipmentLoanOrReturnDocument-insuranceChartOfAccountsCode-parentBean" />
 

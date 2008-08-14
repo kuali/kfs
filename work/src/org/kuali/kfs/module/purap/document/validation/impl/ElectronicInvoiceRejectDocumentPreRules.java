@@ -16,14 +16,14 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * Business pre rule(s) applicable to Payment Request documents.

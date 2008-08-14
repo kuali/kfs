@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.cg.businessobject.defaultvalue;
 
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 
 /**
  * Gets the next close sequence number.
@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class NextCloseNumberFinder implements ValueFinder {
 
     /**
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         return getLongValue().toString();

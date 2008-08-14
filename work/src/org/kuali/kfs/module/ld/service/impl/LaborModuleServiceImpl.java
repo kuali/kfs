@@ -24,13 +24,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
@@ -65,9 +58,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This implements the service methods that may be used by outside of labor module
@@ -78,14 +77,14 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#calculateFringeBenefitFromLaborObject(org.kuali.kfs.integration.businessobject.LaborLedgerObject,
-     *      org.kuali.core.util.KualiDecimal)
+     *      org.kuali.rice.kns.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
         return getLaborBenefitsCalculationService().calculateFringeBenefit(laborLedgerObject, salaryAmount);
     }
 
     /**
-     * @see org.kuali.kfs.integration.service.LaborModuleService#calculateFringeBenefit(java.lang.Integer, java.lang.String, java.lang.String, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#calculateFringeBenefit(java.lang.Integer, java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount) {
         return getLaborBenefitsCalculationService().calculateFringeBenefit(fiscalYear, chartCode, objectCode, salaryAmount);

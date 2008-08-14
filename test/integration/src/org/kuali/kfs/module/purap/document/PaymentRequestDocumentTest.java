@@ -25,10 +25,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.TransactionalDocumentDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -50,8 +46,11 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.document.service.VendorService;
-
-import edu.iu.uis.eden.EdenConstants;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class is used to create and test populated Payment Request Documents of various kinds.
@@ -137,7 +136,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         assertTrue("RORENFRO should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as RORENFRO", null); 
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());        
@@ -164,7 +163,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         assertTrue("RORENFRO should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as RORENFRO", null); 
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         // check if the purchase order document is closed
         PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId); 
@@ -198,7 +197,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         assertTrue("RORENFRO should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as RORENFRO", null); 
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         // check if the purchase order document is open
         PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId); 
@@ -281,7 +280,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
             changeCurrentUser(BUTT);
             po =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
             AccountingDocumentTestUtils.approveDocument(po, documentService);
-            WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+            WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
             
             po =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
         }

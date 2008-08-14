@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.core.util.Guid;
+import org.kuali.rice.kns.util.Guid;
 
 /**
  * This class encapsulates the information needed by the generic routing 

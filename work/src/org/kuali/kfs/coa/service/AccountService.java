@@ -18,12 +18,12 @@ package org.kuali.kfs.coa.service;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 
 /**

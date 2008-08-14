@@ -7,10 +7,10 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-import org.kuali.core.authorization.KualiModuleAuthorizerBase;
-import org.kuali.core.service.KualiModuleService;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.rice.resourceloader.ContextClassLoaderBinder;
+import org.kuali.rice.core.resourceloader.ContextClassLoaderBinder;
+import org.kuali.rice.kns.authorization.KualiModuleAuthorizerBase;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestModularization extends KualiTestBase {

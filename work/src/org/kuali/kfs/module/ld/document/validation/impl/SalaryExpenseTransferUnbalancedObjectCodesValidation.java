@@ -15,17 +15,12 @@
  */
 package org.kuali.kfs.module.ld.document.validation.impl;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.module.ld.LaborConstants ;
-import org.kuali.kfs.module.ld.LaborKeyConstants; 
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument ;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Validates that an accounting document's balances by object codes are unchanged 

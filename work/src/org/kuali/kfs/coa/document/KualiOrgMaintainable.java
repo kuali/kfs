@@ -20,12 +20,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
-import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.kns.web.ui.Section;
 
 /**
  * This class overrides the getCoreSections method to provide specific field conversions for the postal code
@@ -39,7 +39,7 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl {
     /**
      * Provides special field conversions for the Org.organizationZipCode
      * 
-     * @see org.kuali.core.maintenance.Maintainable#getCoreSections(org.kuali.core.maintenance.Maintainable)
+     * @see org.kuali.rice.kns.maintenance.Maintainable#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
     public List getCoreSections(Maintainable oldMaintainable) {
 

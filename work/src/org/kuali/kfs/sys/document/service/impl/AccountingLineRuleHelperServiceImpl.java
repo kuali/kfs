@@ -17,13 +17,6 @@ package org.kuali.kfs.sys.document.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.FundGroup;
@@ -45,6 +38,13 @@ import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHelperService {
     private static Logger LOG = Logger.getLogger(AccountingLineRuleHelperServiceImpl.class);
@@ -179,14 +179,14 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.core.datadictionary.DataDictionary)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.kns.datadictionary.DataDictionary)
      */
     public boolean isValidAccount(Account account, DataDictionary dataDictionary) {
         return isValidAccount(account, dataDictionary, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
     public boolean isValidAccount(Account account, DataDictionary dataDictionary, String errorPropertyName) {
         String label = getAccountLabel();
@@ -207,14 +207,14 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidChart(org.kuali.kfs.coa.businessobject.Chart, org.kuali.core.datadictionary.DataDictionary)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidChart(org.kuali.kfs.coa.businessobject.Chart, org.kuali.rice.kns.datadictionary.DataDictionary)
      */
     public boolean isValidChart(Chart chart, DataDictionary dataDictionary) {
         return isValidChart(chart, dataDictionary, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidChart(org.kuali.kfs.coa.businessobject.Chart, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidChart(org.kuali.kfs.coa.businessobject.Chart, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
     public boolean isValidChart(Chart chart, DataDictionary dataDictionary, String errorPropertyName) {
         String label = getChartLabel();
@@ -235,14 +235,14 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, org.kuali.core.datadictionary.DataDictionary)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, org.kuali.rice.kns.datadictionary.DataDictionary)
      */
     public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary) {
         return isValidObjectCode(objectCode, dataDictionary, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
     public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName) {
         String label = getObjectCodeLabel();
@@ -263,14 +263,14 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectTypeCode(org.kuali.kfs.coa.businessobject.ObjectType, org.kuali.core.datadictionary.DataDictionary)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectTypeCode(org.kuali.kfs.coa.businessobject.ObjectType, org.kuali.rice.kns.datadictionary.DataDictionary)
      */
     public boolean isValidObjectTypeCode(ObjectType objectTypeCode, DataDictionary dataDictionary) {
         return isValidObjectTypeCode(objectTypeCode, dataDictionary, KFSConstants.OBJECT_TYPE_CODE_PROPERTY_NAME);
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectTypeCode(org.kuali.kfs.coa.businessobject.ObjectType, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectTypeCode(org.kuali.kfs.coa.businessobject.ObjectType, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
     public boolean isValidObjectTypeCode(ObjectType objectTypeCode, DataDictionary dataDictionary, String errorPropertyName) {
         // note that the errorPropertyName does not match the actual attribute name
@@ -292,14 +292,14 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidProjectCode(org.kuali.kfs.coa.businessobject.ProjectCode, org.kuali.core.datadictionary.DataDictionary)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidProjectCode(org.kuali.kfs.coa.businessobject.ProjectCode, org.kuali.rice.kns.datadictionary.DataDictionary)
      */
     public boolean isValidProjectCode(ProjectCode projectCode, DataDictionary dataDictionary) {
         return isValidProjectCode(projectCode, dataDictionary, KFSConstants.PROJECT_CODE_PROPERTY_NAME);
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidProjectCode(org.kuali.kfs.coa.businessobject.ProjectCode, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidProjectCode(org.kuali.kfs.coa.businessobject.ProjectCode, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
     public boolean isValidProjectCode(ProjectCode projectCode, DataDictionary dataDictionary, String errorPropertyName) {
         // note that the errorPropertyName does not match the actual attribute name
@@ -321,14 +321,14 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubAccount(org.kuali.kfs.coa.businessobject.SubAccount, org.kuali.core.datadictionary.DataDictionary)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubAccount(org.kuali.kfs.coa.businessobject.SubAccount, org.kuali.rice.kns.datadictionary.DataDictionary)
      */
     public boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary) {
         return isValidSubAccount(subAccount, dataDictionary, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME);
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubAccount(org.kuali.kfs.coa.businessobject.SubAccount, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubAccount(org.kuali.kfs.coa.businessobject.SubAccount, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
     public boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary, String errorPropertyName) {
         String label = getSubAccountLabel();
@@ -349,14 +349,14 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.core.datadictionary.DataDictionary)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.rice.kns.datadictionary.DataDictionary)
      */
     public boolean isValidSubObjectCode(SubObjCd subObjectCode, DataDictionary dataDictionary) {
         return isValidSubObjectCode(subObjectCode, dataDictionary, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
     public boolean isValidSubObjectCode(SubObjCd subObjectCode, DataDictionary dataDictionary, String errorPropertyName) {
         String label = getSubObjectCodeLabel();

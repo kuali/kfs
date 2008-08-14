@@ -18,7 +18,7 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Arbitrary categories per Vendor Contract for the purpose of tracking various kinds of costs that may be incurred by Purchase
@@ -67,7 +67,7 @@ public class PurchaseOrderCostSource extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

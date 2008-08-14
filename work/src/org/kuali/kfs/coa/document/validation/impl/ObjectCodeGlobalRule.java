@@ -20,15 +20,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.datadictionary.InactivationBlockingMetadata;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.InactivationBlockingDetectionService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
@@ -39,8 +30,16 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.InactivationBlockingDetectionService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * This class represents the business rules for the maintenance of {@link ObjectCodeGlobal} business objects
@@ -83,7 +82,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * <li>{@link ObjectCodeGlobalRule#checkSimpleRulesAllLines()}</li>
      * </ul>
      * This rule fails on business rule failures
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -100,7 +99,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * <li>{@link ObjectCodeGlobalRule#checkSimpleRulesAllLines()}</li>
      * </ul>
      * This rule fails on business rule failures
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -183,7 +182,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * <li>{@link ObjectCodeGlobalRule#checkSimpleRulesAllLines()}</li>
      * </ul>
      * This rule does not fail on business rule failures
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -201,7 +200,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * <li>valid fiscal year</li>
      * <li>unique identifiers (not currently implemented)</li>
      * </ul>
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument, java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {

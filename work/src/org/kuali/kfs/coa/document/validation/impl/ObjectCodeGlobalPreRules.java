@@ -17,11 +17,11 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import java.util.List;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.service.MaintenanceDocumentDictionaryService;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobalDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 
 /**
  * PreRules checks for the {@link ObjectCodeGlobal} that needs to occur while still in the Struts processing. This includes defaults
@@ -32,7 +32,7 @@ public class ObjectCodeGlobalPreRules extends MaintenancePreRulesBase {
     /**
      * Updates the university fiscal year when it is not already set.
      * 
-     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument maintenanceDocument) {
         ObjectCodeGlobal bo = (ObjectCodeGlobal) maintenanceDocument.getNewMaintainableObject().getBusinessObject();

@@ -26,13 +26,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
@@ -44,8 +37,14 @@ import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
  * OJB Implementation of PaymentRequestDao.
@@ -342,7 +341,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
 
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer,
-     *      org.kuali.core.util.KualiDecimal, java.sql.Date)
+     *      org.kuali.rice.kns.util.KualiDecimal, java.sql.Date)
      */
     public List getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal vendorInvoiceAmount, Date invoiceDate) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");

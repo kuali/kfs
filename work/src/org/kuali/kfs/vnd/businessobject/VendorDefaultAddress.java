@@ -19,17 +19,17 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * An association between a <code>Campus</code> and a <code>VendorAddress</code> to indicate that the Address is the default one
  * for this Campus among the various Addresses available for this Vendor.
  * 
- * @see org.kuali.core.bo.Campus
+ * @see org.kuali.rice.kns.bo.Campus
  * @see org.kuali.kfs.vnd.businessobject.VendorAddress
  */
 public class VendorDefaultAddress extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
@@ -132,7 +132,7 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

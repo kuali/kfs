@@ -8,7 +8,7 @@
 
   <bean id="ContractManagerMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.ContractManager" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="ContractManagerMaintenanceDocument-EditContractManager" />
@@ -61,7 +61,7 @@
               p:name="contractManagerUserIdentifier"
               p:required="true"
               p:overrideFieldConversions="personUserIdentifier:contractManagerUserIdentifier,personName:contractManagerName,personLocalPhoneNumber:contractManagerPhoneNumber"
-              p:overrideLookupClass="org.kuali.core.bo.user.UniversalUser" />
+              p:overrideLookupClass="org.kuali.rice.kns.bo.user.UniversalUser" />
         <bean parent="MaintainableFieldDefinition"
               p:name="contractManagerName"
               p:required="true" />

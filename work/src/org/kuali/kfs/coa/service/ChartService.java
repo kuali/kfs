@@ -18,8 +18,8 @@ package org.kuali.kfs.coa.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * This interface defines methods that a Chart Service must provide

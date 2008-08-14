@@ -5,7 +5,7 @@
       <name>EDENSERVICE-DOCS.DocumentType</name>
       <parent>EDENSERVICE-DOCS</parent>
       <label>Document Type</label>
-      <postProcessorName>edu.iu.uis.eden.doctype.DocumentTypePostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.rice.kew.doctype.DocumentTypePostProcessor</postProcessorName>
       <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
       <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
       <docHandler>${workflow.url}/DocumentType.do?methodToCall=docHandler</docHandler>

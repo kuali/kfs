@@ -20,8 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -29,6 +27,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Business rule(s) applicable to Transfer of Funds documents.
@@ -141,7 +141,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * @param accountingLine The accounting line the object code will be retrieved from for validation.
      * @return True if the object code's object sub-type code is a mandatory or non-mandatory transfer; false otherwise.
      * 
-     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#isObjectSubTypeAllowed(Class, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#isObjectSubTypeAllowed(Class, org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isObjectSubTypeAllowed(Class documentClass, AccountingLine accountingLine) {
@@ -167,7 +167,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * 
      * @param accountingLine The accounting line the object code will be retrieved from and validated.
      * @return True if the object code is income or expense, otherwise false.
-     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#isObjectCodeAllowed(Class, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#isObjectCodeAllowed(Class, org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isObjectCodeAllowed(Class documentClass, AccountingLine accountingLine) {

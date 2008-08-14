@@ -23,10 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;

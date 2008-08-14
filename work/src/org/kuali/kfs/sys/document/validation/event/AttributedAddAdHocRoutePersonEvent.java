@@ -17,8 +17,8 @@ package org.kuali.kfs.sys.document.validation.event;
 
 import java.util.Map;
 
-import org.kuali.core.bo.AdHocRoutePerson;
-import org.kuali.core.document.Document;
+import org.kuali.rice.kns.bo.AdHocRoutePerson;
+import org.kuali.rice.kns.document.Document;
 
 
 public class AttributedAddAdHocRoutePersonEvent extends AttributedDocumentEventBase implements AttributedDocumentEvent {

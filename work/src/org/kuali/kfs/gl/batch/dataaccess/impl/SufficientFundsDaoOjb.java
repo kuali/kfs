@@ -22,14 +22,14 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.gl.batch.dataaccess.SufficientFundsDao;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
  * An OJB implementation of SufficientFundsDao

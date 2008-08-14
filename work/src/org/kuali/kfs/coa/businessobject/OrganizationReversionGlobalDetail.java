@@ -22,11 +22,11 @@ import java.util.TreeSet;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 
 /**
  * This is a representation of an Organization Reversion Detail, made specifically for Global Organization Reversions. However, as
@@ -45,7 +45,7 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
     private OrganizationReversionGlobal parentGlobalOrganizationReversion;
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

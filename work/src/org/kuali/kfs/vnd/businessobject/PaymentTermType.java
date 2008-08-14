@@ -19,7 +19,7 @@ package org.kuali.kfs.vnd.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Types of Payment Terms for Vendor Contracts. Per contract as distinct from <code>ShippingPaymentTerms</code>.
@@ -117,7 +117,7 @@ public class PaymentTermType extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

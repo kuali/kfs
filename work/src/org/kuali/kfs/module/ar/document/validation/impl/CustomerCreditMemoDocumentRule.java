@@ -22,20 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.exceptions.UnknownDocumentIdException;
-import org.kuali.core.rules.TransactionalDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
@@ -44,9 +32,19 @@ import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemo
 import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDocumentRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.exception.UnknownDocumentIdException;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * This class holds the business rules for the AR Credit Memo Document
@@ -56,7 +54,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
                                                                                              RecalculateCustomerCreditMemoDocumentRule<TransactionalDocument>,
                                                                                              ContinueCustomerCreditMemoDocumentRule<TransactionalDocument> {
     /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);

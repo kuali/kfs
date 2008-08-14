@@ -21,8 +21,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
@@ -39,6 +37,8 @@ import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Labor business object for LedgerEntry
@@ -1291,7 +1291,7 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     /**
      * construct the key list of the business object.
      * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {

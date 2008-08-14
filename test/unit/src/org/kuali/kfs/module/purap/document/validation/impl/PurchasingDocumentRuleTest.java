@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;

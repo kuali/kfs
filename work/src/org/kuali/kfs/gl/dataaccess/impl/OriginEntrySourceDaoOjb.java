@@ -20,9 +20,9 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.dataaccess.OriginEntrySourceDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * An OJB implementation of OriginEntrySourceDao

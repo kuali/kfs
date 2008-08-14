@@ -17,11 +17,11 @@ package org.kuali.kfs.module.purap.document;
 
 import java.util.Map;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /* 
  * A special implementation of Maintainable specifically for PurchaseOrderQuoteLanguage
@@ -34,7 +34,7 @@ public class PurchaseOrderQuoteLanguageMaintainableImpl extends KualiMaintainabl
      * Overrides the method in KualiMaintainableImpl to invoke the
      * initializePoQuoteLanguage to set the create date to the current date.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterCopy()
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy()
      */
     @Override
     public void processAfterCopy( MaintenanceDocument document, Map<String,String[]> parameters ) {

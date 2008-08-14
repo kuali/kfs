@@ -32,7 +32,7 @@ public class IndirectCostAdjustmentAction extends KualiAccountingDocumentActionB
      * added target line baseline creation for lines created by source add
      * 
      * @see org.kuali.module.financial.web.struts.action.KualiFinancialDocumentActionBase#insertAccountingLine(boolean,
-     *      org.kuali.module.financial.web.struts.form.KualiFinancialDocumentFormBase, org.kuali.core.bo.AccountingLine)
+     *      org.kuali.module.financial.web.struts.form.KualiFinancialDocumentFormBase, org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     protected void insertAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, AccountingLine line) {

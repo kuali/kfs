@@ -21,13 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This class handles specific Actions requests for the BudgetAdjustment.
@@ -38,7 +37,7 @@ public class BudgetAdjustmentAction extends KualiAccountingDocumentActionBase {
     /**
      * Do initialization for a new budget adjustment
      * 
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

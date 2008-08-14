@@ -18,11 +18,6 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobal;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalDetail;
@@ -34,6 +29,11 @@ import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * 
@@ -62,7 +62,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
      * all sub-objects from the DB by their primary keys, if available.
      * 
      * @param document - the maintenanceDocument being evaluated
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
      */
     @Override
     public void setupConvenienceObjects() {
@@ -81,7 +81,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link OrganizationReversionGlobalRule#checkSimpleRules(OrganizationReversionGlobal)}</li>
      * </ul>
      * Does not fail on rules failure
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -95,7 +95,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link OrganizationReversionGlobalRule#checkSimpleRules(OrganizationReversionGlobal)}</li>
      * </ul>
      * Fails on rules failure
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -108,7 +108,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link OrganizationReversionGlobalRule#checkSimpleRules(OrganizationReversionGlobal)}</li>
      * </ul>
      * Fails on rules failure
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -129,8 +129,8 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link OrganizationReversionGlobalRule#checkOrganizationReversionForOrganizationExists(OrganizationReversionGlobal, OrganizationReversionGlobalOrganization)</li>
      * <li>{@link OrganizationReversionGlobalRule#checkOrganizationIsNotAmongOrgRevOrganizations(OrganizationReversionGlobal, OrganizationReversionGlobalOrganization)</li>
      * </ul>
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {

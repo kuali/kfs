@@ -16,11 +16,10 @@
 
 package org.kuali.kfs.dictionary;
 
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 
-public class HelpDefinition extends org.kuali.core.datadictionary.HelpDefinition {
+public class HelpDefinition extends org.kuali.rice.kns.datadictionary.HelpDefinition {
     String parameterClass;
     private ParameterService parameterService;
     /**

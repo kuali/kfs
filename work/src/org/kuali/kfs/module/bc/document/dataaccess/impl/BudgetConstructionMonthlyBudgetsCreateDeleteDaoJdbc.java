@@ -18,9 +18,9 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthlyBudgetsCreateDeleteDao;
+import org.kuali.rice.kns.service.PersistenceService;
 
 
 public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionMonthlyBudgetsCreateDeleteDao {

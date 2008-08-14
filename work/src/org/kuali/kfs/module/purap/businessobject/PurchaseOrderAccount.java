@@ -16,8 +16,8 @@
 
 package org.kuali.kfs.module.purap.businessobject;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Purchase Order Account Business Object.

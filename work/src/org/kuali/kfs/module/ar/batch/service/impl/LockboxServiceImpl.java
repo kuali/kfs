@@ -18,10 +18,6 @@ package org.kuali.kfs.module.ar.batch.service.impl;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.UserSession;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.ar.batch.service.LockboxService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -34,10 +30,13 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  *  

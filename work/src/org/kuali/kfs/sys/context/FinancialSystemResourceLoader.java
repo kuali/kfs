@@ -20,14 +20,12 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.core.service.impl.InactivationBlockingDetectionServiceImpl;
-import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
-import org.kuali.rice.resourceloader.SpringBeanFactoryResourceLoader;
-
-import edu.iu.uis.eden.plugin.attributes.WorkflowLookupable;
+import org.kuali.rice.core.resourceloader.SpringBeanFactoryResourceLoader;
+import org.kuali.rice.kew.lookupable.WorkflowLookupable;
+import org.kuali.rice.kns.workflow.attribute.WorkflowLookupableImpl;
 
 /**
- * A custom {@link edu.iu.uis.eden.plugin.ResourceLoader} which wraps a Spring BeanFactory and delegates certain service lookups to
+ * A custom {@link org.kuali.rice.kew.plugin.ResourceLoader} which wraps a Spring BeanFactory and delegates certain service lookups to
  * the BeanFactory.
  */
 public class FinancialSystemResourceLoader extends SpringBeanFactoryResourceLoader {

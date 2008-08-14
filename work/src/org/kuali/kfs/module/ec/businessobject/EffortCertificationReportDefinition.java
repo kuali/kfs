@@ -23,14 +23,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.util.AccountingPeriodMonth;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Business Object for the Effort Certification Report Definition Table.
@@ -492,7 +492,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         return new LinkedHashMap<String, String>(buildKeyMapForCurrentReportDefinition());

@@ -19,11 +19,11 @@ package org.kuali.kfs.coa.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
@@ -198,7 +198,7 @@ public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBas
 
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
 

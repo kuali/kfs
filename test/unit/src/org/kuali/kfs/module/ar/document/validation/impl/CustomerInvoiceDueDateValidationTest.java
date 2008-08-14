@@ -20,8 +20,8 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.kuali.core.service.ConfigurableDateService;
-import org.kuali.core.service.impl.ConfigurableDateTimeServiceImpl;
+import org.kuali.rice.kns.service.ConfigurableDateService;
+import org.kuali.rice.kns.service.impl.ConfigurableDateTimeServiceImpl;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.ConfigureContext;

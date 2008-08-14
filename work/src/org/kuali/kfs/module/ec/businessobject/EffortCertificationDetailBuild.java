@@ -77,7 +77,7 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {

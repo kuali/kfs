@@ -23,7 +23,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -31,6 +30,7 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class is the form class for the ProcurementCard document. This method extends the parent KualiTransactionalDocumentFormBase
@@ -43,7 +43,7 @@ public class ProcurementCardForm extends KualiAccountingDocumentFormBase {
     /**
      * Override to accomodate multiple target lines.
      * 
-     * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {
@@ -113,7 +113,7 @@ public class ProcurementCardForm extends KualiAccountingDocumentFormBase {
     /**
      * Override to return ProcurementCardTargetAccountingLine
      * 
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getBaselineSourceAccountingLine(int)
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#getBaselineSourceAccountingLine(int)
      */
     public TargetAccountingLine getBaselineTargetAccountingLine(int index) {
         while (getBaselineTargetAccountingLines().size() <= index) {

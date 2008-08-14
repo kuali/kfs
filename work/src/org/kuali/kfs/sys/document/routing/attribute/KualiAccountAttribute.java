@@ -33,13 +33,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.user.UuId;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Delegate;
@@ -48,22 +41,28 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+import org.kuali.rice.kew.rule.Role;
+import org.kuali.rice.kew.rule.RoleAttribute;
+import org.kuali.rice.kew.rule.WorkflowAttribute;
+import org.kuali.rice.kew.user.AuthenticationUserId;
+import org.kuali.rice.kew.user.UserId;
+import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.user.UuId;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import edu.iu.uis.eden.WorkflowServiceErrorImpl;
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.plugin.attributes.RoleAttribute;
-import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
-import edu.iu.uis.eden.routetemplate.Role;
-import edu.iu.uis.eden.user.AuthenticationUserId;
-import edu.iu.uis.eden.user.UserId;
-import edu.iu.uis.eden.util.Utilities;
 
 /**
  * KualiAccountAttribute which should be used when using Accounts to do routing
@@ -365,7 +364,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * Encodes the qualified role names for Fiscal Officer and Account Supervisor routing.
      */
-    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
+    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws KEWUserNotFoundException {
         String newMaintPrefix = KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX;
         String oldMaintPrefix = KualiWorkflowUtils.OLD_MAINTAINABLE_PREFIX;
         try {
@@ -561,7 +560,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * Resolves the qualified roles for Fiscal Officers, their delegates, and account supervisors.
      */
-    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
+    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws KEWUserNotFoundException {
         try {
             List members = new ArrayList();
             String workfowDocumentType = context.getDocument().getDocumentType().getName();
@@ -615,7 +614,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             try {
                 fiscalOfficerNetworkId = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new UuId(role.fiscalOfficerId)).getPersonUserIdentifier();
             }
-            catch (org.kuali.core.exceptions.UserNotFoundException e) {
+            catch (org.kuali.rice.kns.exception.UserNotFoundException e) {
                 // do nothing, but leave fiscalOfficerNetworkId blank, which will get caught after this
             }
             if (StringUtils.isBlank(fiscalOfficerNetworkId)) {

@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.module.cam.document.service.impl.AssetLocationServiceImpl;

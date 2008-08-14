@@ -25,9 +25,9 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.TransactionalDocumentDictionaryService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
@@ -143,7 +143,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         
         // Route and test.
         AccountingDocumentTestUtils.routeDocument(creditMemoDocument, "routing document", null, SpringContext.getBean(DocumentService.class));
-        WorkflowTestUtils.waitForStatusChange(creditMemoDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(creditMemoDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
         final String docId = creditMemoDocument.getDocumentNumber();
         creditMemoDocument = (CreditMemoDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", creditMemoDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
@@ -173,7 +173,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as RORENFRO", null);
 
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(KHUNTLEY);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);

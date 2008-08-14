@@ -17,8 +17,8 @@ package org.kuali.kfs.module.ar.document;
 
 import java.util.List;
 
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
 public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
 

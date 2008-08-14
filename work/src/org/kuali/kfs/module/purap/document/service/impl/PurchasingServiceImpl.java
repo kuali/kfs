@@ -18,9 +18,6 @@ package org.kuali.kfs.module.purap.document.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
@@ -28,6 +25,9 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

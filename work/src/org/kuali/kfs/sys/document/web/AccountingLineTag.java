@@ -22,9 +22,6 @@ import java.util.Map;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
@@ -32,6 +29,9 @@ import org.kuali.kfs.sys.document.web.renderers.AccountingLineTableFooterRendere
 import org.kuali.kfs.sys.document.web.renderers.AccountingLineTableHeaderRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This tag...how to describe what it does?  It takes these groups of accounting lines and, you know,

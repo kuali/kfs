@@ -24,11 +24,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.pdp.exception.ConfigurationError;
 import org.kuali.kfs.pdp.exception.FileReadException;
 import org.kuali.kfs.pdp.service.paymentparser.PaymentFileParser;
 import org.kuali.kfs.pdp.service.paymentparser.PdpFileHandler;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;

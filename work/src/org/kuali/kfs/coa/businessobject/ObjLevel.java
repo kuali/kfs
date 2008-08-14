@@ -19,11 +19,11 @@ import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 
@@ -203,7 +203,7 @@ public class ObjLevel extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

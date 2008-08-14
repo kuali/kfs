@@ -15,20 +15,15 @@
  */
 package org.kuali.kfs.module.bc.businessobject.lookup;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentSelect;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * Lookupable helper service implementation for the intended incumbent select screen.
@@ -36,7 +31,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 public class IntendedIncumbentSelectLookupableHelperServiceImpl extends SelectLookupableHelperServiceImpl {
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public String getActionUrls(BusinessObject businessObject) {

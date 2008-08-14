@@ -25,10 +25,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
@@ -54,6 +50,10 @@ import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.spring.Logged;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

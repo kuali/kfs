@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ReceivingCorrectionDocumentStrings;
 import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
@@ -30,8 +29,8 @@ import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.util.ReceivingQuestionCallback;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class ReceivingCorrectionAction extends ReceivingBaseAction {
 

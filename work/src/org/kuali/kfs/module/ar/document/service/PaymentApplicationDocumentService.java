@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface PaymentApplicationDocumentService {
     

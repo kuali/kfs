@@ -18,9 +18,9 @@ package org.kuali.kfs.sys.web.struts;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.businessobject.BatchUpload;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Struts action form for the batch upload screen.

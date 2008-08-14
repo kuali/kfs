@@ -23,16 +23,15 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * provide a set of rule elements for salary setting.

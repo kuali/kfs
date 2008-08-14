@@ -18,10 +18,10 @@ package org.kuali.kfs.fp.document.service.impl;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
 import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This is the default implementation of the ServiceBillingControlService interface.

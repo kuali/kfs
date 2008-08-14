@@ -19,9 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.rule.SaveDocumentRule;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
@@ -32,6 +29,9 @@ import org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule;
 import org.kuali.kfs.module.bc.document.validation.DeletePendingBudgetGeneralLedgerLineRule;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.SaveDocumentRule;
 
 /**
  * Base rule class for Budget Construction. Handles calling other expansion rule classes and the core budget document rules.
@@ -79,7 +79,7 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SalarySetti
     }
 
     /**
-     * @see org.kuali.core.rule.SaveDocumentRule#processSaveDocument(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.SaveDocumentRule#processSaveDocument(org.kuali.rice.kns.document.Document)
      */
     public boolean processSaveDocument(Document document) {
         return ((SaveDocumentRule) budgetConstructionDocumentRules).processSaveDocument(document);

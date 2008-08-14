@@ -26,11 +26,11 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.WrapDynaClass;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
-import org.kuali.core.dao.LookupDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.dao.LookupDao;
 
 /**
  * This class provides a set of utilities that can handle common tasks related to business objects.

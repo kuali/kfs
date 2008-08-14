@@ -45,7 +45,7 @@
                     onblur="loadEmplInfo( '${userIdFieldName}', '${userNameFieldName}' );${onblur}" readOnly="${readOnly}"/>
 
 <c:if test="${!readOnly}">
-	<kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" 
+	<kul:lookup boClassName="org.kuali.rice.kns.bo.user.UniversalUser" 
 		        fieldConversions="${fieldConversions}" 
 				lookupParameters="${lookupParameters}" 
 				fieldLabel="${label}" 

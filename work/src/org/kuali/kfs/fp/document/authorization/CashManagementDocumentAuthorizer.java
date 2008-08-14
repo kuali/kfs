@@ -21,13 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
-import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
-import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.service.CashManagementService;
@@ -38,9 +31,15 @@ import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.ValidActionsVO;
+import org.kuali.rice.kew.dto.ValidActionsDTO;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
+import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
+import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.service.KualiGroupService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * DocumentAuthorizer containing authorization code for CashManagement documents
@@ -51,8 +50,8 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
     /**
      * Overrides to implemented some document specific views.
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user) {
@@ -93,8 +92,8 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
     }
 
     /**
-     * @see org.kuali.core.document.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.document.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -102,7 +101,7 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
 
         CashManagementDocument cmDoc = (CashManagementDocument) document;
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        ValidActionsVO validActions = workflowDocument.getRouteHeader().getValidActions();
+        ValidActionsDTO validActions = workflowDocument.getRouteHeader().getValidActions();
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             // CM document can only be saved (via the save button) if the CashDrawer is not closed
@@ -110,7 +109,7 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
                 flags.setCanSave(false);
             }
             else {
-                flags.setCanSave(validActions.contains(EdenConstants.ACTION_TAKEN_SAVED_CD));
+                flags.setCanSave(validActions.contains(KEWConstants.ACTION_TAKEN_SAVED_CD));
             }
 
             // CM document can only be routed if it contains a Final Deposit
@@ -119,22 +118,22 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
                 flags.setCanBlanketApprove(false);
             }
             else {
-                flags.setCanRoute(validActions.contains(EdenConstants.ACTION_TAKEN_ROUTED_CD));
-                flags.setCanBlanketApprove(validActions.contains(EdenConstants.ACTION_TAKEN_BLANKET_APPROVE_CD));
+                flags.setCanRoute(validActions.contains(KEWConstants.ACTION_TAKEN_ROUTED_CD));
+                flags.setCanBlanketApprove(validActions.contains(KEWConstants.ACTION_TAKEN_BLANKET_APPROVE_CD));
             }
 
             if (!SpringContext.getBean(CashManagementService.class).allowDocumentCancellation(cmDoc)) {
                 flags.setCanCancel(false);
             }
             else {
-                flags.setCanCancel(validActions.contains(EdenConstants.ACTION_TAKEN_CANCELED_CD));
+                flags.setCanCancel(validActions.contains(KEWConstants.ACTION_TAKEN_CANCELED_CD));
             }
         }
 
         if (workflowDocument.stateIsEnroute()) {
-            flags.setCanApprove(validActions.contains(EdenConstants.ACTION_TAKEN_APPROVED_CD));
-            flags.setCanDisapprove(validActions.contains(EdenConstants.ACTION_TAKEN_DENIED_CD));
-            flags.setCanFYI(validActions.contains(EdenConstants.ACTION_TAKEN_FYI_CD));
+            flags.setCanApprove(validActions.contains(KEWConstants.ACTION_TAKEN_APPROVED_CD));
+            flags.setCanDisapprove(validActions.contains(KEWConstants.ACTION_TAKEN_DENIED_CD));
+            flags.setCanFYI(validActions.contains(KEWConstants.ACTION_TAKEN_FYI_CD));
         }
 
         return flags;
@@ -160,7 +159,7 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
     }
 
     /**
-     * @see org.kuali.core.document.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.document.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) throws DocumentTypeAuthorizationException {

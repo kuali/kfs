@@ -2,10 +2,10 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -325,7 +325,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     }
     
 	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

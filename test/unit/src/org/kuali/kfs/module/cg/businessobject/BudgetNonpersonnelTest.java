@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.util.KualiInteger;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 

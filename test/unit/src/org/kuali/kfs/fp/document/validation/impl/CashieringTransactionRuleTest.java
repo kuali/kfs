@@ -22,8 +22,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashDrawerTest;

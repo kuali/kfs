@@ -20,10 +20,6 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CashReceiptFamilyTestUtil;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -32,8 +28,11 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.ParameterService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = KHUNTLEY)
 public class CashReceiptServiceTest extends KualiTestBase {

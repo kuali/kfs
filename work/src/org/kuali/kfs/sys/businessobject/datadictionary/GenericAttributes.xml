@@ -136,7 +136,7 @@
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="This attribute should always be overriden on the descriptive elements." />
-    <property name="formatterClass" value="org.kuali.core.web.format.DateFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
   </bean>
   <bean id="GenericAttributes-genericTimestamp" parent="GenericAttributes-genericTimestamp-parentBean" />
 
@@ -153,7 +153,7 @@
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="This attribute should always be overriden on the descriptive elements." />
-    <property name="formatterClass" value="org.kuali.core.web.format.DateFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
   </bean>
   <bean id="GenericAttributes-genericBoolean" parent="GenericAttributes-genericBoolean-parentBean" />
 
@@ -168,7 +168,7 @@
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="This attribute should always be overriden on the descriptive elements." />
-    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="GenericAttributes-activeIndicator" parent="GenericAttributes-activeIndicator-parentBean" />
 
@@ -186,7 +186,7 @@
     </property>
     <property name="summary" value="Active Indicator" />
     <property name="description" value="This attribute is used to describe whether the associated object is active or inactive." />
-    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="GenericAttributes-genericAmount" parent="GenericAttributes-genericAmount-parentBean" />
 
@@ -438,7 +438,7 @@
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="This attribute indicates whether the object is a new record for a collection." />
-    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="GenericAttributes-searchType" parent="GenericAttributes-searchType-parentBean" />
 

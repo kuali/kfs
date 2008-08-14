@@ -21,8 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.batch.service.BalanceCalculator;
@@ -35,6 +33,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * An extension of KualiLookupableImpl to support cash lookups
@@ -48,7 +48,7 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
      * @param bo the business object the field to inquiry on is in
      * @param propertyName the name of the property that an inquiry url is being asked of
      * @return the String of the url
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -59,7 +59,7 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
      * Generates a list of results for this inquiry
      * @param fieldValues the field values that the user entered for this inquiry
      * @return a List of results
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {

@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
 import org.kuali.kfs.module.bc.document.dataaccess.PayrateExportDao;
 import org.kuali.kfs.module.bc.document.service.PayrateExportService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 

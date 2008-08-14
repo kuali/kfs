@@ -15,11 +15,6 @@
  */
 package org.kuali.kfs.sys.document.web.renderers;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.Tag;
-
-import org.kuali.core.bo.BusinessObject;
 
 /**
  * A renderer for a field that displays as currency

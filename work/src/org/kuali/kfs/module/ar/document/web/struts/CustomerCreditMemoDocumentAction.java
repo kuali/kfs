@@ -23,10 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
@@ -36,8 +32,11 @@ import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCred
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCreditMemoDocumentEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocumentActionBase {
     
@@ -48,7 +47,7 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
     /**
      * Do initialization for a new customer credit memo.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

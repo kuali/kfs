@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
@@ -36,6 +34,8 @@ import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PendingGlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PurApAccountLineGroup;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Default implementation of {@link ReconciliationService}

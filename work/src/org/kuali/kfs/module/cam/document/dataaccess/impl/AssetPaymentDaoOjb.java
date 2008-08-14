@@ -21,11 +21,11 @@ import java.util.Iterator;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.dataaccess.AssetPaymentDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 public class AssetPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements AssetPaymentDao {
 

@@ -21,13 +21,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.Guid;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PayeeAchAccountMaintainable extends KualiMaintainableImpl {
 

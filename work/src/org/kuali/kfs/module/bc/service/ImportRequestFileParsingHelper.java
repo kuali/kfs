@@ -20,9 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This class contains methods to help parse budget construction import request files

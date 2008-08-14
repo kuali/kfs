@@ -33,11 +33,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.WebUtils;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryInputFileService;
@@ -50,6 +45,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 
 /**

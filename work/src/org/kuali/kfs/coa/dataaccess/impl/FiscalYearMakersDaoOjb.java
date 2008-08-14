@@ -40,10 +40,6 @@ import org.apache.ojb.broker.metadata.ObjectReferenceDescriptor;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao;
 import org.kuali.kfs.coa.batch.service.FiscalYearMakersCopyAction;
 import org.kuali.kfs.coa.batch.service.FiscalYearMakersFieldChangeAction;
@@ -68,6 +64,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
  * Copy selected maintenance documents which depend on fiscal year into the coming fiscal year.  This precludes having to create rows

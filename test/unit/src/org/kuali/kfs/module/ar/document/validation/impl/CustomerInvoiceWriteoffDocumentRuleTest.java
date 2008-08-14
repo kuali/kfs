@@ -17,13 +17,9 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentTestUtil;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
@@ -35,8 +31,9 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 
 @ConfigureContext(session = KHUNTLEY)
 public class CustomerInvoiceWriteoffDocumentRuleTest extends KualiTestBase {

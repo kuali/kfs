@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;

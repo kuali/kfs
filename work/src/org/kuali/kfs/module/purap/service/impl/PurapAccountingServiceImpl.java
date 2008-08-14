@@ -22,8 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
@@ -38,6 +36,8 @@ import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * 
  * Contains a number of helper methods to deal with accounts on Purchasing Accounts Payable Documents
@@ -93,7 +93,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @deprecated
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateAccountDistributionForProration(java.util.List,
-     *      org.kuali.core.util.KualiDecimal, java.lang.Integer)
+     *      org.kuali.rice.kns.util.KualiDecimal, java.lang.Integer)
      */
     public List<PurApAccountingLine> generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale) {
         return null;
@@ -101,7 +101,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateAccountDistributionForProration(java.util.List,
-     *      org.kuali.core.util.KualiDecimal, java.lang.Integer)
+     *      org.kuali.rice.kns.util.KualiDecimal, java.lang.Integer)
      */
     public List<PurApAccountingLine> generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale, Class clazz) {
         String methodName = "generateAccountDistributionForProration()";

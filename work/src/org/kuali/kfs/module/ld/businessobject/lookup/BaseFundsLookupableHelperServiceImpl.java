@@ -20,15 +20,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.module.ld.businessobject.inquiry.BaseFundsInquirableImpl;
 import org.kuali.kfs.module.ld.service.LaborBaseFundsService;
 import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * The BaseFundsLookupableHelperServiceImpl class is the front-end for all Base Fund balance inquiry processing.
@@ -40,7 +40,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
     private LaborInquiryOptionsService laborInquiryOptionsService;
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -48,7 +48,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
     }
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {

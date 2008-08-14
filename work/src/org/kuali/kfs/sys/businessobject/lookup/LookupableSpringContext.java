@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.sys.businessobject.lookup;
 
-import org.kuali.core.lookup.Lookupable;
-import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.plugin.attributes.WorkflowLookupable;
+import org.kuali.rice.kew.lookupable.WorkflowLookupable;
+import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
 
 public class LookupableSpringContext {
     public static Lookupable getLookupable(String beanId) {

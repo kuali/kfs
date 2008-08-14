@@ -2,15 +2,14 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -609,7 +608,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

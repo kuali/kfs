@@ -18,9 +18,9 @@ package org.kuali.kfs.module.cg.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class RoutingFormApprovalStatusValuesFinder extends KeyValuesBase {
 

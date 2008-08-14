@@ -2,9 +2,9 @@ package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for the Effort Certification Report Earn Paygroup Table.
@@ -155,7 +155,7 @@ public class EffortCertificationReportEarnPaygroup extends PersistableBusinessOb
     }
     
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

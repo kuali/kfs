@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.searching.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.iu.uis.eden.lookupable.Column;
+import org.kuali.rice.kew.lookupable.Column;
 
 public class PaymentRequestDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
 

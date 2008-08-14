@@ -1,6 +1,5 @@
 package org.kuali.kfs.module.purap.dataaccess.impl;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -8,10 +7,8 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.dataaccess.ElectronicInvoiceItemMappingDao;
-import org.kuali.kfs.pdp.businessobject.UserRequired;
+import org.kuali.rice.kew.user.UserService;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import edu.iu.uis.eden.user.UserService;
 
 public class ElectronicInvoiceItemMappingDaoOjb extends PersistenceBrokerDaoSupport implements
 ElectronicInvoiceItemMappingDao {

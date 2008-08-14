@@ -20,22 +20,22 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.datadictionary.InquirySectionDefinition;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.web.ui.Section;
-import org.kuali.core.web.ui.SectionBridge;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.kns.web.ui.SectionBridge;
 
 public class OrganizationAccountingDefaultInquirable extends KfsInquirableImpl {
     
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationAccountingDefaultInquirable.class);
     
     /**
-     * @see org.kuali.core.inquiry.KualiInquirableImpl#getSections(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.kns.bo.BusinessObject)
      */
     @SuppressWarnings("unchecked")
     public List<Section> getSections(BusinessObject bo) {

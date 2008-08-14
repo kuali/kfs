@@ -21,16 +21,16 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * Provides helper methods for building URLs to various budget actions.

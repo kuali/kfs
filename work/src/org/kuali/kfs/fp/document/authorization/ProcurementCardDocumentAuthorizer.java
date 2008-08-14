@@ -20,16 +20,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Document Authorizer for the Procurement Card document.
@@ -39,8 +39,8 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
     /**
      * Overrides to call super and then blanketly reset the actions not allowed on the procurment card document.
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -61,8 +61,8 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
      * Override to set the editMode to fullEntry if the routing is at the first account review node (PCDO has 2), second account
      * review functions as normal.
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceLines, List targetLines) {
@@ -89,7 +89,7 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
     /**
      * Override to only allow the SYSTEM user to initiate a PCDO document
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {

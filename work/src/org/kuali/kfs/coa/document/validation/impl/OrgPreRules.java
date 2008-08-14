@@ -18,15 +18,15 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.OrganizationExtension;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * PreRules checks for the {@link Org} that needs to occur while still in the Struts processing. This includes defaults, confirmations,
@@ -43,7 +43,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
     /**
      * This checks to see if a continuation account is necessary and if the HRMS data has changed
      * 
-     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean doCustomPreRules(MaintenanceDocument document) {

@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.document.dataaccess;
 import java.sql.Date;
 import java.util.Collection;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.dao.DocumentHeaderDao;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.dao.DocumentHeaderDao;
 
 /**
  * This class...

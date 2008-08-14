@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.vnd.service;
 
-import org.kuali.core.web.format.FormatException;
+import org.kuali.rice.kns.web.format.FormatException;
 
 public interface TaxNumberService {
 

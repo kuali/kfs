@@ -15,16 +15,10 @@
  */
 package org.kuali.kfs.sys.spring.datadictionary;
 
-import org.kuali.core.datadictionary.FieldDefinition;
-import org.kuali.core.datadictionary.MaintainableFieldDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class MaintenanceFieldBeanDefinitionParser extends KualiBeanDefinitionParserBase {
 

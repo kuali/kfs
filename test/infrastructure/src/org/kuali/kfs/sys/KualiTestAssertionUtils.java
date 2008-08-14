@@ -28,16 +28,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Contains assertion related convenience methods for testing (not for production use).
  * 
- * @see org.kuali.core.util.AssertionUtils
+ * @see org.kuali.rice.kns.util.AssertionUtils
  */
 public class KualiTestAssertionUtils {
 

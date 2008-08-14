@@ -26,13 +26,6 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.MailService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.gl.batch.CollectorBatch;
@@ -57,6 +50,13 @@ import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * The base implementation of CollectorHelperService

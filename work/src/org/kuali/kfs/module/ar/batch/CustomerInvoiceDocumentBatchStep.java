@@ -20,18 +20,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.UserSession;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     

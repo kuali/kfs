@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.batch.service;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface LockboxService {
 

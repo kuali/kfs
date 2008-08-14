@@ -23,10 +23,10 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.dataaccess.ChartDao;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * This class is the OJB implementation of the ChartDao interface.

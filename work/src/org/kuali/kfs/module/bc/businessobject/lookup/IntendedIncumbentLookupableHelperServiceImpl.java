@@ -19,20 +19,17 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.format.BooleanFormatter;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.format.BooleanFormatter;
 
 /**
  * Lookupable helper service implementation for the intended incumbent lookup..
@@ -41,7 +38,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
     public KualiConfigurationService kualiConfigurationService;
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public String getActionUrls(BusinessObject businessObject) {
@@ -84,7 +81,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
     /**
      * Override to check system parameter for determining if the incumbent data is feed from Payroll or maintained in the KFS.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#allowsMaintenanceNewOrCopyAction()
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#allowsMaintenanceNewOrCopyAction()
      */
     @Override
     public boolean allowsMaintenanceNewOrCopyAction() {

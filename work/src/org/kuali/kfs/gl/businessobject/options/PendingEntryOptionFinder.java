@@ -18,10 +18,10 @@ package org.kuali.kfs.gl.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.gl.Constant;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * An implementation of ValueFinder that allows inquirers to include no pending entries, approved pending entries,
@@ -32,7 +32,7 @@ public class PendingEntryOptionFinder extends KeyValuesBase implements ValueFind
     /**
      * Returns a list of key/value pairs for this ValueFinder, in this case no pending entries, approved pending entries, and all pending entries
      * @return a List of key/value pairs to populate a control
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
 
@@ -47,7 +47,7 @@ public class PendingEntryOptionFinder extends KeyValuesBase implements ValueFind
     /**
      * Returns the default value for this ValueFinder, in this case no pending entries
      * @return the key of the default value
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         return Constant.NO_PENDING_ENTRY;

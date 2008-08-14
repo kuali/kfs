@@ -15,21 +15,21 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerPreRules extends PreRulesContinuationBase {
 
     /**
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean doRules(Document document) {

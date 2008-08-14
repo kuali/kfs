@@ -21,18 +21,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.workflow.attribute.ExtensionAttribute;
-
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.validation.ValidationContext;
-import edu.iu.uis.eden.validation.ValidationResults;
+import org.kuali.rice.kew.attribute.ExtensionAttribute;
+import org.kuali.rice.kew.lookupable.Row;
+import org.kuali.rice.kew.validation.ValidationContext;
+import org.kuali.rice.kew.validation.ValidationResults;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.lookup.LookupUtils;
 
 /**
  * An attribute which provides Chart & Org extensions to an entity. In this case, it is used for the Chart Org Workgroup type.
@@ -66,7 +65,7 @@ public class ChartOrgExtensionAttribute implements ExtensionAttribute {
     /**
      * Validate the chart code and org code that are specified.
      * 
-     * @see org.kuali.workflow.attribute.ExtensionAttribute#validate(edu.iu.uis.eden.validation.ValidationContext)
+     * @see org.kuali.workflow.attribute.ExtensionAttribute#validate(org.kuali.rice.kew.validation.ValidationContext)
      */
     public ValidationResults validate(ValidationContext validationContext) {
         Map<String, String> extensions = (Map<String, String>) validationContext.getParameters().get(EXTENSIONS_PARAM);

@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.sys.ConfigureContext;

@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.fp.document.validation.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.document.validation.UpdateCheckRule;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class represents the update check event.
@@ -37,14 +37,14 @@ public final class UpdateCheckEvent extends CheckEventBase {
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return UpdateCheckRule.class;
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         UpdateCheckRule crule = (UpdateCheckRule) rule;

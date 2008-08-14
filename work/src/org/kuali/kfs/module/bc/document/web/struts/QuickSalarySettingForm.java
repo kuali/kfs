@@ -20,15 +20,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
-import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.context.SpringContext;
 
 
 public class QuickSalarySettingForm extends SalarySettingBaseForm {
@@ -45,7 +41,7 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {

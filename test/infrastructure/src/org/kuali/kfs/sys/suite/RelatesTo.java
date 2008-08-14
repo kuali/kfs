@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.kuali.core.util.AssertionUtils;
+import org.kuali.rice.kns.util.AssertionUtils;
 
 /**
  * This annotation marks test classes or methods which have failed for reasons relating to certain JIRA issues. Ideally these issues

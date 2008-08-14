@@ -16,11 +16,11 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class PurchaseOrderVoidDocumentRule extends PurchasingDocumentRuleBase {
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -44,7 +44,7 @@ public class PurchaseOrderVoidDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -54,7 +54,7 @@ public class PurchaseOrderVoidDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {

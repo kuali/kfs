@@ -16,12 +16,6 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -30,6 +24,12 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business Prerules applicable to purchase order document.
@@ -42,7 +42,7 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
      * 
      * @param document The purchase order document upon which we're performing the prerules logic.
      * @return boolean true if it passes the pre rules conditions.
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean doRules(Document document) {

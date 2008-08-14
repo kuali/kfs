@@ -35,16 +35,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.workflow.service.KualiWorkflowInfo;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.fp.batch.ProcurementCardAutoApproveDocumentsStep;
 import org.kuali.kfs.fp.batch.ProcurementCardCreateDocumentsStep;
 import org.kuali.kfs.fp.batch.ProcurementCardLoadStep;
@@ -62,15 +52,24 @@ import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kew.dto.DocumentSearchCriteriaDTO;
+import org.kuali.rice.kew.dto.DocumentSearchResultDTO;
+import org.kuali.rice.kew.dto.DocumentSearchResultRowDTO;
+import org.kuali.rice.kew.dto.KeyValueDTO;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.DocumentSearchCriteriaVO;
-import edu.iu.uis.eden.clientapp.vo.DocumentSearchResultRowVO;
-import edu.iu.uis.eden.clientapp.vo.DocumentSearchResultVO;
-import edu.iu.uis.eden.clientapp.vo.KeyValueVO;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 
 /**
@@ -139,7 +138,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     public boolean routeProcurementCardDocuments() {
         List<String> documentIdList = null;
         try {
-            documentIdList = retrieveProcurementCardDocumentsToRoute(EdenConstants.ROUTE_HEADER_SAVED_CD);
+            documentIdList = retrieveProcurementCardDocumentsToRoute(KEWConstants.ROUTE_HEADER_SAVED_CD);
         }
         catch (WorkflowException e1) {
             LOG.error("Error retrieving pcdo documents for routing: " + e1.getMessage());
@@ -178,13 +177,13 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     private List<String> retrieveProcurementCardDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
         List<String> documentIds = new ArrayList<String>();
         
-        DocumentSearchCriteriaVO criteria = new DocumentSearchCriteriaVO();
+        DocumentSearchCriteriaDTO criteria = new DocumentSearchCriteriaDTO();
         criteria.setDocTypeFullName(dataDictionaryService.getDocumentTypeNameByClass(ProcurementCardDocument.class));
         criteria.setDocRouteStatus(statusCode);
-        DocumentSearchResultVO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(new NetworkIdVO(GlobalVariables.getUserSession().getWorkflowUser().getNetworkId()), criteria);
+        DocumentSearchResultDTO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(new NetworkIdDTO(GlobalVariables.getUserSession().getWorkflowUser().getNetworkId()), criteria);
         
-        for (DocumentSearchResultRowVO resultRow: results.getSearchResults()) {
-            for (KeyValueVO field : resultRow.getFieldValues()) {
+        for (DocumentSearchResultRowDTO resultRow: results.getSearchResults()) {
+            for (KeyValueDTO field : resultRow.getFieldValues()) {
                 if (field.getKey().equals(WORKFLOW_SEARCH_RESULT_KEY)) {
                     documentIds.add(parseDocumentIdFromRouteDocHeader(field.getValue()));
                 }
@@ -225,7 +224,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         List<String> documentIdList = null;
         try {
-            documentIdList = retrieveProcurementCardDocumentsToRoute(EdenConstants.ROUTE_HEADER_ENROUTE_CD);
+            documentIdList = retrieveProcurementCardDocumentsToRoute(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
         }
         catch (WorkflowException e1) {
             throw new RuntimeException(e1.getMessage());

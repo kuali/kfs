@@ -16,7 +16,7 @@
 
 package org.kuali.kfs.coa.businessobject;
 
-import org.kuali.core.bo.KualiCodeBase;
+import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * Fund Group Business Object

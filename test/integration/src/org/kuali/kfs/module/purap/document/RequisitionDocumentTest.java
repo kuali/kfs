@@ -23,11 +23,6 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.rule.event.RouteDocumentEvent;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCommodityCodeFixture;
@@ -39,8 +34,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-
-import edu.iu.uis.eden.EdenConstants;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 
 /**
  * Used to create and test populated Requisition Documents of various kinds.
@@ -132,7 +131,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         assertTrue("RORENFRO should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as RORENFRO", null);
 
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(KHUNTLEY);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
@@ -160,7 +159,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         assertTrue("RORENFRO should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as RORENFRO", null);
 
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(KHUNTLEY);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);

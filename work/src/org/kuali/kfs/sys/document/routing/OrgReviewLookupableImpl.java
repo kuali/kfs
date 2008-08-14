@@ -24,20 +24,19 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.lookupable.Column;
-import edu.iu.uis.eden.lookupable.Field;
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
-import edu.iu.uis.eden.plugin.attributes.WorkflowLookupable;
-import edu.iu.uis.eden.routetemplate.RuleBaseValues;
-import edu.iu.uis.eden.routetemplate.RuleService;
-import edu.iu.uis.eden.routetemplate.RuleTemplate;
-import edu.iu.uis.eden.routetemplate.RuleTemplateService;
-import edu.iu.uis.eden.util.KeyLabelPair;
-import edu.iu.uis.eden.util.Utilities;
+import org.kuali.rice.kew.lookupable.Column;
+import org.kuali.rice.kew.lookupable.Field;
+import org.kuali.rice.kew.lookupable.Row;
+import org.kuali.rice.kew.lookupable.WorkflowLookupable;
+import org.kuali.rice.kew.rule.RuleBaseValues;
+import org.kuali.rice.kew.rule.RuleTemplate;
+import org.kuali.rice.kew.rule.WorkflowAttribute;
+import org.kuali.rice.kew.rule.service.RuleService;
+import org.kuali.rice.kew.rule.service.RuleTemplateService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.util.KeyLabelPair;
+import org.kuali.rice.kew.util.Utilities;
 
 /**
  * This class provides a lookup for org review hierarchy routing rules.
@@ -117,13 +116,13 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
     }
 
     /**
-     * This method uses edu.iu.uis.eden.routetemplate.RuleService#search(java.lang.String docTypeName, java.lang.Long ruleId,
+     * This method uses org.kuali.rice.kew.rule.RuleService#search(java.lang.String docTypeName, java.lang.Long ruleId,
      * java.lang.Long ruleTemplateId, java.lang.String ruleDescription, java.lang.Long workgroupId, java.lang.String workflowId,
      * java.lang.String roleName, java.lang.Boolean delegateRule, java.lang.Boolean activeInd, java.util.Map extensionValues) to
      * retrieve a List of rules based on the search criteria specified, then converts the result set into OrgReviewLookupableResults
      * and returns those.
      * 
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowLookupable#getSearchResults(java.util.Map, java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getSearchResults(java.util.Map, java.util.Map)
      */
     public List getSearchResults(Map fieldValues, Map fieldConversions) throws Exception {
         List errors = new ArrayList();
@@ -162,15 +161,15 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
     }
 
     /**
-     * @see edu.iu.uis.eden.EdenConstants.RULE_SEARCH_INSTRUCTION_KEY
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowLookupable#getLookupInstructions()
+     * @see org.kuali.rice.kew.KEWConstants.RULE_SEARCH_INSTRUCTION_KEY
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getLookupInstructions()
      */
     public String getLookupInstructions() {
-        return Utilities.getApplicationConstant(EdenConstants.RULE_SEARCH_INSTRUCTION_KEY);
+        return Utilities.getApplicationConstant(KEWConstants.RULE_SEARCH_INSTRUCTION_KEY);
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowLookupable#getTitle()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getTitle()
      */
     public String getTitle() {
         return TITLE;
@@ -179,7 +178,7 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
     /**
      * Since this is a lookup, we return Lookup.do.
      * 
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowLookupable#getReturnLocation()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getReturnLocation()
      */
     public String getReturnLocation() {
         return RETURN_LOCATION;
@@ -188,7 +187,7 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
     /**
      * Returns unodified instance variable initialized in setColumns(), called from the constructor.
      * 
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowLookupable#getColumns()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getColumns()
      */
     public List getColumns() {
         return columns;
@@ -197,7 +196,7 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
     /**
      * Returns unmodified instance variable initialized in setRows(), called from the constructor.
      * 
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowLookupable#getRows()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getRows()
      */
     public List getRows() {
         return rows;
@@ -206,7 +205,7 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
     /**
      * Returns the empty String.
      * 
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowLookupable#getHtmlMenuBar()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getHtmlMenuBar()
      */
     public String getHtmlMenuBar() {
         return "";
@@ -215,7 +214,7 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
     /**
      * Returns the empty String.
      * 
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowLookupable#getNoReturnParams(java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getNoReturnParams(java.util.Map)
      */
     public String getNoReturnParams(Map fieldConversions) {
         return "";
@@ -224,7 +223,7 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
     /**
      * Returns an empty List.
      * 
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowLookupable#getDefaultReturnType()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#getDefaultReturnType()
      */
     public List getDefaultReturnType() {
         return new ArrayList();
@@ -233,7 +232,7 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
     /**
      * Does nothing and returns false.
      * 
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowLookupable#checkForAdditionalFields(java.util.Map,
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#checkForAdditionalFields(java.util.Map,
      *      javax.servlet.http.HttpServletRequest)
      */
     public boolean checkForAdditionalFields(Map fieldValues, HttpServletRequest request) throws Exception {
@@ -243,7 +242,7 @@ public class OrgReviewLookupableImpl implements WorkflowLookupable {
     /**
      * Does nothing.
      * 
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowLookupable#changeIdToName(java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowLookupable#changeIdToName(java.util.Map)
      */
     public void changeIdToName(Map fieldValues) {
     }

@@ -20,14 +20,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * A value finder that returns all balance type, but selects the actual balance type
@@ -38,7 +38,7 @@ public class ActualBalanceTypeOptionFinder extends KeyValuesBase implements Valu
      * Returns the value to select: here the value of the actual balance type
      * 
      * @return the balance type code for actual balances
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         OptionsService os = SpringContext.getBean(OptionsService.class);
@@ -51,7 +51,7 @@ public class ActualBalanceTypeOptionFinder extends KeyValuesBase implements Valu
      * Returns a list of the key value pairs of all balance type codes and their names
      * 
      * @return a List of all balance types to populate a dropdown control
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List labels = new ArrayList();

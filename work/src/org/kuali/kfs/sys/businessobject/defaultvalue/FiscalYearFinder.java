@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.sys.businessobject.defaultvalue;
 
-import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
 
 /**
  * Returns the current fiscal year.
@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 public class FiscalYearFinder implements ValueFinder {
 
     /**
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();

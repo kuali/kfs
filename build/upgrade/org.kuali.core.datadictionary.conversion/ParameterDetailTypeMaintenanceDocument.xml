@@ -19,15 +19,15 @@
     "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.core.bo.ParameterDetailType</businessObjectClass>
+        <businessObjectClass>org.kuali.rice.kns.bo.ParameterDetailType</businessObjectClass>
         <maintainableClass>
-            org.kuali.core.maintenance.KualiMaintainableImpl
+            org.kuali.rice.kns.maintenance.KualiMaintainableImpl
         </maintainableClass>
         <businessRulesClass>
-            org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase
+            org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase
         </businessRulesClass>
         <documentAuthorizerClass>
-            org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase
+            org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase
         </documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">

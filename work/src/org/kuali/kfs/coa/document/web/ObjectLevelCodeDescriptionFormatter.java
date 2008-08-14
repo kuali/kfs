@@ -20,12 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class...
@@ -39,7 +39,7 @@ public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatte
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase#getDescriptionOfBO(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase#getDescriptionOfBO(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     protected String getDescriptionOfBO(PersistableBusinessObject bo) {

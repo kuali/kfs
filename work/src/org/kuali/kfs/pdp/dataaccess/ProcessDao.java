@@ -21,8 +21,8 @@ package org.kuali.kfs.pdp.dataaccess;
 
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 
 /**

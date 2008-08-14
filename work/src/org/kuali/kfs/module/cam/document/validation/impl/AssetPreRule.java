@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.cam.document.validation.impl;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business Prerules applicable to Asset documents. These PreRules checks for the Asset that needs to occur while
@@ -54,7 +54,7 @@ public class AssetPreRule extends MaintenancePreRulesBase {
     /**
      * Sets up a convenience object and few other Asset attributes
      * 
-     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
   

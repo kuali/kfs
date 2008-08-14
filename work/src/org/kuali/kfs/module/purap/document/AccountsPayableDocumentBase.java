@@ -21,14 +21,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
@@ -38,8 +30,15 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
+import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Accounts Payable Document Base
@@ -172,7 +171,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * Calls a custom prepare for save method, as the super class does GL entry creation that causes problems with AP documents.
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
@@ -192,10 +191,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public abstract String getPoDocumentTypeForAccountsPayableDocumentCancel();
 
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) {
+    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
         LOG.debug("handleRouteLevelChange() started");
         super.handleRouteLevelChange(levelChangeEvent);
         String newNodeName = levelChangeEvent.getNewNodeName();
@@ -504,7 +503,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {

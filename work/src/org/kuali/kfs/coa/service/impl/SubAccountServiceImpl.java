@@ -18,11 +18,11 @@ package org.kuali.kfs.coa.service.impl;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.dataaccess.SubAccountDao;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.util.spring.Cached;
 
 /**
  * This class is the service implementation for the SubAccount structure. This is the default implementation that gets delivered

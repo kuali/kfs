@@ -19,9 +19,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 
 /**
  * An organization which is related to a Global Organization Reversion Detail.
@@ -36,7 +36,7 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
     private Org organization;
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

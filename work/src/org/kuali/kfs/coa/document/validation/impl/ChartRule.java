@@ -15,14 +15,14 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 /**
  * Business rule(s) applicable to {@link ChartMaintenance} documents.
@@ -34,7 +34,7 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
      * reportsToChart exists if it is not the same code as the newly created Chart and it checks to make sure that the chart manager
      * is valid for the Chart Module
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      * @return false if reports to chart code doesn't exist or user is invalid for this module
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {

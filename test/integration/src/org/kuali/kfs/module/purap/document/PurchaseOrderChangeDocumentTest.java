@@ -16,16 +16,13 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KULUSER;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -41,6 +38,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.suite.RelatesTo;
 import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     

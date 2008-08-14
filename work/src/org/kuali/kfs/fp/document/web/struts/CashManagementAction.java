@@ -26,18 +26,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.Deposit;
 import org.kuali.kfs.fp.document.CashManagementDocument;
@@ -55,8 +43,19 @@ import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.KFSConstants.DepositConstants;
 import org.kuali.kfs.sys.KFSKeyConstants.CashManagement;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Action class for CashManagementForm
@@ -75,7 +74,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
     /**
      * Overrides to call super, but also make sure the helpers are populated.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -245,7 +244,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -472,7 +471,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
     /**
      * Overridden to clear the CashDrawerSummary info
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

@@ -11,12 +11,12 @@
         <fieldDef name="creditMemoProcessCampus" title="kuali_dd_label(CreditMemoDocument)">
           <display>
             <type>select</type>
-            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />
           </visibility>
-          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.rice.kns.bo.Campus-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/processingCampusCode')</xpathexpression>
           </fieldEvaluation>

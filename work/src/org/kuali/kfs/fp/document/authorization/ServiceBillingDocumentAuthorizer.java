@@ -21,10 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
 import org.kuali.kfs.fp.document.ServiceBillingDocument;
 import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
@@ -34,6 +30,10 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
 
 /**
  * Authorization permissions specific to the Service Billing document.
@@ -53,7 +53,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
     /**
      * Overrides parent to return an empty Map since FO routing doesn't apply to the SB doc.
      * 
-     * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
      *      KualiUser)
      */
     public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
@@ -76,7 +76,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      * table will not be able to add any income accounting lines. This method uses those groups directly for initiation authority,
      * instead of another group, so the administrator does not need to add users to multiple SB groups.
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     public void canInitiate(String documentTypeName, UniversalUser user) {
         boolean canInitiate = false;
@@ -97,8 +97,8 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      * cannot be changed, so if this user isn't authorized for all those income accounts then he won't be able to save or submit the
      * error correction. We avoid this frustration by hiding that button in the first place.
      * 
-     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

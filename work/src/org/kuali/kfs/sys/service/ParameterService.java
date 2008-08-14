@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.ParameterDetailType;
+import org.kuali.rice.kns.bo.ParameterDetailType;
 
 /**
  * This class provides methods to verify the existence of Parameters, get the value(s), and get ParameterEvaluators. For the most

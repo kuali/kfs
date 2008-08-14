@@ -17,10 +17,10 @@ package org.kuali.kfs.module.cg.document.service;
 
 import java.util.Collection;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**

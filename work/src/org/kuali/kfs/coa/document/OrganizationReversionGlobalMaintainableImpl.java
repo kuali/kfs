@@ -21,10 +21,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobal;
@@ -33,6 +29,10 @@ import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalOrganization;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class provides some specific functionality for the {@link OrganizationReversionGlobal} maintenance document inner class for
@@ -63,7 +63,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
      * This implementation locks all organization reversions that would be accessed by this global organization reversion. It does
      * not lock any OrganizationReversionDetail objects, as we expect that those will be inaccessible
      * 
-     * @see org.kuali.core.maintenance.KualiGlobalMaintainableImpl#generateMaintenaceLocks()
+     * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#generateMaintenaceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
@@ -111,7 +111,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
      * Just like OrganizationReversionMaintainableImpl's setBusinessObject method populates the list of details so there is one
      * detail per active Organization Reversion Category, this method populates a list of Organization Reversion Change details.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#setBusinessObject(org.kuali.core.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setBusinessObject(org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
     public void setBusinessObject(PersistableBusinessObject businessObject) {
@@ -148,7 +148,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
      * Prevents Organization Reversion Change Details from being refreshed by a look up (because doing that refresh before a save
      * would wipe out the list of organization reversion change details).
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
      */
     @Override
     protected boolean isRelationshipRefreshable(Class boClass, String relationshipName) {
@@ -164,7 +164,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
      * The org reversion detail collection does not behave like a true collection (no add lines). The records on the collection
      * should not have the delete option.
      * 
-     * @see org.kuali.core.maintenance.KualiGlobalMaintainableImpl#processGlobalsAfterRetrieve()
+     * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#processGlobalsAfterRetrieve()
      */
     @Override
     protected void processGlobalsAfterRetrieve() {

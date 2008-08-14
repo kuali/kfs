@@ -28,12 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.HeaderNavigation;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
@@ -51,12 +45,22 @@ import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
 import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
 import org.kuali.kfs.module.cg.document.service.BudgetTaskService;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 /**
@@ -609,46 +613,21 @@ public class BudgetForm extends ResearchDocumentFormBase {
         this.currentNonpersonnelCategoryCode = currentNonpersonnelCategoryCode;
     }
 
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
-     */
-    public KeyLabelPair getAdditionalDocInfo1() {
+    @Override
+    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
         if (this.getBudgetDocument().getBudget().isProjectDirectorToBeNamedIndicator()) {
-            return new KeyLabelPair("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", TO_BE_NAMED_LABEL);
+            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", TO_BE_NAMED_LABEL));
         }
         else if (this.getBudgetDocument().getBudget().getProjectDirector() != null && this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser() != null && this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser().getPersonUniversalIdentifier() != null) {
-            return new KeyLabelPair("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser().getPersonName());
+            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser().getPersonName()));
         }
-        return null;
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
-     */
-    public KeyLabelPair getAdditionalDocInfo2() {
         if (this.getBudgetDocument().getBudget().isAgencyToBeNamedIndicator()) {
-            return new KeyLabelPair("DataDictionary.Budget.attributes.budgetAgency", TO_BE_NAMED_LABEL);
+            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetAgency", TO_BE_NAMED_LABEL));
         }
         else if (this.getBudgetDocument().getBudget().getBudgetAgency() != null) {
-            return new KeyLabelPair("DataDictionary.Budget.attributes.budgetAgency", this.getBudgetDocument().getBudget().getBudgetAgency().getFullName());
+            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetAgency", this.getBudgetDocument().getBudget().getBudgetAgency().getFullName()));
         }
-        return null;
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#setAdditionalDocInfo1(org.kuali.core.web.uidraw.KeyLabelPair)
-     */
-    public void setAdditionalDocInfo1(KeyLabelPair additionalDocInfo1) {
-        // TODO Auto-generated method stub
-        super.setAdditionalDocInfo1(additionalDocInfo1);
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#setAdditionalDocInfo2(org.kuali.core.web.uidraw.KeyLabelPair)
-     */
-    public void setAdditionalDocInfo2(KeyLabelPair additionalDocInfo2) {
-        // TODO Auto-generated method stub
-        super.setAdditionalDocInfo2(additionalDocInfo2);
     }
 
     /**

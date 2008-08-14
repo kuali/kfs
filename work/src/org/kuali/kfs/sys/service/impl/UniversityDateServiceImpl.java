@@ -16,13 +16,13 @@
 package org.kuali.kfs.sys.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
  * 
@@ -56,7 +56,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * 
      * @return The current fiscal year as an Integer.
      * 
-     * @see org.kuali.core.service.DateTimeService#getCurrentFiscalYear()
+     * @see org.kuali.rice.kns.service.DateTimeService#getCurrentFiscalYear()
      */
     public Integer getCurrentFiscalYear() {
         //Timer t0 = new Timer("getCurrentFiscalYear");
@@ -73,7 +73,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * @param date The date to be used for retrieving the associated fiscal year.
      * @return The fiscal year that the date provided falls within.
      * 
-     * @see org.kuali.core.service.DateTimeService#getFiscalYear(java.util.Date)
+     * @see org.kuali.rice.kns.service.DateTimeService#getFiscalYear(java.util.Date)
      */
     @CacheNoCopy
     public Integer getFiscalYear(java.util.Date date) {

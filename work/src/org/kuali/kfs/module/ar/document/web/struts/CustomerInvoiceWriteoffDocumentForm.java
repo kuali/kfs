@@ -15,27 +15,18 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.upload.FormFile;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 
 public class CustomerInvoiceWriteoffDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
     

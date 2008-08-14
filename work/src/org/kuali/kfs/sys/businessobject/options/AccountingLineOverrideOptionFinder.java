@@ -18,10 +18,10 @@ package org.kuali.kfs.sys.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class AccountingLineOverrideOptionFinder extends KeyValuesBase implements ValueFinder {
 
@@ -37,7 +37,7 @@ public class AccountingLineOverrideOptionFinder extends KeyValuesBase implements
     }
 
     /**
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         return AccountingLineOverride.CODE.EXPIRED_ACCOUNT;

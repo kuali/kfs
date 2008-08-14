@@ -26,9 +26,9 @@ import junit.framework.TestCase;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.OptimisticLockException;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;

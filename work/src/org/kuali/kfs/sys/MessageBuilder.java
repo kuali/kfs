@@ -19,11 +19,11 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This class provides a set of utilities that can be used to build error message

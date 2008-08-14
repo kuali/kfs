@@ -192,19 +192,19 @@
 	<bean id="effortCertificationReportDefinitionDao" parent="platformAwareDao" class="org.kuali.kfs.module.ec.dataaccess.impl.EffortCertificationReportDefinitionDaoOjb" />
 	
 	<!-- lookup declarations -->
-	<bean id="outstandingReportsByOrganizationLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="outstandingReportsByOrganizationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="outstandingReportsByOrganizationLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="outstandingCertificationsByReportLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="outstandingCertificationsByReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="outstandingCertificationsByReportLookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="duplicateCertificationsReportLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="duplicateCertificationsReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="duplicateCertificationsReportLookupableHelperService" />
 		</property>
@@ -307,7 +307,7 @@
         </property>		
 	</bean> 
 	
-	<bean id="effortCertificationDetailBuildLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="effortCertificationDetailBuildLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="effortCertificationDetailBuildLookupableHelperService" />
 		</property>

@@ -18,10 +18,10 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Customer numbers that may have been assigned by the Vendor to various <code>Chart</code> and/or <code>Org</code>.
@@ -159,7 +159,7 @@ public class VendorCustomerNumber extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

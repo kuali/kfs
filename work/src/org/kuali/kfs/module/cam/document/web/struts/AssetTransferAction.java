@@ -24,9 +24,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
@@ -34,6 +31,9 @@ import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 public class AssetTransferAction extends FinancialSystemTransactionalDocumentActionBase {
     private static final Logger LOG = Logger.getLogger(AssetTransferAction.class);
@@ -41,7 +41,7 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
     /**
      * This method had to override because asset information has to be refreshed before display
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

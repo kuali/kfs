@@ -21,11 +21,11 @@ import org.apache.ojb.broker.metadata.DescriptorRepository;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.exceptions.ClassNotPersistableException;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.dataaccess.CollectorDetailDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.exception.ClassNotPersistableException;
 
 /**
  * An OJB implementation of the CollectorDetailDao

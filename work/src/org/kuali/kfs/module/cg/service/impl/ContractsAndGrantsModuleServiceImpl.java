@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
@@ -35,6 +33,8 @@ import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 @NonTransactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {

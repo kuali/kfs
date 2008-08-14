@@ -23,17 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.KualiModule;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.bo.ParameterDetailType;
-import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.TransactionalDocumentEntry;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiModuleService;
 import org.kuali.kfs.sys.KFSUtils;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -41,6 +30,17 @@ import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants.COMPONENT;
 import org.kuali.kfs.sys.service.impl.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kns.KualiModule;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.bo.ParameterDetailType;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -298,10 +298,10 @@ public class ParameterServiceImpl implements ParameterService {
             if (module != null) {
                 return ParameterConstants.FINANCIAL_NAMESPACE_PREFIX + module.getModuleCode();
             }
-            if (documentOrStepClass.getName().startsWith("org.kuali.core")) {
+            if (documentOrStepClass.getName().startsWith("org.kuali.rice.kns")) {
                 return ParameterConstants.NERVOUS_SYSTEM_NAMESPACE;
             }
-            throw new IllegalArgumentException("The getNamespace method of ParameterUtils requires documentOrStepClass with a package prefix of org.kuali.core, org.kuali.kfs, or org.kuali.module");
+            throw new IllegalArgumentException("The getNamespace method of ParameterUtils requires documentOrStepClass with a package prefix of org.kuali.rice.kns, org.kuali.kfs, or org.kuali.module");
         }
         else {
             throw new IllegalArgumentException("The getNamespace method of ParameterUtils requires non-null documentOrStepClass");

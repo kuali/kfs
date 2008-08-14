@@ -22,14 +22,14 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Purap Item Base Business Object.
@@ -248,7 +248,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
      * instances at indices before that one are not being instantiated. So changing the code below will cause adding lines to break
      * if you add more than one item to the list.
      * 
-     * @see org.kuali.core.document.FinancialDocument#getTargetAccountingLine(int)
+     * @see org.kuali.rice.kns.document.FinancialDocument#getTargetAccountingLine(int)
      */
     public PurApAccountingLine getSourceAccountingLine(int index) {
         return (PurApAccountingLine) getSourceAccountingLines().get(index);
@@ -289,7 +289,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -301,7 +301,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

@@ -22,14 +22,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetGraduateAssistantRate;
 import org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate;
 import org.kuali.kfs.module.cg.document.service.BudgetGraduateAssistantRateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAssistantRateService {
 

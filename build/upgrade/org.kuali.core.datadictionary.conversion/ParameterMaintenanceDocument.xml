@@ -19,15 +19,15 @@
     "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.core.bo.Parameter</businessObjectClass>
+        <businessObjectClass>org.kuali.rice.kns.bo.Parameter</businessObjectClass>
         <maintainableClass>
-            org.kuali.core.maintenance.KualiMaintainableImpl
+            org.kuali.rice.kns.maintenance.KualiMaintainableImpl
         </maintainableClass>
         <businessRulesClass>
-            org.kuali.core.rules.ParameterRule
+            org.kuali.rice.kns.rules.ParameterRule
         </businessRulesClass>
         <documentAuthorizerClass>
-            org.kuali.core.document.authorization.ParameterMaintenanceDocumentAuthorizer
+            org.kuali.rice.kns.document.authorization.ParameterMaintenanceDocumentAuthorizer
         </documentAuthorizerClass>
         <authorizations>
             <!-- initiation is controlled by the workgroup stored on the system parameter table rather than the DD -->

@@ -19,9 +19,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorScrubberProcess;
 import org.kuali.kfs.gl.batch.service.CollectorScrubberService;
@@ -33,6 +30,9 @@ import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

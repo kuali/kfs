@@ -28,10 +28,6 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
@@ -47,11 +43,15 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Business rule(s) applicable to Labor Expense Transfer documents.
@@ -117,7 +117,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * 
      * @param document the document to be routed
      * @return boolean
-     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {

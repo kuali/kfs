@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.cg.document.validation.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.kfs.module.cg.document.validation.impl.BudgetDocumentRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 /**
  * Class capturing an enter modular event.
@@ -48,14 +48,14 @@ public class EnterModularEvent extends KualiDocumentEventBase implements KualiDo
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return BudgetDocumentRule.class;
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((BudgetDocumentRule) rule).processEnterModularBusinessRules(getDocument());

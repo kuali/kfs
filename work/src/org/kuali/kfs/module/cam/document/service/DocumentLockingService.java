@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cam.document.service;
 
 import java.util.List;
 
-import org.kuali.core.document.MaintenanceLock;
+import org.kuali.rice.kns.document.MaintenanceLock;
 
 /**
  * Provides helper methods for checking locks on transactional documents. We discussed whether this should move
@@ -33,7 +33,7 @@ public interface DocumentLockingService {
      * 
      * Otherwise, if nothing is blocking, then null is returned.
      * 
-     * @see org.kuali.core.service.MaintenanceDocumentService#getLockingDocumentId(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.service.MaintenanceDocumentService#getLockingDocumentId(org.kuali.rice.kns.document.MaintenanceDocument)
      * @param documentNumber document to test for
      * @param maintenanceLocks locks that the document holds
      * @return A String representing the docHeaderId of any blocking document, or null if none are blocking
@@ -42,7 +42,7 @@ public interface DocumentLockingService {
     
     /**
      * Adds error message to global ErrorMap showing the docHeaderId that is blocking. 
-     * @see org.kuali.core.document.MaintenanceDocumentBase#checkForLockingDocument(java.lang.String)
+     * @see org.kuali.rice.kns.document.MaintenanceDocumentBase#checkForLockingDocument(java.lang.String)
      * @param docHeaderId of blocking document
      * @return whether it's locked or not
      */

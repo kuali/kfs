@@ -19,14 +19,14 @@ package org.kuali.kfs.gl.document;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CorrectionDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocumentAuthorizer.class);
@@ -38,7 +38,7 @@ public class CorrectionDocumentAuthorizer extends FinancialSystemTransactionalDo
     /**
      * Adds hasAmountTotal flag.
      * 
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

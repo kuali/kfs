@@ -17,11 +17,11 @@ package org.kuali.kfs.module.ar.document.service;
 
 import java.util.Collection;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface CustomerInvoiceDocumentService {
     

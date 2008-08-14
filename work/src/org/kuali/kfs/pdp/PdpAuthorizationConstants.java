@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.pdp;
 
-import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 
 public class PdpAuthorizationConstants extends AuthorizationConstants {
 

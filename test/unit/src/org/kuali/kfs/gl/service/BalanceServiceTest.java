@@ -17,7 +17,7 @@ package org.kuali.kfs.gl.service;
 
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.ConfigureContext;

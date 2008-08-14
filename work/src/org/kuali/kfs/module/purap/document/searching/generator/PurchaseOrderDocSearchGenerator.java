@@ -18,15 +18,14 @@ package org.kuali.kfs.module.purap.document.searching.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.purap.document.searching.attribute.KualiPurchaseOrderIncompleteStatusesAttribute;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.docsearch.QueryComponent;
-import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;
+import org.kuali.rice.kew.docsearch.QueryComponent;
+import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class...
@@ -82,7 +81,7 @@ public class PurchaseOrderDocSearchGenerator extends PurApDocumentSearchGenerato
     }
 
     /**
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#generateSearchableAttributeSql(edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent,
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator#generateSearchableAttributeSql(org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent,
      *      java.lang.String, int)
      */
     @Override

@@ -18,16 +18,15 @@ package org.kuali.kfs.sys.document;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.NumberUtils;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.NumberUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Base implementation for a ledger posting document.
@@ -150,7 +149,7 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#getAllowsErrorCorrection() Checks the condition the posting year of
+     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#getAllowsErrorCorrection() Checks the condition the posting year of
      *      the original document is current fiscal year.
      */
     @Override
@@ -167,7 +166,7 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
 
     /**
      * If we've copied, we need to update the posting period and year
-     * @see org.kuali.core.document.DocumentBase#toCopy()
+     * @see org.kuali.rice.kns.document.DocumentBase#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException, IllegalStateException {

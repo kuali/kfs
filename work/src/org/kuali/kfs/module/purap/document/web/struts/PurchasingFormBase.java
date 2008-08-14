@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -29,6 +27,8 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**
  * Struts Action Form for Purchasing documents.

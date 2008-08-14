@@ -30,9 +30,6 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.LookupService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -48,15 +45,17 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
+import org.kuali.rice.kew.lookupable.Row;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.RuleExtension;
+import org.kuali.rice.kew.rule.RuleExtensionValue;
+import org.kuali.rice.kew.rule.WorkflowAttribute;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.LookupService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import edu.iu.uis.eden.WorkflowServiceErrorImpl;
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.RuleExtension;
-import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
 
 /**
  * Attribute for Purchase Order document types to test whether the document should route to Contract and Grants Review Node<br>
@@ -86,10 +85,10 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
      * Constructs a KualiPurchaseOrderContractAndGrantsAttribute.java.
      */
     public KualiPurchaseOrderContractAndGrantsAttribute() {
-        ruleRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
+        ruleRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SubFundGroup.class, KFSPropertyConstants.SUB_FUND_GROUP_CODE, SUB_FUND_GROUP_CODE_KEY));
 
-        routingDataRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
+        routingDataRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, UNIVERSITY_FISCAL_YEAR_KEY));
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, CHART_CODE_KEY));
         Map fieldConversionMap = new HashMap();
@@ -99,7 +98,7 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getDocContent()
      */
     public String getDocContent() {
         if ((StringUtils.isBlank(getFiscalYear())) && (StringUtils.isBlank(getChartCode())) && (StringUtils.isBlank(getAccountNumber())) && (StringUtils.isBlank(getObjectCode()))) {
@@ -114,14 +113,14 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
      */
     public List<Row> getRoutingDataRows() {
         return routingDataRows;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
      */
     public List<RuleExtensionValue> getRuleExtensionValues() {
         List extensions = new ArrayList();
@@ -132,7 +131,7 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleRows()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRuleRows()
      */
     public List<Row> getRuleRows() {
         return ruleRows;

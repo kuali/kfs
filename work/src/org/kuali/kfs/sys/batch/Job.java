@@ -21,21 +21,20 @@ import java.util.List;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
-import org.kuali.core.UserSession;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.quartz.InterruptableJob;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.StatefulJob;
 import org.quartz.UnableToInterruptJobException;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public class Job implements StatefulJob, InterruptableJob {
 

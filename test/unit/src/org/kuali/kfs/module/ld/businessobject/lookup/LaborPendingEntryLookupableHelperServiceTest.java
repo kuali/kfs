@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.DateTimeService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kfs.gl.web.TestDataGenerator;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;

@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -35,7 +35,7 @@ public class SelectLookupableHelperServiceImpl extends KualiLookupableHelperServ
      * Super impl clears out hidden values but we need to keep personUniversalIdentifier hidden field in the criteria. 
      * Overridding here so that the call to clear hiddens is not executed.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -60,7 +60,7 @@ public class SelectLookupableHelperServiceImpl extends KualiLookupableHelperServ
      * will not have the Rice context (kr/) and be invalid. This override adds the Rice context to the inquiry Url to working
      * around the issue.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override

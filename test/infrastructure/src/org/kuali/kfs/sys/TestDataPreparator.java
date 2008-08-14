@@ -25,9 +25,9 @@ import java.util.Properties;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.PersistenceService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.core.io.ClassPathResource;
 

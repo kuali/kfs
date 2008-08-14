@@ -17,8 +17,6 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.sys.KFSConstants;
@@ -26,6 +24,8 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Business rules applicable to Advance Deposit documents.
@@ -37,7 +37,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule {
      * 
      * @param financialDocument submitted financial document
      * @return true if document is balanced (i.e. sum of advance deposits equals the sum total of accounting lines)
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isDocumentBalanceValid(AccountingDocument financialDocument) {
@@ -58,7 +58,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule {
      * 
      * @param document submitted document
      * @return true if associated rules are all valid
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -94,7 +94,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule {
      * 
      * @param document submitted document
      * @return true if associated rules are all valid
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {

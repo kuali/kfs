@@ -87,7 +87,7 @@
     <property name="name" value="accountLineEncumbranceAmount" />
     <property name="label" value="Open Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Encumbrance-accountLineEncumbranceClosedAmount" parent="Encumbrance-accountLineEncumbranceClosedAmount-parentBean" />
 
@@ -95,7 +95,7 @@
     <property name="name" value="accountLineEncumbranceClosedAmount" />
     <property name="label" value="Closed Amount" />
     <property name="shortLabel" value="Closed Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Encumbrance-accountLineEncumbranceOutstandingAmount" parent="Encumbrance-accountLineEncumbranceOutstandingAmount-parentBean" />
 
@@ -103,7 +103,7 @@
     <property name="name" value="accountLineEncumbranceOutstandingAmount" />
     <property name="label" value="Outstanding Amount" />
     <property name="shortLabel" value="Outstanding Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Encumbrance-transactionEncumbranceDescription" parent="Encumbrance-transactionEncumbranceDescription-parentBean" />
 

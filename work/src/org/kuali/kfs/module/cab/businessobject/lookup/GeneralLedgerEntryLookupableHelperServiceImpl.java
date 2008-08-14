@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.cab.businessobject.lookup;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 /**
  * This class overrids the base getActionUrls method

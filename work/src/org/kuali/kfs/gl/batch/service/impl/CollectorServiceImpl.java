@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.gl.batch.service.CollectorHelperService;
 import org.kuali.kfs.gl.batch.service.CollectorScrubberService;
 import org.kuali.kfs.gl.batch.service.CollectorService;
@@ -37,6 +36,7 @@ import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

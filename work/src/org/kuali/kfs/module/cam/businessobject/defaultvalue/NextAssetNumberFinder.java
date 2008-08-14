@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.cam.businessobject.defaultvalue;
 
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 
 /**
  * Returns the next Asset number available.
@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class NextAssetNumberFinder implements ValueFinder {
 
     /**
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         return getLongValue().toString();

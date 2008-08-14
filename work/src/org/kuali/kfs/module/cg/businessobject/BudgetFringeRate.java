@@ -18,10 +18,10 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Budget Fringe Rate Business Object
@@ -75,7 +75,7 @@ public class BudgetFringeRate extends PersistableBusinessObjectBase {
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringBuilder(java.util.LinkedHashMap)
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringBuilder(java.util.LinkedHashMap)
      */
     protected String toStringBuilder(LinkedHashMap fieldValues) {
         // TODO Auto-generated method stub
@@ -85,7 +85,7 @@ public class BudgetFringeRate extends PersistableBusinessObjectBase {
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

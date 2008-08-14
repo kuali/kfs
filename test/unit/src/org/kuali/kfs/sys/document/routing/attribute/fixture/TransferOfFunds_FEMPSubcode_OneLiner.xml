@@ -15,7 +15,7 @@
 -->
 <documentContent>
     <applicationContent>
-        <org.kuali.core.workflow.KualiDocumentXmlMaterializer>
+        <org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer>
             <kualiTransactionalDocumentInformation>
                 <documentInitiator>
                     <kualiUser>
@@ -32,7 +32,7 @@
                         <personUpdateAbilityNumber>1</personUpdateAbilityNumber>
                         <chartOfAccountsCode>UA</chartOfAccountsCode>
                         <organizationCode>VPIT</organizationCode>
-                        <universalUser class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
+                        <universalUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
                             <personUniversalIdentifier>6162502038</personUniversalIdentifier>
                             <personUserIdentifier>KHUNTLEY</personUserIdentifier>
                             <personName>HUNTLEY,KEISHA Y</personName>
@@ -209,7 +209,7 @@
                                 <finObjMandatoryTrnfrelimCd>N</finObjMandatoryTrnfrelimCd>
                                 <financialFederalFundedCode>N</financialFederalFundedCode>
                             </icrExpenseFinancialObject>
-                            <finCoaManagerUniversal class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
+                            <finCoaManagerUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
                                 <personUniversalIdentifier>1271304676</personUniversalIdentifier>
                                 <personUserIdentifier>WBRAZIL</personUserIdentifier>
                                 <personName>BRAZIL,WELDON B</personName>
@@ -248,7 +248,7 @@
                                 <finAccountsReceivableObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
                                 <finInternalEncumbranceObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
                                 <icrExpenseFinancialObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
-                                <finCoaManagerUniversal class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
+                                <finCoaManagerUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
                                 <reportsToChartOfAccounts reference=".." />
                                 <objectId>014F3DAF7490A448E043814FD28EA448</objectId>
                                 <versionNumber>1</versionNumber>
@@ -278,7 +278,7 @@
                             <campusPlantChartCode>UA</campusPlantChartCode>
                             <chartOfAccounts reference="../../chartOfAccounts" />
                             <organizationDefaultAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--d41c531c" />
-                            <organizationManagerUniversal class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
+                            <organizationManagerUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
                                 <personUniversalIdentifier>4706809038</personUniversalIdentifier>
                                 <personUserIdentifier>NDORTON</personUserIdentifier>
                                 <personName>DORTON,NICOLE K</personName>
@@ -387,7 +387,7 @@
                             <versionNumber>17</versionNumber>
                         </personOrigination>
                         <groups>
-                            <org.kuali.core.bo.user.KualiGroup>
+                            <org.kuali.rice.kns.bo.user.KualiGroup>
                                 <groupName>KUALI_ROLE_CASH_RECEIPT_VERIFICATION_GROUP</groupName>
                                 <groupDescription>This workgroup represents individuals who are authorized to approve Cash Receipts.</groupDescription>
                                 <groupUsers>
@@ -395,30 +395,30 @@
                                     <string>RJWEISS</string>
                                     <string>KHUNTLEY</string>
                                 </groupUsers>
-                            </org.kuali.core.bo.user.KualiGroup>
-                            <org.kuali.core.bo.user.KualiGroup>
+                            </org.kuali.rice.kns.bo.user.KualiGroup>
+                            <org.kuali.rice.kns.bo.user.KualiGroup>
                                 <groupName>KUALI_ROLE_BANK_DEPOSIT_PREPARATION_GROUP</groupName>
                                 <groupDescription>This group should not be used and should not be part of the standard DML for Kuali.</groupDescription>
                                 <groupUsers>
                                     <string>KHUNTLEY</string>
                                 </groupUsers>
-                            </org.kuali.core.bo.user.KualiGroup>
-                            <org.kuali.core.bo.user.KualiGroup>
+                            </org.kuali.rice.kns.bo.user.KualiGroup>
+                            <org.kuali.rice.kns.bo.user.KualiGroup>
                                 <groupName>WorkflowAdmin</groupName>
                                 <groupDescription>Workflow Admin Group</groupDescription>
                                 <groupUsers>
                                     <string>KHUNTLEY</string>
                                     <string>KWESTERN</string>
                                 </groupUsers>
-                            </org.kuali.core.bo.user.KualiGroup>
-                            <org.kuali.core.bo.user.KualiGroup>
+                            </org.kuali.rice.kns.bo.user.KualiGroup>
+                            <org.kuali.rice.kns.bo.user.KualiGroup>
                                 <groupName>KUALI_AAPOSREV</groupName>
                                 <groupDescription>Affirmative Action Work Group</groupDescription>
                                 <groupUsers>
                                     <string>KHUNTLEY</string>
                                 </groupUsers>
-                            </org.kuali.core.bo.user.KualiGroup>
-                            <org.kuali.core.bo.user.KualiGroup>
+                            </org.kuali.rice.kns.bo.user.KualiGroup>
+                            <org.kuali.rice.kns.bo.user.KualiGroup>
                                 <groupName>SY_BLANKET_APPROVERS</groupName>
                                 <groupDescription>Kuali Administrator User Role</groupDescription>
                                 <groupUsers>
@@ -427,12 +427,12 @@
                                     <string>AMDELGAD</string>
                                     <string>KULUSER</string>
                                 </groupUsers>
-                            </org.kuali.core.bo.user.KualiGroup>
-                            <org.kuali.core.bo.user.KualiUniversalGroup>
+                            </org.kuali.rice.kns.bo.user.KualiGroup>
+                            <org.kuali.rice.kns.bo.user.KualiUniversalGroup>
                                 <groupName>kualiUniversalGroup</groupName>
                                 <groupDescription>Universal group (group of which all users are members)</groupDescription>
                                 <groupUsers class="java.util.Collections-EmptyList" />
-                            </org.kuali.core.bo.user.KualiUniversalGroup>
+                            </org.kuali.rice.kns.bo.user.KualiUniversalGroup>
                         </groups>
                         <accountResponsibilities />
                         <chartResponsibilities>
@@ -454,7 +454,7 @@
                                     <finAccountsReceivableObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
                                     <finInternalEncumbranceObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
                                     <icrExpenseFinancialObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
-                                    <finCoaManagerUniversal class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" reference="../../../../universalUser" />
+                                    <finCoaManagerUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" reference="../../../../universalUser" />
                                     <reportsToChartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--c2bbb1f5">
                                         <finChartOfAccountDescription>BLOOMINGTON</finChartOfAccountDescription>
                                         <active>true</active>
@@ -613,7 +613,7 @@
                                             <finObjMandatoryTrnfrelimCd>N</finObjMandatoryTrnfrelimCd>
                                             <financialFederalFundedCode>N</financialFederalFundedCode>
                                         </icrExpenseFinancialObject>
-                                        <finCoaManagerUniversal class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
+                                        <finCoaManagerUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
                                             <personUniversalIdentifier>1872708343</personUniversalIdentifier>
                                             <personUserIdentifier>CSWINSON</personUserIdentifier>
                                             <personName>SWINSON,CHARLEY H</personName>
@@ -952,9 +952,9 @@
                             <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--c9c6f6d3" />
                             <accountRestrictedStatus class="org.kuali.kfs.coa.businessobject.RestrictedStatus--EnhancerByCGLIB--9579812" />
                             <incomeStreamAccount reference=".." />
-                            <accountFiscalOfficerUser class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
-                            <accountSupervisoryUser class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
-                            <accountManagerUser class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
+                            <accountFiscalOfficerUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
+                            <accountSupervisoryUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
+                            <accountManagerUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
                             <postalZipCode reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/organization/postalZip" />
                             <budgetRecordingLevel class="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel--EnhancerByCGLIB--bf108932" />
                             <sufficientFundsCode class="org.kuali.kfs.coa.businessobject.SufficientFundsCode--EnhancerByCGLIB--dbbff804" />
@@ -1051,9 +1051,9 @@
                             <accountRestrictedStatus class="org.kuali.kfs.coa.businessobject.RestrictedStatus--EnhancerByCGLIB--9579812" />
                             <continuationAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--d41c531c" />
                             <incomeStreamAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--d41c531c" />
-                            <accountFiscalOfficerUser class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
-                            <accountSupervisoryUser class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
-                            <accountManagerUser class="org.kuali.core.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
+                            <accountFiscalOfficerUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
+                            <accountSupervisoryUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
+                            <accountManagerUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
                             <postalZipCode reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/organization/postalZip" />
                             <budgetRecordingLevel class="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel--EnhancerByCGLIB--bf108932" />
                             <sufficientFundsCode class="org.kuali.kfs.coa.businessobject.SufficientFundsCode--EnhancerByCGLIB--dbbff804" />
@@ -1116,7 +1116,7 @@
                         <acctSufficientFundsFinObjCd>N/A</acctSufficientFundsFinObjCd>
                         <transactionEntryOffsetIndicator>false</transactionEntryOffsetIndicator>
                         <transactionEntryProcessedTs>2006-06-13</transactionEntryProcessedTs>
-                        <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
+                        <documentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
                         <documentHeader class="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader--EnhancerByCGLIB--28833962" />
                         <option reference="../../../accountingPeriod/options" />
                         <chart reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/chartResponsibilities/entry/org.kuali.module.chart.bo.Chart/reportsToChartOfAccounts" />
@@ -1165,7 +1165,7 @@
                         <acctSufficientFundsFinObjCd>N/A</acctSufficientFundsFinObjCd>
                         <transactionEntryOffsetIndicator>true</transactionEntryOffsetIndicator>
                         <transactionEntryProcessedTs>2006-06-13</transactionEntryProcessedTs>
-                        <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
+                        <documentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
                         <documentHeader class="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader--EnhancerByCGLIB--28833962" />
                         <option reference="../../../accountingPeriod/options" />
                         <chart reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/chartResponsibilities/entry/org.kuali.module.chart.bo.Chart/reportsToChartOfAccounts" />
@@ -1212,7 +1212,7 @@
                         <acctSufficientFundsFinObjCd>N/A</acctSufficientFundsFinObjCd>
                         <transactionEntryOffsetIndicator>false</transactionEntryOffsetIndicator>
                         <transactionEntryProcessedTs>2006-06-13</transactionEntryProcessedTs>
-                        <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
+                        <documentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
                         <documentHeader class="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader--EnhancerByCGLIB--28833962" />
                         <option reference="../../../accountingPeriod/options" />
                         <chart reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/chartResponsibilities/entry/org.kuali.module.chart.bo.Chart/reportsToChartOfAccounts" />
@@ -1259,7 +1259,7 @@
                         <acctSufficientFundsFinObjCd>N/A</acctSufficientFundsFinObjCd>
                         <transactionEntryOffsetIndicator>true</transactionEntryOffsetIndicator>
                         <transactionEntryProcessedTs>2006-06-13</transactionEntryProcessedTs>
-                        <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
+                        <documentType class="org.kuali.rice.kns.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
                         <documentHeader class="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader--EnhancerByCGLIB--28833962" />
                         <option reference="../../../accountingPeriod/options" />
                         <chart reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/chartResponsibilities/entry/org.kuali.module.chart.bo.Chart/reportsToChartOfAccounts" />
@@ -1299,5 +1299,5 @@
                 <adHocRouteWorkgroups />
                 <versionNumber>2</versionNumber>
             </document>
-        </org.kuali.core.workflow.KualiDocumentXmlMaterializer>    </applicationContent>
+        </org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer>    </applicationContent>
 </documentContent>

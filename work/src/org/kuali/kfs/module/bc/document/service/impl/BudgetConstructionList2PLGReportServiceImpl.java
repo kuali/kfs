@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgList2PLGReport;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionTwoPlugListMove;
@@ -30,6 +28,8 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionList2PLGRep
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionList2PLGReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

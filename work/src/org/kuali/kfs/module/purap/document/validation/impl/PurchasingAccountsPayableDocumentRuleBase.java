@@ -22,12 +22,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -43,8 +37,13 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.kfs.sys.service.ParameterService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Business rule(s) applicable to Purchasing Accounts Payable Documents.
@@ -56,7 +55,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * 
      * @param document The PurchasingAccountsPayableDocument to be validated
      * @return boolean true if it passes the validation
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -71,7 +70,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * 
      * @param approveEvent The ApproveDocumentEvent instance that we can use to retrieve the document to be validated.
      * @return boolean true if it passes the validation.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {

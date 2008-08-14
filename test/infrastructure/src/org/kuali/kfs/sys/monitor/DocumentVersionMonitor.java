@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.monitor;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DocumentService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * DocumentVersionMonitor

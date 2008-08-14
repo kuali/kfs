@@ -27,10 +27,10 @@ import java.sql.Timestamp;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.FlexibleAccountUpdateable;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * @author jsissom

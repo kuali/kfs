@@ -18,8 +18,8 @@ package org.kuali.kfs.vnd.fixture;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorContractOrganization;
 import org.kuali.kfs.vnd.fixture.VendorTestConstants.ContractPOLimitAmts;

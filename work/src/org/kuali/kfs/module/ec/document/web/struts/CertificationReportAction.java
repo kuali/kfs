@@ -27,12 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.EffortConstants.EffortCertificationEditMode;
@@ -48,10 +42,15 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This class handles Actions for EffortCertification document approval.
@@ -153,7 +152,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -166,7 +165,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

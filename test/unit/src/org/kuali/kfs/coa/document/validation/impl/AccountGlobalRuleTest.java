@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
-import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.kfs.coa.businessobject.AccountGlobal;
 import org.kuali.kfs.sys.ConfigureContext;
 

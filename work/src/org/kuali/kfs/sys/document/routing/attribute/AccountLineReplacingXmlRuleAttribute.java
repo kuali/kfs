@@ -28,14 +28,13 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.document.workflow.AccountingLineClassDeterminer;
-import org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
+import org.kuali.rice.kns.workflow.attribute.KualiXmlRuleAttributeImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
-import edu.iu.uis.eden.routetemplate.xmlrouting.XPathHelper;
 
 /**
  * This class represents rule attributes that support kfs_*AccountingLineClass markers in the XPath

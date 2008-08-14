@@ -30,7 +30,7 @@ import junit.textui.TestRunner;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.util.properties.PropertyTree;
+import org.kuali.rice.kns.util.properties.PropertyTree;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;

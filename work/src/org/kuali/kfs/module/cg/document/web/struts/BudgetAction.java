@@ -26,17 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.AdHocRoutePerson;
-import org.kuali.core.bo.AdHocRouteWorkgroup;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
@@ -54,6 +43,17 @@ import org.kuali.kfs.module.cg.document.validation.event.RunAuditEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.AdHocRoutePerson;
+import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class handles Actions for Research Administration.

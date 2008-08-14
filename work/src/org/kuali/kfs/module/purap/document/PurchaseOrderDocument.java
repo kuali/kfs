@@ -16,8 +16,8 @@
 
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.core.util.KualiDecimal.ZERO;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
+import static org.kuali.rice.kns.util.KualiDecimal.ZERO;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -27,17 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.KualiWorkflowInfo;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
@@ -79,13 +68,23 @@ import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms;
 import org.kuali.kfs.vnd.businessobject.ShippingTitle;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.dto.ActionTakenEventDTO;
+import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * Purchase Order Document
@@ -156,7 +155,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#getDocumentTitle()
+     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
@@ -272,7 +271,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
     @Override
     public boolean isBoNotesSupport() {
@@ -539,29 +538,29 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-            workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdVO(userNetworkId), responsibilityNote, true);
+            workflowDocument.appSpecificRouteDocumentToUser(KEWConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdDTO(userNetworkId), responsibilityNote, true);
         }
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) {
+    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
         LOG.debug("handleRouteLevelChange() started");
         super.handleRouteLevelChange(levelChangeEvent);
 
         LOG.debug("handleRouteLevelChange() started");
         String newNodeName = levelChangeEvent.getNewNodeName();
         if (StringUtils.isNotBlank(newNodeName)) {
-            ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
-            reportCriteriaVO.setTargetNodeName(newNodeName);
+            ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(getDocumentNumber()));
+            reportCriteriaDTO.setTargetNodeName(newNodeName);
             try {
                 NodeDetails newNodeDetails = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
                 if (ObjectUtils.isNotNull(newNodeDetails)) {
                     if (PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.DOCUMENT_TRANSMISSION.equals(newNodeDetails)) {
                         // in the document transmission node... we do special processing to set the status and update the PO
-                        boolean willHaveRequest = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, null, true);
+                        boolean willHaveRequest = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, null, true);
                         PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
                         poService.setupDocumentForPendingFirstTransmission(this, willHaveRequest);
                         poService.saveDocumentNoValidation(this);
@@ -569,7 +568,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                     else {
                         String newStatusCode = newNodeDetails.getAwaitingStatusCode();
                         if (StringUtils.isNotBlank(newStatusCode)) {
-                            if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ })) {
+                            if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ })) {
                                 // if an approve or complete request will be created then we need to set the status as awaiting for
                                 // the new node
                                 SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);
@@ -587,10 +586,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#doActionTaken(edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO)
+     * @see org.kuali.rice.kns.document.DocumentBase#doActionTaken(org.kuali.rice.kew.clientapp.vo.ActionTakenEventDTO)
      */
     @Override
-    public void doActionTaken(ActionTakenEventVO event) {
+    public void doActionTaken(ActionTakenEventDTO event) {
         super.doActionTaken(event);
         // additional processing
     }
@@ -1007,7 +1006,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      * Overriding this from the super class so that Note will use only the oldest PurchaseOrderDocument as the
      * documentBusinessObject.
      * 
-     * @see org.kuali.core.document.Document#getDocumentBusinessObject()
+     * @see org.kuali.rice.kns.document.Document#getDocumentBusinessObject()
      */
     @Override
     public PersistableBusinessObject getDocumentBusinessObject() {

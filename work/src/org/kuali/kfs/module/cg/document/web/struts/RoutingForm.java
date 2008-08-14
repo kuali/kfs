@@ -20,11 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.HeaderNavigation;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.web.format.PhoneNumberFormatter;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganization;
@@ -36,6 +31,11 @@ import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.web.format.PhoneNumberFormatter;
 
 public class RoutingForm extends ResearchDocumentFormBase {
 

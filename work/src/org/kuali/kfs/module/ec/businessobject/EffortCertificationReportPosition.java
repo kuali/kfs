@@ -3,11 +3,11 @@ package org.kuali.kfs.module.ec.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectGroup;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for the Effort Certification Report Position Table.
@@ -118,7 +118,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

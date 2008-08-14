@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.core.bo.user.UniversalUser">
+	<businessObject businessObjectClass="org.kuali.rice.kns.bo.user.UniversalUser">
 
 		<inquiry>
 			<title>User Inquiry</title>
@@ -163,42 +163,42 @@
 
 			</attribute>
 
-			<attributeReference name="employeeStatusCode" sourceClassName="org.kuali.core.bo.EmployeeStatus" sourceAttributeName="code">
+			<attributeReference name="employeeStatusCode" sourceClassName="org.kuali.rice.kns.bo.EmployeeStatus" sourceAttributeName="code">
 				<required>false</required>
 				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.EmployeeStatusValuesFinder" /> 
+					<select valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.EmployeeStatusValuesFinder" /> 
 				</control>
 			</attributeReference>
 
-			<attributeReference name="employeeTypeCode" sourceClassName="org.kuali.core.bo.EmployeeType" sourceAttributeName="code">
+			<attributeReference name="employeeTypeCode" sourceClassName="org.kuali.rice.kns.bo.EmployeeType" sourceAttributeName="code">
 				<required>false</required>
 				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.EmployeeTypeValuesFinder" />
+					<select valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.EmployeeTypeValuesFinder" />
 				</control>
 			</attributeReference>
 
-			<attributeReference name="student" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+			<attributeReference name="student" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
 				<label>Student?</label>
 				<shortLabel>Stdt?</shortLabel>
 				<summary>Student?</summary>
 				<description>Is this person a student?</description>
 			</attributeReference>
 
-			<attributeReference name="staff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+			<attributeReference name="staff" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
 				<label>Staff?</label>
 				<shortLabel>Stf?</shortLabel>
 				<summary>Staff?</summary>
 				<description>Is this person a staff member?</description>
 			</attributeReference>
 
-			<attributeReference name="faculty" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+			<attributeReference name="faculty" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
 				<label>Faculty?</label>
 				<shortLabel>Fcty?</shortLabel>
 				<summary>Faculty?</summary>
 				<description>Is this person a faculty member?</description>
 			</attributeReference>
 
-			<attributeReference name="affiliate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+			<attributeReference name="affiliate" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
 				<label>Affiliate?</label>
 				<shortLabel>Aflt?</shortLabel>
 				<summary>Affiliate?</summary>
@@ -386,7 +386,7 @@
 				</validationPattern>
 
 				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.PersonTaxIdentifierTypeCodeValuesFinder"/>
+					<select valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersonTaxIdentifierTypeCodeValuesFinder"/>
 				</control>
 
 				<summary>Tax Identifier Type</summary>
@@ -421,7 +421,7 @@
 			</attribute>
 
 
-			<attributeReference name="campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
+			<attributeReference name="campusCode" sourceClassName="org.kuali.rice.kns.bo.Campus" sourceAttributeName="campusCode">
 				<required>false</required>
 
 				<control>
@@ -431,7 +431,7 @@
 
 			</attributeReference>
 
-			<attributeReference name="activeForAnyModule" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
+			<attributeReference name="activeForAnyModule" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
 				<label>Active Kuali User</label>
 				<shortLabel>ActiveKualiUser</shortLabel>
 				<summary>
@@ -450,7 +450,7 @@
 				</validationPattern>
 
 				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.InstalledModulesValuesFinder" />
+					<select valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.InstalledModulesValuesFinder" />
 				</control>
 
 				<summary>List of module codes for which this person is an active user.</summary>
@@ -458,7 +458,7 @@
 
 			</attribute>
 
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 
 		</attributes>

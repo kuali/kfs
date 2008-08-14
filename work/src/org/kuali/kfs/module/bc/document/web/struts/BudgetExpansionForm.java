@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * Holds properties necessary for expansion screen handling.

@@ -30,16 +30,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.workflow.AccountingLineClassDeterminer;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
-import org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl;
+import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
+import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
+import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
+import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
+import org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
-import edu.iu.uis.eden.docsearch.SearchableAttributeStringValue;
-import edu.iu.uis.eden.docsearch.SearchableAttributeValue;
-import edu.iu.uis.eden.routetemplate.WorkflowAttributeValidationError;
-import edu.iu.uis.eden.routetemplate.xmlrouting.XPathHelper;
 
 /**
  * This is a search attribute that lets us search on account numbers in any accounting document.
@@ -51,7 +50,7 @@ public class AccountNumberSearchAttributeImpl extends KualiXmlSearchableAttribut
      * Validates the inputs that the user gave to search on.  In this case, we're going to make sure
      * that the account number entered is numeric.
      * 
-     * @see edu.iu.uis.eden.docsearch.SearchableAttribute#validateUserSearchInputs(java.util.Map)
+     * @see org.kuali.rice.kew.docsearch.SearchableAttribute#validateUserSearchInputs(java.util.Map)
      */
     @Override
     public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map params) {
@@ -70,7 +69,7 @@ public class AccountNumberSearchAttributeImpl extends KualiXmlSearchableAttribut
      * we're going to determine the type of the document and, from that, derive the correct type names of the
      * Source and Target accounting line classes.
      * 
-     * @see edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute#getSearchStorageValues(java.lang.String)
+     * @see org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute#getSearchStorageValues(java.lang.String)
      */
     @Override
     public List<SearchableAttributeValue> getSearchStorageValues(String docContent) {

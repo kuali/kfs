@@ -19,9 +19,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
@@ -34,6 +31,11 @@ import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
 
@@ -78,34 +80,26 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
             throw new InfrastructureException("Unable to create a new customer invoice document accounting line", e);
         }
     }
-
-    /**
-     * By overriding this method, we can add the invoice total amount to the document header
-     * 
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
-     */
-    @Override
-    public KeyLabelPair getAdditionalDocInfo1() {
-        return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.sourceTotal", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getSourceTotal()));
-    }
     
+    
+
     /**
-     * By overriding this method, we can add the invoice total amount to the document header
+     * By overriding this method, we can add the invoice total and open amount to the document header.
      * 
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getDocInfo()
      */
     @Override
-    public KeyLabelPair getAdditionalDocInfo2() {
-        return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.openAmount", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getOpenAmount()));
-    }    
-
+    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
+        getDocInfo().add(new HeaderField("DataDictionary.CustomerInvoiceDocument.attributes.sourceTotal", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getSourceTotal())));
+        getDocInfo().add(new HeaderField("DataDictionary.CustomerInvoiceDocument.attributes.openAmount", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getOpenAmount())));
+    }
 
     /**
      * Configure lookup for Invoice Item Code source accounting line
      * 
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
      */
-    @Override
     public Map getForcedLookupOptionalFields() {
         Map forcedLookupOptionalFields = super.getForcedLookupOptionalFields();
 
@@ -118,9 +112,8 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     /**
      * Make amount and sales tax read only
      * 
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
      */
-    @Override
     public Map getForcedReadOnlyFields() {
         Map map = super.getForcedReadOnlyFields();
         map.put(KFSPropertyConstants.AMOUNT, Boolean.TRUE);

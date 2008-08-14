@@ -21,8 +21,8 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;

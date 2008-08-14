@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.service;
 
 import java.util.Collection;
 
-import org.kuali.core.bo.KualiCode;
+import org.kuali.rice.kns.bo.KualiCode;
 
 /**
  * This interface defines methods that an KualiCodeBase Service must provide

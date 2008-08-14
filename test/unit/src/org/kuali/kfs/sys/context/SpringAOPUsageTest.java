@@ -17,16 +17,16 @@ package org.kuali.kfs.sys.context;
 
 import java.lang.reflect.Method;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.impl.AbstractStaticConfigurationServiceImpl;
-import org.kuali.core.service.impl.DocumentServiceImpl;
-import org.kuali.core.service.impl.PersistenceStructureServiceImpl;
-import org.kuali.core.util.cache.MethodCacheInterceptor;
-import org.kuali.core.util.cache.MethodCacheNoCopyInterceptor;
-import org.kuali.core.util.spring.CacheNoCopy;
-import org.kuali.core.util.spring.Cached;
-import org.kuali.core.util.spring.ClassOrMethodAnnotationFilter;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.impl.AbstractStaticConfigurationServiceImpl;
+import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
+import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
+import org.kuali.rice.kns.util.cache.MethodCacheInterceptor;
+import org.kuali.rice.kns.util.cache.MethodCacheNoCopyInterceptor;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
+import org.kuali.rice.kns.util.spring.Cached;
+import org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationFilter;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.coa.service.impl.BalanceTypServiceImpl;

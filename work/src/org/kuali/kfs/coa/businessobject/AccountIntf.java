@@ -20,10 +20,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 
 public interface AccountIntf {

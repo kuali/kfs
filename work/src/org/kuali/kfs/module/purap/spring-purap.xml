@@ -18,7 +18,7 @@
 <beans>
     <bean id="purapModule" parent="purapModule-parentBean" />
 
-    <bean id="purapModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
+    <bean id="purapModule-parentBean" class="org.kuali.rice.kns.KualiModule" abstract="true">
 		<property name="moduleId" value="purap" />
 		<property name="moduleName" value="Purchasing/Accounts Payable" />
 		<property name="moduleCode" value="PURAP" />
@@ -348,7 +348,7 @@
 	
 	<bean id="thresholdLookupableHelperService" class="org.kuali.kfs.module.purap.businessobject.lookup.ThresholdLookupableHelperService" parent="lookupableHelperService" singleton="false"/>
 	
-	<bean id="thresholdLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="thresholdLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 	    <property name="lookupableHelperService">
 	        <ref bean="thresholdLookupableHelperService" />
 	    </property>

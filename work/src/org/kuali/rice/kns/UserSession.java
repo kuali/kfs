@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.core;
+package org.kuali.rice.kns;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,18 +23,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.UserVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.dto.UserDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class represents a User Session
@@ -49,8 +48,8 @@ public class UserSession implements Serializable {
 
     private FinancialSystemUser universalUser;
     private FinancialSystemUser backdoorUser;
-    private UserVO workflowUser;
-    private UserVO backdoorWorkflowUser;
+    private UserDTO workflowUser;
+    private UserDTO backdoorWorkflowUser;
     private int nextObjectKey;
     private Map objectMap;
     private String kualiSessionId;
@@ -78,12 +77,12 @@ public class UserSession implements Serializable {
      * 
      * @param networkId
      * @throws UserNotFoundException
-     * @throws EdenUserNotFoundException
+     * @throws KEWUserNotFoundException
      * @throws ResourceUnavailableException
      */
     public UserSession(String networkId) throws UserNotFoundException, WorkflowException {
         this.universalUser = SpringContext.getBean(FinancialSystemUserService.class).getFinancialSystemUser(new AuthenticationUserId(networkId));
-        this.workflowUser = KNSServiceLocator.getWorkflowInfoService().getWorkflowUser(new NetworkIdVO(networkId));
+        this.workflowUser = KNSServiceLocator.getWorkflowInfoService().getWorkflowUser(new NetworkIdDTO(networkId));
         this.nextObjectKey = 0;
         this.objectMap = new HashMap();
     }
@@ -139,7 +138,7 @@ public class UserSession implements Serializable {
     /**
      * @return the workflowUser which is the current user in the system, backdoor if backdoor is set
      */
-    public UserVO getWorkflowUser() {
+    public UserDTO getWorkflowUser() {
         if (backdoorUser != null) {
             return backdoorWorkflowUser;
         }
@@ -155,13 +154,13 @@ public class UserSession implements Serializable {
      * @param networkId
      * @throws UserNotFoundException
      * @throws ResourceUnavailableException
-     * @throws EdenUserNotFoundException
+     * @throws KEWUserNotFoundException
      */
     public void setBackdoorUser(String networkId) throws UserNotFoundException, WorkflowException {
        // only allow backdoor in non-production environments
        if ( !KNSServiceLocator.getKualiConfigurationService().isProductionEnvironment() ) {
         this.backdoorUser = SpringContext.getBean(FinancialSystemUserService.class).getFinancialSystemUser(new AuthenticationUserId(networkId));
-        this.backdoorWorkflowUser = KNSServiceLocator.getWorkflowInfoService().getWorkflowUser(new NetworkIdVO(networkId));
+        this.backdoorWorkflowUser = KNSServiceLocator.getWorkflowInfoService().getWorkflowUser(new NetworkIdDTO(networkId));
         this.workflowDocMap = new HashMap();
        }
     }

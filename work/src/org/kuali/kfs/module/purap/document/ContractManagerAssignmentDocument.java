@@ -18,30 +18,25 @@ package org.kuali.kfs.module.purap.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
-import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.service.ParameterService;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class ContractManagerAssignmentDocument extends FinancialSystemTransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractManagerAssignmentDocument.class);
@@ -128,12 +123,12 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
                 String currentNodeName = null;
                 try {
                     currentNodeName = PurapWorkflowConstants.DOC_ADHOC_NODE_NAME;
-                    if (!(EdenConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getRouteHeader().getDocRouteStatus()))) {
+                    if (!(KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getRouteHeader().getDocRouteStatus()))) {
                         if (this.getCurrentRouteNodeName(workflowDoc) != null) {
                             currentNodeName = this.getCurrentRouteNodeName(workflowDoc);
                         }
                     }
-                    workflowDoc.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, PurapWorkflowConstants.ContractManagerAssignmentDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, new NetworkIdVO(workflowDoc.getInitiatorNetworkId()), "Initiator", true);
+                    workflowDoc.appSpecificRouteDocumentToUser(KEWConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, PurapWorkflowConstants.ContractManagerAssignmentDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, new NetworkIdDTO(workflowDoc.getInitiatorNetworkId()), "Initiator", true);
                 }
                 catch (WorkflowException e) {
                     // do nothing; document should have processed successfully and problem is with sending FYI
@@ -154,7 +149,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
     }
 
     /**
-     * @see org.kuali.core.document.Document#getDocumentTitle()
+     * @see org.kuali.rice.kns.document.Document#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {

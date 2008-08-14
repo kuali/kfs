@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -25,6 +23,8 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class determines permissions for a user of the Payment Request document

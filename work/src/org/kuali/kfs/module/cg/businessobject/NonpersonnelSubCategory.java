@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.cg.businessobject;
 
 // import com.sun.rsasign.s;
-import org.kuali.core.bo.KualiCodeBase;
+import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * This class...

@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.bo.BusinessObjectAttributeEntry">
+    <businessObject businessObjectClass="org.kuali.rice.kns.bo.BusinessObjectAttributeEntry">
 
 
         <lookup>
@@ -51,7 +51,7 @@
                 <maxLength>100</maxLength>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BusinessObjectDictionaryEntriesFinder" />
+                    <select valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.BusinessObjectDictionaryEntriesFinder" />
                 </control>
 
                 <summary>Business Object Dictionary Entry</summary>

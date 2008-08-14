@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
 
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.BeginEndDates;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.RecurringPaymentTypes;

@@ -18,11 +18,6 @@ package org.kuali.kfs.module.cam.document;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
@@ -34,7 +29,12 @@ import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.Section;
 
 /**
  * This class implements custom data preparation for displaying asset edit screen.
@@ -45,7 +45,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
     private Asset copyAsset;
 
     /**
-     * @see org.kuali.core.maintenance.Maintainable#processAfterEdit(org.kuali.core.document.MaintenanceDocument, java.util.Map)
+     * @see org.kuali.rice.kns.maintenance.Maintainable#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
      * @param document Maintenance Document used for editing
      * @param parameters Parameters available
      */
@@ -85,8 +85,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
     /**
      * Hide a few sections if this is a create new (fabrication request) or vice versa. Also hide payments if there are more then the allowable number.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
-     *      org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
+     *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     public List<Section> getCoreSections(Maintainable oldMaintainable) {

@@ -21,9 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
@@ -34,6 +31,9 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 // public class BudgetConstructionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
@@ -42,8 +42,8 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
     /**
      * This inits and returns an editModeMap based on the BC security model
      * 
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public Map getEditMode(Document d, UniversalUser u) {
@@ -156,8 +156,8 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

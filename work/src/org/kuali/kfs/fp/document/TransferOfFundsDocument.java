@@ -17,7 +17,6 @@ package org.kuali.kfs.fp.document;
 
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_ACTUAL;
 
-import org.kuali.core.document.Copyable;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -30,6 +29,7 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.document.Copyable;
 
 /**
  * The Transfer of Funds (TF) document is used to transfer funds (cash) between accounts. There are two kinds of transfer
@@ -77,8 +77,8 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
      * @param offsetEntry The offset general ledger pending entry being customized.
      * @return This method always returns true.
      * 
-     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
@@ -94,8 +94,8 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
      * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
      * @param explicitEntry The explicit general ledger pending entry to be customized.
      * 
-     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail generalLedgerPendingEntrySourceDetail, GeneralLedgerPendingEntry explicitEntry) {
@@ -130,8 +130,8 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
      * @return True if the accounting line provided is a debit line, false otherwise.
      * 
      * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine)postable;

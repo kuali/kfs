@@ -19,17 +19,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 
 public class VendorPhoneLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     /**
      * Overrides the getSearchResults in the super class so that we can do some customization in our vendor phone number lookup.
      * 
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {

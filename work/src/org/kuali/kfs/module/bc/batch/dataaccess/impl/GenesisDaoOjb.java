@@ -31,15 +31,6 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.DocumentDao;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -73,14 +64,22 @@ import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.actions.CompleteAction;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.dao.DocumentDao;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.dao.DataAccessException;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.actions.CompleteAction;
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
-import edu.iu.uis.eden.routeheader.RouteHeaderService;
 
 
 public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implements GenesisDao {
@@ -3011,7 +3010,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         //        kualiDocumentHeader.setOrganizationDocumentNumber(
         //                            newBCHdr.getUniversityFiscalYear().toString());
         kualiDocumentHeader.setFinancialDocumentStatusCode(KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
-        kualiDocumentHeader.setFinancialDocumentStatusCode(EdenConstants.ROUTE_HEADER_FINAL_CD);
+        kualiDocumentHeader.setFinancialDocumentStatusCode(KEWConstants.ROUTE_HEADER_FINAL_CD);
         kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
         kualiDocumentHeader.setDocumentDescription(String.format("%s %d %s %s", BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, newBCHdr.getUniversityFiscalYear(), newBCHdr.getChartOfAccountsCode(), newBCHdr.getAccountNumber()));
         kualiDocumentHeader.setExplanation(String.format("%s: %s", BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, newBCHdr.getDocumentHeader().getWorkflowDocument().toString()));

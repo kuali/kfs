@@ -19,11 +19,11 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Container for information about how to get in Contact with a person at a Vendor for a particular purpose.
@@ -269,7 +269,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cam.document.service;
 
 import java.util.List;
 
-import org.kuali.core.document.MaintenanceLock;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.rice.kns.document.MaintenanceLock;
 
 
 /**

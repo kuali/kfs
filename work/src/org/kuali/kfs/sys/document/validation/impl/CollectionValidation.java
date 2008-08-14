@@ -18,11 +18,11 @@ package org.kuali.kfs.sys.document.validation.impl;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * A validation that runs a list of child validations over each member of a collection.

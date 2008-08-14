@@ -21,10 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.inquiry.InquirableFinancialDocument;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
@@ -35,6 +31,10 @@ import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 /**
  * Helper Service for looking up instances of <code>{@link LaborLedgerPendingEntry}</code>
@@ -46,7 +46,7 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
     private LaborInquiryOptionsService laborInquiryOptionsService;
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override
@@ -70,7 +70,7 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
     }
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {

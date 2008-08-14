@@ -17,14 +17,14 @@ package org.kuali.kfs.sys.service.impl;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.bus.auth.AuthorizationService;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kim.v2.service.AuthenticationService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.ksb.service.AuthorizationService;
 
 public class ServiceBusAuthorizationService implements AuthorizationService {
     private ParameterService parameterService;

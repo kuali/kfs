@@ -53,7 +53,7 @@
     <property name="shortLabel" value="Original Salary" />
     <property name="summary" value="Effort Certification LaborOriginalPayrollAmount" />
     <property name="description" value="Effort Certification LaborOriginalPayrollAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="EffortCertificationDetail-effortCertificationPayrollAmount" parent="EffortCertificationDetail-effortCertificationPayrollAmount-parentBean" />
 
@@ -63,7 +63,7 @@
     <property name="shortLabel" value="Salary" />
     <property name="summary" value="Effort Certification LaborPayrollAmount" />
     <property name="description" value="Effort Certification LaborPayrollAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="EffortCertificationDetail-effortCertificationCalculatedOverallPercent" parent="EffortCertificationDetail-effortCertificationCalculatedOverallPercent-parentBean" />
 
@@ -73,7 +73,7 @@
     <property name="shortLabel" value="Original Effort" />
     <property name="summary" value="Effort Certification LaborCalculatedOverallPercent" />
     <property name="description" value="Effort Certification LaborCalculatedOverallPercent description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.IntegerFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />
   </bean>
   <bean id="EffortCertificationDetail-effortCertificationUpdatedOverallPercent" parent="EffortCertificationDetail-effortCertificationUpdatedOverallPercent-parentBean" />
 
@@ -83,7 +83,7 @@
     <property name="shortLabel" value="Effort" />
     <property name="summary" value="Effort Certification LaborUpdatedOverallPercent" />
     <property name="description" value="Effort Certification LaborUpdatedOverallPercent description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.IntegerFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />
   </bean>
   <bean id="EffortCertificationDetail-accountNumber" parent="EffortCertificationDetail-accountNumber-parentBean" />
 
@@ -202,7 +202,7 @@
     <property name="shortLabel" value="Original F-Ben" />
     <property name="summary" value="F-Ben Orig" />
     <property name="description" value="F-Ben Orig" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="EffortCertificationDetail-fringeBenefitAmount" parent="EffortCertificationDetail-fringeBenefitAmount-parentBean" />
 
@@ -212,7 +212,7 @@
     <property name="shortLabel" value="F-Ben" />
     <property name="summary" value="F-Ben" />
     <property name="description" value="F-Ben" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="EffortCertificationDetail-versionNumber" parent="EffortCertificationDetail-versionNumber-parentBean" />
 

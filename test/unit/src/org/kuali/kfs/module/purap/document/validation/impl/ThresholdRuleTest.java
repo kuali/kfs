@@ -17,15 +17,15 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
-import org.kuali.core.document.MaintenanceDocumentBase;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.DocumentService;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.ThresholdFixture;
 import org.kuali.kfs.sys.context.SpringContext;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 @ConfigureContext(session = KHUNTLEY)
 public class ThresholdRuleTest extends PurapRuleTestBase {

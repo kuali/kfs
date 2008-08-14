@@ -24,9 +24,9 @@ import java.util.Date;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.pdp.businessobject.FormatProcess;
 import org.kuali.kfs.pdp.dataaccess.FormatProcessDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 
 /**

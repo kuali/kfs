@@ -21,11 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.integration.service.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -34,6 +29,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 
 public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentClaimingService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicPaymentClaimingServiceImpl.class);
@@ -122,7 +122,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
 
     /**
      * 
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#getClaimingDocumentChoices(org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#getClaimingDocumentChoices(org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public List<ElectronicPaymentClaimingDocumentGenerationStrategy> getClaimingDocumentChoices(UniversalUser user) {
         List<ElectronicPaymentClaimingDocumentGenerationStrategy> documentChoices = new ArrayList<ElectronicPaymentClaimingDocumentGenerationStrategy>();
@@ -164,7 +164,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#declaimElectronicPaymentClaimsForDocument(org.kuali.core.document.Document)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#declaimElectronicPaymentClaimsForDocument(org.kuali.rice.kns.document.Document)
      */
     public void declaimElectronicPaymentClaimsForDocument(Document document) {
         Map searchKeys = new HashMap();
@@ -179,14 +179,14 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isUserMemberOfClaimingGroup(org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isUserMemberOfClaimingGroup(org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean isUserMemberOfClaimingGroup(UniversalUser user) {
         return user.isMember(parameterService.getParameterValue(ElectronicPaymentClaim.class, ELECTRONIC_FUNDS_CLAIMANT_GROUP_PARAMETER)) || isElectronicPaymentAdministrator(user);
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isElectronicPaymentAdministrator(org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isElectronicPaymentAdministrator(org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean isElectronicPaymentAdministrator(UniversalUser user) {
         return user.isMember(parameterService.getParameterValue(ElectronicPaymentClaim.class, ELECTRONIC_PAYMENT_ADMINISTRATOR_GROUP_PARAM_NAME));

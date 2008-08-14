@@ -22,8 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetModular;
@@ -33,6 +31,8 @@ import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
 import org.kuali.kfs.module.cg.document.service.BudgetModularService;
 import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
 import org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelFormHelper;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

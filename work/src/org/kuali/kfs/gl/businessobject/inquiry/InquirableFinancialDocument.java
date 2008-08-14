@@ -16,11 +16,11 @@
 package org.kuali.kfs.gl.businessobject.inquiry;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This class provides a placeholder that can connect General Ledger business object with financial document in the presentation

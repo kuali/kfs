@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.document.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
 import org.kuali.kfs.fp.businessobject.Check;
@@ -27,6 +26,7 @@ import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.businessobject.Deposit;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This service interface defines methods that a CashManagementService implementation must provide.

@@ -17,13 +17,13 @@ package org.kuali.kfs.module.ec.document.validation.impl;
 
 import java.util.Collection;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Contains Business Rules for the Effort Certification Report Maintenance Document.
@@ -32,7 +32,7 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationReportDefinitionRule.class);
 
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {

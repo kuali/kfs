@@ -15,14 +15,12 @@
  */
 package org.kuali.kfs.fp.document;
 
-import static org.kuali.core.util.AssertionUtils.assertThat;
+import static org.kuali.rice.kns.util.AssertionUtils.assertThat;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.document.Copyable;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.fp.businessobject.PreEncumbranceDocumentAccountingLineParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -36,8 +34,9 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * The Pre-Encumbrance document provides the capability to record encumbrances independently of purchase orders, travel, or Physical
@@ -121,8 +120,8 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      * @return True if the accounting line given is a debit accounting line, false otherwise.
      * 
      * @see IsDebitUtils#isDebitConsideringSection(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine)postable;
@@ -144,8 +143,8 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      * @param accountingLine The accounting line the explicit entry is generated from.
      * @param explicitEntry The explicit entry being updated.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {

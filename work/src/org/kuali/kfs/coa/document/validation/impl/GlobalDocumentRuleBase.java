@@ -18,10 +18,10 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class contains common Business Rule functionality for Global Documents.

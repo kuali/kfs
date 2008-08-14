@@ -22,9 +22,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -39,8 +36,10 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
+import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 
@@ -82,7 +81,7 @@ public class CorrectionDocument extends FinancialSystemTransactionalDocumentBase
      * Returns a Map representation of the primary key of this document
      * 
      * @return a Map that represents the database key of this document
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -175,7 +174,7 @@ public class CorrectionDocument extends FinancialSystemTransactionalDocumentBase
     /**
      * If the document final, change the process flag on the output origin entry group (if necessary)
      * 
-     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {
@@ -218,10 +217,10 @@ public class CorrectionDocument extends FinancialSystemTransactionalDocumentBase
      * origin entry group, then scrubbing those entries
      * 
      * @param cahnge a representation of the route level changed that just occurred
-     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeVO change) {
+    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
         super.handleRouteLevelChange(change);
         if (WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(change.getNewRouteLevel())) {
             String correctionType = getCorrectionTypeCode();
@@ -273,7 +272,7 @@ public class CorrectionDocument extends FinancialSystemTransactionalDocumentBase
      * Sets this document's document number, but also sets the document number on all children objects 
      * 
      * @param documentNumber the document number for this document
-     * @see org.kuali.core.document.DocumentBase#setDocumentNumber(java.lang.String)
+     * @see org.kuali.rice.kns.document.DocumentBase#setDocumentNumber(java.lang.String)
      */
     @Override
     public void setDocumentNumber(String documentNumber) {

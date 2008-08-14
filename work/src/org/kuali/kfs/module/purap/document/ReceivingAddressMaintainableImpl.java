@@ -20,19 +20,19 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.core.service.EncryptionService;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * ReceivingAddressMaintainableImpl is a special implementation of KualiMaintainableImpl for ReceivingAddresss. 
@@ -45,7 +45,7 @@ public class ReceivingAddressMaintainableImpl extends KualiMaintainableImpl {
     /**
      * Generates the appropriate maintenance locks for {@link ReceivingAddress}
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#generateMaintenanceLocks()
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
@@ -130,7 +130,7 @@ public class ReceivingAddressMaintainableImpl extends KualiMaintainableImpl {
      * Checks if there's any active receiving address set to default other than this one; 
      * if so, set them to non-default. 
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.core.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
     public void handleRouteStatusChange(DocumentHeader header) {

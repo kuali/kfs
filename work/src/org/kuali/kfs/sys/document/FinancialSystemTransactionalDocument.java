@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.sys.document;
 
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.rice.kns.document.TransactionalDocument;
 
 public interface FinancialSystemTransactionalDocument extends TransactionalDocument {
 
     /**
-     * @see org.kuali.core.document.Document#getDocumentHeader()
+     * @see org.kuali.rice.kns.document.Document#getDocumentHeader()
      */
     public FinancialSystemDocumentHeader getDocumentHeader();
 

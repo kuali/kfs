@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.document.searching.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.iu.uis.eden.docsearch.DocumentSearchResult;
-import edu.iu.uis.eden.lookupable.Column;
+import org.kuali.rice.kew.docsearch.DocumentSearchResult;
+import org.kuali.rice.kew.lookupable.Column;
 
 public class RequisitionDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
 

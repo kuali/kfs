@@ -21,10 +21,10 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
 import org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * OJB Implementation of NegativePaymentRequestApprovalLimitDao.
@@ -73,7 +73,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findAboveLimit(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findAboveLimit(org.kuali.rice.kns.util.KualiDecimal)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit) {
         LOG.debug("Entering findAboveLimit(KualiDecimal)");
@@ -85,7 +85,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findBelowLimit(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findBelowLimit(org.kuali.rice.kns.util.KualiDecimal)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit) {
         LOG.debug("Entering findBelowLimit(KualiDecimal)");

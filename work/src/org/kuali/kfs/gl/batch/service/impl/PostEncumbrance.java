@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.metadata.MetadataManager;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
@@ -34,6 +33,7 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

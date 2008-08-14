@@ -22,17 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
@@ -45,8 +41,11 @@ import org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.sys.service.AccountingLineService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Base implementation class for financial edocs.
@@ -383,7 +382,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -570,8 +569,8 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     /**
      * Perform business rules common to all transactional documents when generating general ledger pending entries.
      * 
-     * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.rice.kns.document.AccountingDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.debug("processGenerateGeneralLedgerPendingEntries(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper) - start");

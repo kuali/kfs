@@ -19,13 +19,13 @@ import static org.kuali.kfs.sys.KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.sys.KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * The Budget Adjustment's variation on whether accounting lines have been unchanged or not

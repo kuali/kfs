@@ -20,10 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -33,7 +29,6 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.N
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
@@ -41,6 +36,10 @@ import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDoc
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.service.KualiGroupService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class determines permissions for a user to view the

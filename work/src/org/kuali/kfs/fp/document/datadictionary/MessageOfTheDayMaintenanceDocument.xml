@@ -8,7 +8,7 @@
 
   <bean id="MessageOfTheDayMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.MessageOfTheDay" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="MessageOfTheDayMaintenanceDocument-EditMessageOfTheDay" />
@@ -34,7 +34,7 @@
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.MessageOfTheDay" p:parameterName="MESSAGE_OF_THE_DAY" />
     </property>
     <property name="documentTypeName" value="MessageOfTheDayMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
+    <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="MOTD" />
     <property name="workflowProperties" >

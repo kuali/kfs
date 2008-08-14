@@ -20,11 +20,11 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.AuthorizationException;
 
 /**
  * Interface defining methods to manage batch input files.

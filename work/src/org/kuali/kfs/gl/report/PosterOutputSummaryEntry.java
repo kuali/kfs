@@ -18,11 +18,11 @@ package org.kuali.kfs.gl.report;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class represents a poster output summary entry

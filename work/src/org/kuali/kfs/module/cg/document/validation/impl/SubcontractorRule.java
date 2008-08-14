@@ -20,14 +20,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.cg.businessobject.Subcontractor;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 
@@ -41,7 +41,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
      * 
      * @param maintenanceDocument - document to be tested
      * @return whether maintenance doc passes
-     * @throws org.kuali.core.exceptions.ValidationException
+     * @throws org.kuali.rice.kns.exception.ValidationException
      */
     @Override
     protected boolean validateMaintenanceDocument(MaintenanceDocument maintenanceDocument) {

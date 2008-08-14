@@ -19,14 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.datadictionary.MaintainableCollectionDefinition;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.service.MaintenanceDocumentDictionaryService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
@@ -42,6 +34,14 @@ import org.kuali.kfs.vnd.businessobject.VendorContractOrganization;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Authorizer class for Vendor maintenance document
@@ -54,8 +54,8 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
      * vendor header and vendor type is not null and if the vendor type's changed allowed is set to N in the vendor type maintenance
      * table, then we have to set the vendor type as readOnly field.
      * 
-     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.core.document.MaintenanceDocument,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
@@ -114,8 +114,8 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
     /**
      * If the current user is a member of TAXNBR_ACCESSIBLE_GROUP then user is allowed to edit tax number.
      * 
-     * @see org.kuali.core.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user) {
@@ -139,8 +139,8 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
     /**
      * Disables blanket approve for Vendor maintenance document
      * 
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

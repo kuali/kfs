@@ -20,11 +20,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link OrganizationReversionCategory}s)
@@ -35,7 +35,7 @@ public class OrganizationReversionCategoryValuesFinder extends KeyValuesBase {
      * Creates a list of {@link MandatoryTransferEliminationCode}s using their code as their key, and their name as the display
      * value
      * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
 

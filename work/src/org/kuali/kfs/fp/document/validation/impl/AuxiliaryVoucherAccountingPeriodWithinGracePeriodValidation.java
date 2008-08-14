@@ -22,7 +22,6 @@ import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PE
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
@@ -30,6 +29,7 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Validation for Auxiliary Voucher documents that tests whether the accounting period for the document is within the defined grace period.

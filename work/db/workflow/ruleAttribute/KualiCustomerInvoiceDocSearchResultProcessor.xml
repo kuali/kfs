@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiCustomerInvoiceDocSearchResultProcessor</name>
-      <className>edu.iu.uis.eden.docsearch.xml.DocumentSearchXMLResultProcessorImpl</className>
+      <className>org.kuali.rice.kew.docsearch.xml.DocumentSearchXMLResultProcessorImpl</className>
       <label>Customer Invoice Document Search Result Processor</label>
       <description>Attribute to allow for custom search results for Customer Invoice documents</description>
       <type>DocumentSearchXMLResultProcessorAttribute</type>

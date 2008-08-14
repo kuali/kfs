@@ -17,10 +17,10 @@ package org.kuali.kfs.module.ar.document.validation.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class CustomerCreditMemoDetailEventBase extends KualiDocumentEventBase implements CustomerCreditMemoDetailEvent{
 
@@ -42,7 +42,7 @@ public abstract class CustomerCreditMemoDetailEventBase extends KualiDocumentEve
     }
     
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#validate()
      */
     public void validate() {
         super.validate();

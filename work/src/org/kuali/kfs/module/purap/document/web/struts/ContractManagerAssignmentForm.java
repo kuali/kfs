@@ -20,8 +20,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-
-import edu.iu.uis.eden.EdenConstants;
+import org.kuali.rice.kew.util.KEWConstants;
 
 /**
  * Struts Action Form for Contract Manager Assignment Document.
@@ -39,22 +38,22 @@ public class ContractManagerAssignmentForm extends FinancialSystemTransactionalD
     /**
      * Overrides the method in KualiDocumentFormBase to provide only FYI and ACK.
      * 
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#getAdHocActionRequestCodes()
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getAdHocActionRequestCodes()
      */
     @Override
     public Map getAdHocActionRequestCodes() {
         Map adHocActionRequestCodes = new HashMap();
         if (getWorkflowDocument() != null) {
             if (getWorkflowDocument().isFYIRequested()) {
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
             }
             else if (getWorkflowDocument().isAcknowledgeRequested()) {
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
             }
             else if (getWorkflowDocument().isApprovalRequested() || getWorkflowDocument().isCompletionRequested() || getWorkflowDocument().stateIsInitiated() || getWorkflowDocument().stateIsSaved()) {
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
             }
         }
         return adHocActionRequestCodes;

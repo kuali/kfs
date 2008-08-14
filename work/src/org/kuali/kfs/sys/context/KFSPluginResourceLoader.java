@@ -19,9 +19,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.rice.definition.ObjectDefinition;
-import org.kuali.rice.resourceloader.BaseResourceLoader;
-import org.kuali.rice.resourceloader.ResourceLoader;
+import org.kuali.rice.core.reflect.ObjectDefinition;
+import org.kuali.rice.core.resourceloader.BaseResourceLoader;
+import org.kuali.rice.core.resourceloader.ResourceLoader;
 
 /**
  * A ResourceLoader for the KFS plugin for KEW.  Essentially, this will load the KFS

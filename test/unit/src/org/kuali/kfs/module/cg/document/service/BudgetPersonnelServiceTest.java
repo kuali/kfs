@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg.document.service;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.sys.ConfigureContext;

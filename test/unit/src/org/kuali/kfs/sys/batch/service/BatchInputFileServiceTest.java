@@ -23,9 +23,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.gl.batch.CollectorInputFileType;
 import org.kuali.kfs.gl.batch.MockCollectorBatch;
@@ -35,6 +32,9 @@ import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * Tests the BatchInputFileService. TEST DEPENDENCIES The following are external configurations not setup by the test case that are

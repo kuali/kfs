@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ec.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,28 +28,27 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.workflow.DocumentInitiator;
-import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.actionrequests.ActionRequestValue;
+import org.kuali.rice.kew.actionrequest.ActionRequestValue;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.DocumentInitiator;
+import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 @ConfigureContext(session = KHUNTLEY)//, shouldCommitTransactions = true)

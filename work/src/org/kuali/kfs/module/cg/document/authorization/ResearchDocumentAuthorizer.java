@@ -21,15 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.AuthorizationService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.WorkflowGroupService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
@@ -39,19 +30,27 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
-
-import edu.iu.uis.eden.clientapp.WorkflowInfo;
-import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.dto.WorkgroupDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.user.KualiGroup;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.AuthorizationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowGroupService;
 
 public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(ResearchDocumentAuthorizer.class);
 
     /**
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     protected String getAdHocEditMode(ResearchDocument researchDocument, UniversalUser u) {
 
@@ -77,7 +76,7 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         List<KualiGroup> personGroups = SpringContext.getBean(UniversalUserService.class).getUsersGroups(u);
 
         for (AdhocWorkgroup adhocWorkgroup : adhocWorkgroups) {
-            WorkgroupVO workgroup;
+            WorkgroupDTO workgroup;
             try {
                 workgroup = SpringContext.getBean(WorkflowGroupService.class).getWorkgroupByGroupName(adhocWorkgroup.getWorkgroupName());
             }
@@ -99,15 +98,15 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         }
 
         // now check ad-hoc workgroups in route log
-        ReportCriteriaVO criteria = new ReportCriteriaVO();
+        ReportCriteriaDTO criteria = new ReportCriteriaDTO();
         try {
             criteria.setRouteHeaderId(workflowDocument.getRouteHeaderId());
             WorkflowInfo info = new WorkflowInfo();
-            ActionRequestVO[] requests = info.getActionRequests(workflowDocument.getRouteHeaderId());
+            ActionRequestDTO[] requests = info.getActionRequests(workflowDocument.getRouteHeaderId());
             for (int i = 0; i < requests.length; i++) {
-                ActionRequestVO request = (ActionRequestVO) requests[i];
+                ActionRequestDTO request = (ActionRequestDTO) requests[i];
                 if (request.isWorkgroupRequest()) {
-                    WorkgroupVO workgroup = request.getWorkgroupVO();
+                    WorkgroupDTO workgroup = request.getWorkgroupDTO();
                     if (kualiGroupsContainWorkgroup(workgroup.getWorkgroupName(), personGroups)) {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
                         break;

@@ -18,11 +18,11 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /* 
  * 
@@ -33,7 +33,7 @@ public class PurchaseOrderQuoteLanguageRule extends MaintenanceDocumentRuleBase 
     private BusinessObjectService boService;
 
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
      */
     @Override
     public void setupConvenienceObjects() {

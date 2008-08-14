@@ -19,14 +19,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataInquirableImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 /**
  * The class is the front-end for all position data inquiry processing.
@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 public class PositionDataLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getInquiryUrl(BusinessObject businessObject, String propertyName) {
@@ -45,7 +45,7 @@ public class PositionDataLookupableHelperServiceImpl extends AbstractLookupableH
     }
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {

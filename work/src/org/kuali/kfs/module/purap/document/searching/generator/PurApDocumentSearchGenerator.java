@@ -23,20 +23,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.bo.user.UuId;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-
-import edu.iu.uis.eden.WorkflowServiceError;
-import edu.iu.uis.eden.docsearch.DocSearchCriteriaVO;
-import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;
-import edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator;
-import edu.iu.uis.eden.user.WorkflowUser;
+import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
+import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
+import org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator;
+import org.kuali.rice.kew.exception.WorkflowServiceError;
+import org.kuali.rice.kew.user.WorkflowUser;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.bo.user.UuId;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * This class...
@@ -94,21 +93,21 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
     }
 
     /**
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#clearSearch(edu.iu.uis.eden.docsearch.DocSearchCriteriaVO)
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator#clearSearch(org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO)
      */
     @Override
-    public DocSearchCriteriaVO clearSearch(DocSearchCriteriaVO searchCriteria) {
-        DocSearchCriteriaVO docSearchCriteriaVO = new DocSearchCriteriaVO();
-        docSearchCriteriaVO.setDocTypeFullName(searchCriteria.getDocTypeFullName());
-        return docSearchCriteriaVO;
+    public DocSearchCriteriaDTO clearSearch(DocSearchCriteriaDTO searchCriteria) {
+        DocSearchCriteriaDTO docSearchCriteriaDTO = new DocSearchCriteriaDTO();
+        docSearchCriteriaDTO.setDocTypeFullName(searchCriteria.getDocTypeFullName());
+        return docSearchCriteriaDTO;
     }
 
     /**
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#performPreSearchConditions(edu.iu.uis.eden.user.WorkflowUser,
-     *      edu.iu.uis.eden.docsearch.DocSearchCriteriaVO)
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator#performPreSearchConditions(org.kuali.rice.kew.user.WorkflowUser,
+     *      org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO)
      */
     @Override
-    public List<WorkflowServiceError> performPreSearchConditions(WorkflowUser user, DocSearchCriteriaVO searchCriteria) {
+    public List<WorkflowServiceError> performPreSearchConditions(WorkflowUser user, DocSearchCriteriaDTO searchCriteria) {
         this.setCriteria(searchCriteria);
         this.generateSearchComponentsByFormKeyMap();
         List<WorkflowServiceError> errors = super.performPreSearchConditions(user, searchCriteria);

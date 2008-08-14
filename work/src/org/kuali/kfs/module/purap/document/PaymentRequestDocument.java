@@ -24,17 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -69,9 +58,19 @@ import org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-
-import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.dto.ActionTakenEventDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * Payment Request Document Business Object. Contains the fields associated with the main document table.
@@ -128,7 +127,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
     @Override
     public boolean isBoNotesSupport() {
@@ -516,7 +515,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#getDocumentTitle()
+     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
@@ -598,7 +597,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {
@@ -653,10 +652,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * Generates correcting entries to the GL if accounts are modified.
      * 
-     * @see org.kuali.core.document.Document#doActionTaken(edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO)
+     * @see org.kuali.rice.kns.document.Document#doActionTaken(org.kuali.rice.kew.clientapp.vo.ActionTakenEventDTO)
      */
     @Override
-    public void doActionTaken(ActionTakenEventVO event) {
+    public void doActionTaken(ActionTakenEventDTO event) {
         super.doActionTaken(event);
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         try {
@@ -933,7 +932,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * Populates the payment request document, then continues with preparing for save.
      * 
-     * @see org.kuali.core.document.Document#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.kns.document.Document#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {

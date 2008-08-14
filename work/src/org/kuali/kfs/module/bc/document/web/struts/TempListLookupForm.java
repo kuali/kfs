@@ -18,10 +18,10 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
  * Action Form for budget special lookup screens.

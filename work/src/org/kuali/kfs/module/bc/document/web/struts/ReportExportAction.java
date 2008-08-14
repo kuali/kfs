@@ -23,13 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.WebUtils;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
 import org.kuali.kfs.module.bc.document.service.ReportExportService;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
 
 /**
  * Struts action class for report dumps.

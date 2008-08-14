@@ -24,12 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
@@ -39,6 +33,12 @@ import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.AcroFields;

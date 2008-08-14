@@ -21,11 +21,11 @@ import java.util.Map;
 
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.gl.batch.dataaccess.OrganizationReversionUnitOfWorkDao;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
 import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork;
 import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWorkCategoryAmount;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
-import java.security.GeneralSecurityException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,62 +24,27 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.datadictionary.mask.Mask;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.inquiry.Inquirable;
-import org.kuali.core.service.AuthorizationService;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.BusinessObjectMetaDataService;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.LookupService;
-import org.kuali.core.service.MaintenanceDocumentDictionaryService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.FieldUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.util.cache.CopiedObject;
-import org.kuali.core.web.comparator.CellComparatorHelper;
-import org.kuali.core.web.format.BooleanFormatter;
-import org.kuali.core.web.format.CollectionFormatter;
-import org.kuali.core.web.format.DateFormatter;
-import org.kuali.core.web.format.Formatter;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Column;
-import org.kuali.core.web.ui.ResultRow;
-import org.kuali.core.web.ui.Row;
-import org.kuali.rice.KNSServiceLocator;
-import org.kuali.rice.core.service.EncryptionService;
-import org.kuali.rice.kns.util.KNSConstants;
-import java.security.GeneralSecurityException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.DateFormatter;
-import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.service.EncryptionService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.datadictionary.mask.Mask;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
+import org.kuali.rice.kns.web.format.BooleanFormatter;
+import org.kuali.rice.kns.web.format.CollectionFormatter;
+import org.kuali.rice.kns.web.format.DateFormatter;
+import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 
 public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 

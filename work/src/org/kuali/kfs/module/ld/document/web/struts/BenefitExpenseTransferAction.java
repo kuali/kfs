@@ -64,7 +64,7 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
      * @param form ActionForm
      * @param request HttpServletRequest
      * @param response HttpServletResponse
-     * @see org.kuali.core.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

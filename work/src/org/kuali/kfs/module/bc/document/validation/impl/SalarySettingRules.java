@@ -17,14 +17,15 @@ package org.kuali.kfs.module.bc.document.validation.impl;
 
 import java.util.List;
 
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+
 
 /**
  * the rule implementation for the actions of salary setting component

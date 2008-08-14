@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cab;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PendingGlAccountLineGroup;

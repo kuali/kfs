@@ -17,9 +17,9 @@ package org.kuali.kfs.sys.document.validation.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 /**
  * Defines methods common to all AccountingLineEvents.
@@ -48,14 +48,14 @@ public abstract class AccountingLineEventBase extends KualiDocumentEventBase imp
 
 
     /**
-     * @see org.kuali.core.rule.event.AccountingLineEvent#getAccountingLine()
+     * @see org.kuali.rice.kns.rule.event.AccountingLineEvent#getAccountingLine()
      */
     public AccountingLine getAccountingLine() {
         return accountingLine;
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#validate()
      */
     public void validate() {
         super.validate();

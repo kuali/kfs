@@ -21,7 +21,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.core.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * Methods needed by elements of accounting lines that plan on rendering themselves

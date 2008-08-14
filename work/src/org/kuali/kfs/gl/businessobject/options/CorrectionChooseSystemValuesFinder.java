@@ -18,9 +18,9 @@ package org.kuali.kfs.gl.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class returns list, ready for populating a drop down select control, of "systems" that can
@@ -32,7 +32,7 @@ public class CorrectionChooseSystemValuesFinder extends KeyValuesBase {
      * Returns the list of data sources that can feed data to the GLCP
      * 
      * @return a List of data sources
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();

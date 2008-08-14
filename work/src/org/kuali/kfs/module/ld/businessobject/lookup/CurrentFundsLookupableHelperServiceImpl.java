@@ -25,14 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
@@ -50,6 +42,14 @@ import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * Service implementation for the CurrentFundsLookupableHelperServiceImpl class is the front-end for all current funds balance
@@ -63,7 +63,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -85,7 +85,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * Gets a list with the fields that will be displayed on page
      * 
      * @param fieldValues list of fields that are used as a key to filter out data
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {

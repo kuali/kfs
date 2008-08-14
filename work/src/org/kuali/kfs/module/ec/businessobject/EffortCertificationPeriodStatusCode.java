@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for the Effort Certification Report Status Code Table.
@@ -70,7 +70,7 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

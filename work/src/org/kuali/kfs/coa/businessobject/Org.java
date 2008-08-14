@@ -23,18 +23,18 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * 
@@ -740,7 +740,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

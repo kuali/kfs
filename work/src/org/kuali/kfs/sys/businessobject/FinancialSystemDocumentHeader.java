@@ -18,10 +18,10 @@ package org.kuali.kfs.sys.businessobject;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class is a custom {@link DocumentHeader} class used by KFS to facilitate custom data fields and a few UI fields
@@ -43,25 +43,25 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
         financialDocumentStatusCode = KFSConstants.DocumentStatusCodes.INITIATED;
     }
 
-    /**
-     * @return null if {@link #getDocumentTemplateNumber()} returns a non-blank value
-     */
-    public KeyLabelPair getAdditionalDocId1() {
-        if (StringUtils.isNotBlank(getFinancialDocumentInErrorNumber())) {
-            return new KeyLabelPair("DataDictionary.FinancialSystemDocumentHeader.attributes.financialDocumentInErrorNumber", getFinancialDocumentInErrorNumber());
-        }
-        return super.getAdditionalDocId1();
-    }
-
-    /**
-     * @return null
-     */
-    public KeyLabelPair getAdditionalDocId2() {
-        if (StringUtils.isNotBlank(getCorrectedByDocumentId())) {
-            return new KeyLabelPair("DataDictionary.FinancialSystemDocumentHeader.attributes.correctedByDocumentId", getCorrectedByDocumentId());
-        }
-        return super.getAdditionalDocId2();
-    }
+//    /**
+//     * @return null if {@link #getDocumentTemplateNumber()} returns a non-blank value
+//     */
+//    public KeyLabelPair getAdditionalDocId1() {
+//        if (StringUtils.isNotBlank(getFinancialDocumentInErrorNumber())) {
+//            return new KeyLabelPair("DataDictionary.FinancialSystemDocumentHeader.attributes.financialDocumentInErrorNumber", getFinancialDocumentInErrorNumber());
+//        }
+//        return super.getAdditionalDocId1();
+//    }
+//
+//    /**
+//     * @return null
+//     */
+//    public KeyLabelPair getAdditionalDocId2() {
+//        if (StringUtils.isNotBlank(getCorrectedByDocumentId())) {
+//            return new KeyLabelPair("DataDictionary.FinancialSystemDocumentHeader.attributes.correctedByDocumentId", getCorrectedByDocumentId());
+//        }
+//        return super.getAdditionalDocId2();
+//    }
 
     /**
      * Gets the financialDocumentTotalAmount attribute. 

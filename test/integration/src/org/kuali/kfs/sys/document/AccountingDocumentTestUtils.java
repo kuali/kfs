@@ -25,17 +25,6 @@ import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.AdHocRouteRecipient;
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.datadictionary.TransactionalDocumentEntry;
-import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.TransactionalDocumentDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -47,8 +36,18 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentVersionMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.AdHocRouteRecipient;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public final class AccountingDocumentTestUtils extends KualiTestBase {
     private static Logger LOG = Logger.getLogger(AccountingDocumentTestUtils.class);

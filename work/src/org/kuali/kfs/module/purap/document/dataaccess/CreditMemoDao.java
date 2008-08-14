@@ -19,9 +19,9 @@ import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Credit Memo DAO Interface. Defines DB access methods that a CreditMemoDaoImpl must implement.

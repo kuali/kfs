@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.fixture;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;

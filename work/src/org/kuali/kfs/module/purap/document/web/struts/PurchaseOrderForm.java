@@ -22,11 +22,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.ui.ExtraButton;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -36,10 +31,18 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Struts Action Form for Purchase Order document.
@@ -130,30 +133,21 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
         setDocument(purchaseOrderDocument);
     }
-
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
-     */
+    
     @Override
-    public KeyLabelPair getAdditionalDocInfo1() {
+    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
         if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
-            return new KeyLabelPair("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", ((PurchaseOrderDocument) this.getDocument()).getPurapDocumentIdentifier().toString());
+            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", ((PurchaseOrderDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
         }
         else {
-            return new KeyLabelPair("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", "Not Available");
+            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", "Not Available"));
         }
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
-     */
-    @Override
-    public KeyLabelPair getAdditionalDocInfo2() {
         if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getStatus())) {
-            return new KeyLabelPair("DataDictionary.PurchaseOrderDocument.attributes.statusCode", ((PurchaseOrderDocument) this.getDocument()).getStatus().getStatusDescription());
+            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.statusCode", ((PurchaseOrderDocument) this.getDocument()).getStatus().getStatusDescription()));
         }
         else {
-            return new KeyLabelPair("DataDictionary.PurchaseOrderDocument.attributes.statusCode", "Not Available");
+            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.statusCode", "Not Available"));
         }
     }
 
@@ -203,7 +197,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * Override the superclass method to add appropriate buttons for
      * PurchaseOrderDocument.
      * 
-     * @see org.kuali.core.web.struts.form.KualiForm#getExtraButtons()
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
@@ -404,7 +398,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             po.refreshDocumentBusinessObject();
         }
 
-        for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>) po.getDocumentBusinessObject().getBoNotes()) {
+        for (org.kuali.rice.kns.bo.Note note : (java.util.List<org.kuali.rice.kns.bo.Note>) po.getDocumentBusinessObject().getBoNotes()) {
             note.refreshReferenceObject("attachment");
         }
         

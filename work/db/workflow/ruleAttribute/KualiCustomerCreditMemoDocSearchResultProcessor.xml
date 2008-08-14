@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiCustomerCreditMemoDocSearchResultProcessor</name>
-      <className>edu.iu.uis.eden.docsearch.xml.DocumentSearchXMLResultProcessorImpl</className>
+      <className>org.kuali.rice.kew.docsearch.xml.DocumentSearchXMLResultProcessorImpl</className>
       <label>Customer Credit Memo Document Search Result Processor</label>
       <description>Attribute to allow for custom search results for Customer Credit Memo documents</description>
       <type>DocumentSearchXMLResultProcessorAttribute</type>

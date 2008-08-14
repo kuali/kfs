@@ -64,7 +64,7 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="ContractManager-contractManagerFaxNumber" parent="ContractManager-contractManagerFaxNumber-parentBean" />
 

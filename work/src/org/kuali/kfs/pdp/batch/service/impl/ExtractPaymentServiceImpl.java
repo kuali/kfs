@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
 import org.kuali.kfs.pdp.businessobject.Bank;
@@ -42,6 +41,7 @@ import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

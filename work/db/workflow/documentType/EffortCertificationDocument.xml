@@ -85,13 +85,13 @@
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <simple name="Do Nothing">
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <split name="Do Recreate Split">
           <activationType>S</activationType>
@@ -114,13 +114,13 @@
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <simple name="Do Nothing Again">
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
       </routeNodes>
     </documentType>

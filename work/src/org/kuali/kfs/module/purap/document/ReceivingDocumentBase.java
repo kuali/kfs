@@ -19,9 +19,6 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Campus;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
@@ -32,10 +29,12 @@ import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public abstract class ReceivingDocumentBase extends FinancialSystemTransactionalDocumentBase implements ReceivingDocument {
 
@@ -961,7 +960,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-            workflowDocument.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdVO(userNetworkId), responsibilityNote, true);
+            workflowDocument.appSpecificRouteDocumentToUser(KEWConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, annotationNote, new NetworkIdDTO(userNetworkId), responsibilityNote, true);
         }
     }
     /**

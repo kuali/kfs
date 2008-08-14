@@ -18,10 +18,10 @@ package org.kuali.kfs.module.purap.document;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.vnd.VendorUtils;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /* 

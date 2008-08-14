@@ -23,7 +23,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.Transaction;
@@ -32,6 +31,7 @@ import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceLevelDao;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceObjectDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * An OJB implmentation of the AccountBalanceDao

@@ -19,11 +19,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.rule.AddCollectionLineRule;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor;
@@ -31,6 +26,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.rule.AddCollectionLineRule;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * Business rule(s) applicable to Purchase Order Contract Language maintenance document.
@@ -38,7 +38,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 public class PurchaseOrderQuoteListRule extends MaintenanceDocumentRuleBase implements AddCollectionLineRule {
 
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomApproveDocumentBusinessRules called");
@@ -48,7 +48,7 @@ public class PurchaseOrderQuoteListRule extends MaintenanceDocumentRuleBase impl
     }
 
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomRouteDocumentBusinessRules called");
@@ -58,7 +58,7 @@ public class PurchaseOrderQuoteListRule extends MaintenanceDocumentRuleBase impl
     }
 
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomSaveDocumentBusinessRules called");
@@ -91,7 +91,7 @@ public class PurchaseOrderQuoteListRule extends MaintenanceDocumentRuleBase impl
      * return error to inform the user about it so that they would select from
      * the lookup.
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument, java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {

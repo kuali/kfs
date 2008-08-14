@@ -19,8 +19,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 import com.lowagie.text.DocumentException;
 

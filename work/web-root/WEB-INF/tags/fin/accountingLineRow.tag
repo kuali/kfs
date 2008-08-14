@@ -458,7 +458,7 @@
 						test="${fn:contains(delimitedExtraRowFields, ',referenceTypeCode,')}">
 						<fin:accountingLineDataCell field="referenceTypeCode"
 							lookup="true" inquiry="true" boClassSimpleName="DocumentType"
-							boPackageName="org.kuali.core.bo"
+							boPackageName="org.kuali.rice.kns.bo"
 							conversionField="documentTypeCode"
 							detailFunction="loadDocumentTypeInfo"
 							detailField="referenceType.documentName"

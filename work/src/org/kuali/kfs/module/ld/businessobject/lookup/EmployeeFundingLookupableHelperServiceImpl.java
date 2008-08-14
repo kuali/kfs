@@ -28,11 +28,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.module.ld.businessobject.EmployeeFunding;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
@@ -46,6 +41,11 @@ import org.kuali.kfs.module.ld.util.DebitCreditUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * The EmployeeFundingLookupableHelperServiceImpl class is the front-end for all Employee Funding balance inquiry processing.
@@ -58,7 +58,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
     private LaborLedgerPendingEntryService laborLedgerPendingEntryService;
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -78,7 +78,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
     }
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#gfetSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.Lookupable#gfetSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {

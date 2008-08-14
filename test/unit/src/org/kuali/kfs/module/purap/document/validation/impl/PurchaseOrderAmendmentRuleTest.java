@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 
-import org.kuali.core.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;

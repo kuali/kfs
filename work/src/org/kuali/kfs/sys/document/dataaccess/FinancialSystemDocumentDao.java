@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.document.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.core.dao.DocumentDao;
+import org.kuali.rice.kns.dao.DocumentDao;
 
 /**
  * This class is the financial system document dao interface

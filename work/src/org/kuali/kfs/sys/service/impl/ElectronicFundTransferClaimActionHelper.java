@@ -24,12 +24,6 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
@@ -37,6 +31,12 @@ import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStra
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 import org.kuali.kfs.sys.web.struts.ElectronicPaymentClaimClaimedHelper;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * An Electronic Funds Transfer action which claims the electronic payment claims in a form and redirects
@@ -57,7 +57,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
 
     /**
      * Claims the ElectronicPaymentClaim records with a document and then redirects to that docment.
-     * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.core.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
+     * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.rice.kns.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map paramMap, String basePath) {
         // can the user claim electronic payments at all?

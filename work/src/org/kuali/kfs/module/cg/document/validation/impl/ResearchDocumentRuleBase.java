@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.cg.document.validation.impl;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.rules.DocumentRuleBase;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.cg.document.ResearchDocument;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.rules.DocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class...
@@ -27,7 +27,7 @@ import org.kuali.kfs.module.cg.document.ResearchDocument;
 public class ResearchDocumentRuleBase extends DocumentRuleBase {
 
     /**
-     * @see org.kuali.core.rule.RouteDocumentRule#processRouteDocument(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.RouteDocumentRule#processRouteDocument(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean processRouteDocument(Document document) {
@@ -36,7 +36,7 @@ public class ResearchDocumentRuleBase extends DocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.core.rule.ApproveDocumentRule#processApproveDocument(org.kuali.core.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.rice.kns.rule.ApproveDocumentRule#processApproveDocument(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
      */
     @Override
     public boolean processApproveDocument(ApproveDocumentEvent approveEvent) {
@@ -45,7 +45,7 @@ public class ResearchDocumentRuleBase extends DocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.core.rule.SaveDocumentRule#processSaveDocument(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.SaveDocumentRule#processSaveDocument(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean processSaveDocument(Document document) {

@@ -29,26 +29,25 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+import org.kuali.rice.kew.rule.Role;
+import org.kuali.rice.kew.rule.RoleAttribute;
+import org.kuali.rice.kew.rule.WorkflowAttribute;
+import org.kuali.rice.kew.user.AuthenticationUserId;
+import org.kuali.rice.kew.util.KeyLabelPair;
+import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import edu.iu.uis.eden.WorkflowServiceErrorImpl;
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.plugin.attributes.RoleAttribute;
-import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
-import edu.iu.uis.eden.routetemplate.Role;
-import edu.iu.uis.eden.user.AuthenticationUserId;
-import edu.iu.uis.eden.util.KeyLabelPair;
-import edu.iu.uis.eden.util.Utilities;
 
 /**
  * KualiChartAttribute which should be used when using charts to do routing
@@ -125,21 +124,21 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.WorkflowAttribute#getRuleRows()
+     * @see org.kuali.rice.kew.rule.WorkflowAttribute#getRuleRows()
      */
     public List getRuleRows() {
         return Collections.EMPTY_LIST;
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.WorkflowAttribute#getRoutingDataRows()
+     * @see org.kuali.rice.kew.rule.WorkflowAttribute#getRoutingDataRows()
      */
     public List getRoutingDataRows() {
         return rows;
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.WorkflowAttribute#getDocContent()
+     * @see org.kuali.rice.kew.rule.WorkflowAttribute#getDocContent()
      */
     public String getDocContent() {
         if (Utilities.isEmpty(getFinCoaCd())) {
@@ -149,7 +148,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.WorkflowAttribute#getRuleExtensionValues()
+     * @see org.kuali.rice.kew.rule.WorkflowAttribute#getRuleExtensionValues()
      */
     public List getRuleExtensionValues() {
         return Collections.EMPTY_LIST;
@@ -176,7 +175,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.WorkflowAttribute#validateRoutingData(java.util.Map)
+     * @see org.kuali.rice.kew.rule.WorkflowAttribute#validateRoutingData(java.util.Map)
      */
     public List validateRoutingData(Map paramMap) {
 
@@ -195,14 +194,14 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.WorkflowAttribute#validateRuleData(java.util.Map)
+     * @see org.kuali.rice.kew.rule.WorkflowAttribute#validateRuleData(java.util.Map)
      */
     public List validateRuleData(Map paramMap) {
         return Collections.EMPTY_LIST;
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.WorkflowAttribute#getFieldConversions()
+     * @see org.kuali.rice.kew.rule.WorkflowAttribute#getFieldConversions()
      */
     public List getFieldConversions() {
         List fieldConversions = new ArrayList();
@@ -211,21 +210,21 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.WorkflowAttribute#setRequired(boolean)
+     * @see org.kuali.rice.kew.rule.WorkflowAttribute#setRequired(boolean)
      */
     public void setRequired(boolean required) {
         this.required = required;
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.WorkflowAttribute#isRequired()
+     * @see org.kuali.rice.kew.rule.WorkflowAttribute#isRequired()
      */
     public boolean isRequired() {
         return required;
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.RoleAttribute#getRoleNames()
+     * @see org.kuali.rice.kew.rule.RoleAttribute#getRoleNames()
      */
     public List getRoleNames() {
         List roles = new ArrayList();
@@ -252,9 +251,9 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String ORG_REVERSION_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "organizationReversionGlobalOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization/chartOfAccountsCode')";
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.RoleAttribute#getQualifiedRoleNames(java.lang.String, java.lang.String)
+     * @see org.kuali.rice.kew.rule.RoleAttribute#getQualifiedRoleNames(java.lang.String, java.lang.String)
      */
-    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
+    public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws KEWUserNotFoundException {
         Set qualifiedRoleNames = new HashSet();
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
@@ -329,10 +328,10 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.RoleAttribute#resolveQualifiedRole(edu.iu.uis.eden.routetemplate.attribute.RouteContext,
+     * @see org.kuali.rice.kew.rule.RoleAttribute#resolveQualifiedRole(org.kuali.rice.kew.rule.attribute.RouteContext,
      *      java.lang.String, java.lang.String)
      */
-    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
+    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws KEWUserNotFoundException {
         List members = new ArrayList();
         Chart chart = null;
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {

@@ -23,16 +23,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.IllegalObjectStateException;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.DocumentInitiator;
-import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.Budget;
@@ -49,6 +39,16 @@ import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.IllegalObjectStateException;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.DocumentInitiator;
+import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
 /**
  * Budget
@@ -94,7 +94,7 @@ public class BudgetDocument extends ResearchDocumentBase {
     // /**
     // * Budget Document specific logic to perform prior to saving.
     // *
-    // * @see org.kuali.core.document.DocumentBase#prepareForSave()
+    // * @see org.kuali.rice.kns.document.DocumentBase#prepareForSave()
     // */
     // @Override
     // public void prepareForSave() {
@@ -159,7 +159,7 @@ public class BudgetDocument extends ResearchDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

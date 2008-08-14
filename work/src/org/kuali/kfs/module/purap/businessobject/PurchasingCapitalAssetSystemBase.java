@@ -19,8 +19,8 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.TypedArrayList;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusinessObjectBase implements PurchasingCapitalAssetSystem {
 

@@ -27,9 +27,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.ConfigurableDateService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
+import org.kuali.rice.kns.service.ConfigurableDateService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.fp.businessobject.Bank;
 import org.kuali.kfs.gl.dataaccess.OriginEntryDao;

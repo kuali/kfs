@@ -17,9 +17,9 @@ package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.coa.businessobject.ObjectCons;
 import org.kuali.kfs.coa.dataaccess.ObjectConsDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * This class is the OJB implementation of the ObjectLevelDao interface.

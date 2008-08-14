@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This helper class works in conjunction with the SourceAccountingLine bo to help build the UI for the Voucher. On the business

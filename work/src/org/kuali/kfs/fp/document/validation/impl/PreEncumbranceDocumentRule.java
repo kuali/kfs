@@ -20,10 +20,6 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.REVERSAL_DATE;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.fp.document.PreEncumbranceDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -33,6 +29,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Business rule(s) applicable to PreEncumbrance documents.
@@ -48,8 +48,8 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
      * @param accountingLine The new accounting line being added.
      * @return True if the business rules all pass, false otherwise.
      * 
-     * @see FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -66,8 +66,8 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
      * @param updatedAccoutingLine The updated version of the accounting line.
      * @return True if the business rules all pass for the update, false otherwise.
      * 
-     * @see FinancialDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see FinancialDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
@@ -82,8 +82,8 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
      * @param accountingLine The accounting line being validated.
      * @return True if the business rules all pass, false otherwise.
      * 
-     * @see FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomReviewAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -118,7 +118,7 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
      * @param document The document being routed.
      * @return True if all the business rules pass, false otherwise.
      * 
-     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -168,7 +168,7 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
      * @param financialDocument The document whose bablance is being validated.
      * @return Always returns true.
      * 
-     * @see FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
+     * @see FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isDocumentBalanceValid(AccountingDocument financialDocument) {

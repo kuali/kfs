@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface CashControlDocumentService {
 

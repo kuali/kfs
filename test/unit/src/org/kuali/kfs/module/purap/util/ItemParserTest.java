@@ -22,11 +22,11 @@ import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_WRON
 
 import java.math.BigDecimal;
 
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TypedArrayList;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;

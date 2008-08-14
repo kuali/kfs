@@ -20,11 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -32,6 +27,11 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Document Authorizer for the Assign Contract Manager document.
@@ -39,8 +39,8 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 public class ContractManagerAssignmentDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -63,7 +63,7 @@ public class ContractManagerAssignmentDocumentAuthorizer extends FinancialSystem
      * assign contract manager, an error mesage will be displayed, instead of creating an
      * ContractManagerAssignmentDocument.
      * 
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#gcanInitiate(String documentTypeName, UniversalUser user)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#gcanInitiate(String documentTypeName, UniversalUser user)
      */
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {

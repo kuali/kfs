@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.core.KualiModule;
-import org.kuali.core.authorization.KualiModuleAuthorizer;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.KualiModuleUserService;
+import org.kuali.rice.kns.KualiModule;
+import org.kuali.rice.kns.authorization.KualiModuleAuthorizer;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.KualiModuleUserService;
 
 /**
  * Slim subclass to enforce class hierarchy not enforced by the parent class' contract.

@@ -25,16 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.format.SimpleBooleanFormatter;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
@@ -52,6 +42,16 @@ import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
 
 
 /**
@@ -103,7 +103,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * Overrides the parent to call super.populate and then to call the accounting lines populate method that is specific to loading
      * the two select lists on the page.
      * 
-     * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {
@@ -708,7 +708,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     /**
      * Adds the accounting line file size to the list of max file sizes.
      * 
-     * @see org.kuali.core.web.struts.pojo.PojoFormBase#customInitMaxUploadSizes()
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#customInitMaxUploadSizes()
      */
     @Override
     protected void customInitMaxUploadSizes() {

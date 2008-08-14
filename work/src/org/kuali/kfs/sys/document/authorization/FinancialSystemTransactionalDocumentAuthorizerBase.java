@@ -17,12 +17,12 @@ package org.kuali.kfs.sys.document.authorization;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class...
@@ -33,7 +33,7 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
     /**
      * Adds settings for KFS transactional-document-specific flags.
      * 
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(Document, UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(Document, UniversalUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

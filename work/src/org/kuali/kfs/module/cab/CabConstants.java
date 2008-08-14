@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cab;
 
-import org.kuali.rice.util.JSTLConstants;
+import org.kuali.rice.core.util.JSTLConstants;
 
 public class CabConstants extends JSTLConstants {
     public static final String DATE_FORMAT_TS = "MM/dd/yyyy HH:mm:ss";

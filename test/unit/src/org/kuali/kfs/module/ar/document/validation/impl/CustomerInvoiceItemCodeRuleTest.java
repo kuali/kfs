@@ -4,7 +4,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;

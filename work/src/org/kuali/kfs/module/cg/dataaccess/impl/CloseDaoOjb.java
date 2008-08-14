@@ -20,11 +20,11 @@ import java.util.Iterator;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.module.cg.businessobject.Close;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
 /**

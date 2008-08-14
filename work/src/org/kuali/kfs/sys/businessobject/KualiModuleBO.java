@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 public class KualiModuleBO extends TransientBusinessObjectBase {
     private String moduleName;

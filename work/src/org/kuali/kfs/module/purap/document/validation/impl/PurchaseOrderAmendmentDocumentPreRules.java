@@ -15,16 +15,16 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Business Prerules applicable to purchase order document.
@@ -36,7 +36,7 @@ public class PurchaseOrderAmendmentDocumentPreRules extends PreRulesContinuation
      * 
      * @param document The purchase order amendment document upon which we're performing the prerules logic.
      * @return boolean true if it passes the pre rules conditions.
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean doRules(Document document) {

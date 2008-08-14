@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 
 import uk.ltd.getahead.dwr.ConversionException;
 import uk.ltd.getahead.dwr.Converter;
@@ -30,8 +30,8 @@ import uk.ltd.getahead.dwr.compat.BaseV10Converter;
 /**
  * Converter for all Kuali Numbers (KualiDecimal & KualiInteger)
  * 
- * @see org.kuali.core.util.KualiDecimal
- * @see org.kuali.core.util.KualiInteger
+ * @see org.kuali.rice.kns.util.KualiDecimal
+ * @see org.kuali.rice.kns.util.KualiInteger
  */
 public class KualiNumberConverter extends BaseV10Converter implements Converter {
     /**

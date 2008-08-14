@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.document.service;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KULUSER;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;

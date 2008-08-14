@@ -18,9 +18,9 @@ package org.kuali.kfs.coa.dataaccess;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 
 /**

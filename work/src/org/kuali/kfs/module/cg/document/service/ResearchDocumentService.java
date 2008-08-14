@@ -16,8 +16,7 @@
 package org.kuali.kfs.module.cg.document.service;
 
 import org.kuali.kfs.module.cg.document.ResearchDocument;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * This class...

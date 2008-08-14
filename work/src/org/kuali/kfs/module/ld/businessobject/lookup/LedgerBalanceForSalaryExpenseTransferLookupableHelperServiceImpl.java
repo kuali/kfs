@@ -39,7 +39,7 @@ public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl ex
     private OptionsService optionsService;
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {

@@ -18,13 +18,13 @@ package org.kuali.kfs.module.purap.document.searching.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.iu.uis.eden.docsearch.DocumentSearchResult;
-import edu.iu.uis.eden.lookupable.Column;
+import org.kuali.rice.kew.docsearch.DocumentSearchResult;
+import org.kuali.rice.kew.lookupable.Column;
 
 public class PurchaseOrderDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
 
     /**
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchResultProcessor#addSearchableAttributeColumnUsingKey(java.util.List,
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor#addSearchableAttributeColumnUsingKey(java.util.List,
      *      java.lang.String, java.lang.String, java.lang.Boolean, java.lang.Boolean)
      */
     @Override

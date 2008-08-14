@@ -17,7 +17,7 @@ package org.kuali.kfs.gl.businessobject;
 
 import java.sql.Date;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Represents an origin entry

@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.ld.document.validation.event;
 
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
 import org.kuali.kfs.module.ld.document.validation.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 /**
  * Event used to re/generate general ledger pending entries for a transactional document.
@@ -84,14 +84,14 @@ public final class GenerateLaborLedgerBenefitClearingPendingEntriesEvent extends
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return GenerateLaborLedgerBenefitClearingPendingEntriesRule.class;
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((GenerateLaborLedgerBenefitClearingPendingEntriesRule) rule).processGenerateLaborLedgerBenefitClearingPendingEntries((LaborLedgerPostingDocument) getDocument(), getSequenceHelper());

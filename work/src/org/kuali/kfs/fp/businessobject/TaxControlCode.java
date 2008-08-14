@@ -16,7 +16,7 @@
 
 package org.kuali.kfs.fp.businessobject;
 
-import org.kuali.core.bo.KualiCodeBase;
+import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * This class is used to represent a tax control code business object.

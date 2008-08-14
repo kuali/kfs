@@ -3,12 +3,9 @@ package org.kuali.kfs.module.cam.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 
 public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalDocumentBase {
@@ -77,7 +74,7 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
     }
     
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

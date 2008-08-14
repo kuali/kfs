@@ -21,15 +21,15 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Address to be associated with a particular Vendor.
@@ -309,7 +309,7 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

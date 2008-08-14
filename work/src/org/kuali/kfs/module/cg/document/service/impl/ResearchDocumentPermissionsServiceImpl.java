@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
@@ -29,12 +28,12 @@ import org.kuali.kfs.module.cg.businessobject.ResearchAdhocPermissionType;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-
-import edu.iu.uis.eden.clientapp.WorkflowInfo;
-import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
-import edu.iu.uis.eden.clientapp.vo.DocumentDetailVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentPermissionsService {
 
@@ -92,14 +91,14 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
      *      String uuid)
      */
     public boolean isUserInOrgHierarchy(String orgXml, String documentType, String uuid) {
-        ReportCriteriaVO criteria = new ReportCriteriaVO();
+        ReportCriteriaDTO criteria = new ReportCriteriaDTO();
         criteria.setDocumentTypeName(documentType);
         criteria.setNodeNames(new String[] { CGConstants.ORG_REVIEW_NODE_NAME });
         criteria.setRuleTemplateNames(new String[] { CGConstants.ORG_REVIEW_TEMPLATE_NAME });
         criteria.setXmlContent(orgXml);
         WorkflowInfo info = new WorkflowInfo();
         try {
-            DocumentDetailVO detail = info.routingReport(criteria);
+            DocumentDetailDTO detail = info.routingReport(criteria);
             return isUserInRequests(detail.getActionRequests(), uuid);
         }
         catch (WorkflowException e) {
@@ -110,14 +109,14 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
     /**
      * Check whether given user is in the given action requests.
      * 
-     * @param ActionRequestVO[] requests
+     * @param ActionRequestDTO[] requests
      * @param String uuid
      * @return boolean
      */
-    private boolean isUserInRequests(ActionRequestVO[] requests, String uuid) {
+    private boolean isUserInRequests(ActionRequestDTO[] requests, String uuid) {
         for (int i = 0; i < requests.length; i++) {
-            ActionRequestVO request = (ActionRequestVO) requests[i];
-            if (request.getUserVO().getUuId().equals(uuid)) {
+            ActionRequestDTO request = (ActionRequestDTO) requests[i];
+            if (request.getUserDTO().getUuId().equals(uuid)) {
                 return true;
             }
             if (isUserInRequests(request.getChildrenRequests(), uuid)) {

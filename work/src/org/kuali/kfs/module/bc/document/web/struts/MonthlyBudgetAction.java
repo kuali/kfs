@@ -24,15 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.authorization.AuthorizationType;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.exceptions.ModuleAuthorizationException;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiModuleService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
@@ -40,6 +31,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.authorization.AuthorizationType;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.exception.ModuleAuthorizationException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 
 public class MonthlyBudgetAction extends BudgetExpansionAction {
@@ -79,7 +79,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
      */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {

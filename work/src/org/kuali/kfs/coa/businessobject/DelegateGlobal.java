@@ -25,17 +25,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.GlobalBusinessObject;
-import org.kuali.core.bo.GlobalBusinessObjectDetail;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.exceptions.BusinessObjectNotFoundException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.GlobalBusinessObject;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.exception.BusinessObjectNotFoundException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class simply acts as a container to hold the List of Delegate Changes and the list of Account entries, for the Global
@@ -122,7 +122,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * @see org.kuali.core.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
@@ -148,7 +148,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * @see org.kuali.core.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.rice.kns.bo.BusinessObject)
      */
     @SuppressWarnings("deprecation")
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
@@ -223,7 +223,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -235,14 +235,14 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * @see org.kuali.core.document.GlobalBusinessObject#getDocumentNumber()
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getDocumentNumber()
      */
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
-     * @see org.kuali.core.document.GlobalBusinessObject#setDocumentNumber(java.lang.String)
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#setDocumentNumber(java.lang.String)
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -286,7 +286,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * @see org.kuali.core.document.GlobalBusinessObject#isPersistable()
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#isPersistable()
      */
     public boolean isPersistable() {
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
@@ -363,7 +363,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.fp.document.validation.event;
 
-import org.kuali.core.document.Document;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * An event which is fired when a member of the Cash Receipt family of documents updates a pre-existing check on a document.
@@ -40,7 +40,7 @@ public class AttributedUpdateCheckEvent extends AttributedDocumentEventBase {
     }
     
     /**
-     * @see org.kuali.core.rule.event.CheckEvent#getCheck()
+     * @see org.kuali.rice.kns.rule.event.CheckEvent#getCheck()
      */
     public Check getCheck() {
         return check;

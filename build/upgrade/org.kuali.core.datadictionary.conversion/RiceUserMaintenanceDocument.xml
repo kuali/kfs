@@ -20,10 +20,10 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.core.bo.user.RiceUser</businessObjectClass>
+        <businessObjectClass>org.kuali.rice.kns.bo.user.RiceUser</businessObjectClass>
         
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <maintainableClass>org.kuali.rice.kns.maintenance.KualiMaintainableImpl</maintainableClass>
+        <documentAuthorizerClass>org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

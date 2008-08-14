@@ -19,9 +19,9 @@ import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.module.ar.businessobject.Lockbox;
 import org.kuali.kfs.module.ar.dataaccess.LockboxDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class LockboxDaoOjb extends PlatformAwareDaoBaseOjb implements LockboxDao {
 

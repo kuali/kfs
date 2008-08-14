@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
@@ -36,6 +35,7 @@ import org.kuali.kfs.pdp.exception.PaymentLoadException;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 
 /**

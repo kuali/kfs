@@ -17,10 +17,10 @@ package org.kuali.kfs.pdp.document.authorization;
 
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
 import org.kuali.kfs.pdp.PdpAuthorizationConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
 
 
 public class PayeeAchAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
@@ -28,8 +28,8 @@ public class PayeeAchAccountDocumentAuthorizer extends FinancialSystemMaintenanc
     /**
      * If the current user is a member of KUALI_PDP_VIEWALL then add entry to the editMode Map and set it true.
      * 
-     * @see org.kuali.core.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user) {

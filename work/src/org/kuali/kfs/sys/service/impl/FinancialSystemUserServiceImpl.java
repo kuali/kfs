@@ -20,15 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.KualiModule;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.user.PersonPayrollId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.bo.user.UserId;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.impl.UniversalUserServiceImpl;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -37,6 +28,15 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.KualiModule;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.user.PersonPayrollId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.bo.user.UserId;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.impl.UniversalUserServiceImpl;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 public class FinancialSystemUserServiceImpl extends UniversalUserServiceImpl implements FinancialSystemUserService {
@@ -226,7 +226,7 @@ public class FinancialSystemUserServiceImpl extends UniversalUserServiceImpl imp
     /**
      * Override this method to skip behavior when the main BO is FinancialSystemUser.  (Since FinancialSystemUser is a UniversalUser.)
      * 
-     * @see org.kuali.core.service.impl.UniversalUserServiceImpl#resolveUserIdentifiersToUniversalIdentifiers(org.kuali.core.bo.PersistableBusinessObject, java.util.Map)
+     * @see org.kuali.rice.kns.service.impl.UniversalUserServiceImpl#resolveUserIdentifiersToUniversalIdentifiers(org.kuali.rice.kns.bo.PersistableBusinessObject, java.util.Map)
      */
     @Override
     public Map resolveUserIdentifiersToUniversalIdentifiers(PersistableBusinessObject businessObject, Map fieldValues) {

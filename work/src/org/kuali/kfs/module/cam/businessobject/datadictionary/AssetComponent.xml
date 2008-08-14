@@ -65,7 +65,7 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetCondition"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:keyAttribute="assetConditionCode"
             p:labelAttribute="assetConditionName" />
@@ -231,7 +231,7 @@
     <property name="name" value="componentReplacementAmount" />
     <property name="label" value="Replacement Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="AssetComponent-componentSerialNumber" parent="AssetComponent-componentSerialNumber-parentBean" />
 

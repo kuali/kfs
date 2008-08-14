@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ec.document.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.module.ec.EffortCertificationTestConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.dataaccess.MockEffortCertificationReportDefinitionDaoOjb;

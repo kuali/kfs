@@ -22,24 +22,23 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.PaymentRequestInvoiceTabFixture;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.MockWorkflowDocument;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 @ConfigureContext(session = APPLETON)

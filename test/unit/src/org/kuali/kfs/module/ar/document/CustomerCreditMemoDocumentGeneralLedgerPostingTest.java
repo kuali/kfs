@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ar.document;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -37,7 +37,7 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseCons
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 @ConfigureContext(session = UserNameFixture.KHUNTLEY)
 public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTestBase {

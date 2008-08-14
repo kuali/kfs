@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.sys.monitor;
 
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Watches the workflow document and indicates valueChanged when either the status or the current node changes.

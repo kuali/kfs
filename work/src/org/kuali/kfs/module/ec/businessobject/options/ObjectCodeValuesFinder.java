@@ -18,11 +18,11 @@ package org.kuali.kfs.module.ec.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.document.web.struts.CertificationReportForm;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class...
@@ -31,7 +31,7 @@ public class ObjectCodeValuesFinder extends KeyValuesBase {
     private List keyValues;
 
     /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         CertificationReportForm form = (CertificationReportForm) GlobalVariables.getKualiForm();

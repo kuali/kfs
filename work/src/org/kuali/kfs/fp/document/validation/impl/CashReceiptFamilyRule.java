@@ -17,9 +17,6 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
-import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
@@ -32,6 +29,9 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Business rule(s) shared amongst to CashReceipt-related documents.
@@ -45,8 +45,8 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
      * @param accountingLine accounting line in accounting doducment
      * @return true if amount is non-zero
      * 
-     * @see org.kuali.core.rule.AccountingLineRule#isAmountValid(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isAmountValid(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
@@ -67,7 +67,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
      * @param approveEvent event fired when approving a document
      * @return true if verification unit associated with cash receipt is open
      * 
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.rice.kns.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
@@ -97,7 +97,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
      * @param financialDocument submitted accounting document
      * @return true if cash and check total matches the total of all the accounting lines and cash and check totals are greater than zero
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isDocumentBalanceValid(AccountingDocument financialDocument) {
@@ -128,7 +128,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
      * @param financialDocument submitted financial document
      * @return true
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
@@ -141,7 +141,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
      * @param financialDocument submitted financial document
      * @return true if there is at least one accounting line
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {

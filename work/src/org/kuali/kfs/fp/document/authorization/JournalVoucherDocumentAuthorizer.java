@@ -21,10 +21,10 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.TransactionalDocument;
 
 /**
  * JournalVoucher-specific DocumentAuthorizer
@@ -35,8 +35,8 @@ public class JournalVoucherDocumentAuthorizer extends AccountingDocumentAuthoriz
     /**
      * No accountingLines will ever be editable, since the only two possible editModes don't check editableAccounts
      * 
-     * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
         return new HashMap();

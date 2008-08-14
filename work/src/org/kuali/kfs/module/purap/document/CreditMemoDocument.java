@@ -22,15 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.NoteService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -54,8 +45,16 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * Credit Memo Document Business Object. Contains the fields associated with the main document table.
@@ -142,7 +141,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */
     @Override
     public boolean isBoNotesSupport() {
@@ -178,7 +177,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
     
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {
@@ -236,7 +235,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#getDocumentTitle()
+     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
@@ -506,7 +505,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     /**
      * Credit Memo document is first populated on Continue AP Event, and then prepareForSave continues.
      * 
-     * @see org.kuali.core.document.Document#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.kns.document.Document#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {

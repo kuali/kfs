@@ -17,14 +17,14 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.KFSConstants.DOCUMENT_PROPERTY_NAME;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Business rules applicable to Credit Card Receipt documents.
@@ -37,7 +37,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule {
      * @param financialDocument submitted accoutting document
      * @return true if cash credit receipt document equals the cash credit document total dollar amount
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isDocumentBalanceValid(AccountingDocument finanacialDocument) {
@@ -59,7 +59,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule {
      * @param document submitted document
      * @return true if super method returns true and there is at least one credit card receipt
      * 
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -118,7 +118,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule {
     /**
      * We are overriding here and always returning true since we don't care about 
      * cash drawers for this doc type but want the other rules in the super class.
-     * @see org.kuali.kfs.fp.document.validation.impl.CashReceiptFamilyRule#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.kfs.fp.document.validation.impl.CashReceiptFamilyRule#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
      */
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         return true;

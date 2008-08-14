@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document.validation.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 
 public interface CustomerCreditMemoDetailEvent extends KualiDocumentEvent {

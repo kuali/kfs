@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
@@ -31,8 +30,8 @@ import org.kuali.kfs.integration.businessobject.LaborLedgerExpenseTransferAccoun
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectGroup;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This interface is exposing the service methods that may be used by the modules outside of labor

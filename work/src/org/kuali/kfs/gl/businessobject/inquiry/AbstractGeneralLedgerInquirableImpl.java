@@ -22,15 +22,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.datadictionary.AttributeDefinition;
-import org.kuali.core.datadictionary.DataDictionaryEntryBase;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.coa.businessobject.KualiSystemCode;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
@@ -39,6 +30,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.DataDictionaryEntryBase;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.
@@ -49,7 +49,7 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
     private BusinessObject businessObject; 
     
     /**
-     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String, boolean)
+     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, boolean)
      */
     @Override
     public String getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {

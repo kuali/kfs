@@ -23,10 +23,10 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.pdp.DateHandler;
 import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 public class DisbursementNumberMaintenanceForm extends ActionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberMaintenanceForm.class);

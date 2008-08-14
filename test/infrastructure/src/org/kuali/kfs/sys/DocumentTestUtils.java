@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.fp.businessobject.InternalBillingItem;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * DocumentTestUtils

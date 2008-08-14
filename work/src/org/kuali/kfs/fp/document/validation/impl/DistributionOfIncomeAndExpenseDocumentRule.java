@@ -31,7 +31,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends AccountingDocume
      * @param financialDocument submitted accounting document
      * @return true number of accounting lines required for routing is met
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {

@@ -19,12 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
-import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -37,14 +31,20 @@ import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
+import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     
     /**
      * Display customer invoice document receivable line if system parameter is set to 
      * 
-     * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser, java.util.List, java.util.List)
+     * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser, java.util.List, java.util.List)
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -62,7 +62,7 @@ public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthori
     /**
      * Overrides document action flags to ensure error correction invoices cannot be copied or corrected.
      * 
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -81,7 +81,7 @@ public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthori
     }    
     
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) throws DocumentTypeAuthorizationException {

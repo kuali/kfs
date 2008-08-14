@@ -22,16 +22,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.GlobalBusinessObject;
-import org.kuali.core.bo.GlobalBusinessObjectDetail;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.GlobalBusinessObject;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
@@ -258,7 +258,7 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
@@ -283,7 +283,7 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * @see org.kuali.core.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
@@ -292,7 +292,7 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
     /**
      * This returns a list of Sub Object Codes to Update and/or Add
      * 
-     * @see org.kuali.core.document.GlobalBusinessObject#applyGlobalChanges()
+     * @see org.kuali.rice.kns.document.GlobalBusinessObject#applyGlobalChanges()
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         LOG.debug("applyGlobalChanges");
@@ -371,7 +371,7 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

@@ -20,11 +20,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.AchInformation;
 import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 import org.kuali.kfs.pdp.service.AchService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class AchServiceImpl implements AchService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchServiceImpl.class);

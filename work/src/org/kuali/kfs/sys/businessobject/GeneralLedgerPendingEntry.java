@@ -20,9 +20,6 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -37,6 +34,9 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * The general ledger pending entry structure holds financial transaction info that will post to the general ledger as an entry.
@@ -720,7 +720,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

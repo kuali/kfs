@@ -15,12 +15,13 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import org.kuali.core.util.GlobalVariables;
+import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CustomerInvoiceNumberOfInvoiceDetailsValidation extends GenericValidation {
 

@@ -315,7 +315,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="description" value="The code for the Campus of the Contact." />

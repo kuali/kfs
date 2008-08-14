@@ -29,18 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.lookup.LookupResultsService;
-import org.kuali.core.lookup.Lookupable;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiMultipleValueLookupAction;
-import org.kuali.core.web.struts.form.MultipleValueLookupForm;
-import org.kuali.core.web.ui.Column;
-import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
@@ -51,7 +39,19 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction;
+import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
  * Balance inquiries are pretty much just lookups already, but are not used in the traditional sense. In most cases, balance
@@ -249,7 +249,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiMultipleValueLookupAction#sort(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction#sort(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -259,7 +259,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiMultipleValueLookupAction#selectAll(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction#selectAll(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -269,7 +269,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiMultipleValueLookupAction#unselectAll(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction#unselectAll(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -279,7 +279,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiMultipleValueLookupAction#switchToPage(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction#switchToPage(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -346,7 +346,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiMultipleValueLookupAction#selectAll(org.kuali.core.web.struts.form.MultipleValueLookupForm,
+     * @see org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction#selectAll(org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm,
      *      int)
      */
     @Override

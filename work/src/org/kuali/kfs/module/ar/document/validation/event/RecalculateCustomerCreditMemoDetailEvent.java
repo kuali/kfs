@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.ar.document.validation.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDetailRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public class RecalculateCustomerCreditMemoDetailEvent extends CustomerCreditMemoDetailEventBase {
     

@@ -25,20 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashieringTransaction;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
@@ -54,9 +40,22 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.user.KualiGroup;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KualiGroupService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * 
@@ -160,7 +159,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @param user The user to be used to retrieve the verification unit.
      * @return The cash receipt verification unit associated with the user provided.
      * 
-     * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceiptVerificationUnit(org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceiptVerificationUnit(org.kuali.rice.kns.bo.user.KualiUser)
      */
     public String getCashReceiptVerificationUnitForUser(UniversalUser user) {
         String unitName = null;

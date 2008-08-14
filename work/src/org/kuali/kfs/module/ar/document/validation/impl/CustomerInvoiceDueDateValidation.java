@@ -15,17 +15,18 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
 import java.sql.Timestamp;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.GlobalVariables;
+
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.ParameterService;
-import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CustomerInvoiceDueDateValidation extends GenericValidation {
     

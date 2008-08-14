@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  * 

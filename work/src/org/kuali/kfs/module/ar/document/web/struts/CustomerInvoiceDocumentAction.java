@@ -21,10 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -39,8 +35,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentActionBase {
 
@@ -74,7 +73,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * Customer Invoice Detail (i.e. insertSourceLine) has its values defaulted by
      * CustomerInvoiceDocumentForm.createNewSourceAccountingLine()
      * 
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -89,7 +88,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     /**
      * All document-load operations get routed through here
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

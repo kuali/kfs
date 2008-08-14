@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.businessobject.InstitutionCostSharePersonnel;
 import org.kuali.kfs.module.cg.document.service.BudgetCostShareService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class BudgetCostShareServiceImpl implements BudgetCostShareService {
 

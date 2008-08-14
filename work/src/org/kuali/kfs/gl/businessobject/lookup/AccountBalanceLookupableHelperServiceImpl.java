@@ -23,9 +23,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -39,6 +36,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * A class to support Account Balance lookups
@@ -54,7 +54,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
      * @param bo the business object with a property that an inquiry drill down url is being asked for
      * @param propertyName the property of that bo that the inquiry drill down url is being asked for
      * @return the URL for the inquiry
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -65,7 +65,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
      * Given a map of fieldValues, actually searches for the appropriate account balance records to return
      * @param fieldValues a map of keys for the search
      * @return a List of AccountBalance records that match the search criteria
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     public List getSearchResults(Map fieldValues) {
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));

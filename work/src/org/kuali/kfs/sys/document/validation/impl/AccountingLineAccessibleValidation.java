@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -27,6 +25,8 @@ import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEv
 import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * A validation that checks whether the given accounting line is accessible to the given user or not

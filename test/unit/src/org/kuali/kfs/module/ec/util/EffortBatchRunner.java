@@ -21,8 +21,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.spring.Logged;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.spring.Logged;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.kuali.kfs.integration.businessobject.LaborLedgerEntry;
 import org.kuali.kfs.integration.service.LaborModuleService;

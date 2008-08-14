@@ -23,18 +23,18 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.user.KualiGroup;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.KualiGroupService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Defines a financial award object.
@@ -118,7 +118,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * occurs. This collection is used to refresh the display upon deletion of an element to ensure that the deleted element is not
      * longer visible on the interface.
      * 
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -287,7 +287,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * 
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.beforeInsert();
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
     public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
@@ -301,7 +301,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * 
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.beforeUpdate();
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
     public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
@@ -1178,7 +1178,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     /**
      * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.
      * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     @SuppressWarnings("unchecked")

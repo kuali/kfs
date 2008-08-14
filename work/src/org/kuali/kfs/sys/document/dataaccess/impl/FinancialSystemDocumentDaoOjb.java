@@ -21,10 +21,10 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.dao.ojb.DocumentDaoOjb;
-import org.kuali.core.document.Document;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentDao;
+import org.kuali.rice.kns.dao.impl.DocumentDaoOjb;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**

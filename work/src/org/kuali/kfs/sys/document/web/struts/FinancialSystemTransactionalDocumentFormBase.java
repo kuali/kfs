@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.document.web.struts;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 
 /**
  * This class is a Financial System specific transactional document form base

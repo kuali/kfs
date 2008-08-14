@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -28,6 +27,7 @@ import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.document.service.AccountingLineAuthorizationTransformer;
 import org.kuali.kfs.sys.document.web.ReadOnlyable;
 import org.kuali.kfs.sys.document.web.TableJoining;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Like a regular accounting line rendering transformer, though this  

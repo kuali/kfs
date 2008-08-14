@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 
 public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
     

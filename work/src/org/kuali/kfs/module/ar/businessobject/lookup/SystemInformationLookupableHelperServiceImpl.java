@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.util.List;
 
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 /**
  * Override of lookupable helper service for AR System Information objects
@@ -26,7 +26,7 @@ public class SystemInformationLookupableHelperServiceImpl extends KualiLookupabl
 
     /**
      * Override to add the lockboxNumber to the return keys
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getReturnKeys()
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnKeys()
      * 
      * TODO If this method isn't going to be used anymore, this should be removed.
      */

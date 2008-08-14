@@ -25,9 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Copyable;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.fp.businessobject.JournalVoucherAccountingLineParser;
 import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
@@ -36,6 +33,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
@@ -45,8 +43,9 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.OptionsService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This is the business object that represents the JournalVoucherDocument in Kuali. This is a transactional document that will
@@ -305,8 +304,8 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      * @return True if the accounting line provided is a debit accounting line, false otherwise.
      * @throws IllegalStateException Thrown by method IsDebitUtiles.isDebitCode()
      * 
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase.IsDebitUtils#isDebitCode(String)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
@@ -328,8 +327,8 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      * @param accountingLine The accounting line the explicit entry was generated from.
      * @param explicitEntry The explicit entry being updated.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
@@ -374,8 +373,8 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      * @param offsetEntry The offset entry to be processed.
      * @return This method always returns true.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.core.bo.AccountingLine,
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processOffsetGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.rice.kns.bo.AccountingLine,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override

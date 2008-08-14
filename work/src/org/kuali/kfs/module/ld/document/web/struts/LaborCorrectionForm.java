@@ -18,12 +18,12 @@ package org.kuali.kfs.module.ld.document.web.struts;
 
 import java.util.List;
 
-import org.kuali.core.web.ui.Column;
 import org.kuali.kfs.gl.document.web.struts.CorrectionForm;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
 import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.web.ui.Column;
 
 
 /**

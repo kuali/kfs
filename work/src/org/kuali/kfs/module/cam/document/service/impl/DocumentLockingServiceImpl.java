@@ -19,22 +19,21 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.dao.MaintenanceDocumentDao;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.module.cam.document.service.DocumentLockingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.dao.MaintenanceDocumentDao;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.UrlFactory;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * The default implementation of the DocumentLockingService
@@ -78,7 +77,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
         }
 
         // load the blocking locked document
-        org.kuali.core.document.Document lockedDocument;
+        org.kuali.rice.kns.document.Document lockedDocument;
         try {
             lockedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(blockingDocId);
         }
@@ -120,7 +119,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
      * @return
      * @throws WorkflowException
      */
-    private boolean lockCanBeIgnored(org.kuali.core.document.Document lockedDocument) {
+    private boolean lockCanBeIgnored(org.kuali.rice.kns.document.Document lockedDocument) {
         // TODO: implement real authorization for Maintenance Document Save/Route - KULNRVSYS-948
 
         FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) lockedDocument.getDocumentHeader();

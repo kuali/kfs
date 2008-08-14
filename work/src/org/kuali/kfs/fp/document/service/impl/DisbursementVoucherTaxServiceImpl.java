@@ -25,17 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.PersonTaxId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.bo.user.UserId;
-import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.MaintenanceDocumentService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
@@ -47,6 +36,17 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.bo.user.PersonTaxId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.bo.user.UserId;
+import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.MaintenanceDocumentService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This is the default implementation of the DisbursementVoucherExtractService interface.

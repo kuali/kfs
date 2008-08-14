@@ -18,11 +18,11 @@ package org.kuali.kfs.module.cg.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.module.cg.businessobject.Subcontractor;
 import org.kuali.kfs.module.cg.service.SubcontractorService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.spring.Cached;
 
 /**
  * Implementation of the Subcontractor service.

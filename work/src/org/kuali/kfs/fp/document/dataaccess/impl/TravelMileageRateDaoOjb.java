@@ -23,10 +23,10 @@ import java.util.Iterator;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb;
 import org.kuali.kfs.fp.businessobject.TravelMileageRate;
 import org.kuali.kfs.fp.document.dataaccess.TravelMileageRateDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * This class is the OJB implementation of the TravelMileageRate interface.

@@ -20,9 +20,9 @@ package org.kuali.kfs.pdp.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
 import org.kuali.kfs.pdp.dataaccess.AchAccountNumberDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 
 /**

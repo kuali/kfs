@@ -19,8 +19,8 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * @author local-jsissom

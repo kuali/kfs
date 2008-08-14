@@ -22,10 +22,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.cg.businessobject.BudgetTask;
 import org.kuali.kfs.module.cg.document.service.BudgetTaskService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class BudgetTaskServiceImpl implements BudgetTaskService {
 

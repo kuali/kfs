@@ -20,11 +20,11 @@ import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.dao.ojb.DocumentHeaderDaoOjb;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.dao.impl.DocumentHeaderDaoOjb;
 
 /**
  * This class is the financial system document header dao ojb implementation
@@ -52,7 +52,7 @@ public class FinancialSystemDocumentHeaderDaoOjb extends DocumentHeaderDaoOjb im
     }
 
     /**
-     * @see org.kuali.core.dao.DocumentHeaderDao#getByDocumentFinalDate(Date documentFinalDate)
+     * @see org.kuali.rice.kns.dao.DocumentHeaderDao#getByDocumentFinalDate(Date documentFinalDate)
      */
     public Collection getByDocumentFinalDate(Date documentFinalDate) {
         Criteria criteria = new Criteria();

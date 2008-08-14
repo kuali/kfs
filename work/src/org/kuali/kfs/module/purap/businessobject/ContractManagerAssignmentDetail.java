@@ -18,10 +18,6 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.format.DateViewTimestampObjectFormatter;
-import org.kuali.core.web.format.Formatter;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -29,8 +25,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CommodityContractManager;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter;
+import org.kuali.rice.kns.web.format.Formatter;
 
 /**
  * Assign Contract Manager Detail Business Object. Defines attributes in Assign Contract Manager tab.
@@ -195,7 +194,7 @@ public class ContractManagerAssignmentDetail extends PersistableBusinessObjectBa
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

@@ -20,10 +20,10 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Relationship between a Vendor and a <code>SupplierDiversity</code>.
@@ -106,7 +106,7 @@ public class VendorSupplierDiversity extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

@@ -16,15 +16,15 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Performs prompts and other pre business rule checks for the Accounts Payable Document (and its children).
@@ -40,7 +40,7 @@ public class AccountsPayableDocumentPreRulesBase extends PreRulesContinuationBas
      * Asks for an override if the document hasn't reached full entry and the entered amount does not
      * match the total amount of all items.
      * 
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     public boolean doRules(Document document) {
 

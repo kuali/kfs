@@ -199,7 +199,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Account-accountPhysicalCampusCode" parent="Account-accountPhysicalCampusCode-parentBean" />
   <dd:boAttributeRef id="Account-accountPhysicalCampusCode-parentBean" abstract="true" parent="Campus-campusCode"
                      attributeName="accountPhysicalCampusCode" >
-    <dd:select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
+    <dd:select valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" />
   </dd:boAttributeRef>
 
   <bean id="Account-subFundGroupCode" parent="Account-subFundGroupCode-parentBean" />
@@ -679,7 +679,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="formatterClass" value="org.kuali.core.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="Account-accountFiscalOfficerSystemIdentifier" parent="Account-accountFiscalOfficerSystemIdentifier-parentBean" />
 

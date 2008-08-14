@@ -24,19 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.AdHocRoutePerson;
-import org.kuali.core.bo.AdHocRouteWorkgroup;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.rule.event.AddAdHocRoutePersonEvent;
-import org.kuali.core.rule.event.AddAdHocRouteWorkgroupEvent;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
@@ -45,9 +32,21 @@ import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
 import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.v2.service.AuthenticationService;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
+import org.kuali.rice.kns.bo.AdHocRoutePerson;
+import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
+import org.kuali.rice.kns.rule.event.AddAdHocRoutePersonEvent;
+import org.kuali.rice.kns.rule.event.AddAdHocRouteWorkgroupEvent;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase {
 
@@ -92,7 +91,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         ActionForward forward = super.docHandler(mapping, form, request, response);
         ResearchDocumentFormBase researchForm = (ResearchDocumentFormBase) form;
 
-        if (IDocHandler.INITIATE_COMMAND.equals(researchForm.getCommand())) {
+        if (KEWConstants.INITIATE_COMMAND.equals(researchForm.getCommand())) {
             // do something?
             researchForm.getResearchDocument().initialize();
         }

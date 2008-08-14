@@ -21,7 +21,7 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.sql.Timestamp;
 
-import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * @author jsissom

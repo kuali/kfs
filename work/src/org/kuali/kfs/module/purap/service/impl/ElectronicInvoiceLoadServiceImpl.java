@@ -28,9 +28,8 @@ import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceLoadService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceService;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
  * @author delyea

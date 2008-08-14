@@ -18,11 +18,11 @@ package org.kuali.kfs.vnd.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableRestrictedMaterial;
 import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class RestrictedMaterialValuesFinder extends KeyValuesBase {
 

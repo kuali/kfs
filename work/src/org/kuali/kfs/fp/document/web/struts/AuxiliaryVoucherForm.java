@@ -25,8 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
@@ -37,6 +35,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * Struts form so <code>{@link AuxiliaryVoucherDocument}</code> can be accessed and modified through UI.
@@ -57,7 +57,7 @@ public class AuxiliaryVoucherForm extends VoucherForm {
      * lists on the page. In addition, this also makes sure that the credit and debit amounts are filled in for situations where
      * validation errors occur and the page reposts.
      * 
-     * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
     public void populate(HttpServletRequest request) {
         // populate the drop downs

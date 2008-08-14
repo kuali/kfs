@@ -20,19 +20,17 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.actiontaken.ActionTakenService;
-import edu.iu.uis.eden.actiontaken.ActionTakenValue;
+import org.kuali.rice.kew.actiontaken.ActionTakenValue;
+import org.kuali.rice.kew.actiontaken.service.ActionTakenService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * 
@@ -279,9 +277,9 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
                 }
 
                 // KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
-                // ActionTakenVO[] actionsTaken = kualiWorkflowInfo.getActionsTaken(docNum);
+                // ActionTakenDTO[] actionsTaken = kualiWorkflowInfo.getActionsTaken(docNum);
                 // if (actionsTaken.length > 0) {
-                // this.financialDocumentInitiatorIdentifier = actionsTaken[actionsTaken.length-1].getUserVO().getNetworkId();
+                // this.financialDocumentInitiatorIdentifier = actionsTaken[actionsTaken.length-1].getUserDTO().getNetworkId();
                 // this.financialDocumentCreateDate = new
                 // Date(actionsTaken[actionsTaken.length-1].getActionDate().getTimeInMillis());
                 // } else {
@@ -326,9 +324,9 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
                 }
 
                 // KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
-                // ActionTakenVO[] actionsTaken = kualiWorkflowInfo.getActionsTaken(docNum);
+                // ActionTakenDTO[] actionsTaken = kualiWorkflowInfo.getActionsTaken(docNum);
                 // if (actionsTaken.length > 0) {
-                // this.financialDocumentInitiatorIdentifier = actionsTaken[actionsTaken.length-1].getUserVO().getNetworkId();
+                // this.financialDocumentInitiatorIdentifier = actionsTaken[actionsTaken.length-1].getUserDTO().getNetworkId();
                 // this.financialDocumentCreateDate = new
                 // Date(actionsTaken[actionsTaken.length-1].getActionDate().getTimeInMillis());
                 // }
@@ -466,7 +464,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

@@ -16,11 +16,11 @@
 package org.kuali.kfs.fp.businessobject.format;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.format.Formatter;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.format.Formatter;
 
 public class CashReceiptDepositTypeFormatter extends Formatter {
     private final String INTERIM_CD;

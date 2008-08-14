@@ -27,14 +27,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.exception.CashDrawerStateException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 
 /**
@@ -51,7 +51,7 @@ public class CashManagementStatusAction extends KualiAction {
 
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

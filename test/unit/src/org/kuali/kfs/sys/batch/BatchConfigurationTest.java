@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.KualiModule;
-import org.kuali.core.service.KualiModuleService;
+import org.kuali.rice.kns.KualiModule;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

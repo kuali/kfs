@@ -3,9 +3,9 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -319,7 +319,7 @@ public class DocumentRecurrence extends PersistableBusinessObjectBase implements
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
 	 */
     @SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper() {

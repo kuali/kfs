@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.businessobject.lookup;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class KualiNonResidentAlienTaxPercentLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     /**

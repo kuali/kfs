@@ -23,10 +23,10 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
-import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
  * This class is the action form for balance inquiry lookup results

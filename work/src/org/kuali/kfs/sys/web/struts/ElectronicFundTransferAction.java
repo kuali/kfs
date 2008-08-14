@@ -23,11 +23,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class ElectronicFundTransferAction extends KualiAction {
     private final static String START_BEAN = "electronicFundTransferStartAction";
@@ -36,7 +36,7 @@ public class ElectronicFundTransferAction extends KualiAction {
     private final static String CANCEL_BEAN = "electronicFundTransferCancelAction";
     
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

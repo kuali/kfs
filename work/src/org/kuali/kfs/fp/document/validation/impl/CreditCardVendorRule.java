@@ -19,14 +19,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.fp.businessobject.CreditCardVendor;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class represents business rules for the credit card vendor maintenance document
@@ -38,7 +38,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
     /**
      *  Sets up a CreditCardVendor convenience objects to make sure all possible sub-objects are populated
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
      */
     public void setupConvenienceObjects() {
 
@@ -51,7 +51,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
      * @param document maintenance document
      * @return true credit card vendor number is valid
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         // default to success
@@ -70,7 +70,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
      * @param document maintenance document
      * @return value from processCustomRouteDocumentBusinessRules(document)
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
 
@@ -83,7 +83,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
      * @param document submitted credit card maintenance document
      * @return true if credit card vendor number, income/expense account numbers, income/expense sub-account numbers, and income/expense sub-object codes are valid
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         // default to success

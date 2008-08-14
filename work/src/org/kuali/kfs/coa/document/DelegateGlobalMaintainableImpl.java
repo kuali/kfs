@@ -23,10 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.coa.businessobject.DelegateGlobal;
@@ -35,6 +31,10 @@ import org.kuali.kfs.coa.businessobject.OrganizationRoutingModel;
 import org.kuali.kfs.coa.businessobject.OrganizationRoutingModelName;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global delegates
@@ -47,7 +47,7 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
     /**
      * This method is used for the creation of a delegate from a {@link OrganizationRoutingModelName}
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#setupNewFromExisting()
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setupNewFromExisting()
      */
     @Override
     public void setupNewFromExisting( MaintenanceDocument document, Map<String,String[]> parameters ) {
@@ -81,7 +81,7 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
     /**
      * This creates the particular locking representation for this global document.
      * 
-     * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {

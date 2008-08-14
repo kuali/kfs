@@ -22,11 +22,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Incumbent {
 
@@ -203,7 +203,7 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
     }
 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -226,7 +226,7 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     public LinkedHashMap toStringMapper() {
         LinkedHashMap<String, Object> mapper = new LinkedHashMap<String, Object>();

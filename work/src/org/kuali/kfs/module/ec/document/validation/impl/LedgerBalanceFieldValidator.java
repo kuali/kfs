@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
@@ -32,6 +31,7 @@ import org.kuali.kfs.module.ec.util.LedgerBalanceConsolidationHelper;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * The validator provides a set of facilities to determine whether the given ledger balances meet the specified requirements. As a

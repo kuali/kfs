@@ -20,9 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.spring.Cached;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
@@ -31,6 +28,9 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.spring.Cached;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
@@ -90,7 +90,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see org.kuali.kfs.coa.service.AccountService#hasResponsibilityOnAccount(org.kuali.core.bo.user.UniversalUser,
+     * @see org.kuali.kfs.coa.service.AccountService#hasResponsibilityOnAccount(org.kuali.rice.kns.bo.user.UniversalUser,
      *      org.kuali.kfs.coa.businessobject.Account)
      */
     public boolean hasResponsibilityOnAccount(UniversalUser kualiUser, Account account) {

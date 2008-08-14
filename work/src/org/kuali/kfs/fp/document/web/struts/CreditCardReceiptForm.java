@@ -19,11 +19,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.kfs.fp.businessobject.CreditCardDetail;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 
 /**
  * This class is the struts form for Credit Card Receipt document.
@@ -65,7 +65,7 @@ public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase {
      * Overrides the parent to call super.populate and then tells each line to check the associated data dictionary and modify the
      * values entered to follow all the attributes set for the values of the accounting line.
      * 
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {

@@ -16,16 +16,16 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * General PreRules checks for all Maintenance docs that needs to occur while still in the Struts processing.
@@ -65,7 +65,7 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
      * This is called from the rules service to execute our rules A hook is provided here for sub-classes to override the
      * {@link MaintenancePreRulesBase#doCustomPreRules(MaintenanceDocument)}
      * 
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     public boolean doRules(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;

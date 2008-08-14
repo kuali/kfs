@@ -19,10 +19,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.dataaccess.NonInvoicedDistributionDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class NonInvoicedDistributionDaoOjb extends PlatformAwareDaoBaseOjb implements NonInvoicedDistributionDao {
     private BusinessObjectService businessObjectService;

@@ -16,11 +16,6 @@
 package org.kuali.kfs.module.bc.document.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -39,6 +34,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * implementing the validation methods defined in BudgetConstructionRuleHelperService

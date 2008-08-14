@@ -22,13 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.dao.LookupDao;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.dao.LookupDao;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 public class VendorContractLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private LookupDao lookupDao;
@@ -45,7 +45,7 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
     /**
      * Overrides the getSearchResults in the super class so that we can do some customization in our vendor contract lookup.
      * 
-     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {

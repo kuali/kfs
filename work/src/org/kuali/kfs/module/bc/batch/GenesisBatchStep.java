@@ -16,17 +16,17 @@
 package org.kuali.kfs.module.bc.batch;
 
 import java.util.Date;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.kfs.module.bc.batch.service.GenesisService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 
 
 public class GenesisBatchStep extends AbstractStep {

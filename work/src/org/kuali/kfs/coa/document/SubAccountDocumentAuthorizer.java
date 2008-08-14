@@ -15,20 +15,20 @@
  */
 package org.kuali.kfs.coa.document;
 
-import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.user.KualiGroup;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
+import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.service.KualiGroupService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class...
@@ -91,8 +91,8 @@ public class SubAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocu
     /**
      * Adds in a can blanket approve flag for Sub Accounts if the workflow document state is not canceled
      * 
-     * @see org.kuali.core.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

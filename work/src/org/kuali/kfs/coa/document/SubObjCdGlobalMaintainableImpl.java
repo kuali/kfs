@@ -18,13 +18,13 @@ package org.kuali.kfs.coa.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.coa.businessobject.SubObjCdGlobal;
 import org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 
 /**
  * This class provides some specific functionality for the {@link SubObjCdGlobal} maintenance document generateMaintenanceLocks -
@@ -35,7 +35,7 @@ public class SubObjCdGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
     /**
      * This generates maintenance locks on {@link SubObjCd}
      * 
-     * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {

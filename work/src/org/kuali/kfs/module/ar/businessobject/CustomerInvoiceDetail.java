@@ -6,20 +6,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
-import org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class represents a customer invoice detail on the customer invoice document. This class extends SourceAccountingLine since
@@ -384,7 +379,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {

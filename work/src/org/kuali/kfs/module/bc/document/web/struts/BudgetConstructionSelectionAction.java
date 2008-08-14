@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,17 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.authorization.AuthorizationType;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.exceptions.ModuleAuthorizationException;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiModuleService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
@@ -47,7 +35,6 @@ import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionSelect;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
@@ -55,8 +42,14 @@ import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.authorization.AuthorizationType;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.exception.ModuleAuthorizationException;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 
 /**
@@ -66,7 +59,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionSelectionAction.class);
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -99,7 +92,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
      */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
@@ -168,7 +161,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -254,7 +247,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
      * Builds forward URL to lock monitor page, following expansion screen pattern. Also checks if the user has permission for the unlock action and sets the
      * show action column property accordingly.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performLockMonitor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -291,7 +284,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
     /**
      * Calls service to build the account list for which the user is a manager and delegate. Then forwards to temp list action to display the results.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performMyAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

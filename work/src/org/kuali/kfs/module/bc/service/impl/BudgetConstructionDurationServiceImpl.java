@@ -18,10 +18,10 @@ package org.kuali.kfs.module.bc.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionDuration;
 import org.kuali.kfs.module.bc.service.BudgetConstructionDurationService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * implements the service methods defined in BudgetConstructionDurationService

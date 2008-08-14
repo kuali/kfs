@@ -16,13 +16,13 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Business rule(s) applicable to IndirectCostAdjustment documents.
@@ -60,8 +60,8 @@ public class IndirectCostAdjustmentDocumentRule extends AccountingDocumentRuleBa
      * @param accountingLine The new accounting line to add.
      * @return True if all the business rules passed, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      * @see #processCommonCustomAccountingLineBusinessRules(AccountingLine)
      * @see #isChartOfAccountsAllowed(AccountingLine)
      * @see #isAccountAllowed(AccountingLine)
@@ -86,8 +86,8 @@ public class IndirectCostAdjustmentDocumentRule extends AccountingDocumentRuleBa
      * @param accountingLine The accounting line being reviewed.
      * @return True if all the business rules passed, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processReviewAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      * @see #processCommonCustomAccountingLineBusinessRules(AccountingLine)
      * @see #isChartOfAccountsAllowed(AccountingLine)
      * @see #isAccountAllowed(AccountingLine)
@@ -112,8 +112,8 @@ public class IndirectCostAdjustmentDocumentRule extends AccountingDocumentRuleBa
      * @param accountingLine The accounting line being updated.
      * @return True if all the business rules passed, false otherwise.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processUpdateAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processUpdateAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.rice.kns.bo.AccountingLine)
      * @see #processCommonCustomAccountingLineBusinessRules(AccountingLine)
      * @see #isChartOfAccountsAllowed(AccountingLine)
      * @see #isAccountAllowed(AccountingLine)

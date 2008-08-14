@@ -18,14 +18,6 @@ package org.kuali.kfs.module.ar.document.authorization;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -34,7 +26,15 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
@@ -62,8 +62,8 @@ public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthor
     }
 
     /**
-     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -84,7 +84,7 @@ public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthor
 
 
      /**
-     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

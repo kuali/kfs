@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -28,31 +27,24 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
-import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
-import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
 

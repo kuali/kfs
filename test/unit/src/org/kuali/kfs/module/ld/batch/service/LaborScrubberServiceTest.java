@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ld.batch.service;
 
 import java.util.Calendar;
 
-import org.kuali.core.service.PersistenceService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.gl.service.ScrubberValidator;

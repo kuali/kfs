@@ -25,9 +25,9 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.LedgerEntry;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;

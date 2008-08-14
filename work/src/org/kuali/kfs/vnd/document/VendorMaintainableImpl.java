@@ -22,25 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.NoteService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
-import org.kuali.core.web.ui.Section;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -52,12 +33,31 @@ import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class VendorMaintainableImpl extends KualiMaintainableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorMaintainableImpl.class);
 
     /**
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#setGenerateDefaultValues(boolean)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setGenerateDefaultValues(boolean)
      */
     @Override
     public void setGenerateDefaultValues(boolean generateDefaultValues) {
@@ -70,7 +70,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     /**
      * Overrides the kuali default documents title with a Vendor-specific document title style
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#getDocumentTitle(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getDocumentTitle(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     public String getDocumentTitle(MaintenanceDocument document) {
@@ -183,8 +183,8 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      * Refreshes the vendorDetail. Currently we need this mainly for refreshing the soldToVendor object after returning from the
      * lookup for a sold to vendor.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
-     *      org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
+     *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
@@ -226,7 +226,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      * the Tax Number or Tax Type code have changed, the fact will be recorded with a new record in the Tax Change table. Finally
      * the method will call the saveBusinessObject( ) of the super class to save the vendor detail.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#saveBusinessObject()
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#saveBusinessObject()
      */
     @Override
     public void saveBusinessObject() {
@@ -246,7 +246,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterEdit()
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit()
      */
     @Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
@@ -300,7 +300,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      * vendorName field, then set the vendorName field to null. Then it sets the businessObject of this maintainable to the
      * VendorDetail object that contains our modification to the name fields.
      * 
-     * @see org.kuali.core.maintenance.Maintainable#saveBusinessObject()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#saveBusinessObject()
      */
     @Override
     public void setBusinessObject(PersistableBusinessObject bo) {
@@ -367,7 +367,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      * implementation of generateMaintenanceLocks which will set the locking key to be the header and detail ids. However, if the
      * detail id is null, that means this is a new vendor (parent or division) and we should ignore locking.
      * 
-     * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
@@ -385,7 +385,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      * set to true in the constructor of VendorDetail, but if we're creating a new division, it's not a parent, so we need to set
      * the vendorParentIndicator to false in this case.
      * 
-     * @see org.kuali.core.maintenance.Maintainable#setupNewFromExisting()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#setupNewFromExisting()
      */
     @Override
     public void setupNewFromExisting( MaintenanceDocument document, Map<String,String[]> parameters ) {
@@ -403,7 +403,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      * Also, don't show the vendor diversity add line if the vendor is not a parent, or if the vendor is a parent
      * but the vendor was previously (in the old maintainable) not a parent.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#getSections(org.kuali.core.maintenance.Maintainable)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
     @Override
     public List getSections(Maintainable oldMaintainable) {
@@ -469,7 +469,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
      */
     @Override
     protected boolean isRelationshipRefreshable(Class boClass, String relationshipName) {

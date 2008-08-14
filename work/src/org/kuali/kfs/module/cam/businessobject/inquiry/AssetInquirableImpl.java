@@ -19,11 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
-import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
@@ -33,13 +28,18 @@ import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.kns.web.ui.Section;
 
 public class AssetInquirableImpl extends KfsInquirableImpl {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetInquirableImpl.class);
     
     /**
      * Executes service methods to populate appropriate data in the Asset BO.
-     * @see org.kuali.core.inquiry.KualiInquirableImpl#getBusinessObject(java.util.Map)
+     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getBusinessObject(java.util.Map)
      */
     @Override
     public BusinessObject getBusinessObject(Map fieldValues) {
@@ -74,7 +74,7 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
     /**
      * Show the Payments Lookup tab. This is for assets with large amounts of payments.
      * 
-     * @see org.kuali.core.inquiry.KualiInquirableImpl#addAdditionalSections(java.util.List, org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#addAdditionalSections(java.util.List, org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public void addAdditionalSections(List sections, BusinessObject bo) {
@@ -101,7 +101,7 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
     /**
      * Hide payments if there are more then the allowable number.
      * 
-     * @see org.kuali.core.inquiry.KualiInquirableImpl#getSections(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public List<Section> getSections(BusinessObject businessObject) {

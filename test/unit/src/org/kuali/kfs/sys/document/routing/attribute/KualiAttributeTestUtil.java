@@ -22,12 +22,12 @@ import java.io.Reader;
 
 import org.apache.commons.lang.StringUtils;
 
-import edu.iu.uis.eden.doctype.DocumentType;
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.exception.InvalidXmlException;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
-import edu.iu.uis.eden.routeheader.StandardDocumentContent;
+import org.kuali.rice.kew.doctype.DocumentType;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.InvalidXmlException;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.routeheader.StandardDocumentContent;
 
 /**
  * This class contains various utility methods for doing tests on workflow attributes.

@@ -27,12 +27,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
 import org.kuali.kfs.module.cg.document.validation.event.UpdateNonpersonnelEventBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiRuleService;
 
 public class BudgetNonpersonnelAction extends BudgetAction {
 

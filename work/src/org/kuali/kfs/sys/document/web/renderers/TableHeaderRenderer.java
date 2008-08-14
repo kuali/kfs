@@ -15,12 +15,6 @@
  */
 package org.kuali.kfs.sys.document.web.renderers;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.Tag;
-
-import org.kuali.kfs.sys.document.web.AccountingLineTableCell;
 
 /**
  * Renders a table cell as a header

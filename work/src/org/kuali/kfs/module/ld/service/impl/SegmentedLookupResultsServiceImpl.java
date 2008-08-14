@@ -27,17 +27,17 @@ import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.LookupResults;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.SelectedObjectIds;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.lookup.LookupResultsServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kfs.module.ld.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.LookupResults;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.SelectedObjectIds;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.lookup.LookupResultsServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -69,7 +69,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     }
 
     /**
-     * @see org.kuali.core.lookup.LookupResultsService#persistResultsTable(java.lang.String, java.util.List, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.LookupResultsService#persistResultsTable(java.lang.String, java.util.List, java.lang.String)
      */
     public void persistResultsTable(String lookupResultsSequenceNumber, List<ResultRow> resultTable, String universalUserId) throws Exception {
         String resultTableString = new String(Base64.encodeBase64(ObjectUtils.toByteArray(resultTable)));
@@ -90,7 +90,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     }
 
     /**
-     * @see org.kuali.core.lookup.LookupResultsService#persistSelectedObjectIds(java.lang.String, java.util.Set, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.LookupResultsService#persistSelectedObjectIds(java.lang.String, java.util.Set, java.lang.String)
      */
     public void persistSelectedObjectIds(String lookupResultsSequenceNumber, Set<String> selectedObjectIds, String universalUserId) throws Exception {
         SelectedObjectIds selectedObjectIdsBO = retrieveSelectedObjectIds(lookupResultsSequenceNumber);
@@ -106,7 +106,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     }
 
     /**
-     * @see org.kuali.core.lookup.LookupResultsService#retrieveResultsTable(java.lang.String, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.LookupResultsService#retrieveResultsTable(java.lang.String, java.lang.String)
      */
     public List<ResultRow> retrieveResultsTable(String lookupResultsSequenceNumber, String universalUserId) throws Exception {
         LookupResults lookupResults = retrieveLookupResults(lookupResultsSequenceNumber);
@@ -122,7 +122,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
      * unless they have been deleted or the object ID changed. Since data may have changed since the search, the returned BOs may
      * not match the criteria used to search.
      * 
-     * @see org.kuali.core.lookup.LookupResultsService#retrieveSelectedResultBOs(java.lang.String, java.lang.Class,
+     * @see org.kuali.rice.kns.lookup.LookupResultsService#retrieveSelectedResultBOs(java.lang.String, java.lang.Class,
      *      java.lang.String)
      */
     public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Class boClass, String universalUserId) throws Exception {

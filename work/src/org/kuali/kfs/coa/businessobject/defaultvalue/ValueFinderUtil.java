@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.coa.businessobject.defaultvalue;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class holds utilities to assist with finding current chart and universal users

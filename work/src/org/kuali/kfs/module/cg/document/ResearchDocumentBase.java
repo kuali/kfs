@@ -20,11 +20,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.AdHocRoutePerson;
-import org.kuali.core.bo.AdHocRouteWorkgroup;
-import org.kuali.core.document.Copyable;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
@@ -32,8 +27,12 @@ import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsServi
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.AdHocRoutePerson;
+import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.PersistenceService;
 
 /**
  * Research Administration Document Base
@@ -58,7 +57,7 @@ public abstract class ResearchDocumentBase extends FinancialSystemTransactionalD
     /**
      * Overridden to note clear and add notes.
      * 
-     * @see org.kuali.core.document.DocumentBase#toCopy()
+     * @see org.kuali.rice.kns.document.DocumentBase#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException, IllegalStateException {
@@ -235,7 +234,7 @@ public abstract class ResearchDocumentBase extends FinancialSystemTransactionalD
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
 
 public class ReceivingCorrectionDocumentPreRules extends PreRulesContinuationBase {
 

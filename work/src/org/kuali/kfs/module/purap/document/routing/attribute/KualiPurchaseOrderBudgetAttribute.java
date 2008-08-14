@@ -26,8 +26,6 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.gl.service.SufficientFundsService;
@@ -40,14 +38,15 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-
-import edu.iu.uis.eden.WorkflowServiceErrorImpl;
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.RuleExtension;
-import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
+import org.kuali.rice.kew.lookupable.Row;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.RuleExtension;
+import org.kuali.rice.kew.rule.RuleExtensionValue;
+import org.kuali.rice.kew.rule.WorkflowAttribute;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * TODO delyea - documentation
@@ -68,10 +67,10 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
      * No arg constructor
      */
     public KualiPurchaseOrderBudgetAttribute() {
-        ruleRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
+        ruleRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
 
-        routingDataRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
+        routingDataRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, UNIVERSITY_FISCAL_YEAR_KEY));
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
     }
@@ -85,7 +84,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getDocContent()
      */
     public String getDocContent() {
         if ((StringUtils.isBlank(getFinCoaCd())) && (StringUtils.isBlank(getFiscalYear()))) {
@@ -98,21 +97,21 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
      */
     public List<Row> getRoutingDataRows() {
         return routingDataRows;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleRows()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRuleRows()
      */
     public List<Row> getRuleRows() {
         return ruleRows;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
      */
     public List<RuleExtensionValue> getRuleExtensionValues() {
         List extensions = new ArrayList();
@@ -209,7 +208,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRoutingData(java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#validateRoutingData(java.util.Map)
      */
     public List validateRoutingData(Map paramMap) {
         List errors = new ArrayList();
@@ -245,7 +244,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
      */
     public List validateRuleData(Map paramMap) {
         List errors = new ArrayList();

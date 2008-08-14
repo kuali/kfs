@@ -17,8 +17,8 @@ package org.kuali.kfs.fp.document.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * 

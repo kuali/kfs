@@ -18,8 +18,8 @@ package org.kuali.kfs.gl.service;
 import java.util.List;
 import java.util.UUID;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.Guid;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.Guid;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

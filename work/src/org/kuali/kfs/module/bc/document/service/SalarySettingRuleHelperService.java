@@ -17,8 +17,8 @@ package org.kuali.kfs.module.bc.document.service;
 
 import java.util.List;
 
-import org.kuali.core.util.ErrorMap;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.rice.kns.util.ErrorMap;
 
 
 public interface SalarySettingRuleHelperService {

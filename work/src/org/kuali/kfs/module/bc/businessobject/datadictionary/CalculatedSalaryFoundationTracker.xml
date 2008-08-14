@@ -82,7 +82,7 @@
     <property name="name" value="csfAmount" />
     <property name="label" value="CSF Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-csfCreateTimestamp" parent="CalculatedSalaryFoundationTracker-csfCreateTimestamp-parentBean" />
 

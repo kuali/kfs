@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
-import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;

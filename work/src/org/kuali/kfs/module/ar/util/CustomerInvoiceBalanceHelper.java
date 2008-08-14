@@ -18,14 +18,12 @@ package org.kuali.kfs.module.ar.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class CustomerInvoiceBalanceHelper {
 

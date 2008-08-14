@@ -16,16 +16,15 @@
 package org.kuali.kfs.sys.document;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.MaintenanceDocumentBase;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
-
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.exception.WorkflowRuntimeException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowRuntimeException;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * This class is used by the system to use financial specific objects and data for maintenance documents
@@ -51,7 +50,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#getDocumentHeader()
+     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentHeader()
      */
     @Override
     public FinancialSystemDocumentHeader getDocumentHeader() {
@@ -59,7 +58,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#setDocumentHeader(org.kuali.core.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.document.DocumentBase#setDocumentHeader(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
     public void setDocumentHeader(DocumentHeader documentHeader) {
@@ -72,7 +71,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     /**
      * If the document has a total amount, call method on document to get the total and set in doc header.
      * 
-     * @see org.kuali.core.document.Document#prepareForSave()
+     * @see org.kuali.rice.kns.document.Document#prepareForSave()
      */
 //    @Override
 //    public void prepareForSave() {
@@ -84,7 +83,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     /**
      * This is the default implementation which ensures that document note attachment references are loaded.
      * 
-     * @see org.kuali.core.document.Document#processAfterRetrieve()
+     * @see org.kuali.rice.kns.document.Document#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
@@ -107,7 +106,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     /**
      * This is the default implementation which checks for a different workflow statuses, and updates the Kuali status accordingly.
      * 
-     * @see org.kuali.core.document.Document#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.Document#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {

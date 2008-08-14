@@ -24,10 +24,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.report.Summary;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.ExceptionConverter;

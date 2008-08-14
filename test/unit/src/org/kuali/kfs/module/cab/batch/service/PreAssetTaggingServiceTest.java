@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cab.batch.service;
 
-import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.kfs.module.cab.batch.PreAssetTaggingInputFileType;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;

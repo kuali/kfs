@@ -16,8 +16,8 @@
 package org.kuali.kfs.fp.document.web.struts;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * This class...

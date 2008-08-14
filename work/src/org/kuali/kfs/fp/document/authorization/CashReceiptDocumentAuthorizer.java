@@ -21,12 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
-import org.kuali.core.util.Timer;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
@@ -37,6 +31,12 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
+import org.kuali.rice.kns.util.Timer;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Abstract base class for all TransactionalDocumentAuthorizers, since there's this one bit of common code.
@@ -48,8 +48,8 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      * Overrides to use the parent's implementation, with the exception that if the cash drawer that is associated with this
      * document is closed, the CR doc cannot be approved at all.
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -81,7 +81,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
     /**
      * Overrides to always return false because there is never FO routing or FO approval for CR docs.
      * 
-     * @see org.kuali.module.financial.document.FinancialDocumentAuthorizer#userOwnsAnyAccountingLine(org.kuali.core.bo.user.KualiUser,
+     * @see org.kuali.module.financial.document.FinancialDocumentAuthorizer#userOwnsAnyAccountingLine(org.kuali.rice.kns.bo.user.KualiUser,
      *      java.util.List)
      */
     @Override
@@ -92,8 +92,8 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
     /**
      * Overrides parent to return an empty Map since FO routing doesn't apply to the CR doc.
      * 
-     * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
@@ -115,7 +115,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      * CR docs cannot be initiated by users in a verification unit that the CR is associated with. Right now, since there is a
      * single verification unit, we only need this to check for exitence in that one.
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {

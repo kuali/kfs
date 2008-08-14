@@ -17,10 +17,10 @@ package org.kuali.kfs.sys;
 
 import java.util.Iterator;
 
-import org.kuali.core.mail.InvalidAddressException;
-import org.kuali.core.mail.MailMessage;
-import org.kuali.core.service.MailService;
-import org.kuali.core.service.impl.MailServiceImpl;
+import org.kuali.rice.kns.mail.InvalidAddressException;
+import org.kuali.rice.kns.mail.MailMessage;
+import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.service.impl.MailServiceImpl;
 
 /**
  * A mail service that's used to log messages instead of sending it out (useful for unit testing)
@@ -29,7 +29,7 @@ public class NonSendingMailService extends MailServiceImpl implements MailServic
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NonSendingMailService.class);
 
     /**
-     * @see org.kuali.core.service.impl.MailServiceImpl#sendMessage(org.kuali.core.mail.MailMessage)
+     * @see org.kuali.rice.kns.service.impl.MailServiceImpl#sendMessage(org.kuali.rice.kns.mail.MailMessage)
      */
     @Override
     public void sendMessage(MailMessage message) throws InvalidAddressException {

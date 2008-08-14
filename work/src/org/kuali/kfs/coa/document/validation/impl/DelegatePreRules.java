@@ -18,12 +18,12 @@ package org.kuali.kfs.coa.document.validation.impl;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForm;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.rule.PreRulesCheck;
-import org.kuali.core.rule.event.PreRulesCheckEvent;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.rule.PreRulesCheck;
+import org.kuali.rice.kns.rule.event.PreRulesCheckEvent;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * PreRules checks for the {@link Delegate} that needs to occur while still in the Struts processing. This includes defaults
@@ -41,8 +41,8 @@ public class DelegatePreRules implements PreRulesCheck {
     /**
      * This method sets some defaults on the {@link Delegate}
      * 
-     * @see org.kuali.core.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm,
-     *      javax.servlet.http.HttpServletRequest, org.kuali.core.rule.event.PreRulesCheckEvent)
+     * @see org.kuali.rice.kns.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm,
+     *      javax.servlet.http.HttpServletRequest, org.kuali.rice.kns.rule.event.PreRulesCheckEvent)
      */
     public boolean processPreRuleChecks(ActionForm form, HttpServletRequest request, PreRulesCheckEvent event) {
         LOG.info("Entering processPreRuleChecks");

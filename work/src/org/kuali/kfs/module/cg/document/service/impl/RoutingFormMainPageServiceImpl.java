@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.DueDateType;
 import org.kuali.kfs.module.cg.businessobject.PersonRole;
@@ -41,6 +40,7 @@ import org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageService {
 

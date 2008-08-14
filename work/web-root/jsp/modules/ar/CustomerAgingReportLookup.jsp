@@ -68,7 +68,7 @@
 					</c:if> <!-- Optional extra button --> <c:if
 						test="${not empty KualiForm.lookupable.extraButtonSource}">
 						<a
-							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=org.kuali.core.lookup.KualiLookupableImpl&docFormKey=${KualiForm.formKey}" /><c:out value="${KualiForm.lookupable.extraButtonParams}" />'  title="cancel">
+							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=org.kuali.rice.kns.lookup.KualiLookupableImpl&docFormKey=${KualiForm.formKey}" /><c:out value="${KualiForm.lookupable.extraButtonParams}" />'  title="cancel">
 						<img
 							src='<c:out value="${KualiForm.lookupable.extraButtonSource}" />'
 							class="tinybutton"  border="0" alt="cancel"/></a>
@@ -97,7 +97,7 @@
 				export="true" pagesize="100" offset="${offset}"
 				requestURI="arCustomerAgingReportLookup.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
 				<c:forEach items="${row.columns}" var="column" varStatus="status">
-					<display:column class="${(column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter') ? 'numbercell' : 'inofocell'}" 
+					<display:column class="${(column.formatter.implementationClass == 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'inofocell'}" 
 						title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">
 						<c:choose>
 							<c:when test="${column.propertyURL != \"\" && param['d-16544-e'] == null}">

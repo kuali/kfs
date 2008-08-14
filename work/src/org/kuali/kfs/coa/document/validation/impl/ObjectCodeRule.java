@@ -23,9 +23,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -39,6 +36,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This class implements the business rules for {@link ObjectCode}
@@ -81,7 +81,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
      * <li>{@link ObjectCodeRule#processObjectCodeRules(ObjectCode)}</li>
      * </ul>
      * It does not fail if rules fail
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -102,7 +102,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
      * <ul>
      * <li>{@link ObjectCodeRule#processObjectCodeRules(ObjectCode)}</li>
      * </ul>
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -391,7 +391,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
     /**
      * 
-     * This method retrieves the list of {@link org.kuali.core.bo.Parameter} for the {@link ObjectCode} and specific parameterName
+     * This method retrieves the list of {@link org.kuali.rice.kns.bo.Parameter} for the {@link ObjectCode} and specific parameterName
      * @param parameterName
      * @return List of parameters
      */

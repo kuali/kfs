@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cg;
 
-import org.kuali.rice.util.JSTLConstants;
+import org.kuali.rice.core.util.JSTLConstants;
 
 public class CGPropertyConstants extends JSTLConstants {
 

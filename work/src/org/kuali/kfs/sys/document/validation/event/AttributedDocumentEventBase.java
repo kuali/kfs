@@ -18,10 +18,10 @@ package org.kuali.kfs.sys.document.validation.event;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 /**
  * Base abstract implementation of an attributed document event.
@@ -41,7 +41,7 @@ public class AttributedDocumentEventBase extends KualiDocumentEventBase implemen
     }
     
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEventBase#KualiDocumentEventBase(java.lang.String, java.lang.String, org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEventBase#KualiDocumentEventBase(java.lang.String, java.lang.String, org.kuali.rice.kns.document.Document)
      */
     public AttributedDocumentEventBase(String description, String errorPathPrefix, Document document) {
         super(description, errorPathPrefix, document);
@@ -79,14 +79,14 @@ public class AttributedDocumentEventBase extends KualiDocumentEventBase implemen
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return AccountingRuleEngineRule.class;
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AccountingRuleEngineRule)rule).validateForEvent(this);

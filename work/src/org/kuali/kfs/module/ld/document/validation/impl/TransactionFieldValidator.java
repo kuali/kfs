@@ -20,13 +20,13 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class provides a set of utilities that can be used to validate a transaction in the field level.

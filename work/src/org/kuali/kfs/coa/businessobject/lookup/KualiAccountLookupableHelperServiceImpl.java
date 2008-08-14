@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.coa.businessobject.lookup;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class overrids the base getActionUrls method

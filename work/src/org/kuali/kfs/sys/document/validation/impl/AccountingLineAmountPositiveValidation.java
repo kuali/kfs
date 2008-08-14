@@ -19,14 +19,12 @@ import static org.kuali.kfs.sys.KFSConstants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ZERO_AMOUNT;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Validates an accounting line that, if the line is not a correction document, the line amount is a positive amount

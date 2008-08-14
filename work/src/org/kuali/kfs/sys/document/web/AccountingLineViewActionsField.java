@@ -21,12 +21,12 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.ui.Field;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.renderers.ActionsRenderer;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * A field that can join tables and also be rendered, this represents a table cell

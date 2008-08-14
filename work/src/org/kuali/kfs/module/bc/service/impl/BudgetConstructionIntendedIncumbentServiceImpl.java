@@ -18,13 +18,13 @@ package org.kuali.kfs.module.bc.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.Incumbent;
 import org.kuali.kfs.module.bc.exception.BudgetIncumbentAlreadyExistsException;
 import org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * implements the service methods defined in BudgetConstructionIntendedIncumbentService

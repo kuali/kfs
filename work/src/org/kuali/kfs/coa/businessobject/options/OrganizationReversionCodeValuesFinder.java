@@ -18,8 +18,8 @@ package org.kuali.kfs.coa.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link OrganizationReversionCode}s)
@@ -38,7 +38,7 @@ public class OrganizationReversionCodeValuesFinder extends KeyValuesBase {
      * <li>"R2", "R2 - Don't CF budget then R Remaining"</li>
      * </ul>
      * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();

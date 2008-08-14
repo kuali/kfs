@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.service;
 
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.ConfigureContext;

@@ -23,10 +23,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Field Finder for Labor Origin Entry.
@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 public class LaborOriginEntryFieldFinder extends KeyValuesBase {
 
     /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();

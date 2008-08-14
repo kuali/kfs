@@ -23,12 +23,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -41,6 +35,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class BudgetConstructionDocument extends FinancialSystemTransactionalDocumentBase {
 
@@ -518,7 +518,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -784,7 +784,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * to trace who has modified the document we override the routine below from Document we record the processed document state. a
      * budget construction document will never be "cancelled" or "disapproved"
      * 
-     * @see org.kuali.core.document.Document#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.Document#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {
@@ -800,7 +800,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
 
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

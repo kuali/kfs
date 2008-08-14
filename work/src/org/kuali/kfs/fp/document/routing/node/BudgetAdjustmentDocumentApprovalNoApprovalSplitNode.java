@@ -20,21 +20,20 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.sys.businessobject.AccountResponsibility;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.engine.RouteHelper;
-import edu.iu.uis.eden.engine.node.SplitNode;
-import edu.iu.uis.eden.engine.node.SplitResult;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.engine.RouteHelper;
+import org.kuali.rice.kew.engine.node.SplitNode;
+import org.kuali.rice.kew.engine.node.SplitResult;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * Checks for conditions on a Budget Adjustment document that allow auto-approval by the initiator. If these conditions are not met,

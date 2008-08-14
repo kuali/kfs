@@ -16,10 +16,10 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * PreRules checks for the {@link SubObjCd} that needs to occur while still in the Struts processing. This includes defaults, confirmations,
@@ -39,7 +39,7 @@ public class SubObjectPreRules extends MaintenancePreRulesBase {
      * <li>{@link SubObjectPreRules#checkForContinuationAccounts()}</li>
      * </ul>
      * This does not fail on rule failures
-     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
 

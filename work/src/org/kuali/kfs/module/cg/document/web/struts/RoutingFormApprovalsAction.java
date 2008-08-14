@@ -24,13 +24,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.AdHocRouteWorkgroup;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.service.RoutingFormProjectDetailsService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class RoutingFormApprovalsAction extends RoutingFormAction {
 
@@ -55,7 +55,7 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -73,7 +73,7 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

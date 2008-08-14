@@ -38,7 +38,7 @@ import org.kuali.kfs.sys.KFSConstants;
 public class JournalVoucherAction extends org.kuali.kfs.fp.document.web.struts.JournalVoucherAction {
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

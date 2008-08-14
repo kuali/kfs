@@ -19,7 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.util.List;
 
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;

@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.ec.document.validation;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Defines a rule which gets invoked immediately before a detail line is added to a effort certification document.

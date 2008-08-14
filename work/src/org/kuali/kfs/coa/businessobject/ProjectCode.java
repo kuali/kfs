@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import org.kuali.core.bo.KualiCodeBase;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * 

@@ -27,12 +27,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.coa.businessobject.Delegate;
-import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
@@ -47,6 +42,10 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLe
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
  * This class is the OJB implementation of the BudgetConstructionDao interface.

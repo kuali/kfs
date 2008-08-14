@@ -21,16 +21,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.rice.KNSServiceLocator;
-import org.kuali.rice.util.RiceConstants;
+import org.kuali.rice.core.util.RiceConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 
 /**
  * This class...

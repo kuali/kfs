@@ -23,9 +23,9 @@ import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 import org.kuali.kfs.pdp.dataaccess.PendingTransactionDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 
 /**

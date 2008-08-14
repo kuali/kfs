@@ -18,15 +18,15 @@ package org.kuali.kfs.module.cg.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.spring.CacheNoCopy;
-import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
 import org.kuali.kfs.module.cg.service.ProjectDirectorService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
+import org.kuali.rice.kns.util.spring.Cached;
 
 /**
  * Implementation of the ProjectDirector service.

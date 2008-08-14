@@ -20,8 +20,8 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;

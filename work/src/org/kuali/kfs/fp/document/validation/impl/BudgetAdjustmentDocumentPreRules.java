@@ -17,14 +17,6 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentAuthorizer;
 import org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService;
@@ -32,6 +24,14 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentAuthorizationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Checks warnings and prompt conditions for ba document.
@@ -45,7 +45,7 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
      * 
      * @document document with pre-rules being applied
      * @return true if pre-rules fire without problem
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     public boolean doRules(Document document) {
         boolean preRulesOK = true;

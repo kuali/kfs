@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.cg.businessobject.defaultvalue;
 
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Gets the value of the user in the current session.
@@ -24,7 +24,7 @@ import org.kuali.core.util.GlobalVariables;
 public class CurrentSessionUserValueFinder implements ValueFinder {
 
     /**
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         return GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier();

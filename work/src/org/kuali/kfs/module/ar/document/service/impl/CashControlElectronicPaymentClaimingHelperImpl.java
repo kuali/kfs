@@ -17,12 +17,6 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.List;
 
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -36,9 +30,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 public class CashControlElectronicPaymentClaimingHelperImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlElectronicPaymentClaimingHelperImpl.class);
@@ -57,7 +56,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, UniversalUser user) {
         CashControlDocument document = null;
@@ -142,7 +141,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
         url.append(URL_PREFIX);
         url.append(getClaimingDocumentWorkflowDocumentType().replace("Document", ""));
         url.append(URL_MIDDLE);
-        url.append(IDocHandler.ACTIONLIST_COMMAND);
+        url.append(KEWConstants.ACTIONLIST_COMMAND);
         url.append(URL_SUFFIX);
         url.append(doc.getDocumentNumber());
         return url.toString();
@@ -189,7 +188,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean userMayUseToClaim(UniversalUser claimingUser) {
         return electronicPaymentClaimingService.isUserMemberOfClaimingGroup(claimingUser);

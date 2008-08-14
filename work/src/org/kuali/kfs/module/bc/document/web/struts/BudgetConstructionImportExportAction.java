@@ -16,11 +16,11 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class BudgetConstructionImportExportAction extends BudgetExpansionAction {
     

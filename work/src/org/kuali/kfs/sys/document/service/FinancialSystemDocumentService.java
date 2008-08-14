@@ -17,9 +17,8 @@ package org.kuali.kfs.sys.document.service;
 
 import java.util.Collection;
 
-import org.kuali.core.service.DocumentService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * This class is the financial system specific document service interface

@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;

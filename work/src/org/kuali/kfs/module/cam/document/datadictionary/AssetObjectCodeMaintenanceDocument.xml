@@ -8,7 +8,7 @@
 
   <bean id="AssetObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetObjectCode" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="AssetObjectCodeMaintenanceDocument-EditAssetObjectCode" />
@@ -39,7 +39,7 @@
     <property name="summary" value="Asset Object Code maintenance document" />
     <property name="description" value="Document used to create or update Asset Object Code objects" />
     <property name="documentTypeName" value="AssetObjectCodeMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
+    <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="COBJ" />
     <property name="authorizations" >

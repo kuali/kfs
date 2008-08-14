@@ -21,12 +21,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class returns list of country value pairs.

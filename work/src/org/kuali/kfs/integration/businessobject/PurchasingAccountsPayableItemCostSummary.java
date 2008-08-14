@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.integration.businessobject;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Cost summary of a Purchase Order Item.

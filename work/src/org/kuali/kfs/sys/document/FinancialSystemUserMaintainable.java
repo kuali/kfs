@@ -21,32 +21,31 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.FieldUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
-import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUserOrganizationSecurity;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.core.service.EncryptionService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.FieldUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.kns.web.ui.Section;
 
 public class FinancialSystemUserMaintainable extends KualiMaintainableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinancialSystemUserMaintainable.class);
@@ -125,7 +124,7 @@ public class FinancialSystemUserMaintainable extends KualiMaintainableImpl {
     }
    
     /**
-     * @see org.kuali.core.maintenance.Maintainable#processAfterCopy()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#processAfterCopy()
      */
     @Override
     public void processAfterCopy( MaintenanceDocument document, Map<String,String[]> parameters ) {
@@ -141,7 +140,7 @@ public class FinancialSystemUserMaintainable extends KualiMaintainableImpl {
     /**
      * Overrides section creation to remove the add lines if the KFS user properties can not be edited.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#getSections(org.kuali.core.maintenance.Maintainable)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
     @Override
     public List getSections(Maintainable oldMaintainable) {
@@ -170,7 +169,7 @@ public class FinancialSystemUserMaintainable extends KualiMaintainableImpl {
         return sections;
     }
     /**
-     * @see org.kuali.core.maintenance.Maintainable#populateBusinessObject(java.util.Map)
+     * @see org.kuali.rice.kns.maintenance.Maintainable#populateBusinessObject(java.util.Map)
      */
     public Map populateBusinessObject(Map fieldValues) {
         // need to make sure that the UUID is populated first for later fields

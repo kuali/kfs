@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.core.bo.KualiCode;
+import org.kuali.rice.kns.bo.KualiCode;
 import org.springframework.dao.DataAccessException;
 
 /**

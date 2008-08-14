@@ -18,12 +18,12 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.Guid;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.Guid;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * builds the underlying data table for the salary summary report in budget construction
@@ -356,7 +356,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
     
     /**
      * 
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#salarySummaryReports(java.lang.String, java.lang.Integer, boolean, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#salarySummaryReports(java.lang.String, java.lang.Integer, boolean, org.kuali.rice.kns.util.KualiDecimal)
      */
     public void updateSalaryAndReasonSummaryReportsWithThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
         // get the session ID

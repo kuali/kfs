@@ -18,13 +18,13 @@ package org.kuali.kfs.gl.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * An implementation of ValueFinder that allows the selection of a period code
@@ -34,7 +34,7 @@ public class PeriodCodeOptionFinder extends KeyValuesBase implements ValueFinder
     /**
      * Returns this default value of this ValueFinder, in this case the current period code
      * @return the key of the default Key/Value pair
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         UniversityDate ud = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
@@ -44,7 +44,7 @@ public class PeriodCodeOptionFinder extends KeyValuesBase implements ValueFinder
     /**
      * Returns a list of possible options for this ValueFinder; here, each of the fiscal periods
      * @return a List of key/value pair options
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List labels = new ArrayList();

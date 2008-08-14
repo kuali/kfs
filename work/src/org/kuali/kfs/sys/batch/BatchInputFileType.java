@@ -16,7 +16,7 @@
 package org.kuali.kfs.sys.batch;
 
 
-import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * Declares methods that must be implemented for batch input file type classes, which provides functionaliy needed to manage files

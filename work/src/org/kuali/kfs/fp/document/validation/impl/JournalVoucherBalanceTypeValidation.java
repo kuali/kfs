@@ -18,17 +18,17 @@ package org.kuali.kfs.fp.document.validation.impl;
 import static org.kuali.kfs.sys.KFSPropertyConstants.BALANCE_TYPE_CODE;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
-import org.kuali.core.datadictionary.AttributeDefinition;
-import org.kuali.core.datadictionary.DataDictionaryEntry;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Validation for the balance type on a Journal Voucher

@@ -57,7 +57,7 @@ public class JournalVoucherForm extends VoucherForm {
      * lists on the page. In addition, this also makes sure that the credit and debit amounts are filled in for situations where
      * validation errors occur and the page reposts.
      * 
-     * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
     public void populate(HttpServletRequest request) {
         super.populate(request);
@@ -69,7 +69,7 @@ public class JournalVoucherForm extends VoucherForm {
      * addition, check the balance type to see if it's the "External Encumbrance" balance and alter the encumbrance update code on
      * the accounting line appropriately.
      * 
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#populateSourceAccountingLine(org.kuali.core.bo.SourceAccountingLine)
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populateSourceAccountingLine(org.kuali.rice.kns.bo.SourceAccountingLine)
      */
     public void populateSourceAccountingLine(SourceAccountingLine sourceLine) {
         super.populateSourceAccountingLine(sourceLine);

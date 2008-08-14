@@ -27,17 +27,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCParameterKeyConstants;
-import org.kuali.kfs.module.bc.BCConstants.RequestImportErrorCode;
 import org.kuali.kfs.module.bc.BCConstants.RequestImportFileType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
@@ -45,7 +39,6 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
-import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
@@ -61,6 +54,10 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
@@ -653,7 +650,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     
     /**
      * 
-     * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#setDictionaryValidationService(org.kuali.core.service.DictionaryValidationService)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#setDictionaryValidationService(org.kuali.rice.kns.service.DictionaryValidationService)
      */
     @NonTransactional
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {

@@ -19,11 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.rule.event.RouteDocumentEvent;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.fp.businessobject.Bank;
 import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -33,8 +28,12 @@ import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Base implementation for a general ledger posting document.
@@ -154,7 +153,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#toCopy()
+     * @see org.kuali.rice.kns.document.DocumentBase#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException {
@@ -163,7 +162,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#toErrorCorrection()
+     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#toErrorCorrection()
      */
     @Override
     public void toErrorCorrection() throws WorkflowException {

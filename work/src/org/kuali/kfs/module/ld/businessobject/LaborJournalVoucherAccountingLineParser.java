@@ -38,7 +38,6 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
@@ -47,6 +46,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class LaborJournalVoucherAccountingLineParser extends AccountingLineParserBase {
     private String balanceTypeCode;
@@ -64,8 +64,8 @@ public class LaborJournalVoucherAccountingLineParser extends AccountingLineParse
     }
 
     /**
-     * @see org.kuali.core.bo.AccountingLineParserBase#performCustomSourceAccountingLinePopulation(java.util.Map,
-     *      org.kuali.core.bo.SourceAccountingLine, java.lang.String)
+     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#performCustomSourceAccountingLinePopulation(java.util.Map,
+     *      org.kuali.rice.kns.bo.SourceAccountingLine, java.lang.String)
      */
     @Override
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {
@@ -116,7 +116,7 @@ public class LaborJournalVoucherAccountingLineParser extends AccountingLineParse
     }
 
     /**
-     * @see org.kuali.core.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
+     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {

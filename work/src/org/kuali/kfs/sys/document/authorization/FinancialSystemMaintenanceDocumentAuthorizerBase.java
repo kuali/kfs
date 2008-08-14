@@ -17,10 +17,10 @@ package org.kuali.kfs.sys.document.authorization;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 
 /**
  * This class is the custom KFS maintenance document authorizer base class
@@ -31,7 +31,7 @@ public class FinancialSystemMaintenanceDocumentAuthorizerBase extends Maintenanc
     /**
      * Adds settings for KFS maintenance-document-specific flags.
      * 
-     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

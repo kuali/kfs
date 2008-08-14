@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,18 +22,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BCKeyLabelPair;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
@@ -48,12 +35,18 @@ import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorizationException;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants.BudgetConstructionEditMode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 
 public class BudgetConstructionForm extends FinancialSystemTransactionalDocumentFormBase {
@@ -111,7 +104,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     /**
      * calls super.populate, then populates revenue and expenditure lines
      * 
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {
@@ -345,7 +338,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populateAuthorizationFields(org.kuali.core.document.authorization.DocumentAuthorizer)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateAuthorizationFields(org.kuali.rice.kns.document.authorization.DocumentAuthorizer)
      *      Additionally checks for BC specific exceptions throwing BudgetConstructionDocumentAuthorizationException appropos
      */
     @Override
@@ -369,7 +362,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#useDocumentAuthorizer(org.kuali.core.document.authorization.DocumentAuthorizer)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#useDocumentAuthorizer(org.kuali.rice.kns.document.authorization.DocumentAuthorizer)
      *      Uses BudgetConstructionDocumentAuthorizer to get the editMode and set the action flags This uses the BC security model
      *      to setup the authorization state
      */

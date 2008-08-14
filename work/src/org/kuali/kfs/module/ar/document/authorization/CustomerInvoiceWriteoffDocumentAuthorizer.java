@@ -19,26 +19,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
-import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
+import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
@@ -57,7 +53,7 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -73,8 +69,8 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) throws DocumentTypeAuthorizationException {

@@ -22,10 +22,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
@@ -42,13 +38,16 @@ import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**

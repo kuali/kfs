@@ -25,7 +25,7 @@ package org.kuali.kfs.module.ld.document.web.struts;
 public interface MultipleValueLookupBroker {
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiForm#getRefreshCaller()
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getRefreshCaller()
      */
     public String getRefreshCaller();
 

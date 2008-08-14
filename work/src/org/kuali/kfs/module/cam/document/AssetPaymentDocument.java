@@ -19,15 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.document.Copyable;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.rule.event.SaveDocumentEvent;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.MaintenanceDocumentService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAccountingLineParser;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
@@ -39,6 +30,14 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.MaintenanceDocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * 
@@ -115,7 +114,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
@@ -156,7 +155,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
     /**
      * 
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {

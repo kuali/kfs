@@ -29,7 +29,6 @@ import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
@@ -37,6 +36,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;

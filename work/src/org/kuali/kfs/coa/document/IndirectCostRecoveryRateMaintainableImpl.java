@@ -15,33 +15,13 @@
  */
 package org.kuali.kfs.coa.document;
 
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
-import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRate;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class IndirectCostRecoveryRateMaintainableImpl extends KualiMaintainableImpl {
 
@@ -49,7 +29,7 @@ public class IndirectCostRecoveryRateMaintainableImpl extends KualiMaintainableI
     
 /**
  * Hook for quantity and setting asset numbers.
- * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
+ * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
  */
     @Override
     public void addNewLineToCollection(String collectionName) {

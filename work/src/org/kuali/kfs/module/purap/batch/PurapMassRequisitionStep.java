@@ -18,12 +18,6 @@ package org.kuali.kfs.module.purap.batch;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.kuali.core.UserSession;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants.POCostSources;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
@@ -33,8 +27,13 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PurapMassRequisitionStep extends AbstractStep {
     private DocumentService documentService;

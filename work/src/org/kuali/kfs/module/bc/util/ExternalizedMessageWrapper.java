@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.util;
 
-import java.util.List;
 
 public class ExternalizedMessageWrapper {
     

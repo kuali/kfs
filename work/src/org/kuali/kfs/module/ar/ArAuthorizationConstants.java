@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar;
 
-import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 
 public class ArAuthorizationConstants extends AuthorizationConstants {
 

@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * To define an action form for effrot certification recreate process

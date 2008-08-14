@@ -19,11 +19,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 
 public class VendorCustomerNumberLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -32,7 +32,7 @@ public class VendorCustomerNumberLookupableHelperServiceImpl extends KualiLookup
     /**
      * Overrides the getSearchResultsHelper in the super class so that we can do some customization
      * 
-     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
+     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
      */
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {

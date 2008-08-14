@@ -18,10 +18,10 @@ package org.kuali.kfs.vnd.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Generator of a list of tax payer type value pairs, including an empty one, as opposed to <code>TaxPayerTypeValuesFinder</code>,

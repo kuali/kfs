@@ -25,14 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
-import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -41,6 +33,14 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
+import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiGroupService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
  * Struts Action for printing Purap documents outside of a document action

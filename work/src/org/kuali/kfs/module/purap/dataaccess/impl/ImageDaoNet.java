@@ -30,8 +30,6 @@ import java.text.NumberFormat;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.dataaccess.ImageDao;
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
@@ -40,6 +38,8 @@ import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * OJB Implementation of ImageDao.

@@ -17,12 +17,12 @@ package org.kuali.kfs.sys.service.impl;
 
 import java.util.List;
 
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ParameterEvaluatorImpl implements ParameterEvaluator {
     private Parameter parameter;

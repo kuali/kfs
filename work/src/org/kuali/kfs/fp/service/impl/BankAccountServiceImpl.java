@@ -18,9 +18,9 @@ package org.kuali.kfs.fp.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.service.BankAccountService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 

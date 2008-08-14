@@ -54,11 +54,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
@@ -74,6 +69,11 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code>.
@@ -85,7 +85,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * Overrides the parent to display correct error message for a single sided document
      * 
      * @param financialDocument submitted accounting document
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
@@ -104,7 +104,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * post - it's called automatically by the parent's processRouteDocument method.
      * 
      * @param financialDocument submitted accounting document
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.rice.kns.document.FinancialDocument)
      */
     @Override
     protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
@@ -117,7 +117,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * 
      * @param documentClass submitted document class (not used in overriden method)
      * @param accountingLine accountingLine where object code is being checked (not used in overriden method)
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isObjectCodeAllowed(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isObjectCodeAllowed(org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isObjectCodeAllowed(Class documentClass, AccountingLine accountingLine) {
@@ -130,8 +130,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param document submitted AccountingDocument
      * @param accountingLine accountingLine where amount is being validated
      * @return true if amount is NOT 0 or negative
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAmountValid(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAmountValid(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
@@ -201,8 +201,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param document submitted accounting document
      * @param accountingLine validated accounting line from accounting document
      * @return return true if accounting line is valid
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean processCustomAddAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
@@ -225,8 +225,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @param document submitted accounting document
      * @param accountingLine validated accounting line from accounting document
      * @return return true if accounting line is valid
-     * @see FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean processCustomReviewAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {

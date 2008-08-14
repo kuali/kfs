@@ -19,10 +19,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.AbstractWorkflowAttribute;
-import edu.iu.uis.eden.routetemplate.RuleExtension;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.AbstractWorkflowAttribute;
+import org.kuali.rice.kew.rule.RuleExtension;
 
 public class KualiReceivingAwaitingPurchaseOrderOpenAttribute extends AbstractWorkflowAttribute {
 

@@ -17,12 +17,12 @@ package org.kuali.kfs.module.cg.document.validation.impl;
 
 import java.sql.Date;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.module.cg.businessobject.Close;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * 

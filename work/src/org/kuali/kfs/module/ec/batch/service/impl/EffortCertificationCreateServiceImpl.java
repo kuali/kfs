@@ -19,8 +19,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
@@ -33,6 +31,8 @@ import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.spring.Logged;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

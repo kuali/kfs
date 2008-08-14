@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.businessobject.BatchUpload;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class is the form used for the batch upload for file sets

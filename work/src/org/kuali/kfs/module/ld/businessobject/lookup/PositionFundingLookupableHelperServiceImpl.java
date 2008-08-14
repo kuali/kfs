@@ -20,20 +20,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.module.ld.businessobject.LaborCalculatedSalaryFoundationTracker;
 import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionFundingInquirableImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 public class PositionFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     /**
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
     public String getInquiryUrl(BusinessObject businessObject, String propertyName) {
@@ -52,7 +52,7 @@ public class PositionFundingLookupableHelperServiceImpl extends AbstractLookupab
     }
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {

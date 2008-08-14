@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.kfs.module.purap.document.validation.UpdateCamsViewPurapRule;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.event.SaveOnlyDocumentEvent;
 
 /**
  * UpdateCamsView Event for Accounts Payable Document.
@@ -48,14 +48,14 @@ public final class UpdateCamsViewPurapEvent extends SaveOnlyDocumentEvent {
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return UpdateCamsViewPurapRule.class;
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((UpdateCamsViewPurapRule) rule).processUpdateCamsViewPurapBusinessRules((TransactionalDocument) getDocument());

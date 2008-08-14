@@ -21,9 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;

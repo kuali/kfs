@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
-import org.kuali.core.service.DocumentTypeService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao;
+import org.kuali.rice.kns.service.DocumentTypeService;
 
 /**
  * This class...

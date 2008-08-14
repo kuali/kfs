@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * This is KRAs NonpersonnelCategory business object.
@@ -64,7 +64,7 @@ public class NonpersonnelCategory extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.KualiCodeBase#getCode()
+     * @see org.kuali.rice.kns.bo.KualiCodeBase#getCode()
      */
     public String getCode() {
         // TODO Auto-generated method stub
@@ -72,7 +72,7 @@ public class NonpersonnelCategory extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.KualiCodeBase#getName()
+     * @see org.kuali.rice.kns.bo.KualiCodeBase#getName()
      */
     public String getName() {
         // TODO Auto-generated method stub
@@ -80,7 +80,7 @@ public class NonpersonnelCategory extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.KualiCodeBase#isActive()
+     * @see org.kuali.rice.kns.bo.KualiCodeBase#isActive()
      */
     public boolean isActive() {
         // TODO Auto-generated method stub
@@ -88,7 +88,7 @@ public class NonpersonnelCategory extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.KualiCodeBase#setActive(boolean)
+     * @see org.kuali.rice.kns.bo.KualiCodeBase#setActive(boolean)
      */
     public void setActive(boolean a) {
         // TODO Auto-generated method stub
@@ -96,7 +96,7 @@ public class NonpersonnelCategory extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.KualiCodeBase#setCode(java.lang.String)
+     * @see org.kuali.rice.kns.bo.KualiCodeBase#setCode(java.lang.String)
      */
     public void setCode(String code) {
         // TODO Auto-generated method stub
@@ -104,7 +104,7 @@ public class NonpersonnelCategory extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.KualiCodeBase#setName(java.lang.String)
+     * @see org.kuali.rice.kns.bo.KualiCodeBase#setName(java.lang.String)
      */
     public void setName(String name) {
         // TODO Auto-generated method stub
@@ -112,7 +112,7 @@ public class NonpersonnelCategory extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

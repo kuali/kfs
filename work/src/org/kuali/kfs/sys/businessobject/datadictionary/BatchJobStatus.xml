@@ -102,7 +102,7 @@
     </property>
     <property name="summary" value="Next Run Time" />
     <property name="description" value="Next Run Time description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.TimestampAMPMFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
   </bean>
   <bean id="BatchJobStatus-status" parent="BatchJobStatus-status-parentBean" />
 

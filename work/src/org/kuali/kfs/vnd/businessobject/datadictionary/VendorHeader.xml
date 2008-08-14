@@ -202,7 +202,7 @@
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNNullValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -216,7 +216,7 @@
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNNullValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -230,7 +230,7 @@
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNNullValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -244,7 +244,7 @@
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNOnlyValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

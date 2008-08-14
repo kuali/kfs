@@ -19,12 +19,12 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -40,7 +40,7 @@ import org.kuali.kfs.module.ar.fixture.CustomerFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 import java.util.ArrayList;
 import java.util.List;

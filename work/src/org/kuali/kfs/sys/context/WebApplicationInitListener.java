@@ -19,7 +19,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.web.listener.JstlConstantsInitListener;
+import org.kuali.rice.kns.web.listener.JstlConstantsInitListener;
 
 public class WebApplicationInitListener extends JstlConstantsInitListener implements ServletContextListener {
     private static final String JSTL_CONSTANTS_CLASSNAMES_KEY = "jstl.constants.classnames";

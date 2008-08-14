@@ -19,8 +19,8 @@
  */
 package org.kuali.kfs.pdp.service;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * @author jsissom

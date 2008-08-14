@@ -32,14 +32,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.authorization.AuthorizationType;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.exceptions.ModuleAuthorizationException;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.WebUtils;
-import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
@@ -49,6 +41,14 @@ import org.kuali.kfs.sys.businessobject.BatchUpload;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.rice.kns.authorization.AuthorizationType;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.exception.ModuleAuthorizationException;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Handles actions from the batch upload screen.
@@ -57,7 +57,7 @@ public class KualiBatchInputFileAction extends KualiAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiBatchInputFileAction.class);
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -71,7 +71,7 @@ public class KualiBatchInputFileAction extends KualiAction {
      * First verifies the user is active for the module in which the batch input type is in, then calls batch input service to
      * authorize the user for the specific batch input type.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
      */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {

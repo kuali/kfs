@@ -23,12 +23,12 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.bo.ParameterDetailType;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.bo.ParameterDetailType;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Customizes the lookup of parameter objects to handle ParameterDetailTypes which are not in the database.

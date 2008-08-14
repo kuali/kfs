@@ -19,9 +19,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Purap Item Business Object.

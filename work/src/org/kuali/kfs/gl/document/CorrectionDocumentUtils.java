@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.CorrectionChange;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
@@ -31,6 +30,7 @@ import org.kuali.kfs.gl.businessobject.options.OriginEntryFieldFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class provides utility methods for the correction document

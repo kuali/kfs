@@ -16,7 +16,7 @@
 package org.kuali.kfs.gl.batch.service;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kfs.gl.batch.CollectorStep;
 import org.kuali.kfs.gl.batch.MockCollectorBatch;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;

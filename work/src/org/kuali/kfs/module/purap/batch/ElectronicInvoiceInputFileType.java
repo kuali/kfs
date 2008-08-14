@@ -20,12 +20,12 @@ import java.sql.Timestamp;
 import java.text.FieldPosition;
 import java.text.SimpleDateFormat;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.batch.service.ElectronicInvoiceHelperService;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * Batch input type for the electronic invoice job.

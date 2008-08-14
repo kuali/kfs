@@ -27,10 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Copyable;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.businessobject.AuxiliaryVoucherAccountingLineParser;
 import org.kuali.kfs.gl.service.SufficientFundsService;
@@ -50,8 +46,11 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This is a transactional document that will
@@ -328,8 +327,8 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * 
      * @param financialDocument submitted accounting document
      * @param accounttingLine accounting line being tested if it is a debit or not
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         String debitCreditCode = ((AccountingLine)postable).getDebitCreditCode();
@@ -349,8 +348,8 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      *        set
      * @see FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.core.bo.AccountingLine,
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.rice.kns.bo.AccountingLine,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
@@ -379,8 +378,8 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * @param accountingLine accounting line from accounting document
      * @param explicitEntry represents explicit entry
      * @param offsetEntry represents offset entry
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
@@ -465,8 +464,8 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * @param explicitEntry represents explicit entry
      * @param offsetEntry represents offset entry
      * @return true if general ledger pending entry is processed successfully for accurals, adjustments, and recodes
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.core.bo.AccountingLine,
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processOffsetGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.rice.kns.bo.AccountingLine,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override

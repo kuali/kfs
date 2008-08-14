@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
@@ -32,6 +31,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao

@@ -17,11 +17,11 @@ package org.kuali.kfs.integration.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsCfda;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 public interface ContractsAndGrantsModuleService {
     public String getAwardWorkgroupForAccount(String chartOfAccountsCode, String accountNumber);

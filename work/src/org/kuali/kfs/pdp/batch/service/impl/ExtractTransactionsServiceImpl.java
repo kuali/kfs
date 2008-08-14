@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
@@ -30,6 +29,7 @@ import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.pdp.batch.service.ExtractTransactionsService;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

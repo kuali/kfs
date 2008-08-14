@@ -25,11 +25,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
@@ -44,6 +39,11 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI for Voucher
@@ -89,7 +89,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * lists on the page. In addition, this also makes sure that the credit and debit amounts are filled in for situations where
      * validation errors occur and the page reposts.
      * 
-     * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {
@@ -153,7 +153,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * addition, check the balance type to see if it's the "External Encumbrance" balance and alter the encumbrance update code on
      * the accounting line appropriately.
      * 
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#populateSourceAccountingLine(org.kuali.core.bo.SourceAccountingLine)
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populateSourceAccountingLine(org.kuali.rice.kns.bo.SourceAccountingLine)
      */
     @Override
     public void populateSourceAccountingLine(SourceAccountingLine sourceLine) {

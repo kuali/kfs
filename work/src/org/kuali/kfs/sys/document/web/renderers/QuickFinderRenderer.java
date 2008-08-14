@@ -22,9 +22,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Renders a quick field for an element
@@ -33,7 +32,7 @@ public class QuickFinderRenderer extends FieldRendererBase {
 
     /**
      * Renders the quick finder to the page context
-     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.kns.bo.BusinessObject)
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
         JspWriter out = pageContext.getOut();

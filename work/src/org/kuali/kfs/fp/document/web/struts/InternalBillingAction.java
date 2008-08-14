@@ -21,12 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.kfs.fp.businessobject.InternalBillingItem;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 
 /**
  * This class handles Actions for InternalBilling.

@@ -15,14 +15,14 @@
  */
 package org.kuali.kfs.module.ar.businessobject.defaultvalue;
 
-import org.kuali.core.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
 
 public class SubObjectOrganizationAccountingDefaultValueFinder extends ObjectOrganizationAccountingDefaultValueFinder implements ValueFinder {
 
     /**
      * Returns default sub account number from organization accounting default if BO is not null.
      * 
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         return (organizationAccountingDefault != null)? organizationAccountingDefault.getDefaultInvoiceFinancialSubObjectCode() : "";

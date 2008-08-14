@@ -22,9 +22,9 @@ import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Option Finder for Labor Balance Type Code.
@@ -32,7 +32,7 @@ import org.kuali.core.web.ui.KeyLabelPair;
 public class BalanceTypeCodeOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List labels = new ArrayList();
@@ -44,7 +44,7 @@ public class BalanceTypeCodeOptionFinder extends KeyValuesBase implements ValueF
     }
 
     /**
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         return BALANCE_TYPE_ACTUAL;

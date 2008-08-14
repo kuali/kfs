@@ -26,18 +26,18 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.NoteService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -70,7 +70,7 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Provides services to support the creation of a Credit Memo Document.
@@ -323,7 +323,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canHoldPaymentRequest(org.kuali.kfs.module.purap.document.CreditMemoDocument,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean canHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canHold = false;
@@ -361,7 +361,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canRemoveHoldPaymentRequest(org.kuali.kfs.module.purap.document.CreditMemoDocument,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canRemoveHold = false;
@@ -400,7 +400,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canCancelCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean canCancelCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
         boolean canCancel = false;

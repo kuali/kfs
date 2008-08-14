@@ -17,10 +17,10 @@ package org.kuali.kfs.sys.document;
 
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This is the FinancialDocument interface. The TransactionalDocument interface should extend this. It represents any document that

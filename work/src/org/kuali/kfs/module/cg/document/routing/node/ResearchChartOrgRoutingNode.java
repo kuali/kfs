@@ -16,8 +16,8 @@
 package org.kuali.kfs.module.cg.document.routing.node;
 
 
-import edu.iu.uis.eden.doctype.DocumentType;
-import edu.iu.uis.eden.engine.node.RouteNode;
+import org.kuali.rice.kew.doctype.DocumentType;
+import org.kuali.rice.kew.engine.node.RouteNode;
 
 public class ResearchChartOrgRoutingNode {
 

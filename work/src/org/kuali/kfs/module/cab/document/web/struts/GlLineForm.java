@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.cab.document.web.struts;
 
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class GlLineForm extends KualiForm {
 

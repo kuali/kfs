@@ -17,7 +17,6 @@ package org.kuali.kfs.pdp.service.impl;
 
 import java.util.Iterator;
 
-import org.kuali.core.service.MailService;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
@@ -25,6 +24,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.service.AchEmailService;
 import org.kuali.kfs.pdp.service.EnvironmentService;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
+import org.kuali.rice.kns.service.MailService;
 
 public class AchEmailServiceImpl implements AchEmailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchEmailServiceImpl.class);

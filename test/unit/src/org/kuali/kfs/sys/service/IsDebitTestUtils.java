@@ -18,11 +18,11 @@ package org.kuali.kfs.sys.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
@@ -43,7 +43,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.AccountingLineRule;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * IsDebitTestUtils

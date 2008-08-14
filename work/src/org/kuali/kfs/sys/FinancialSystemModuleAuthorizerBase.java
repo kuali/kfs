@@ -15,14 +15,13 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.core.authorization.AuthorizationType;
-import org.kuali.core.authorization.KualiModuleAuthorizerBase;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
-
-import edu.iu.uis.eden.EdenConstants;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.authorization.AuthorizationType;
+import org.kuali.rice.kns.authorization.KualiModuleAuthorizerBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 public class FinancialSystemModuleAuthorizerBase extends KualiModuleAuthorizerBase implements FinancialSystemModuleAuthorizer {
 
@@ -59,7 +58,7 @@ public class FinancialSystemModuleAuthorizerBase extends KualiModuleAuthorizerBa
     }
 
     private boolean authorizingForAdHocApproveRequest(AuthorizationType authorizationType) {
-        return (authorizationType instanceof AuthorizationType.AdHocRequest) && EdenConstants.ACTION_REQUEST_APPROVE_REQ.equals(((AuthorizationType.AdHocRequest) authorizationType).getActionRequested());
+        return (authorizationType instanceof AuthorizationType.AdHocRequest) && KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(((AuthorizationType.AdHocRequest) authorizationType).getActionRequested());
     }
 
     private boolean authorizingForDocumentInitiation(AuthorizationType authorizationType) {

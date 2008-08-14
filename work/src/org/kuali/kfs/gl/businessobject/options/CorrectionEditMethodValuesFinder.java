@@ -18,9 +18,9 @@ package org.kuali.kfs.gl.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class returns list of GLCP editing methods key value pairs, to populate a dropdown select control
@@ -31,7 +31,7 @@ public class CorrectionEditMethodValuesFinder extends KeyValuesBase {
      * Returns a list of origin entry editing methods that the GLCP provides.
      * 
      * @return a List of editing method key/value pairs
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();

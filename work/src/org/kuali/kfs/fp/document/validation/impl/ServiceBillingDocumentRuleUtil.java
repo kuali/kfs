@@ -15,12 +15,9 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.core.util.AssertionUtils.assertThat;
+import static org.kuali.rice.kns.util.AssertionUtils.assertThat;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
 import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -28,6 +25,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class contains static helper methods for ServiceBillingDocumentRule and ServiceBillingDocumentAuthorizer.

@@ -20,8 +20,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 

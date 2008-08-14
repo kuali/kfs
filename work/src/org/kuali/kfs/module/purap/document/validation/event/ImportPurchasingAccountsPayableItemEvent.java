@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.validation.ImportPurchasingAccountsPayableItemRule;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Import Purchasing Accounts Payble Item Event. 
@@ -39,14 +39,14 @@ public class ImportPurchasingAccountsPayableItemEvent extends PurchasingAccounts
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
         return ImportPurchasingAccountsPayableItemRule.class;
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ImportPurchasingAccountsPayableItemRule) rule).processImportItemBusinessRules((AccountingDocument) getDocument(), getItem());

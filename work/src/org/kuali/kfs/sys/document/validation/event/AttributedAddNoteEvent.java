@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.document.validation.event;
 
-import org.kuali.core.bo.Note;
-import org.kuali.core.document.Document;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * An attributed version of the Add Note event.

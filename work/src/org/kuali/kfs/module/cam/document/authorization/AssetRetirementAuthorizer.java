@@ -20,13 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -37,6 +30,13 @@ import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
+import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * AssetAuthorizer for Asset edit.
@@ -69,8 +69,8 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
     }
 
     /**
-     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
 
     @Override
     public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -118,7 +118,7 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
     /**
      * Checks whether the BA document is active for the year end posting year.
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {

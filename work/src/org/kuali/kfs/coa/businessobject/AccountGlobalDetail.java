@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business Object representing the account change details entity
@@ -153,7 +153,7 @@ public class AccountGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

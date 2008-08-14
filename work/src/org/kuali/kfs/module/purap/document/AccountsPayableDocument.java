@@ -17,11 +17,11 @@ package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 
-import org.kuali.core.bo.Campus;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Accounts Payable Document Interface

@@ -22,12 +22,12 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
 import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * OJB implementation of PurchaseOrderDao.

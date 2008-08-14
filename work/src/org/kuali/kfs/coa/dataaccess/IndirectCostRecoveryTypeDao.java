@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.coa.dataaccess;
 
-import java.util.Collection;
-
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 
 /**

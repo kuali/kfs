@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.core.authorization.AuthorizationType;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.rice.kns.authorization.AuthorizationType;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class ActiveStaffFacultyAffiliateModuleAuthorizer extends FinancialSystemModuleAuthorizerBase {

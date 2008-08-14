@@ -21,8 +21,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.impl.BusinessObjectServiceImpl;
-import org.kuali.core.util.DateUtils;
+import org.kuali.rice.kns.service.impl.BusinessObjectServiceImpl;
+import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.impl.EquipmentLoanOrReturnServiceImpl;

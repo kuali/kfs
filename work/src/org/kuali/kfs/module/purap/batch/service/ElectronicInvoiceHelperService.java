@@ -16,12 +16,6 @@
 package org.kuali.kfs.module.purap.batch.service;
 
 import java.io.File;
-import java.util.List;
-
-import org.kuali.kfs.gl.batch.CollectorBatch;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.report.CollectorReportData;
-import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 
 /**
  * Provides methods for processing electronic invoice data files.

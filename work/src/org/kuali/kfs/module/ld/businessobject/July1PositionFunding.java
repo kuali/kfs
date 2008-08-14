@@ -18,15 +18,15 @@ package org.kuali.kfs.module.ld.businessobject;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.bo.user.PersonPayrollId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.bo.user.UserId;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.user.PersonPayrollId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.bo.user.UserId;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Labor business object for July 1 Position Funding

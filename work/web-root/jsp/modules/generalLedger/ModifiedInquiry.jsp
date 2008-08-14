@@ -70,7 +70,7 @@
 						</c:if> <!-- Optional extra button --> <c:if
 							test="${not empty KualiForm.lookupable.extraButtonSource}">
 							<a
-								href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=org.kuali.core.lookup.KualiLookupableImpl&docFormKey=${KualiForm.formKey}" /><c:out value="${KualiForm.lookupable.extraButtonParams}" />'>
+								href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=org.kuali.rice.kns.lookup.KualiLookupableImpl&docFormKey=${KualiForm.formKey}" /><c:out value="${KualiForm.lookupable.extraButtonParams}" />'>
 							<img
 								src='<c:out value="${KualiForm.lookupable.extraButtonSource}" />'
 								class="tinybutton" border="0" /></a>
@@ -104,10 +104,10 @@
 					<c:choose>
 
 						<c:when
-							test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
+							test="${column.formatter.implementationClass == 'org.kuali.rice.kns.web.format.CurrencyFormatter'}">
 
 							<display:column class="numbercell" sortable="true"
-								decorator="org.kuali.core.web.ui.FormatAwareDecorator"
+								decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
 								title="${column.columnTitle}" comparator="${column.comparator}">
 								
 								<c:choose>
@@ -132,7 +132,7 @@
 								<c:when test="${column.propertyURL != \"\"}">
 
 									<display:column class="infocell" sortable="${column.sortable}"
-										decorator="org.kuali.core.web.ui.FormatAwareDecorator"
+										decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
 										title="${column.columnTitle}"
 										comparator="${column.comparator}">
 
@@ -146,7 +146,7 @@
 								<c:otherwise>
 
 									<display:column class="infocell" sortable="${column.sortable}"
-										decorator="org.kuali.core.web.ui.FormatAwareDecorator"
+										decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
 										title="${column.columnTitle}"
 										comparator="${column.comparator}">
 

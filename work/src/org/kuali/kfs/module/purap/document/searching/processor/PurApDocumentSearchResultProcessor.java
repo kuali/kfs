@@ -18,9 +18,9 @@ package org.kuali.kfs.module.purap.document.searching.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;
-import edu.iu.uis.eden.docsearch.StandardDocumentSearchResultProcessor;
-import edu.iu.uis.eden.lookupable.Column;
+import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
+import org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor;
+import org.kuali.rice.kew.lookupable.Column;
 
 public abstract class PurApDocumentSearchResultProcessor extends StandardDocumentSearchResultProcessor {
 
@@ -28,7 +28,7 @@ public abstract class PurApDocumentSearchResultProcessor extends StandardDocumen
     private static final String DOC_SEARCH_RESULTS_CUSTOM_DOCUMENT_INFO = "document_info";
 
     /**
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchResultProcessor#getShowAllStandardFields()
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor#getShowAllStandardFields()
      */
     @Override
     public boolean getShowAllStandardFields() {
@@ -39,7 +39,7 @@ public abstract class PurApDocumentSearchResultProcessor extends StandardDocumen
     }
 
     /**
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchResultProcessor#getOverrideSearchableAttributes()
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor#getOverrideSearchableAttributes()
      */
     @Override
     public boolean getOverrideSearchableAttributes() {
@@ -47,7 +47,7 @@ public abstract class PurApDocumentSearchResultProcessor extends StandardDocumen
     }
 
     /**
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchResultProcessor#getCustomDisplayColumns()
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor#getCustomDisplayColumns()
      */
     @Override
     public List<Column> getCustomDisplayColumns() {

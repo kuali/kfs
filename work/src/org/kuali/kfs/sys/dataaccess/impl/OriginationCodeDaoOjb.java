@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.dataaccess.OriginationCodeDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class OriginationCodeDaoOjb extends PlatformAwareDaoBaseOjb implements OriginationCodeDao {
     private static Logger LOG = Logger.getLogger(OriginationCodeDaoOjb.class);
@@ -33,7 +33,7 @@ public class OriginationCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Or
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.core.dao.OriginationCodeDao#delete(org.kuali.core.bo.OriginationCode)
+     * @see org.kuali.rice.kns.dao.OriginationCodeDao#delete(org.kuali.rice.kns.bo.OriginationCode)
      */
     public void delete(OriginationCode code) {
         getPersistenceBrokerTemplate().delete(code);
@@ -42,7 +42,7 @@ public class OriginationCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Or
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.core.dao.OriginationCodeDao#findByCode(java.lang.String)
+     * @see org.kuali.rice.kns.dao.OriginationCodeDao#findByCode(java.lang.String)
      */
     public OriginationCode findByCode(String originationCode) {
         // TODO Auto-generated method stub
@@ -56,7 +56,7 @@ public class OriginationCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Or
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.core.dao.OriginationCodeDao#save(org.kuali.core.bo.OriginationCode)
+     * @see org.kuali.rice.kns.dao.OriginationCodeDao#save(org.kuali.rice.kns.bo.OriginationCode)
      */
     public void save(OriginationCode code) {
         getPersistenceBrokerTemplate().store(code);

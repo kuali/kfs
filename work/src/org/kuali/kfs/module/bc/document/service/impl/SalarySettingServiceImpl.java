@@ -28,11 +28,6 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
@@ -57,6 +52,11 @@ import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -509,7 +509,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFundingByUserLevel(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser) {
         BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);

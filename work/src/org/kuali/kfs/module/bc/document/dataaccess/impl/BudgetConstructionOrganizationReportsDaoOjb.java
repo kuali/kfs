@@ -26,11 +26,11 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionOrganizationReportsDao {
 

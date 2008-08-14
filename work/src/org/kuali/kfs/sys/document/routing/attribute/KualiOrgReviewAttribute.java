@@ -32,10 +32,6 @@ import javax.xml.xpath.XPathConstants;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -47,23 +43,26 @@ import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
+import org.kuali.rice.kew.doctype.DocumentType;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
+import org.kuali.rice.kew.lookupable.Field;
+import org.kuali.rice.kew.lookupable.Row;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.MassRuleAttribute;
+import org.kuali.rice.kew.rule.RuleBaseValues;
+import org.kuali.rice.kew.rule.RuleExtension;
+import org.kuali.rice.kew.rule.RuleExtensionValue;
+import org.kuali.rice.kew.rule.WorkflowAttribute;
+import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import edu.iu.uis.eden.WorkflowServiceErrorImpl;
-import edu.iu.uis.eden.doctype.DocumentType;
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.lookupable.Field;
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.plugin.attributes.MassRuleAttribute;
-import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.RuleBaseValues;
-import edu.iu.uis.eden.routetemplate.RuleExtension;
-import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
-import edu.iu.uis.eden.util.Utilities;
 
 /**
  * KualiOrgReviewAttribute should be used when using Orgs and thier inner details to do routing.
@@ -147,7 +146,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
     
 
-    public edu.iu.uis.eden.lookupable.Row getChartRow() {
+    public org.kuali.rice.kew.lookupable.Row getChartRow() {
         return KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY);
     }
 
@@ -158,7 +157,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
    
 
-    public edu.iu.uis.eden.lookupable.Row getOrgRow() {
+    public org.kuali.rice.kew.lookupable.Row getOrgRow() {
         Map fieldConversionMap = new HashMap();
         fieldConversionMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY);
         return KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY, fieldConversionMap);
@@ -171,7 +170,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
     
 
-    public edu.iu.uis.eden.lookupable.Row getOverrideCodeRow() {
+    public org.kuali.rice.kew.lookupable.Row getOverrideCodeRow() {
         java.lang.reflect.Field[] overrideCodes = AccountingLineOverride.CODE.class.getDeclaredFields();
         Map optionMap = new LinkedHashMap<String,String>();
         for (int i=0;i<overrideCodes.length ;i++){
@@ -213,7 +212,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
      */
     public List validateRuleData(Map paramMap) {
         List errors = new ArrayList();
@@ -262,7 +261,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getDocContent()
      */
     public String getDocContent() {
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getOrgCd())) {
@@ -280,7 +279,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      * fire.
      *
      * @see #filterNonMatchingRules(RouteContext, List)
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(java.lang.String, java.util.List)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#isMatch(java.lang.String, java.util.List)
      */
     public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
         return true;

@@ -23,12 +23,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.fp.batch.service.ProcurementCardLoadTransactionsService;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This is the default implementation of the ProcurementCardLoadTransactionsService interface.

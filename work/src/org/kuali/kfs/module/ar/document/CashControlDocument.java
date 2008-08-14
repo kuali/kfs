@@ -5,10 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -20,6 +16,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -29,6 +26,9 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -263,7 +263,7 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
@@ -489,7 +489,7 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
+     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {

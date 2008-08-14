@@ -19,10 +19,10 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;

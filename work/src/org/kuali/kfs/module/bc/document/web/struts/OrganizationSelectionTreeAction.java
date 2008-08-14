@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,17 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.authorization.AuthorizationType;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.exceptions.ModuleAuthorizationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiModuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
@@ -57,9 +45,18 @@ import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.authorization.AuthorizationType;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.exception.ModuleAuthorizationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * Handles organization budget action requests from menu.
@@ -70,7 +67,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     private PermissionService permissionService = SpringContext.getBean(PermissionService.class);
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
      */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
@@ -99,7 +96,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
      * pullup, pushdown, reports, salset, account. Each mode causes a slightly different rendition of the controls presented to the
      * user, but the basic point of view selection and organization drill down functionality is the same in all five modes.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -121,7 +118,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
      * Called by the close button. It removes the user's BudgetConstructionPullup table rows and returns the user to the seleection
      * screen action.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -136,7 +133,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
      * Implements functionality behind the refresh button on the Organization Selection Tree screen. This is also called when the
      * value of the point of view select control changed and javascript is enabled on the user's browser
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performBuildPointOfView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -177,7 +174,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
      * Handles saving the BudgetConstructionPullup current row to the previous branches stack and displaying the associated
      * children.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward navigateDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -202,7 +199,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Handles navigation back to a previous branch BudgetConstructionPullup row displaying the associated parent and it's siblings
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward navigateUp(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -243,7 +240,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Sets the pullFlag for all displayed subtree organizations
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -256,7 +253,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Clears the pullFlag for all displayed subtree organizations
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward clearAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -269,7 +266,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPullOrgAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -282,7 +279,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPullSubOrgAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -295,7 +292,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPullBothAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -308,7 +305,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPushOrgLevAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -321,7 +318,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPushMgrLevAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -334,7 +331,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPushOrgMgrLevAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -347,7 +344,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPushLevOneAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -360,7 +357,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPushLevZeroAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -413,7 +410,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Checks the selection and calls the Position Pick list screen action.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performPositionPick(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -432,7 +429,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Checks the selection and calls the Budgeted Incumbents Pick list screen action.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performIncumbentPick(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -451,7 +448,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Checks the selection and calls the Budget Documents pick list screen action.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performShowBudgetDocs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -477,7 +474,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Checks the selection and performs the Pull up screen action.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performPullUp(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -514,7 +511,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
      * Checks at least one org was selected then calls organization push/pull service to built the account list for budgeted
      * documents below the user's point of view and forwards to the temp list action to display the results.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performShowPullUpBudgetDocs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -548,7 +545,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Checks the selection and performs the Push down screen action.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performPushDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -585,7 +582,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
      * Checks at least one org was selected then calls organization push/pull service to built the account list for budgeted
      * documents at the user's point of view and forwards to the temp list action to display the results.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performShowPushDownBudgetDocs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

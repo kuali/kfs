@@ -20,14 +20,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.rule.event.SaveDocumentEvent;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.MaintenanceDocumentService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -38,6 +30,14 @@ import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.MaintenanceDocumentService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalDocumentBase {
@@ -651,7 +651,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
@@ -672,7 +672,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     /**
      * If the document final, unlock the document
      * 
-     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {
@@ -692,7 +692,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap<String, String> toStringMapper() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();

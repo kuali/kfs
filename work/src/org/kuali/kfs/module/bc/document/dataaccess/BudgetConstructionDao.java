@@ -18,13 +18,13 @@ package org.kuali.kfs.module.bc.document.dataaccess;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 /**

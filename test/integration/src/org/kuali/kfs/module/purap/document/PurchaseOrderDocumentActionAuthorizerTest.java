@@ -22,7 +22,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;

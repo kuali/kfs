@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.gl.batch.dataaccess.impl;
 
-import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.kfs.gl.batch.dataaccess.OrganizationReversionUnitOfWorkDao;
+import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 
 /**
  * A JDBC implementation of the OrganizationReversionUnitOfWorkDao...we had to use this because PersistenceService

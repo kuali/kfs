@@ -21,11 +21,11 @@ import java.util.Iterator;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborGeneralLedgerEntryDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
  * This is the data access object for labor general ledger entry

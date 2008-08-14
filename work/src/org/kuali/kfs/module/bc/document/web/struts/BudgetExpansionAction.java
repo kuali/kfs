@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,15 +24,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
  * Handles close action to implement Budget return to caller (expansion screen) flow.

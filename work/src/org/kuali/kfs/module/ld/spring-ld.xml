@@ -528,7 +528,7 @@
 	</bean>
         
     <!-- Section 4: Spring Bean for Balance Inquiry -->  
-	<bean id="laborPendingEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="laborPendingEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborPendingEntryLookupableHelperService" />
 		</property>
@@ -582,7 +582,7 @@
 		</property>
 	</bean>
 	
-	<bean id="laborLedgerBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="laborLedgerBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborLedgerBalanceLookupableHelperService" />
 		</property>
@@ -654,7 +654,7 @@
 		</property>
 	</bean>
 	
-	<bean id="laborLedgerEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="laborLedgerEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborLedgerEntryLookupableHelperService" />
 		</property>
@@ -681,25 +681,25 @@
 		</property>		
 	</bean>
 	
-	<bean id="laborLedgerEntryForExpenseTransferLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="laborLedgerEntryForExpenseTransferLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborLedgerEntryForExpenseTransferLookupableHelperService" />
 		</property>
 	</bean>		
 	
-	<bean id="laborLedgerBalanceForSalaryExpenseTransferLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="laborLedgerBalanceForSalaryExpenseTransferLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService" />
 		</property>
 	</bean>	
 	
-    <bean id="laborLedgerBalanceForBenefitExpenseTransferLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="laborLedgerBalanceForBenefitExpenseTransferLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborLedgerBalanceForBenefitExpenseTransferLookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="laborCalculatedSalaryFoundationTrackerLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="laborCalculatedSalaryFoundationTrackerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborCalculatedSalaryFoundationTrackerLookupableHelperService" />
 		</property>
@@ -744,7 +744,7 @@
 		</property>		
 	</bean>
 	
-	<bean id="laborPositionDataLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="laborPositionDataLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborPositionDataLookupableHelperService" />
 		</property>
@@ -759,7 +759,7 @@
 		</property>		
 	</bean>		
 	
-	<bean id="CurrentFundsLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="CurrentFundsLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="CurrentFundsLookupableHelperService" />
 		</property>
@@ -795,7 +795,7 @@
 		</property>	
 	</bean>    	
 	
-	<bean id="BaseFundsLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="BaseFundsLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="BaseFundsLookupableHelperService" />
 		</property>
@@ -825,7 +825,7 @@
 		</property>
 	</bean>    	
 
-	<bean id="EmployeeFundingLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="EmployeeFundingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="EmployeeFundingLookupableHelperService" />
 		</property>
@@ -900,7 +900,7 @@
 		</property>	
 	</bean>
 
-	<bean id="july1PositionFundingLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="july1PositionFundingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="july1PositionFundingLookupableHelperService" />
 		</property>
@@ -956,7 +956,7 @@
 	
     <bean id="positionObjectBenefitLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.PositionObjectBenefitLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
-	<bean id="positionObjectBenefitLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="positionObjectBenefitLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="positionObjectBenefitLookupableHelperService" />
 		</property>
@@ -981,13 +981,13 @@
 		</property>		
 	</bean>
 	
-	<bean id="laborPositionFundingLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="laborPositionFundingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborPositionFundingLookupableHelperService" />
 		</property>
 	</bean>
 			
-	<bean id="laborLedgerBalanceForEffortCertificationLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="laborLedgerBalanceForEffortCertificationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="laborLedgerBalanceForEffortCertificationLookupableHelperService" />
 		</property>

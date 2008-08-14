@@ -17,9 +17,9 @@ package org.kuali.kfs.module.bc.document.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * This interface defines the methods that a PermissionService must provide. PermissionService implements methods used to support

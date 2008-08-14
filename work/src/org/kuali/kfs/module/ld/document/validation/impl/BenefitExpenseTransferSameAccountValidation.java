@@ -15,30 +15,19 @@
  */
 package org.kuali.kfs.module.ld.document.validation.impl;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 import java.util.List;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.module.ld.LaborConstants ;
-import org.kuali.kfs.module.ld.LaborKeyConstants; 
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument;
-import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase ;
-import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
-import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
-import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
-import org.kuali.kfs.module.ld.util.LaborPendingEntryGenerator;
+import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument;
+import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Validates that the given accounting line and source lines are the same

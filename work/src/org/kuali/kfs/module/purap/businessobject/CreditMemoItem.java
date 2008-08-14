@@ -20,12 +20,12 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Item line Business Object for Credit Memo Document.

@@ -29,15 +29,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.mail.InvalidAddressException;
-import org.kuali.core.mail.MailMessage;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.MailService;
-import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
@@ -58,6 +49,15 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.mail.InvalidAddressException;
+import org.kuali.rice.kns.mail.MailMessage;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

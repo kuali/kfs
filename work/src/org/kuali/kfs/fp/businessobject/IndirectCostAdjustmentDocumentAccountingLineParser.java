@@ -43,7 +43,7 @@ public class IndirectCostAdjustmentDocumentAccountingLineParser extends Accounti
     private static final String[] FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT };
 
     /**
-     * @see org.kuali.core.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
+     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
@@ -51,7 +51,7 @@ public class IndirectCostAdjustmentDocumentAccountingLineParser extends Accounti
     }
 
     /**
-     * @see org.kuali.core.bo.AccountingLineParserBase#getTargetAccountingLineFormat()
+     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getTargetAccountingLineFormat()
      */
     @Override
     public String[] getTargetAccountingLineFormat() {
@@ -59,8 +59,8 @@ public class IndirectCostAdjustmentDocumentAccountingLineParser extends Accounti
     }
 
     /**
-     * @see org.kuali.core.bo.AccountingLineParserBase#performCustomSourceAccountingLinePopulation(java.util.Map,
-     *      org.kuali.core.bo.SourceAccountingLine, java.lang.String)
+     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#performCustomSourceAccountingLinePopulation(java.util.Map,
+     *      org.kuali.rice.kns.bo.SourceAccountingLine, java.lang.String)
      */
     @Override
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {
@@ -70,8 +70,8 @@ public class IndirectCostAdjustmentDocumentAccountingLineParser extends Accounti
     }
 
     /**
-     * @see org.kuali.core.bo.AccountingLineParserBase#performCustomTargetAccountingLinePopulation(java.util.Map,
-     *      org.kuali.core.bo.TargetAccountingLine, java.lang.String)
+     * @see org.kuali.rice.kns.bo.AccountingLineParserBase#performCustomTargetAccountingLinePopulation(java.util.Map,
+     *      org.kuali.rice.kns.bo.TargetAccountingLine, java.lang.String)
      */
     @Override
     protected void performCustomTargetAccountingLinePopulation(Map<String, String> attributeValueMap, TargetAccountingLine targetAccountingLine, String accountingLineAsString) {

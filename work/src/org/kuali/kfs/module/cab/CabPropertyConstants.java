@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.cab;
 
-import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 
 public class CabPropertyConstants {
     public static class GeneralLedgerEntry {

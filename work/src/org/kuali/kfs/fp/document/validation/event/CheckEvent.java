@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.document.validation.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  * Defines methods common to all CheckEvents.

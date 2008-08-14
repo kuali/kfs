@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap;
 
-import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 
 /**
  * Defines constants used in authorization-related code.

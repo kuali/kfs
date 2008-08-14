@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.document.Copyable;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.fp.businessobject.InternalBillingItem;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -32,6 +30,8 @@ import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**
@@ -88,7 +88,7 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
     /**
      * Allows items (in addition to accounting lines) to be deleted from the database after being saved there.
      * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -168,8 +168,8 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
      * @return True if the accounting line is a debit accounting line, false otherwise.
      * 
      * @see IsDebitUtils#isDebitConsideringSection(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);

@@ -19,10 +19,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
@@ -31,6 +27,10 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * DocumentAuthorizer class for KRA Budget Documents.
@@ -39,8 +39,8 @@ public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
     private static Log LOG = LogFactory.getLog(BudgetDocumentAuthorizer.class);
 
     /**
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     public Map getEditMode(Document d, UniversalUser u) {
 
@@ -82,8 +82,8 @@ public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
      * Overrides most of the inherited flags so that the buttons behave exactly like they used to in the obsoleted
      * budgetDocumentControls.tag
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         LOG.debug("calling BudgetDocumentAuthorizer.getDocumentActionFlags");

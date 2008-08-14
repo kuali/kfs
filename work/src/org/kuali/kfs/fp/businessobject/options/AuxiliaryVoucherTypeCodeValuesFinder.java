@@ -18,9 +18,9 @@ package org.kuali.kfs.fp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * <code>{@link KeyValuesBase}</code> class that handles
@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.KFSConstants;
 public class AuxiliaryVoucherTypeCodeValuesFinder extends KeyValuesBase {
 
     /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List retval = new ArrayList();

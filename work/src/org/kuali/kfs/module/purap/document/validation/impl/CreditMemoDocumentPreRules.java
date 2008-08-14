@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * Business rule(s) applicable to the Credit Memo document.
@@ -33,7 +33,7 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
     }
 
     /**
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean doRules(Document document) {

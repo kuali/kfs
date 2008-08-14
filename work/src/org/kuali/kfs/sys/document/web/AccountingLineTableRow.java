@@ -22,8 +22,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.core.web.ui.Field;
 import org.kuali.kfs.sys.document.web.renderers.TableRowRenderer;
+import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * Represents a table row to display in an accounting view table.

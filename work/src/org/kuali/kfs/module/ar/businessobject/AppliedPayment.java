@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface AppliedPayment {
     

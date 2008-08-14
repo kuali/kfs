@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
@@ -46,6 +43,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -114,7 +114,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * 
      * @param document document to check
      * @return Empty List if has sufficient funds for all accounts, List of SufficientFundsItem if not
-     * @see org.kuali.kfs.gl.service.SufficientFundsService#checkSufficientFunds(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.kfs.gl.service.SufficientFundsService#checkSufficientFunds(org.kuali.rice.kns.document.FinancialDocument)
      */
     public List<SufficientFundsItem> checkSufficientFunds(GeneralLedgerPostingDocument document) {
         LOG.debug("checkSufficientFunds() started");

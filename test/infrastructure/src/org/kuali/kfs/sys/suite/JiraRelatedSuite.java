@@ -31,7 +31,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.kuali.core.util.AssertionUtils;
+import org.kuali.rice.kns.util.AssertionUtils;
 import org.w3c.dom.NodeList;
 
 /**

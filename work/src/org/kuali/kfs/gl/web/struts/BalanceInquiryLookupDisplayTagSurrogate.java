@@ -24,16 +24,16 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.lookup.LookupResultsService;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.lookup.Lookupable;
-import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Column;
-import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
  * This class serves as the struts action for implementing multiple value lookups

@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.bc.dataaccess;
 
 import org.kuali.kfs.module.bc.businessobject.Position;
-import org.kuali.kfs.module.bc.exception.PositionNotFoundException;
 
 /**
  * Bootstrap data build methods for <HumanResourcesPayrollService>

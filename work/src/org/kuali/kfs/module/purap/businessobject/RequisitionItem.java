@@ -16,9 +16,6 @@
 
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.util.ArrayList;
-
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 /**

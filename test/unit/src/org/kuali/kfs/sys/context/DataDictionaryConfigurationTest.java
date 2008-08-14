@@ -30,14 +30,14 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.FieldDefinition;
-import org.kuali.core.datadictionary.LookupDefinition;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
+import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.FieldDefinition;
+import org.kuali.rice.kns.datadictionary.LookupDefinition;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
@@ -123,7 +123,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         for(BusinessObjectEntry businessObjectEntry:dataDictionaryService.getDataDictionary().getBusinessObjectEntries().values()){
             List<Class> iList = Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
             try {
-                if(iList.contains(Class.forName("org.kuali.core.bo.Inactivateable"))){
+                if(iList.contains(Class.forName("org.kuali.rice.kns.bo.Inactivateable"))){
                     LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
                     if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains("active") && lookupDefinition.getLookupFieldNames().contains("active"))){
                         noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());

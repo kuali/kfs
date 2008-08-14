@@ -19,9 +19,9 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Labor business object for Labor General ledger Entry
@@ -512,7 +512,7 @@ public class LaborGeneralLedgerEntry extends Entry {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

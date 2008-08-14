@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingCapitalAssetLocationRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Add Purchasing Capital Asset Location Event. 

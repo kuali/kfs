@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>WorkflowRoutedByUserRoleAttribute</name>
-      <className>edu.iu.uis.eden.routetemplate.RoutedByUserRoleAttribute</className>
+      <className>org.kuali.rice.kew.rule.RoutedByUserRoleAttribute</className>
       <label>Workflow Routed By User Role Attribute</label>
       <description>Attribute to identify the user who routed the document</description>
       <type>RuleAttribute</type>

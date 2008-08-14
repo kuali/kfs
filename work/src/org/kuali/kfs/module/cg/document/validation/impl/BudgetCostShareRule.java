@@ -20,13 +20,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
 import org.kuali.kfs.module.cg.document.web.struts.BudgetCostShareFormHelper;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public class BudgetCostShareRule {
 

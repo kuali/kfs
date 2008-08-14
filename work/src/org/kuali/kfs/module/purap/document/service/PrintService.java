@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.List;

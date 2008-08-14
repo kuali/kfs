@@ -27,7 +27,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,15 +34,15 @@ import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-
-import edu.iu.uis.eden.WorkflowServiceErrorImpl;
-import edu.iu.uis.eden.lookupable.Field;
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.AbstractWorkflowAttribute;
-import edu.iu.uis.eden.routetemplate.RuleExtension;
-import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
-import edu.iu.uis.eden.util.KeyLabelPair;
+import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
+import org.kuali.rice.kew.lookupable.Field;
+import org.kuali.rice.kew.lookupable.Row;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.AbstractWorkflowAttribute;
+import org.kuali.rice.kew.rule.RuleExtension;
+import org.kuali.rice.kew.rule.RuleExtensionValue;
+import org.kuali.rice.kew.util.KeyLabelPair;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttribute {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiPurApDocumentTaxReviewAttribute.class);
@@ -72,15 +71,15 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
      * No arg constructor
      */
     public KualiPurApDocumentTaxReviewAttribute() {
-        ruleRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
+        ruleRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
         ruleRows.add(constructDropdown());
 
-        routingDataRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
+        routingDataRows = new ArrayList<org.kuali.rice.kew.lookupable.Row>();
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(VendorDetail.class, VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, VENDOR_HEADER_GENERATED_ID_KEY));
         routingDataRows.add(constructDropdown());
     }
 
-    private edu.iu.uis.eden.lookupable.Row constructDropdown() {
+    private org.kuali.rice.kew.lookupable.Row constructDropdown() {
         List validValuesTemp = new ArrayList();
         for (String validValue : validValues) {
             validValuesTemp.add(new KeyLabelPair(validValue, validValue));
@@ -91,7 +90,7 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getDocContent()
      */
     public String getDocContent() {
         if ((StringUtils.isNotBlank(getVendorRouteAsTypeKey())) || (StringUtils.isNotBlank(getVendorHeaderGeneratedId()))) {
@@ -105,14 +104,14 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
      */
     public List<Row> getRoutingDataRows() {
         return routingDataRows;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
      */
     public List<RuleExtensionValue> getRuleExtensionValues() {
         List extensions = new ArrayList();
@@ -121,14 +120,14 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleRows()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRuleRows()
      */
     public List<Row> getRuleRows() {
         return ruleRows;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(edu.iu.uis.eden.routeheader.DocumentContent, java.util.List)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#isMatch(org.kuali.rice.kew.routeheader.DocumentContent, java.util.List)
      */
     public boolean isMatch(DocumentContent documentContent, List<RuleExtension> ruleExtensions) {
         // Document doc = documentContent.getDocument();
@@ -196,7 +195,7 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRoutingData(java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#validateRoutingData(java.util.Map)
      */
     public List validateRoutingData(Map paramMap) {
         List errors = new ArrayList();
@@ -228,7 +227,7 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
      */
     public List validateRuleData(Map paramMap) {
         List errors = new ArrayList();

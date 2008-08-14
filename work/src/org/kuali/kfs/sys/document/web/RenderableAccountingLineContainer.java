@@ -23,9 +23,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.core.util.FieldUtils;
-import org.kuali.core.web.ui.Field;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.rice.kns.util.FieldUtils;
+import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * A container which holds a single accounting line and the elements which will render it

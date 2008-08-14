@@ -19,14 +19,14 @@ package org.kuali.kfs.module.purap.document;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Purchase Order Retransmit Document
@@ -44,7 +44,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
     /**
      * General Ledger pending entries are not created for this document. Overriding this method so that entries are not created.
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void customPrepareForSave(KualiDocumentEvent event) {

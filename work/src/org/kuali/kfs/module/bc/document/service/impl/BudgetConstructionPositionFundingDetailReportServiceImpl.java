@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAdministrativePost;
@@ -38,6 +36,8 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionPositionFundin
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

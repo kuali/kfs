@@ -23,11 +23,10 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.businessobject.options.DocumentSearchTypeOfSearchValuesFinder;
-
-import edu.iu.uis.eden.docsearch.DocSearchCriteriaVO;
-import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;
-import edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator;
-import edu.iu.uis.eden.doctype.DocumentType;
+import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
+import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
+import org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator;
+import org.kuali.rice.kew.doctype.DocumentType;
 
 /**
  * This class...
@@ -39,13 +38,13 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
     /*
      * (non-Javadoc)
      * 
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#clearSearch(edu.iu.uis.eden.docsearch.DocSearchCriteriaVO)
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator#clearSearch(org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO)
      */
     @Override
-    public DocSearchCriteriaVO clearSearch(DocSearchCriteriaVO searchCriteria) {
-        DocSearchCriteriaVO docSearchCriteriaVO = new DocSearchCriteriaVO();
-        docSearchCriteriaVO.setDocTypeFullName(searchCriteria.getDocTypeFullName());
-        return docSearchCriteriaVO;
+    public DocSearchCriteriaDTO clearSearch(DocSearchCriteriaDTO searchCriteria) {
+        DocSearchCriteriaDTO docSearchCriteriaDTO = new DocSearchCriteriaDTO();
+        docSearchCriteriaDTO.setDocTypeFullName(searchCriteria.getDocTypeFullName());
+        return docSearchCriteriaDTO;
     }
 
     /*
@@ -53,7 +52,7 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
      * then select the checkbox to "only search for award documents". To adjust for this we change the main doc type the search will
      * use. (non-Javadoc)
      * 
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#getDocTypeFullNameWhereSql(java.lang.String, java.lang.String)
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator#getDocTypeFullNameWhereSql(java.lang.String, java.lang.String)
      */
     @Override
     protected String getDocTypeFullNameWhereSql(String docTypeFullName, String whereClausePredicatePrefix) {
@@ -87,8 +86,8 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
     /*
      * (non-Javadoc)
      * 
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#addExtraDocumentTypesToSearch(java.lang.StringBuffer,
-     *      edu.iu.uis.eden.doctype.DocumentType)
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator#addExtraDocumentTypesToSearch(java.lang.StringBuffer,
+     *      org.kuali.rice.kew.doctype.DocumentType)
      */
     @Override
     protected void addExtraDocumentTypesToSearch(StringBuffer whereSql, DocumentType docType) {

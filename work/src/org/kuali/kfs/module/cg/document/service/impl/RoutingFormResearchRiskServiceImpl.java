@@ -22,13 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRisk;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRiskService {
 

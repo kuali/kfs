@@ -18,13 +18,13 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.KeyValuesService;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.KeyValuesService;
 
 /**
  * Business rule(s) applicable to AccountingPeriodMaintence documents.
@@ -70,7 +70,7 @@ public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
      * This method checks the following rules: calls processCustomRouteDocumentBusinessRules but does not fail if any of them fail
      * (this only happens on routing)
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
@@ -86,7 +86,7 @@ public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
      * This method checks to see if the fiscal year for any of {@link Options} is the same as the {@link AccountingPeriod}'s fiscal
      * year
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 

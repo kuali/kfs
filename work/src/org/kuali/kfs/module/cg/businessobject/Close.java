@@ -19,11 +19,11 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * Instances of this class are used to signal to the CloseBatchStep that a close should occur on a particular day.
@@ -162,7 +162,7 @@ public class Close extends FinancialSystemTransactionalDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

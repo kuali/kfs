@@ -20,10 +20,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl;
-
-import edu.iu.uis.eden.docsearch.SearchableAttributeFloatValue;
-import edu.iu.uis.eden.docsearch.SearchableAttributeValue;
+import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
+import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
+import org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl;
 
 /**
  * This class...

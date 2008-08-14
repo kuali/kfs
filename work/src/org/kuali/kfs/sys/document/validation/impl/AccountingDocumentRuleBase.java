@@ -54,21 +54,21 @@ import java.util.ListIterator;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.ExceptionUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.ExceptionUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -89,7 +89,7 @@ import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * This class contains all of the business rules that are common to all of the Financial Transaction Processing documents. Any
@@ -173,8 +173,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * This method performs common validation for adding of accounting lines. Then calls a custom method for more specific
      * validation.
      * 
-     * @see org.kuali.core.rule.AddAccountingLineRule#processAddAccountingLineBusinessRules(org.kuali.core.document.AccountingDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AddAccountingLineRule#processAddAccountingLineBusinessRules(org.kuali.rice.kns.document.AccountingDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
         LOG.debug("processAddAccountingLineBusinessRules(AccountingDocument, AccountingLine) - start");
@@ -210,8 +210,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * This method performs common validation for deleting of accounting lines. Then calls a custom method for more specific
      * validation.
      * 
-     * @see org.kuali.core.rule.DeleteAccountingLineRule#processDeleteAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, boolean)
+     * @see org.kuali.rice.kns.rule.DeleteAccountingLineRule#processDeleteAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, boolean)
      */
     public boolean processDeleteAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, boolean lineWasAlreadyDeletedFromDocument) {
         LOG.debug("processDeleteAccountingLineBusinessRules(AccountingDocument, AccountingLine, boolean) - start");
@@ -260,8 +260,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * This method performs common validation for update of accounting lines. Then calls a custom method for more specific
      * validation.
      * 
-     * @see org.kuali.core.rule.UpdateAccountingLineRule#processUpdateAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.UpdateAccountingLineRule#processUpdateAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean processUpdateAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
         LOG.debug("processUpdateAccountingLineBusinessRules(AccountingDocument, AccountingLine, AccountingLine) - start");
@@ -444,8 +444,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * This method performs common validation for review of accounting lines. Then calls a custom method for more specific
      * validation.
      * 
-     * @see org.kuali.core.rule.ReviewAccountingLineRule#processReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.ReviewAccountingLineRule#processReviewAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean processReviewAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
         LOG.debug("processReviewAccountingLineBusinessRules(AccountingDocument, AccountingLine) - start");

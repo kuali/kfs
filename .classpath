@@ -74,11 +74,6 @@
 	<classpathentry kind="lib" path="build/external/appserver/objectweb-datasource.jar"/>
 	<classpathentry kind="lib" path="build/external/appserver/ow_carol.jar"/>
 	<classpathentry kind="lib" path="build/external/appserver/xapool.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-core-0.9.4-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-0.9.4-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.4-SNAPSHOT.jar" sourcepath="/java/projects/kfs-dependencies/rice-kns-0.9.4-SNAPSHOT-sources.zip"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-ksb-0.9.4-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-shared-0.9.4-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="build/log4j-1.2.14.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/hibernate-3.2.6.ga.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/hibernate-annotations-3.3.0.ga.jar"/>
@@ -88,7 +83,7 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/javassist-3.3.ga.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jboss-common-core-2.0.4.GA.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/persistence-api-1.0.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kim-0.9.4-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kim-api-0.9.4-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-api-0.9.4-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-impl-0.9.4-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

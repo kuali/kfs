@@ -17,9 +17,9 @@ package org.kuali.kfs.module.ar.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.dataaccess.SystemInformationDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class SystemInformationDaoOjb extends PlatformAwareDaoBaseOjb implements SystemInformationDao {
 

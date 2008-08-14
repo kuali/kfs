@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.TransientBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AssetDepreciationTransaction extends TransientBusinessObjectBase implements Cloneable {
     private Long capitalAssetNumber;

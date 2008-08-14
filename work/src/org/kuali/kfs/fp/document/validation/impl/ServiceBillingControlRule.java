@@ -16,17 +16,16 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.clientapp.vo.WorkgroupNameIdVO;
-import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.dto.WorkgroupDTO;
+import org.kuali.rice.kew.dto.WorkgroupNameIdDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
  * This class validates the ServiceBillingControl maintenance document.
@@ -51,7 +50,7 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
      * @return This method always returns true.  Saves should always succeed, regardless of business rule errors encountered 
      * or reported in the data.
      * 
-     * @see MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -67,7 +66,7 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
      * @param document The document being routed.
      * @return True if all the business rules pass, false otherwise.
      * 
-     * @see MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -100,7 +99,7 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
      */
     private static boolean workgroupExistsAndIsActive(String name) {
         try {
-            WorkgroupVO workgroupVo = SpringContext.getBean(KualiWorkflowInfo.class).getWorkgroup(new WorkgroupNameIdVO(name));
+            WorkgroupDTO workgroupVo = SpringContext.getBean(KualiWorkflowInfo.class).getWorkgroup(new WorkgroupNameIdDTO(name));
             return workgroupVo != null && workgroupVo.isActiveInd();
         }
         catch (WorkflowException e) {

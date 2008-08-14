@@ -16,10 +16,10 @@
 package org.kuali.kfs.sys.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * Holds common constants for all Transaction Processing eDoc rule classes.

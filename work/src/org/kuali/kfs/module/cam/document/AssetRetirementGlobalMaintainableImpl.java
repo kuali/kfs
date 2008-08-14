@@ -21,15 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -42,6 +33,15 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.Section;
 
 ;
 
@@ -66,7 +66,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     /**
      * This creates the particular locking representation for this global document.
      * 
-     * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
@@ -107,7 +107,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     }
 
     /**
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.core.maintenance.Maintainable)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
     @Override
     public List<Section> getCoreSections(Maintainable oldMaintainable) {
@@ -132,7 +132,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
 
     /**
-     * @see org.kuali.core.maintenance.KualiGlobalMaintainableImpl#prepareGlobalsForSave()
+     * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#prepareGlobalsForSave()
      */
     @Override
     protected void prepareGlobalsForSave() {
@@ -178,7 +178,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     }
 
     /**
-     * @see org.kuali.core.maintenance.KualiGlobalMaintainableImpl#processGlobalsAfterRetrieve()
+     * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#processGlobalsAfterRetrieve()
      */
     @Override
     protected void processGlobalsAfterRetrieve() {
@@ -201,8 +201,8 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
 
     /**
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
-     *      org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
+     *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
@@ -232,7 +232,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     }
 
     /**
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.core.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
     public void handleRouteStatusChange(DocumentHeader documentHeader) {

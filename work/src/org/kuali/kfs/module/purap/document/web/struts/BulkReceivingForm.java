@@ -15,23 +15,18 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
-import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
-
-import edu.iu.uis.eden.EdenConstants;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 
 public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormBase {
     
@@ -63,7 +58,7 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
      * Override the superclass method to add appropriate buttons for
      * BulkReceivingDocument.
      * 
-     * @see org.kuali.core.web.struts.form.KualiForm#getExtraButtons()
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
@@ -113,8 +108,8 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         Map adHocActionRequestCodes = new HashMap();
         if (getWorkflowDocument() != null) {
             if (getWorkflowDocument().stateIsInitiated() || getWorkflowDocument().stateIsSaved()) {
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
-                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
             }
         }
         return adHocActionRequestCodes;

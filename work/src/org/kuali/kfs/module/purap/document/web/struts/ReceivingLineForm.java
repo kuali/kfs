@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -29,6 +28,7 @@ import org.kuali.kfs.module.purap.document.authorization.ReceivingLineDocumentAc
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 
 public class ReceivingLineForm extends ReceivingFormBase {
     
@@ -79,7 +79,7 @@ public class ReceivingLineForm extends ReceivingFormBase {
      * Override the superclass method to add appropriate buttons for
      * ReceivingLineDocument.
      * 
-     * @see org.kuali.core.web.struts.form.KualiForm#getExtraButtons()
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
      */
     @Override
     public List<ExtraButton> getExtraButtons() {

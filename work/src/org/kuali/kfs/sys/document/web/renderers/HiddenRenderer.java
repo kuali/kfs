@@ -20,7 +20,6 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.html.HiddenTag;
-import org.kuali.core.bo.BusinessObject;
 
 /**
  * Renders a hidden field

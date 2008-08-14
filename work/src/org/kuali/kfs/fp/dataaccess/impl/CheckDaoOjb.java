@@ -23,11 +23,11 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.dataaccess.CheckDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -45,7 +45,7 @@ public class CheckDaoOjb extends PlatformAwareDaoBaseOjb implements CheckDao {
     }
 
     /**
-     * @see org.kuali.core.dao.CheckDao#save(org.kuali.kfs.fp.businessobject.Check)
+     * @see org.kuali.rice.kns.dao.CheckDao#save(org.kuali.kfs.fp.businessobject.Check)
      */
     public Check save(Check check) throws DataAccessException {
         getPersistenceBrokerTemplate().store(check);

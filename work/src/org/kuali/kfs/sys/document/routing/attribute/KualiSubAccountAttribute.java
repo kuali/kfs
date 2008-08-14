@@ -28,26 +28,25 @@ import javax.xml.xpath.XPathConstants;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
+import org.kuali.rice.kew.doctype.DocumentType;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
+import org.kuali.rice.kew.lookupable.Row;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.MassRuleAttribute;
+import org.kuali.rice.kew.rule.RuleBaseValues;
+import org.kuali.rice.kew.rule.RuleExtension;
+import org.kuali.rice.kew.rule.RuleExtensionValue;
+import org.kuali.rice.kew.rule.WorkflowAttribute;
+import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import edu.iu.uis.eden.WorkflowServiceErrorImpl;
-import edu.iu.uis.eden.doctype.DocumentType;
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.plugin.attributes.MassRuleAttribute;
-import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.RuleBaseValues;
-import edu.iu.uis.eden.routetemplate.RuleExtension;
-import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
-import edu.iu.uis.eden.util.Utilities;
 
 /**
  * This class...
@@ -113,7 +112,7 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getDocContent()
      */
     public String getDocContent() {
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getAccountNbr()) || Utilities.isEmpty(getSubAccountNbr())) {
@@ -126,14 +125,14 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
      */
     public List<Row> getRoutingDataRows() {
         return routingDataRows;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
      */
     public List<RuleExtensionValue> getRuleExtensionValues() {
         List extensions = new ArrayList();
@@ -149,35 +148,35 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleRows()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRuleRows()
      */
     public List<Row> getRuleRows() {
         return ruleRows;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isRequired()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#isRequired()
      */
     public boolean isRequired() {
         return required;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#setRequired(boolean)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#setRequired(boolean)
      */
     public void setRequired(boolean required) {
         this.required = required;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRoutingData(java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#validateRoutingData(java.util.Map)
      */
     public List validateRoutingData(Map paramMap) {
         return validateSubAccountValues(paramMap);
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
      */
     public List validateRuleData(Map paramMap) {
         return validateSubAccountValues(paramMap);
@@ -247,7 +246,7 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
      * fire.
      * 
      * @see #filterNonMatchingRules(RouteContext, List)
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(java.lang.String, java.util.List)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#isMatch(java.lang.String, java.util.List)
      */
     public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
         return true;

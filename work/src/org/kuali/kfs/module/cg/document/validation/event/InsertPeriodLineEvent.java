@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.cg.document.validation.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  * Defines methods common to all PeriodLine events.

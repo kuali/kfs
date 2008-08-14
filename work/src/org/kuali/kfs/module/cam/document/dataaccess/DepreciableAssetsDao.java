@@ -19,10 +19,10 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface DepreciableAssetsDao {
     /**

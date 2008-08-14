@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Generates key-value pairs for AddressToVendorIndicator in ReceivingAddress, so that the indicator's boolean values

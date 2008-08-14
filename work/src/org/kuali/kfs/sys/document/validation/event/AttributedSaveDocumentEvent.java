@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.document.validation.event;
 
-import org.kuali.core.document.Document;
+import org.kuali.rice.kns.document.Document;
 
 public class AttributedSaveDocumentEvent extends AttributedDocumentEventBase {
     /**
@@ -38,7 +38,7 @@ public class AttributedSaveDocumentEvent extends AttributedDocumentEventBase {
     }
     
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEventBase#KualiDocumentEventBase(java.lang.String, java.lang.String, org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEventBase#KualiDocumentEventBase(java.lang.String, java.lang.String, org.kuali.rice.kns.document.Document)
      */
     public AttributedSaveDocumentEvent(String description, String errorPathPrefix, Document document) {
         super(description, errorPathPrefix, document);

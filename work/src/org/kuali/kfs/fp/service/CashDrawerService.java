@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.service;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This service interface defines methods that a CashDrawerService implementation must provide.

@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
@@ -48,6 +47,7 @@ import org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelFormHelper;
 import org.kuali.kfs.module.cg.document.web.struts.BudgetOverviewFormHelper;
 import org.kuali.kfs.module.cg.document.web.struts.BudgetOverviewFormHelper.BudgetOverviewPersonnelHelper;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

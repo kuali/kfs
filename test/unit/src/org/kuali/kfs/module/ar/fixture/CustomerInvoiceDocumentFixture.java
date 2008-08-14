@@ -16,14 +16,13 @@
 package org.kuali.kfs.module.ar.fixture;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
 
 public enum CustomerInvoiceDocumentFixture {
     

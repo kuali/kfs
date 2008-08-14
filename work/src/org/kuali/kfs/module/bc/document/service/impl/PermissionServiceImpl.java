@@ -22,8 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -32,14 +30,15 @@ import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.dto.RuleDTO;
+import org.kuali.rice.kew.dto.RuleExtensionDTO;
+import org.kuali.rice.kew.dto.RuleReportCriteriaDTO;
+import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.WorkflowInfo;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.RuleExtensionVO;
-import edu.iu.uis.eden.clientapp.vo.RuleReportCriteriaVO;
-import edu.iu.uis.eden.clientapp.vo.RuleVO;
 
 /**
  * This class implements the Budget Construction module PermissionService interface. PermissionServiceImpl implements methods used
@@ -65,7 +64,7 @@ public class PermissionServiceImpl implements PermissionService {
     private static final String ORG_REVIEW_RULE_ORG_CODE_NAME = "org_cd";
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrgReview(org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrgReview(org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public List<Org> getOrgReview(UniversalUser universalUser) throws Exception {
         return this.getOrgReview(universalUser.getPersonUserIdentifier());
@@ -73,25 +72,25 @@ public class PermissionServiceImpl implements PermissionService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isOrgReviewApprover(java.lang.String, java.lang.String,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean isOrgReviewApprover(String chartOfAccountsCode, String organizationCode, UniversalUser universalUser) throws Exception {
 
-        RuleExtensionVO ruleExtensionVO = new RuleExtensionVO(ORG_REVIEW_RULE_CHART_CODE_NAME, chartOfAccountsCode);
-        RuleExtensionVO ruleExtensionVO2 = new RuleExtensionVO(ORG_REVIEW_RULE_ORG_CODE_NAME, organizationCode);
-        RuleExtensionVO[] ruleExtensionVOs = new RuleExtensionVO[] { ruleExtensionVO, ruleExtensionVO2 };
+        RuleExtensionDTO ruleExtensionDTO = new RuleExtensionDTO(ORG_REVIEW_RULE_CHART_CODE_NAME, chartOfAccountsCode);
+        RuleExtensionDTO ruleExtensionVO2 = new RuleExtensionDTO(ORG_REVIEW_RULE_ORG_CODE_NAME, organizationCode);
+        RuleExtensionDTO[] ruleExtensionVOs = new RuleExtensionDTO[] { ruleExtensionDTO, ruleExtensionVO2 };
 
-        RuleReportCriteriaVO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(universalUser.getPersonUserIdentifier());
+        RuleReportCriteriaDTO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(universalUser.getPersonUserIdentifier());
         ruleReportCriteria.setRuleExtensionVOs(ruleExtensionVOs);
 
-        RuleVO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
+        RuleDTO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
 
         return rules.length > 0;
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isOrgReviewApprover(org.kuali.kfs.coa.businessobject.Org,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean isOrgReviewApprover(Org organzation, UniversalUser universalUser) {
         try {
@@ -106,7 +105,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrganizationReviewHierachy(org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrganizationReviewHierachy(org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public List<Org> getOrganizationReviewHierachy(UniversalUser universalUser) {
         List<Org> organazationReview = null;
@@ -125,7 +124,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountManagerOrDelegate(org.kuali.kfs.coa.businessobject.Account,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean isAccountManagerOrDelegate(Account account, UniversalUser universalUser) {
         boolean isAccountManager = StringUtils.equals(universalUser.getPersonUserIdentifier(), account.getAccountManagerUserPersonUserIdentifier());
@@ -135,7 +134,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountDelegate(org.kuali.kfs.coa.businessobject.Account,
-     *      org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean isAccountDelegate(Account account, UniversalUser universalUser) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -164,20 +163,20 @@ public class PermissionServiceImpl implements PermissionService {
     private List<Org> getOrgReview(String personUserIdentifier) throws Exception {
         List<Org> orgReview = new ArrayList<Org>();
 
-        RuleReportCriteriaVO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(personUserIdentifier);
-        RuleVO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
+        RuleReportCriteriaDTO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(personUserIdentifier);
+        RuleDTO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
 
-        for (RuleVO ruleVO : rules) {
+        for (RuleDTO ruleDTO : rules) {
             String organizationCode = null;
             String chartOfAccounts = null;
 
-            RuleExtensionVO[] ruleExtensionVOs = ruleVO.getRuleExtensions();
-            for (RuleExtensionVO extensionVO : ruleExtensionVOs) {
-                if (ORG_REVIEW_RULE_CHART_CODE_NAME.equals(extensionVO.getKey())) {
-                    chartOfAccounts = extensionVO.getValue();
+            RuleExtensionDTO[] ruleExtensionVOs = ruleDTO.getRuleExtensions();
+            for (RuleExtensionDTO extensionDTO : ruleExtensionVOs) {
+                if (ORG_REVIEW_RULE_CHART_CODE_NAME.equals(extensionDTO.getKey())) {
+                    chartOfAccounts = extensionDTO.getValue();
                 }
-                else if (ORG_REVIEW_RULE_ORG_CODE_NAME.equals(extensionVO.getKey())) {
-                    organizationCode = extensionVO.getValue();
+                else if (ORG_REVIEW_RULE_ORG_CODE_NAME.equals(extensionDTO.getKey())) {
+                    organizationCode = extensionDTO.getValue();
                 }
             }
 
@@ -197,14 +196,14 @@ public class PermissionServiceImpl implements PermissionService {
      * @param personUserIdentifier the specified user
      * @return the rule report criteria for budget construction document with the specified user
      */
-    private RuleReportCriteriaVO getRuleReportCriteriaForBudgetDocument(String personUserIdentifier) {
-        RuleReportCriteriaVO ruleReportCriteria = new RuleReportCriteriaVO();
+    private RuleReportCriteriaDTO getRuleReportCriteriaForBudgetDocument(String personUserIdentifier) {
+        RuleReportCriteriaDTO ruleReportCriteria = new RuleReportCriteriaDTO();
 
         ruleReportCriteria.setDocumentTypeName(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
         ruleReportCriteria.setRuleTemplateName(BudgetConstructionConstants.ORG_REVIEW_RULE_TEMPLATE);
-        ruleReportCriteria.setResponsibleUser(new NetworkIdVO(personUserIdentifier));
+        ruleReportCriteria.setResponsibleUser(new NetworkIdDTO(personUserIdentifier));
         ruleReportCriteria.setIncludeDelegations(Boolean.FALSE);
-        ruleReportCriteria.setActionRequestCodes(new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ });
+        ruleReportCriteria.setActionRequestCodes(new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ });
 
         return ruleReportCriteria;
     }

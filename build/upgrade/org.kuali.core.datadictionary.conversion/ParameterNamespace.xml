@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.bo.ParameterNamespace">
+    <businessObject businessObjectClass="org.kuali.rice.kns.bo.ParameterNamespace">
 
         <inquiry>
             <title>Parameter Namespace Inquiry</title>
@@ -105,16 +105,16 @@
                 </description>
             </attribute>
             <attributeReference name="active"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy"
                 sourceAttributeName="activeIndicator"
             >
             </attributeReference>
             <attributeReference name="objectId"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy"
                 sourceAttributeName="objectId"
             />
             <attributeReference name="versionNumber"
-                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceClassName="org.kuali.rice.kns.bo.AttributeReferenceDummy"
                 sourceAttributeName="versionNumber"
             />
         </attributes>

@@ -16,11 +16,11 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * PreRules checks for the {@link IndirectCostRecoveryRateDetail} that needs to occur while still in the Struts processing. This includes
@@ -43,7 +43,7 @@ public class IndirectCostRecoveryRateDetailPreRules extends MaintenancePreRulesB
      * <li>{@link IndirectCostRecoveryRateDetailPreRules#setSubObjectToDashesIfBlank()}</li>
      * </ul>
      * 
-     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);

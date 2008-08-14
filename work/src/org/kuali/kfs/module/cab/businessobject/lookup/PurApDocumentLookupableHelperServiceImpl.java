@@ -15,22 +15,15 @@
  */
 package org.kuali.kfs.module.cab.businessobject.lookup;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * This class overrids the base getActionUrls method
@@ -41,7 +34,7 @@ public class PurApDocumentLookupableHelperServiceImpl extends KualiLookupableHel
     /**
      * Custom action urls for CAB PurAp lines.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public String getActionUrls(BusinessObject bo) {

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.bc.document.validation;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Defines rule methods for handling expansion events.

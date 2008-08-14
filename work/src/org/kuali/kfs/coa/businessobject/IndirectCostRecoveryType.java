@@ -17,10 +17,9 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.List;
 
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.KualiCodeBase;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class...

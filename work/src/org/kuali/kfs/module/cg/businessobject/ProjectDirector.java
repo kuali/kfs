@@ -18,12 +18,12 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.Inactivateable;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * 
@@ -82,7 +82,7 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
@@ -191,14 +191,14 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
 
 
     /**
-     * @see org.kuali.core.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

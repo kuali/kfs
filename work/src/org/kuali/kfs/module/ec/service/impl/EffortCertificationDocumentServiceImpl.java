@@ -24,17 +24,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.UserSession;
-import org.kuali.core.bo.AdHocRoutePerson;
-import org.kuali.core.bo.AdHocRouteRecipient;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.spring.Logged;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.businessobject.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
@@ -55,10 +44,20 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.bo.AdHocRoutePerson;
+import org.kuali.rice.kns.bo.AdHocRouteRecipient;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.spring.Logged;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * To implement the services related to the effort certification document
@@ -223,7 +222,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      */
     private String getActionRequest(String routeLevelName, String expectedRouteLevelName) {
         boolean isExpectedRouteLevel = StringUtils.equals(routeLevelName, expectedRouteLevelName);
-        return isExpectedRouteLevel ? EdenConstants.ACTION_REQUEST_APPROVE_REQ : EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ;
+        return isExpectedRouteLevel ? KEWConstants.ACTION_REQUEST_APPROVE_REQ : KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ;
     }
 
     /**

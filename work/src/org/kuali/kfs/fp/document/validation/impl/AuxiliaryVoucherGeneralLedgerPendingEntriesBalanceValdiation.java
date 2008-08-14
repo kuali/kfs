@@ -19,10 +19,10 @@ import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_BALANCE;
 
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;

@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.businessobject;
 
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE;
 
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.ConfigureContext;

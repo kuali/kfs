@@ -16,42 +16,25 @@
 package org.kuali.kfs.module.cab.document.web.struts;
 
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.query.Criteria;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionForm;
-import org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm;
-import org.kuali.kfs.module.cab.CabPropertyConstants;
-import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class PurApLineAction extends KualiAction {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);

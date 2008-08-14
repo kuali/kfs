@@ -5,7 +5,7 @@
       <name>EDENSERVICE-DOCS.WKGRPREQ</name>
       <parent>EDENSERVICE-DOCS</parent>
       <label>Workgroup</label>
-      <postProcessorName>edu.iu.uis.eden.workgroup.WorkgroupPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.rice.kew.workgroup.WorkgroupPostProcessor</postProcessorName>
       <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
       <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
       <docHandler>${workflow.url}/Workgroup.do?methodToCall=docHandler</docHandler>

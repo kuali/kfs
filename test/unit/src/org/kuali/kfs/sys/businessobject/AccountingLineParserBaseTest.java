@@ -20,8 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.fp.document.InternalBillingDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;

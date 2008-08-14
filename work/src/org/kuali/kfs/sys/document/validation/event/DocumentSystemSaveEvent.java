@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.sys.document.validation.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.event.SaveOnlyDocumentEvent;
 
 /**
  * This class...
@@ -37,7 +37,7 @@ public class DocumentSystemSaveEvent extends SaveOnlyDocumentEvent {
     /**
      * METHOD ALWAYS RETURNS TRUE
      * 
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     @Override
     public boolean invokeRuleMethod(BusinessRule arg0) {

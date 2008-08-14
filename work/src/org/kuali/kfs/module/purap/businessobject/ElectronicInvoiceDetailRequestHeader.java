@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;

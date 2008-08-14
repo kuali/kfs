@@ -20,13 +20,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TypeUtils;
 import org.kuali.kfs.gl.batch.dataaccess.ReconciliationDao;
 import org.kuali.kfs.gl.batch.service.ReconciliationService;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.sys.Message;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypeUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

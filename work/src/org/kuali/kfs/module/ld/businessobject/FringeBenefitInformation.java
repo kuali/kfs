@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.ld.businessobject;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
 * A simple wrapper for fringe benefits information

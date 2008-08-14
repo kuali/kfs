@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.Guid;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
@@ -34,6 +32,8 @@ import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.Guid;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

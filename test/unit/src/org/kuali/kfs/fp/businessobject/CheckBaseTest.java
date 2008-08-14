@@ -18,8 +18,8 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.sql.Date;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

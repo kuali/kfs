@@ -20,13 +20,13 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.ParameterDetailType;
-import org.kuali.core.datadictionary.DataDictionaryException;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.ParameterDetailType;
+import org.kuali.rice.kns.datadictionary.DataDictionaryException;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
 
 public class ParameterDetailTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -121,7 +121,7 @@ public class ParameterDetailTypeLookupableHelperServiceImpl extends KualiLookupa
     
     /**
      * Suppress the edit/copy links on synthetic detail types.
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public String getActionUrls(BusinessObject businessObject) {

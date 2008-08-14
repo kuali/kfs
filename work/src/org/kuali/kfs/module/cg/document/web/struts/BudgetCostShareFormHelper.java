@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.BudgetAbstractCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetAbstractPeriodCostShare;
@@ -37,6 +36,7 @@ import org.kuali.kfs.module.cg.businessobject.UserAppointmentTask;
 import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
 import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 /**

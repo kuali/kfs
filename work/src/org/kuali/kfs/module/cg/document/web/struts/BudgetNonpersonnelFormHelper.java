@@ -22,9 +22,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 import org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 /**

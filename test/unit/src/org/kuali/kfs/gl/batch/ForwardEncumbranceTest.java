@@ -18,7 +18,7 @@ package org.kuali.kfs.gl.batch;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.service.A21SubAccountService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;

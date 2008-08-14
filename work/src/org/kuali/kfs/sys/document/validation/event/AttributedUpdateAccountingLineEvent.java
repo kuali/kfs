@@ -21,15 +21,15 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AttributedUpdateAccountingLineEvent extends AttributedDocumentEventBase {
     private final AccountingLine accountingLine;
@@ -50,7 +50,7 @@ public class AttributedUpdateAccountingLineEvent extends AttributedDocumentEvent
     }
     
     /**
-     * @see org.kuali.core.rule.event.AccountingLineEvent#getAccountingLine()
+     * @see org.kuali.rice.kns.rule.event.AccountingLineEvent#getAccountingLine()
      */
     public AccountingLine getOriginalAccountingLine() {
         return accountingLine;
@@ -64,7 +64,7 @@ public class AttributedUpdateAccountingLineEvent extends AttributedDocumentEvent
     }
     
     /**
-     * @see org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {

@@ -19,9 +19,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.FormatException;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.FormatException;
 
 /**
  * An abstract class that defines methods needed to act on parameter properties for a validation.

@@ -30,15 +30,6 @@ import org.apache.commons.lang.text.StrTokenizer;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.lookup.Lookupable;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiLookupAction;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
@@ -59,7 +50,16 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * Action class to display special budget lookup screens.
@@ -72,7 +72,7 @@ public class TempListLookupAction extends KualiLookupAction {
      * is and either makes a build call for that list or sets up a message (if the list has already been built). If the request
      * parameter showInitialResults is true, an initial search will be performed before display of the screen.
      * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -138,7 +138,7 @@ public class TempListLookupAction extends KualiLookupAction {
      * This differs from KualiLookupAction.clearValues in that any atributes marked hidden will not be cleared. This is to support
      * BC temp tables that use personUniversalIdentifier to operate on the set of rows associated with the current user.
      * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#clearValues(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#clearValues(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -163,7 +163,7 @@ public class TempListLookupAction extends KualiLookupAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#cancel(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#cancel(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -189,7 +189,7 @@ public class TempListLookupAction extends KualiLookupAction {
     /**
      * Forwards to budget position lookup.
      * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performExtendedPositionSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -229,7 +229,7 @@ public class TempListLookupAction extends KualiLookupAction {
     /**
      * Validates the get new action for position then calls BudgetPositionService to pull the new position record.
      * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward getNewPosition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -266,7 +266,7 @@ public class TempListLookupAction extends KualiLookupAction {
     /**
      * Forwards to intended incumbent lookup.
      * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performExtendedIncumbentSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -303,7 +303,7 @@ public class TempListLookupAction extends KualiLookupAction {
     /**
      * Validates the get new action for incumbent then calls BudgetPositionService to pull the new incumbent record.
      * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward getNewIncumbent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -340,7 +340,7 @@ public class TempListLookupAction extends KualiLookupAction {
     /**
      * Continues the organization report action after viewing the account list.
      * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward submitReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -368,7 +368,7 @@ public class TempListLookupAction extends KualiLookupAction {
     /**
      * Unlocks a current budget lock and returns back to lock monitor with refreshed locks.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -415,7 +415,7 @@ public class TempListLookupAction extends KualiLookupAction {
      * null, that indicates we are fowarding to the question or they selected No to the confirmation and we should return to the
      * unlock page.
      * 
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward doUnlockConfirmation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String lockType, String lockKeyMessage) throws Exception {

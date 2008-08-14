@@ -19,7 +19,7 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertEquality;
 
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnelTest;

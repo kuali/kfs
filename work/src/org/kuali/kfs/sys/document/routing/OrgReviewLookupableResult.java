@@ -16,10 +16,9 @@
 package org.kuali.kfs.sys.document.routing;
 
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.routetemplate.RuleBaseValues;
-import edu.iu.uis.eden.web.UrlResolver;
+import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+import org.kuali.rice.kew.rule.RuleBaseValues;
+import org.kuali.rice.kew.web.UrlResolver;
 
 /**
  * This class wraps the Org Review Values that we need in the lookup result set.
@@ -81,7 +80,7 @@ public class OrgReviewLookupableResult {
             responsiblePartyBuffer.append("</a>");
             this.responsibleParty = responsiblePartyBuffer.toString();
         }
-        catch (EdenUserNotFoundException e) {
+        catch (KEWUserNotFoundException e) {
             throw new RuntimeException("Unable to find user for Rule Id: " + ruleBaseValues.getRuleBaseValuesId(), e);
         }
     }

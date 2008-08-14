@@ -16,7 +16,7 @@
 
 package org.kuali.kfs.fp.document;
 
-import static org.kuali.core.util.AssertionUtils.assertThat;
+import static org.kuali.rice.kns.util.AssertionUtils.assertThat;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,11 +25,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
 import org.kuali.kfs.fp.businessobject.CashieringTransaction;
@@ -42,6 +37,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.DepositConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
@@ -49,6 +45,10 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class represents the CashManagementDocument.
@@ -222,7 +222,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -300,7 +300,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {
@@ -340,7 +340,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#processAfterRetrieve()
+     * @see org.kuali.rice.kns.document.DocumentBase#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
@@ -356,7 +356,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /* utility methods */
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

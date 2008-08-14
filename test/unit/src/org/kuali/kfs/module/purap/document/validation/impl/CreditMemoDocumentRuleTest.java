@@ -20,8 +20,8 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -209,7 +209,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         // If there is such a vendor in the database, we can proceed to test this.
         VendorDetail vendor = SpringContext.getBean(VendorService.class).getVendorDetail(
                 VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
-        if(org.kuali.core.util.ObjectUtils.isNotNull(vendor)) {
+        if(org.kuali.rice.kns.util.ObjectUtils.isNotNull(vendor)) {
             assertTrue(rule.validateInitTabReferenceNumbers(creditMemo));
         }
         else {
@@ -234,7 +234,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         // If there is such a vendor in the database, we can proceed to test this.
         VendorDetail vendor = SpringContext.getBean(VendorService.class).getVendorDetail(
                 VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
-        if(org.kuali.core.util.ObjectUtils.isNotNull(vendor)) {
+        if(org.kuali.rice.kns.util.ObjectUtils.isNotNull(vendor)) {
             Integer poID = prepareAndSavePO();
             creditMemo.setPurchaseOrderIdentifier(poID);
             assertFalse(rule.validateInitTabReferenceNumbers(creditMemo));
@@ -254,7 +254,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         // If there is such a vendor in the database, we can proceed to test this.
         VendorDetail vendor = SpringContext.getBean(VendorService.class).getVendorDetail(
                 VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
-        if(org.kuali.core.util.ObjectUtils.isNotNull(vendor)) {
+        if(org.kuali.rice.kns.util.ObjectUtils.isNotNull(vendor)) {
             Integer preqID = prepareAndSavePREQ();
             creditMemo.setPaymentRequestIdentifier(preqID);
             assertFalse(rule.validateInitTabReferenceNumbers(creditMemo));

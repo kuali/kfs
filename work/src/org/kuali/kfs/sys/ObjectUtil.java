@@ -33,9 +33,9 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.WrapDynaClass;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This class provides a set of facilities that can be used to manipulate objects, for example, object population

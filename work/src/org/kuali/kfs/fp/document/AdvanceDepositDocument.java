@@ -18,10 +18,6 @@ package org.kuali.kfs.fp.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.document.Copyable;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -33,6 +29,10 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * This is the business object that represents the AdvanceDeposit document in Kuali. This is a transactional document that will
@@ -201,7 +201,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
     /**
      * Overrides super to call super and then also add in the new list of advance deposits that have to be managed.
      * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -217,7 +217,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
      * @param financialDocument submitted financial document
      * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
      * @return true if there are no issues creating GLPE's
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {

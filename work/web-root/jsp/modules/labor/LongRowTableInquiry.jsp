@@ -69,7 +69,7 @@
 						</c:if> <!-- Optional extra button --> <c:if
 							test="${not empty KualiForm.lookupable.extraButtonSource}">
 							<a
-								href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=org.kuali.core.lookup.KualiLookupableImpl&docFormKey=${KualiForm.formKey}" /><c:out value="${KualiForm.lookupable.extraButtonParams}" />'>
+								href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=org.kuali.rice.kns.lookup.KualiLookupableImpl&docFormKey=${KualiForm.formKey}" /><c:out value="${KualiForm.lookupable.extraButtonParams}" />'>
 							<img
 								src='<c:out value="${KualiForm.lookupable.extraButtonSource}" />'
 								class="tinybutton" border="0" /></a>
@@ -108,9 +108,9 @@
 				<c:forEach items="${row.columns}" var="column" varStatus="status">
 					
 					<c:choose>
-						<c:when test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
+						<c:when test="${column.formatter.implementationClass == 'org.kuali.rice.kns.web.format.CurrencyFormatter'}">
 							<display:column class="numbercell" media="${(status.index < columnLength) ? 'all' : 'csv excel xml'}"
-								decorator="org.kuali.core.web.ui.FormatAwareDecorator"
+								decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
 								comparator="${column.comparator}" title="${column.columnTitle}" sortable="true">
 									<c:if test="${column.propertyURL != ''}">
 											<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}"
@@ -124,7 +124,7 @@
 						<c:otherwise>
 							<c:if test="${column.propertyURL != ''}">
 								<display:column class="infocell"
-									decorator="org.kuali.core.web.ui.FormatAwareDecorator"
+									decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
 									media="${(status.index < columnLength) ? 'all' : 'csv excel xml'}"
 									comparator="${column.comparator}" title="${column.columnTitle}" sortable="true">
 
@@ -136,7 +136,7 @@
 							
 							<c:if test="${column.propertyURL == ''}">								
 								<display:column class="infocell"
-									decorator="org.kuali.core.web.ui.FormatAwareDecorator"
+									decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
 									media="${(status.index < columnLength) ? 'all' : 'csv excel xml'}"
 									comparator="${column.comparator}" title="${column.columnTitle}" sortable="true">
 									

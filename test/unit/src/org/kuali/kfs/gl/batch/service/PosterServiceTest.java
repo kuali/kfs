@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.Guid;
+import org.kuali.rice.kns.util.Guid;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.sys.ConfigureContext;

@@ -19,7 +19,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 /**
  * This class...

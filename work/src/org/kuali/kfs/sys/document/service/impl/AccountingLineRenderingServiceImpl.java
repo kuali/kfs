@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
@@ -31,8 +29,9 @@ import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingTransformation;
 import org.kuali.kfs.sys.document.service.AccountingLineTableTransformation;
 import org.kuali.kfs.sys.document.web.AccountingLineTableRow;
-import org.kuali.kfs.sys.document.web.RenderableElement;
 import org.kuali.kfs.sys.document.web.TableJoining;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * The default implementation of the AccountingLineRenderingService

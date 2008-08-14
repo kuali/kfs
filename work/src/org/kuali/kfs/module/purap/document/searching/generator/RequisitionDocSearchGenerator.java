@@ -18,10 +18,10 @@ package org.kuali.kfs.module.purap.document.searching.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * This class...

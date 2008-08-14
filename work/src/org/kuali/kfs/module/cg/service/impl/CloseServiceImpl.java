@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cg.service.impl;
 import java.sql.Date;
 import java.util.Collection;
 
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.Close;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
@@ -26,6 +25,7 @@ import org.kuali.kfs.module.cg.dataaccess.AwardDao;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
 import org.kuali.kfs.module.cg.dataaccess.ProposalDao;
 import org.kuali.kfs.module.cg.service.CloseService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

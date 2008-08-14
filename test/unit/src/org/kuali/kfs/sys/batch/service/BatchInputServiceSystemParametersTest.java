@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.batch.service;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.UniversalUserService;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.gl.batch.CollectorInputFileType;
 import org.kuali.kfs.sys.ConfigureContext;

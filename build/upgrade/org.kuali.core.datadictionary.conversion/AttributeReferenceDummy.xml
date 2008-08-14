@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.bo.AttributeReferenceDummy">
+    <businessObject businessObjectClass="org.kuali.rice.kns.bo.AttributeReferenceDummy">
 
 
         <attributes>
@@ -112,7 +112,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>This attribute should always be overriden on the descriptive elements.</description>
-                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
+                <formatterClass>org.kuali.rice.kns.web.format.DateFormatter</formatterClass>
             </attribute>
 
             <!--  This should be used/overridden anytime a standard 
@@ -135,7 +135,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>This attribute should always be overriden on the descriptive elements.</description>
-                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
+                <formatterClass>org.kuali.rice.kns.web.format.DateFormatter</formatterClass>
             </attribute>
 
             <!--  This should be used/overridden anytime a standard 
@@ -155,7 +155,7 @@
                 </summary>
                 <description>This attribute should always be overriden on the descriptive elements.</description>
 
-                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+                <formatterClass>org.kuali.rice.kns.web.format.BooleanFormatter</formatterClass>
             </attribute>
 
             <attribute name="activeIndicator" forceUppercase="false">
@@ -174,7 +174,7 @@
                 <summary>Active Indicator</summary>
                 <description>This attribute is used to describe whether the associated object is active or inactive.</description>
 
-                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+                <formatterClass>org.kuali.rice.kns.web.format.BooleanFormatter</formatterClass>
             </attribute>
 
             <!--  This should be used/overridden anytime a standard 
@@ -443,7 +443,7 @@
                 </summary>
                 <description>This attribute indicates whether the object is a new record for a collection.</description>
 
-                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+                <formatterClass>org.kuali.rice.kns.web.format.BooleanFormatter</formatterClass>
             </attribute>
 
         </attributes>

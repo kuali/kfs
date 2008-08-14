@@ -16,11 +16,11 @@
 
 package org.kuali.kfs.module.purap.document;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  * Purchase Order Remove Payment Hold Document
@@ -38,7 +38,7 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
     /**
      * General Ledger pending entries are not created for this document. Overriding this method so that entries are not created.
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void customPrepareForSave(KualiDocumentEvent event) {

@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>RemoveReplaceRuleRoutingAttribute</name>
-      <className>edu.iu.uis.eden.routetemplate.RemoveReplaceRuleRoutingAttribute</className>
+      <className>org.kuali.rice.kew.rule.RemoveReplaceRuleRoutingAttribute</className>
       <label>RemoveReplaceRuleRoutingAttribute</label>
       <description>An attribute for routing rules that have been changed via the Remove/Replace User document</description>
       <type>RuleAttribute</type>

@@ -18,7 +18,7 @@
 <beans>
     <bean id="vendorModule" parent="vendorModule-parentBean" />
 
-	<bean id="vendorModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
+	<bean id="vendorModule-parentBean" class="org.kuali.rice.kns.KualiModule" abstract="true">
 		<property name="moduleId" value="vnd" />
 		<property name="moduleName" value="Vendor" />
 		<property name="moduleCode" value="VND" />
@@ -216,37 +216,37 @@
         </property>
     </bean>
     
-    <bean id="vendorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="vendorLookupableHelperService" />
         </property>
     </bean>
     
-    <bean id="vendorContactLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorContactLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="vendorContactLookupableHelperService" />
         </property>
     </bean>
     
-    <bean id="vendorPhoneLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorPhoneLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="vendorPhoneLookupableHelperService" />
         </property>
     </bean>
     
-    <bean id="vendorContractLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorContractLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="vendorContractLookupableHelperService" />
         </property>
     </bean>
     
-    <bean id="vendorAddressLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorAddressLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="vendorAddressLookupableHelperService" />
         </property>
     </bean>
   
-    <bean id="vendorCustomerNumberLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="vendorCustomerNumberLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="vendorCustomerNumberLookupableHelperService" />
         </property>

@@ -19,9 +19,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class contains methods

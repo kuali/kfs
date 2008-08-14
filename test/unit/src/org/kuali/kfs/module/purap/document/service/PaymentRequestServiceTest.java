@@ -17,10 +17,10 @@ package org.kuali.kfs.module.purap.document.service;
 
 import java.sql.Date;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.ParameterService;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 @ConfigureContext(session = UserNameFixture.APPLETON)
 public class PaymentRequestServiceTest extends KualiTestBase {

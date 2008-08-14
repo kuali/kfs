@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.validation;
 
-import org.kuali.core.document.TransactionalDocument;
+import org.kuali.rice.kns.document.TransactionalDocument;
 
 public interface ContinueCustomerCreditMemoDocumentRule<F extends TransactionalDocument> {
     

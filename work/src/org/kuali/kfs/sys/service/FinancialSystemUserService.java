@@ -17,12 +17,12 @@ package org.kuali.kfs.sys.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.bo.user.UserId;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.bo.user.UserId;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 public interface FinancialSystemUserService extends UniversalUserService {
 

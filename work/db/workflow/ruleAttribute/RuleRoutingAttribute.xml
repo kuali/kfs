@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>RuleRoutingAttribute</name>
-      <className>edu.iu.uis.eden.routetemplate.RuleRoutingAttribute</className>
+      <className>org.kuali.rice.kew.rule.RuleRoutingAttribute</className>
       <label>foo</label>
       <description>foo</description>
       <type>RuleAttribute</type>

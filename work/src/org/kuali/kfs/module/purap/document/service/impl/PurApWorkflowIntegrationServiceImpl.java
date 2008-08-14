@@ -22,31 +22,30 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.KualiWorkflowInfo;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
+import org.kuali.rice.kew.actiontaken.ActionTakenValue;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.dto.UserIdDTO;
+import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.user.WorkflowUser;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.actiontaken.ActionTakenValue;
-import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.clientapp.vo.UserIdVO;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
-import edu.iu.uis.eden.user.WorkflowUser;
 
 /**
  * This class holds methods for Purchasing and Accounts Payable documents to integrate with workflow services and operations.
@@ -71,17 +70,17 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         this.universalUserService = universalUserService;
     }
 
-    private UserIdVO getUserIdVO(UniversalUser user) {
-        return new NetworkIdVO(user.getPersonUserIdentifier());
+    private UserIdDTO getUserIdDTO(UniversalUser user) {
+        return new NetworkIdDTO(user.getPersonUserIdentifier());
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#isActionRequestedOfUserAtNodeName(java.lang.String,
-     *      java.lang.String, org.kuali.core.bo.user.UniversalUser)
+     *      java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean isActionRequestedOfUserAtNodeName(String documentNumber, String nodeName, UniversalUser userToCheck) {
         try {
-            List<ActionRequestVO> actionRequests = getActiveActionRequestsForCriteria(Long.valueOf(documentNumber), nodeName, userToCheck);
+            List<ActionRequestDTO> actionRequests = getActiveActionRequestsForCriteria(Long.valueOf(documentNumber), nodeName, userToCheck);
             return !actionRequests.isEmpty();
         }
         catch (WorkflowException e) {
@@ -103,25 +102,25 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      */
     private void superUserApproveAllActionRequests(UniversalUser superUser, Long documentNumber, String nodeName, UniversalUser user, String annotation) throws WorkflowException {
         KualiWorkflowDocument workflowDoc = workflowDocumentService.createWorkflowDocument(documentNumber, superUser);
-        List<ActionRequestVO> actionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, user);
-        for (ActionRequestVO actionRequestVO : actionRequests) {
+        List<ActionRequestDTO> actionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, user);
+        for (ActionRequestDTO actionRequestDTO : actionRequests) {
             LOG.debug("Active Action Request list size to process is " + actionRequests.size());
-            LOG.debug("Attempting to super user approve action request with id " + actionRequestVO.getActionRequestId());
-            workflowDoc.superUserActionRequestApprove(actionRequestVO.getActionRequestId(), annotation);
+            LOG.debug("Attempting to super user approve action request with id " + actionRequestDTO.getActionRequestId());
+            workflowDoc.superUserActionRequestApprove(actionRequestDTO.getActionRequestId(), annotation);
             superUserApproveAllActionRequests(superUser, documentNumber, nodeName, user, annotation);
             break;
         }
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#takeAllActionsForGivenCriteria(org.kuali.core.document.Document,
-     *      java.lang.String, java.lang.String, org.kuali.core.bo.user.UniversalUser, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#takeAllActionsForGivenCriteria(org.kuali.rice.kns.document.Document,
+     *      java.lang.String, java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String)
      */
     public boolean takeAllActionsForGivenCriteria(Document document, String potentialAnnotation, String nodeName, UniversalUser userToCheck, String superUserNetworkId) {
         try {
             Long documentNumber = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
             String networkIdString = (ObjectUtils.isNotNull(userToCheck)) ? userToCheck.getPersonUserIdentifier() : "none";
-            List<ActionRequestVO> activeActionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, userToCheck);
+            List<ActionRequestDTO> activeActionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, userToCheck);
 
             // if no action requests are found... no actions required
             if (activeActionRequests.isEmpty()) {
@@ -153,11 +152,11 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                         containsFyiRequest = workflowDocument.isFYIRequested();
                     }
                     else {
-                        for (ActionRequestVO actionRequestVO : activeActionRequests) {
-                            containsFyiRequest |= (EdenConstants.ACTION_REQUEST_FYI_REQ.equals(actionRequestVO.getActionRequested()));
-                            containsAckRequest |= (EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ.equals(actionRequestVO.getActionRequested()));
-                            containsApproveRequest |= (EdenConstants.ACTION_REQUEST_APPROVE_REQ.equals(actionRequestVO.getActionRequested()));
-                            containsCompleteRequest |= (EdenConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestVO.getActionRequested()));
+                        for (ActionRequestDTO actionRequestDTO : activeActionRequests) {
+                            containsFyiRequest |= (KEWConstants.ACTION_REQUEST_FYI_REQ.equals(actionRequestDTO.getActionRequested()));
+                            containsAckRequest |= (KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ.equals(actionRequestDTO.getActionRequested()));
+                            containsApproveRequest |= (KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(actionRequestDTO.getActionRequested()));
+                            containsCompleteRequest |= (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestDTO.getActionRequested()));
                         }
                     }
                     if (containsCompleteRequest || containsApproveRequest) {
@@ -203,14 +202,14 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @return List of action requests
      * @throws WorkflowException
      */
-    private List<ActionRequestVO> getActiveActionRequestsForCriteria(Long documentNumber, String nodeName, UniversalUser user) throws WorkflowException {
+    private List<ActionRequestDTO> getActiveActionRequestsForCriteria(Long documentNumber, String nodeName, UniversalUser user) throws WorkflowException {
         if (ObjectUtils.isNull(documentNumber)) {
             // throw exception
         }
-        List<ActionRequestVO> activeRequests = new ArrayList<ActionRequestVO>();
-        UserIdVO userIdVO = (ObjectUtils.isNotNull(user)) ? new NetworkIdVO(user.getPersonUserIdentifier()) : null;
-        ActionRequestVO[] actionRequests = kualiWorkflowInfo.getActionRequests(documentNumber, nodeName, userIdVO);
-        for (ActionRequestVO actionRequest : actionRequests) {
+        List<ActionRequestDTO> activeRequests = new ArrayList<ActionRequestDTO>();
+        UserIdDTO userIdDTO = (ObjectUtils.isNotNull(user)) ? new NetworkIdDTO(user.getPersonUserIdentifier()) : null;
+        ActionRequestDTO[] actionRequests = kualiWorkflowInfo.getActionRequests(documentNumber, nodeName, userIdDTO);
+        for (ActionRequestDTO actionRequest : actionRequests) {
             // identify which requests for the given node name can be satisfied by an action by this user
             if (actionRequest.isActivated()) {
                 activeRequests.add(actionRequest);
@@ -236,11 +235,11 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             if (isGivenNodeAfterCurrentNode(givenNodeDetail.getNodeDetailByName(activeNode), givenNodeDetail)) {
                 if (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
                     // document is only initiated so we need to pass xml for workflow to simulate route properly
-                    ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
-                    reportCriteriaVO.setXmlContent(document.getXmlForRouteReport());
-                    reportCriteriaVO.setRoutingUser(new NetworkIdVO(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier()));
-                    reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
-                    boolean value = kualiWorkflowInfo.documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ });
+                    ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
+                    reportCriteriaDTO.setXmlContent(document.getXmlForRouteReport());
+                    reportCriteriaDTO.setRoutingUser(new NetworkIdDTO(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier()));
+                    reportCriteriaDTO.setTargetNodeName(givenNodeDetail.getName());
+                    boolean value = kualiWorkflowInfo.documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ });
                     return value;
                 }
                 else {
@@ -249,10 +248,10 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                      * the existing actions taken and action requests in determining if rules will fire or not. We also need to call
                      * a save routing data so that the xml Workflow uses represents what is currently on the document
                      */
-                    ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(document.getDocumentNumber()));
-                    reportCriteriaVO.setXmlContent(document.getXmlForRouteReport());
-                    reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
-                    boolean value = kualiWorkflowInfo.documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ });
+                    ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(Long.valueOf(document.getDocumentNumber()));
+                    reportCriteriaDTO.setXmlContent(document.getXmlForRouteReport());
+                    reportCriteriaDTO.setTargetNodeName(givenNodeDetail.getName());
+                    boolean value = kualiWorkflowInfo.documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ });
                     return value;
                 }
             }
@@ -285,9 +284,9 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#getLastUserId(edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue)
+     * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#getLastUserId(org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue)
      */
-    public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws EdenUserNotFoundException {
+    public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws KEWUserNotFoundException {
         WorkflowUser user = null;
         Timestamp previousDate = null;
         for (Iterator iter = routeHeader.getActionsTaken().iterator(); iter.hasNext();) {

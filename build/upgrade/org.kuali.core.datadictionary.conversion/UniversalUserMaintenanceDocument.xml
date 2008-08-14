@@ -20,11 +20,11 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.core.bo.user.UniversalUser</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.UniversalUserMaintainable</maintainableClass>
-		<businessRulesClass>org.kuali.core.rules.UniversalUserRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.core.rules.UniversalUserPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.UniversalUserDocumentAuthorizer</documentAuthorizerClass>
+        <businessObjectClass>org.kuali.rice.kns.bo.user.UniversalUser</businessObjectClass>
+        <maintainableClass>org.kuali.rice.kns.maintenance.UniversalUserMaintainable</maintainableClass>
+		<businessRulesClass>org.kuali.rice.kns.rules.UniversalUserRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.rice.kns.rules.UniversalUserPreRules</preRulesCheckClass>
+        <documentAuthorizerClass>org.kuali.rice.kns.document.authorization.UniversalUserDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

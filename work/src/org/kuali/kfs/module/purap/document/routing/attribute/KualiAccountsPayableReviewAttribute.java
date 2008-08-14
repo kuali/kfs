@@ -17,15 +17,14 @@ package org.kuali.kfs.module.purap.document.routing.attribute;
 
 import java.util.List;
 
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.AbstractWorkflowAttribute;
-import edu.iu.uis.eden.routetemplate.RuleExtension;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.AbstractWorkflowAttribute;
+import org.kuali.rice.kew.rule.RuleExtension;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class... TODO delyea - documentation
@@ -52,7 +51,7 @@ public class KualiAccountsPayableReviewAttribute extends AbstractWorkflowAttribu
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(edu.iu.uis.eden.routeheader.DocumentContent, java.util.List)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#isMatch(org.kuali.rice.kew.routeheader.DocumentContent, java.util.List)
      */
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
         AccountsPayableDocument document = getAccountsPayableDocument(docContent.getRouteContext().getDocument().getRouteHeaderId().toString());

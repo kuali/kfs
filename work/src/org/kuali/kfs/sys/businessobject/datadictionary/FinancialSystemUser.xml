@@ -511,7 +511,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.FinancialSystemUserRule" />
     <!-- 
-    <property name="preRulesCheckClass" value="org.kuali.core.rules.FinancialSystemUserPreRules" />
+    <property name="preRulesCheckClass" value="org.kuali.rice.kns.rules.FinancialSystemUserPreRules" />
      -->
     <property name="documentTypeCode" value="FSU" />
     <property name="workflowProperties" >

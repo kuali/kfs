@@ -20,11 +20,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Value Finder for Payment Request Statuses.

@@ -16,13 +16,13 @@
 package org.kuali.kfs.sys.batch;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KULUSER;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DocumentService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * This class tests the class {@link PurgeDocumentContentsStep}

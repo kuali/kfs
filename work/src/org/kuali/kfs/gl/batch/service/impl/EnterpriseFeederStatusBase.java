@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Base implementation for the enterprise feeder status

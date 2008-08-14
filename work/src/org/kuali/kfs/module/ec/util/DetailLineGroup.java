@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * grouping a set of detail lines. The class is implemented to manage: summary line and delegating line.

@@ -15,17 +15,17 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.module.ar.util.ARUtil;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public String getActionUrls(BusinessObject businessObject) {

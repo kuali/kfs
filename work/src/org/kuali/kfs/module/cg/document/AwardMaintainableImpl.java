@@ -26,14 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
@@ -47,6 +39,14 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Methods for the Award maintenance document UI.
@@ -102,8 +102,8 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     /**
      * This method is called for refreshing the Agency after a lookup to display its full name without AJAX.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
-     *      org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
+     *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -230,7 +230,7 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
      * Called for refreshing the {@link Subcontractor} on {@link ProposalSubcontractor} before adding to the proposalSubcontractors
      * collection on the proposal. this is to ensure that the summary fields are show correctly. i.e. {@link Subcontractor} name
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override
     public void addNewLineToCollection(String collectionName) {
@@ -242,7 +242,7 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
      * This method overrides the parent method to check the status of the award document and change the linked
      * {@link ProposalStatus} to A (Approved) if the {@link Award} is now in approved status.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.core.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
     public void handleRouteStatusChange(DocumentHeader header) {

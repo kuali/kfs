@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;

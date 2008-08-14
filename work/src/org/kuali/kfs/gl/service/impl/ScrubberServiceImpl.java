@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.gl.service.impl;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.gl.batch.CollectorBatch;
@@ -37,6 +33,10 @@ import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

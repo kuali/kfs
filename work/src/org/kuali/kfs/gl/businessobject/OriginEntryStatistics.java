@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class represents origin entry statistics for debit, credit, and budget total amounts 

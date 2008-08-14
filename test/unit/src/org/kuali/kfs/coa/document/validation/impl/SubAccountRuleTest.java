@@ -19,18 +19,18 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpt
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.SubAccountFixture;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = KHUNTLEY)
 public class SubAccountRuleTest extends ChartRuleTestBase {

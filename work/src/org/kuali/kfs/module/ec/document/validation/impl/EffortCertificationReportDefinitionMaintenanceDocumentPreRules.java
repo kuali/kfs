@@ -15,16 +15,16 @@
  */
 package org.kuali.kfs.module.ec.document.validation.impl;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.document.service.EffortCertificationAutomaticReportPeriodUpdateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Checks warnings and prompts for EffortCertifictionReportDefinition Maintenance Document
@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules extends PreRulesContinuationBase {
 
     /**
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     public boolean doRules(Document arg0) {

@@ -23,18 +23,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.ResponsibilityCenter;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
-import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 
 public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Position {
@@ -626,7 +624,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -651,7 +649,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

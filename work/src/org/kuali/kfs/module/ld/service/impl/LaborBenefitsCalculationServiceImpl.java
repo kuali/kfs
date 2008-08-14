@@ -19,9 +19,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
@@ -32,6 +29,9 @@ import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
 import org.kuali.kfs.module.ld.service.LaborPositionObjectBenefitService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -59,7 +59,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(java.lang.Integer,
-     *      java.lang.String, java.lang.String, org.kuali.core.util.KualiDecimal)
+     *      java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount) {
         LaborObject laborObject = new LaborObject();
@@ -75,7 +75,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.kfs.module.ld.businessobject.LaborObject,
-     *      org.kuali.core.util.KualiDecimal)
+     *      org.kuali.rice.kns.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
         KualiDecimal fringeBenefit = KualiDecimal.ZERO;
@@ -104,7 +104,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit,
-     *      org.kuali.core.util.KualiDecimal)
+     *      org.kuali.rice.kns.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(PositionObjectBenefit positionObjectBenefit, KualiDecimal salaryAmount) {
         if (salaryAmount == null || salaryAmount.isZero() || ObjectUtils.isNull(positionObjectBenefit)) {

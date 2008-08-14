@@ -18,9 +18,9 @@ package org.kuali.kfs.module.ld.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
 import org.kuali.kfs.module.ld.businessobject.LaborJournalVoucherAccountingLineParser;
@@ -70,7 +70,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {

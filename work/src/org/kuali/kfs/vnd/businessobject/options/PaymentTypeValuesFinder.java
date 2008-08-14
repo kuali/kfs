@@ -18,13 +18,13 @@ package org.kuali.kfs.vnd.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorParameterConstants;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Values finder for <code>PaymentTermsType</code>. Similar to <code>PaymentTermsValuesFinder</code>, except that the list of
@@ -51,7 +51,7 @@ public class PaymentTypeValuesFinder extends KeyValuesBase implements ValueFinde
     }
 
     /**
-     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
 

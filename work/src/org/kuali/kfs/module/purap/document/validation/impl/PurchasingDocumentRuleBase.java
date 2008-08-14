@@ -24,18 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.LookupService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -79,6 +67,18 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.LookupService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business rule(s) applicable to Purchasing document.
@@ -181,7 +181,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * which could potentially throw SQL exception when the integrity
      * constraints are violated.
      * 
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -1320,7 +1320,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.validation.ChangeSystemPurapRule#processChangeSystemPurapBusinessRules(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.ChangeSystemPurapRule#processChangeSystemPurapBusinessRules(org.kuali.rice.kns.document.TransactionalDocument)
      */
     public boolean processChangeSystemPurapBusinessRules(TransactionalDocument document) {
         // TODO Auto-generated method stub
@@ -1328,7 +1328,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.validation.UpdateViewPurapRule#processUpdateViewPurapBusinessRules(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.UpdateViewPurapRule#processUpdateViewPurapBusinessRules(org.kuali.rice.kns.document.TransactionalDocument)
      */
     public boolean processUpdateCamsViewPurapBusinessRules(TransactionalDocument document) {
         // TODO Auto-generated method stub
@@ -1336,7 +1336,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.validation.SelectSystemPurapRule#processSelectSystemPurapBusinessRules(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.SelectSystemPurapRule#processSelectSystemPurapBusinessRules(org.kuali.rice.kns.document.TransactionalDocument)
      */
     public boolean processSelectSystemPurapBusinessRules(TransactionalDocument document) {
         // TODO Auto-generated method stub

@@ -47,7 +47,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.AccountingDocumentFormBase#getRefreshCaller()
+     * @see org.kuali.rice.kns.web.struts.form.AccountingDocumentFormBase#getRefreshCaller()
      */
     @Override
     public String getRefreshCaller() {
@@ -143,7 +143,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
      * Returns forced read only target fields (i.e read only fields plus payroll end date fiscal 
      * period code and payroll end date fiscal year)
      * 
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
      */
     public Map getForcedReadOnlyTargetFields() {
         Map map = super.getForcedReadOnlyFields();
@@ -157,7 +157,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
      * without chart of accounts code, account number, sub-account number, financial sub object code,\
      * project code, organization reference id, and amount)
      * 
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getAccountingLineEditableFields()
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#getAccountingLineEditableFields()
      */
     @Override
     public Map getAccountingLineEditableFields() {

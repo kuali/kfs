@@ -22,7 +22,6 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.web.AccountingLineTableRow;
-import org.kuali.kfs.sys.document.web.RenderableElement;
 import org.kuali.kfs.sys.document.web.TableJoining;
 
 /**

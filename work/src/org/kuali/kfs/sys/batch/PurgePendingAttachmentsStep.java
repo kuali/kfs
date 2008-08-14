@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.batch;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.kuali.core.service.AttachmentService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.service.AttachmentService;
 
 
 /**
@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.KFSConstants;
  * the file's last modified time to determine which pending attachments should be deleted. If the modified time is older than the
  * SYSTEM parameter "pendingAssignmentMaxAge", then it will be deleted.
  * 
- * @see org.kuali.core.service.impl.AttachmentServiceImpl
+ * @see org.kuali.rice.kns.service.impl.AttachmentServiceImpl
  * @see KFSConstants.SystemGroupParameterNames#PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE
  */
 public class PurgePendingAttachmentsStep extends AbstractStep {

@@ -22,11 +22,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.kuali.core.bo.DocumentType;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
@@ -59,6 +54,11 @@ import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.util.StringUtils;
 
 /**

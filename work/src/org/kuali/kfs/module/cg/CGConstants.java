@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cg;
 
 import java.util.Calendar;
 
-import org.kuali.core.util.KualiInteger;
-import org.kuali.rice.util.JSTLConstants;
+import org.kuali.rice.core.util.JSTLConstants;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * Constants specific to the Contracts and Grants module.
@@ -228,7 +228,7 @@ public class CGConstants extends JSTLConstants {
     public static final String OUTPUT_NSF_SUMMARY_XSL_FILENAME = "OUTPUT_NSF_SUMMARY_XSL_FILENAME";
     public static final String OUTPUT_SF424_XSL_FILENAME = "OUTPUT_SF424_XSL_FILENAME";
 
-    public static class AuthorizationConstants extends org.kuali.core.authorization.AuthorizationConstants.EditMode {
+    public static class AuthorizationConstants extends org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode {
         public static final String BUDGET_LINKED = "budgetLinked";
     }
 }

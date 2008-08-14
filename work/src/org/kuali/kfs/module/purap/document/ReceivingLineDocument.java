@@ -3,18 +3,17 @@ package org.kuali.kfs.module.purap.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -124,7 +123,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
     }
     
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

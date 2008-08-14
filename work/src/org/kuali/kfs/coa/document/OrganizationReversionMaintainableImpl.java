@@ -21,14 +21,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class provides some specific functionality for the {@link OrganizationReversion} maintenance document inner class for doing
@@ -57,7 +57,7 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
     }
 
     /**
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#populateBusinessObject(java.util.Map)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#populateBusinessObject(java.util.Map)
      */
     public Map populateBusinessObject(Map fieldValues) {
         Map result = super.populateBusinessObject(fieldValues);
@@ -67,7 +67,7 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
     /**
      * pre-populate the static list of details with each category
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#setBusinessObject(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setBusinessObject(org.kuali.rice.kns.bo.BusinessObject)
      */
     public void setBusinessObject(PersistableBusinessObject businessObject) {
 
@@ -104,7 +104,7 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
      * A method that prevents lookups from refreshing the Organization Reversion Detail list (because, if it is refreshed before a
      * save...it ends up destroying the list).
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
      */
     @Override
     protected boolean isRelationshipRefreshable(Class boClass, String relationshipName) {

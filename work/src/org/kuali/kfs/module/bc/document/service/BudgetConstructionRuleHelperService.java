@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.service;
 
-import org.kuali.core.util.ErrorMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -25,6 +24,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumben
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.rice.kns.util.ErrorMap;
 
 /**
  * define a set of validations methods for buddget construction

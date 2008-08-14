@@ -19,9 +19,9 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 
 public class PurgeOldLookupResultsStep extends AbstractStep {
     private LookupResultsService lookupResultsService;

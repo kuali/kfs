@@ -102,7 +102,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

@@ -17,11 +17,11 @@ package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.util.Collection;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
 import org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.kfs.module.purap.document.service.NegativePaymentRequestApprovalLimitService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @NonTransactional
 public class NegativePaymentRequestApprovalLimitServiceImpl implements NegativePaymentRequestApprovalLimitService {
@@ -57,14 +57,14 @@ public class NegativePaymentRequestApprovalLimitServiceImpl implements NegativeP
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.NegativePaymentRequestApprovalLimitService#findAboveLimit(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.service.NegativePaymentRequestApprovalLimitService#findAboveLimit(org.kuali.rice.kns.util.KualiDecimal)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit) {
         return dao.findAboveLimit(limit);
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.NegativePaymentRequestApprovalLimitService#findBelowLimit(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.service.NegativePaymentRequestApprovalLimitService#findBelowLimit(org.kuali.rice.kns.util.KualiDecimal)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit) {
         return dao.findBelowLimit(limit);

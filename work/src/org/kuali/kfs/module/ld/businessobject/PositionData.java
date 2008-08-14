@@ -19,9 +19,9 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Labor business object for PositionData
@@ -364,7 +364,7 @@ public class PositionData extends PersistableBusinessObjectBase {
     /**
      * construct the key list of the business object.
      * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

@@ -19,15 +19,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.rule.event.SaveDocumentEvent;
-import org.kuali.core.service.MaintenanceDocumentService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -38,6 +29,7 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.Room;
@@ -46,6 +38,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kns.service.MaintenanceDocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
@@ -404,7 +404,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
@@ -759,7 +759,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap<String, String> toStringMapper() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();

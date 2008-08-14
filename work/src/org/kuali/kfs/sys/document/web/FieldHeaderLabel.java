@@ -21,7 +21,6 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.document.web.renderers.LabelRenderer;
-import org.kuali.kfs.sys.document.web.renderers.StringRenderer;
 
 /**
  * A class which represents a renderable header label for an input

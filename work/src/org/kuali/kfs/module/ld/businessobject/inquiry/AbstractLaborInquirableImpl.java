@@ -21,12 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.coa.businessobject.KualiSystemCode;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -34,6 +28,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.

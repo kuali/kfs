@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.Position;
@@ -28,8 +27,10 @@ import org.kuali.kfs.module.bc.exception.BudgetPositionAlreadyExistsException;
 import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * Implementation of BudgetConstructionPositionService that uses the HumanResourcesPayrollService

@@ -22,10 +22,6 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
@@ -43,9 +39,13 @@ import org.kuali.kfs.module.ld.util.LaborPendingEntryGenerator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**
@@ -109,7 +109,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
      * 
      * @param document
      * @return boolean
-     * @see org.kuali.core.rules.SaveDocumentRule#processCustomSaveDocumentBusinessRules(Document)
+     * @see org.kuali.rice.kns.rules.SaveDocumentRule#processCustomSaveDocumentBusinessRules(Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -159,7 +159,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
      * 
      * @param document
      * @return boolean
-     * @see org.kuali.kfs.module.ld.document.validation.impl.LaborExpenseTransferDocumentRules#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.kfs.module.ld.document.validation.impl.LaborExpenseTransferDocumentRules#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {

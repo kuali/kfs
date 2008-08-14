@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.batch;
 
 import java.io.File;
 
-import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 
 /**

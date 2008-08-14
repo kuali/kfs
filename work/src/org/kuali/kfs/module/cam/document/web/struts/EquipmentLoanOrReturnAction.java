@@ -25,9 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -36,6 +33,9 @@ import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 
 
 public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActionBase {
@@ -44,7 +44,7 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
     /**
      * This method had to override because equipmentLoanOrReturn information has to be refreshed before display
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

@@ -20,13 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.GlobalBusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobalDetail;
@@ -34,8 +27,14 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.GlobalBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class provides some specific functionality for the {@link ObjectCodeGlobal} maintenance document refresh - sets the current
@@ -48,8 +47,8 @@ public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImp
     /**
      * This method sets the current fiscal year from the {@link ObjectCodeGlobalDetail} on the {@link ObjectCodeGlobal}
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
-     *      org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
+     *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
@@ -108,7 +107,7 @@ public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImp
     /**
      * This generates the appropriate maintenance locks for the {@link ObjectCode}
      * 
-     * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
@@ -148,7 +147,7 @@ public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImp
     }
     
     /**
-     * @see org.kuali.core.maintenance.Maintainable#saveBusinessObject()
+     * @see org.kuali.rice.kns.maintenance.Maintainable#saveBusinessObject()
      */
     @Override
     public void saveBusinessObject() {

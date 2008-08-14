@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.businessobject;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 public class PayrateImportExport extends TransientBusinessObjectBase {
     private String positionUnionCode;

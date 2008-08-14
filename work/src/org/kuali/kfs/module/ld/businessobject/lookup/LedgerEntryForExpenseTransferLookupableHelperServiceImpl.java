@@ -20,10 +20,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
 
 /**
  * The class is the front-end for the balance inquiry of Ledger entry For Expense Transfer processing.
@@ -32,7 +32,7 @@ public class LedgerEntryForExpenseTransferLookupableHelperServiceImpl extends Le
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerEntryForExpenseTransferLookupableHelperServiceImpl.class);
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {

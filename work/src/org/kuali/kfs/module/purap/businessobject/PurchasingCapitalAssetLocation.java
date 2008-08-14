@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import org.kuali.core.bo.Campus;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 public interface PurchasingCapitalAssetLocation {

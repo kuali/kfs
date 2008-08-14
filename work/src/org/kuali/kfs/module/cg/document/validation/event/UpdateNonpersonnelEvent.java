@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cg.document.validation.event;
 
 import java.util.List;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  * Class capturing an update nonpersonnel event.

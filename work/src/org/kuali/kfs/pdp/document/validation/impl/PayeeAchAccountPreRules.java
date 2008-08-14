@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.pdp.document.validation.impl;
 
-import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class PayeeAchAccountPreRules extends MaintenancePreRulesBase {
 

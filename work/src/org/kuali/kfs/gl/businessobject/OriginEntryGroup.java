@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class OriginEntryGroup extends PersistableBusinessObjectBase {
 

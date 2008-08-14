@@ -25,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.enums.Enum;
 import org.apache.log4j.Logger;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.Threshold;
@@ -34,6 +33,7 @@ import org.kuali.kfs.module.purap.document.service.ThresholdService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * A helper class to decide whether to set the receiving document required flag for a purchasing document or not.

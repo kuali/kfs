@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.sys.context.KualiTestBase;
 
 public class CurrencyDetailTest extends KualiTestBase {

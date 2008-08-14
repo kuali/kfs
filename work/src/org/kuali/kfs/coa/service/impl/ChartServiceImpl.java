@@ -22,12 +22,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.spring.Cached;
 
 /**
  * This class is the service implementation for the Chart structure. This is the default, Kuali delivered implementation.
@@ -106,7 +106,7 @@ public class ChartServiceImpl implements ChartService {
     }
 
     /**
-     * @see org.kuali.kfs.coa.service.ChartService#getChartsThatUserIsResponsibleFor(org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.kfs.coa.service.ChartService#getChartsThatUserIsResponsibleFor(org.kuali.rice.kns.bo.user.KualiUser)
      */
     public List getChartsThatUserIsResponsibleFor(UniversalUser universalUser) {
         if (LOG.isDebugEnabled()) {

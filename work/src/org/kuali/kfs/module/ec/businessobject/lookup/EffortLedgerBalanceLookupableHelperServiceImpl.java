@@ -20,10 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
@@ -32,6 +28,10 @@ import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionServic
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -42,7 +42,7 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
     private EffortCertificationReportDefinitionService effortCertificationReportDefinitionService;
 
     /**
-     * @see org.kuali.core.lookup.LookupableHelperService#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {        
@@ -94,7 +94,7 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getBusinessObjectClass()
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getBusinessObjectClass()
      */
     @Override
     public Class<? extends LaborLedgerBalance> getBusinessObjectClass() {

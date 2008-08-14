@@ -25,14 +25,6 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.AttributeDefinition;
-import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.datadictionary.validation.ValidationPattern;
-import org.kuali.core.datadictionary.validation.fieldlevel.DateValidationPattern;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.ui.Field;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
@@ -48,6 +40,14 @@ import org.kuali.kfs.sys.document.web.renderers.RadioButtonGroupRenderer;
 import org.kuali.kfs.sys.document.web.renderers.ReadOnlyRenderer;
 import org.kuali.kfs.sys.document.web.renderers.TextAreaRenderer;
 import org.kuali.kfs.sys.document.web.renderers.TextRenderer;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * Represents a field (plus, optionally, a dynamic name field) to be rendered as part of an accounting line.

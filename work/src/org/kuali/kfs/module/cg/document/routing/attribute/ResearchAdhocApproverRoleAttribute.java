@@ -23,15 +23,14 @@ import javax.xml.xpath.XPath;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
-
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
-import edu.iu.uis.eden.routetemplate.AbstractRoleAttribute;
-import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
-import edu.iu.uis.eden.routetemplate.Role;
-import edu.iu.uis.eden.user.WorkflowUserId;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.KEWUserNotFoundException;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.rule.AbstractRoleAttribute;
+import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+import org.kuali.rice.kew.rule.Role;
+import org.kuali.rice.kew.user.WorkflowUserId;
 
 public class ResearchAdhocApproverRoleAttribute extends AbstractRoleAttribute {
 
@@ -57,12 +56,12 @@ public class ResearchAdhocApproverRoleAttribute extends AbstractRoleAttribute {
         return ROLES;
     }
 
-    public List getQualifiedRoleNames(String roleName, DocumentContent documentContent) throws EdenUserNotFoundException {
+    public List getQualifiedRoleNames(String roleName, DocumentContent documentContent) throws KEWUserNotFoundException {
         // deferring all "logic" to the resolve stage
         return QUALIFIED_ROLE_NAMES;
     }
 
-    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
+    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) throws KEWUserNotFoundException {
         if (!ADHOC_APPROVER_ROLE_KEY.equals(roleName)) {
             throw new IllegalArgumentException("resolveQualifiedRole was called with a role name other than '" + ADHOC_APPROVER_ROLE_KEY + "'");
         }

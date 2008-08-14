@@ -20,12 +20,12 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.web.ui.Column;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
 import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
+import org.kuali.rice.kns.web.ui.Column;
 
 
 /**

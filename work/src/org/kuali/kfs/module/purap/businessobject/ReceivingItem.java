@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 public interface ReceivingItem {

@@ -121,7 +121,7 @@
     <property name="shortLabel" value="Price" />
     <property name="summary" value="estimatedSellingPrice" />
     <property name="description" value="estimatedSellingPrice description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="AssetRetirementGlobalDetail-handlingFeeAmount" parent="AssetRetirementGlobalDetail-handlingFeeAmount-parentBean" />
 
@@ -131,7 +131,7 @@
     <property name="shortLabel" value="Amount" />
     <property name="summary" value="handlingFeeAmount" />
     <property name="description" value="handlingFeeAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="AssetRetirementGlobalDetail-preventiveMaintenanceAmount" parent="AssetRetirementGlobalDetail-preventiveMaintenanceAmount-parentBean" />
 
@@ -141,7 +141,7 @@
     <property name="shortLabel" value="Amount" />
     <property name="summary" value="preventiveMaintenanceAmount" />
     <property name="description" value="preventiveMaintenanceAmount description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="AssetRetirementGlobalDetail-retirementAccountNumber" parent="AssetRetirementGlobalDetail-retirementAccountNumber-parentBean" />
 
@@ -335,7 +335,7 @@
     </property>
     <property name="summary" value="salePrice" />
     <property name="description" value="salePrice description..." />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="AssetRetirementGlobalDetail-newCollectionRecord" parent="AssetRetirementGlobalDetail-newCollectionRecord-parentBean" />
 

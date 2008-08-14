@@ -19,7 +19,7 @@
 	<form-beans>
 		<!--  Rice Bean Definitions : This is a bean declared in Rice, but is needed throughout this config -->
 		<form-bean name="KualiForm"
-			type="org.kuali.core.web.struts.form.KualiForm" />
+			type="org.kuali.rice.kns.web.struts.form.KualiForm" />
 
 		<!--  KFS Core Bean Definitions -->
 		<form-bean name="KualiBalanceInquiryReportMenuForm"
@@ -223,7 +223,7 @@
 		<form-bean name="CertificationReportForm"
 			type="org.kuali.kfs.module.ec.document.web.struts.CertificationReportForm" />
 		<!-- KFS incident report  -->
-		<form-bean name="KualiExceptionIncidentForm" type="org.kuali.core.web.struts.form.KualiExceptionIncidentForm" />
+		<form-bean name="KualiExceptionIncidentForm" type="org.kuali.rice.kns.web.struts.form.KualiExceptionIncidentForm" />
 		
 		<!-- CAB Module Bean Definitions -->
 		<form-bean name="PurApLineForm"
@@ -234,7 +234,7 @@
 
 	<global-exceptions>
 		<exception type="java.lang.Throwable"
-			handler="org.kuali.core.web.struts.pojo.StrutsExceptionIncidentHandler"
+			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
 			key="meaningless" />
 	</global-exceptions>
 
@@ -268,20 +268,20 @@
         <action path="/kualiExceptionIncidentReport"
                 name="KualiExceptionIncidentForm"
                 attribute="KualiForm"
-                type="org.kuali.core.web.struts.action.KualiExceptionHandlerAction">
+                type="org.kuali.rice.kns.web.struts.action.KualiExceptionHandlerAction">
             <forward name="basic" path="/kr/WEB-INF/jsp/KualiExceptionIncident.jsp" />
         </action>        
 		<!-- Rice Pass-through Actions : These delegate to the Rice (kr) struts module -->
 		<action path="/Exception"
-			type="org.kuali.core.web.struts.action.KualiExceptionAction">
+			type="org.kuali.rice.kns.web.struts.action.KualiExceptionAction">
 			<forward name="basic" path="/kr/Exception.do" />
 		</action>
 		<action path="/authorizationException" name="KualiForm"
-			type="org.kuali.core.web.struts.action.KualiAuthorizationExceptionAction">
+			type="org.kuali.rice.kns.web.struts.action.KualiAuthorizationExceptionAction">
 			<forward name="basic" path="/kr/authorizationException.do" />
 		</action>
 		<action path="/initiationAuthorizationException"
-			type="org.kuali.core.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
+			type="org.kuali.rice.kns.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
 			<forward name="basic"
 				path="/kr/initiationAuthorizationException.do" />
 		</action>
@@ -289,12 +289,12 @@
 
 		<!--  Core Action Mappings -->
 		<action path="/portal" name="KualiForm"
-			type="org.kuali.core.web.struts.action.KualiSimpleAction">
+			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
 			<forward name="basic" path="/portal.jsp" />
 		</action>
 
 		<action path="/index" name="KualiForm"
-			type="org.kuali.core.web.struts.action.KualiSimpleAction">
+			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
 			<forward name="basic" path="/portal.jsp" />
 		</action>
 
@@ -862,7 +862,7 @@
 	</action-mappings>
 
 	<controller
-		processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor"
+		processorClass="org.kuali.rice.kns.web.struts.action.KualiRequestProcessor"
 		maxFileSize="5M" />
 
 	<message-resources
@@ -871,5 +871,5 @@
 	<message-resources
 		factory="org.kuali.kfs.sys.web.struts.KFSMessageResourcesFactory"
 		key="kraResources" parameter="org.kuali.kfs.module.cg.KraResources" />
-	<plug-in className="org.kuali.core.web.struts.pojo.PojoPlugin" />
+	<plug-in className="org.kuali.rice.kns.web.struts.pojo.PojoPlugin" />
 </struts-config>

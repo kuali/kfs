@@ -18,13 +18,13 @@ package org.kuali.kfs.module.cam.businessobject.lookup;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementReason;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * This class overrides the getReturnUrl, setFieldConversions and getActionUrls for
@@ -43,7 +43,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
      * </ul>
      * {@link KFSConstants.DISPATCH_REQUEST_PARAMETER}
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.core.bo.BusinessObject, java.util.Map,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject, java.util.Map,
      *      java.lang.String)
      */
     @Override
@@ -59,7 +59,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
     /**
      * Overrides base implementation to determine whether or not we are dealing with looking up the model or editing it
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#setFieldConversions(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#setFieldConversions(java.util.Map)
      */
     @Override
     public void setFieldConversions(Map fieldConversions) {
@@ -72,7 +72,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
     /**
      * Overrides base implementation to remove the action urls if we are initializing the asset retirement reason
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public String getActionUrls(BusinessObject businessObject) {

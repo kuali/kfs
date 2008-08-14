@@ -18,11 +18,11 @@ package org.kuali.kfs.vnd.dataaccess.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.dataaccess.CommodityCodeDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * OJB implementation of CommodityCodeDao.

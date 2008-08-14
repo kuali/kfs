@@ -19,11 +19,6 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer;
 import org.kuali.kfs.fp.businessobject.options.PaymentReasonValuesFinder;
@@ -33,6 +28,11 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rules.PreRulesContinuationBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Checks warnings and prompt conditions for dv document.
@@ -47,7 +47,7 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
      * @param document submitted document
      * @return true if pre-rules execute successfully
      * 
-     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.rules.PreRulesContinuationBase#doRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     public boolean doRules(Document document) {
         boolean preRulesOK = true;

@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.gl.dataaccess.impl;
 
-import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 
 /**
  * A base class to support the JDBC operations done for AccountBalance inquiries

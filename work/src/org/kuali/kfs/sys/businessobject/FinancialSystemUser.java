@@ -23,16 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.EmployeeStatus;
-import org.kuali.core.bo.EmployeeType;
-import org.kuali.core.bo.PersistableBusinessObjectExtension;
-import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.KualiModuleUser;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -40,6 +30,16 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.EmployeeStatus;
+import org.kuali.rice.kns.bo.EmployeeType;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectExtension;
+import org.kuali.rice.kns.bo.user.KualiGroup;
+import org.kuali.rice.kns.bo.user.KualiModuleUser;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class FinancialSystemUser extends UniversalUser {
 

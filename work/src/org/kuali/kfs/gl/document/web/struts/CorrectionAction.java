@@ -39,18 +39,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.comparator.NumericValueComparator;
-import org.kuali.core.web.comparator.TemporalValueComparator;
-import org.kuali.core.web.struts.action.KualiDocumentActionBase;
-import org.kuali.core.web.struts.action.KualiTableRenderAction;
-import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
-import org.kuali.core.web.ui.Column;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.gl.businessobject.CorrectionChange;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
@@ -73,8 +61,19 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.comparator.NumericValueComparator;
+import org.kuali.rice.kns.web.comparator.TemporalValueComparator;
+import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
+import org.kuali.rice.kns.web.struts.action.KualiTableRenderAction;
+import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CorrectionAction extends KualiDocumentActionBase implements KualiTableRenderAction {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionAction.class);
@@ -202,7 +201,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     /**
      * This needs to be done just in case they decide to save it when closing.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#close(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#close(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -379,7 +378,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     /**
      * Called when the document is loaded from action list or doc search or a new document is created.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -389,7 +388,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         CorrectionForm correctionForm = (CorrectionForm) form;
         String command = correctionForm.getCommand();
 
-        if (IDocHandler.INITIATE_COMMAND.equals(command)) {
+        if (KEWConstants.INITIATE_COMMAND.equals(command)) {
             correctionForm.clearForm();
             createDocument(correctionForm);
         }
@@ -1585,7 +1584,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiTableAction#switchToPage(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiTableAction#switchToPage(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward switchToPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1598,7 +1597,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiTableAction#sort(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.rice.kns.web.struts.action.KualiTableAction#sort(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward sort(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

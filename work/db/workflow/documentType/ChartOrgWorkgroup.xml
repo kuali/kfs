@@ -6,7 +6,7 @@
       <parent>KualiBaseDocument</parent>
       <description>Document Type for a workgroup which has associated Chart and Org data.</description>
       <label>Chart Org Workgroup</label>
-      <postProcessorName>edu.iu.uis.eden.workgroup.WorkgroupPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.rice.kew.workgroup.WorkgroupPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
       <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>

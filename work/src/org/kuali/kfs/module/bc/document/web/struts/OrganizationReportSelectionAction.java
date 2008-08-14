@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +32,6 @@ import net.sf.jasperreports.engine.JRParameter;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.util.WebUtils;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
@@ -64,10 +59,11 @@ import org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService;
 import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.batch.service.ReportGenerationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
 
 /**
  * Struts Action Class for the Organization Report Selection Screen.

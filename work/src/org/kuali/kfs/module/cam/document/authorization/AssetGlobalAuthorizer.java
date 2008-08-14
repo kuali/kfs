@@ -15,21 +15,16 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.datadictionary.MaintainableCollectionDefinition;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.service.MaintenanceDocumentDictionaryService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
-import org.kuali.kfs.module.cam.document.validation.impl.AssetLocationGlobalRule;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     
@@ -39,7 +34,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
     /**
      * Hide or set specific fields as non-editable.
      *
-     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.core.document.MaintenanceDocument, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {

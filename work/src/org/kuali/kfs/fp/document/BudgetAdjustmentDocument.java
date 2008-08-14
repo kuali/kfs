@@ -24,12 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Copyable;
-import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLineParser;
@@ -58,8 +52,13 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * This is the business object that represents the BudgetAdjustment document in Kuali.
@@ -487,7 +486,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#toStringMapper()
+     * @see org.kuali.rice.kns.document.DocumentBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -507,7 +506,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     /**
      * The base checks that the posting year is the current year, not a requirement for the ba document.
      * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#getAllowsCopy()
+     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#getAllowsCopy()
      */
     @Override
     public boolean getAllowsCopy() {
@@ -517,7 +516,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     /**
      * The base checks that the posting year is the current year, not a requirement for the ba document.
      * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#getAllowsErrorCorrection()
+     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#getAllowsErrorCorrection()
      */
     @Override
     public boolean getAllowsErrorCorrection() {
@@ -541,7 +540,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
+     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {
@@ -564,8 +563,8 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * 
      * @param financialDocument submitted financial document
      * @param accountingLine accounting line being evaluated as a debit or not
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
@@ -588,8 +587,8 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * @param accountingLine validated accounting line
      * @param sequenceHelper helper class for keeping track of sequence number
      * @return true if GLPE entries are successfully created.
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processGenerateGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -739,7 +738,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * 
      * @param sequenceHelper helper class for keeping track of sequence number
      * @return true general ledger pending entries are generated without any problems
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,
+     * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override

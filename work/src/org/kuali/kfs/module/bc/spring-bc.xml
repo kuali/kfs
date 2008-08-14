@@ -207,7 +207,7 @@
 		</property>		
 	</bean>
 	
-	<bean id="intendedIncumbentSelectLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="intendedIncumbentSelectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="intendedIncumbentSelectLookupableHelperService" />
 		</property>
@@ -231,7 +231,7 @@
 		</property>		
 	</bean>
 
-	<bean id="positionSelectLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="positionSelectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="positionSelectLookupableHelperService" />
 		</property>
@@ -279,7 +279,7 @@
 		</property>		
 	</bean>
 
-	<bean id="accountSelectLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="accountSelectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="accountSelectLookupableHelperService" />
 		</property>
@@ -309,7 +309,7 @@
 		</property>		
 	</bean>
 
-	<bean id="lockMonitorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="lockMonitorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="lockMonitorLookupableHelperService" />
 		</property>
@@ -325,12 +325,12 @@
 	</bean>
 	
 	<bean id="oracleIndicator" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-    	<property name="staticField"><value>org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory.ORACLE_PLATFORM</value>
+    	<property name="staticField"><value>org.kuali.rice.kns.dbplatform.ConfigurableKualiDBPlatformFactory.ORACLE_PLATFORM</value>
     	</property>
 	</bean>
 	
 	<bean id="mySqlIndicator" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-    	<property name="staticField"><value>org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory.MY_SQL_PLATFORM</value>
+    	<property name="staticField"><value>org.kuali.rice.kns.dbplatform.ConfigurableKualiDBPlatformFactory.MY_SQL_PLATFORM</value>
     	</property>
 	</bean>
 	
@@ -966,7 +966,7 @@
 		</property>	
 	</bean>
 	
-	<bean id="csfTrackerLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="csfTrackerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="csfTrackerLookupableHelperServiceImpl" />
 		</property>

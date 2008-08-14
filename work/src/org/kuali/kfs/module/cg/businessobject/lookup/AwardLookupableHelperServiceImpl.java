@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.cg.businessobject.lookup;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 /**
  * Allows custom handling of Awards within the lookup framework.
@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.KFSConstants;
 public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getMaintenanceUrl(org.kuali.core.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getMaintenanceUrl(org.kuali.rice.kns.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override

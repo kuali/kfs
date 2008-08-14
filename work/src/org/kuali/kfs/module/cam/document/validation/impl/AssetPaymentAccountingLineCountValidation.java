@@ -18,10 +18,10 @@ package org.kuali.kfs.module.cam.document.validation.impl;
 import static org.kuali.kfs.sys.KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_SOURCE_SECTION_NO_ACCOUNTING_LINES;
 
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class validates to make sure that at least one payment line is available for the document

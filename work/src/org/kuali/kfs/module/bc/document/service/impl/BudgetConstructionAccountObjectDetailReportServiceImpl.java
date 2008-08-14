@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountBalance;
@@ -35,6 +33,8 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountObjectD
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

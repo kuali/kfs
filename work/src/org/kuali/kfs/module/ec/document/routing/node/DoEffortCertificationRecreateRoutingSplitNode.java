@@ -18,19 +18,18 @@ package org.kuali.kfs.module.ec.document.routing.node;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.UserSession;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.engine.RouteHelper;
+import org.kuali.rice.kew.engine.node.SplitNode;
+import org.kuali.rice.kew.engine.node.SplitResult;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.engine.RouteHelper;
-import edu.iu.uis.eden.engine.node.SplitNode;
-import edu.iu.uis.eden.engine.node.SplitResult;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public class DoEffortCertificationRecreateRoutingSplitNode implements SplitNode {
 

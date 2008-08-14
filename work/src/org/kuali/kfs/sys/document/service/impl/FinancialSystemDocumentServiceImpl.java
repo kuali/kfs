@@ -19,13 +19,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.kuali.core.dao.DocumentDao;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.impl.DocumentServiceImpl;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentDao;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.dao.DocumentDao;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
 
 /**
  * This class is a Financial System specific Document Service class to allow for the {@link #findByDocumentHeaderStatusCode(Class, String)} method.
@@ -46,7 +45,7 @@ public class FinancialSystemDocumentServiceImpl extends DocumentServiceImpl impl
     }
 
     /**
-     * @see org.kuali.core.service.impl.DocumentServiceImpl#setDocumentDao(org.kuali.core.dao.DocumentDao)
+     * @see org.kuali.rice.kns.service.impl.DocumentServiceImpl#setDocumentDao(org.kuali.rice.kns.dao.DocumentDao)
      */
     @Override
     public void setDocumentDao(DocumentDao documentDao) {

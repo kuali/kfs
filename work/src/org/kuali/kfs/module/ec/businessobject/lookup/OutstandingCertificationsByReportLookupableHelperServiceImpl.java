@@ -20,15 +20,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.service.LookupService;
 import org.kuali.kfs.module.ec.businessobject.OutstandingCertificationsByOrganization;
 import org.kuali.kfs.module.ec.businessobject.OutstandingCertificationsByReport;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.LookupService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class OutstandingCertificationsByReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
-     * @see org.kuali.core.lookup.LookupableHelperService#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getSearchResults(java.util.Map)
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, "!" + KFSConstants.DocumentStatusCodes.APPROVED);
@@ -90,7 +90,7 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
     }
     
     /**
-     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResultsUnbounded(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsUnbounded(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResultsUnbounded(Map<String, String> arg0) {

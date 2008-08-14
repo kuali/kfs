@@ -18,11 +18,11 @@ package org.kuali.kfs.sys.document.datadictionary;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.DataDictionaryDefinitionBase;
-import org.kuali.core.datadictionary.exception.AttributeValidationException;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
+import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
 
 /**
  * Data dictionary definition that includes metadata for an accounting document about one of its groups of accounting lines (typically source vs. target, but this should open things up).
@@ -46,7 +46,7 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
      * 1) this accounting line group has an accounting line class
      * 2) this accounting line group has an accounting line view 
      * 3) if importedLineParser is specified, then importedLinePropertyPrefix exists
-     * @see org.kuali.core.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         if (accountingLineClass == null) {

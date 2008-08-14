@@ -17,11 +17,11 @@ package org.kuali.kfs.sys.document;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * A collection of methods needed by anything - document or otherwise - that plans to generate
@@ -80,7 +80,7 @@ public interface GeneralLedgerPendingEntrySource {
     
     /**
      * 
-     * This method returns the financial document type code. It's required to return the appropriate financial document type code only if poster class is not assignable from  org.kuali.core.document.
+     * This method returns the financial document type code. It's required to return the appropriate financial document type code only if poster class is not assignable from  org.kuali.rice.kns.document.
      * @return
      */
     public String getFinancialDocumentTypeCode();
@@ -88,8 +88,8 @@ public interface GeneralLedgerPendingEntrySource {
     /**
      * Perform business rules common to all transactional documents when generating general ledger pending entries.
      * 
-     * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.rice.kns.document.AccountingDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 

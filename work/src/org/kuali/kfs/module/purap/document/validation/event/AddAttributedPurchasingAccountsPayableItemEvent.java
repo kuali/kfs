@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.core.document.Document;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
+import org.kuali.rice.kns.document.Document;
 
 /**
  *

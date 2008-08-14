@@ -26,9 +26,6 @@ import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Note;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormAgency;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormBudget;
@@ -52,17 +49,19 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.dto.ActionTakenDTO;
+import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.dto.UserDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.WorkflowInfo;
-import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
-import edu.iu.uis.eden.clientapp.vo.ActionTakenVO;
-import edu.iu.uis.eden.clientapp.vo.DocumentDetailVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.clientapp.vo.UserVO;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class creates an XML representation of a RoutingForm's data.
@@ -595,12 +594,12 @@ public class RoutingFormXml {
         Element approvalsElement = xmlDoc.createElement("APPROVALS");
 
         try {
-            ReportCriteriaVO criteria = new ReportCriteriaVO();
+            ReportCriteriaDTO criteria = new ReportCriteriaDTO();
             criteria.setRouteHeaderId(routingFormDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
             WorkflowInfo info = new WorkflowInfo();
-            DocumentDetailVO detail = info.routingReport(criteria);
+            DocumentDetailDTO detail = info.routingReport(criteria);
 
-            for (ActionRequestVO actionRequest : detail.getActionRequests()) {
+            for (ActionRequestDTO actionRequest : detail.getActionRequests()) {
                 actionRequestTraversal(xmlDoc, approvalsElement, actionRequest);
             }
         }
@@ -612,30 +611,30 @@ public class RoutingFormXml {
     }
 
     /**
-     * Traversal of ActionRequestVO. This is useful because an ActionRequest may be for a user, role or a workgroup. We want to be
+     * Traversal of ActionRequestDTO. This is useful because an ActionRequest may be for a user, role or a workgroup. We want to be
      * able to handle all of them.
      * 
      * @param xmlDoc
      * @param approvalsElement
      * @param actionRequest
      */
-    private static void actionRequestTraversal(Document xmlDoc, Element approvalsElement, ActionRequestVO actionRequest) {
+    private static void actionRequestTraversal(Document xmlDoc, Element approvalsElement, ActionRequestDTO actionRequest) {
         // Note that any actionRequest can have an actionTaken item. But currently our output only shows users
         // and not workgroups / roles. That's why the code drills down to the user level.
-        if (EdenConstants.ACTION_REQUEST_USER_RECIPIENT_CD.equals(actionRequest.getRecipientTypeCd())) {
+        if (KEWConstants.ACTION_REQUEST_USER_RECIPIENT_CD.equals(actionRequest.getRecipientTypeCd())) {
             // Base case
             if (actionRequest.getActionTaken() == null) {
                 // Action not taken yet, leave date empty
-                UserVO user = actionRequest.getUserVO();
-                String actionName = ObjectUtils.toString(EdenConstants.ACTION_REQUEST_CD.get(actionRequest.getActionRequested()));
+                UserDTO user = actionRequest.getUserDTO();
+                String actionName = ObjectUtils.toString(KEWConstants.ACTION_REQUEST_CD.get(actionRequest.getActionRequested()));
                 createApproverElement(xmlDoc, approvalsElement, user, actionRequest.getNodeName(), actionName, "");
             }
-            else if (actionRequest.getUserVO().getEmplId().equals(actionRequest.getActionTaken().getUserVO().getEmplId())) {
+            else if (actionRequest.getUserDTO().getEmplId().equals(actionRequest.getActionTaken().getUserDTO().getEmplId())) {
                 // Action was taken, show date
                 DateFormat dateFormat = new SimpleDateFormat(CGConstants.LONG_TIMESTAMP_FORMAT);
-                ActionTakenVO actionTaken = actionRequest.getActionTaken();
-                UserVO user = actionTaken.getUserVO();
-                String actionName = ObjectUtils.toString(EdenConstants.ACTION_TAKEN_CD.get(actionTaken.getActionTaken()));
+                ActionTakenDTO actionTaken = actionRequest.getActionTaken();
+                UserDTO user = actionTaken.getUserDTO();
+                String actionName = ObjectUtils.toString(KEWConstants.ACTION_TAKEN_CD.get(actionTaken.getActionTaken()));
                 createApproverElement(xmlDoc, approvalsElement, user, actionRequest.getNodeName(), actionName, dateFormat.format(actionTaken.getActionDate().getTime()));
             }
             // else ignore, it should be an actionRequest for a user whose requests are cleared out. Such as if
@@ -644,7 +643,7 @@ public class RoutingFormXml {
         }
         else {
             // Recursion
-            for (ActionRequestVO actionRequestDeep : actionRequest.getChildrenRequests()) {
+            for (ActionRequestDTO actionRequestDeep : actionRequest.getChildrenRequests()) {
                 actionRequestTraversal(xmlDoc, approvalsElement, actionRequestDeep);
             }
         }
@@ -660,7 +659,7 @@ public class RoutingFormXml {
      * @param actionName will be used for the ACTION field
      * @param actionDate will be used for the ACTION_DATE field
      */
-    private static void createApproverElement(Document xmlDoc, Element approvalsElement, UserVO workflowUser, String nodeName, String actionName, String actionDate) {
+    private static void createApproverElement(Document xmlDoc, Element approvalsElement, UserDTO workflowUser, String nodeName, String actionName, String actionDate) {
         Element approverElement = xmlDoc.createElement("APPROVER");
 
         UniversalUser kualiUser;

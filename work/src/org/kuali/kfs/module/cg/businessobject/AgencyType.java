@@ -16,7 +16,7 @@
 
 package org.kuali.kfs.module.cg.businessobject;
 
-import org.kuali.core.bo.KualiCodeBase;
+import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * Extends KualiCodeBase with no changes.

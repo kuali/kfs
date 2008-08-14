@@ -19,16 +19,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Authorization permissions specific to the Advance Deposit document.
@@ -38,8 +38,8 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
      * Only need to allow initiator or supervisor the ability to edit in pre-route mode. All other situations only present in
      * non-edit mode. Since doc routes straight to final, no other editing is needed.
      * 
-     * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser, java.util.List, java.util.List)
+     * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser, java.util.List, java.util.List)
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
@@ -62,8 +62,8 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
     /**
      * Overrides to use the parent's implementation, with the exception that AD documents can never be error corrected.
      * 
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -78,7 +78,7 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
     /**
      * Overrides to always return false because there is never FO routing or FO approval for AD docs.
      * 
-     * @see org.kuali.module.financial.document.FinancialDocumentAuthorizer#userOwnsAnyAccountingLine(org.kuali.core.bo.user.KualiUser,
+     * @see org.kuali.module.financial.document.FinancialDocumentAuthorizer#userOwnsAnyAccountingLine(org.kuali.rice.kns.bo.user.KualiUser,
      *      java.util.List)
      */
     @Override
@@ -89,8 +89,8 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
     /**
      * Overrides parent to return an empty Map since FO routing doesn't apply to the AD doc.
      * 
-     * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
     public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {

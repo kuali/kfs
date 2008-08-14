@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public abstract class PurchasingCapitalAssetItemBase extends PersistableBusinessObjectBase implements PurchasingCapitalAssetItem {
 

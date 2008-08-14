@@ -17,8 +17,6 @@ package org.kuali.kfs.module.ld.document;
 
 import java.util.Iterator;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.document.CorrectionDocument;
@@ -32,8 +30,9 @@ import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
-
-import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
+import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * labor Document class for the Labor Ledger Correction Process.
@@ -55,10 +54,10 @@ public class LaborCorrectionDocument extends CorrectionDocument implements Amoun
 
     /**
      * @param change
-     * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeVO change) {
+    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
 
         if (WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(change.getNewRouteLevel())) {
             String correctionType = getCorrectionTypeCode();
@@ -93,7 +92,7 @@ public class LaborCorrectionDocument extends CorrectionDocument implements Amoun
     /**
      * If the document final, change the process flag on the output origin entry group (if necessary)
      * 
-     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {

@@ -18,11 +18,11 @@ package org.kuali.kfs.module.bc.document.service;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This class defines methods a Salary Setting Service must provide The Salary Setting Service supports functionality associated

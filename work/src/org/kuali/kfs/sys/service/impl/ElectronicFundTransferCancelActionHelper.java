@@ -30,7 +30,7 @@ public class ElectronicFundTransferCancelActionHelper implements ElectronicFundT
 
     /**
      * Just return to the portal.
-     * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.core.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
+     * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.rice.kns.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map paramsMap, String basePath) {
         return mapping.findForward(ElectronicFundTransferCancelActionHelper.PORTAL_FORWARD);

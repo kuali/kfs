@@ -20,14 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
@@ -39,6 +31,14 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -49,7 +49,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     private UniversalUserService universalUserService;
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -186,7 +186,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     /**
      * Builds unlink action for each type of lock.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
      */
     @Override
     public String getActionUrls(BusinessObject businessObject) {
@@ -228,7 +228,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     }
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.core.bo.BusinessObject, java.util.Map, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject, java.util.Map, java.lang.String)
      */
     @Override
     public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl) {
@@ -239,7 +239,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * Overridden to prevent a validation exception from thrown when the search method is called to refresh the
      * results after an error is encountered.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
      */
     @Override
     public void validateSearchParameters(Map fieldValues) {
@@ -250,7 +250,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * will not have the Rice context (kr/) and be invalid. This override adds the Rice context to the inquiry Url to working
      * around the issue.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override

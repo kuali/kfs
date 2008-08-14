@@ -134,7 +134,7 @@
     <property name="name" value="transactionLedgerEntryAmount" />
     <property name="label" value="Transaction Ledger Entry Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="AccountBalancePendingEntry-referenceFinancialSystemOriginationCode" parent="AccountBalancePendingEntry-referenceFinancialSystemOriginationCode-parentBean" />
 

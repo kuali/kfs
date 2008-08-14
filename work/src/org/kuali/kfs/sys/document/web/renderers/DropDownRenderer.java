@@ -23,8 +23,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This renders a drop down field to JSP

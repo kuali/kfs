@@ -84,7 +84,7 @@
       <name>EDENSERVICE-DOCS.DocumentType</name>
       <parent>EDENSERVICE-DOCS</parent>
       <label>Document Type</label>
-      <postProcessorName>edu.iu.uis.eden.doctype.DocumentTypePostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.rice.kew.doctype.DocumentTypePostProcessor</postProcessorName>
       <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
       <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
       <docHandler>${workflow.url}/DocumentType.do?methodToCall=docHandler</docHandler>
@@ -95,7 +95,7 @@
       <name>EDENSERVICE-DOCS.WKGRPREQ</name>
       <parent>EDENSERVICE-DOCS</parent>
       <label>Workgroup</label>
-      <postProcessorName>edu.iu.uis.eden.workgroup.WorkgroupPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.rice.kew.workgroup.WorkgroupPostProcessor</postProcessorName>
       <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
       <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
       <docHandler>${workflow.url}/Workgroup.do?methodToCall=docHandler</docHandler>
@@ -106,7 +106,7 @@
       <name>EDENSERVICE-DOCS.RuleDocument</name>
       <parent>EDENSERVICE-DOCS</parent>
       <label>Rule</label>
-      <postProcessorName>edu.iu.uis.eden.routetemplate.RulePostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.rice.kew.rule.RulePostProcessor</postProcessorName>
       <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
       <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
       <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
@@ -207,7 +207,7 @@
       <parent>KualiBaseDocument</parent>
       <description>Document Type for a workgroup which has associated Chart and Org data.</description>
       <label>Chart Org Workgroup</label>
-      <postProcessorName>edu.iu.uis.eden.workgroup.WorkgroupPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.rice.kew.workgroup.WorkgroupPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
       <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
@@ -501,7 +501,7 @@
       <parent>EDENSERVICE-DOCS</parent>
       <description>A document to remove or replace users within rules and workgroups.</description>
       <label>Remove/Replace User</label>
-      <postProcessorName>edu.iu.uis.eden.removereplace.RemoveReplacePostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.rice.kew.removereplace.RemoveReplacePostProcessor</postProcessorName>
       <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
       <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
       <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
@@ -657,13 +657,13 @@
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <simple name="Do Nothing">
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <split name="Do Recreate Split">
           <activationType>S</activationType>
@@ -686,13 +686,13 @@
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <simple name="Do Nothing Again">
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
       </routeNodes>
     </documentType>
@@ -4391,13 +4391,13 @@
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <simple name="Do More Nothing">
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
       </routeNodes>
     </documentType>
@@ -4460,7 +4460,7 @@
           <activationType>P</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
       </routeNodes>
     </documentType>

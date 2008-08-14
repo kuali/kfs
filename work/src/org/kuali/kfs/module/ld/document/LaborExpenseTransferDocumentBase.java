@@ -19,14 +19,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.document.Copyable;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Labor Base class for Expense Transfer Documents
@@ -125,7 +125,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     /**
      * Overrides the base implementation to return "From".
      * 
-     * @see org.kuali.core.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
+     * @see org.kuali.rice.kns.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     public String getSourceAccountingLinesSectionTitle() {
         return KFSConstants.FROM;
@@ -134,7 +134,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     /**
      * Overrides the base implementation to return "To".
      * 
-     * @see org.kuali.core.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
+     * @see org.kuali.rice.kns.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     public String getTargetAccountingLinesSectionTitle() {
         return KFSConstants.TO;

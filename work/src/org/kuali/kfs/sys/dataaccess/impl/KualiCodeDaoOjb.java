@@ -21,8 +21,6 @@ import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.bo.KualiCode;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
 import org.kuali.kfs.coa.businessobject.FederalFundedCode;
@@ -40,6 +38,8 @@ import org.kuali.kfs.module.cg.businessobject.AgencyType;
 import org.kuali.kfs.module.cg.businessobject.NonpersonnelSubCategory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.dataaccess.KualiCodeDao;
+import org.kuali.rice.kns.bo.KualiCode;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -159,7 +159,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
     }
 
     /**
-     * @see org.kuali.core.dao.KualiCodeDao#getAllActive(java.lang.Class)
+     * @see org.kuali.rice.kns.dao.KualiCodeDao#getAllActive(java.lang.Class)
      */
     public Collection getAllActive(Class queryClass) {
         Criteria criteria = new Criteria();
@@ -173,7 +173,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
     }
 
     /**
-     * @see org.kuali.core.dao.KualiCodeDao#getAll(java.lang.Class)
+     * @see org.kuali.rice.kns.dao.KualiCodeDao#getAll(java.lang.Class)
      */
     public Collection getAll(Class queryClass) {
         Criteria criteria = new Criteria();

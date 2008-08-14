@@ -28,9 +28,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Campus;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.RestrictedMaterial;
 import org.kuali.kfs.module.purap.businessobject.options.CampusWithBlankValuesFinder;
@@ -41,20 +38,22 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.service.CommodityCodeService;
+import org.kuali.rice.kew.doctype.DocumentType;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.exception.WorkflowServiceErrorImpl;
+import org.kuali.rice.kew.lookupable.Row;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.MassRuleAttribute;
+import org.kuali.rice.kew.rule.RuleBaseValues;
+import org.kuali.rice.kew.rule.RuleExtension;
+import org.kuali.rice.kew.rule.RuleExtensionValue;
+import org.kuali.rice.kew.rule.WorkflowAttribute;
+import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import edu.iu.uis.eden.WorkflowServiceErrorImpl;
-import edu.iu.uis.eden.doctype.DocumentType;
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.plugin.attributes.MassRuleAttribute;
-import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.RuleBaseValues;
-import edu.iu.uis.eden.routetemplate.RuleExtension;
-import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
-import edu.iu.uis.eden.util.Utilities;
 
 public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, MassRuleAttribute {
 
@@ -128,7 +127,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getDocContent()
      */
     public String getDocContent() {
         if (Utilities.isEmpty(getDeliveryCampusCode()) && Utilities.isEmpty(getPurchasingCommodityCode()) && Utilities.isEmpty(getRestrictedMaterialCode())) {
@@ -141,14 +140,14 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
      */
     public List<Row> getRoutingDataRows() {
         return routingDataRows;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
      */
     public List<RuleExtensionValue> getRuleExtensionValues() {
         List extensions = new ArrayList();
@@ -163,42 +162,42 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleRows()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getRuleRows()
      */
     public List<Row> getRuleRows() {
         return ruleRows;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(edu.iu.uis.eden.routeheader.DocumentContent, java.util.List)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#isMatch(org.kuali.rice.kew.routeheader.DocumentContent, java.util.List)
      */
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
         return true;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isRequired()
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#isRequired()
      */
     public boolean isRequired() {
         return required;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#setRequired(boolean)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#setRequired(boolean)
      */
     public void setRequired(boolean required) {
         this.required = required;
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRoutingData(java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#validateRoutingData(java.util.Map)
      */
     public List validateRoutingData(Map paramMap) {
         return validateCommodityCodeAttributeValues(paramMap);
     }
 
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
+     * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
      */
     public List validateRuleData(Map paramMap) {
         return validateCommodityCodeAttributeValues(paramMap);
@@ -293,7 +292,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
     }
     
     /**
-     * @see edu.iu.uis.eden.plugin.attributes.MassRuleAttribute#filterNonMatchingRules(edu.iu.uis.eden.engine.RouteContext, java.util.List)
+     * @see org.kuali.rice.kew.plugin.attributes.MassRuleAttribute#filterNonMatchingRules(org.kuali.rice.kew.engine.RouteContext, java.util.List)
      */
     public List filterNonMatchingRules(RouteContext routeContext, List rules) {
         List filteredRules = new ArrayList();

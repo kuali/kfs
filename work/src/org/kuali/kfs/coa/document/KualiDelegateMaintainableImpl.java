@@ -20,17 +20,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.core.service.EncryptionService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class is a special implementation of Maintainable specifically for Account Delegates. It was created to correctly update the
@@ -42,7 +42,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
     /**
      * This method will reset AccountDelegate's Start Date to the current timestamp on edits and copies
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterRetrieve()
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterRetrieve()
      */
     @Override
     public void processAfterCopy( MaintenanceDocument document, Map<String,String[]> parameters ) {
@@ -53,7 +53,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
     /**
      * This method will reset AccountDelegate's Start Date to the current timestamp on edits and copies
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterEdit()
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit()
      */
     @Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
@@ -74,7 +74,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
     /**
      * Generates the appropriate maintenance locks for the {@link Delegate}
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#generateMaintenanceLocks()
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {

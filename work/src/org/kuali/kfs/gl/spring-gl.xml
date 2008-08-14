@@ -98,7 +98,7 @@
 		</property>
 	</bean>
 
-	<bean id="glBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="glBalanceLookupableHelperService" />
 		</property>
@@ -134,7 +134,7 @@
 		</property>
 	</bean>
 
-	<bean id="glEncumbranceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glEncumbranceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="glEncumbranceLookupableHelperService" />
 		</property>
@@ -170,7 +170,7 @@
 		</property>
 	</bean>
 
-	<bean id="glCashBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glCashBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="glCashBalanceLookupableHelperService" />
 		</property>
@@ -200,7 +200,7 @@
 		</property>
 	</bean>
 
-	<bean id="glPendingEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glPendingEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="glPendingEntryLookupableHelperServiceImpl" />
 		</property>
@@ -233,7 +233,7 @@
 		</property>
 	</bean>
 
-	<bean id="glEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="glEntryLookupableHelperService" />
 		</property>
@@ -272,7 +272,7 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glAccountBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceLookupableHelperService" />
 		</property>
@@ -302,7 +302,7 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByConsolidationLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glAccountBalanceByConsolidationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceByConsolidationLookupableHelperService" />
 		</property>
@@ -332,7 +332,7 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByLevelLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glAccountBalanceByLevelLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceByLevelLookupableHelperService" />
 		</property>
@@ -362,7 +362,7 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByObjectLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glAccountBalanceByObjectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceByObjectLookupableHelperService" />
 		</property>
@@ -1094,7 +1094,7 @@
 
 	<bean id="glCorrectionCriteriaDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.CorrectionCriteriaDaoOjb" />
 
-	<bean id="testDateTimeService" class="org.kuali.core.service.impl.ConfigurableDateTimeServiceImpl" />
+	<bean id="testDateTimeService" class="org.kuali.rice.kns.service.impl.ConfigurableDateTimeServiceImpl" />
 
 	<bean id="collectorJob" parent="scheduledJobDescriptor">
 		<property name="steps">

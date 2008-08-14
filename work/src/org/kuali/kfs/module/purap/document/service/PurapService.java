@@ -18,15 +18,14 @@ package org.kuali.kfs.module.purap.document.service;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Defines methods that must be implemented by classes providing a PurapService. 

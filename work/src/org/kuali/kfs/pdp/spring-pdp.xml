@@ -393,7 +393,7 @@
 	<bean id="pdpPayeeAchAccountLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PayeeAchAccountLookupableHelperService" parent="lookupableHelperService" singleton="false">
 	</bean>
 	
-	<bean id="pdpPayeeAchAccountLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="pdpPayeeAchAccountLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 	    <property name="lookupableHelperService">
 	        <ref bean="pdpPayeeAchAccountLookupableHelperService" />
 	    </property>

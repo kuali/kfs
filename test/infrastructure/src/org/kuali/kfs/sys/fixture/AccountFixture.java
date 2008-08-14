@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.fixture;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.Account;
 
 public enum AccountFixture {

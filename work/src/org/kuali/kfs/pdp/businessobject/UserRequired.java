@@ -19,8 +19,8 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * @author jsissom

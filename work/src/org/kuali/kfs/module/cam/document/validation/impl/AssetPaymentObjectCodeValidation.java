@@ -17,8 +17,6 @@ package org.kuali.kfs.module.cam.document.validation.impl;
 
 import java.util.List;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -30,6 +28,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class validates object sub type code for the financial object for which payment is being made

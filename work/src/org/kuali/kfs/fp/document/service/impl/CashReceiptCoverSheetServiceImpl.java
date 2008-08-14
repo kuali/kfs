@@ -23,12 +23,12 @@ import java.io.OutputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DocumentTypeService;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer;
 import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -147,7 +147,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @param returnStream The output stream the cover sheet will be written to.
      * @exception DocumentException Thrown if the document provided is invalid, including null.
      * @exception IOException Thrown if there is a problem writing to the output stream.
-     * @see org.kuali.core.module.financial.service.CashReceiptCoverSheetServiceImpl#generateCoverSheet(
+     * @see org.kuali.rice.kns.module.financial.service.CashReceiptCoverSheetServiceImpl#generateCoverSheet(
      *      org.kuali.module.financial.documentCashReceiptDocument )
      */
     public void generateCoverSheet(CashReceiptDocument document, String searchPath, OutputStream returnStream) throws Exception {

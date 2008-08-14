@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.cam.businessobject.lookup;
 
-import org.kuali.core.lookup.KualiLookupableImpl;
+import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 
 public class AssetLookupableImpl extends KualiLookupableImpl {
 
     /**
      * Don't want create new url to display. We have our own one.
-     * @see org.kuali.core.lookup.KualiLookupableImpl#getCreateNewUrl()
+     * @see org.kuali.rice.kns.lookup.KualiLookupableImpl#getCreateNewUrl()
      */
     @Override
     public String getCreateNewUrl() {

@@ -21,10 +21,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -33,6 +31,7 @@ import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentServic
 import org.kuali.kfs.module.ar.util.CustomerInvoiceBalanceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PaymentApplicationDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
 

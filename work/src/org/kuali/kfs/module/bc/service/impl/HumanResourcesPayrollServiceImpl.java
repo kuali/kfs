@@ -100,4 +100,10 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
         this.financialSystemUserService = financialSystemUserService;
     }
 
+    /**
+     * @see org.kuali.kfs.module.bc.service.HumanResourcesPayrollService#isActiveJob(java.lang.String, java.lang.String, java.lang.Integer, java.lang.String)
+     */
+    public boolean isActiveJob(String emplid, String positionNumber, Integer fiscalYear, String syncCheckType) {
+        return true;
+    }
 }

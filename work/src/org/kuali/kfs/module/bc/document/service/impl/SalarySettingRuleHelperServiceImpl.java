@@ -24,9 +24,12 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.MessageBuilder;
@@ -40,6 +43,27 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRuleHelperServiceImpl.class);
 
     private SalarySettingService salarySettingService;
+    private HumanResourcesPayrollService humanResourcesPayrollService;
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasActiveJob(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
+     *      org.kuali.rice.kns.util.ErrorMap)
+     */
+    public boolean hasActiveJob(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+        Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
+        String emplid = appointmentFunding.getEmplid();
+        String positionNumber = appointmentFunding.getPositionNumber();
+        String syncCheckType = KFSConstants.EMPTY_STRING;
+
+        boolean hasActiveJob = humanResourcesPayrollService.isActiveJob(emplid, positionNumber, fiscalYear, syncCheckType);
+        if (!hasActiveJob) {
+            String errorMessage = MessageBuilder.buildMessageWithPlaceHolder(BCKeyConstants.ERROR_NO_ACTIVE_JOB_FOUND, appointmentFunding.getEmplid(), appointmentFunding.getPositionNumber()).toString();
+            errorMap.putError(KFSConstants.EMPTY_STRING, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasObjectCodeMatchingDefaultOfPosition(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
@@ -209,5 +233,14 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      */
     public void setSalarySettingService(SalarySettingService salarySettingService) {
         this.salarySettingService = salarySettingService;
+    }
+
+    /**
+     * Sets the humanResourcesPayrollService attribute value.
+     * 
+     * @param humanResourcesPayrollService The humanResourcesPayrollService to set.
+     */
+    public void setHumanResourcesPayrollService(HumanResourcesPayrollService humanResourcesPayrollService) {
+        this.humanResourcesPayrollService = humanResourcesPayrollService;
     }
 }

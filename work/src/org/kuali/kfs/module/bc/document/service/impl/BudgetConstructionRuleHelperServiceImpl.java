@@ -34,8 +34,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.MessageBuilder;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -46,10 +44,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructionRuleHelperService {
     private static final Logger LOG = Logger.getLogger(BudgetConstructionRuleHelperServiceImpl.class);
 
-    private DataDictionaryService dataDictionaryService;
     private DictionaryValidationService dictionaryValidationService;
-    private DataDictionary dataDictionary;
-
     private LaborModuleService laborModuleService;
     private BudgetDocumentService budgetDocumentService;
 
@@ -359,16 +354,6 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      */
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
         this.budgetDocumentService = budgetDocumentService;
-    }
-
-    /**
-     * Sets the dataDictionaryService attribute value.
-     * 
-     * @param dataDictionaryService The dataDictionaryService to set.
-     */
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-        this.dataDictionary = dataDictionaryService.getDataDictionary();
     }
 
     /**

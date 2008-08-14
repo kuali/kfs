@@ -18,7 +18,6 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.NONE;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -124,10 +123,10 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward saveAction = super.save(mapping, form, request, response);
-        
+
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
         this.sendWarnings(positionSalarySettingForm, GlobalVariables.getMessageList());
-        
+
         return saveAction;
     }
 
@@ -157,9 +156,9 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         if (!hasFundingLineInvolveLeave && requestedStandardHoursTotal.compareTo(positionStandardHours) != 0) {
             warnings.add(BCKeyConstants.WARNING_WORKING_HOUR_NOT_EQUAL);
         }
-        
-        for(PendingBudgetConstructionAppointmentFunding activeFunding : activeAppointmentFundings) {
-            if(activeFunding.isPositionSalaryChangeIndicator()) {
+
+        for (PendingBudgetConstructionAppointmentFunding activeFunding : activeAppointmentFundings) {
+            if (activeFunding.isPositionSalaryChangeIndicator()) {
                 warnings.add(BCKeyConstants.WARNING_RECALCULATE_NEEDED);
             }
         }

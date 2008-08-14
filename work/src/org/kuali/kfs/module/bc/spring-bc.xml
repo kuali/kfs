@@ -919,9 +919,6 @@
 		<property name="laborModuleService">
 			<ref bean="laborModuleService" />
 		</property>
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
 		<property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />
 		</property>
@@ -930,6 +927,9 @@
     <bean id="salarySettingRuleHelperService" class="org.kuali.kfs.module.bc.document.service.impl.SalarySettingRuleHelperServiceImpl">
 		<property name="salarySettingService">
 			<ref bean="salarySettingService" />
+		</property>
+		<property name="humanResourcesPayrollService">
+			<ref bean="humanResourcesPayrollService" />
 		</property>
     </bean>
     

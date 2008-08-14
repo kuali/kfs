@@ -53,4 +53,15 @@ public interface HumanResourcesPayrollService {
      * @see org.kuali.kfs.module.bc.businessobject.Incumbent
      */
     public Incumbent getIncumbent(String emplid) throws IncumbentNotFoundException;
+
+    /**
+     * determine whether there is an active job for the given emplid on the specified position
+     * 
+     * @param emplid the given employee id
+     * @param positionNumber the specified position number
+     * @param fiscalYear the given fiscal year
+     * @param syncCheckType the sync check type code
+     * @return true there is an active job for the given emplid on the specified position; otherwise, false
+     */
+    public boolean isActiveJob(String emplid, String positionNumber, Integer fiscalYear, String syncCheckType);
 }

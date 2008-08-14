@@ -58,7 +58,12 @@ public class SalarySettingRules implements SalarySettingRule {
         if (!isObjectCodeMatching) {
             return isObjectCodeMatching;
         }
-
+        
+        boolean hasActiveJob = salarySettingRuleHelperService.hasActiveJob(appointmentFunding, errorMap);
+        if(!hasActiveJob) {
+            return hasActiveJob;
+        }
+        
         boolean isAssociatedWithBudgetableDocument = budgetConstructionRuleHelperService.isAssociatedWithValidDocument(appointmentFunding, errorMap, KFSConstants.EMPTY_STRING);
         if (!isAssociatedWithBudgetableDocument) {
             return isAssociatedWithBudgetableDocument;
@@ -97,6 +102,11 @@ public class SalarySettingRules implements SalarySettingRule {
         boolean isObjectCodeMatching = salarySettingRuleHelperService.hasObjectCodeMatchingDefaultOfPosition(appointmentFunding, errorMap);
         if (!isObjectCodeMatching) {
             return isObjectCodeMatching;
+        }
+              
+        boolean hasActiveJob = salarySettingRuleHelperService.hasActiveJob(appointmentFunding, errorMap);
+        if(!hasActiveJob) {
+            return hasActiveJob;
         }
 
         boolean isAssociatedWithBudgetableDocument = budgetConstructionRuleHelperService.isAssociatedWithValidDocument(appointmentFunding, errorMap, KFSConstants.EMPTY_STRING);

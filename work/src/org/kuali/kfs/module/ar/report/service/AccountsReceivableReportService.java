@@ -16,6 +16,12 @@
 package org.kuali.kfs.module.ar.report.service;
 
 
+import java.io.File;
+import java.sql.Date;
+import java.util.List;
+
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
@@ -24,12 +30,21 @@ import org.kuali.rice.kew.exception.WorkflowException;
  */
 public interface AccountsReceivableReportService {
 
-   public void generateInvoice(String invoiceNumber) throws WorkflowException;
+   public File generateInvoice(CustomerInvoiceDocument invoice);
    
-   public void generateInvoices();
+   public void generateInvoicesByBillingOrg(String chartCode, String orgCode, Date date);
    
-   public void generateCreditMemo(String creditMemoNumber);
+   public List<File> generateInvoicesByProcessingOrg(String chartCode, String orgCode, Date date);
    
-   public void generateStatement(String customerName);
+   
+   
+   public void generateCreditMemo(CustomerCreditMemoDocument creditMemo) throws WorkflowException;
+   
+   
+   public void generateStatementByBillingOrg(String chartCode, String orgCode);
 
+   public void generateStatementByAccount(String accountNumber);
+
+   public void generateStatementByCustomer(String customerNumber);
+   
 }

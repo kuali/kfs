@@ -41,7 +41,7 @@ public class CustomerCreditMemoReportServiceImpl implements CustomerCreditMemoRe
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportService#generateReportForExtractProcess(org.kuali.module.effort.util.ExtractProcessReportDataHolder, java.util.Date)
      */
-    public void generateReportForExtractProcess(CustomerCreditMemoReportDataHolder reportDataHolder, Date runDate) {
+    public void generateReport(CustomerCreditMemoReportDataHolder reportDataHolder, Date runDate) {
         String reportFileName = customerCreditMemoReportInfo.getReportFileName();
         String reportDirectory = customerCreditMemoReportInfo.getReportsDirectory();
         String reportTemplateClassPath = customerCreditMemoReportInfo.getReportTemplateClassPath();

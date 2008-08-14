@@ -16,11 +16,16 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -61,5 +66,16 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
                 customerCreditMemoDocument.recalculateTotals(customerCreditMemoDetailItemAmount);
             }
         }
+    }
+
+    public Collection<CustomerCreditMemoDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String invoiceNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
+        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
+        
+        Collection<CustomerCreditMemoDocument> creditMemos = 
+            service.findMatching(CustomerCreditMemoDocument.class, fieldValues);
+        
+        return creditMemos;
     }
 }

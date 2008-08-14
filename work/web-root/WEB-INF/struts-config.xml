@@ -96,8 +96,12 @@
 			type="org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceDocumentForm" />
 		<form-bean name="CustomerInvoiceWriteoffDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceWriteoffDocumentForm" />
-        		<form-bean name="CustomerAgingReportForm" 
-        			type="org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm" />			
+        <form-bean name="CustomerAgingReportForm" 
+        	type="org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm" />			
+		<form-bean name="CustomerStatementForm" 
+        	type="org.kuali.kfs.module.ar.web.struts.CustomerStatementForm" />	
+        <form-bean name="CustomerInvoiceForm" 
+        	type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceForm" />			
 
 		<!-- Labor Distribution Bean Definitions -->
 		<form-bean name="LaborSalaryExpenseTransferForm"
@@ -367,6 +371,24 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/modules/ar/CustomerAgingReportLookup.jsp" />
+		</action>
+		
+		<action path="/arCustomerStatement"
+			name="CustomerStatementForm" scope="request" attribute="KualiForm"
+			parameter="methodToCall"
+			type="org.kuali.kfs.module.ar.web.struts.CustomerStatementAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/modules/ar/CustomerStatement.jsp" />
+		</action>
+
+	<action path="/arCustomerInvoice"
+			name="CustomerInvoiceForm" scope="request" attribute="KualiForm"
+			parameter="methodToCall"
+			type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/modules/ar/CustomerInvoice.jsp" />
 		</action>
 
 		<action path="/uploadBarcodeInventoryFile"

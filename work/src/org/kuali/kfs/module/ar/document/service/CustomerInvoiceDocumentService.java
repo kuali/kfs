@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
+import java.sql.Date;
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -83,6 +85,12 @@ public interface CustomerInvoiceDocumentService {
      * @return
      */
     public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String invoiceDocumentNumber);
+    
+    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode, Date date); 
+    
+    public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
+    
+    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByAccountNumber(String accountNumber);
     
     /**
      * @param documentNumber

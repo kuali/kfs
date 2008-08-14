@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,7 @@ import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.dao.DocumentDao;
+import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -161,7 +163,78 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String invoiceDocumentNumber) {
         return customerInvoiceDocumentDao.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
     }
+
     
+    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode, Date date) {
+        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+       
+        Map fieldValues = new HashMap();
+        fieldValues.put("billByChartOfAccountCode", chartOfAccountsCode);
+        fieldValues.put("billedByOrganizationCode", organizationCode);
+   
+        
+        customerInvoiceDocuments = businessObjectService.findMatching(CustomerInvoiceDocument.class, fieldValues);
+                
+        List docNumbers = new ArrayList();
+        for (Iterator itr = customerInvoiceDocuments.iterator(); itr.hasNext();) {
+            CustomerInvoiceDocument doc = (CustomerInvoiceDocument)itr.next();
+            docNumbers.add(doc.getDocumentNumber());
+        }
+        customerInvoiceDocuments.clear();
+        try {
+            customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers);
+        } catch (WorkflowException e) {
+            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+        }      
+        return customerInvoiceDocuments;
+    }
+    
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getCustomerInvoiceDocumentsByCustomerNumber(java.lang.String)
+     */
+    public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+        
+        List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put("processingChartOfAccountCode", chartOfAccountsCode);
+        fieldValues.put("processingOrganizationCode", organizationCode);
+        
+        Collection<AccountsReceivableDocumentHeader> arDocHeaders = businessObjectService.findMatchingOrderBy(AccountsReceivableDocumentHeader.class, fieldValues, "customerNumber", true);
+        
+        List<String> documentHeaderIds = new ArrayList<String>();
+        for (AccountsReceivableDocumentHeader arDocHeader : arDocHeaders ) {
+            documentHeaderIds.add(arDocHeader.getDocumentNumber());
+        }
+        if (documentHeaderIds.size() !=0) {
+        try {
+            customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+        }
+        catch (WorkflowException e) {
+            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+        }        
+        }
+        return customerInvoiceDocuments;
+    }
+    
+    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByAccountNumber(String accountNumber) {
+        
+        List<String> docNumbers = customerInvoiceDetailService.getCustomerInvoiceDocumentNumbersByAccountNumber(accountNumber);
+
+        Collection<CustomerInvoiceDocument> customerInvoiceDocuments  = new ArrayList<CustomerInvoiceDocument>();       
+        
+        if (docNumbers.size() !=0) {
+        System.out.println(docNumbers);
+    //    customerInvoiceDocuments.clear();
+        try {
+            customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers);
+        } catch (WorkflowException e) {
+            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+        }       
+        }
+        return customerInvoiceDocuments;
+    }
+
     /**
      * Refactor to have all the setters in here.
      * 

@@ -15,28 +15,42 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.io.File;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.businessobject.defaultvalue.InstitutionNameValueFinder;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
+import org.kuali.kfs.module.ar.report.service.CustomerCreditMemoReportService;
 import org.kuali.kfs.module.ar.report.service.CustomerInvoiceReportService;
+import org.kuali.kfs.module.ar.report.service.CustomerStatementReportService;
+import org.kuali.kfs.module.ar.report.util.CustomerCreditMemoDetailReportDataHolder;
+import org.kuali.kfs.module.ar.report.util.CustomerCreditMemoReportDataHolder;
 import org.kuali.kfs.module.ar.report.util.CustomerInvoiceReportDataHolder;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ar.report.util.CustomerStatementDetailReportDataHolder;
+import org.kuali.kfs.module.ar.report.util.CustomerStatementReportDataHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -51,15 +65,7 @@ import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * This is an implemeation of Effort Certification Extract process, which extracts Labor Ledger records of the employees who were
- * paid on a grant or cost shared during the selected reporting period, and generates effort certification build/temporary document.
- * Its major tasks include:
- * 
- * <li>Identify employees who were paid on a grant or cost shared;</li>
- * <li>Select qualified Labor Ledger records for each identified employee;</li>
- * <li>Generate effort certification build document from the selected Labor Ledger records for each employee.</li>
- */
+
 @Transactional
 public class AccountsReceivableReportServiceImpl implements AccountsReceivableReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableReportServiceImpl.class);
@@ -67,18 +73,132 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     private BusinessObjectService businessObjectService;
     private OptionsService optionsService;
     private UniversityDateService universityDateService;
-    CustomerInvoiceReportService service;// = SpringContext.getBean(CustomerInvoiceReportService.class);
-    DateTimeService dateTimeService; //= SpringContext.getBean(DateTimeService.class);
-    DocumentService documentService;// = SpringContext.getBean(DocumentService.class);
+    DateTimeService dateTimeService;// = SpringContext.getBean(DateTimeService.class);
 
 
-    public void generateCreditMemo(String creditMemoNumber) {
-        // TODO Auto-generated method stub
+    public void generateCreditMemo(CustomerCreditMemoDocument creditMemo) throws WorkflowException{
+        CustomerCreditMemoReportDataHolder reportDataHolder = new CustomerCreditMemoReportDataHolder();
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
+        String invoiceNumber = creditMemo.getFinancialDocumentReferenceInvoiceNumber();
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(invoiceNumber);
+        String custID = invoice.getAccountsReceivableDocumentHeader().getCustomerNumber();
+
+        CustomerAddressService addrService = SpringContext.getBean(CustomerAddressService.class);
+        CustomerAddress billToAddr = addrService.getPrimaryAddress(custID);
+
+        Map<String, String> creditMemoMap = new HashMap<String, String>();
+        creditMemoMap.put("docNumber", creditMemo.getDocumentNumber());
+        creditMemoMap.put("refDocNumber", invoice.getDocumentNumber());
+        Date date = creditMemo.getDocumentHeader().getDocumentFinalDate();
+        creditMemoMap.put("createDate", dateTimeService.toDateString(date));
+        reportDataHolder.setCreditmemo(creditMemoMap);
         
+        Map<String, String> customerMap = new HashMap<String, String>();
+        customerMap.put("id", custID);
+        if (billToAddr != null){ 
+            customerMap.put("Name", billToAddr.getCustomerAddressName());
+            customerMap.put("StreetAddressLine1", billToAddr.getCustomerLine1StreetAddress());
+            customerMap.put("StreetAddressLine2", billToAddr.getCustomerLine2StreetAddress());
+            customerMap.put("City", billToAddr.getCustomerCityName());
+
+            if (billToAddr.getCustomerCountryCode().equals("US")) { 
+                customerMap.put("State", billToAddr.getCustomerStateCode());
+                customerMap.put("Zipcode", billToAddr.getCustomerZipCode());
+            } else {
+                customerMap.put("State", billToAddr.getCustomerAddressInternationalProvinceName());
+                customerMap.put("Zipcode", billToAddr.getCustomerInternationalMailCode());
+                customerMap.put("Country", billToAddr.getCustomerCountry().getPostalCountryName());
+
+            } 
+        }
+       
+        reportDataHolder.setCustomer(customerMap);
+
+        Map<String, String> invoiceMap = new HashMap<String, String>();
+        invoiceMap.put("poNumber", invoice.getCustomerPurchaseOrderNumber());
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
+        if(invoice.getCustomerPurchaseOrderDate() != null)
+            invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
+        UniversalUserService userService = SpringContext.getBean(UniversalUserService.class);
+
+        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+
+        String id = StringUtils.upperCase(initiatorID);
+        UniversalUser user = new UniversalUser();
+        try {
+            user = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        invoiceMap.put("invoicePreparer", user.getPersonFirstName()+" "+user.getPersonLastName() );
+        invoiceMap.put("headerField", invoice.getInvoiceHeaderText());
+        invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
+        invoiceMap.put("pretaxAmount", invoice.getInvoiceItemPreTaxAmountTotal().toString());
+        invoiceMap.put("taxAmount", invoice.getInvoiceItemTaxAmountTotal().toString());
+        //KualiDecimal taxPercentage = invoice.getStateTaxPercent().add(invoice.getLocalTaxPercent());
+        KualiDecimal taxPercentage = new KualiDecimal(6.85);
+        invoiceMap.put("taxPercentage", "*** "+taxPercentage.toString()+"%");
+        invoiceMap.put("invoiceAmountDue", invoice.getSourceTotal().toString());
+        invoiceMap.put("ocrLine", "");
+        reportDataHolder.setInvoice(invoiceMap);
+
+        Map<String, String> sysinfoMap = new HashMap<String, String>();
+        InstitutionNameValueFinder finder = new InstitutionNameValueFinder();
+
+        Org billingOrg = invoice.getBilledByOrganization();
+        String chart = billingOrg.getChartOfAccountsCode();
+        String org = billingOrg.getOrganizationCode();
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("chartOfAccountsCode",chart );
+        criteria.put("organizationCode", org);
+        OrganizationOptions orgOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
+        criteria = new HashMap<String, String>();
+
+        Org processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
+
+        criteria.put("universityFiscalYear", fiscalYear);
+        criteria.put("processingChartOfAccountCode", processingOrg.getChartOfAccountsCode());
+        criteria.put("processingOrganizationCode", processingOrg.getOrganizationCode());
+        SystemInformation sysinfo = (SystemInformation)businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
+
+        sysinfoMap.put("univName", finder.getValue());
+        String univAddr = processingOrg.getOrganizationCityName() +", "+ 
+        processingOrg.getOrganizationStateCode() +" "+ processingOrg.getOrganizationZipCode();
+        sysinfoMap.put("univAddr", univAddr);
+        if (sysinfo != null)
+            sysinfoMap.put("FEIN", "FED ID# "+sysinfo.getUniversityFederalEmployerIdentificationNumber());
+
+        reportDataHolder.setSysinfo(sysinfoMap);
+        
+        invoiceMap.put("billingOrgFax", orgOptions.getOrganizationFaxNumber());
+        invoiceMap.put("billingOrgPhone", orgOptions.getOrganizationPhoneNumber());
+       
+        creditMemo.populateCustomerCreditMemoDetailsAfterLoad();
+        List<CustomerCreditMemoDetail> detailsList = creditMemo.getCreditMemoDetails();
+        List<CustomerCreditMemoDetailReportDataHolder> details = new ArrayList<CustomerCreditMemoDetailReportDataHolder>();
+        CustomerCreditMemoDetailReportDataHolder detailDataHolder;
+        for (Iterator itr = detailsList.iterator(); itr.hasNext();) {
+            CustomerCreditMemoDetail detail = (CustomerCreditMemoDetail)itr.next();
+            detailDataHolder = new CustomerCreditMemoDetailReportDataHolder(detail, detail.getCustomerInvoiceDetail());
+            details.add(detailDataHolder);
+        }
+        
+        reportDataHolder.setDetails(details);
+
+        Date runDate = dateTimeService.getCurrentSqlDate();
+        CustomerCreditMemoReportService service = SpringContext.getBean(CustomerCreditMemoReportService.class);
+        service.generateReport(reportDataHolder, runDate);
+
+
     }
-    public void generateInvoice(String invoiceNumber) throws WorkflowException {
-        documentService = SpringContext.getBean(DocumentService.class);
-        CustomerInvoiceDocument invoice = (CustomerInvoiceDocument)documentService.getByDocumentHeaderId(invoiceNumber);
+    public File generateInvoice(CustomerInvoiceDocument invoice) {
+        
+       // invoice.getDocumentHeader().refreshReferenceObject("workflowDocument");
         CustomerInvoiceReportDataHolder reportDataHolder = new CustomerInvoiceReportDataHolder();
         String custID = invoice.getAccountsReceivableDocumentHeader().getCustomerNumber();
         CustomerService custService = SpringContext.getBean(CustomerService.class);
@@ -92,52 +212,51 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> customerMap = new HashMap<String, String>();
         customerMap.put("id", custID);
         if (billToAddr != null){ 
-        customerMap.put("billToName", billToAddr.getCustomerAddressName());
-        customerMap.put("billToStreetAddressLine1", billToAddr.getCustomerLine1StreetAddress());
-        customerMap.put("billToStreetAddressLine2", billToAddr.getCustomerLine2StreetAddress());
-        customerMap.put("billToCity", billToAddr.getCustomerCityName());
-        
-        if (billToAddr.getCustomerCountryCode().equals("US")) { 
-            customerMap.put("billToState", billToAddr.getCustomerStateCode());
-            customerMap.put("billToZipcode", billToAddr.getCustomerZipCode());
-        } else {
-            customerMap.put("billToState", billToAddr.getCustomerAddressInternationalProvinceName());
-            customerMap.put("billToZipcode", billToAddr.getCustomerInternationalMailCode());
-            customerMap.put("billToCountry", billToAddr.getCustomerCountry().getPostalCountryName());
+            customerMap.put("billToName", billToAddr.getCustomerAddressName());
+            customerMap.put("billToStreetAddressLine1", billToAddr.getCustomerLine1StreetAddress());
+            customerMap.put("billToStreetAddressLine2", billToAddr.getCustomerLine2StreetAddress());
+            customerMap.put("billToCity", billToAddr.getCustomerCityName());
 
-        } 
+            if (billToAddr.getCustomerCountryCode().equals("US")) { 
+                customerMap.put("billToState", billToAddr.getCustomerStateCode());
+                customerMap.put("billToZipcode", billToAddr.getCustomerZipCode());
+            } else {
+                customerMap.put("billToState", billToAddr.getCustomerAddressInternationalProvinceName());
+                customerMap.put("billToZipcode", billToAddr.getCustomerInternationalMailCode());
+                customerMap.put("billToCountry", billToAddr.getCustomerCountry().getPostalCountryName());
+
+            } 
         }
         if (shipToAddr !=null) {
-        customerMap.put("shipToName", shipToAddr.getCustomerAddressName());
-        customerMap.put("shipToStreetAddressLine1", shipToAddr.getCustomerLine1StreetAddress());
-        customerMap.put("shipToStreetAddressLine2", shipToAddr.getCustomerLine2StreetAddress());
-        customerMap.put("shipToCity", shipToAddr.getCustomerCityName());
-        
-        if (shipToAddr.getCustomerCountryCode().equals("US")) { 
-            customerMap.put("shipToState", shipToAddr.getCustomerStateCode());
-            customerMap.put("shipToZipcode", shipToAddr.getCustomerZipCode());
-        } else {
-            customerMap.put("shipToState", shipToAddr.getCustomerAddressInternationalProvinceName());
-            customerMap.put("shipToZipcode", shipToAddr.getCustomerInternationalMailCode());
-            customerMap.put("shipToCountry", shipToAddr.getCustomerCountry().getPostalCountryName());
+            customerMap.put("shipToName", shipToAddr.getCustomerAddressName());
+            customerMap.put("shipToStreetAddressLine1", shipToAddr.getCustomerLine1StreetAddress());
+            customerMap.put("shipToStreetAddressLine2", shipToAddr.getCustomerLine2StreetAddress());
+            customerMap.put("shipToCity", shipToAddr.getCustomerCityName());
 
-        }
+            if (shipToAddr.getCustomerCountryCode().equals("US")) { 
+                customerMap.put("shipToState", shipToAddr.getCustomerStateCode());
+                customerMap.put("shipToZipcode", shipToAddr.getCustomerZipCode());
+            } else {
+                customerMap.put("shipToState", shipToAddr.getCustomerAddressInternationalProvinceName());
+                customerMap.put("shipToZipcode", shipToAddr.getCustomerInternationalMailCode());
+                customerMap.put("shipToCountry", shipToAddr.getCustomerCountry().getPostalCountryName());
+
+            }
         }
         reportDataHolder.setCustomer(customerMap);
-    
+
         Map<String, String> invoiceMap = new HashMap<String, String>();
         invoiceMap.put("poNumber", invoice.getCustomerPurchaseOrderNumber());
         dateTimeService = SpringContext.getBean(DateTimeService.class);
         if(invoice.getCustomerPurchaseOrderDate() != null)
-        invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
+            invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
         UniversalUserService userService = SpringContext.getBean(UniversalUserService.class);
-        
+
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-        
         String id = StringUtils.upperCase(initiatorID);
         UniversalUser user = new UniversalUser();
         try {
-           user = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(id));
+            user = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(id));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,12 +275,19 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         KualiDecimal taxPercentage = new KualiDecimal(6.85);
         invoiceMap.put("taxPercentage", "*** "+taxPercentage.toString()+"%");
         invoiceMap.put("invoiceAmountDue", invoice.getSourceTotal().toString());
-        invoiceMap.put("ocrLine", "");
-        reportDataHolder.setInvoice(invoiceMap);
-        
+        invoiceMap.put("ocrLine", "OCR LINE HERE");
+
+        CustomerInvoiceDetailService invoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+        List<CustomerInvoiceDetail> detailsList = (List<CustomerInvoiceDetail>)invoiceDetailService.getCustomerInvoiceDetailsForInvoice(invoice);
+        CustomerInvoiceDetail firstDetail = (CustomerInvoiceDetail)detailsList.get(0);
+        String firstChartCode = firstDetail.getChartOfAccountsCode();
+        String firstAccount = firstDetail.getAccountNumber();
+        invoiceMap.put("chartAndAccountOfFirstItem", firstChartCode+firstAccount);
+      
+
         Map<String, String> sysinfoMap = new HashMap<String, String>();
         InstitutionNameValueFinder finder = new InstitutionNameValueFinder();
-        
+
         Org billingOrg = invoice.getBilledByOrganization();
         String chart = billingOrg.getChartOfAccountsCode();
         String org = billingOrg.getOrganizationCode();
@@ -169,13 +295,13 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         criteria.put("chartOfAccountsCode",chart );
         criteria.put("organizationCode", org);
         OrganizationOptions orgOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
-      
+
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
         criteria = new HashMap<String, String>();
-        
-       Org processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
-        
+
+        Org processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
+
         criteria.put("universityFiscalYear", fiscalYear);
         criteria.put("processingChartOfAccountCode", processingOrg.getChartOfAccountsCode());
         criteria.put("processingOrganizationCode", processingOrg.getOrganizationCode());
@@ -183,12 +309,11 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         SystemInformation sysinfo = (SystemInformation)businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         sysinfoMap.put("univName", finder.getValue());
-        //Org processingOrg = orgOptions.getProcessingOrganization();
         String univAddr = processingOrg.getOrganizationCityName() +", "+ 
         processingOrg.getOrganizationStateCode() +" "+ processingOrg.getOrganizationZipCode();
         sysinfoMap.put("univAddr", univAddr);
         if (sysinfo != null)
-        sysinfoMap.put("FEIN", "FED ID# "+sysinfo.getUniversityFederalEmployerIdentificationNumber());
+            sysinfoMap.put("FEIN", "FED ID# "+sysinfo.getUniversityFederalEmployerIdentificationNumber());
         sysinfoMap.put("checkPayableTo", orgOptions.getOrganizationCheckPayableToName());
         sysinfoMap.put("remitToName", orgOptions.getOrganizationRemitToAddressName());
         sysinfoMap.put("remitToAddressLine1", orgOptions.getOrganizationRemitToLine1StreetAddress());
@@ -196,50 +321,272 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         sysinfoMap.put("remitToCity", orgOptions.getOrganizationRemitToCityName());
         sysinfoMap.put("remitToState", orgOptions.getOrganizationRemitToState().toString());
         sysinfoMap.put("remitToZip", orgOptions.getOrganizationRemitToZipCode());
+
+      
         
         invoiceMap.put("billingOrgFax", orgOptions.getOrganizationFaxNumber());
         invoiceMap.put("billingOrgPhone", orgOptions.getOrganizationPhoneNumber());
-       
-        CustomerInvoiceDetailService invoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        List<CustomerInvoiceDetail> detailsList = (List<CustomerInvoiceDetail>)invoiceDetailService.getCustomerInvoiceDetailsForInvoice(invoice);
-        for (int i = 0; i < 50; i++) {
-            CustomerInvoiceDetail detail = new CustomerInvoiceDetail();
-            detail.setInvoiceItemQuantity(new BigDecimal(i));
-            detail.setInvoiceItemUnitOfMeasureCode("EA");
-            detail.setInvoiceItemDescription("stuff "+i );
-            detail.setInvoiceItemCode("jj"+i);
-            detail.setInvoiceItemUnitPrice(new KualiDecimal(55000000));
-            detail.setInvoiceItemTaxAmount(new KualiDecimal(4.25));
-            detail.setAmount(new KualiDecimal(4));
-            detailsList.add(detail);
-        }
+
         
         reportDataHolder.setSysinfo(sysinfoMap);
         reportDataHolder.setDetails(detailsList);
+        reportDataHolder.setInvoice(invoiceMap);
         
         Date runDate = dateTimeService.getCurrentSqlDate();
-        service = SpringContext.getBean(CustomerInvoiceReportService.class);
-        service.generateReport(reportDataHolder, runDate);
-     
-        
+        CustomerInvoiceReportService service = SpringContext.getBean(CustomerInvoiceReportService.class);
+        File report = service.generateReport(reportDataHolder, runDate);
+        return report;
     }
-    public void generateInvoices() {
-        // TODO Auto-generated method stub
-        
-    }
-    public void generateStatement(String customerName) {
-        
-        
-        
-    }
-    public boolean isEmployeeEligibleForEffortCertification(String emplid, EffortCertificationReportDefinition reportDefinition) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    
-    
 
+    public void generateStatement(String billingChartCode, String billingOrgCode, String customerNumber, List<CustomerStatementDetailReportDataHolder> details){
+        
+        CustomerStatementReportDataHolder reportDataHolder = new CustomerStatementReportDataHolder();
+        CustomerAddressService addrService = SpringContext.getBean(CustomerAddressService.class);
+        CustomerAddress billToAddr = addrService.getPrimaryAddress(customerNumber);
+
+        Map<String, String> customerMap = new HashMap<String, String>();
+        customerMap.put("id", customerNumber);
+        if (billToAddr != null){ 
+            customerMap.put("Name", billToAddr.getCustomerAddressName());
+            customerMap.put("StreetAddressLine1", billToAddr.getCustomerLine1StreetAddress());
+            customerMap.put("StreetAddressLine2", billToAddr.getCustomerLine2StreetAddress());
+            customerMap.put("City", billToAddr.getCustomerCityName());
+
+            if (billToAddr.getCustomerCountryCode().equals("US")) { 
+                customerMap.put("State", billToAddr.getCustomerStateCode());
+                customerMap.put("Zipcode", billToAddr.getCustomerZipCode());
+            } else {
+                customerMap.put("State", billToAddr.getCustomerAddressInternationalProvinceName());
+                customerMap.put("Zipcode", billToAddr.getCustomerInternationalMailCode());
+                customerMap.put("Country", billToAddr.getCustomerCountry().getPostalCountryName());
+
+            } 
+        }
+        
+        reportDataHolder.setCustomer(customerMap);
+
+        Map<String, String> invoiceMap = new HashMap<String, String>();
+       
+        invoiceMap.put("customerOrg", billingOrgCode);
+        OrganizationService orgService = SpringContext.getBean(OrganizationService.class);
+        Org billingOrg = orgService.getByPrimaryId(billingChartCode, billingOrgCode);
+        invoiceMap.put("billingOrgName", billingOrg.getOrganizationName());
+        invoiceMap.put("ocrLine", "");
+        KualiDecimal amountDue = new KualiDecimal(0);
+        for (Iterator itr = details.iterator(); itr.hasNext();) {
+            CustomerStatementDetailReportDataHolder data = (CustomerStatementDetailReportDataHolder)itr.next();
+         
+            if (data.getFinancialDocumentTotalAmountCharge()!=null) {
+                System.out.println(data.getFinancialDocumentTotalAmountCharge()+"    charge");
+                amountDue = amountDue.add(data.getFinancialDocumentTotalAmountCharge());
+            }
+            if (data.getFinancialDocumentTotalAmountCredit()!=null) {
+                System.out.println(data.getFinancialDocumentTotalAmountCredit()+"    credit");
+                amountDue = amountDue.subtract(data.getFinancialDocumentTotalAmountCredit());
+            }
+        }
+        System.out.println(amountDue);
+        invoiceMap.put("amountDue", amountDue.toString());
+        
+
+        Map<String, String> sysinfoMap = new HashMap<String, String>();
+        InstitutionNameValueFinder finder = new InstitutionNameValueFinder();
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("chartOfAccountsCode", billingChartCode );
+        criteria.put("organizationCode", billingOrgCode);
+        OrganizationOptions orgOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+
+        sysinfoMap.put("checkPayableTo", orgOptions.getOrganizationCheckPayableToName());
+        sysinfoMap.put("remitToName", orgOptions.getOrganizationRemitToAddressName());
+        sysinfoMap.put("remitToAddressLine1", orgOptions.getOrganizationRemitToLine1StreetAddress());
+        sysinfoMap.put("remitToAddressLine2", orgOptions.getOrganizationRemitToLine2StreetAddress());
+        sysinfoMap.put("remitToCity", orgOptions.getOrganizationRemitToCityName());
+        sysinfoMap.put("remitToState", orgOptions.getOrganizationRemitToState().toString());
+        sysinfoMap.put("remitToZip", orgOptions.getOrganizationRemitToZipCode());
+
+        invoiceMap.put("billingOrgFax", orgOptions.getOrganizationFaxNumber());
+        invoiceMap.put("billingOrgPhone", orgOptions.getOrganizationPhoneNumber());
+        
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
+
+        criteria.clear();
+        criteria.put("chartOfAccountsCode", "UA");
+        criteria.put("organizationCode", "VPIT");
+        Org processingOrg = (Org) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Org.class, criteria);
+
+        sysinfoMap.put("univName", finder.getValue());
+        String univAddr = processingOrg.getOrganizationCityName() +", "+ 
+        processingOrg.getOrganizationStateCode() +" "+ processingOrg.getOrganizationZipCode();
+        sysinfoMap.put("univAddr", univAddr);
+        
+        reportDataHolder.setSysinfo(sysinfoMap);
+        reportDataHolder.setDetails(details);
+        reportDataHolder.setInvoice(invoiceMap);
+
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
+        Date runDate = dateTimeService.getCurrentSqlDate();
+        CustomerStatementReportService service = SpringContext.getBean(CustomerStatementReportService.class);
+        System.out.println("start generate()");
+        System.out.println(runDate);
+        service.generateReport(reportDataHolder, runDate);
+        System.out.println("finish generate()");
+    }
+    
+    public void generateInvoicesByBillingOrg(String chartCode, String orgCode, Date date) {
+        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode, date);
+        DocumentService docService = SpringContext.getBean(DocumentService.class);
+        
+        
+        for (Iterator itr = invoices.iterator(); itr.hasNext();) {
+            CustomerInvoiceDocument doc = (CustomerInvoiceDocument)itr.next();
+            if (date!=null&&doc.getPrintDate()!=null) {
+                if (doc.getPrintDate().equals(date)) {
+                    generateInvoice(doc);
+                }
+            } else {
+                generateInvoice(doc);
+            }
+        }
+        
+    }
+    
+    public List<File> generateInvoicesByProcessingOrg(String chartCode, String orgCode, Date date){
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
+       CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+       List<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+       List<File> reports = new ArrayList<File>();
+       for (Iterator itr = invoices.iterator(); itr.hasNext();) {
+           CustomerInvoiceDocument doc = (CustomerInvoiceDocument)itr.next();
+         //  System.out.println(dateTimeService.toDateString(date));
+           
+          // System.out.println(dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()));
+           if (date == null)
+               reports.add(generateInvoice(doc));
+           else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate())!=null) {
+               if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
+                   reports.add(generateInvoice(doc));
+               }
+         
+           }
+               
+       }
+       System.out.println(reports);
+       return reports;
+    }
    
+    
+    public void generateStatementByBillingOrg(String chartCode, String orgCode) {
+
+        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode, null);
+        List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
+        CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
+        String customerNumber = "";
+        for (Iterator itr = invoices.iterator(); itr.hasNext();) {
+            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument)itr.next();
+            if (invoice.isOpenInvoiceIndicator()) {
+                
+                Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
+                for (Iterator it = creditMemos.iterator(); it.hasNext();) {
+                    CustomerCreditMemoDocument doc = (CustomerCreditMemoDocument)it.next();
+                    doc.populateCustomerCreditMemoDetailsAfterLoad();
+                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
+                    details.add(detail);
+                }
+                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
+                details.add(detail);
+                customerNumber = invoice.getCustomer().getCustomerNumber();
+             
+            }
+        }
+        
+        generateStatement(chartCode, orgCode, customerNumber, details);
+        
+    }
+    
+    public void generateStatementByAccount(String accountNumber) {
+        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
+        
+        List<CustomerInvoiceDocument> invoiceList = new ArrayList<CustomerInvoiceDocument>(invoices);
+        Collections.sort(invoiceList);
+        
+        List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
+        CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
+        CustomerInvoiceDocument ctrlDoc = new CustomerInvoiceDocument();
+
+        for (Iterator itr = invoiceList.iterator(); itr.hasNext();) {
+
+            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument)itr.next();
+            
+                    // 
+            if (invoice.isOpenInvoiceIndicator()) {
+
+                Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
+                for (Iterator it = creditMemos.iterator(); it.hasNext();) {
+                    CustomerCreditMemoDocument doc = (CustomerCreditMemoDocument)it.next();
+                    doc.populateCustomerCreditMemoDetailsAfterLoad();
+                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
+                    details.add(detail);
+                }
+                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
+                details.add(detail);
+
+            }
+            if (invoice.compareTo(ctrlDoc) != 0) {  
+                System.out.println("generating statement");
+                generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), details);
+                details.clear();
+            }
+            ctrlDoc = invoice;
+           
+        }
+    }
+
+    public void generateStatementByCustomer(String customerNumber) {
+        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber);
+   
+        List<CustomerInvoiceDocument> invoiceList = new ArrayList<CustomerInvoiceDocument>(invoices);
+        Collections.sort(invoiceList);
+        
+        List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
+        CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
+        CustomerInvoiceDocument ctrlDoc = new CustomerInvoiceDocument();
+
+        
+        for (Iterator itr = invoiceList.iterator(); itr.hasNext();) {
+
+            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument)itr.next();
+            
+            if (invoice.isOpenInvoiceIndicator()) {
+
+                if (invoice.compareTo(ctrlDoc) != 0) {  
+                    generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), details);
+                    details.clear();
+                }
+
+                Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
+                for (Iterator it = creditMemos.iterator(); it.hasNext();) {
+                    CustomerCreditMemoDocument doc = (CustomerCreditMemoDocument)it.next();
+                    doc.populateCustomerCreditMemoDetailsAfterLoad();
+                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
+                    details.add(detail);
+                }
+                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
+                details.add(detail);
+
+            }
+            
+            ctrlDoc = invoice;
+        }
+        
+    
+    
+    }
+
 
 
 

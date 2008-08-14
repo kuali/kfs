@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
+import java.util.Collection;
+
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
 public interface CustomerCreditMemoDocumentService {
     
@@ -24,4 +27,9 @@ public interface CustomerCreditMemoDocumentService {
      * @return
      */
     public void recalculateCustomerCreditMemoDocument(CustomerCreditMemoDocument customerCreditMemoDocument, boolean blanketApproveDocumentEventFlag);
+
+    
+    public Collection<CustomerCreditMemoDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String customerInvoiceDocumentNumber);
+
+
 }

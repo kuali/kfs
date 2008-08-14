@@ -15,8 +15,12 @@
  */
 package org.kuali.kfs.module.ar.report.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 
 /**
  * To group and hold the data presented to working reports of extract process
@@ -26,12 +30,14 @@ public class CustomerStatementReportDataHolder {
     private Map<String, String> invoice;
     private Map<String, String> customer;
     private Map<String, String> sysinfo;
+    private List<CustomerStatementDetailReportDataHolder> details;
     
     private Map<String, Object> reportData;
     
     public final static String KEY_OF_INVOICE_ENTRY = "invoice";
     public final static String KEY_OF_CUSTOMER_ENTRY = "customer";
     public final static String KEY_OF_SYSINFO_ENTRY = "sysinfo";
+    public final static String KEY_OF_DETAILS_ENTRY = "details";
     
     /**
      * Constructs a ExtractProcessReportDataHolder.java.
@@ -41,7 +47,8 @@ public class CustomerStatementReportDataHolder {
         
         this.invoice = new HashMap<String, String>();
         this.customer = new HashMap<String, String>();
-        this.sysinfo = new HashMap<String, String>();       
+        this.sysinfo = new HashMap<String, String>();
+        this.details = new ArrayList<CustomerStatementDetailReportDataHolder>();
  
         this.reportData = new HashMap<String, Object>();
     }
@@ -120,6 +127,7 @@ public class CustomerStatementReportDataHolder {
         reportData.put(KEY_OF_INVOICE_ENTRY, invoice);
         reportData.put(KEY_OF_CUSTOMER_ENTRY, customer);
         reportData.put(KEY_OF_SYSINFO_ENTRY, sysinfo);
+        reportData.put(KEY_OF_DETAILS_ENTRY, details);
       //  reportData.put(arg0, arg1);
         
         return reportData;
@@ -141,4 +149,22 @@ public class CustomerStatementReportDataHolder {
     public String toString() {
         return this.getReportData().toString();
     }
+
+    /**
+     * Gets the details attribute. 
+     * @return Returns the details.
+     */
+    public List<CustomerStatementDetailReportDataHolder> getDetails() {
+        return details;
+    }
+
+    /**
+     * Sets the details attribute value.
+     * @param details The details to set.
+     */
+    public void setDetails(List<CustomerStatementDetailReportDataHolder> details) {
+        this.details = details;
+    }
+
+    
 }

@@ -31,7 +31,7 @@ public class CustomerCreditMemoReportDataHolder {
     private Map<String, String> invoice;
     private Map<String, String> customer;
     private Map<String, String> sysinfo;
-    private List<CustomerCreditMemoDetail> details;
+    private List<CustomerCreditMemoDetailReportDataHolder> details;
     
     private Map<String, Object> reportData;
     
@@ -51,7 +51,7 @@ public class CustomerCreditMemoReportDataHolder {
         this.invoice = new HashMap<String, String>();
         this.customer = new HashMap<String, String>();
         this.sysinfo = new HashMap<String, String>();       
-        this.details = new ArrayList<CustomerCreditMemoDetail>();
+        this.details = new ArrayList<CustomerCreditMemoDetailReportDataHolder>();
         
         this.reportData = new HashMap<String, Object>();
     }
@@ -136,11 +136,12 @@ public class CustomerCreditMemoReportDataHolder {
         this.sysinfo = sysinfo;
     }
 
+    
     /**
      * Gets the details attribute. 
      * @return Returns the details.
      */
-    public List<CustomerCreditMemoDetail> getDetails() {
+    public List<CustomerCreditMemoDetailReportDataHolder> getDetails() {
         return details;
     }
 
@@ -148,11 +149,10 @@ public class CustomerCreditMemoReportDataHolder {
      * Sets the details attribute value.
      * @param details The details to set.
      */
-    public void setDetails(List<CustomerCreditMemoDetail> details) {
+    public void setDetails(List<CustomerCreditMemoDetailReportDataHolder> details) {
         this.details = details;
     }
 
-    
     /**
      * Gets the reportData attribute. 
      * @return Returns the reportData.

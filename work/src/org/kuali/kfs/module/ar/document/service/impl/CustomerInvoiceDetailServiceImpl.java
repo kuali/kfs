@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -171,6 +173,21 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         return customerInvoiceDetail;
     }
 
+    public List<String> getCustomerInvoiceDocumentNumbersByAccountNumber(String accountNumber) {
+       
+        Map fieldValues = new HashMap();
+        fieldValues.put("accountNumber", accountNumber);
+        
+        Collection<CustomerInvoiceDetail> customerInvoiceDetails = businessObjectService.findMatching(CustomerInvoiceDetail.class, fieldValues);
+        List<String> docNumbers = new ArrayList<String>();
+        for (Iterator itr = customerInvoiceDetails.iterator(); itr.hasNext();) {
+            CustomerInvoiceDetail detail = (CustomerInvoiceDetail)itr.next();
+            docNumbers.add(detail.getDocumentNumber());
+        }
+        
+        return docNumbers;
+    }
+    
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(java.lang.String)
      */

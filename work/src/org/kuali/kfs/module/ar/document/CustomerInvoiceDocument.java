@@ -47,7 +47,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerInvoiceDocument extends AccountingDocumentBase implements AmountTotaling, Copyable, Correctable {
+public class CustomerInvoiceDocument extends AccountingDocumentBase implements AmountTotaling, Copyable, Correctable, Comparable<CustomerInvoiceDocument> {
 
     protected Integer nextInvoiceItemNumber;
 	private String invoiceHeaderText;
@@ -1367,6 +1367,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
         
         return discounts;
+    }
+
+    public int compareTo(CustomerInvoiceDocument customerInvoiceDocument) {
+        if (this.getBillByChartOfAccountCode().equals(customerInvoiceDocument.getBillByChartOfAccountCode()))
+            if (this.getBilledByOrganizationCode().equals(customerInvoiceDocument.getBilledByOrganizationCode()))
+                return 0;
+        return -1;
     }    
     
     /**

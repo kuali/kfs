@@ -57,6 +57,7 @@ public class CustomerStatementReportServiceImpl implements CustomerStatementRepo
 
         String template = reportTemplateClassPath + reportTemplateName;
         String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "");
+        System.out.println(fullReportFileName);
         reportGenerationService.generateReportToPdfFile(reportData, template, fullReportFileName);
     }
     

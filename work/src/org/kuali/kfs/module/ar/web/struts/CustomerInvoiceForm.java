@@ -1,0 +1,206 @@
+/*
+ * Copyright 2006-2007 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.module.ar.web.struts;
+
+import java.io.File;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+
+/**
+ * This class is the action form for Customer Aging Reports.
+ */
+public class CustomerInvoiceForm extends KualiForm {
+    private static final long serialVersionUID = 1L;
+
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CustomerInvoiceForm.class);
+
+    private String chartCode;
+    private String orgCode;
+    private String orgType;
+    private boolean operationSelected = false;
+    private Date runDate;
+    private File report;
+    
+    
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        System.out.println("getExtraButtons()");
+        List<ExtraButton> buttons = new ArrayList<ExtraButton>();
+     //   HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
+       
+        // Print button
+        ExtraButton printButton = new ExtraButton();
+        printButton.setExtraButtonProperty("methodToCall.print");
+        printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
+        printButton.setExtraButtonAltText("Print");
+        buttons.add(printButton);
+        
+        // Clear button
+        ExtraButton clearButton = new ExtraButton();
+        clearButton.setExtraButtonProperty("methodToCall.clear");
+        clearButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_clear.gif");
+        clearButton.setExtraButtonAltText("Clear");
+        buttons.add(clearButton);
+        
+        // Cancel button
+        ExtraButton cancelButton = new ExtraButton();
+        cancelButton.setExtraButtonProperty("methodToCall.cancel");
+        cancelButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_cancel.gif");
+        cancelButton.setExtraButtonAltText("Cancel");
+        buttons.add(cancelButton);
+        
+        return buttons;
+    }
+    
+    
+
+
+    /**
+     * Gets the report attribute. 
+     * @return Returns the report.
+     */
+    public File getReport() {
+        return report;
+    }
+
+
+
+    /**
+     * Sets the report attribute value.
+     * @param report The report to set.
+     */
+    public void setReports(File report) {
+        this.report = report;
+    }
+
+
+
+    /**
+     * Gets the runDate attribute. 
+     * @return Returns the runDate.
+     */
+    public Date getRunDate() {
+        return runDate;
+    }
+
+
+
+    /**
+     * Sets the runDate attribute value.
+     * @param runDate The runDate to set.
+     */
+    public void setRunDate(Date runDate) {
+        this.runDate = runDate;
+    }
+
+
+
+    /**
+     * Gets the operationSelected attribute. 
+     * @return Returns the operationSelected.
+     */
+    public boolean isOperationSelected() {
+        return operationSelected;
+    }
+
+
+
+    /**
+     * Sets the operationSelected attribute value.
+     * @param operationSelected The operationSelected to set.
+     */
+    public void setOperationSelected(boolean operationSelected) {
+        this.operationSelected = operationSelected;
+    }
+
+
+
+    /**
+     * Gets the orgType attribute. 
+     * @return Returns the orgType.
+     */
+    public String getOrgType() {
+        return orgType;
+    }
+
+
+
+    /**
+     * Sets the orgType attribute value.
+     * @param orgType The orgType to set.
+     */
+    public void setOrgType(String orgType) {
+        this.orgType = orgType;
+    }
+
+
+
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+    }
+
+    
+
+    /**
+     * Gets the chartCode attribute. 
+     * @return Returns the chartCode.
+     */
+    public String getChartCode() {
+        return chartCode;
+    }
+
+
+
+    /**
+     * Sets the chartCode attribute value.
+     * @param chartCode The chartCode to set.
+     */
+    public void setChartCode(String chartCode) {
+        this.chartCode = chartCode;
+    }
+
+
+
+    /**
+     * Gets the orgCode attribute. 
+     * @return Returns the orgCode.
+     */
+    public String getOrgCode() {
+        return orgCode;
+    }
+
+
+
+    /**
+     * Sets the orgCode attribute value.
+     * @param orgCode The orgCode to set.
+     */
+    public void setOrgCode(String orgCode) {
+        this.orgCode = orgCode;
+    }
+
+
+
+
+}

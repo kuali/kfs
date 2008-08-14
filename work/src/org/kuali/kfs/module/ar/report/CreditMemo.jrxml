@@ -620,6 +620,7 @@
 					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 					</subreportParameter>
+					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($P{details})]]></dataSourceExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "CreditMemoDetails.jasper"]]></subreportExpression>
 				</subreport>
 			</band>

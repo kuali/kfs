@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.document.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -45,6 +46,8 @@ public interface CustomerInvoiceDetailService {
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromOrganizationAccountingDefaultForCurrentYear();
     
+    
+    public List<String> getCustomerInvoiceDocumentNumbersByAccountNumber(String accountNumber);
     
     /**
      * This method returns a customer invoice detail from a customer invoice item code for a current user

@@ -24,11 +24,5 @@ import org.kuali.kfs.module.ar.report.util.CustomerCreditMemoReportDataHolder;
  */
 public interface CustomerCreditMemoReportService {
 
-    /**
-     * generate report for effort certification extract process witht the given report data and information
-     * 
-     * @param reportDataHolder the given report data holder
-     * @param runDate the datetime of the repor generation
-     */
-    void generateReportForExtractProcess(CustomerCreditMemoReportDataHolder reportDataHolder, Date runDate);
+    void generateReport(CustomerCreditMemoReportDataHolder reportDataHolder, Date runDate);
 }

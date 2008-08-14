@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -41,7 +42,7 @@ public class CustomerInvoiceReportServiceImpl implements CustomerInvoiceReportSe
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportService#generateReportForExtractProcess(org.kuali.module.effort.util.ExtractProcessReportDataHolder, java.util.Date)
      */
-    public void generateReport(CustomerInvoiceReportDataHolder reportDataHolder, Date runDate) {
+    public File generateReport(CustomerInvoiceReportDataHolder reportDataHolder, Date runDate) {
         String reportFileName = customerInvoiceReportInfo.getReportFileName();
         String reportDirectory = customerInvoiceReportInfo.getReportsDirectory();
         String reportTemplateClassPath = customerInvoiceReportInfo.getReportTemplateClassPath();
@@ -57,6 +58,8 @@ public class CustomerInvoiceReportServiceImpl implements CustomerInvoiceReportSe
         String template = reportTemplateClassPath + reportTemplateName;
         String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "");
         reportGenerationService.generateReportToPdfFile(reportData, template, fullReportFileName);
+        File report = new File(fullReportFileName+".pdf");
+        return report;
     }
     
     /**
@@ -75,5 +78,13 @@ public class CustomerInvoiceReportServiceImpl implements CustomerInvoiceReportSe
      */
     public void setReportGenerationService(ReportGenerationService reportGenerationService) {
         this.reportGenerationService = reportGenerationService;
+    }
+
+    /**
+     * Gets the customerInvoiceReportInfo attribute. 
+     * @return Returns the customerInvoiceReportInfo.
+     */
+    public ReportInfo getCustomerInvoiceReportInfo() {
+        return customerInvoiceReportInfo;
     }
 }

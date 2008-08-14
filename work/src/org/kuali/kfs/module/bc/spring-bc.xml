@@ -931,6 +931,9 @@
 		<property name="humanResourcesPayrollService">
 			<ref bean="humanResourcesPayrollService" />
 		</property>
+		<property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+		</property>
     </bean>
     
     <bean id="humanResourcesPayrollDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.dataaccess.impl.HumanResourcesPayrollDaoJdbc">

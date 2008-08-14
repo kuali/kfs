@@ -43,6 +43,7 @@ public class BCPropertyConstants {
     public static final String APPOINTMENT_REQUESTED_AMOUNT = "appointmentRequestedAmount";
     public static final String APPOINTMENT_REQUESTED_TIME_PERCENT = "appointmentRequestedTimePercent";
     public static final String APPOINTMENT_REQUESTED_PAY_RATE = "appointmentRequestedPayRate";
+    public static final String APPOINTMENT_FUNDING_MONTH = "appointmentFundingMonth";
 
     public static final String APPOINTMENT_REQUESTED_CSF_AMOUNT = "appointmentRequestedCsfAmount";
     public static final String APPOINTMENT_REQUESTED_CSF_FTE_QUANTITY = "appointmentRequestedCsfFteQuantity";

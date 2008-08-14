@@ -102,6 +102,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getSavableAppointmentFundings();
         
         for(PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
+            // retrieve corresponding document in advance in order to use the rule framework 
             BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);        
             if(document == null) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.toString());
@@ -154,6 +155,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
         this.applyDefaultValuesIfEmpty(newAppointmentFunding);
         
+        // retrieve corresponding document in advance in order to use the rule framework 
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(newAppointmentFunding);
         if (document == null) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, newAppointmentFunding.toString());

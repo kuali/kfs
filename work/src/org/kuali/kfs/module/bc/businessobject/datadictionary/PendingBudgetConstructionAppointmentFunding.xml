@@ -203,7 +203,7 @@
     <property name="shortLabel" value="Requested Csf Time Percent" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -221,7 +221,7 @@
     <property name="shortLabel" value="Requested FTE" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -239,7 +239,7 @@
     <property name="shortLabel" value="Pay Rate" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -257,7 +257,7 @@
     <property name="shortLabel" value="Requested Time Percent" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -293,7 +293,7 @@
     <property name="shortLabel" value="Total Intended FTE" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

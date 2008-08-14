@@ -15,10 +15,16 @@
  */
 package org.kuali.kfs.module.bc.document.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.spring.Logged;
 
 /**
  * define a set of validations methods for salary setting
@@ -67,10 +73,10 @@ public interface SalarySettingRuleHelperService {
      * @param appointmentFundings the given appointment funding collection
      * @param appointmentFunding the given appointment funding
      * @param errorMap the given error map that can hold the error message if any
-     * @return true if there is an appointment funding in the given list that has the same key information as the specified
+     * @return true if there is no an appointment funding in the given list that has the same key information as the specified
      *         appointment funding; otherwise, false
      */
-    public boolean hasSameExistingLine(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+    public boolean hasNoExistingLine(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
 
     /**
      * determine whether the requested salary amount of the given appointment funding is valid
@@ -124,4 +130,22 @@ public interface SalarySettingRuleHelperService {
      * @return true if the requested FTE is valid; otherwise, false
      */
     public boolean hasValidRequestedTimePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+
+    /**
+     * determine whether the adjustment amount is valid
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @param errorMap the given error map that can hold the error message if any
+     * @return true if the adjustment amount is valid; otherwise, false
+     */
+    public boolean hasValidAdjustmentAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+
+    /**
+     * determine whether either pay rate or annual amount is not empty, and both of them have valid formats if not empty
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @param errorMap the given error map that can hold the error message if any
+     * @return true if either pay rate or annual amount is valid; otherwise, false
+     */
+    public boolean hasValidPayRateOrAnnualAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
 }

@@ -39,7 +39,7 @@ import org.kuali.rice.kns.rule.SaveDocumentRule;
 public class BudgetConstructionRules implements BudgetExpansionRule, SalarySettingRule, SaveDocumentRule, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument> {
     private Collection<BusinessRule> expansionRules;
     private BudgetConstructionDocumentRules budgetConstructionDocumentRules;
-    private SalarySettingRules salarySettingRules;
+    private SalarySettingRule salarySettingRules;
 
     /**
      * Initialize expansion rule classes.
@@ -121,5 +121,26 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SalarySetti
      */
     public boolean processSaveAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         return salarySettingRules.processSaveAppointmentFunding(savableAppointmentFundings, appointmentFunding);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustAllSalarySettingLinesPercent(java.util.List)
+     */
+    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
+        return salarySettingRules.processAdjustAllSalarySettingLinesPercent(appointmentFundings);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processNormalizePayrateAndAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return salarySettingRules.processNormalizePayrateAndAmount(appointmentFunding);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustSalaraySettingLinePercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return salarySettingRules.processAdjustSalaraySettingLinePercent(appointmentFunding);
     }
 }

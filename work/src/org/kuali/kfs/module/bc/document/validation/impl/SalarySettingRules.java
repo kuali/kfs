@@ -34,8 +34,8 @@ public class SalarySettingRules implements SalarySettingRule {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRules.class);
 
     private BudgetConstructionRuleHelperService budgetConstructionRuleHelperService = SpringContext.getBean(BudgetConstructionRuleHelperService.class);
-    private SalarySettingRuleHelperService salarySettingRuleHelperService = SpringContext.getBean(SalarySettingRuleHelperService.class);
-    private ErrorMap errorMap = GlobalVariables.getErrorMap();
+    public SalarySettingRuleHelperService salarySettingRuleHelperService = SpringContext.getBean(SalarySettingRuleHelperService.class);
+    public ErrorMap errorMap = GlobalVariables.getErrorMap();
 
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSaveAppointmentFunding(java.util.List,
@@ -84,9 +84,9 @@ public class SalarySettingRules implements SalarySettingRule {
     public boolean processAddAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("processAddAppointmentFunding() start");
 
-        boolean hasExistingFunding = salarySettingRuleHelperService.hasSameExistingLine(existingAppointmentFundings, appointmentFunding, errorMap);
-        if (hasExistingFunding) {
-            return false;
+        boolean hasNoExistingLine = salarySettingRuleHelperService.hasNoExistingLine(existingAppointmentFundings, appointmentFunding, errorMap);
+        if (!hasNoExistingLine) {
+            return hasNoExistingLine;
         }
 
         boolean hasValidFormat = budgetConstructionRuleHelperService.isFieldFormatValid(appointmentFunding, errorMap);
@@ -117,6 +117,36 @@ public class SalarySettingRules implements SalarySettingRule {
         boolean hasValidAmounts = this.hasValidAmounts(appointmentFunding, errorMap);
         if (!hasValidAmounts) {
             return hasValidAmounts;
+        }
+
+        return true;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustSalaraySettingLinePercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return salarySettingRuleHelperService.hasValidAdjustmentAmount(appointmentFunding, errorMap);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processNormalizePayrateAndAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        boolean isValid = true;
+
+        return isValid;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustAllSalarySettingLinesPercent(java.util.List)
+     */
+    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            boolean isValid = this.processAdjustSalaraySettingLinePercent(appointmentFunding);
+            if(!isValid) {
+                return false;
+            }
         }
 
         return true;

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.service.impl;
 
+import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.Incumbent;
 import org.kuali.kfs.module.bc.businessobject.Position;
@@ -79,6 +80,15 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
 
         return incumbent;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.service.HumanResourcesPayrollService#isActiveJob(java.lang.String, java.lang.String,
+     *      java.lang.Integer, org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType)
+     */
+    @Transactional
+    public boolean isActiveJob(String emplid, String positionNumber, Integer fiscalYear, SynchronizationCheckType synchronizationCheckType) {
+        return true;
+    }
 
     /**
      * Sets the humanResourcesPayrollDao attribute value.
@@ -98,12 +108,5 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
     @NonTransactional
     public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
         this.financialSystemUserService = financialSystemUserService;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.service.HumanResourcesPayrollService#isActiveJob(java.lang.String, java.lang.String, java.lang.Integer, java.lang.String)
-     */
-    public boolean isActiveJob(String emplid, String positionNumber, Integer fiscalYear, String syncCheckType) {
-        return true;
     }
 }

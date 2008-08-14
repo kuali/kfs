@@ -151,5 +151,16 @@ public class BCKeyConstants {
     public static final String WARNING_WORKING_HOUR_NOT_EQUAL = "warning.budget.workingHourNotEqual";
     public static final String WARNING_RECALCULATE_NEEDED = "warning.budget.recalculateNeeded";
     public static final String ERROR_NO_ACTIVE_JOB_FOUND = "error.budget.noActiveJobFound";
+    public static final String ERROR_TIME_PERCENT_GREATER_THAN_ZERO_REQUIRED = "error.budget.timePercentGreaterThanZero";
+    public static final String ERROR_NOT_EQUAL_NORMAL_WORK_MONTHS = "error.budget.notEqualNormalWorkMonths";
+    public static final String ERROR_FUNDIN_MONTH_NOT_IN_RANGE = "error.budget.fundingMonthNotInRange";
+    public static final String ERROR_EMPTY_FUNDIN_MONTH = "error.budget.emptyFundingMonth";
+    public static final String ERROR_DUPLICATE_FUNDING_LINE = "error.budget.duplicateFundingLine";
+    public static final String ERROR_NOT_DEFAULT_OBJECT_CODE = "error.budget.notDefaultObjectCode";
+    public static final String ERROR_REQUEST_AMOUNT_NOT_ZERO_WHEN_FULL_YEAR_LEAVE = "error.budget.requestedAmountNotZeroWhenFullYearleave";
+    public static final String ERROR_REQUEST_FTE_NOT_ZERO_WHEN_FULL_YEAR_LEAVE = "error.budget.requestedFteNotZeroWhenFullYearleave";
+    public static final String ERROR_NEGATIVE_FTE_QUANTITY = "error.budget.negativeFteQuantity";
+    public static final String ERROR_EMPTY_REQUESTED_TIME_PERCENT = "error.budget.emptyRequestedTimePercent";
+    public static final String ERROR_NEGATIVE_REQUESTED_TIME_PERCENT = "error.budget.negativeRequestedTimePercent";
 }
 

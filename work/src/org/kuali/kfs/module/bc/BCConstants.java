@@ -440,4 +440,19 @@ public class BCConstants extends JSTLConstants {
             return durationDescription;
         }
     }
+    
+    /**
+     * enumerate the synchronization check type
+     */
+    public enum SynchronizationCheckType {
+        NONE("NONE", "No Sync Check"), POSN("POSN", "Snyc by Position"), EID("EID", "Snyc by Employee"), ALL("ALL", "Snyc by Position and Employee");
+        
+        public String typeCode;
+        public String typeDescription;
+
+        private SynchronizationCheckType(String typeCode, String typeDescription) {
+            this.typeCode = typeCode;
+            this.typeDescription = typeDescription;
+        }
+    }
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.service;
 
+import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.Incumbent;
 import org.kuali.kfs.module.bc.businessobject.Position;
 import org.kuali.kfs.module.bc.exception.IncumbentNotFoundException;
@@ -60,8 +61,8 @@ public interface HumanResourcesPayrollService {
      * @param emplid the given employee id
      * @param positionNumber the specified position number
      * @param fiscalYear the given fiscal year
-     * @param syncCheckType the sync check type code
+     * @param synchronizationCheckType the sync check type
      * @return true there is an active job for the given emplid on the specified position; otherwise, false
      */
-    public boolean isActiveJob(String emplid, String positionNumber, Integer fiscalYear, String syncCheckType);
+    public boolean isActiveJob(String emplid, String positionNumber, Integer fiscalYear, SynchronizationCheckType synchronizationCheckType);
 }

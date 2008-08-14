@@ -63,7 +63,7 @@
   <bean id="PurchasingAccountsPayableLineAssetAccount-itemAccountTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
   	<property name="name" value="itemAccountTotalAmount" />
   	<property name="label" value="Item Account Total Amount" />
-    <property name="shortLabel" value="Account Total Amount" />
+    <property name="shortLabel" value="Amount" />
   </bean>
   <bean id="PurchasingAccountsPayableLineAssetAccount-versionNumber" parent="PurchasingAccountsPayableLineAssetAccount-versionNumber-parentBean" />
 

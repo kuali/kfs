@@ -18,10 +18,6 @@
 
 <c:set var="purApDocumentAttributes" value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
 <c:set var="purApItemAssetAttributes" value="${DataDictionary.PurchasingAccountsPayableItemAsset.attributes}" />
-<c:set var="purApLineAssetAccountsAttributes" value="${DataDictionary.PurchasingAccountsPayableLineAssetAccount.attributes}" />
-<c:set var="generalLedgerAttributes" value="${DataDictionary.GeneralLedgerEntry.attributes}" />
-<c:set var="financialSystemDocumentHeaderAttributes" value="${DataDictionary.FinancialSystemDocumentHeader.attributes}" />
-<c:set var="genericAttributes" value="${DataDictionary.GenericAttributes.attributes}" />
 
 <kul:tab tabTitle="Line Items" defaultOpen="true">
 <div class="tab-container" align="center">
@@ -30,7 +26,7 @@
 		<td class="tab-subhead"  width="100%" colspan="17">Line Items</td>
 	</tr>	
 	<tr>
-		<TH class="grid" align="center"><INPUT TYPE="checkbox" id="all" NAME="all" onclick="selectSources(this);" > Source</TH>
+		<th class="grid" align="center"><input type="checkbox" id="all" name="all" onclick="selectSources(this);" > Source</th>
 		<th class="grid" align="center">Target
 		<kul:htmlAttributeHeaderCell literalLabel="Seq #"/>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}"/>
@@ -52,105 +48,22 @@
     	<c:forEach items="${purApDoc.assetLineItems}" var="assetLine" >
 	    	<c:set var="seq" value="${seq+1}" />
     		<c:set var="linePos" value="${linePos+1}" />
-    		<c:set var="color" value="black" />
-    		<tr style="color:${color}">
-	    		<td><INPUT TYPE="checkbox" id="src${seq-1}" NAME="src${seq-1}" onclick="toggle('src${seq-1}','trg${seq-1}');" ></td>
-				<td><INPUT TYPE="checkbox" id="trg${seq-1}" NAME="trg${seq-1}"  onclick="toggle('trg${seq-1}','src${seq-1}');"></td>
-	    		<td class="infoline"><c:out value="${seq}"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].purapDocumentIdentifier" attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentTypeCode" attributeEntry="${purApDocumentAttributes.documentTypeCode}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentHeader.financialDocumentStatusCode" attributeEntry="${financialSystemDocumentHeaderAttributes.financialDocumentStatusCode}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].assetLineItems[${linePos-1}].itemLineNumber" attributeEntry="${purApItemAssetAttributes.itemLineNumber}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].assetLineItems[${linePos-1}].accountsPayableItemQuantity" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].assetLineItems[${linePos-1}].accountsPayableItemQuantity" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].assetLineItems[${linePos-1}].unitCost" attributeEntry="${genericAttributes.genericAmount}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].assetLineItems[${linePos-1}].firstFincialObjectCode" attributeEntry="${generalLedgerAttributes.financialObjectCode}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].assetLineItems[${linePos-1}].capitalAssetDescription" attributeEntry="${purApItemAssetAttributes.capitalAssetDescription}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].assetLineItems[${linePos-1}].capitalAssetTransactionTypeCode" attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}" readOnly="true"/></td>
-				<c:choose>
-					<c:when test="${assetLine.itemAssignedToTradeInIndicator}">
-					<td class="infoline">Y
-					</c:when>
-					<c:otherwise>
-					<td class="infoline">N
-					</c:otherwise>
-				</c:choose>
-				<td class="infoline" align="center"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-split.gif" styleClass="tinybutton" property="methodToCall.splitItem.doc${docPos-1}.line${linePos-1}" title="Split" alt="Split" />
-				<c:if test="${assetLine.accountsPayableItemQuantity < 1 }">
-					<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-percentpayment.gif" styleClass="tinybutton" property="methodToCall.percentPayment.doc${docPos-1}.line${linePos-1}" title="Percent Payment" alt="Percent Payment" />
-				</c:if>
-				</td>
-			</tr>
+    		<cab:purApLineDetail seq="${seq}" docPos="${docPos}" linePos="${linePos}" lineItemsName="assetLineItems" itemLine="${assetLine}">
+    		</cab:purApLineDetail>
 		</c:forEach>
 		<c:set var="linePos" value="0" />
-    	<c:forEach items="${purApDoc.additionalChargeLineItems}" var="assetLine" varStatus="size">
+    	<c:forEach items="${purApDoc.additionalChargeLineItems}" var="assetLine" >
 	    	<c:set var="seq" value="${seq+1}" />
     		<c:set var="linePos" value="${linePos+1}" />
-    		<c:set var="color" value="blue" />
-    		<tr style="color:${color}">
-    			<c:if test="${linePos-1 == 0}" >
-	    			<td rowspan="${purApDoc.additionalChargeLineItemsSize}"><INPUT TYPE="checkbox" id="addl${seq-1}" NAME="addl${seq-1}"></td>
-	    		</c:if>
-				<td>&nbsp;</td>
-	    		<td class="infoline"><c:out value="${seq}"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].purapDocumentIdentifier" attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentTypeCode" attributeEntry="${purApDocumentAttributes.documentTypeCode}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentHeader.financialDocumentStatusCode" attributeEntry="${financialSystemDocumentHeaderAttributes.financialDocumentStatusCode}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].additionalChargeLineItems[${linePos-1}].itemLineNumber" attributeEntry="${purApItemAssetAttributes.itemLineNumber}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].additionalChargeLineItems[${linePos-1}].accountsPayableItemQuantity" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}" readOnly="true"/></td>
-				<td class="infoline">&nbsp;</td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].additionalChargeLineItems[${linePos-1}].unitCost" attributeEntry="${genericAttributes.genericAmount}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].additionalChargeLineItems[${linePos-1}].firstFincialObjectCode" attributeEntry="${generalLedgerAttributes.financialObjectCode}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].additionalChargeLineItems[${linePos-1}].capitalAssetDescription" attributeEntry="${purApItemAssetAttributes.capitalAssetDescription}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].additionalChargeLineItems[${linePos-1}].capitalAssetTransactionTypeCode" attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}" readOnly="true"/></td>
-				<c:choose>
-					<c:when test="${assetLine.itemAssignedToTradeInIndicator}">
-					<td class="infoline">Y
-					</c:when>
-					<c:otherwise>
-					<td class="infoline">N
-					</c:otherwise>
-				</c:choose>
-				<td class="infoline" align="center"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-split.gif" styleClass="tinybutton" property="methodToCall.splitItem.doc${docPos-1}.line${linePos-1}" title="Split" alt="Split" />
-				<c:if test="${assetLine.accountsPayableItemQuantity < 1 }">
-					<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-percentpayment.gif" styleClass="tinybutton" property="methodToCall.percentPayment.doc${docPos-1}.line${linePos-1}" title="Percent Payment" alt="Percent Payment" />
-				</c:if>
-				</td>
-			</tr>
+    		<cab:purApLineDetail seq="${seq}" docPos="${docPos}" linePos="${linePos}" rowSpanNbr="${purApDoc.additionalChargeLineItemsSize}" lineItemsName="additionalChargeLineItems" itemLine="${assetLine}">
+    		</cab:purApLineDetail>
 		</c:forEach>
 		<c:set var="linePos" value="0" />
     	<c:forEach items="${purApDoc.tradeInLineItems}" var="assetLine" varStatus="size">
 	    	<c:set var="seq" value="${seq+1}" />
     		<c:set var="linePos" value="${linePos+1}" />
-    		<c:set var="color" value="blue" />
-    		<tr style="color:${color}">
-	    		<td><INPUT TYPE="checkbox" id="addl${seq-1}" NAME="addl${seq-1}"></td>
-				<td>&nbsp</td>
-	    		<td class="infoline"><c:out value="${seq}"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].purapDocumentIdentifier" attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentTypeCode" attributeEntry="${purApDocumentAttributes.documentTypeCode}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentHeader.financialDocumentStatusCode" attributeEntry="${financialSystemDocumentHeaderAttributes.financialDocumentStatusCode}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].tradeInLineItems[${linePos-1}].itemLineNumber" attributeEntry="${purApItemAssetAttributes.itemLineNumber}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].tradeInLineItems[${linePos-1}].accountsPayableItemQuantity" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}" readOnly="true"/></td>
-				<td class="infoline">&nbsp;</td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].tradeInLineItems[${linePos-1}].unitCost" attributeEntry="${genericAttributes.genericAmount}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].tradeInLineItems[${linePos-1}].firstFincialObjectCode" attributeEntry="${generalLedgerAttributes.financialObjectCode}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].tradeInLineItems[${linePos-1}].capitalAssetDescription" attributeEntry="${purApItemAssetAttributes.capitalAssetDescription}" readOnly="true"/></td>
-				<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].tradeInLineItems[${linePos-1}].capitalAssetTransactionTypeCode" attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}" readOnly="true"/></td>
-				<c:choose>
-					<c:when test="${assetLine.itemAssignedToTradeInIndicator}">
-					<td class="infoline">Y
-					</c:when>
-					<c:otherwise>
-					<td class="infoline">N
-					</c:otherwise>
-				</c:choose>
-				<td class="infoline" align="center"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-split.gif" styleClass="tinybutton" property="methodToCall.splitItem.doc${docPos-1}.line${linePos-1}" title="Split" alt="Split" />
-				<c:if test="${assetLine.accountsPayableItemQuantity < 1 }">
-					<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-percentpayment.gif" styleClass="tinybutton" property="methodToCall.percentPayment.doc${docPos-1}.line${linePos-1}" title="Percent Payment" alt="Percent Payment" />
-				</c:if>
-				</td>
-			</tr>
+    		<cab:purApLineDetail seq="${seq}" docPos="${docPos}" linePos="${linePos}" lineItemsName="tradeInLineItems" itemLine="${assetLine}">
+    		</cab:purApLineDetail>
 		</c:forEach>
 	</c:forEach>
 	<tr>

@@ -52,17 +52,6 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     }
 
-    private KualiDecimal calculateUnitCost(PurchasingAccountsPayableItemAsset item) {
-        KualiDecimal quantity = item.getAccountsPayableItemQuantity();
-        KualiDecimal unitCost = KualiDecimal.ZERO;
-        if (quantity != null && quantity.isNonZero()) {
-            for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
-                unitCost = unitCost.add(account.getItemAccountTotalAmount());
-            }
-            return unitCost.divide(quantity);
-        }
-        return null;
-    }
 
     private String getFincialObjectCode(PurchasingAccountsPayableItemAsset item) {
         for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
@@ -117,7 +106,7 @@ public class PurApLineServiceImpl implements PurApLineService {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
                 // set fields from PurAp tables
                 setCabItemFieldsFromPurAp(item, purApDoc.getDocumentTypeCode());
-                
+
                 // classify items
                 if (item.isTradeInIndicator()) {
                     tradeInItems.add(item);
@@ -128,16 +117,25 @@ public class PurApLineServiceImpl implements PurApLineService {
                 else {
                     assetItems.add(item);
                 }
+
+                // Calculate and set total cost
+                KualiDecimal totalCost = KualiDecimal.ZERO;
+                for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
+                    totalCost = totalCost.add(account.getItemAccountTotalAmount());
+                }
+                item.setTotalCost(totalCost);
                 
                 // set unit cost
-                item.setUnitCost(calculateUnitCost(item));
+                KualiDecimal quantity = item.getAccountsPayableItemQuantity();
+                if (quantity != null && quantity.isNonZero()) {
+                    item.setUnitCost(totalCost.divide(quantity));
+                }
                 // set financial object code
                 item.setFirstFincialObjectCode(getFincialObjectCode(item));
             }
         }
 
     }
-
 
     /**
      * Set lineItemNumber by PaymentRequestItem.itemLineNumber or CreditMemoItem.itemLineNumber.

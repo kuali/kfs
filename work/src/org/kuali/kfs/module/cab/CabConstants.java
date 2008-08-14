@@ -41,7 +41,7 @@ public class CabConstants extends JSTLConstants {
     public static final String CB_INVOICE_LINE_ACTION = "cabPurApLine.do";
     
     public static class Actions {
-        public static final String MANAGE = "manage";
+        public static final String PROCESS = "process";
     }
     
 }

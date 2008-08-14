@@ -46,7 +46,7 @@ public class PurApDocumentLookupableHelperServiceImpl extends KualiLookupableHel
 
         String url = UrlFactory.parameterizeUrl(CabConstants.CB_INVOICE_LINE_ACTION, parameters);
 
-        return url = "<a href=\"../" + url + "\">" + CabConstants.Actions.MANAGE + "</a>";
+        return url = "<a href=\"../" + url + "\">" + CabConstants.Actions.PROCESS + "</a>";
     }
 
 }

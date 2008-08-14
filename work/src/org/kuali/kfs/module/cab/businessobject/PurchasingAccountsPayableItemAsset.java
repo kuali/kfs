@@ -38,9 +38,13 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private boolean tradeInIndicator;
     private boolean itemAssignedToTradeInIndicator;
     private KualiDecimal unitCost;
+    private KualiDecimal totalCost;
     private String firstFincialObjectCode;
 
-
+    public int getPurchasingAccountsPayableLineAssetAccountsSize() {
+        return this.purchasingAccountsPayableLineAssetAccounts.size();
+    }
+    
     public boolean isTradeInIndicator() {
         return tradeInIndicator;
     }
@@ -384,7 +388,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public KualiDecimal getUnitCost(){
         return this.unitCost;
     }
-
+    
     public void setFirstFincialObjectCode(String firstFincialObjectCode) {
         this.firstFincialObjectCode = firstFincialObjectCode;
     }
@@ -401,4 +405,13 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator) {
         this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
     }
+
+    public KualiDecimal getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(KualiDecimal totalCost) {
+        this.totalCost = totalCost;
+    }
+    
 }

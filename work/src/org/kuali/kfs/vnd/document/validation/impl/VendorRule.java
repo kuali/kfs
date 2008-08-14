@@ -1391,6 +1391,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     }
 
+    /**
+     * Overrides the method in MaintenanceDocumentRuleBase to give error message to the user when
+     * the user tries to add a vendor contract when the vendor type of the vendor does not allow
+     * contract.
+     * 
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     */
     @Override
     public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         if (collectionName.equals(VendorPropertyConstants.VENDOR_CONTRACT)) {

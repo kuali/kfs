@@ -51,6 +51,7 @@ public class ElectronicInvoiceItem {
   private String invoiceLineGrossAmountCurrency;
   private String invoiceLineDiscountAmount; // has money xml node
   private String invoiceLineDiscountAmountCurrency;
+  private String invoiceLineDiscountPercentageRate;
   // invoiceLineNetAmount should = invoiceLineGrossAmount - invoiceLineDiscountAmount 
   private String invoiceLineNetAmount;  // has money xml node
   private String invoiceLineNetAmountCurrency;
@@ -692,6 +693,14 @@ public class ElectronicInvoiceItem {
         
         return toString.toString();
         
+    }
+
+    public String getInvoiceLineDiscountPercentageRate() {
+        return invoiceLineDiscountPercentageRate;
+    }
+
+    public void setInvoiceLineDiscountPercentageRate(String invoiceLineDiscountPercentageRate) {
+        this.invoiceLineDiscountPercentageRate = invoiceLineDiscountPercentageRate;
     }
   
 }

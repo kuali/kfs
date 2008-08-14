@@ -50,7 +50,7 @@
                       <xsd:complexType>
                         <xsd:sequence>
                           <xsd:element name="Identity" type="xsd:string" />
-                          <xsd:element name="SharedSecret" type="xsd:string" />
+                          <!--<xsd:element name="SharedSecret" type="xsd:string" />-->
                         </xsd:sequence>
                         <xsd:attribute name="domain" type="xsd:string" use="required" />
                       </xsd:complexType>
@@ -94,7 +94,7 @@
                               </xsd:simpleContent>
                             </xsd:complexType>
                           </xsd:element>
-                          <xsd:element maxOccurs="unbounded" name="InvoicePartner">
+                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="InvoicePartner">
                             <xsd:complexType>
                               <xsd:sequence>
                                 <xsd:element name="Contact">
@@ -218,7 +218,7 @@
                           </xsd:element>
                           
                           <!-- Added by venkat -->
-                          <xsd:element maxOccurs="1" name="InvoiceDetailShipping">
+                          <xsd:element minOccurs="0" maxOccurs="1" name="InvoiceDetailShipping">
 							  <xsd:complexType>
 	                              <xsd:sequence>
 	                              
@@ -411,7 +411,8 @@
   							</xsd:simpleType>
   						</xsd:attribute>	
                         <xsd:attribute name="invoiceDate" type="xsd:date" use="required" />
-                        <xsd:attribute name="invoiceID" type="xsd:unsignedInt" use="required" />
+                        <!-- Changed to String from unsignedint -->
+                        <xsd:attribute name="invoiceID" type="xsd:string" use="required" />
                         <xsd:attribute name="isInformationOnly" use="optional">
                         	<xsd:simpleType>
 								<xsd:restriction base="xsd:string">
@@ -480,7 +481,7 @@
                                   </xsd:complexType>
                                 </xsd:element>
 	                                      
-                                <xsd:element name="SupplierOrderInfo">
+                                <xsd:element minOccurs="0" maxOccurs="1" name="SupplierOrderInfo">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:string">
@@ -500,11 +501,11 @@
                                 <xsd:element name="UnitPrice">
                                   <xsd:complexType>
                                     <xsd:sequence>
-                                      <xsd:element name="Money">
+                                      <xsd:element name="Money" default="0">
                                         <xsd:complexType>
                                           <xsd:simpleContent>
                                             <xsd:extension base="xsd:decimal">
-                                              <xsd:attribute name="currency" type="xsd:string" use="required" />
+                                              <xsd:attribute name="currency" type="xsd:string" use="required"/>
                                             </xsd:extension>
                                           </xsd:simpleContent>
                                         </xsd:complexType>
@@ -550,10 +551,10 @@
                                     <xsd:attribute name="serialNumber" type="xsd:string" use="optional" />
                                   </xsd:complexType>
                                 </xsd:element>
-                                <xsd:element name="SubtotalAmount">
+                                <xsd:element minOccurs="0" maxOccurs="1" name="SubtotalAmount">
                                   <xsd:complexType>
                                     <xsd:sequence>
-                                      <xsd:element name="Money">
+                                      <xsd:element name="Money" default="0">
                                         <xsd:complexType>
                                           <xsd:simpleContent>
                                             <xsd:extension base="xsd:decimal">
@@ -570,7 +571,7 @@
                                 <xsd:element minOccurs="0" maxOccurs="1" name="Tax">
                                   <xsd:complexType>
                                     <xsd:sequence>
-                                      <xsd:element name="Money">
+                                      <xsd:element name="Money" default="0">
                                         <xsd:complexType>
                                           <xsd:simpleContent>
                                             <xsd:extension base="xsd:string">
@@ -594,7 +595,7 @@
                                             <xsd:element name="TaxableAmount" minOccurs="0" maxOccurs="1">
                                               <xsd:complexType>
                                                 <xsd:sequence>
-                                                  <xsd:element name="Money">
+                                                  <xsd:element name="Money" default="0">
                                                     <xsd:complexType>
                                                       <xsd:simpleContent>
                                                         <xsd:extension base="xsd:decimal">
@@ -609,7 +610,7 @@
                                             <xsd:element name="TaxAmount">
                                               <xsd:complexType>
                                                 <xsd:sequence>
-                                                  <xsd:element name="Money">
+                                                  <xsd:element name="Money" default="0">
                                                     <xsd:complexType>
                                                       <xsd:simpleContent>
                                                         <xsd:extension base="xsd:decimal">
@@ -648,7 +649,7 @@
                                 <xsd:element minOccurs="0" maxOccurs="1" name="InvoiceDetailLineSpecialHandling">
                                   <xsd:complexType>
                                     <xsd:sequence>
-                                      <xsd:element name="Money">
+                                      <xsd:element name="Money" default="0">
                                         <xsd:complexType>
                                           <xsd:simpleContent>
                                             <xsd:extension base="xsd:decimal">
@@ -664,7 +665,7 @@
                                 <xsd:element minOccurs="0" maxOccurs="1" name="InvoiceDetailLineShipping">
                                   <xsd:complexType>
                                     <xsd:sequence>
-                                      <xsd:element name="Money">
+                                      <xsd:element name="Money" default="0">
                                         <xsd:complexType>
                                           <xsd:simpleContent>
                                             <xsd:extension base="xsd:decimal">
@@ -801,7 +802,7 @@
                                 <xsd:element minOccurs="0" maxOccurs="1" name="GrossAmount">
                                   <xsd:complexType>
                                     <xsd:sequence>
-                                      <xsd:element name="Money">
+                                      <xsd:element name="Money" default="0">
                                         <xsd:complexType>
                                           <xsd:simpleContent>
                                             <xsd:extension base="xsd:decimal">
@@ -817,7 +818,7 @@
                                 <xsd:element minOccurs="0" maxOccurs="1" name="InvoiceDetailDiscount">
                                   <xsd:complexType>
                                     <xsd:sequence>
-                                      <xsd:element name="Money">
+                                      <xsd:element name="Money" default="0">
                                         <xsd:complexType>
                                           <xsd:simpleContent>
                                             <xsd:extension base="xsd:decimal">
@@ -827,13 +828,14 @@
                                         </xsd:complexType>
                                       </xsd:element>
                                     </xsd:sequence>
+                                    <xsd:attribute name="percentageRate" type="xsd:decimal" use="optional" default="0"/>
                                   </xsd:complexType>
                                 </xsd:element>
                                 <!-- Added minOccurs & maxOccurs -->
                                 <xsd:element minOccurs="0" maxOccurs="1" name="NetAmount">
                                   <xsd:complexType>
                                     <xsd:sequence>
-                                      <xsd:element name="Money">
+                                      <xsd:element name="Money" default="0">
                                         <xsd:complexType>
                                           <xsd:simpleContent>
                                             <xsd:extension base="xsd:decimal">
@@ -845,7 +847,7 @@
                                     </xsd:sequence>
                                   </xsd:complexType>
                                 </xsd:element>
-                                <xsd:element minOccurs="0" name="Distribution">
+                                <xsd:element minOccurs="0" maxOccurs="unbounded" name="Distribution">
                                   <xsd:complexType>
                                     <xsd:sequence>
                                       <xsd:element name="Accounting">
@@ -883,7 +885,7 @@
                                       <xsd:element name="Charge">
                                         <xsd:complexType>
                                           <xsd:sequence>
-                                            <xsd:element name="Money">
+                                            <xsd:element name="Money" default="0">
                                               <xsd:complexType>
                                                 <xsd:simpleContent>
                                                   <xsd:extension base="xsd:string">
@@ -898,7 +900,7 @@
                                     </xsd:sequence>
                                   </xsd:complexType>
                                 </xsd:element>
-                                <xsd:element minOccurs="0" name="Comments">
+                                <xsd:element minOccurs="0" maxOccurs="1" name="Comments">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:string">
@@ -918,7 +920,8 @@
                                 </xsd:element>
                               </xsd:sequence>
                               <xsd:attribute name="invoiceLineNumber" type="xsd:unsignedByte" use="required" />
-                              <xsd:attribute name="quantity" type="xsd:unsignedByte" use="required" />
+                              <!-- It was xsd:unsignedByte-->
+                              <xsd:attribute name="quantity" type="xsd:string" use="required" />
                             </xsd:complexType>
                           </xsd:element> <!-- InvoiceDetailItem -->
 						  
@@ -964,7 +967,7 @@
                           					<xsd:element name="SubtotalAmount">
                             					<xsd:complexType>
 						                              <xsd:sequence>
-                        							        <xsd:element name="Money">
+                        							        <xsd:element name="Money" default="0">
 								                                <xsd:complexType>
 	                                    							<xsd:simpleContent>
 	                                      								<xsd:extension base="xsd:decimal">
@@ -980,7 +983,7 @@
                           					<xsd:element name="UnitRate" minOccurs="0" maxOccurs="1">
                           						<xsd:complexType>
 			                                    	<xsd:sequence>
-			                                    		<xsd:element name="Money">
+			                                    		<xsd:element name="Money" default="0">
 					                                        <xsd:complexType>
 					                                          <xsd:simpleContent>
 					                                            <xsd:extension base="xsd:decimal">
@@ -1005,7 +1008,7 @@
 			                                <xsd:element name="UnitPrice" minOccurs="0" maxOccurs="1">
 			                                  <xsd:complexType>
 			                                    <xsd:sequence>
-			                                      <xsd:element name="Money">
+			                                      <xsd:element name="Money" default="0">
 			                                        <xsd:complexType>
 			                                          <xsd:simpleContent>
 			                                            <xsd:extension base="xsd:decimal">
@@ -1021,7 +1024,7 @@
                                 			<xsd:element name="Tax" minOccurs="0" maxOccurs="1">
 					                            <xsd:complexType>
 					                              <xsd:sequence>
-					                                <xsd:element name="Money">
+					                                <xsd:element name="Money" default="0">
 					                                  <xsd:complexType>
 					                                    <xsd:simpleContent>
 					                                      <xsd:extension base="xsd:string">
@@ -1045,7 +1048,7 @@
 					                                      <xsd:element name="TaxableAmount">
 					                                        <xsd:complexType>
 					                                          <xsd:sequence>
-					                                            <xsd:element name="Money">
+					                                            <xsd:element name="Money" default="0">
 					                                              <xsd:complexType>
 					                                                <xsd:simpleContent>
 					                                                  <xsd:extension base="xsd:decimal">
@@ -1060,7 +1063,7 @@
 					                                      <xsd:element name="TaxAmount">
 					                                        <xsd:complexType>
 					                                          <xsd:sequence>
-					                                            <xsd:element name="Money">
+					                                            <xsd:element name="Money" default="0">
 					                                              <xsd:complexType>
 					                                                <xsd:simpleContent>
 					                                                  <xsd:extension base="xsd:decimal">
@@ -1104,7 +1107,7 @@
                           					  <xsd:element name="GrossAmount">
 						                            <xsd:complexType>
 						                              <xsd:sequence>
-						                                <xsd:element name="Money">
+						                                <xsd:element name="Money" default="0">
 						                                  <xsd:complexType>
 						                                    <xsd:simpleContent>
 						                                      <xsd:extension base="xsd:decimal">
@@ -1120,7 +1123,7 @@
 						                       <xsd:element minOccurs="0" name="InvoiceDetailDiscount">
 						                            <xsd:complexType>
 						                              <xsd:sequence>
-						                                <xsd:element name="Money">
+						                                <xsd:element name="Money" default="0">
 						                                  <xsd:complexType>
 						                                    <xsd:simpleContent>
 						                                      <xsd:extension base="xsd:decimal">
@@ -1130,14 +1133,14 @@
 						                                  </xsd:complexType>
 						                                </xsd:element>
 						                              </xsd:sequence>
-						                              <xsd:attribute name="percentageRate" type="xsd:string" />
+						                              <xsd:attribute name="percentageRate" type="xsd:decimal" use="optional" default="0"/>
 						                            </xsd:complexType>
 						                         </xsd:element>
 						                         
 						                         <xsd:element name="NetAmount">
 						                            <xsd:complexType>
 						                              <xsd:sequence>
-						                                <xsd:element name="Money">
+						                                <xsd:element name="Money" default="0">
 						                                  <xsd:complexType>
 						                                    <xsd:simpleContent>
 						                                      <xsd:extension base="xsd:decimal">
@@ -1188,7 +1191,7 @@
                           <xsd:element name="SubtotalAmount">
                             <xsd:complexType>
                               <xsd:sequence>
-                                <xsd:element name="Money">
+                                <xsd:element name="Money" default="0">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:decimal">
@@ -1203,7 +1206,7 @@
                           <xsd:element name="Tax">
                             <xsd:complexType>
                               <xsd:sequence>
-                                <xsd:element name="Money">
+                                <xsd:element name="Money" default="0">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:string">
@@ -1221,13 +1224,13 @@
                                     </xsd:simpleContent>
                                   </xsd:complexType>
                                 </xsd:element>
-                                <xsd:element maxOccurs="unbounded" name="TaxDetail">
+                                <xsd:element minOccurs="0" maxOccurs="unbounded" name="TaxDetail">
                                   <xsd:complexType>
                                     <xsd:sequence>
                                       <xsd:element name="TaxableAmount">
                                         <xsd:complexType>
                                           <xsd:sequence>
-                                            <xsd:element name="Money">
+                                            <xsd:element name="Money" default="0">
                                               <xsd:complexType>
                                                 <xsd:simpleContent>
                                                   <xsd:extension base="xsd:decimal">
@@ -1242,7 +1245,7 @@
                                       <xsd:element name="TaxAmount">
                                         <xsd:complexType>
                                           <xsd:sequence>
-                                            <xsd:element name="Money">
+                                            <xsd:element name="Money" default="0">
                                               <xsd:complexType>
                                                 <xsd:simpleContent>
                                                   <xsd:extension base="xsd:decimal">
@@ -1284,10 +1287,10 @@
                               </xsd:sequence>
                             </xsd:complexType>
                           </xsd:element> <!-- Tax -->
-                          <xsd:element minOccurs="0" name="SpecialHandlingAmount">
+                          <xsd:element minOccurs="0" maxOccurs="1" name="SpecialHandlingAmount">
                             <xsd:complexType>
                               <xsd:sequence>
-                                <xsd:element name="Money">
+                                <xsd:element name="Money" default="0">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:decimal">
@@ -1308,10 +1311,10 @@
                               </xsd:sequence>
                             </xsd:complexType>
                           </xsd:element>
-                          <xsd:element minOccurs="0" name="ShippingAmount">
+                          <xsd:element minOccurs="0" maxOccurs="1" name="ShippingAmount">
                             <xsd:complexType>
                               <xsd:sequence>
-                                <xsd:element name="Money">
+                                <xsd:element name="Money" default="0">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:decimal">
@@ -1323,10 +1326,10 @@
                               </xsd:sequence>
                             </xsd:complexType>
                           </xsd:element>
-                          <xsd:element name="GrossAmount">
+                          <xsd:element minOccurs="0" maxOccurs="1" name="GrossAmount">
                             <xsd:complexType>
                               <xsd:sequence>
-                                <xsd:element name="Money">
+                                <xsd:element name="Money" default="0">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:decimal">
@@ -1338,10 +1341,10 @@
                               </xsd:sequence>
                             </xsd:complexType>
                           </xsd:element>
-                          <xsd:element minOccurs="0" name="InvoiceDetailDiscount">
+                          <xsd:element minOccurs="0" maxOccurs="1" name="InvoiceDetailDiscount">
                             <xsd:complexType>
                               <xsd:sequence>
-                                <xsd:element name="Money">
+                                <xsd:element name="Money" default="0">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:decimal">
@@ -1351,13 +1354,13 @@
                                   </xsd:complexType>
                                 </xsd:element>
                               </xsd:sequence>
-                              <xsd:attribute name="percentageRate" type="xsd:string" />
+                              <xsd:attribute name="percentageRate" type="xsd:decimal" use="optional" default="0"/>
                             </xsd:complexType>
                           </xsd:element>
                           <xsd:element name="NetAmount">
                             <xsd:complexType>
                               <xsd:sequence>
-                                <xsd:element name="Money">
+                                <xsd:element name="Money" default="0">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:decimal">
@@ -1369,10 +1372,10 @@
                               </xsd:sequence>
                             </xsd:complexType>
                           </xsd:element>
-                          <xsd:element minOccurs="0" name="DepositAmount">
+                          <xsd:element minOccurs="0" maxOccurs="1" name="DepositAmount">
                             <xsd:complexType>
                               <xsd:sequence>
-                                <xsd:element name="Money">
+                                <xsd:element name="Money" default="0">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:decimal">
@@ -1384,10 +1387,10 @@
                               </xsd:sequence>
                             </xsd:complexType>
                           </xsd:element>
-                          <xsd:element name="DueAmount">
+                          <xsd:element minOccurs="0" maxOccurs="1" name="DueAmount">
                             <xsd:complexType>
                               <xsd:sequence>
-                                <xsd:element name="Money">
+                                <xsd:element name="Money" default="0">
                                   <xsd:complexType>
                                     <xsd:simpleContent>
                                       <xsd:extension base="xsd:decimal">
@@ -1406,12 +1409,20 @@
                 </xsd:complexType>
               </xsd:element>
             </xsd:sequence>
-            <xsd:attribute name="deploymentMode" type="xsd:string" use="required" />
+            <xsd:attribute name="deploymentMode" use="optional" default="production">
+            	<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="production"/>
+						<xsd:enumeration value="test"/>
+					 </xsd:restriction>
+				 </xsd:simpleType>
+  			</xsd:attribute>				
           </xsd:complexType>
         </xsd:element>
       </xsd:sequence>
-      <xsd:attribute name="version" type="xsd:string" use="required" />
-      <xsd:attribute ref="xml:lang" use="required" />
+      <!-- Chaning to optional since barnesandnoble's xml doesn't contain this attribute -->
+      <xsd:attribute name="version" type="xsd:string" use="optional" />
+      <xsd:attribute ref="xml:lang" use="optional" />
       <xsd:attribute name="timestamp" type="xsd:string" use="required" />
       <!--<xsd:attribute name="payloadID" type="xsd:unsignedInt" use="required" />-->
       <xsd:attribute name="payloadID" type="xsd:string" use="required" />

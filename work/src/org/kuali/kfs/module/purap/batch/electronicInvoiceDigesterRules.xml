@@ -54,7 +54,7 @@
 		   </set-properties-rule>
 		    
 		   <call-method-rule pattern="Sender/Credential/Identity" methodname="setSenderIdentity" paramcount="0" />
-		   <call-method-rule pattern="Sender/Credential/SharedSecret" methodname="setSenderSharedSecret" paramcount="0" />
+		   <!--<call-method-rule pattern="Sender/Credential/SharedSecret" methodname="setSenderSharedSecret" paramcount="0" />-->
 		   <call-method-rule pattern="Sender/UserAgent" methodname="setSenderUserAgent" paramcount="0" />
 		    
 		   <set-next-rule methodname="setCxmlHeader" />
@@ -390,6 +390,12 @@
     				<alias attr-name="currency" prop-name="invoiceLineDiscountAmountCurrency" />
     			</set-properties-rule>
     			
+    			<!-- Not handled in EPIC, but this is there in Barnes&Noble's xml file,
+    			but contains ZERO!!! -->
+    			<set-properties-rule pattern="Money">
+    				<alias attr-name="percentageRate" prop-name="invoiceLineDiscountPercentageRate" />
+    			</set-properties-rule>
+    			
     			<call-method-rule pattern="NetAmount/Money" methodname="setInvoiceLineNetAmount" paramcount="0" />
     			<set-properties-rule pattern="NetAmount/Money">
     				<alias attr-name="currency" prop-name="invoiceLineNetAmountCurrency" />
@@ -483,6 +489,12 @@
     				<alias attr-name="currency" prop-name="invoiceLineDiscountAmountCurrency" />
     			</set-properties-rule>
     			
+    			<!-- Not handled in EPIC, but this is there in Barnes&Noble's xml file,
+    			but contains ZERO!!! -->
+    			<set-properties-rule pattern="Money">
+    				<alias attr-name="percentageRate" prop-name="invoiceLineDiscountPercentageRate" />
+    			</set-properties-rule>
+    			
     			<call-method-rule pattern="NetAmount/Money" methodname="setInvoiceLineNetAmount" paramcount="0" />
     			<set-properties-rule pattern="NetAmount/Money">
     				<alias attr-name="currency" prop-name="invoiceLineNetAmountCurrency" />
@@ -560,6 +572,12 @@
     			<alias attr-name="currency" prop-name="discountAmountCurrency" />
     		</set-properties-rule>
 		   
+		    <!-- Not handled in EPIC, but this is there in Barnes&Noble's xml file,
+    			 but contains ZERO!!! -->
+    		<set-properties-rule pattern="Money">
+    			<alias attr-name="percentageRate" prop-name="invoiceLineDiscountPercentageRate" />
+    		</set-properties-rule>
+    			
 		    <call-method-rule pattern="NetAmount/Money" methodname="setNetAmount" paramcount="0" />
     		<set-properties-rule pattern="NetAmount/Money">
     			<alias attr-name="currency" prop-name="netAmountCurrency" />

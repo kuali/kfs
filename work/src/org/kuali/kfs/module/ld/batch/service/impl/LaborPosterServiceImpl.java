@@ -257,6 +257,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
             List<Message> errors = this.isPostableForLaborGLEntry(originEntry);
             if (!errors.isEmpty()) {
+                errorMap.put(originEntry, errors);
                 continue;
             }
             String operationType = laborGLLedgerEntryPoster.post(originEntry, 0, runDate);

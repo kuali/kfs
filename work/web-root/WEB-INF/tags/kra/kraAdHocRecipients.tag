@@ -23,6 +23,20 @@
 <%@ attribute name="actionRequestedMessage" required="false" %>
 <%@ attribute name="editingMode" required="false" type="java.util.Map"%>
 
+                        <%-- Define variable that will hold the Title of the html control --%>
+                        <c:set var="accessibleTitle" value="${DataDictionary.AdHocRoutePerson.attributes.actionRequested.label}"/>
+                                                <c:set var="accessibleTitle2" value="${adhocOrgAttributes.actionRequested.label}"/>
+                                                <c:set var="accessibleTitle3" value="${DataDictionary.AdHocRouteWorkgroup.attributes.actionRequested.label}"/>
+                        <c:if test="${DataDictionary.AdHocRoutePerson.attributes.actionRequested.required}">
+<c:set var="accessibleTitle" value="${Constants.REQUIRED_FIELD_SYMBOL} ${accessibleTitle}"/>
+  </c:if>
+                          <c:if test="${adhocOrgAttributes.actionRequested.required}">
+<c:set var="accessibleTitle2" value="${Constants.REQUIRED_FIELD_SYMBOL} ${accessibleTitle2}"/>
+  </c:if>
+  <c:if test="${DataDictionary.AdHocRouteWorkgroup.attributes.actionRequested.required}">
+<c:set var="accessibleTitle3" value="${Constants.REQUIRED_FIELD_SYMBOL} ${accessibleTitle3}"/>
+  </c:if>
+  
 <%-- derive displayReadOnly value --%>
 <c:set var="displayReadOnly" value="false" />
 <c:set var="adhocPersonAttributes" value="${DataDictionary.AdhocPerson.attributes}" />
@@ -91,7 +105,7 @@
                 		<c:if test="${!excludeActionRequested}">
                     	<td class="infoline">
                     		<div align=center>
-                        		<html:select property="newAdHocRoutePerson.actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
+                        		<html:select title="${accessibleTitle}" property="newAdHocRoutePerson.actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        		</html:select> ${actionRequestedMessage}
@@ -120,7 +134,7 @@
 						</td>
 						<c:if test="${not displayReadOnly}">
                     		<td class="infoline" ><div align=center>
-                        		<html:image property="methodToCall.insertAdHocRoutePerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert Additional Ad Hoc Person" styleClass="tinybutton"/></div>
+                        		<html:image property="methodToCall.insertAdHocRoutePerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Insert Additional Ad Hoc Person" alt="Insert Additional Ad Hoc Person" styleClass="tinybutton"/></div>
                     		</td>
                     	</c:if>
                 	</tr>
@@ -133,7 +147,7 @@
 						<c:if test="${!excludeActionRequested}">
 	                    <td class="datacell center">
 	                    	<div align=center>
-	                    		<html:select property="document.adhocPersonItem[${status.index}].actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
+	                    		<html:select title="${accessibleTitle}" property="document.adhocPersonItem[${status.index}].actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        		</html:select>
@@ -178,7 +192,7 @@
 						</td>
 						<c:if test="${not displayReadOnly}">
 		                    <td class="datacell center"><div align=center>
-                            	<html:image property="methodToCall.delete.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
+                            	<html:image property="methodToCall.delete.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete" title="delete" styleClass="tinybutton"/></div>
 	                    	</td>
 	                    </c:if>
 	                  </tr>
@@ -232,7 +246,7 @@
 					<c:if test="${!excludeActionRequested}">
 					<td class="infoline">
 	                    <div align=center>
-	                    	<html:select property="newAdHocRouteOrg.actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
+	                    	<html:select title="${accessibleTitle2}" property="newAdHocRouteOrg.actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
   		                    	<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            	<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        	</html:select>
@@ -262,7 +276,7 @@
 					</td>
 					<td class="infoline">
 						<div align=center>
-							<html:image property="methodToCall.addOrg" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" />
+							<html:image alt="Insert Additional Ad Hoc Organization" title="Insert Additional Ad Hoc Organization" property="methodToCall.addOrg" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" />
 						</div>
 					</td>
 				</tr>
@@ -276,7 +290,7 @@
 						<c:if test="${!excludeActionRequested}">
 						<td class="datacell center">
 	                    	<div align=center>
-	                    		<html:select property="document.adhocOrgItem[${status.index}].actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
+	                    		<html:select title="${accessibleTitle2}" property="document.adhocOrgItem[${status.index}].actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        		</html:select>
@@ -301,7 +315,7 @@
 						<c:if test="${not displayReadOnly}">
 						<td>
 							<div align="center">
-								<html:image property="methodToCall.deleteOrg.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" disabled="${displayReadOnly}"/>
+								<html:image property="methodToCall.deleteOrg.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" title="delete" disabled="${displayReadOnly}"/>
 							</div>
 						</td>
 						</c:if>
@@ -361,7 +375,7 @@
                     	<td class="infoline">
                     		<html:hidden property="newAdHocRouteWorkgroup.type"/>
                     		<div align=center>
-                        		<html:select property="newAdHocRouteWorkgroup.actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
+                        		<html:select title="${accessibleTitle3}" property="newAdHocRouteWorkgroup.actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
     		                		<html:options collection="actionRequestCodes" property="key" labelProperty="value"/>
   			            		</html:select> ${actionRequestedMessage}
@@ -381,7 +395,7 @@
 						</td>
 						<c:if test="${not displayReadOnly}">
                     		<td class="infoline"><div align=center>
-                        		<html:image property="methodToCall.insertAdHocRouteWorkgroup" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert Additional Ad Hoc Workgroup" styleClass="tinybutton"/></div>
+                        		<html:image property="methodToCall.insertAdHocRouteWorkgroup" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Insert Additional Ad Hoc Workgroup" alt="Insert Additional Ad Hoc Workgroup" styleClass="tinybutton"/></div>
                     		</td>
                     	</c:if>
                 	</tr>
@@ -394,7 +408,7 @@
 						<c:if test="${!excludeActionRequested}">
 	                    <td class="datacell center">
 	                    	<div align=center>
-	                    		<html:select property="document.adhocWorkgroupItem[${status.index}].actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
+	                    		<html:select title="${accessibleTitle3}" property="document.adhocWorkgroupItem[${status.index}].actionRequested" value="${actionRequestedDefault}" disabled="${disableActionRequested}">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        		</html:select>
@@ -417,7 +431,7 @@
 						</td>
 						<c:if test="${not displayReadOnly}">
 		                    <td class="datacell center"><div align=center>
-                            	<html:image property="methodToCall.deleteWorkgroup.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
+                            	<html:image property="methodToCall.deleteWorkgroup.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="delete" title="delete" styleClass="tinybutton"/></div>
 	                    	</td>
 	                    </c:if>
 	                  </tr>

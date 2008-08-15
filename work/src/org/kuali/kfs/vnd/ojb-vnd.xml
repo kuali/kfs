@@ -15,6 +15,32 @@
 -->
 <descriptor-repository version="1.0">
 
+<class-descriptor class="org.kuali.kfs.vnd.businessobject.CampusParameter" table="PUR_AP_CMP_PARM_T">
+    <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="campusPurchasingDirectorName" column="CMP_PUR_DRCTR_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="campusPurchasingDirectorTitle" column="CMP_PUR_DRCTR_TTL" jdbc-type="VARCHAR"/>
+    <field-descriptor name="campusAccountsPayableEmailAddress" column="CMP_AP_EMAIL_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchasingInstitutionName" column="PUR_INST_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchasingDepartmentName" column="PUR_DEPT_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchasingDepartmentLine1Address" column="PUR_DEPT_LN1_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchasingDepartmentLine2Address" column="PUR_DEPT_LN2_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchasingDepartmentCityName" column="PUR_DEPT_CTY_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchasingDepartmentStateCode" column="PUR_DEPT_ST_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchasingDepartmentZipCode" column="PUR_DEPT_ZIP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchasingDepartmentCountryCode" column="PUR_DEPT_CNTRY_CD" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="campusCode" />
+    </reference-descriptor>
+    <reference-descriptor name="purchasingDepartmentState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="purchasingDepartmentStateCode" />
+    </reference-descriptor>
+    <reference-descriptor name="purchasingDepartmentCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="purchasingDepartmentCountryCode" />
+    </reference-descriptor>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.vnd.businessobject.ContactType" table="PUR_CNTCT_TYP_T">
     <field-descriptor name="vendorContactTypeCode" column="VNDR_CNTCT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

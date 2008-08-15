@@ -77,7 +77,7 @@
                   <html:image property="methodToCall.loadBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-loadbud.gif" alt="load budget"/>
                   &nbsp;
                   <c:if test="${not empty KualiForm.periodBudgetOverviewFormHelpers}">
-                    <html:image property="methodToCall.deleteBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-delbudlink.gif" alt="delete budget link"/>
+                    <html:image property="methodToCall.deleteBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-delbudlink.gif" alt="delete budget link" title="delete budget link"/>
                   </c:if>
                 </td>
               </tr>
@@ -106,7 +106,7 @@
                         <div class="nowrap" align="center">
                           <strong>${status.index + 1}</strong>
                           <br />
-                          <span class="fineprint">${KualiForm.periodBudgetOverviewFormHelpers[status.index].budgetPeriod.budgetPeriodLabel}</span>
+                          <span class="fineprint"><label for="periodBudgetOverviewFormHelper[${status.index}].selected">${KualiForm.periodBudgetOverviewFormHelpers[status.index].budgetPeriod.budgetPeriodLabel}</label></span>
                         </div>
                         <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].budgetPeriod.budgetPeriodBeginDate"/>
                         <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].budgetPeriod.budgetPeriodEndDate"/>
@@ -139,7 +139,7 @@
                         </div>
                       </td>
                       
-                      <td class="datacell"><div align="center"><html:checkbox property="periodBudgetOverviewFormHelper[${status.index}].selected"/></div></td>
+                      <td class="datacell"><div align="center"><html:checkbox styleId="periodBudgetOverviewFormHelper[${status.index}].selected" property="periodBudgetOverviewFormHelper[${status.index}].selected"/></div></td>
                     </tr>
 
                   </c:forEach>
@@ -149,7 +149,7 @@
                         <div class="nowrap" align="center">
                           <strong>Total</strong>
                           <br />
-                          <span class="fineprint">${KualiForm.summaryBudgetOverviewFormHelper.budgetPeriod.budgetPeriodLabel}</span>
+                          <span class="fineprint"><label for="allPeriodsSelected">${KualiForm.summaryBudgetOverviewFormHelper.budgetPeriod.budgetPeriodLabel}</label></span>
                         </div>
                       </td>
                       
@@ -180,13 +180,13 @@
                         </div>
                       </td>
                       
-                      <td class="infoline"><div align="center"><html:checkbox property="allPeriodsSelected" /></div></td>
+                      <td class="infoline"><div align="center"><html:checkbox styleId="allPeriodsSelected" property="allPeriodsSelected" /></div></td>
                     </tr>
                     
                     <tr>
                       <td colspan="74" class="infoline" height="30">
                       <div align="center">
-                        <html:image property="methodToCall.linkBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-linkselperiods.gif" alt="link selected periods"/>
+                        <html:image property="methodToCall.linkBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-linkselperiods.gif" alt="link selected periods" title="link selected periods"/>
                       </div></td>
                     </tr>
                   </table>

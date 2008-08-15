@@ -100,7 +100,7 @@
 		                <input type="hidden" name="newNonpersonnel[${i}].budgetPeriodSequenceNumber" value="${KualiForm.currentPeriodNumber}" />
 		                <input type="hidden" name="newNonpersonnel[${i}].budgetNonpersonnelCategoryCode" value="${nonpersonnelCategory.code}" />
 
-                    <html:select property="newNonpersonnel[${i}].budgetNonpersonnelSubCategoryCode" >
+                    <html:select title="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelSubCategoryCode.label}" property="newNonpersonnel[${i}].budgetNonpersonnelSubCategoryCode" >
                       <html:option value="">&nbsp;</html:option>
                       <logic:iterate id="nonpersonnelObjectCode" name="nonpersonnelCategory" property="nonpersonnelObjectCodes">
                         <html:option value="${nonpersonnelObjectCode.nonpersonnelSubCategory.code}">${nonpersonnelObjectCode.nonpersonnelSubCategory.name}</html:option>
@@ -153,7 +153,7 @@
                   <td class="infoline" align="right">
                     <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetThirdPartyCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetThirdPartyCostShareAmount}" disabled="${! KualiForm.document.budget.budgetThirdPartyCostShareIndicator}" styleClass="amount" />
                     </div></td>
-                  <td class="infoline"><div align="center"><html:image property="methodToCall.insertNonpersonnelLine.anchorNonPersonnel.line${i}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="add nonpersonnel line"/></div></td>
+                  <td class="infoline"><div align="center"><html:image property="methodToCall.insertNonpersonnelLine.anchorNonPersonnel.line${i}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" title="add nonpersonnel line" alt="add nonpersonnel line"/></div></td>
                 </tr>
                 </c:if>
                 
@@ -191,7 +191,7 @@
 
                         <c:choose>
                         <c:when test="${! viewOnly }">
-		                    <html:select property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelSubCategoryCode" disabled="${copiedOver}">
+		                    <html:select title="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelSubCategoryCode.label}" property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelSubCategoryCode" disabled="${copiedOver}">
 		                      <html:option value="">select:</html:option>
 		                      <logic:iterate id="nonpersonnelObjectCode" name="nonpersonnelCategory" property="nonpersonnelObjectCodes">
 		                        <html:option value="${nonpersonnelObjectCode.nonpersonnelSubCategory.code}">${nonpersonnelObjectCode.nonpersonnelSubCategory.name}</html:option>
@@ -245,7 +245,7 @@
                       </td>
                       <c:if test="${! viewOnly }">
                           <td class="datacell">
-                            <div align="center"><html:checkbox property="document.budget.nonpersonnelItem[${ctr}].copyToFuturePeriods" disabled="${copiedOver}"/>
+                            <div align="center"><html:checkbox title="Copy to Future Periods" property="document.budget.nonpersonnelItem[${ctr}].copyToFuturePeriods" disabled="${copiedOver}"/>
                           </div></td>
                       </c:if>
                           <td class="datacell">
@@ -259,7 +259,7 @@
                             </div></td>
                           <c:if test="${! viewOnly }">
                             <td class="datacell-nowrap" align="center">
-                              <div align="center"><html:image property="methodToCall.deleteNonpersonnel.anchorNonPersonnel.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete"/>
+                              <div align="center"><html:image property="methodToCall.deleteNonpersonnel.anchorNonPersonnel.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" title="delete"/>
 		                        </div></td>
 		                      </c:if>
 		                </tr>
@@ -276,7 +276,7 @@
                   <c:if test="${! viewOnly }"><td class="infoline">&nbsp;</td></c:if>
                 </tr>
                 <tr>
-                  <td height="30" colspan="7" class="infoline" ><div align="right"> </div><div align="center"><html:image property="methodToCall.nonpersonnelCopyOver.code${nonpersonnelCategory.code}." src="${ConfigProperties.externalizable.images.url}tinybutton-viewperalloc.gif" styleClass="tinybutton" /><c:if test="${! viewOnly }">&nbsp; <html:image property="methodToCall.recalculate.anchorNonPersonnel" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" /></c:if></div></td>
+                  <td height="30" colspan="7" class="infoline" ><div align="right"> </div><div align="center"><html:image property="methodToCall.nonpersonnelCopyOver.code${nonpersonnelCategory.code}." src="${ConfigProperties.externalizable.images.url}tinybutton-viewperalloc.gif" styleClass="tinybutton" /><c:if test="${! viewOnly }">&nbsp; <html:image property="methodToCall.recalculate.anchorNonPersonnel" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" title="recalculate" /></c:if></div></td>
                 </tr>
               </tbody></table>
             </div>

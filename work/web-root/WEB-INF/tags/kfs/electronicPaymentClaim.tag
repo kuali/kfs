@@ -18,6 +18,7 @@
 <%@ attribute name="claimIndex" required="true" description="The index of the org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim in the form to display." %>
 <%@ attribute name="electronicPaymentClaim" required="true" description="The ElectronicPaymentClaim being displayed" type="org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim" %>
 <%@ attribute name="allowAdministration" required="false" description="Whether the current user is an electronic funds administrator." %>
+<c:set var="accessibleTitle"><bean:message key="${KualiForm.previouslyClaimedHeaderKey}" /></c:set>
 
 <c:set var="claimProperty" value="claim[${claimIndex}]" />
 
@@ -46,7 +47,7 @@
       <kul:htmlControlAttribute property="${claimProperty}.referenceFinancialDocumentNumber" attributeEntry="${DataDictionary.ElectronicPaymentClaim.attributes.referenceFinancialDocumentNumber}" onblur="javascript:toggleclaimedcheckbox(${claimIndex})" />
     </td>
     <td>
-      <html:checkbox property="claimedByCheckboxHelper[${claimIndex}].electronicPaymentClaimRepresentation" value="${electronicPaymentClaim.electronicPaymentClaimRepresentation}" />
+      <html:checkbox title="${accessibleTitle}" property="claimedByCheckboxHelper[${claimIndex}].electronicPaymentClaimRepresentation" value="${electronicPaymentClaim.electronicPaymentClaimRepresentation}" />
     </td>
   </c:if>
 </tr>

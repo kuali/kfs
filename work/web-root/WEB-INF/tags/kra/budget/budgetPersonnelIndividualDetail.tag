@@ -216,7 +216,7 @@
 
 		              <tr bgcolor="#ffffff">
 		                <td colspan="14" class="tab-subhead" height="30"><span class="left"><strong>Salary Disbursement </strong></span><span class="right">View by task:
-		                  <html:select property="document.budget.personFromList[${listIndex}].currentTaskNumber">
+		                  <html:select title="View by task" property="document.budget.personFromList[${listIndex}].currentTaskNumber">
 		                    <c:set var="budgetTasks" value="${KualiForm.budgetDocument.budget.tasks}"/>
 		                    <html:options collection="budgetTasks" property="budgetTaskSequenceNumber" labelProperty="budgetTaskName"/>
 		                  </html:select>

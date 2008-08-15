@@ -108,10 +108,10 @@
               <td class="annotate-t"><div align="right"><img src="${ConfigProperties.kr.externalizable.images.url}annotate-tr1.gif" alt="" align="middle" height="24" width="12"></div></td>
             </tr>
           </tbody></table>
-          <div class="annotate-container"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskName}" skipHelpUrl="true" readOnly="true" />
+          <div class="annotate-container"> <kul:htmlAttributeLabel labelFor="currentTaskNumber" attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskName}" skipHelpUrl="true" readOnly="true" />
             <html:hidden property="currentTaskNumber" value="${KualiForm.currentTaskNumber}" /> <!-- Necessary because drop down is disabled. -->
             <html:hidden property="previousTaskNumber" value="${KualiForm.currentTaskNumber}" />
-            <html:select property="currentTaskNumber" disabled="true">
+            <html:select styleId="currentTaskNumber" property="currentTaskNumber" disabled="true">
               <c:set var="budgetTasks" value="${KualiForm.budgetDocument.budget.tasks}"/>
               <html:options collection="budgetTasks" property="budgetTaskSequenceNumber" labelProperty="budgetTaskName"/>
               <c:if test="${includeSummary && KualiForm.document.taskListSize > 1}"><html:option value="0">Summary</html:option></c:if>
@@ -120,13 +120,13 @@
             <html:hidden property="currentPeriodNumber" value="${KualiForm.currentPeriodNumber}" /> <!-- Necessary because drop down is disabled. -->
             <html:hidden property="previousPeriodNumber" value="${KualiForm.currentPeriodNumber}" />
 
-&nbsp;&nbsp; <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelCategoryCode}" skipHelpUrl="true" readOnly="true" />
+&nbsp;&nbsp; <kul:htmlAttributeLabel labelFor="currentNonpersonnelCategoryCode" attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelCategoryCode}" skipHelpUrl="true" readOnly="true" />
   			    <c:set var="budgetNonpersonnelCategories" value="${KualiForm.nonpersonnelCategories}"/>
-            <html:select property="currentNonpersonnelCategoryCode" >
+            <html:select styleId="currentNonpersonnelCategoryCode" property="currentNonpersonnelCategoryCode" >
               <html:options collection="budgetNonpersonnelCategories" property="code" labelProperty="name"/>
             </html:select>
 
-&nbsp; &nbsp;<html:image property="methodToCall.update" src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" align="middle" styleClass="tinybutton" alt="update"/></div>
+&nbsp; &nbsp;<html:image property="methodToCall.update" src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" align="middle" styleClass="tinybutton" title="update" alt="update"/></div>
           <table width="100%" cellpadding="0"  cellspacing="0" class="annotate-top">
             <tr>
               <td class="annotate-b"><img src="${ConfigProperties.kr.externalizable.images.url}annotate-bl1.gif" alt="" width=12 height=24></td>

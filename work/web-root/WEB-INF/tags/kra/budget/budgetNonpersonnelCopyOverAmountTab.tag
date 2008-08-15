@@ -50,11 +50,11 @@
 		                    </c:when>
                         <c:when test="${periodAmount.originItem || viewOnly}">
                           <!-- display disabled: 2. origin item -->
-                          <html:checkbox disabled="true" property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${KualiForm.currentNonpersonnelCategoryCode}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].${copyIndicatorLabel}" />
+                          <html:checkbox title="Budget Period "${status.index + 1}" disabled="true" property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${KualiForm.currentNonpersonnelCategoryCode}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].${copyIndicatorLabel}" />
                           <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${KualiForm.currentNonpersonnelCategoryCode}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].${copyIndicatorLabel}" />
 		                    </c:when>
                         <c:otherwise>
-				                  <html:checkbox property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${KualiForm.currentNonpersonnelCategoryCode}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].${copyIndicatorLabel}" />
+				                  <html:checkbox title="Budget Period "${status.index + 1}" property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${KualiForm.currentNonpersonnelCategoryCode}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].${copyIndicatorLabel}" />
 		                    </c:otherwise>
 		                  </c:choose>
 		                  </div></td>
@@ -107,7 +107,7 @@
 
           <span class="gen-container"> <br>
           	<c:if test="${!viewOnly}">
-          		<html:image property="methodToCall.update" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" />
+          		<html:image alt="recalculate" title="recalculate" property="methodToCall.update" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" />
           	</c:if>
           </span></div>
     </kul:tab>

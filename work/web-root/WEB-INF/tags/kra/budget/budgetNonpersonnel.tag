@@ -63,7 +63,7 @@
         <div class="tab-container" id="G02" style="" align="center">
             
             <c:if test="${CGConstants.SUBCONTRACTOR_CATEGORY_CODE eq nonpersonnelCategory.code}">
-            	<div class="message-container"><bean:message bundle="kraResources" key="message.kra.subcontractorReminder" /></div>
+            	<div class="message-container"><bean:message key="message.kra.subcontractorReminder" /></div>
             </c:if>
             
               <a name="NonPersonnel"></a><h3>${nonpersonnelCategory.name}</h3>

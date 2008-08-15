@@ -23,15 +23,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.service.EncryptionService;
-import org.kuali.rice.kim.v2.bo.Principal;
-import org.kuali.rice.kim.v2.bo.impl.PrincipalImpl;
+import org.kuali.rice.kim.v2.bo.entity.KimPrincipal;
+import org.kuali.rice.kim.v2.bo.entity.impl.KimPrincipalImpl;
 import org.kuali.rice.kim.v2.service.AuthenticationService;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.UniversalUserService;
 
 import edu.yale.its.tp.cas.auth.provider.WatchfulPasswordHandler;
 
@@ -47,14 +44,14 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
                 if (username != null && !username.trim().equals("")) {
                     //UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(username.trim()));                  
                     // Once the IdentityService facade is in place, we should use it to get the principal and clean up this code.
-                    Principal principal = null;
+                    KimPrincipal principal = null;
                     Map criteria = new HashMap();
                     criteria.put("principalName", username);
-                    Collection principals = KNSServiceLocator.getBusinessObjectService().findMatching(PrincipalImpl.class, criteria);
+                    Collection principals = KNSServiceLocator.getBusinessObjectService().findMatching(KimPrincipalImpl.class, criteria);
                     if (principals.isEmpty() || principals.size() > 1) {
                         throw new UserNotFoundException("User " + username + " was not found in the KIM Principal table.");
                     } else {
-                        principal = (Principal) principals.iterator().next();
+                        principal = (KimPrincipal) principals.iterator().next();
                     }
                     
                     // check if the password needs to be checked (if in a production environment or password turned on explicitly)

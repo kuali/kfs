@@ -19,16 +19,14 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.CheckboxTag;
-import org.apache.struts.taglib.html.HiddenTag;
-import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * Renders a field as a checkbox control
  */
 public class CheckboxRenderer extends FieldRendererBase {
     private CheckboxTag checkboxTag = new CheckboxTag();
-    private HiddenTag annotationTag = new HiddenTag();
 
     /**
      * 
@@ -45,11 +43,6 @@ public class CheckboxRenderer extends FieldRendererBase {
         checkboxTag.setParent(null);
         checkboxTag.setValue(null);
         checkboxTag.setTabindex(null);
-        
-        annotationTag.setPageContext(null);
-        annotationTag.setParent(null);
-        annotationTag.setProperty(null);
-        annotationTag.setValue(null);
     }
 
     /**
@@ -58,7 +51,6 @@ public class CheckboxRenderer extends FieldRendererBase {
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
         renderCheckboxTag(pageContext, parentTag);
-        renderAnnotationTag(pageContext, parentTag);
     }
 
     /**
@@ -77,36 +69,14 @@ public class CheckboxRenderer extends FieldRendererBase {
         }
         checkboxTag.setOnblur(this.buildOnBlur());
         checkboxTag.setStyleId(getFieldName());
-        checkboxTag.setValue(getField().getPropertyValue());
+        if (!StringUtils.isBlank(getField().getPropertyValue())) {
+            checkboxTag.setValue(getField().getPropertyValue());
+        }
         checkboxTag.setPageContext(pageContext);
         checkboxTag.setParent(parentTag);
         
         checkboxTag.doStartTag();
         checkboxTag.doEndTag();
-    }
-    
-    /**
-     * Renders the "annotation" hidden tag as part of this checkbox tag
-     * @param pageContext the page context to render to
-     * @param parentTag the parent tag requesting all this rendering
-     * @throws JspException thrown if something goes wrong
-     */
-    protected void renderAnnotationTag(PageContext pageContext, Tag parentTag) throws JspException {
-        annotationTag.setPageContext(pageContext);
-        annotationTag.setParent(parentTag);
-        annotationTag.setProperty(getFieldName()+KFSConstants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION);
-        annotationTag.setValue(getAnnotationValue());
-        
-        annotationTag.doStartTag();
-        annotationTag.doEndTag();
-    }
-    
-    /**
-     * Gets the value of the annotation tag
-     * @return the String "present"
-     */
-    protected String getAnnotationValue() {
-        return "present";
     }
 
     /**

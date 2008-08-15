@@ -37,7 +37,6 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * Tag that is responsible for rendering an accounting line group
@@ -50,6 +49,9 @@ public class AccountingLineGroupTag extends TagSupport {
     private JspFragment importLineOverride;
     private AccountingLineGroupDefinition groupDefinition;
     private AccountingLineGroup group;
+    private KualiAccountingDocumentFormBase form;
+    private AccountingDocument document;
+    private Map editModes;
     
     /**
      * Gets the attributeGroupName attribute. 
@@ -148,21 +150,21 @@ public class AccountingLineGroupTag extends TagSupport {
         super.doStartTag();
         List<RenderableAccountingLineContainer> containers = generateContainersForAllLines();
         group = new AccountingLineGroup(groupDefinition, containers, collectionPropertyName, getEditModes(), getErrors(), getForm().getDisplayedErrors());
-        if (getParent() instanceof AccountingLineTag) {
-            ((AccountingLineTag)getParent()).addGroupToRender(group);
+        if (getParent() instanceof AccountingLinesTag) {
+            ((AccountingLinesTag)getParent()).addGroupToRender(group);
             resetTag();
         }
         return Tag.SKIP_BODY;
     }
     
     /**
-     * If our parent isn't AccountingLineTag, then we should render all the group
+     * If our parent isn't AccountingLinesTag, then we should render all the group
      * @see javax.servlet.jsp.tagext.TagSupport#doEndTag()
      */
     @Override
     public int doEndTag() throws JspException {
         super.doEndTag();
-        if (!(getParent() instanceof AccountingLineTag)) {
+        if (!(getParent() instanceof AccountingLinesTag)) {
             group.renderEverything(pageContext, getParent());
             resetTag();
         }
@@ -180,6 +182,9 @@ public class AccountingLineGroupTag extends TagSupport {
         importLineOverride = null;
         groupDefinition = null;
         group = null;
+        form = null;
+        document = null;
+        editModes = null;
     }
     
     /**
@@ -261,7 +266,7 @@ public class AccountingLineGroupTag extends TagSupport {
         container.setAccountingLine(accountingLine);
         String accountingLinePropertyName = count == null ? newLinePropertyName : collectionItemPropertyName+"["+count.toString()+"]";
         container.setAccountingLineProperty(accountingLinePropertyName);
-        container.setActions(groupDefinition.getAccountingLineAuthorizer().getActions(accountingDocument, accountingLine, accountingLinePropertyName, (count == null ? -1 : count.intValue()), currentUser, ((AccountingLineTag)getParent()).getEditModes()));
+        container.setActions(groupDefinition.getAccountingLineAuthorizer().getActions(accountingDocument, accountingLine, accountingLinePropertyName, (count == null ? -1 : count.intValue()), currentUser, getEditModes()));
         container.setNewLine(count == null);
         container.setRows(getRenderableElementsForLine(groupDefinition, accountingLine, (count == null)));
         KualiAccountingDocumentFormBase form = (KualiAccountingDocumentFormBase)getForm();
@@ -293,14 +298,24 @@ public class AccountingLineGroupTag extends TagSupport {
      * @return the edit modes for the document
      */
     protected Map getEditModes() {
-        return ((AccountingLineTag)getParent()).getEditModes();
+        if (editModes == null) {
+            editModes = SpringContext.getBean(AccountingLineRenderingService.class).getEditModes(getDocument());
+        }
+        return editModes;
     }
     
     /**
      * @return the form that this document is currently using
      */
-    protected KualiDocumentFormBase getForm() {
-        return ((AccountingLineTag)getParent()).getForm();
+    protected KualiAccountingDocumentFormBase getForm() {
+        if (form == null) {
+            if (getParent() instanceof AccountingLinesTag) {
+                form = ((AccountingLinesTag)getParent()).getForm();
+            } else {
+                form = SpringContext.getBean(AccountingLineRenderingService.class).findForm(pageContext);
+            }
+        }
+        return form;
     }
     
     /**
@@ -314,6 +329,9 @@ public class AccountingLineGroupTag extends TagSupport {
      * @return the document this tag is helping to display
      */
     protected AccountingDocument getDocument() {
-        return ((AccountingLineTag)getParent()).getDocument();
+        if (document == null) {
+            document = getForm().getFinancialDocument();
+        }
+        return document;
     }
 }

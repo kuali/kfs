@@ -22,6 +22,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.document.web.AccountingLineTableCell;
 
 /**
@@ -46,7 +47,11 @@ public class TableCellRenderer implements Renderer {
         JspWriter out = pageContext.getOut();
         try {
             out.write(buildBeginningTag());
-            cell.renderChildrenElements(pageContext, parentTag);
+            if (cell.hasChildElements()) {
+                cell.renderChildrenElements(pageContext, parentTag);
+            } else {
+                out.write("&nbsp;");
+            }
             out.write(buildEndingTag());
         }
         catch (IOException ioe) {
@@ -72,9 +77,15 @@ public class TableCellRenderer implements Renderer {
             builder.append(cell.getRowSpan());
             builder.append('"');
         }
-        builder.append(" class=\"infoline\"");
         if (verticallyAlignTowardsTop()) {
             builder.append(" valign=\"top\"");
+        }
+        if (!StringUtils.isBlank(cell.getExtraStyle())) {
+            builder.append(" style=\"");
+            builder.append(cell.getExtraStyle());
+            builder.append("\"");
+        } else {
+            builder.append(" class=\"infoline\"");
         }
         builder.append(">\n");
         return builder.toString();

@@ -18,6 +18,8 @@
     
     <bean id="AccountingLineView-field" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition" />
     
+    <bean id="AccountingLineView-overrideField" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewOverrideFieldDefinition" />
+    
     <bean id="AccountingLineView-sequenceNumber" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewSequenceNumberFieldDefinition" />
     
     <bean id="AccountingLineView-actions" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionsDefinition" />

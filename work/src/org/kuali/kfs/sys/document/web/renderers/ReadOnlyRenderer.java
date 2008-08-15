@@ -138,7 +138,7 @@ public class ReadOnlyRenderer extends FieldRendererBase {
      * @return true if the inquiry link should be rendered, false otherwise
      */
     protected boolean shouldRenderInquiryLink() {
-        return !(StringUtils.isEmpty(getField().getInquiryURL()) || StringUtils.isEmpty(getField().getPropertyValue()));
+        return !StringUtils.isBlank(getField().getInquiryURL()) && !StringUtils.isBlank(getField().getPropertyValue());
     }
     
     /**
@@ -167,7 +167,7 @@ public class ReadOnlyRenderer extends FieldRendererBase {
             value = getValueForDropDown();
         }
         else if (getField().isSecure()) {
-            value = getField().getDisplayMask().maskValue(value);
+            value = getField().getDisplayMaskValue();
         }
         
         return value;

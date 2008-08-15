@@ -48,7 +48,11 @@ public class HiddenRenderer extends FieldRendererBase {
         tag.setPageContext(pageContext);
         tag.setParent(parentTag);
         tag.setProperty(getFieldName());
-        tag.setValue(getField().getPropertyValue());
+        if (getField().isSecure()) {
+            tag.setValue(getField().getEncryptedValue());
+        } else {
+            tag.setValue(getField().getPropertyValue());
+        }
         tag.setStyleId(getFieldName());
         tag.setWrite(false);
         tag.doStartTag();

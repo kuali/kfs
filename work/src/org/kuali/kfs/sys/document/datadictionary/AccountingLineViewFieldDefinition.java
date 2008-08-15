@@ -15,9 +15,12 @@
  */
 package org.kuali.kfs.sys.document.datadictionary;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
+import org.kuali.kfs.sys.document.web.AccountingLineViewOverrideField;
 import org.kuali.kfs.sys.document.web.TableJoining;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.util.FieldUtils;
@@ -31,6 +34,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     private String dynamicLabelProperty;
     private boolean useShortLabel = false;
     private boolean hidden = false;
+    private List<AccountingLineViewOverrideFieldDefinition> overrideFields;
 
     /**
      * Gets the dynamicLabelProperty attribute. 
@@ -81,23 +85,65 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     }
 
     /**
+     * Gets the overrideFields attribute. 
+     * @return Returns the overrideFields.
+     */
+    public List<AccountingLineViewOverrideFieldDefinition> getOverrideFields() {
+        return overrideFields;
+    }
+
+    /**
+     * Sets the overrideFields attribute value.
+     * @param overrideFields The overrideFields to set.
+     */
+    public void setOverrideFields(List<AccountingLineViewOverrideFieldDefinition> overrideFields) {
+        this.overrideFields = overrideFields;
+    }
+
+    /**
      * @see org.kuali.kfs.sys.document.datadictionary.AccountingLineViewRenderableElementDefinition#createLayoutElement()
      */
     public TableJoining createLayoutElement(Class<? extends AccountingLine> accountingLineClass) {
         AccountingLineViewField layoutElement = new AccountingLineViewField();
         layoutElement.setDefinition(this);
+        layoutElement.setField(getKNSFieldForDefinition(accountingLineClass));
+        layoutElement.setOverrideFields(getFieldsForOverrideFields(layoutElement, accountingLineClass));
+        return layoutElement;
+    }
+    
+    /**
+     * Creates a KNS Field for an AccountingLineViewField definition
+     * @param accountingLineClass the class of the accounting line used by this definition
+     * @return a properly initialized KNS field
+     */
+    public Field getKNSFieldForDefinition(Class<? extends AccountingLine> accountingLineClass) {
         Field realField = FieldUtils.getPropertyField(accountingLineClass, getName(), false);
         FieldBridge.setupField(realField, this);
         if (isHidden()) {
             realField.setFieldType(Field.HIDDEN);
         }
-        if (!StringUtils.isBlank(getWebUILeaveFieldFunction())) {
+        /*if (!StringUtils.isBlank(getWebUILeaveFieldFunction())) {
             realField.setWebOnBlurHandler(getWebUILeaveFieldFunction());
         }
         if (!StringUtils.isBlank(getWebUILeaveFieldCallbackFunction())) {
             realField.setWebOnBlurHandlerCallback(getWebUILeaveFieldCallbackFunction());
+        }*/
+        return realField;
+    }
+    
+    /**
+     * For each defined override field within this definition, creates a Field and puts them together as a List
+     * @param parentField the AccountingLineViewField which will own all of the override fields
+     * @param accountingLineClass the class of accounting lines which will be rendered
+     * @return a List of override fields, or if no override fields were defined, an empty List
+     */
+    protected List<AccountingLineViewOverrideField> getFieldsForOverrideFields(AccountingLineViewField parentField, Class<? extends AccountingLine> accountingLineClass) {
+        List<AccountingLineViewOverrideField> fields = new ArrayList<AccountingLineViewOverrideField>();
+        if (getOverrideFields() != null && getOverrideFields().size() > 0) {
+            for (AccountingLineViewOverrideFieldDefinition overrideFieldDefinition : getOverrideFields()) {
+                fields.add(overrideFieldDefinition.getOverrideFieldForDefinition(parentField, accountingLineClass));
+            }
         }
-        layoutElement.setField(realField);     
-        return layoutElement;
+        return fields;
     }
 }

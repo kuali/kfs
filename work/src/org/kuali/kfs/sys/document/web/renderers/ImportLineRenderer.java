@@ -25,6 +25,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.html.FileTag;
 import org.apache.struts.taglib.html.ImageTag;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -93,7 +94,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.core.bo.BusinessObject)
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
         try {
@@ -143,11 +144,30 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
         
         titleCell.append(">");
         
+        titleCell.append(buildGroupAnchor());
+        
         titleCell.append(accountingLineGroupDefinition.getGroupLabel());
         
         titleCell.append("</td>");
         
         return titleCell.toString();
+    }
+    
+    /**
+     * Builds the unique anchor for this group
+     * @return the unique anchor for this group
+     */
+    protected String buildGroupAnchor() {
+        return "<a name=\"accounting"+getGroupInfix()+"Anchor\"></a>";
+    }
+    
+    /**
+     * A dumb way to get the group infix that tries to figure out if it's dealing with a source or target line
+     * @return the String "source" or "target" to populate the buildGroupAnchor
+     */
+    protected String getGroupInfix() {
+        Class accountingLineClass = accountingLineGroupDefinition.getAccountingLineClass();
+        return (accountingLineClass.isAssignableFrom(SourceAccountingLine.class) ? "source" : "target");
     }
     
     /**

@@ -24,7 +24,11 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 
 /**
@@ -294,12 +298,33 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     public void populateValuesForFields() {
         FieldUtils.populateFieldsFromBusinessObject(getFieldsForAccountingLine(), accountingLine);
         
+        BusinessObjectEntry boDDEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getAccountingLine().getClass().getName());
+        
         for (Field field : getFieldsForAccountingLine()) {
-            String propertyName = accountingLineProperty+"."+field.getPropertyName();
-            if (unconvertedValues.get(propertyName) != null) {
-                field.setPropertyValue((String)unconvertedValues.get(propertyName));
-            }
+            setUnconvertedValueIfNecessary(field);
+            setShouldShowSecure(field, boDDEntry);
         }
     }
     
+    /**
+     * Sees if the given field has an unconverted value living in the unconverted value map and if so,
+     * changes the value to that
+     * @param field the field to possibly set an unconverted value on
+     */
+    protected void setUnconvertedValueIfNecessary(Field field) {
+        String propertyName = accountingLineProperty+"."+field.getPropertyName();
+        if (unconvertedValues.get(propertyName) != null) {
+            field.setPropertyValue((String)unconvertedValues.get(propertyName));
+        }
+    }
+    
+    protected void setShouldShowSecure(Field field, BusinessObjectEntry boDDEntry) {
+        if (field.isSecure()) {
+            String workgroupName = boDDEntry.getAttributeDefinition(field.getPropertyName()).getDisplayWorkgroup();
+        
+            if (GlobalVariables.getUserSession().getFinancialSystemUser().isMember(workgroupName)) {
+                field.setSecure(false);
+            }
+        }
+    }
 }

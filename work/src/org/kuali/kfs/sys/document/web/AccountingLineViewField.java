@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.document.web;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,29 +22,15 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
-import org.kuali.kfs.sys.document.web.renderers.CheckboxRenderer;
-import org.kuali.kfs.sys.document.web.renderers.CurrencyRenderer;
-import org.kuali.kfs.sys.document.web.renderers.DateRenderer;
-import org.kuali.kfs.sys.document.web.renderers.DropDownRenderer;
+import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.document.web.renderers.DynamicNameLabelRenderer;
 import org.kuali.kfs.sys.document.web.renderers.FieldRenderer;
-import org.kuali.kfs.sys.document.web.renderers.HiddenRenderer;
-import org.kuali.kfs.sys.document.web.renderers.RadioButtonGroupRenderer;
-import org.kuali.kfs.sys.document.web.renderers.ReadOnlyRenderer;
-import org.kuali.kfs.sys.document.web.renderers.TextAreaRenderer;
-import org.kuali.kfs.sys.document.web.renderers.TextRenderer;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
-import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 
@@ -57,6 +42,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     private AccountingLineViewFieldDefinition definition;
     private int tabIndex;
     private int arbitrarilyHighIndex;
+    private List<AccountingLineViewOverrideField> overrideFields;
     
     /**
      * Gets the definition attribute. 
@@ -95,6 +81,22 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     public void setField(Field field) {
         this.field = field;
     }
+    
+    /**
+     * Gets the overrideFields attribute. 
+     * @return Returns the overrideFields.
+     */
+    public List<AccountingLineViewOverrideField> getOverrideFields() {
+        return overrideFields;
+    }
+    /**
+     * Sets the overrideFields attribute value.
+     * @param overrideFields The overrideFields to set.
+     */
+    public void setOverrideFields(List<AccountingLineViewOverrideField> overrideFields) {
+        this.overrideFields = overrideFields;
+    }
+    
     /**
      * Checks the field to see if the field itself is hidden
      * @see org.kuali.kfs.sys.document.web.AccountingLineViewRenderableElementField#isHidden()
@@ -108,7 +110,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @see org.kuali.kfs.sys.document.web.AccountingLineViewRenderableElementField#isReadOnly()
      */
     public boolean isReadOnly() {
-        return field.isReadOnly();
+        return field.isReadOnly() || isHidden();
     }
     
     /**
@@ -139,8 +141,11 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      */
     public void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
         renderField(pageContext, parentTag, renderingContext.getAccountingLine(), renderingContext.getAccountingLinePropertyPath(), renderingContext.getFieldNamesForAccountingLine());
+        if (getOverrideFields() != null && getOverrideFields().size() > 0) {
+            renderOverrideFields(pageContext, parentTag, renderingContext);
+        }
         if (shouldRenderDynamicFeldLabel() && renderingContext.fieldsCanRenderDynamicLabels()) {
-            renderDynamicNameLabel(pageContext, parentTag, renderingContext);
+            renderDynamicNameLabel(pageContext, parentTag, renderingContext.getAccountingLine(), renderingContext.getAccountingLinePropertyPath());
         }
     }
     
@@ -153,17 +158,12 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @throws JspException thrown if something goes wrong
      */
     protected void renderField(PageContext pageContext, Tag parentTag, AccountingLine accountingLine, String accountingLineProperty, List<String> fieldNames) throws JspException {
-        FieldRenderer renderer = getFieldRendererForField(accountingLine);
+        FieldRenderer renderer = SpringContext.getBean(AccountingLineRenderingService.class).getFieldRendererForField(getField(), accountingLine);
         if (renderer != null) {
-            getField().setPropertyPrefix(accountingLineProperty);
-            populateFieldForLookupAndInquiry(accountingLine, fieldNames);
-            if (!StringUtils.isBlank(definition.getDynamicLabelProperty())) {
-                renderer.setDynamicNameLabel(accountingLineProperty+"."+definition.getDynamicLabelProperty());
-            }
+            prepareFieldRenderer(renderer, getField(), accountingLine, accountingLineProperty, fieldNames);
             if (!isHidden()) {
                 renderer.openNoWrapSpan(pageContext, parentTag);
             }
-            prepareFieldRenderer(renderer, accountingLine);
             renderer.render(pageContext, parentTag);
             if (!isHidden()) {
                 renderer.closeNoWrapSpan(pageContext, parentTag);
@@ -183,90 +183,25 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     }
     
     /**
-     * Based on the control type of the field, returns a proper field renderer
-     * @return the field renderer which will properly display this field
-     */
-    protected FieldRenderer getFieldRendererForField(AccountingLine accountingLineToRender) {
-        FieldRenderer renderer = null;
-        if (field.isReadOnly() || field.getFieldType().equals(Field.READONLY)) {
-            renderer = new ReadOnlyRenderer();
-        } else if (field.getFieldType().equals(Field.TEXT)) {
-            if (field.isDatePicker() || usesDateValidation(getField().getPropertyName(), accountingLineToRender)) { // are we a date?
-                renderer = new DateRenderer();
-            } else {
-                renderer = new TextRenderer();
-            }
-        } else if (field.getFieldType().equals(Field.TEXT_AREA)) {
-            renderer = new TextAreaRenderer();
-        } else if (field.getFieldType().equals(Field.HIDDEN)) {
-            renderer = new HiddenRenderer();
-        } else if (field.getFieldType().equals(Field.CURRENCY)) {
-            renderer = new CurrencyRenderer();
-        } else if (field.getFieldType().equals(Field.DROPDOWN)) {
-            renderer = new DropDownRenderer();
-        } else if (field.getFieldType().equals(Field.RADIO)) {
-            renderer = new RadioButtonGroupRenderer();
-        } else if (field.getFieldType().equals(Field.CHECKBOX)) {
-            renderer = new CheckboxRenderer();
-        }
-        final int passNumber = getTabIndexPass();
-        if (passNumber > -1) {
-            //renderer.setTabIndex(tabIndex);
-            renderer.setTabIndex(0);
-            renderer.setArbitrarilyHighTabIndex(arbitrarilyHighIndex);
-        }
-        
-        return renderer;
-    }
-    
-    /**
-     * Determines if this method uses a date validation pattern, in which case, a date picker should be rendered
-     * @param propertyName the property of the field being checked from the command line
-     * @param accountingLineToRender the accounting line which is being rendered
-     * @return true if the property does use date validation, false otherwise
-     */
-    protected boolean usesDateValidation(String propertyName, Object businessObject) {
-        final BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObject.getClass().getName());
-        AttributeDefinition attributeDefinition = entry.getAttributeDefinition(propertyName);
-        
-        if (attributeDefinition == null) {
-            if (!propertyName.contains(".")) return false;
-            final int firstNestingPoint = propertyName.indexOf(".");
-            final String toNestingPoint = propertyName.substring(0, firstNestingPoint);
-            final String fromNestingPoint = propertyName.substring(firstNestingPoint+1);
-            Object childObject = null;
-            try {
-                final Class childClass = PropertyUtils.getPropertyType(businessObject, toNestingPoint);
-                childObject = childClass.newInstance();
-            }
-            catch (IllegalAccessException iae) {
-                new UnsupportedOperationException(iae);
-            }
-            catch (InvocationTargetException ite) {
-                new UnsupportedOperationException(ite);
-            }
-            catch (NoSuchMethodException nsme) {
-                new UnsupportedOperationException(nsme);
-            }
-            catch (InstantiationException ie) {
-                throw new UnsupportedOperationException(ie);
-            }
-            return usesDateValidation(fromNestingPoint, childObject);
-        }
-        
-        final ValidationPattern validationPattern = attributeDefinition.getValidationPattern();
-        if (validationPattern == null) return false; // no validation for sure means we ain't using date validation
-        return validationPattern instanceof DateValidationPattern;
-    }
-    
-    /**
      * Does some initial set up on the field renderer - sets the field and the business object being rendered
      * @param fieldRenderer the field renderer to prepare
      * @param accountingLine the accounting line being rendered
      */
-    protected void prepareFieldRenderer(FieldRenderer fieldRenderer, AccountingLine accountingLine) {
-        
+    protected void prepareFieldRenderer(FieldRenderer fieldRenderer, Field field, AccountingLine accountingLine, String accountingLineProperty, List<String> fieldNames) {
         fieldRenderer.setField(field);
+        
+        getField().setPropertyPrefix(accountingLineProperty);
+        populateFieldForLookupAndInquiry(accountingLine, fieldNames);
+        if (!StringUtils.isBlank(definition.getDynamicLabelProperty())) {
+            fieldRenderer.setDynamicNameLabel(accountingLineProperty+"."+definition.getDynamicLabelProperty());
+        }
+        
+        final int passNumber = getTabIndexPass();
+        if (passNumber > -1) {
+            //renderer.setTabIndex(tabIndex);
+            fieldRenderer.setTabIndex(0);
+            fieldRenderer.setArbitrarilyHighTabIndex(arbitrarilyHighIndex);
+        }
     }
     
     /**
@@ -283,7 +218,38 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     @Override
     public void performFieldTransformations(List<AccountingLineFieldRenderingTransformation> fieldTransformations, AccountingLine accountingLine, Map editModes, Map unconvertedValues) {
         for (AccountingLineFieldRenderingTransformation fieldTransformation : fieldTransformations) {
-            fieldTransformation.transformField(accountingLine, this, editModes, unconvertedValues);
+            fieldTransformation.transformField(accountingLine, getField(), getDefinition(), editModes, unconvertedValues);
+            if (getOverrideFields() != null && getOverrideFields().size() > 0) {
+                transformOverrideFields(fieldTransformation, accountingLine, editModes, unconvertedValues);
+            }
+        }
+    }
+    
+    /**
+     * Runs a field transformation against all the overrides encapsulated within this field
+     * @param fieldTransformation the field transformation which will utterly change our fields
+     * @param accountingLine the accounting line being rendered
+     * @param editModes the current document edit modes
+     * @param unconvertedValues a Map of unconvertedValues
+     */
+    protected void transformOverrideFields(AccountingLineFieldRenderingTransformation fieldTransformation, AccountingLine accountingLine, Map editModes, Map unconvertedValues) {
+        for (AccountingLineViewOverrideField overrideField : getOverrideFields()) {
+            overrideField.transformField(fieldTransformation, accountingLine, editModes, unconvertedValues);
+        }
+    }
+    
+    /**
+     * Renders the override fields for the line
+     * @param pageContext the page context to render to
+     * @param parentTag the tag requesting all this rendering
+     * @param accountingLine the accounting line we're rendering
+     * @param accountingLinePropertyPath the path to get to that accounting
+     * @throws JspException thrown if rendering fails
+     */
+    public void renderOverrideFields(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
+        for (AccountingLineViewOverrideField overrideField : getOverrideFields()) {
+            overrideField.setAccountingLineProperty(renderingContext.getAccountingLinePropertyPath());
+            overrideField.renderElement(pageContext, parentTag, renderingContext);
         }
     }
     
@@ -293,16 +259,16 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param parentTag the parent tag requesting this rendering
      * @param context the rendering context
      */
-    protected void renderDynamicNameLabel(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
+    protected void renderDynamicNameLabel(PageContext pageContext, Tag parentTag, AccountingLine accountingLine, String accountingLinePropertyPath) throws JspException {
         DynamicNameLabelRenderer renderer = new DynamicNameLabelRenderer();
         if (!StringUtils.isBlank(getField().getPropertyValue())) {
             if (getField().isSecure()) {
                 renderer.setFieldValue(getField().getDisplayMask().maskValue(getField().getPropertyValue()));
             } else {
-                renderer.setFieldValue(getDynamicNameLabelDisplayedValue(renderingContext.getAccountingLine()));
+                renderer.setFieldValue(getDynamicNameLabelDisplayedValue(accountingLine));
             }
         }
-        renderer.setFieldName(renderingContext.getAccountingLinePropertyPath()+"."+definition.getDynamicLabelProperty());
+        renderer.setFieldName(accountingLinePropertyPath+"."+definition.getDynamicLabelProperty());
         renderer.render(pageContext, parentTag);
         renderer.clear();
     }
@@ -341,11 +307,16 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     }
     
     /**
-     * Adds the wrapped field to the list
+     * Adds the wrapped field to the list; adds any override fields this field encapsulates as well
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
      */
     public void appendFields(List<Field> fields) {
         fields.add(getField());
+        if (getOverrideFields() != null && getOverrideFields().size() > 0) {
+            for (AccountingLineViewOverrideField field : getOverrideFields()) {
+                field.appendFields(fields);
+            }
+        }
     }
     
     /**

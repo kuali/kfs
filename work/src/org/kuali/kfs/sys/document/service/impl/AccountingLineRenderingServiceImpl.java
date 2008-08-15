@@ -15,11 +15,16 @@
  */
 package org.kuali.kfs.sys.document.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.jsp.PageContext;
+
+import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
@@ -30,13 +35,31 @@ import org.kuali.kfs.sys.document.service.AccountingLineRenderingTransformation;
 import org.kuali.kfs.sys.document.service.AccountingLineTableTransformation;
 import org.kuali.kfs.sys.document.web.AccountingLineTableRow;
 import org.kuali.kfs.sys.document.web.TableJoining;
+import org.kuali.kfs.sys.document.web.renderers.CheckboxRenderer;
+import org.kuali.kfs.sys.document.web.renderers.CurrencyRenderer;
+import org.kuali.kfs.sys.document.web.renderers.DateRenderer;
+import org.kuali.kfs.sys.document.web.renderers.DropDownRenderer;
+import org.kuali.kfs.sys.document.web.renderers.FieldRenderer;
+import org.kuali.kfs.sys.document.web.renderers.HiddenRenderer;
+import org.kuali.kfs.sys.document.web.renderers.RadioButtonGroupRenderer;
+import org.kuali.kfs.sys.document.web.renderers.ReadOnlyRenderer;
+import org.kuali.kfs.sys.document.web.renderers.TextAreaRenderer;
+import org.kuali.kfs.sys.document.web.renderers.TextRenderer;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * The default implementation of the AccountingLineRenderingService
  */
 public class AccountingLineRenderingServiceImpl implements AccountingLineRenderingService {
+    private final String KUALI_FORM_NAME = "KualiForm";
+    
     private List<AccountingLineFieldRenderingTransformation> fieldTransformations;
     private DataDictionaryService dataDictionaryService;
     private AccountingLineAuthorizationTransformer accountingLineAuthorizationTransformer;
@@ -95,7 +118,7 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      * @param document the document to get edit modes for
      * @return a Map of all the edit modes
      */
-    protected Map getEditModes(AccountingDocument document) {
+    public Map getEditModes(AccountingDocument document) {
         AccountingDocumentAuthorizer documentAuthorizer = getDocumentAuthorizer(document);
         Map editModes = documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getFinancialSystemUser());
         editModes.putAll(documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getFinancialSystemUser(), document.getSourceAccountingLines(), document.getTargetAccountingLines()));
@@ -169,6 +192,76 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
         for (TableJoining element : elements) {
             element.joinTable(rows);
         }
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRenderingService#getFieldRendererForField(org.kuali.rice.kns.web.ui.Field, org.kuali.kfs.sys.businessobject.AccountingLine)
+     */
+    public FieldRenderer getFieldRendererForField(Field field, AccountingLine accountingLineToRender) {
+        FieldRenderer renderer = null;
+        if (field.isReadOnly() || field.getFieldType().equals(Field.READONLY)) {
+            renderer = new ReadOnlyRenderer();
+        } else if (field.getFieldType().equals(Field.TEXT)) {
+            if (field.isDatePicker() || usesDateValidation(field.getPropertyName(), accountingLineToRender)) { // are we a date?
+                renderer = new DateRenderer();
+            } else {
+                renderer = new TextRenderer();
+            }
+        } else if (field.getFieldType().equals(Field.TEXT_AREA)) {
+            renderer = new TextAreaRenderer();
+        } else if (field.getFieldType().equals(Field.HIDDEN)) {
+            renderer = new HiddenRenderer();
+        } else if (field.getFieldType().equals(Field.CURRENCY)) {
+            renderer = new CurrencyRenderer();
+        } else if (field.getFieldType().equals(Field.DROPDOWN)) {
+            renderer = new DropDownRenderer();
+        } else if (field.getFieldType().equals(Field.RADIO)) {
+            renderer = new RadioButtonGroupRenderer();
+        } else if (field.getFieldType().equals(Field.CHECKBOX)) {
+            renderer = new CheckboxRenderer();
+        }
+        
+        return renderer;
+    }
+    
+    /**
+     * Determines if this method uses a date validation pattern, in which case, a date picker should be rendered
+     * @param propertyName the property of the field being checked from the command line
+     * @param accountingLineToRender the accounting line which is being rendered
+     * @return true if the property does use date validation, false otherwise
+     */
+    protected boolean usesDateValidation(String propertyName, Object businessObject) {
+        final BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObject.getClass().getName());
+        AttributeDefinition attributeDefinition = entry.getAttributeDefinition(propertyName);
+        
+        if (attributeDefinition == null) {
+            if (!propertyName.contains(".")) return false;
+            final int firstNestingPoint = propertyName.indexOf(".");
+            final String toNestingPoint = propertyName.substring(0, firstNestingPoint);
+            final String fromNestingPoint = propertyName.substring(firstNestingPoint+1);
+            Object childObject = null;
+            try {
+                final Class childClass = PropertyUtils.getPropertyType(businessObject, toNestingPoint);
+                childObject = childClass.newInstance();
+            }
+            catch (IllegalAccessException iae) {
+                new UnsupportedOperationException(iae);
+            }
+            catch (InvocationTargetException ite) {
+                new UnsupportedOperationException(ite);
+            }
+            catch (NoSuchMethodException nsme) {
+                new UnsupportedOperationException(nsme);
+            }
+            catch (InstantiationException ie) {
+                throw new UnsupportedOperationException(ie);
+            }
+            return usesDateValidation(fromNestingPoint, childObject);
+        }
+        
+        final ValidationPattern validationPattern = attributeDefinition.getValidationPattern();
+        if (validationPattern == null) return false; // no validation for sure means we ain't using date validation
+        return validationPattern instanceof DateValidationPattern;
     }
 
     /**
@@ -249,5 +342,16 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      */
     public void setPreTablificationTransformations(List<AccountingLineRenderingTransformation> preTablificationTransformations) {
         this.preTablificationTransformations = preTablificationTransformations;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRenderingService#findForm(javax.servlet.jsp.PageContext)
+     */
+    public KualiAccountingDocumentFormBase findForm(PageContext pageContext) {
+        if (pageContext.getRequest().getAttribute(KUALI_FORM_NAME) != null) return (KualiAccountingDocumentFormBase)pageContext.getRequest().getAttribute(KUALI_FORM_NAME);
+        
+        if (pageContext.getSession().getAttribute(KUALI_FORM_NAME) != null) return (KualiAccountingDocumentFormBase)pageContext.getSession().getAttribute(KUALI_FORM_NAME);
+        
+        return (KualiAccountingDocumentFormBase)GlobalVariables.getKualiForm();
     }
 }

@@ -22,16 +22,23 @@
 	                  <bean parent="AccountingLineView-field" p:name="versionNumber" p:hidden="true" />
 	                  <bean parent="AccountingLineView-field" p:name="objectId" p:hidden="true" />
 	                  <bean parent="AccountingLineView-field" p:name="documentNumber" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="accountExpiredOverride" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="accountExpiredOverrideNeeded" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="nonFringeAccountOverride" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="nonFringeAccountOverrideNeeded" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="objectBudgetOverride" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="objectBudgetOverrideNeeded" p:hidden="true" />
 	                  <bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
-	                  <bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName" />
+	                  <bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName">
+	                  	<property name="overrideFields">
+	                  		<list>
+	                  			<bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride" />
+	                  			<bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride" />
+	                  		</list>
+	                  	</property>
+	                  </bean>
 	                  <bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName" />
-	                  <bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:webUILeaveFieldFunction="loadObjectInfo" p:dynamicLabelProperty="objectCode.financialObjectCodeName" />
+	                  <bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:webUILeaveFieldFunction="loadObjectInfo" p:dynamicLabelProperty="objectCode.financialObjectCodeName">
+	                  	<property name="overrideFields">
+	                  		<list>
+	                  			<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride" />
+	                  		</list>
+	                  	</property>
+	                  </bean>
 	                  <bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
 	                  <bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription" />
 	                  <bean parent="AccountingLineView-field" p:name="organizationReferenceId" />

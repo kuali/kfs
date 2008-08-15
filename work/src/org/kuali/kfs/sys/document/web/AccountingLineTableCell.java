@@ -35,6 +35,8 @@ public class AccountingLineTableCell implements RenderableElement {
     private List<RenderableElement> renderableElements = new ArrayList<RenderableElement>();
     private boolean rendersAsHeader = false;
     private AccountingLineRenderingContext renderingContext;
+    private boolean neverEmpty;
+    private String extraStyle;
     
     /**
      * Gets the colSpan attribute. 
@@ -114,6 +116,7 @@ public class AccountingLineTableCell implements RenderableElement {
      * @see org.kuali.kfs.sys.document.web.RenderableElement#isEmpty()
      */
     public boolean isEmpty() {
+        if (neverEmpty) return false;
         for (RenderableElement element : renderableElements) {
             if (!element.isEmpty()) {
                 return false;
@@ -137,6 +140,35 @@ public class AccountingLineTableCell implements RenderableElement {
         this.rendersAsHeader = rendersAsHeader;
     }
     
+    /**
+     * Gets the extraStyle attribute. 
+     * @return Returns the extraStyle.
+     */
+    public String getExtraStyle() {
+        return extraStyle;
+    }
+    /**
+     * Sets the extraStyle attribute value.
+     * @param extraStyle The extraStyle to set.
+     */
+    public void setExtraStyle(String extraStyle) {
+        this.extraStyle = extraStyle;
+    }
+    
+    /**
+     * Gets the neverEmpty attribute. 
+     * @return Returns the neverEmpty.
+     */
+    public boolean isNeverEmpty() {
+        return neverEmpty;
+    }
+    /**
+     * Sets the neverEmpty attribute value.
+     * @param neverEmpty The neverEmpty to set.
+     */
+    public void setNeverEmpty(boolean neverEmpty) {
+        this.neverEmpty = neverEmpty;
+    }
     /**
      * @see org.kuali.kfs.sys.document.web.RenderableElement#renderElement(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
      */
@@ -166,6 +198,14 @@ public class AccountingLineTableCell implements RenderableElement {
         for (RenderableElement element : renderableElements) {
             element.renderElement(pageContext, parentTag, renderingContext);
         }
+    }
+    
+    /**
+     * Determines if this cell has child elements
+     * @return True if this cell has child elements, false otherwise
+     */
+    public boolean hasChildElements() {
+        return renderableElements != null && renderableElements.size() > 0;
     }
     
     /**

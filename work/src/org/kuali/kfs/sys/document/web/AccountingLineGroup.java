@@ -67,7 +67,7 @@ public class AccountingLineGroup {
     /**
      * Renders the whole of this accounting line group
      * @param pageContext the page context to render to
-     * @param parentTag the AccountingLineTag that is requesting this rendering
+     * @param parentTag the AccountingLinesTag that is requesting this rendering
      */
     public void renderEverything(PageContext pageContext, Tag parentTag) throws JspException {
         renderGroupHeader(pageContext, parentTag);

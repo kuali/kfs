@@ -17,45 +17,37 @@ package org.kuali.kfs.sys.document.web;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
+import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.document.web.renderers.AccountingLineTableFooterRenderer;
 import org.kuali.kfs.sys.document.web.renderers.AccountingLineTableHeaderRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This tag...how to describe what it does?  It takes these groups of accounting lines and, you know,
  * it, um...it renders them.
  */
-public class AccountingLineTag extends BodyTagSupport {
-    private final String KUALI_FORM_NAME = "KualiForm";
+public class AccountingLinesTag extends BodyTagSupport {
     private AccountingDocument document;
+    private KualiAccountingDocumentFormBase form;
     private List<AccountingLineGroup> groupsToRender;
 
     /**
      * Finds the KualiForm wherever it may be hiding
      * @return the KualiForm
      */
-    public KualiDocumentFormBase getForm() {
-        if (pageContext.getRequest().getAttribute(KUALI_FORM_NAME) != null) {
-            return (KualiDocumentFormBase)pageContext.getRequest().getAttribute(KUALI_FORM_NAME);
+    public KualiAccountingDocumentFormBase getForm() {
+        if (form == null) {
+            form = SpringContext.getBean(AccountingLineRenderingService.class).findForm(pageContext);
         }
-        
-        if (pageContext.getSession().getAttribute(KUALI_FORM_NAME) != null) {
-            return (KualiDocumentFormBase)pageContext.getSession().getAttribute(KUALI_FORM_NAME);
-        }
-        
-        return (KualiDocumentFormBase)GlobalVariables.getKualiForm();
+        return form;
     }
     
     /**
@@ -67,39 +59,6 @@ public class AccountingLineTag extends BodyTagSupport {
             document = (AccountingDocument)getForm().getDocument();
         }
         return document;
-    }
-    
-    /**
-     * Retrieves all the edit modes for the document
-     * @param document the document to get edit modes for
-     * @return a Map of all the edit modes
-     */
-    protected Map getEditModes() {
-        AccountingDocument document = getDocument();
-        AccountingDocumentAuthorizer documentAuthorizer = getDocumentAuthorizer(document);
-        Map editModes = documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getFinancialSystemUser());
-        editModes.putAll(documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getFinancialSystemUser(), document.getSourceAccountingLines(), document.getTargetAccountingLines()));
-        return editModes;
-    }
- 
-    /**
-     * Creates an accounting document authorizer for the given accounting document
-     * @param document the document to get an authorizer for
-     * @return an authorizer for the document
-     */
-    protected AccountingDocumentAuthorizer getDocumentAuthorizer(AccountingDocument document) {
-        final Class documentAuthorizerClass = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName()).getDocumentAuthorizerClass();
-        AccountingDocumentAuthorizer documentAuthorizer = null;
-        try {
-            documentAuthorizer = (AccountingDocumentAuthorizer)documentAuthorizerClass.newInstance();
-        }
-        catch (InstantiationException ie) {
-            throw new IllegalArgumentException("InstantionException while initiating Document Authorizer", ie);
-        }
-        catch (IllegalAccessException iae) {
-            throw new IllegalArgumentException("IllegalAccessException while initiating Document Authorizer", iae);
-        }
-        return documentAuthorizer;
     }
     
     /**
@@ -139,8 +98,9 @@ public class AccountingLineTag extends BodyTagSupport {
      * Clears out all state variables in this tag
      */
     protected void resetTag() {
-        document = null; // reset state variables for this renderer
+        document = null;
         groupsToRender = null;
+        form = null;
     }
     
     /**

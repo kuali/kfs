@@ -13,7 +13,7 @@
   
   <tag>
     <name>accountingLines</name>
-    <tagclass>org.kuali.kfs.sys.document.web.AccountingLineTag</tagclass>
+    <tagclass>org.kuali.kfs.sys.document.web.AccountingLinesTag</tagclass>
     <bodycontent>JSP</bodycontent>
     <info>
 		Renders groups of accounting lines

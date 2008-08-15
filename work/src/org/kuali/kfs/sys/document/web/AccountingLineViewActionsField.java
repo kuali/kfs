@@ -62,6 +62,42 @@ public class AccountingLineViewActionsField extends FieldTableJoiningWithHeader 
     }
 
     /**
+     * @see org.kuali.kfs.sys.document.web.FieldTableJoiningWithHeader#joinTable(java.util.List)
+     */
+    @Override
+    public void joinTable(List<AccountingLineTableRow> rows) {
+        // 1. add header cell
+        if (!isHidden()) {
+            AccountingLineTableCell headerCell = createHeaderLabelTableCell();
+            rows.get(0).addCell(headerCell);
+        }
+        // 2. add blank cell to make sure this cell shows up on the bottom line
+        final int blankCellRowSpan = rows.size() - 2;
+        if (blankCellRowSpan > 0) {
+            AccountingLineTableCell blankCell = createBlankTableCell(blankCellRowSpan);
+            rows.get(1).addCell(blankCell);
+        }
+        // 3. add field cell
+        AccountingLineTableCell cell = createTableCell();
+        rows.get((rows.size()-1)).addCell(cell);
+    }
+    
+    /**
+     * Builds a blank cell for the action so the actions always appear below that
+     * @param rowSpan the row span of the blank cell
+     * @return the blank row-spanning table cell
+     */
+    protected AccountingLineTableCell createBlankTableCell(int rowSpan) {
+        AccountingLineTableCell blankCell = new AccountingLineTableCell();
+        blankCell.setNeverEmpty(true);
+        blankCell.setExtraStyle("border-bottom-style: none;");
+        if (rowSpan > 1) {
+            blankCell.setRowSpan(rowSpan);
+        }
+        return blankCell;
+    }
+
+    /**
      * @see org.kuali.kfs.sys.document.web.RenderableElement#renderElement(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
      */
     public void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {

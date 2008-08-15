@@ -18,7 +18,8 @@ package org.kuali.kfs.sys.document.service;
 import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.web.AccountingLineViewField;
+import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
+import org.kuali.rice.kns.web.ui.Field;
 
 /**
  * An interface that represents a transformation on a single field; they can be grouped
@@ -29,8 +30,9 @@ public interface AccountingLineFieldRenderingTransformation {
      * Performs a transformation on the field
      * @param accountingLine the accounting line that is being rendered
      * @param field the field to transform
+     * @param fieldDefinition the accounting line definition of the accounting line being rendered
      * @param editModes a map of edit modes for the document at this point
      * @param unconvertedValues a map of unconverted values
      */
-    public abstract void transformField(AccountingLine accountingLine, AccountingLineViewField field, Map editModes, Map unconvertedValues);
+    public abstract void transformField(AccountingLine accountingLine, Field field, MaintainableFieldDefinition fieldDefinition, Map editModes, Map unconvertedValues);
 }

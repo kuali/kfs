@@ -86,9 +86,6 @@
 
 	<tr>
         <td class="infoline" rowspan="2" valign="middle">
-		    <html:hidden property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemIdentifier" /> 
-		    <html:hidden property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.purapDocumentIdentifier" />
-		    <html:hidden property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.versionNumber" /> 
 
         	<b><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemLineNumber" readOnly="${true}"/></b>
         </td>

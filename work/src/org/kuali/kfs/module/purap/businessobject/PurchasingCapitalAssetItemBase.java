@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class PurchasingCapitalAssetItemBase extends PersistableBusinessObjectBase implements PurchasingCapitalAssetItem {
 
@@ -37,7 +38,7 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
     }
     
     public PurchasingCapitalAssetItemBase(PurchasingDocument pd) {        
-        setDocument(pd);
+        setPurchasingDocument(pd);
     }
 
     public Integer getCapitalAssetItemIdentifier() {
@@ -88,16 +89,20 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
         this.purchasingCapitalAssetSystem = purchasingCapitalAssetSystem;
     }
 
-    public PurchasingDocument getDocument(){
+    public PurchasingDocument getPurchasingDocument(){
+        if(ObjectUtils.isNull(this.purchasingDocument)){
+            this.refreshReferenceObject("purchasingDocument");
+        }
+        
         return this.purchasingDocument;
     }
     
-    public void setDocument(PurchasingDocument pd){
+    public void setPurchasingDocument(PurchasingDocument pd){
         this.purchasingDocument = pd;        
     }
     
     public PurchasingItem getPurchasingItem(){       
-        PurchasingDocument pd = this.getDocument();
+        PurchasingDocument pd = this.getPurchasingDocument();
         
         return pd.getPurchasingItem(this.getItemIdentifier());
     }

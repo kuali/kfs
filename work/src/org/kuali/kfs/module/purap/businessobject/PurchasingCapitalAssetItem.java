@@ -44,9 +44,9 @@ public interface PurchasingCapitalAssetItem {
 
     public void setPurchasingCapitalAssetSystem(PurchasingCapitalAssetSystem purchasingCapitalAssetSystem);
 
-    public PurchasingDocument getDocument();
+    public PurchasingDocument getPurchasingDocument();
  
-    public void setDocument(PurchasingDocument pd);
+    public void setPurchasingDocument(PurchasingDocument pd);
        
     public PurchasingItem getPurchasingItem();                  
     

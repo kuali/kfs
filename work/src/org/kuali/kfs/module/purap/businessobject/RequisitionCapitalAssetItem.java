@@ -16,24 +16,21 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
-/**
- * Item Type Business Object. Defines various types of items.
- */
 public class RequisitionCapitalAssetItem extends PurchasingCapitalAssetItemBase {
     
     private Integer purapDocumentIdentifier;        
     
-    /**
-     * Default constructor.
-     */
     public RequisitionCapitalAssetItem(){
         super();
+        this.setPurchasingCapitalAssetSystem(new RequisitionCapitalAssetSystem());
     }
     
     public RequisitionCapitalAssetItem(PurchasingDocument pd) {
         super(pd);
-        setPurapDocumentIdentifier(pd.getPurapDocumentIdentifier());        
+        setPurapDocumentIdentifier(pd.getPurapDocumentIdentifier());
+        this.setPurchasingCapitalAssetSystem(new RequisitionCapitalAssetSystem());
     }
 
     public Integer getPurapDocumentIdentifier() {
@@ -43,5 +40,14 @@ public class RequisitionCapitalAssetItem extends PurchasingCapitalAssetItemBase 
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
-    
+
+    @Override
+    public void setPurchasingDocument(PurchasingDocument pd){
+        super.setPurchasingDocument(pd);
+
+        RequisitionDocument req = (RequisitionDocument)pd;
+        if(req != null){
+            setPurapDocumentIdentifier( req.getPurapDocumentIdentifier() );
+        }
+    }
 }

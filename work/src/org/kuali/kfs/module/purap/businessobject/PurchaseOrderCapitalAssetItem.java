@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBase {
@@ -30,6 +31,7 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
     public PurchaseOrderCapitalAssetItem(PurchasingDocument pd){
         super(pd);
         setDocumentNumber(documentNumber);
+        this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem());
     }
     
     public String getDocumentNumber() {
@@ -39,7 +41,17 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
-   
+
+    @Override
+    public void setPurchasingDocument(PurchasingDocument pd){
+        super.setPurchasingDocument(pd);
+        
+        PurchaseOrderDocument po = (PurchaseOrderDocument)pd;
+        if(po != null){
+            setDocumentNumber( po.getDocumentNumber() );
+        }
+    }
+
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

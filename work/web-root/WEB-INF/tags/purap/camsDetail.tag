@@ -5,6 +5,17 @@
 <%@ attribute name="camsLocationAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="ctr" required="true" description="item count"%>
 
+<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetItemIdentifier" />
+<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetSystemIdentifier" />
+<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].purapDocumentIdentifier" />
+<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].itemIdentifier" />
+<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].versionNumber" />
+<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].objectId" />
+
+<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.capitalAssetSystemIdentifier" />
+<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.versionNumber" />
+<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.objectId" />
+
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
   <tr>
     <kul:htmlAttributeHeaderCell attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" align="right" />
@@ -24,7 +35,7 @@
 		<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.capitalAssetNoteText" readOnly="${false}"/>
 	</td>
     <kul:htmlAttributeHeaderCell attributeEntry="${camsAssetAttributes.capitalAssetNumber}" align="right" />
-    <td class="datacell" valign="top">
+    <td class="datacell" valign="top">	
 		<logic:iterate indexId="idx" name="KualiForm" property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingItemCapitalAssets" id="asset">
 			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingItemCapitalAssets[${idx}].capitalAssetNumber" readOnly="true" />
 			<html:image property="methodToCall.deleteItemCapitalAsset.(((${ctr}))).((#${idx}#))" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete an Asset Number" title="Delete an Asset Number" styleClass="tinybutton" />

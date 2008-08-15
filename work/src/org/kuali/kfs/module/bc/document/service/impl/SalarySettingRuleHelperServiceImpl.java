@@ -33,7 +33,6 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -47,7 +46,6 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
     private SalarySettingService salarySettingService;
     private HumanResourcesPayrollService humanResourcesPayrollService;
-    public DictionaryValidationService dictionaryValidationService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasActiveJob(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
@@ -277,15 +275,15 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
     @Logged
     public boolean hasValidAdjustmentAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         KualiDecimal adjustmentAmount = appointmentFunding.getAdjustmentAmount();
-        
-        if(adjustmentAmount == null) {
+
+        if (adjustmentAmount == null) {
             errorMap.putError(BCPropertyConstants.ADJUSTMENT_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_AMOUNT_REQUIRED);
             return false;
         }
 
         return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidAdjustmentAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.rice.kns.util.ErrorMap)
@@ -294,8 +292,8 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
     public boolean hasValidPayRateOrAnnualAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         BigDecimal payRate = appointmentFunding.getAppointmentRequestedPayRate();
         KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
-        
-        if(requestedAmount == null && payRate == null) {
+
+        if (requestedAmount == null && payRate == null) {
             errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCKeyConstants.ERROR_EMPTY_PAY_RATE_ANNUAL_AMOUNT);
             return false;
         }
@@ -319,14 +317,5 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      */
     public void setHumanResourcesPayrollService(HumanResourcesPayrollService humanResourcesPayrollService) {
         this.humanResourcesPayrollService = humanResourcesPayrollService;
-    }
-
-    /**
-     * Sets the dictionaryValidationService attribute value.
-     * 
-     * @param dictionaryValidationService The dictionaryValidationService to set.
-     */
-    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
-        this.dictionaryValidationService = dictionaryValidationService;
     }
 }

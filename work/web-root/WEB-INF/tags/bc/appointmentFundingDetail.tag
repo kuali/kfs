@@ -147,20 +147,22 @@
               accountingLine="${fundingLineName}"
               cellProperty="${fundingLineName}.budgetConstructionAppointmentFundingReason[0].appointmentFundingReasonCode"
               attributes="${reasonAttributes}"
-              detailField="budgetConstructionAppointmentFundingReason[0].appointmentFundingReason.appointmentFundingReasonDescription" 
+              detailField="budgetConstructionAppointmentFundingReason[0].appointmentFundingReason.appointmentFundingReasonDescription"
+              detailFunctionExtraParam = "'${fundingLineName}.budgetConstructionAppointmentFundingReason[0].appointmentFundingReasonAmount'," 
               detailFunction="budgetObjectInfoUpdator.loadReasonCodeInfo"
               field="appointmentFundingReasonCode"
               fieldAlign="left"
               readOnly="${readOnly}"
               rowSpan="1"/>
 	
+		<c:set var="disabled" value="${empty fundingLine.budgetConstructionAppointmentFundingReason[0].appointmentFundingReasonCode}" />
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
               accountingLine="${fundingLineName}"
               cellProperty="${fundingLineName}.budgetConstructionAppointmentFundingReason[0].appointmentFundingReasonAmount"
               attributes="${reasonAttributes}"
               field="appointmentFundingReasonAmount"
               fieldAlign="right"
-              readOnly="${readOnly}"
+              readOnly="${readOnly}" disabled="${disabled}"
               rowSpan="1" dataFieldCssClass="amount" />
 	</tr>
 	

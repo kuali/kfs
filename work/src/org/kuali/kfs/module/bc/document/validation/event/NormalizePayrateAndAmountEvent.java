@@ -21,7 +21,7 @@ import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
- * Event triggered when normalizing the pay rate and salary amount detail.
+ * Event triggered when normalizing the pay rate and salary amount.
  */
 public class NormalizePayrateAndAmountEvent extends SalarySettingBaseEvent {
     PendingBudgetConstructionAppointmentFunding appointmentFunding;

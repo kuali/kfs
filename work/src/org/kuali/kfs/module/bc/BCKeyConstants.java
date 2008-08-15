@@ -150,6 +150,7 @@ public class BCKeyConstants {
     public static final String WARNING_FTE_NOT_EQUAL = "warning.budget.fteNotEqual";
     public static final String WARNING_WORKING_HOUR_NOT_EQUAL = "warning.budget.workingHourNotEqual";
     public static final String WARNING_RECALCULATE_NEEDED = "warning.budget.recalculateNeeded";
+    
     public static final String ERROR_NO_ACTIVE_JOB_FOUND = "error.budget.noActiveJobFound";
     public static final String ERROR_TIME_PERCENT_GREATER_THAN_ZERO_REQUIRED = "error.budget.timePercentGreaterThanZero";
     public static final String ERROR_NOT_EQUAL_NORMAL_WORK_MONTHS = "error.budget.notEqualNormalWorkMonths";

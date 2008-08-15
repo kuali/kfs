@@ -104,12 +104,16 @@ BudgetObjectInfoUpdator.prototype.loadDurationInfo = function(durationCodeFieldN
 	}
 }
 
-BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonCodeFieldName, reasonDescriptionFieldName ) {
+BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonAmountFieldName, reasonCodeFieldName, reasonDescriptionFieldName ) {
     var reasonCode = DWRUtil.getValue( reasonCodeFieldName );
+    var reasonAmountField = document.getElementById(reasonAmountFieldName);
 
 	if (reasonCode=='') {
 		clearRecipients(reasonDescriptionFieldName, "");
+		reasonAmountField.setAttribute('disabled', 'disabled');
 	} else {
+		reasonAmountField.removeAttribute('disabled');
+		
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {

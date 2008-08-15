@@ -28,6 +28,7 @@ import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -54,6 +55,14 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
             saveInvoicePaidApplied(appliedPayment, i, documentNumber);
             i++;
         }
+    }    
+   
+    public KualiDecimal getTotalAmountApplied(List<AppliedPayment> appliedPayments) {
+        KualiDecimal totalAmountApplied = KualiDecimal.ZERO;
+        for( AppliedPayment appliedPayment : appliedPayments ){
+            totalAmountApplied = totalAmountApplied.add(appliedPayment.getAmountToApply());
+        }
+        return totalAmountApplied;
     }    
 
     /**
@@ -154,9 +163,4 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
-
-
-
-
-
 }

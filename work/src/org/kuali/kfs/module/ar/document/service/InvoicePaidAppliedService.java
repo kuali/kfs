@@ -22,6 +22,7 @@ import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface InvoicePaidAppliedService<T extends AppliedPayment> {
     
@@ -36,6 +37,12 @@ public interface InvoicePaidAppliedService<T extends AppliedPayment> {
      * @param appliedPayment
      */
     public void saveInvoicePaidApplied(T appliedPayment, Integer paidAppliedItemNumber, String documentNumberForDocumentApplyingPayments);
+    
+    /**
+     * This method returns the total amount applied to a document
+     * @param appliedPayments
+     */
+    public KualiDecimal getTotalAmountApplied(List<T> appliedPayments);
     
     
     /**

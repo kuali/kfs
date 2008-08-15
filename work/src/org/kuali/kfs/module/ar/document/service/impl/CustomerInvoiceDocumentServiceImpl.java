@@ -302,6 +302,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
         accountsReceivableDocumentHeader.setCustomerNumber(customerNumber);
         document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+        
+        //make open invoice indicator to true
+        document.setOpenInvoiceIndicator(true);
     }
 
     /**
@@ -391,11 +394,15 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#updateOpenInvoiceIndicator(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
-    public void closeCustomerInvoiceDocumentIfFullyPaidOff(CustomerInvoiceDocument customerInvoiceDocument) {
-        if( customerInvoiceDocument.isPaidOff()){
-            customerInvoiceDocument.setOpenInvoiceIndicator(false);
-            businessObjectService.save(customerInvoiceDocument);
+    public void closeCustomerInvoiceDocumentIfFullyPaidOff(CustomerInvoiceDocument customerInvoiceDocument, KualiDecimal totalAmountAppliedByDocument) {
+        if( customerInvoiceDocument.isPaidOff(totalAmountAppliedByDocument)){
+            closeCustomerInvoiceDocument(customerInvoiceDocument);
         }
+    }
+    
+    public void closeCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument){
+        customerInvoiceDocument.setOpenInvoiceIndicator(false);
+        businessObjectService.save(customerInvoiceDocument);
     }
 
     public CustomerInvoiceDocumentDao getCustomerInvoiceDocumentDao() {

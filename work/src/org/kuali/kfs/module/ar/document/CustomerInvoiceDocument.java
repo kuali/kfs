@@ -1096,7 +1096,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             if( this.isInvoiceReversal() ){
                 try{
                     CustomerInvoiceDocument correctedCustomerInvoiceDocument = (CustomerInvoiceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentHeader().getFinancialDocumentInErrorNumber());
-                    SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocumentIfFullyPaidOff(correctedCustomerInvoiceDocument);
+                    
+                    //if reversal, close both this reversal invoice and the original invoice
+                    SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(correctedCustomerInvoiceDocument);
+                    SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(this);
                 } catch (WorkflowException e){
                     throw new RuntimeException("Cannot find customer invoice document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
                 }                
@@ -1133,6 +1136,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     public void toErrorCorrection() throws WorkflowException {
         super.toErrorCorrection();
         negateCustomerInvoiceDetailUnitPrices();
+        this.setOpenInvoiceIndicator(false);
     }
 
 
@@ -1377,11 +1381,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }    
     
     /**
-     * This method returns true if open amount is less than or equal to 0
+     * This method returns true if 0 is greater than or equal to (open amount - the amount applied from another document)
      * @return
      */
-    public boolean isPaidOff(){
-        return KualiDecimal.ZERO.isGreaterEqual(getOpenAmount());
+    public boolean isPaidOff(KualiDecimal totalAmountAppliedByDocument){
+        KualiDecimal openAmount = getOpenAmount();
+        return KualiDecimal.ZERO.isGreaterEqual(openAmount.subtract(totalAmountAppliedByDocument));
     }
     
     public KualiDecimal getTotalDollarAmount() {

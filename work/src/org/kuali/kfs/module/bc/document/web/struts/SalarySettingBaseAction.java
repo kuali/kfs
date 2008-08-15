@@ -28,8 +28,13 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.document.validation.event.AdjustSalarySettingLinePercentEvent;
+import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
+import org.kuali.kfs.module.bc.document.validation.event.NormalizePayrateAndAmountEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,6 +48,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -53,7 +59,10 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     private KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+    private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+
     private List<String> messageList = GlobalVariables.getMessageList();
+    private ErrorMap errorMap = GlobalVariables.getErrorMap();
 
     /**
      * loads the data for the expansion screen based on the passed in url parameters
@@ -80,7 +89,8 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     }
 
     /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm,
+     *      java.lang.String)
      */
     @Override
     public void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
@@ -99,7 +109,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      * save the information in the current form into underlying data store
      */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
+        errorMap.putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -200,16 +210,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
 
-        KualiDecimal adjustmentAmount = appointmentFunding.getAdjustmentAmount();
-        String adjustmentMeasurement = appointmentFunding.getAdjustmentMeasurement();
-        if (adjustmentAmount == null || adjustmentMeasurement == null) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_EMPTY_ADJUSTMENT_FIELD);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
-        this.adjustSalary(appointmentFunding);
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return this.adjustSalarySettingLinePercent(mapping, appointmentFunding);
     }
 
     /**
@@ -222,16 +223,14 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         KualiDecimal adjustmentAmount = salarySettingForm.getAdjustmentAmount();
         String adjustmentMeasurement = salarySettingForm.getAdjustmentMeasurement();
 
-        if (adjustmentAmount == null || adjustmentMeasurement == null) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_EMPTY_ADJUSTMENT_FIELD);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             appointmentFunding.setAdjustmentAmount(adjustmentAmount);
             appointmentFunding.setAdjustmentMeasurement(adjustmentMeasurement);
 
-            this.adjustSalary(appointmentFunding);
+            ActionForward adjustAction = this.adjustSalarySettingLinePercent(mapping, appointmentFunding);
+            if (!errorMap.isEmpty()) {
+                return adjustAction;
+            }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -243,16 +242,48 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     public ActionForward normalizePayRateAndAmount(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
-
-        BigDecimal payRate = appointmentFunding.getAppointmentRequestedPayRate();
-        KualiInteger annualAmount = appointmentFunding.getAppointmentRequestedAmount();
-        if (payRate == null && annualAmount == null) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_EMPTY_PAY_RATE_ANNUAL_AMOUNT);
+        
+        // retrieve corresponding document in advance in order to use the rule framework
+        BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
+        if (document == null) {
+            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
-        salarySettingService.normalizePayRateAndAmount(appointmentFunding);
+        LOG.info("normalizePayRateAndAmount1");
 
+        // validate the new appointment funding line
+        BudgetExpansionEvent normalizePayRateAndAmountEvent = new NormalizePayrateAndAmountEvent("", "", document, appointmentFunding);
+        boolean isValid = this.invokeRules(normalizePayRateAndAmountEvent);
+        if (!isValid) {
+            LOG.info("normalizePayRateAndAmount2");
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        LOG.info("normalizePayRateAndAmount3");
+        salarySettingService.normalizePayRateAndAmount(appointmentFunding);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * adjust the requested salary amount of the given appointment funding line by pecent or given amount
+     */
+    public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        // retrieve corresponding document in advance in order to use the rule framework
+        BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
+        if (document == null) {
+            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        // validate the new appointment funding line
+        BudgetExpansionEvent adjustPercentEvent = new AdjustSalarySettingLinePercentEvent("", "", document, appointmentFunding);
+        boolean isValid = this.invokeRules(adjustPercentEvent);
+        if (!isValid) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        this.adjustSalary(appointmentFunding);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

@@ -269,6 +269,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         for (PendingBudgetConstructionAppointmentFunding fundingLine : this.getAppointmentFundings()) {
             if (!fundingLine.isDisplayOnlyMode() && fundingLine.isBudgetable()) {
+                LOG.info("getSavableAppointmentFundings() started" + fundingLine);
                 savableAppointmentFundings.add(fundingLine);
             }
         }

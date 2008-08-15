@@ -329,7 +329,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public void purgeAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         this.preprocessFundingReason(appointmentFunding);
 
-        businessObjectService.delete(appointmentFunding);
+        if(businessObjectService.retrieve(appointmentFunding) != null) {
+            businessObjectService.delete(appointmentFunding);
+        }
+        
         appointmentFundings.remove(appointmentFunding);
     }
 
@@ -762,7 +765,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         ObjectUtil.buildObjectWithoutReferenceFields(vacantAppointmentFunding, appointmentFunding);
         vacantAppointmentFunding.setEmplid(BCConstants.VACANT_EMPLID);
         vacantAppointmentFunding.setAppointmentFundingDeleteIndicator(false);
-        vacantAppointmentFunding.setPersistedDeleteIndicator(false);
+        vacantAppointmentFunding.setPersistedDeleteIndicator(false);       
+        vacantAppointmentFunding.setVersionNumber(null);
 
         return vacantAppointmentFunding;
     }

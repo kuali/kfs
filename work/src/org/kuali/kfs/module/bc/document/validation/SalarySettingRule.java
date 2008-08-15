@@ -57,12 +57,4 @@ public interface SalarySettingRule extends BusinessRule {
      * @return true if the appointment funding can pass all rule before normalizing, otherwise, false
      */
     public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-
-    /**
-     * process the rules before adjusting the salary amounts of all given appointment fundings
-     * 
-     * @param appointmentFundings the given appointment fundings
-     * @return true if the appointment funding can pass all rule before adjusting, otherwise, false
-     */
-    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings);
 }

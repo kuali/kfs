@@ -58,12 +58,12 @@ public class SalarySettingRules implements SalarySettingRule {
         if (!isObjectCodeMatching) {
             return isObjectCodeMatching;
         }
-        
+
         boolean hasActiveJob = salarySettingRuleHelperService.hasActiveJob(appointmentFunding, errorMap);
-        if(!hasActiveJob) {
+        if (!hasActiveJob) {
             return hasActiveJob;
         }
-        
+
         boolean isAssociatedWithBudgetableDocument = budgetConstructionRuleHelperService.isAssociatedWithValidDocument(appointmentFunding, errorMap, KFSConstants.EMPTY_STRING);
         if (!isAssociatedWithBudgetableDocument) {
             return isAssociatedWithBudgetableDocument;
@@ -103,9 +103,9 @@ public class SalarySettingRules implements SalarySettingRule {
         if (!isObjectCodeMatching) {
             return isObjectCodeMatching;
         }
-              
+
         boolean hasActiveJob = salarySettingRuleHelperService.hasActiveJob(appointmentFunding, errorMap);
-        if(!hasActiveJob) {
+        if (!hasActiveJob) {
             return hasActiveJob;
         }
 
@@ -121,35 +121,19 @@ public class SalarySettingRules implements SalarySettingRule {
 
         return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustSalaraySettingLinePercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         return salarySettingRuleHelperService.hasValidAdjustmentAmount(appointmentFunding, errorMap);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processNormalizePayrateAndAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        boolean isValid = true;
-
-        return isValid;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustAllSalarySettingLinesPercent(java.util.List)
-     */
-    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            boolean isValid = this.processAdjustSalaraySettingLinePercent(appointmentFunding);
-            if(!isValid) {
-                return false;
-            }
-        }
-
-        return true;
+        return salarySettingRuleHelperService.hasValidPayRateOrAnnualAmount(appointmentFunding, errorMap);
     }
 
     // test if all references of the given appointment funding are valid

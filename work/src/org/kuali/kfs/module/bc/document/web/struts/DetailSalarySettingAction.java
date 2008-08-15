@@ -50,6 +50,29 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
     /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward executeAction = null;
+
+        try {
+            executeAction = super.execute(mapping, form, request, response);
+        }
+        catch (Exception e) {
+            // release all locks when encountering runtime exception
+            DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
+            if (!salarySettingForm.isViewOnlyEntry()) {
+                salarySettingForm.releaseTransactionLocks();
+                salarySettingForm.releasePositionAndFundingLocks();
+            }
+        }
+
+        return executeAction;
+    }
+
+    /**
      * @see org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionAction#close(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -100,18 +123,23 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getSavableAppointmentFundings();
-        
-        for(PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
-            // retrieve corresponding document in advance in order to use the rule framework 
-            BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);        
-            if(document == null) {
+
+        if (savableAppointmentFundings == null || savableAppointmentFundings.isEmpty()) {
+            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        for (PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
+            // retrieve corresponding document in advance in order to use the rule framework
+            BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);
+            if (document == null) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.toString());
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
-                       
+
             // validate the savable appointment funding lines
             boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", "", document, savableAppointmentFundings, savableFunding));
-            if(!isValid) {
+            if (!isValid) {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }
@@ -154,8 +182,8 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
         this.applyDefaultValuesIfEmpty(newAppointmentFunding);
-        
-        // retrieve corresponding document in advance in order to use the rule framework 
+
+        // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(newAppointmentFunding);
         if (document == null) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, newAppointmentFunding.toString());

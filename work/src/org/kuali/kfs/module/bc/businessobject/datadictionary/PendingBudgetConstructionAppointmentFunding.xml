@@ -149,7 +149,9 @@
     <property name="shortLabel" value="Change Percent" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern" >
+      	<property name="allowNegative" value="true"/>
+      </bean>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

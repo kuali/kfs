@@ -162,5 +162,6 @@ public class BCKeyConstants {
     public static final String ERROR_NEGATIVE_FTE_QUANTITY = "error.budget.negativeFteQuantity";
     public static final String ERROR_EMPTY_REQUESTED_TIME_PERCENT = "error.budget.emptyRequestedTimePercent";
     public static final String ERROR_NEGATIVE_REQUESTED_TIME_PERCENT = "error.budget.negativeRequestedTimePercent";
+    public static final String ERROR_DETAIL_POSITION_NOT_REQUIRED = "error.budget.detailPositionNotRequired";
 }
 

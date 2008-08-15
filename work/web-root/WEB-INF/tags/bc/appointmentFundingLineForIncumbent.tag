@@ -57,6 +57,7 @@
 <html:hidden property="${fundingLineName}.excludedFromTotal" />
 <html:hidden property="${fundingLineName}.displayOnlyMode" /> 
 <html:hidden property="${fundingLineName}.override2PlugMode" />
+<html:hidden property="${fundingLineName}.budgetable" />
 
 <table border="0" cellpadding="0" cellspacing="0" style="width: ${tableWidth}; text-align: left; margin-left: auto; margin-right: auto;">    
 	<tr>

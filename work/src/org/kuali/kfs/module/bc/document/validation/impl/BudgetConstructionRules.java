@@ -124,13 +124,6 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SalarySetti
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustAllSalarySettingLinesPercent(java.util.List)
-     */
-    public boolean processAdjustAllSalarySettingLinesPercent(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
-        return salarySettingRules.processAdjustAllSalarySettingLinesPercent(appointmentFundings);
-    }
-
-    /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processNormalizePayrateAndAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processNormalizePayrateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {

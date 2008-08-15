@@ -235,7 +235,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
         }
 
         // Requested funding months must equal to position normal work months if no leave
-        if (fundingMonths != normalWorkMonths) {
+        if (!fundingMonths.equals(normalWorkMonths)) {
             errorMap.putError(BCPropertyConstants.APPOINTMENT_FUNDING_MONTH, BCKeyConstants.ERROR_NOT_EQUAL_NORMAL_WORK_MONTHS, ObjectUtils.toString(fundingMonths), ObjectUtils.toString(normalWorkMonths));
             return false;
         }
@@ -277,12 +277,13 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
     @Logged
     public boolean hasValidAdjustmentAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         KualiDecimal adjustmentAmount = appointmentFunding.getAdjustmentAmount();
+        
+        if(adjustmentAmount == null) {
+            errorMap.putError(BCPropertyConstants.ADJUSTMENT_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_AMOUNT_REQUIRED);
+            return false;
+        }
 
-        int oldCountOfErrors = errorMap.getErrorCount();
-        dictionaryValidationService.validateAttributeFormat(PendingBudgetConstructionAppointmentFunding.class.getName(), BCPropertyConstants.ADJUSTMENT_AMOUNT, ObjectUtils.toString(adjustmentAmount), BCPropertyConstants.ADJUSTMENT_AMOUNT);
-        int newCountOfErrors = errorMap.getErrorCount();
-
-        return newCountOfErrors == oldCountOfErrors;
+        return true;
     }
     
     /**
@@ -298,26 +299,8 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
             errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCKeyConstants.ERROR_EMPTY_PAY_RATE_ANNUAL_AMOUNT);
             return false;
         }
- 
-        boolean validRequestedAmount = true;
-        if(requestedAmount != null) {
-            int oldCountOfErrors = errorMap.getErrorCount();
-            dictionaryValidationService.validateAttributeFormat(PendingBudgetConstructionAppointmentFunding.class.getName(), BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, ObjectUtils.toString(payRate), BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT);
-            int newCountOfErrors = errorMap.getErrorCount();
-            
-            validRequestedAmount = (newCountOfErrors == oldCountOfErrors);
-        }
-        
-        boolean validPayrate = true;
-        if(payRate != null) {
-            int oldCountOfErrors = errorMap.getErrorCount();
-            dictionaryValidationService.validateAttributeFormat(PendingBudgetConstructionAppointmentFunding.class.getName(), BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, ObjectUtils.toString(payRate), BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE);
-            int newCountOfErrors = errorMap.getErrorCount();
-            
-            validPayrate = (newCountOfErrors == oldCountOfErrors);
-        }
 
-        return validRequestedAmount && validPayrate;
+        return true;
     }
 
     /**

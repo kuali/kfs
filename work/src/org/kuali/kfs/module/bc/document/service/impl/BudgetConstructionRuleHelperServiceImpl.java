@@ -24,6 +24,7 @@ import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -188,10 +189,8 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
         }
 
         LaborLedgerObject laborObject = laborModuleService.retrieveLaborLedgerObject(financialObject);
-        if (laborObject == null || laborObject.isDetailPositionRequiredIndicator()) {
-            // TODO:
-            String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, currentValue);
-            errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, errorMessage);
+        if (laborObject == null || !laborObject.isDetailPositionRequiredIndicator()) {
+            errorMap.putError(errorPropertyName, BCKeyConstants.ERROR_DETAIL_POSITION_NOT_REQUIRED, currentValue);
             return false;
         }
 
@@ -278,7 +277,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
             return false;
         }
 
-        if (!objectCode.isFinancialObjectActiveCode()) {
+        if (!objectCode.isActive()) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, errorMessage);
             return false;

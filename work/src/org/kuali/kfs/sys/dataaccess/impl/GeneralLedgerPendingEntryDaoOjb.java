@@ -38,8 +38,10 @@ import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -63,6 +65,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
     private ParameterService parameterService;
     private BalanceTypService balanceTypService;
+    private OptionsService optionsService;
 
     /**
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#getTransactionSummary(java.lang.Integer, java.lang.String,
@@ -409,9 +412,26 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
+       
+        // add criteria to exclude fund balance object type code 
+        criteria.addAndCriteria(buildCriteriaToExcludeFundBalance());
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+    
+    /**
+     * This method creates Criteria that exclude the fund balance object type from the result.
+     * @return Criteria
+     */
+    private Criteria buildCriteriaToExcludeFundBalance() {
+
+        Options option = optionsService.getCurrentYearOptions();
+        String fundBalanceObjectTypeCode = option.getFinObjectTypeFundBalanceCd();
+
+        Criteria criteria = new Criteria();
+        criteria.addNotEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, fundBalanceObjectTypeCode);
+        return criteria;
     }
 
     /**
@@ -650,5 +670,13 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
     public void setBalanceTypService(BalanceTypService balanceTypService) {
         this.balanceTypService = balanceTypService;
+    }
+
+    public OptionsService getOptionsService() {
+        return optionsService;
+    }
+
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
 }

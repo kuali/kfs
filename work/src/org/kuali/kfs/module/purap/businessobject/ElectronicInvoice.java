@@ -82,11 +82,11 @@ public class ElectronicInvoice {
   /**
    * Newly Added
    */
-  private String version;
+  private String version = "1.2.019";
   private String timestamp;
   private String payloadID;
   private String locale;
-  private String deploymentMode;
+  private String deploymentMode = "production";
   
   /**
    * 

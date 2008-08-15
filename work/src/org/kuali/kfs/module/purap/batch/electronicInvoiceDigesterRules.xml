@@ -40,6 +40,7 @@
 		    </set-properties-rule>
 		    
 		    <call-method-rule pattern="From/Credential/Identity" methodname="setFromIdentity" paramcount="0" />
+		    <call-method-rule pattern="From/Credential/SharedSecret" methodname="setFromSharedSecret" paramcount="0" />
 		    
 		    <!-- TO -->
 		    <set-properties-rule pattern="To/Credential">
@@ -47,14 +48,15 @@
 		    </set-properties-rule>
 		    
 		    <call-method-rule pattern="To/Credential/Identity" methodname="setToIdentity" paramcount="0" />
-		   
+ 		    <call-method-rule pattern="To/Credential/SharedSecret" methodname="setToSharedSecret" paramcount="0" />
+ 		    
 		   <!-- SENDER -->
 		   <set-properties-rule pattern="Sender/Credential">
 			   <alias attr-name="domain" prop-name="senderDomain" />
 		   </set-properties-rule>
 		    
 		   <call-method-rule pattern="Sender/Credential/Identity" methodname="setSenderIdentity" paramcount="0" />
-		   <!--<call-method-rule pattern="Sender/Credential/SharedSecret" methodname="setSenderSharedSecret" paramcount="0" />-->
+		   <call-method-rule pattern="Sender/Credential/SharedSecret" methodname="setSenderSharedSecret" paramcount="0" />
 		   <call-method-rule pattern="Sender/UserAgent" methodname="setSenderUserAgent" paramcount="0" />
 		    
 		   <set-next-rule methodname="setCxmlHeader" />
@@ -64,7 +66,7 @@
 	   <!-- REQUEST -->
 	   <pattern value="Request">
 	   		<set-properties-rule>
-			   <alias attr-name="deploymentMode" prop-name="deploymentMode" />
+			   <alias attr-name="deploymentMode" prop-name="deploymentMode"/>
 		   </set-properties-rule>
 	   </pattern>
 	   
@@ -75,10 +77,10 @@
 		   <object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestHeader" />
 		   
 	   		<set-properties-rule>
-	      		<alias attr-name="invoiceID" prop-name="invoiceId" />
-	      		<alias attr-name="purpose" prop-name="purpose" />
-	      		<alias attr-name="operation" prop-name="operation" />
-	      		<alias attr-name="invoiceDate" prop-name="invoiceDateString" />
+	      		<alias attr-name="invoiceID" prop-name="invoiceId"/>
+	      		<alias attr-name="purpose" prop-name="purpose"/>
+	      		<alias attr-name="operation" prop-name="operation"/>
+	      		<alias attr-name="invoiceDate" prop-name="invoiceDateString"/>
 	      		<alias attr-name="isInformationOnly" prop-name="buyerInformationOnlyIndicator"/>
 		    </set-properties-rule>
 		    
@@ -101,15 +103,13 @@
 	   		<!-- INVOICE PARTNER -->
 	   		<pattern value="InvoicePartner">
 	   		
-	   			<!-- INFO: It's not handled in EPIC parser... Based on sample data files, it can be deleted  -->
-	   			
-	   			<!--<set-properties-rule pattern="IdReference">
-		      		<alias attr-name="domain" prop-name="IdReferenceDomain" />
-		      		<alias attr-name="identifier" prop-name="IdReferenceIdentifier" />
+	   			<set-properties-rule pattern="IdReference">
+		      		<alias attr-name="domain" prop-name="idReferenceDomain" />
+		      		<alias attr-name="identifier" prop-name="idReferenceIdentifier" />
 	      		</set-properties-rule>
 
 	      		<call-method-rule pattern="IdReference/Creator" methodname="setIdReferenceCreator" paramcount="0" />
-	      		<call-method-rule pattern="IdReference/Description" methodname="setIdReferenceDescription" paramcount="0" />-->
+	      		<call-method-rule pattern="IdReference/Description" methodname="setIdReferenceDescription" paramcount="0" />
 	      		
 	      		<!-- CONTACTS -->
 	      		<pattern value="Contact">
@@ -193,7 +193,7 @@
 	   		<!-- SHIPPING DETAILS -->
 	   		<pattern value="InvoiceDetailShipping">
 	   			<set-properties-rule>
-	      			<alias attr-name="shippingDate" prop-name="setShippingDateString" />
+	      			<alias attr-name="shippingDate" prop-name="shippingDateString" />
       			</set-properties-rule>
       			
       			<!-- CONTACTS -->
@@ -277,6 +277,12 @@
       			
 	   		</pattern> <!-- InvoiceDetailShipping -->
 	   		
+	   		
+	   		<set-properties-rule pattern="InvoiceDetailPaymentTerm">
+   				<alias attr-name="payInNumberOfDays" prop-name="payInNumberOfDays" paramtype="java.lang.Integer"/>
+   				<alias attr-name="percentageRate" prop-name="percentageRate"/>
+   			</set-properties-rule>
+   			
 	   		<set-properties-rule pattern="PaymentTerm">
    				<alias attr-name="payInNumberOfDays" prop-name="payInNumberOfDays" paramtype="java.lang.Integer"/>
    			</set-properties-rule>
@@ -305,6 +311,7 @@
 		   
 		   <set-properties-rule pattern="InvoiceDetailOrderInfo/OrderReference">
       			<alias attr-name="orderID" prop-name="orderReferenceOrderID" />
+      			<alias attr-name="orderDate" prop-name="orderReferenceOrderDateString" />
      	   </set-properties-rule>
      		   
      	   <set-properties-rule pattern="InvoiceDetailOrderInfo/OrderReference/DocumentReference">
@@ -543,6 +550,12 @@
 		   <!-- FIXME: If the above desc is empty, have to get the desc from TaxDetail... Have to do this check-->
 		   <call-method-rule pattern="Tax/TaxDetail/Description" methodname="setTaxDescription" paramcount="0" />
 		   
+		   <set-properties-rule pattern="Tax/TaxDetail">
+   				<alias attr-name="category" prop-name="taxCategory" />
+   				<alias attr-name="purpose" prop-name="taxPurpose" />
+   				<alias attr-name="percentageRate" prop-name="taxPercentageRate" />
+   	   	   </set-properties-rule>
+   	   	   
 		   <call-method-rule pattern="SpecialHandlingAmount/Money" methodname="setSpecialHandlingAmount" paramcount="0" />
    		   <set-properties-rule pattern="SpecialHandlingAmount/Money">
    				<alias attr-name="currency" prop-name="specialHandlingAmountCurrency" />

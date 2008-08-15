@@ -25,8 +25,8 @@ public class ElectronicInvoiceDetailRequestHeader {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceDetailRequestHeader.class);
   
   private String invoiceId;
-  private String purpose;
-  private String operation;
+  private String purpose = "standard";
+  private String operation = "new";
   private String invoiceDateString;
   private Date invoiceDate;
 
@@ -48,12 +48,12 @@ public class ElectronicInvoiceDetailRequestHeader {
    * Newly Added
    */
   private boolean isAccountingInLine;
-  private String IdReferenceCreator;
-  private String IdReferenceDescription;
-  private String IdReferenceDomain;
-  private String IdReferenceIdentifier; 
+  private String idReferenceCreator;
+  private String idReferenceDescription;
+  private String idReferenceDomain;
+  private String idReferenceIdentifier; 
   private int payInNumberOfDays;
-  
+  private String percentageRate;
   
   public ElectronicInvoiceDetailRequestHeader() {
     super();
@@ -173,8 +173,8 @@ public class ElectronicInvoiceDetailRequestHeader {
       }
     }
     if (formatInvalid) {
-      LOG.error("setInvoiceDateString() Invoice Date from CXML '" + invoiceDateString + "' is in Invalid Format -  EPIC Format: '" + 
-          PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT + "'     CXML date converted to EPIC: '" + formattedDateString + "'");
+      LOG.error("\n\n\n\n\nsetInvoiceDateString() Invoice Date from CXML '" + invoiceDateString + "' is in Invalid Format -  EPIC Format: '" + 
+          PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT + "'     CXML date converted to EPIC: '" + formattedDateString + "'\n\n\n\n\n");
       this.invoiceDate = null;
     } else {
       // try to parse date
@@ -408,35 +408,35 @@ public class ElectronicInvoiceDetailRequestHeader {
   }
   
   public String getIdReferenceCreator() {
-      return IdReferenceCreator;
+      return idReferenceCreator;
   }
 
   public void setIdReferenceCreator(String idReferenceCreator) {
-      IdReferenceCreator = idReferenceCreator;
+      this.idReferenceCreator = idReferenceCreator;
   }
 
   public String getIdReferenceDescription() {
-      return IdReferenceDescription;
+      return idReferenceDescription;
   }
 
   public void setIdReferenceDescription(String idReferenceDescription) {
-      IdReferenceDescription = idReferenceDescription;
+      this.idReferenceDescription = idReferenceDescription;
   }
 
   public String getIdReferenceDomain() {
-      return IdReferenceDomain;
+      return idReferenceDomain;
   }
 
   public void setIdReferenceDomain(String idReferenceDomain) {
-      IdReferenceDomain = idReferenceDomain;
+      this.idReferenceDomain = idReferenceDomain;
   }
 
   public String getIdReferenceIdentifier() {
-      return IdReferenceIdentifier;
+      return idReferenceIdentifier;
   }
 
   public void setIdReferenceIdentifier(String idReferenceIdentifier) {
-      IdReferenceIdentifier = idReferenceIdentifier;
+      this.idReferenceIdentifier = idReferenceIdentifier;
   }
   
   public void addInvoicePartnerContact(ElectronicInvoiceContact electronicInvoiceContact){
@@ -488,6 +488,14 @@ public class ElectronicInvoiceDetailRequestHeader {
       this.payInNumberOfDays = payInNumberOfDays;
   }
   
+  public String getPercentageRate() {
+      return percentageRate;
+  }
+
+  public void setPercentageRate(String percentageRate) {
+      this.percentageRate = percentageRate;
+  }
+  
   public String toString(){
       
       ToStringBuilder toString = new ToStringBuilder(this);
@@ -498,18 +506,23 @@ public class ElectronicInvoiceDetailRequestHeader {
       toString.append("invoiceDate",getInvoiceDateString());
       
       toString.append("isInformationOnly",isInformationOnly());
+      toString.append("isHeaderInvoiceIndicator",isHeaderInvoiceIndicator());
       toString.append("isTaxInLine",isTaxInLine());
       toString.append("isSpecialHandlingInLine",isSpecialHandlingInLine());
       toString.append("isShippingInLine",isShippingInLine());
       toString.append("isDiscountInLine",isDiscountInLine());
       toString.append("isAccountingInLine",isAccountingInLine());
       
+      toString.append("idReferenceCreator",getIdReferenceCreator());
+      toString.append("idReferenceDescription",getIdReferenceDescription());
+      toString.append("idReferenceDomain",getIdReferenceDomain());
+      toString.append("idReferenceIdentifier",getIdReferenceIdentifier());
+      
+      
       toString.append("shippingDate",getShippingDateString());
       toString.append("invoiceCustomerNumber",getInvoiceCustomerNumber());
-      toString.append("invoicePartnerContacts",getInvoicePartnerContacts());
-      toString.append("invoiceCustomerNumber",getInvoiceCustomerNumber());
-      toString.append("invoiceShippingContacts",getInvoiceShippingContacts());
       toString.append("payInNumberOfDays",getPayInNumberOfDays());
+      toString.append("percentageRate",getPercentageRate());
       
       toString.append("invoicePartnerContacts",getInvoicePartnerContacts());
       toString.append("invoiceShippingContacts",getInvoiceShippingContacts());
@@ -517,6 +530,8 @@ public class ElectronicInvoiceDetailRequestHeader {
       
       return toString.toString();
   }
+
+
 
 }
 

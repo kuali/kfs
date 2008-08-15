@@ -649,6 +649,14 @@ public class ElectronicInvoiceItem {
         this.comments.add(comment);
     }
     
+    public String getInvoiceLineDiscountPercentageRate() {
+        return invoiceLineDiscountPercentageRate;
+    }
+
+    public void setInvoiceLineDiscountPercentageRate(String invoiceLineDiscountPercentageRate) {
+        this.invoiceLineDiscountPercentageRate = invoiceLineDiscountPercentageRate;
+    }
+    
     public String toString(){
         
         ToStringBuilder toString = new ToStringBuilder(this);
@@ -695,12 +703,6 @@ public class ElectronicInvoiceItem {
         
     }
 
-    public String getInvoiceLineDiscountPercentageRate() {
-        return invoiceLineDiscountPercentageRate;
-    }
-
-    public void setInvoiceLineDiscountPercentageRate(String invoiceLineDiscountPercentageRate) {
-        this.invoiceLineDiscountPercentageRate = invoiceLineDiscountPercentageRate;
-    }
+   
   
 }

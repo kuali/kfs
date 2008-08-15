@@ -46,6 +46,7 @@ public class ElectronicInvoiceOrder {
   private String supplierOrderInfoID;
   
   private String invoicePurchaseOrderID;
+  private String orderReferenceOrderDateString;
   private Integer purchaseOrderID = null;
   private String purchaseOrderCampusCode;
   
@@ -531,11 +532,20 @@ public class ElectronicInvoiceOrder {
       return null;
   }
   
+  public String getOrderReferenceOrderDateString() {
+      return orderReferenceOrderDateString;
+  }
+
+  public void setOrderReferenceOrderDateString(String orderReferenceOrderDateString) {
+      this.orderReferenceOrderDateString = orderReferenceOrderDateString;
+  }
+  
   public String toString(){
       
       ToStringBuilder toString = new ToStringBuilder(this);
       
       toString.append("orderReferenceOrderID",getOrderReferenceOrderID());
+      toString.append("orderReferenceOrderDate",getOrderReferenceOrderDateString());
       toString.append("orderReferenceDocumentRefPayloadID",getOrderReferenceDocumentRefPayloadID());
       toString.append("orderReferenceDocumentRef",getOrderReferenceDocumentRef());
       toString.append("masterAgreementReferenceID",getMasterAgreementReferenceID());
@@ -550,4 +560,6 @@ public class ElectronicInvoiceOrder {
       return toString.toString();
       
   }
+
+
 }

@@ -42,6 +42,15 @@ public class ElectronicInvoiceDetailRequestSummary {
   private String dueAmount;  // has money xml node
   private String dueAmountCurrency;
   
+  /**
+   * Newly Added
+   */
+  private String taxCategory;
+  private String taxPurpose;
+  private String taxPercentageRate;
+//  private String taxableAmount;
+//  private String taxableAmountCurrency;
+  
   public ElectronicInvoiceDetailRequestSummary() {
     super();
   }
@@ -374,13 +383,58 @@ public class ElectronicInvoiceDetailRequestSummary {
     this.taxDescription = taxDescription;
   }
   
+  public String getTaxCategory() {
+      return taxCategory;
+  }
+
+  public void setTaxCategory(String taxCategory) {
+      this.taxCategory = taxCategory;
+  }
+  
+  public String getTaxPercentageRate() {
+      return taxPercentageRate;
+  }
+
+  public void setTaxPercentageRate(String taxPercentageRate) {
+      this.taxPercentageRate = taxPercentageRate;
+  }
+
+  public String getTaxPurpose() {
+      return taxPurpose;
+  }
+
+  public void setTaxPurpose(String taxPurpose) {
+      this.taxPurpose = taxPurpose;
+  }
+  
+//  public String getTaxableAmount() {
+//      return taxableAmount;
+//  }
+//
+//  public void setTaxableAmount(String taxableAmount) {
+//      this.taxableAmount = taxableAmount;
+//  }
+//
+//  public String getTaxableAmountCurrency() {
+//      return taxableAmountCurrency;
+//  }
+//
+//  public void setTaxableAmountCurrency(String taxableAmountCurrency) {
+//      this.taxableAmountCurrency = taxableAmountCurrency;
+//  }
+  
   public String toString(){
       ToStringBuilder toString = new ToStringBuilder(this);
       toString.append("subTotalAmount",getSubTotalAmount());
       toString.append("subTotalAmountCurrency",getSubTotalAmountCurrency());
       toString.append("taxAmount",getTaxAmount());
       toString.append("taxAmountCurrency",getTaxAmountCurrency());
+//      toString.append("taxableAmount",getTaxableAmount());
+//      toString.append("taxableAmountCurrency",getTaxableAmountCurrency());
       toString.append("taxDescription",getTaxDescription());
+      toString.append("taxPercentageRate",getTaxPercentageRate());
+      toString.append("taxPurpose",getTaxPurpose());
+      toString.append("taxCategory",getTaxCategory());
       toString.append("specialHandlingAmount",getSpecialHandlingAmount());
       toString.append("specialHandlingAmountCurrency",getSpecialHandlingAmountCurrency());
       toString.append("specialHandlingAmountDescription",getSpecialHandlingAmountDescription());
@@ -399,4 +453,5 @@ public class ElectronicInvoiceDetailRequestSummary {
       
       return toString.toString();
   }
+
 }

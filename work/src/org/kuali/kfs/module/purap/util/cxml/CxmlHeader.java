@@ -25,6 +25,8 @@ public class CxmlHeader {
   /**
    * Newly Added
    */
+  private String fromSharedSecret;
+  private String toSharedSecret;
   private String senderSharedSecret;
 
   public CxmlHeader() {
@@ -190,16 +192,34 @@ public class CxmlHeader {
       this.senderSharedSecret = senderSharedSecret;
   }
   
+  public String getFromSharedSecret() {
+      return fromSharedSecret;
+  }
+
+  public void setFromSharedSecret(String fromSharedSecret) {
+      this.fromSharedSecret = fromSharedSecret;
+  }
+
+  public String getToSharedSecret() {
+      return toSharedSecret;
+  }
+
+  public void setToSharedSecret(String toSharedSecret) {
+      this.toSharedSecret = toSharedSecret;
+  }
+  
   public String toString(){
       
       ToStringBuilder toString = new ToStringBuilder(this);
       
       toString.append("FromDomain",getFromDomain());
       toString.append("FromIdentity",getFromIdentity());
+      toString.append("FromSharedSecret",getFromSharedSecret());
       toString.append("FromType",getFromType());
       
       toString.append("ToDomain",getToDomain());
       toString.append("ToIdentity",getToIdentity());
+      toString.append("ToSharedSecret",getToSharedSecret());
       toString.append("ToType",getToType());
       
       toString.append("SenderDomain",getSenderDomain());
@@ -210,5 +230,7 @@ public class CxmlHeader {
       
       return toString.toString();
   }
+
+
 
 }

@@ -22,6 +22,7 @@
                       <xsd:complexType>
                         <xsd:sequence>
                           <xsd:element name="Identity" type="xsd:string" />
+                          <xsd:element minOccurs="0" maxOccurs="1" name="SharedSecret" type="xsd:string" />
                         </xsd:sequence>
                         <xsd:attribute name="domain" type="xsd:string" use="required" />
                       </xsd:complexType>
@@ -36,6 +37,7 @@
                       <xsd:complexType>
                         <xsd:sequence>
                           <xsd:element name="Identity" type="xsd:string" />
+                          <xsd:element minOccurs="0" maxOccurs="1" name="SharedSecret" type="xsd:string" />
                         </xsd:sequence>
                         <xsd:attribute name="domain" type="xsd:string" use="required" />
                       </xsd:complexType>
@@ -50,7 +52,7 @@
                       <xsd:complexType>
                         <xsd:sequence>
                           <xsd:element name="Identity" type="xsd:string" />
-                          <!--<xsd:element name="SharedSecret" type="xsd:string" />-->
+                          <xsd:element minOccurs="0" maxOccurs="1" name="SharedSecret" type="xsd:string" />
                         </xsd:sequence>
                         <xsd:attribute name="domain" type="xsd:string" use="required" />
                       </xsd:complexType>
@@ -109,7 +111,7 @@
                                           </xsd:simpleContent>
                                         </xsd:complexType>
                                       </xsd:element>
-                                      <xsd:element name="PostalAddress">
+                                      <xsd:element minOccurs="0" maxOccurs="unbounded" name="PostalAddress">
                                         <xsd:complexType>
                                           <xsd:sequence>
                                             <xsd:element minOccurs="0" maxOccurs="unbounded" name="DeliverTo" type="xsd:string" />
@@ -357,12 +359,12 @@
 						  
 						  </xsd:element>
 						  
-                          <!--<xsd:element minOccurs="0" maxOccurs="unbounded" name="InvoiceDetailPaymentTerm">
+                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="InvoiceDetailPaymentTerm">
                             <xsd:complexType>
-                              <xsd:attribute name="payInNumberOfDays" type="xsd:string" use="required" />
-                              <xsd:attribute name="percentageRate" type="xsd:string" use="required" />
+                              <xsd:attribute name="payInNumberOfDays" type="xsd:unsignedInt" use="required" />
+                              <xsd:attribute name="percentageRate" type="xsd:decimal" use="required" />
                             </xsd:complexType>
-                          </xsd:element>-->
+                          </xsd:element>
                           
                           <!-- Newly Added -->
                           <!-- Should have Discount, but not defined in data xml -->
@@ -392,7 +394,7 @@
                             </xsd:complexType>
                           </xsd:element>
                         </xsd:sequence>
-                        <xsd:attribute name="purpose" use="required">
+                        <xsd:attribute name="purpose" use="optional" default="standard">
                         	<xsd:simpleType>
 								<xsd:restriction base="xsd:string">
 									<xsd:enumeration value="standard"/>
@@ -402,15 +404,20 @@
 	   							</xsd:restriction>
   							</xsd:simpleType>
   						</xsd:attribute>	
-                        <xsd:attribute name="operation" use="required" >
+                        <xsd:attribute name="operation" default="new">
                         	<xsd:simpleType>
 								<xsd:restriction base="xsd:string">
 									<xsd:enumeration value="new"/>
 									<xsd:enumeration value="delete"/>
+									<xsd:enumeration value="update"/>
 	   							</xsd:restriction>
   							</xsd:simpleType>
   						</xsd:attribute>	
-                        <xsd:attribute name="invoiceDate" type="xsd:date" use="required" />
+  						<!-- Changed to string from dateTime because of diff formats in the vendor xml files
+  						From vwr, it's like 2008-07-29 (Not valid)
+  						From guybrown, it's 2008-07-29T12:00:00 (valid dateTime)
+  						From fisher, it's 2008-07-25T00:00:00-08:00 (valid dateTime) -->
+                        <xsd:attribute name="invoiceDate" type="xsd:string" use="required" />
                         <!-- Changed to String from unsignedint -->
                         <xsd:attribute name="invoiceID" type="xsd:string" use="required" />
                         <xsd:attribute name="isInformationOnly" use="optional">
@@ -432,7 +439,9 @@
                                 <xsd:element name="OrderReference">
 	                                  <xsd:complexType>
 	                                    <xsd:sequence>
-		                                      <xsd:element name="DocumentReference">
+	                                    	  <!--  In DTD, it's a required element, changing it to optional
+	                                    	  because of cdw.xml -->
+		                                      <xsd:element minOccurs="0" maxOccurs="1" name="DocumentReference">
 		                                        <xsd:complexType>
 		                                          <xsd:simpleContent>
 		                                            <xsd:extension base="xsd:string">
@@ -535,7 +544,15 @@
                                         </xsd:complexType>
                                       </xsd:element>
                                     <xsd:element name="ManufacturerPartID" type="xsd:string" minOccurs="0" maxOccurs="1" />
-                                    <xsd:element name="ManufacturerName" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                                    <xsd:element name="ManufacturerName" minOccurs="0" maxOccurs="1">
+                                    	<xsd:complexType>
+                                    		<xsd:simpleContent>
+	                                            <xsd:extension base="xsd:string">
+    	                                          <xsd:attribute ref="xml:lang" use="optional" />
+        	                                    </xsd:extension>
+                                          </xsd:simpleContent>
+                                  		</xsd:complexType>
+                                    </xsd:element>
                                     <xsd:element name="Country" minOccurs="0" maxOccurs="1" >
                                        <xsd:complexType>
                                          <xsd:simpleContent>
@@ -1045,7 +1062,7 @@
 					                                <xsd:element maxOccurs="unbounded" name="TaxDetail" minOccurs="0">
 					                                  <xsd:complexType>
 					                                    <xsd:sequence>
-					                                      <xsd:element name="TaxableAmount">
+					                                      <xsd:element minOccurs="0" maxOccurs="1" name="TaxableAmount">
 					                                        <xsd:complexType>
 					                                          <xsd:sequence>
 					                                            <xsd:element name="Money" default="0">
@@ -1227,7 +1244,7 @@
                                 <xsd:element minOccurs="0" maxOccurs="unbounded" name="TaxDetail">
                                   <xsd:complexType>
                                     <xsd:sequence>
-                                      <xsd:element name="TaxableAmount">
+                                      <xsd:element minOccurs="0" maxOccurs="1" name="TaxableAmount">
                                         <xsd:complexType>
                                           <xsd:sequence>
                                             <xsd:element name="Money" default="0">
@@ -1421,10 +1438,9 @@
         </xsd:element>
       </xsd:sequence>
       <!-- Chaning to optional since barnesandnoble's xml doesn't contain this attribute -->
-      <xsd:attribute name="version" type="xsd:string" use="optional" />
+      <xsd:attribute name="version" type="xsd:string" use="optional" default="1.2.019"/>
       <xsd:attribute ref="xml:lang" use="optional" />
       <xsd:attribute name="timestamp" type="xsd:string" use="required" />
-      <!--<xsd:attribute name="payloadID" type="xsd:unsignedInt" use="required" />-->
       <xsd:attribute name="payloadID" type="xsd:string" use="required" />
     </xsd:complexType>
   </xsd:element>

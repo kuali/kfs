@@ -66,6 +66,9 @@ function BudgetObjectInfoUpdator(){
 	importDWRInterface("FinancialSystemUserService", interfaceScriptHolder);
 }
 
+/**
+ * retrieve duration and open/close the amount and time percent fields 
+ */
 BudgetObjectInfoUpdator.prototype.loadDurationInfo = function(durationCodeFieldName, durationDescriptionFieldName ) {
     var durationCode = DWRUtil.getValue( durationCodeFieldName );
     var fieldNamePrefix = findElPrefix(durationCodeFieldName);
@@ -104,6 +107,9 @@ BudgetObjectInfoUpdator.prototype.loadDurationInfo = function(durationCodeFieldN
 	}
 }
 
+/**
+ * retrieve reason code and open/close the reason amount field
+ */
 BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonAmountFieldName, reasonCodeFieldName, reasonDescriptionFieldName ) {
     var reasonCode = DWRUtil.getValue( reasonCodeFieldName );
     var reasonAmountField = document.getElementById(reasonAmountFieldName);
@@ -130,6 +136,9 @@ BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonAmountFiel
 	}
 }
 
+/**
+ * retrieve the intended incumbent and administrative post according to the given information
+ */
 BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(positionNumberFieldName, iuClassificationLevelFieldName, administrativePostFieldName, emplidFieldName, personNameFieldName) {
 	loadEmplInfo(emplidFieldName, personNameFieldName);
 	
@@ -156,6 +165,9 @@ BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(positionN
 	budgetObjectInfoUpdator.loadAdministrativePostInfo(emplidFieldName, positionNumberFieldName, administrativePostFieldName);
 }
 
+/**
+ * retrieve the position and adminstrative post according to the given fiscal year, employee id and position number
+ */
 BudgetObjectInfoUpdator.prototype.loadPositionInfo = function(universityFiscalYearFieldName, emplidFieldName, 
 	iuNormalWorkMonthsFieldName, iuPayMonthsFieldName, positionFullTimeEquivalencyFieldName, administrativePostFieldName, 
 	positionNumberFieldName, positionDescriptionFieldName) {
@@ -194,6 +206,9 @@ BudgetObjectInfoUpdator.prototype.loadPositionInfo = function(universityFiscalYe
 	budgetObjectInfoUpdator.loadAdministrativePostInfo(emplidFieldName, positionNumberFieldName, administrativePostFieldName);
 }
 
+/**
+ * retrieve the administrative post according to the given emplid and position number
+ */
 BudgetObjectInfoUpdator.prototype.loadAdministrativePostInfo = function(emplidFieldName, positionNumberFieldName, administrativePostFieldName) {
 	var emplid = DWRUtil.getValue( emplidFieldName );
 	var positionNumber = DWRUtil.getValue( positionNumberFieldName );
@@ -217,6 +232,9 @@ BudgetObjectInfoUpdator.prototype.loadAdministrativePostInfo = function(emplidFi
 	}
 }
 
+/**
+ * calculate fte quantity based on the given information
+ */
 BudgetObjectInfoUpdator.prototype.recalculateFTE = function(payMonthsFieldName, fundingMonthsFieldName, fteQuantityFieldName, timePercentFieldName, fteQuantityField ) {
     var timePercent = DWRUtil.getValue(timePercentFieldName);
     var payMonths = DWRUtil.getValue(payMonthsFieldName);

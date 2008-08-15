@@ -68,6 +68,7 @@
     <property name="title" value="Create Functional Field Description" />
     <property name="maintainableItems" >
       <list>
+        <bean parent="MaintainableFieldDefinition" p:name="namespaceCode" />
         <bean parent="MaintainableFieldDefinition" p:name="componentClass" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="propertyName" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="functionalFieldDescription" p:required="true" />

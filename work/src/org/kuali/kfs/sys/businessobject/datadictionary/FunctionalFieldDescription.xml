@@ -59,6 +59,7 @@
   <bean id="FunctionalFieldDescription-functionalFieldDescription-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="functionalFieldDescription" />
     <property name="label" value="Functional Description" />
+    <property name="shortLabel" value="Functional Description" />
     <property name="maxLength" value="500" />
     <property name="required" value="true" />
   </bean>
@@ -68,6 +69,9 @@
   <bean id="FunctionalFieldDescription-namespaceCode-parentBean" abstract="true" parent="ParameterNamespace-code" >
     <property name="name" value="namespaceCode" />
 	<property name="label" value="Parameter Namespace Code" />
+	<property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
   </bean>
 
   <bean id="FunctionalFieldDescription-active" parent="FunctionalFieldDescription-active-parentBean" />

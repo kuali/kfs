@@ -184,6 +184,7 @@
 
   <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="zipCode" />
+    <property name="required" value="false" />
   </bean>
   <bean id="VendorGenericAttributes-cityName" parent="VendorGenericAttributes-cityName-parentBean" />
 

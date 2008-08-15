@@ -108,11 +108,13 @@
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="disbVchrPayeeZipCode" />
+    <property name="required" value="false" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode-parentBean" />
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCountryCode-parentBean" abstract="true" parent="VendorAddress-vendorCountryCode">
     <property name="name" value="disbVchrPayeeCountryCode" />
+    <property name="required" value="false" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName" parent="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName-parentBean" />
 

@@ -68,7 +68,9 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         if (this.getEditingMode().get(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
             extraButtons.add(createBulkReceivingContinueButton());                
             extraButtons.add(createClearInitFieldsButton());
-        }else if (getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute()){
+        }else if (getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute() || 
+                  getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsProcessed() ||
+                  getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal()){
             extraButtons.add(createPrintReceivingTicketButton());
         }
             

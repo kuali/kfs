@@ -375,6 +375,12 @@
         </property>
     </bean>
 
+    <bean id="businessObjectComponentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+        <property name="lookupableHelperService">
+            <bean id="businessObjectComponentLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.BusinessObjectComponentLookupableHelperServiceImpl" parent="lookupableHelperService" />
+        </property>
+    </bean>
+
     <bean id="kualiInquirable" class="org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl" scope="prototype" >
     	<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />

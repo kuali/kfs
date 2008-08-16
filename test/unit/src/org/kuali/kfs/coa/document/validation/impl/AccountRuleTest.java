@@ -1303,7 +1303,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setIncomeStreamAccount(null);
 
         // run the rule
-        result = rule.checkCgIncomeStreamRequired(newAccount);
+        result = rule.checkIncomeStreamValid(newAccount);
         assertEquals("Non-applicable accounts should not fail.", true, result);
         assertGlobalErrorMapEmpty();
 
@@ -1333,7 +1333,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setIncomeStreamAccount(null);
 
         // run the rule
-        result = rule.checkCgIncomeStreamRequired(newAccount);
+        result = rule.checkIncomeStreamValid(newAccount);
         assertEquals("GF MPRACT account should not fail.", true, result);
         assertGlobalErrorMapEmpty();
 
@@ -1363,7 +1363,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setIncomeStreamAccount(null);
 
         // run the rule
-        result = rule.checkCgIncomeStreamRequired(newAccount);
+        result = rule.checkIncomeStreamValid(newAccount);
         assertEquals("CG Account with no Income Stream data should fail.", false, result);
         assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY);
         assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY);
@@ -1395,7 +1395,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setIncomeStreamAccount(null);
 
         // run the rule
-        result = rule.checkCgIncomeStreamRequired(newAccount);
+        result = rule.checkIncomeStreamValid(newAccount);
         assertEquals("CG Account with invalid Income Stream data should fail.", false, result);
         assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_EXISTENCE);
         assertGlobalErrorMapSize(1);
@@ -1426,7 +1426,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setIncomeStreamAccount(null);
 
         // run the rule
-        result = rule.checkCgIncomeStreamRequired(newAccount);
+        result = rule.checkIncomeStreamValid(newAccount);
         assertEquals("GF Account with no Income Stream data should fail.", false, result);
         assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY);
         assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY);

@@ -69,7 +69,6 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     private static final String RESTRICTED_CD_RESTRICTED = "R";
     private static final String RESTRICTED_CD_UNRESTRICTED = "U";
     private static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
-    private static final String SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS = "MPRACT";
     private static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
 
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
@@ -666,7 +665,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
         // Income Stream account is required if this account is CG fund group,
         // or GF (general fund) fund group (with some exceptions)
-        success &= checkCgIncomeStreamRequired(newAccount);
+        success &= checkIncomeStreamValid(newAccount);
 
         return success;
     }
@@ -677,81 +676,37 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      * @param newAccount
      * @return fails if it is required and not entered, or not valid
      */
-    protected boolean checkCgIncomeStreamRequired(Account newAccount) {
-
-        boolean result = true;
-        boolean required = false;
-
+    protected boolean checkIncomeStreamValid(Account newAccount) {
         // if the subFundGroup object is null, we can't test, so exit
         if (ObjectUtils.isNull(newAccount.getSubFundGroup())) {
-            return result;
+            return true;
         }
-
-        // retrieve the sub fund code and fund group code
         String subFundGroupCode = newAccount.getSubFundGroupCode().trim();
         String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
-
-        String requiredByValue = "";
-        String requiredByLabel = "";
-
-        // if this is a CG fund group, then its required
+        boolean valid = true;
         if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, fundGroupCode).evaluationSucceeds()) {
-            if (SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(newAccount.getSubFundGroup())) {
-                required = true;
-                requiredByLabel = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel();
-                requiredByValue = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue();
-            }
-    
-            // if this is a general fund group, then its required
-            else if (GENERAL_FUND_CD.equalsIgnoreCase(fundGroupCode)) {
-                // unless its part of the MPRACT sub fund group
-                if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
-                    required = true;
-                    requiredByLabel = getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME);
-                    requiredByValue = GENERAL_FUND_CD;
+            if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
+                if (StringUtils.isBlank(newAccount.getIncomeStreamFinancialCoaCode())) {
+                    putFieldError(KFSPropertyConstants.INCOME_STREAM_FINANCIAL_COA_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY, new String[] { getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME), fundGroupCode, getDdService().getAttributeLabel(SubFundGroup.class, KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME), subFundGroupCode });
+                    valid = false;
+                } 
+                else {
+                    if (StringUtils.isBlank(newAccount.getIncomeStreamAccountNumber())) {
+                        putFieldError(KFSPropertyConstants.INCOME_STREAM_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY, new String[] { getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME), fundGroupCode, getDdService().getAttributeLabel(SubFundGroup.class, KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME), subFundGroupCode});
+                        valid = false;
+                    }
                 }
             }
         }
-
-        // if the income stream account is not required, then we're done
-        if (!required) {
-            return result;
-        }
-
-        DictionaryValidationService dvService = super.getDictionaryValidationService();
-
-        // make sure both coaCode and accountNumber are filled out
-        boolean incomeStreamAccountIsValid = true;
-        if (!checkEmptyValue(newAccount.getIncomeStreamFinancialCoaCode())) {
-            putFieldError("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY, new String[] { requiredByLabel, requiredByValue });
-            incomeStreamAccountIsValid = false;
-        }
-        if (!checkEmptyValue(newAccount.getIncomeStreamAccountNumber())) {
-            putFieldError("incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY, new String[] { requiredByLabel, requiredByValue });
-            incomeStreamAccountIsValid = false;
-        } else {
-            // validate that the income stream account exists
-            if(null != newAccount.getIncomeStreamAccountNumber() && null != newAccount.getIncomeStreamFinancialCoaCode()) {
-                if(newAccount.getIncomeStreamAccountNumber().equals(newAccount.getAccountNumber()) && newAccount.getIncomeStreamFinancialCoaCode().equals(newAccount.getChartOfAccountsCode())) {
-                    // income stream account is valid
-                } else if (!dvService.validateReferenceExists(newAccount, "incomeStreamAccount")) {
-                    putFieldError("incomeStreamAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "Income Stream Account: " + newAccount.getIncomeStreamFinancialCoaCode() + "-" + newAccount.getIncomeStreamAccountNumber());
-                    incomeStreamAccountIsValid = false;
+        if (valid && (StringUtils.isNotBlank(newAccount.getIncomeStreamFinancialCoaCode()) || StringUtils.isNotBlank(newAccount.getIncomeStreamAccountNumber()))) {
+            if(!(newAccount.getAccountNumber().equals(newAccount.getIncomeStreamAccountNumber()) && newAccount.getChartOfAccountsCode().equals(newAccount.getIncomeStreamFinancialCoaCode()))) {
+                if (!super.getDictionaryValidationService().validateReferenceExists(newAccount, KFSPropertyConstants.INCOME_STREAM_ACCOUNT)) {
+                    putFieldError(KFSPropertyConstants.INCOME_STREAM_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, new StringBuffer(getDdService().getAttributeLabel(SubFundGroup.class, KFSPropertyConstants.INCOME_STREAM_ACCOUNT_NUMBER)).append(": ").append(newAccount.getIncomeStreamFinancialCoaCode()).append("-").append(newAccount.getIncomeStreamAccountNumber()).toString());
+                    valid = false;
                 }
-            }
+            }   
         }
-
-        if (incomeStreamAccountIsValid) {
-            result = true;
-        } else {
-            result = null != newAccount.getAccountNumber() && null != newAccount.getIncomeStreamAccountNumber();
-            if (result) {
-                result &= newAccount.getAccountNumber().equals(newAccount.getIncomeStreamAccountNumber());
-                result &= newAccount.getChartOfAccountsCode().equals(newAccount.getIncomeStreamFinancialCoaCode());
-            }
-        }
-
-        return result;
+        return valid;
     }
 
     /**

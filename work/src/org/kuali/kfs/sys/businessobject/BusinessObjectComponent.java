@@ -35,7 +35,7 @@ public class BusinessObjectComponent extends TransientBusinessObjectBase {
     
     public BusinessObjectComponent(BusinessObjectEntry businessObjectEntry) {
         setNamespaceCode(SpringContext.getBean(ParameterService.class).getNamespace(businessObjectEntry.getBusinessObjectClass()));
-        setNamespaceName(getNamespaceCode() + " - " + new ParameterNamespaceValuesFinder().getKeyLabel(getNamespaceCode()));
+        setNamespaceName(new ParameterNamespaceValuesFinder().getKeyLabel(getNamespaceCode()));
         setComponentClass(businessObjectEntry.getBusinessObjectClass().getName());
         setComponentLabel(KFSUtils.getBusinessTitleForClass(businessObjectEntry.getBusinessObjectClass()));
     }

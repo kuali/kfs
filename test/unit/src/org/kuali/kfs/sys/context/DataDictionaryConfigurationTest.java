@@ -53,7 +53,6 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     private Map<String, String> dataDictionaryWarnings;
 
     public void testAllDataDictionaryDocumentTypesExistInDocumentTypeTable() throws Exception {
-        loadDataDictionary();
         List<String> documentTypeCodes = new ArrayList<String>();
         for (DocumentType type : (Collection<DocumentType>) SpringContext.getBean(BusinessObjectService.class).findAll(DocumentType.class)) {
             documentTypeCodes.add(type.getDocumentTypeCode());
@@ -79,7 +78,6 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     }
 
     public void testAllDataDicitionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
-        loadDataDictionary();
         List<String> workflowDocumentTypeNames = new ArrayList<String>();
         DataSource mySource = SpringContext.getBean(DataSource.class);
         Connection dbCon = null;
@@ -137,28 +135,15 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         assertEquals(noActiveFieldClassList.toString(), 0, noActiveFieldClassList.size());
     }
 
-    private void loadDataDictionary() throws Exception {
-//        for (String key : dataDictionary.getFileLocationMap().keySet()) {
-//            try {
-//                DataDictionaryEntry entry = dataDictionary.getDictionaryObjectEntry(key);
-//                if (entry == null) {
-//                    dataDictionaryWarnings.put(key, "DataDictionaryEntry is null");
-//                }
-//                else if ((entry instanceof BusinessObjectEntry) && !((BusinessObjectEntry) entry).getBusinessObjectClass().getSimpleName().equals(key)) {
-//                    dataDictionaryWarnings.put(key, "BusinessObjectEntry xml file name and business object class simple name are out of sync");
-//                }
-//                else if ((entry instanceof MaintenanceDocumentEntry) && (!(((MaintenanceDocumentEntry) entry).getBusinessObjectClass().getSimpleName() + "MaintenanceDocument").equals(key) || !((MaintenanceDocumentEntry) entry).getDocumentTypeName().equals(key))) {
-//                    dataDictionaryWarnings.put(key, "MaintenanceDocumentEntry xml file name and business object class simple name or workflow document type name are out of sync");
-//                }
-//                else if ((entry instanceof TransactionalDocumentEntry) && (!((TransactionalDocumentEntry) entry).getDocumentClass().getSimpleName().equals(key) || !((TransactionalDocumentEntry) entry).getDocumentTypeName().equals(key))) {
-//                    dataDictionaryWarnings.put(key, "TransactionalDocumentEntry xml file name and document class simple name or workflow document type name are out of sync");
-//                }
-//
-//            }
-//            catch (Exception e) {
-//                dataDictionaryLoadFailures.put(key, e);
-//            }
-//        }
+    public void testAllBusinessObjectsHaveBusinessObjectLabel() throws Exception {
+        DataDictionaryService dataDictionaryService = (DataDictionaryService)SpringContext.getBean(DataDictionaryService.class);
+        List<Class> noObjectLabelClassList = new ArrayList<Class>();
+        for(BusinessObjectEntry businessObjectEntry:dataDictionaryService.getDataDictionary().getBusinessObjectEntries().values()){
+            if (StringUtils.isBlank(businessObjectEntry.getObjectLabel())) {
+                noObjectLabelClassList.add(businessObjectEntry.getBusinessObjectClass());
+            }
+        }
+        assertEquals(noObjectLabelClassList.toString(), 0, noObjectLabelClassList.size());
     }
 
     protected void setUp() throws Exception {

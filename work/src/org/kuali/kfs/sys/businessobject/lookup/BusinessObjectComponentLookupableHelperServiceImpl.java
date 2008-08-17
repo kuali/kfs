@@ -78,6 +78,7 @@ public class BusinessObjectComponentLookupableHelperServiceImpl extends KualiLoo
                 matchingBusinessObjectComponents.add(businessObjectComponent);
             }
         }
+        
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(matchingBusinessObjectComponents, new BeanPropertyComparator(getDefaultSortColumns(), true));

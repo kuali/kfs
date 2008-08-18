@@ -15,9 +15,19 @@
  */
 package org.kuali.kfs.module.ar.document.dataaccess;
 
+import java.util.Collection;
+
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
 public interface CustomerInvoiceDocumentDao {
+    
+    /**
+     * This method retrieves all CustomerInvoiceDocument objects in the system
+     * 
+     * @return all CustomerInvoiceDocument objects
+     */
+    public Collection getAll();   
+    
     /**
      * @param organizationInvoiceNumber
      * @return

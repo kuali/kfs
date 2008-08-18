@@ -15,7 +15,12 @@
  */
 package org.kuali.kfs.module.ar.document.dataaccess.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDocumentDao;
@@ -25,6 +30,14 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
 
     private static org.apache.log4j.Logger LOG = 
         org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentDaoOjb.class);
+    
+    public Collection getAll() {
+        QueryByCriteria qbc = QueryFactory.newQuery(CustomerInvoiceDocument.class, (Criteria) null);
+        //qbc.addOrderByAscending("customerPurchaseOrderNumber");
+        Collection customerinvoicedocuments = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        List invoiceList = new ArrayList(customerinvoicedocuments);
+        return invoiceList;
+    }
 
     /**
      * @see org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDocumentDao#getInvoiceByOrganizationInvoiceNumber(java.lang.String)
@@ -34,6 +47,7 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         criteria.addEqualTo("organizationInvoiceNumber", organizationInvoiceNumber);
         
         return (CustomerInvoiceDocument) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(CustomerInvoiceDocument.class, criteria));
+        
     }
 
     /**

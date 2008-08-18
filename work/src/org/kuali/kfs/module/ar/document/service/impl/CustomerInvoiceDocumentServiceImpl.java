@@ -75,6 +75,12 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
 
+    public  Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments() {    
+        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
+        invoices = customerInvoiceDocumentDao.getAll();
+        return invoices;
+    }
+    
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDetailsForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */

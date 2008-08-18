@@ -103,55 +103,12 @@ public class CustomerAgingReportAction extends KualiAction {
             Long totalSize = ((CollectionIncomplete) displayList).getActualSizeIfTruncated();
 
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
-//
-//            // TODO: use inheritance instead of this if statement
-//            //if (lookupable.getLookupableHelperService() instanceof CustomerAgingReportLookupableHelperServiceImpl) {
+
             if (true) {
-//
-// //               Collection totalsTable = new ArrayList();
-//
-//                int listIndex = 0;
-//                int arrayIndex = 0;
-//                int listSize = incompleteDisplayList.size();
-//
-//                for (; listIndex < listSize;) {
-//
-//                     
-//                    CustomerAgingReportDetail balance = (CustomerAgingReportDetail) incompleteDisplayList.get(listIndex);
-//
-//                    boolean ok = true;//ObjectHelper.isOneOf(balance.getTitle(), getTotalTitles());
-//                    if (ok) {
-//
-//                        if (totalSize > 7) {
-//                           // totalsTable.add(resultTableAsArray[arrayIndex]);
-//                        }
-//                        resultTable.remove(resultTableAsArray[arrayIndex]);
-//
-//                        incompleteDisplayList.remove(balance);
-//                        // account for the removal of the balance which resizes the list
-//                        listIndex--;
-//                        listSize--;
-//
-//                    }
-//
-//                    listIndex++;
-//                    arrayIndex++;
-//
-//                }
-
-
-                //List<ResultRow> resultTable2 = new
-//                java.io.File resultTableFromBalanceInquiry = new java.io.File("/java/resultTable.ser");
-//                ObjectInputStream in = new ObjectInputStream(new FileInputStream(resultTableFromBalanceInquiry));
-//                // Deserialize the object
-//                List<ResultRow> resultTable2 = (List<ResultRow>) in.readObject();
-//                in.close();
 
                 request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
 
-                
-//                request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
-//                GlobalVariables.getUserSession().addObject(TOTALS_TABLE_KEY, totalsTable);
+
 
             }
             else {

@@ -27,6 +27,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface CustomerInvoiceDocumentService {
     
+    public  Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments(); 
+    
     /**
      * This method sets up default values for customer invoice document on initiation.
      * @param document
@@ -159,4 +161,6 @@ public interface CustomerInvoiceDocumentService {
      * This method creates a dummy customer invoice document for functional testing
      */
     public void createCustomerInvoiceDocumentForFunctionalTesting();
+
+ 
 }

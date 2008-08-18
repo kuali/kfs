@@ -180,7 +180,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         for(PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
             BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);        
             if(document == null) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.toString());
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
                        

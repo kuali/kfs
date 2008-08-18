@@ -160,7 +160,8 @@
 	
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
 			accountingLine="${fundingLineName}"
-			field="emplid" detailFunction="budgetObjectInfoUpdator.loadIntendedIncumbentInfo"
+			field="emplid" 
+			detailFunction="budgetObjectInfoUpdator.loadIntendedIncumbentInfo"
 			detailField="budgetConstructionIntendedIncumbent.personName"
 			detailFunctionExtraParam="'${fundingLineName}.positionNumber', 
 						'${fundingLineName}.budgetConstructionIntendedIncumbent.iuClassificationLevel', 

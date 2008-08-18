@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import static org.kuali.kfs.module.bc.BCConstants.ErrorKey.DETAIL_SALARY_SETTING_TAB_ERRORS;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,14 +38,10 @@ import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -144,16 +142,13 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             // update the access flags of the current funding line
             boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.getUniversalUser());
             if (!updated) {
-                errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
+                errorMap.putError(DETAIL_SALARY_SETTING_TAB_ERRORS, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
                 this.releasePositionAndFundingLocks();
-
-                LOG.info(BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
                 return false;
             }
 
             // not to acquire any lock for the display-only and non-budgetable funding line
             if (appointmentFunding.isDisplayOnlyMode() || !appointmentFunding.isBudgetable()) {
-                LOG.info("isDisplayOnlyMode || not isBudgetable");
                 return true;
             }
 
@@ -161,10 +156,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
             BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position, this.getUniversalUser());
             if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
-                errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
+                errorMap.putError(DETAIL_SALARY_SETTING_TAB_ERRORS, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
                 this.releasePositionAndFundingLocks();
-
-                LOG.info(BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION);
                 return false;
             }
 
@@ -175,10 +168,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             }
 
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
-                errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.toString());
+                errorMap.putError(DETAIL_SALARY_SETTING_TAB_ERRORS, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.getAppointmentFundingString());
                 this.releasePositionAndFundingLocks();
-
-                LOG.info(BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING);
                 return false;
             }
         }
@@ -199,7 +190,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public boolean acquireTransactionLocks() {
         LOG.info("acquireTransactionLocks() started");
-        
+
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getSavableAppointmentFundings()) {
             try {
                 BudgetConstructionLockStatus transactionLockStatus = this.getLockStatusForBudgetByAccountMode(appointmentFunding);
@@ -208,10 +199,10 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
                 }
 
                 if (!LockStatus.SUCCESS.equals(transactionLockStatus.getLockStatus())) {
-                    errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, appointmentFunding.toString());
+                    errorMap.putError(DETAIL_SALARY_SETTING_TAB_ERRORS, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, appointmentFunding.getAppointmentFundingString());
 
                     this.releaseTransactionLocks();
-                    
+
                     // TODO: need to release position and funding locks: this.releasePositionAndFundingLocks() ?
                     return false;
                 }
@@ -233,7 +224,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public void releasePositionAndFundingLocks() {
         LOG.info("releasePositionAndFundingLocks() started");
-        
+
         List<PendingBudgetConstructionAppointmentFunding> releasableAppointmentFundings = this.getReleasableAppointmentFundings();
         lockService.unlockFunding(releasableAppointmentFundings, this.getUniversalUser());
 
@@ -252,7 +243,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public void releaseTransactionLocks() {
         LOG.info("releaseTransactionLocks() started");
-        
+
         List<PendingBudgetConstructionAppointmentFunding> fundingsWithTransactionLocks = this.getReleasableAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : fundingsWithTransactionLocks) {
             lockService.unlockTransaction(appointmentFunding, this.getUniversalUser());
@@ -264,12 +255,11 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public List<PendingBudgetConstructionAppointmentFunding> getSavableAppointmentFundings() {
         LOG.info("getSavableAppointmentFundings() started");
-        
+
         // get the funding lines that can be saved
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         for (PendingBudgetConstructionAppointmentFunding fundingLine : this.getAppointmentFundings()) {
             if (!fundingLine.isDisplayOnlyMode() && fundingLine.isBudgetable()) {
-                LOG.info("getSavableAppointmentFundings() started" + fundingLine);
                 savableAppointmentFundings.add(fundingLine);
             }
         }
@@ -281,22 +271,22 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public List<PendingBudgetConstructionAppointmentFunding> getReleasableAppointmentFundings() {
         LOG.info("getReleasableAppointmentFundings() started");
-        
+
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = this.getSavableAppointmentFundings();
         List<PendingBudgetConstructionAppointmentFunding> releasableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         releasableAppointmentFundings.addAll(savableAppointmentFundings);
 
         return releasableAppointmentFundings;
     }
-    
+
     /**
      * determine whether there is any active funding line in the given savable appointment funding lines
-     */ 
-    public List<PendingBudgetConstructionAppointmentFunding> getActiveFundingLines() {       
-        List<PendingBudgetConstructionAppointmentFunding> activeFundingLines = new ArrayList<PendingBudgetConstructionAppointmentFunding>(); 
-        
-        for(PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getSavableAppointmentFundings()) {
-            if(!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> getActiveFundingLines() {
+        List<PendingBudgetConstructionAppointmentFunding> activeFundingLines = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getSavableAppointmentFundings()) {
+            if (!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
                 activeFundingLines.add(appointmentFunding);
             }
         }

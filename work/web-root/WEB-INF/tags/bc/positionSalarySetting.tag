@@ -41,7 +41,7 @@
 
 <c:set var="budgetConstructionPosition" value="${KualiForm.budgetConstructionPosition}" />
     
-<kul:tab tabTitle="Position Funding" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_POSITION_SALARY_SETTING_TAB_ERRORS}">
+<kul:tab tabTitle="Position Funding" defaultOpen="true" tabErrorKey="${BCConstants.ErrorKey.DETAIL_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align="center">
 	<c:if test="${not readOnly && budgetConstructionPosition.effective && budgetConstructionPosition.budgetedPosition}">   
 		<kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Add Funding">      
@@ -64,19 +64,12 @@
 		<c:set var="notEditable" value="${readOnly || fundingLine.persistedDeleteIndicator || fundingLine.displayOnlyMode}"/>
 		<c:set var="canPurge" value="${not notEditable && empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
 		<c:set var="canDelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.appointmentFundingDeleteIndicator }" />
-		<c:set var="canUndelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.vacatable && fundingLine.appointmentFundingDeleteIndicator}" />
-		
-	    <c:set var="subTabTitle" value="${fundingLine.chartOfAccountsCode}"/>
-	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.accountNumber}"/>
-	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.subAccountNumber}"/>
-	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.financialObjectCode}"/>
-	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.financialSubObjectCode}"/>
-	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.emplid}"/>  
+		<c:set var="canUndelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.vacatable && fundingLine.appointmentFundingDeleteIndicator}" /> 
 	    
 	    <html:hidden property="${fundingLineName}.budgetConstructionPosition.iuPayMonths" />
 		<html:hidden property="${fundingLineName}.budgetConstructionPosition.iuNormalWorkMonths" />  
 	          	
-	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${subTabTitle}" >
+	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${fundingLine.appointmentFundingString}" >
 	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	countOfMajorColumns="9" lineIndex="${status.index}" hasBeenAdded = "true">    		
 	    		<c:if test="${fundingLine.vacatable}">
 					<html:image property="methodToCall.vacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 

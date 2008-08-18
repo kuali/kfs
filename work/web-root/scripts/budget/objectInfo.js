@@ -63,15 +63,14 @@ function BudgetObjectInfoUpdator(){
 	importDWRInterface("BudgetConstructionAdministrativePostService", interfaceScriptHolder);
 	importDWRInterface("BudgetConstructionPositionService", interfaceScriptHolder);
 	importDWRInterface("SalarySettingService", interfaceScriptHolder);
-	importDWRInterface("FinancialSystemUserService", interfaceScriptHolder);
 }
 
 /**
  * retrieve duration and open/close the amount and time percent fields 
  */
 BudgetObjectInfoUpdator.prototype.loadDurationInfo = function(durationCodeFieldName, durationDescriptionFieldName ) {
-    var durationCode = DWRUtil.getValue( durationCodeFieldName );
-    var fieldNamePrefix = findElPrefix(durationCodeFieldName);
+    var durationCode = DWRUtil.getValue( durationCodeFieldName ).trim();
+    var fieldNamePrefix = findElPrefix(durationCodeFieldName).trim();
     var requestedCsfAmountField = document.getElementById(fieldNamePrefix + requestedCsfAmountSuffix);
     var requestedCsfTimePercentField = document.getElementById(fieldNamePrefix + requestedCsfTimePercentSuffix);
 
@@ -111,8 +110,8 @@ BudgetObjectInfoUpdator.prototype.loadDurationInfo = function(durationCodeFieldN
  * retrieve reason code and open/close the reason amount field
  */
 BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonAmountFieldName, reasonCodeFieldName, reasonDescriptionFieldName ) {
-    var reasonCode = DWRUtil.getValue( reasonCodeFieldName );
-    var reasonAmountField = document.getElementById(reasonAmountFieldName);
+    var reasonCode = DWRUtil.getValue( reasonCodeFieldName ).trim();
+    var reasonAmountField = document.getElementById(reasonAmountFieldName).trim();
 
 	if (reasonCode=='') {
 		clearRecipients(reasonDescriptionFieldName, "");
@@ -139,10 +138,8 @@ BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonAmountFiel
 /**
  * retrieve the intended incumbent and administrative post according to the given information
  */
-BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(positionNumberFieldName, iuClassificationLevelFieldName, administrativePostFieldName, emplidFieldName, personNameFieldName) {
-	loadEmplInfo(emplidFieldName, personNameFieldName);
-	
-	var emplid = DWRUtil.getValue( emplidFieldName );
+BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(positionNumberFieldName, iuClassificationLevelFieldName, administrativePostFieldName, emplidFieldName, personNameFieldName) {	
+	var emplid = DWRUtil.getValue( emplidFieldName ).trim();
 
 	if (emplid=='') {
 		clearRecipients(iuClassificationLevelFieldName, "");
@@ -151,11 +148,13 @@ BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(positionN
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
 				setRecipientValue( iuClassificationLevelFieldName, data.iuClassificationLevel);
+				setRecipientValue( personNameFieldName, data.personName);
 			} else {
-				clearRecipients(iuClassificationLevelFieldName, "");			
+				clearRecipients(iuClassificationLevelFieldName, "");
+				setRecipientValue( personNameFieldName, wrapError( "Intended incumbent not found" ), true );			
 			} },
 			errorHandler:function( errorMessage ) { 
-				setRecipientValue( iuClassificationLevelFieldName, wrapError( "Error" ), true );
+				setRecipientValue( personNameFieldName, wrapError( "Error" ), true );
 			}
 		};
 		
@@ -172,9 +171,9 @@ BudgetObjectInfoUpdator.prototype.loadPositionInfo = function(universityFiscalYe
 	iuNormalWorkMonthsFieldName, iuPayMonthsFieldName, positionFullTimeEquivalencyFieldName, administrativePostFieldName, 
 	positionNumberFieldName, positionDescriptionFieldName) {
 	
-	var universityFiscalYear = DWRUtil.getValue( universityFiscalYearFieldName );
-	var emplid = DWRUtil.getValue( emplidFieldName );
-	var positionNumber = DWRUtil.getValue( positionNumberFieldName );
+	var universityFiscalYear = DWRUtil.getValue( universityFiscalYearFieldName ).trim();
+	var emplid = DWRUtil.getValue( emplidFieldName ).trim();
+	var positionNumber = DWRUtil.getValue( positionNumberFieldName ).trim();
 
 	if (positionNumber == '' || universityFiscalYear == '') {
 		clearRecipients(positionDescriptionFieldName, "");
@@ -210,8 +209,8 @@ BudgetObjectInfoUpdator.prototype.loadPositionInfo = function(universityFiscalYe
  * retrieve the administrative post according to the given emplid and position number
  */
 BudgetObjectInfoUpdator.prototype.loadAdministrativePostInfo = function(emplidFieldName, positionNumberFieldName, administrativePostFieldName) {
-	var emplid = DWRUtil.getValue( emplidFieldName );
-	var positionNumber = DWRUtil.getValue( positionNumberFieldName );
+	var emplid = DWRUtil.getValue( emplidFieldName ).trim();
+	var positionNumber = DWRUtil.getValue( positionNumberFieldName ).trim();
 
 	if (positionNumber == '' || emplid == '') {
 		clearRecipients(administrativePostFieldName, "");
@@ -236,9 +235,9 @@ BudgetObjectInfoUpdator.prototype.loadAdministrativePostInfo = function(emplidFi
  * calculate fte quantity based on the given information
  */
 BudgetObjectInfoUpdator.prototype.recalculateFTE = function(payMonthsFieldName, fundingMonthsFieldName, fteQuantityFieldName, timePercentFieldName, fteQuantityField ) {
-    var timePercent = DWRUtil.getValue(timePercentFieldName);
-    var payMonths = DWRUtil.getValue(payMonthsFieldName);
-    var fundingMonths = DWRUtil.getValue(fundingMonthsFieldName);
+    var timePercent = DWRUtil.getValue(timePercentFieldName).trim();
+    var payMonths = DWRUtil.getValue(payMonthsFieldName).trim();
+    var fundingMonths = DWRUtil.getValue(fundingMonthsFieldName).trim();
 
 	if (timePercent=='' || payMonths=='' || fundingMonths=='') {
 		clearRecipients(fteQuantityFieldName, '');

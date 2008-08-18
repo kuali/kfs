@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -245,7 +246,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
         if (document == null) {
-            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND);
+            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -267,7 +268,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
         if (document == null) {
-            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND);
+            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 

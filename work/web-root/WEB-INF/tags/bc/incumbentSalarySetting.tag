@@ -39,7 +39,7 @@
 	</div>
 </kul:tabTop>
 
-<kul:tab tabTitle="Salary Setting by Incumbent" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_INCUMBENT_SALARY_SETTING_TAB_ERRORS}">
+<kul:tab tabTitle="Salary Setting by Incumbent" defaultOpen="true" tabErrorKey="${BCConstants.ErrorKey.DETAIL_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align=center>
 	<c:if test="${not readOnly}">
 		<kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Add Funding">      
@@ -59,16 +59,9 @@
 		<c:set var="notEditable" value="${readOnly || fundingLine.persistedDeleteIndicator || fundingLine.displayOnlyMode}"/>
 		<c:set var="canPurge" value="${not notEditable && empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
 		<c:set var="canDelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.appointmentFundingDeleteIndicator }" />
-		<c:set var="canUndelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.vacatable && fundingLine.appointmentFundingDeleteIndicator}" />		
-	
-	    <c:set var="subTabTitle" value="${fundingLine.chartOfAccountsCode}"/>
-	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.accountNumber}"/>
-	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.subAccountNumber}"/>
-	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.financialObjectCode}"/>
-	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.financialSubObjectCode}"/>
-	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.positionNumber}"/>    
+		<c:set var="canUndelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.vacatable && fundingLine.appointmentFundingDeleteIndicator}" />		  
 	          	
-	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${subTabTitle}" >
+	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${fundingLine.appointmentFundingString}" >
 	    	<bc:appointmentFundingLineForIncumbent fundingLine="${fundingLine}" fundingLineName="${fundingLineName}" countOfMajorColumns="11" 
 	    		lineIndex="${status.index}" hasBeenAdded="true" readOnly="${readOnly}">    		
 				

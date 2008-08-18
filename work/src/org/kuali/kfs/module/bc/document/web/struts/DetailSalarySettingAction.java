@@ -15,31 +15,25 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.util.HashSet;
+import static org.kuali.kfs.module.bc.BCConstants.ErrorKey.DETAIL_SALARY_SETTING_TAB_ERRORS;
+
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import static org.kuali.kfs.module.bc.BCConstants.ErrorKey.DETAIL_SALARY_SETTING_TAB_ERRORS;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.document.validation.event.AddAppointmentFundingEvent;
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
 import org.kuali.kfs.module.bc.document.validation.event.SaveSalarySettingEvent;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -154,7 +148,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         if (!transactionLocked) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         salarySettingService.saveSalarySetting(savableAppointmentFundings);
 
         // release all transaction locks
@@ -173,7 +167,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
         salarySettingForm.refreshBCAFLine(newAppointmentFunding);
-               
+
         // setup a working appointment funding so that the default values can be applied
         PendingBudgetConstructionAppointmentFunding workingAppointmentFunding = new PendingBudgetConstructionAppointmentFunding();
         ObjectUtil.buildObject(workingAppointmentFunding, newAppointmentFunding);

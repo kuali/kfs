@@ -234,7 +234,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
                 newPayment.setFinancialDocumentTypeCode(CamsConstants.DocumentTypeCodes.ASSET_RETIREMENT_DOCTYPE_CD);
                 newPayment.setPaymentSequenceNumber(++maxSequenceNo);
                 newPayment.setDocumentNumber(currentDocumentNumber);
-                assetPaymentService.adjustPaymentAmounts(newPayment, false, true);
+                assetPaymentService.adjustPaymentAmounts(newPayment, false, false);
                 newPayments.add(newPayment);
             }
         }

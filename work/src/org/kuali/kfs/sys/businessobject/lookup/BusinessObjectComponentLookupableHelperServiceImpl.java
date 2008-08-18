@@ -25,18 +25,12 @@ import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.businessobject.BusinessObjectComponent;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
 
 public class BusinessObjectComponentLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -61,12 +55,12 @@ public class BusinessObjectComponentLookupableHelperServiceImpl extends KualiLoo
             businessObjectComponents.add(new BusinessObjectComponent(businessObjectEntry));
         }
         List<BusinessObjectComponent> matchingBusinessObjectComponents = new ArrayList<BusinessObjectComponent>();
-        Pattern componentBusinessObjectLabelRegex = null;
 
+        Pattern componentLabelRegex = null;
         if (StringUtils.isNotBlank(fieldValues.get("componentLabel"))) {
             String patternStr = fieldValues.get("componentLabel").replace("*", ".*").toUpperCase();
             try {
-                componentBusinessObjectLabelRegex = Pattern.compile(patternStr);
+                componentLabelRegex = Pattern.compile(patternStr);
             }
             catch (PatternSyntaxException ex) {
                 LOG.error("Unable to parse componentLabel pattern, ignoring.", ex);
@@ -74,7 +68,7 @@ public class BusinessObjectComponentLookupableHelperServiceImpl extends KualiLoo
         }
         for (BusinessObjectComponent businessObjectComponent : businessObjectComponents) {
             if ((StringUtils.isBlank(fieldValues.get("namespaceCode")) || businessObjectComponent.getNamespaceCode().equals(fieldValues.get("namespaceCode")))
-                    && ((componentBusinessObjectLabelRegex == null) || componentBusinessObjectLabelRegex.matcher(businessObjectComponent.getComponentLabel().toUpperCase()).matches())) {
+                    && ((componentLabelRegex == null) || componentLabelRegex.matcher(businessObjectComponent.getComponentLabel().toUpperCase()).matches())) {
                 matchingBusinessObjectComponents.add(businessObjectComponent);
             }
         }
@@ -90,12 +84,17 @@ public class BusinessObjectComponentLookupableHelperServiceImpl extends KualiLoo
     public List getReturnKeys() {
         List<String> returnKeys = new ArrayList();
         returnKeys.add("namespaceCode");
+        returnKeys.add("namespaceName");
         returnKeys.add("componentClass");
+        returnKeys.add("componentLabel");
         return returnKeys;
     }
 
     @Override
     public String getActionUrls(BusinessObject businessObject) {
+        if  (businessObject instanceof FunctionalFieldDescription) {
+            return super.getActionUrls(businessObject);
+        }
         return "";
     }
 }

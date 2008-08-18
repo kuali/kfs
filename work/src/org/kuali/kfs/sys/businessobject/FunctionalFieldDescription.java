@@ -17,71 +17,118 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.ParameterNamespace;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
-    
     private String namespaceCode;
+    private String namespaceName;
     private String componentClass;
+    private String componentLabel;
     private String propertyName;
+    private String propertyLabel;
     private String functionalFieldDescription;
     private boolean active;
     
-    private ParameterNamespace parameterNamespace;
+    private BusinessObjectProperty businessObjectProperty;
     
-    public boolean isActive() {
-        return active;
+    @Override
+    public void refreshNonUpdateableReferences() {
+        if (((businessObjectProperty == null)
+                || !businessObjectProperty.getNamespaceCode().equals(getNamespaceCode())
+                || !businessObjectProperty.getComponentClass().equals(getComponentClass())
+                || !businessObjectProperty.getPropertyName().equals(getPropertyName()))
+              && (StringUtils.isNotBlank(getComponentClass()) && StringUtils.isNotBlank(getPropertyName()))) {
+            setBusinessObjectProperty(new BusinessObjectProperty(new BusinessObjectComponent(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getComponentClass())), SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getComponentClass()).getAttributeDefinition(getPropertyName())));
+            setNamespaceCode(businessObjectProperty.getNamespaceCode());
+            setNamespaceName(businessObjectProperty.getNamespaceName());
+            setComponentLabel(businessObjectProperty.getComponentLabel());
+            setPropertyLabel(businessObjectProperty.getPropertyLabel());
+        }
     }
-    
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-    
-    public String getComponentClass() {
-        return componentClass;
-    }
-    
-    public void setComponentClass(String componentClass) {
-        this.componentClass = componentClass;
-    }
-    
-    public String getFunctionalFieldDescription() {
-        return functionalFieldDescription;
-    }
-    
-    public void setFunctionalFieldDescription(String functionalFieldDescription) {
-        this.functionalFieldDescription = functionalFieldDescription;
-    }
-    
-    public String getPropertyName() {
-        return propertyName;
-    }
-    
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
-    }
-    
+
     public String getNamespaceCode() {
         return namespaceCode;
     }
-    
-    public void setNamespaceCode(String nameSpaceCode) {
-        this.namespaceCode = nameSpaceCode;
-    }
-    
-    public ParameterNamespace getParameterNamespace() {
-        return parameterNamespace;
-    }
-    
-    public void setParameterNamespace(ParameterNamespace parameterNamespace) {
-        this.parameterNamespace = parameterNamespace;
-    }
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
+
+    public void setNamespaceCode(String namespaceCode) {
+        this.namespaceCode = namespaceCode;
     }
 
+    public String getNamespaceName() {
+        refreshNonUpdateableReferences();
+        return namespaceName;
+    }
+
+    public void setNamespaceName(String namespaceName) {
+        this.namespaceName = namespaceName;
+    }
+
+    public String getComponentClass() {
+        return componentClass;
+    }
+
+    public void setComponentClass(String componentClass) {
+        this.componentClass = componentClass;
+    }
+
+    public String getComponentLabel() {
+        refreshNonUpdateableReferences();
+        return componentLabel;
+    }
+
+    public void setComponentLabel(String componentLabel) {
+        this.componentLabel = componentLabel;
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
+    public String getPropertyLabel() {
+        refreshNonUpdateableReferences();
+        return propertyLabel;
+    }
+
+    public void setPropertyLabel(String propertyLabel) {
+        this.propertyLabel = propertyLabel;
+    }
+
+    public String getFunctionalFieldDescription() {
+        return functionalFieldDescription;
+    }
+
+    public void setFunctionalFieldDescription(String functionalFieldDescription) {
+        this.functionalFieldDescription = functionalFieldDescription;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public BusinessObjectProperty getBusinessObjectProperty() {
+        return businessObjectProperty;
+    }
+
+    public void setBusinessObjectProperty(BusinessObjectProperty businessObjectProperty) {
+        this.businessObjectProperty = businessObjectProperty;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        if (businessObjectProperty != null) {
+            return businessObjectProperty.toStringMapper();
+        }
+        return new LinkedHashMap<String,String>();
+    }
 }

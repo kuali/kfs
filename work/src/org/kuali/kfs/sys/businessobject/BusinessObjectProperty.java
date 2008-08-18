@@ -17,28 +17,30 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.KFSUtils;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.lookup.keyvalues.ParameterNamespaceValuesFinder;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 
-public class BusinessObjectComponent extends PersistableBusinessObjectBase {
+public class BusinessObjectProperty extends PersistableBusinessObjectBase {
     private String namespaceCode;
     private String namespaceName;
     private String componentClass;
     private String componentLabel;
+    private String propertyName;
+    private String propertyLabel;
+
+    private BusinessObjectComponent businessObjectComponent;
     
-    public BusinessObjectComponent() {
+    public BusinessObjectProperty() {
     }
     
-    public BusinessObjectComponent(BusinessObjectEntry businessObjectEntry) {
-        setNamespaceCode(SpringContext.getBean(ParameterService.class).getNamespace(businessObjectEntry.getBusinessObjectClass()));
-        setNamespaceName(new ParameterNamespaceValuesFinder().getKeyLabel(getNamespaceCode()));
-        setComponentClass(businessObjectEntry.getBusinessObjectClass().getName());
-        // TODO fix this once DataDictionaryConfigurationTest.testAllBusinessObjectsHaveObjectLabel is passing
-        setComponentLabel(KFSUtils.getBusinessTitleForClass(businessObjectEntry.getBusinessObjectClass()));
+    public BusinessObjectProperty(BusinessObjectComponent businessObjectComponent, AttributeDefinition attributeDefinition) {
+        setBusinessObjectComponent(businessObjectComponent);
+        setNamespaceCode(businessObjectComponent.getNamespaceCode());
+        setNamespaceName(businessObjectComponent.getNamespaceName());
+        setComponentClass(businessObjectComponent.getComponentClass());
+        setComponentLabel(businessObjectComponent.getComponentLabel());
+        setPropertyName(attributeDefinition.getName());
+        setPropertyLabel(attributeDefinition.getLabel());
     }
 
     public String getNamespaceCode() {
@@ -73,11 +75,36 @@ public class BusinessObjectComponent extends PersistableBusinessObjectBase {
         this.componentLabel = componentLabel;
     }
 
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
+    public String getPropertyLabel() {
+        return propertyLabel;
+    }
+
+    public void setPropertyLabel(String propertyLabel) {
+        this.propertyLabel = propertyLabel;
+    }
+
+    public BusinessObjectComponent getBusinessObjectComponent() {
+        return businessObjectComponent;
+    }
+
+    public void setBusinessObjectComponent(BusinessObjectComponent businessObjectComponent) {
+        this.businessObjectComponent = businessObjectComponent;
+    }
+
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, String> toString = new LinkedHashMap<String, String>();
         toString.put("namespaceCode", getNamespaceCode());
         toString.put("componentClass", getComponentClass());
+        toString.put("propertyName", getPropertyName());
         return toString;
     }
 }

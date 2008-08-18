@@ -89,7 +89,8 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="namespaceCode" />
+              p:attributeName="namespaceCode"
+              p:required="true" />
         <bean parent="FieldDefinition"
               p:attributeName="componentLabel" />
       </list>
@@ -97,8 +98,7 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="namespaceName"
-              p:forceInquiry="true" />
+              p:attributeName="namespaceName" />
         <bean parent="FieldDefinition"
               p:attributeName="componentLabel" />
       </list>

@@ -15,18 +15,16 @@
  */
 package org.kuali.kfs.sys.document;
 
-import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
+import java.util.Map;
+
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
 public class FunctionalFieldDescriptionMaintainable extends KualiMaintainableImpl{
 
     @Override
-    public void saveBusinessObject() {
-
-        ((FunctionalFieldDescription)businessObject).setNamespaceCode(
-                SpringContext.getBean(ParameterService.class).getNamespace(businessObject.getClass()));
-        super.saveBusinessObject();
+    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+        super.refresh(refreshCaller, fieldValues, document);
+        getBusinessObject().refreshNonUpdateableReferences();
     }
 }

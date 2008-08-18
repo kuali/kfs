@@ -135,7 +135,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         assertEquals(noActiveFieldClassList.toString(), 0, noActiveFieldClassList.size());
     }
 
-    public void testAllBusinessObjectsHaveBusinessObjectLabel() throws Exception {
+    public void testAllBusinessObjectsHaveObjectLabel() throws Exception {
         DataDictionaryService dataDictionaryService = (DataDictionaryService)SpringContext.getBean(DataDictionaryService.class);
         List<Class> noObjectLabelClassList = new ArrayList<Class>();
         for(BusinessObjectEntry businessObjectEntry:dataDictionaryService.getDataDictionary().getBusinessObjectEntries().values()){

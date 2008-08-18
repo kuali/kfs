@@ -63,7 +63,7 @@
 		</table>
 		</div>
 	</kul:tabTop>	
-	<kul:tab tabTitle="Asset Information" defaultOpen="true">
+	<kul:tab tabTitle="Asset Information" defaultOpen="true" tabErrorKey="newGeneralLedgerEntryAsset.*">
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			<tr>

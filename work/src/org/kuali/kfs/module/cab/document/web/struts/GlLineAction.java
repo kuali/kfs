@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cab.document.web.struts;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,32 +133,50 @@ public class GlLineAction extends KualiAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = null;
         GlLineForm glLineForm = (GlLineForm) form;
+        DictionaryValidationService validationService = SpringContext.getBean(DictionaryValidationService.class);
+
         if (glLineForm.isNewAssetIndicator()) {
             GeneralLedgerEntry entry = findGeneralLedgerEntry(glLineForm.getGeneralLedgerEntry().getGeneralLedgerAccountIdentifier());
             if (!entry.getGeneralLedgerEntryAssets().isEmpty()) {
                 SpringContext.getBean(BusinessObjectService.class).delete(entry.getGeneralLedgerEntryAssets().get(0));
             }
             GeneralLedgerEntryAsset newEntryAsset = glLineForm.getNewGeneralLedgerEntryAsset();
-            SpringContext.getBean(BusinessObjectService.class).save(newEntryAsset);
+            boolean valid = validateAddAssetRules(validationService, newEntryAsset);
+            if (valid && GlobalVariables.getErrorMap().isEmpty()) {
+                SpringContext.getBean(BusinessObjectService.class).save(newEntryAsset);
+                GlobalVariables.getMessageList().add("cab.changes.saved.success");
+            }
         }
         else {
-            DictionaryValidationService validationService = SpringContext.getBean(DictionaryValidationService.class);
             validationService.validateAttributeFormat("org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAssetDetail", "capitalAssetNumber", glLineForm.getCapitalAssetNumber(), "capitalAssetNumber");
-
-            Asset asset = null;
-            try {
-                Long capitalAssetNumber = Long.valueOf(glLineForm.getCapitalAssetNumber());
-                asset = findAsset(capitalAssetNumber);
-            }
-            catch (Exception e) {
-                asset = null;
-            }
-            if (ObjectUtils.isNotNull(asset)) {
-                saveAssignAssetsData(glLineForm, asset.getCapitalAssetNumber());
+            if (GlobalVariables.getErrorMap().isEmpty()) {
+                Asset asset = null;
+                try {
+                    Long capitalAssetNumber = Long.valueOf(glLineForm.getCapitalAssetNumber());
+                    asset = findAsset(capitalAssetNumber);
+                }
+                catch (Exception e) {
+                    asset = null;
+                }
+                if (ObjectUtils.isNotNull(asset)) {
+                    saveAssignAssetsData(glLineForm, asset.getCapitalAssetNumber());
+                }
             }
         }
+
         forward = redirectToAssets(mapping, form);
         return forward;
+    }
+
+    private boolean validateAddAssetRules(DictionaryValidationService validationService, GeneralLedgerEntryAsset newEntryAsset) {
+        GlobalVariables.getErrorMap().addToErrorPath("newGeneralLedgerEntryAsset");
+        boolean valid = validationService.validateReferenceExists(newEntryAsset, "capitalAssetType");
+        validationService.validateBusinessObjectsRecursively(newEntryAsset, 1);
+        if (!valid) {
+            GlobalVariables.getErrorMap().putError("capitalAssetTypeCode", "cab.invalid.capital.asset.type.code", newEntryAsset.getCapitalAssetTypeCode());
+        }
+        GlobalVariables.getErrorMap().removeFromErrorPath("newGeneralLedgerEntryAsset.");
+        return valid;
     }
 
     // TODO - this should be moved to service implementation
@@ -190,6 +209,7 @@ public class GlLineAction extends KualiAction {
         assetDetail.setCapitalAssetNumber(capitalAssetNumber);
         assetDetail.setNewAssetIndicator(false);
         SpringContext.getBean(BusinessObjectService.class).save(entry);
+        GlobalVariables.getMessageList().add("cab.changes.saved.success");
     }
 
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

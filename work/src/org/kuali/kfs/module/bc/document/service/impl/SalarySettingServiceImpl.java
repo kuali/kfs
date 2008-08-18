@@ -33,6 +33,7 @@ import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
@@ -76,14 +77,12 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private PermissionService permissionService;
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#getDisabled()
+     * for now just return false, implement application parameter if decision is made implement this functionality
+     * 
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#isSalarySettingDisabled()
      */
     public boolean isSalarySettingDisabled() {
-        // TODO for now just return false, implement application parameter if decision is made implement this functionality
         return false;
-
-        // return kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM,
-        // BCConstants.DISABLE_SALARY_SETTING_FLAG);
     }
 
     /**
@@ -329,10 +328,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public void purgeAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         this.preprocessFundingReason(appointmentFunding);
 
-        if(businessObjectService.retrieve(appointmentFunding) != null) {
+        if (businessObjectService.retrieve(appointmentFunding) != null) {
             businessObjectService.delete(appointmentFunding);
         }
-        
+
         appointmentFundings.remove(appointmentFunding);
     }
 
@@ -400,6 +399,27 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         // update or create plug line if the total amount has been changed
         if (changes.isNonZero()) {
             budgetDocumentService.updatePendingBudgetGeneralLedgerPlug(appointmentFundings.get(0), changes.negated());
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#saveSalarySetting(java.util.List)
+     */
+    public void saveSalarySetting(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
+        Set<SalarySettingExpansion> salarySettingExpansionSet = new HashSet<SalarySettingExpansion>();
+        for (PendingBudgetConstructionAppointmentFunding fundingLine : appointmentFundings) {
+            SalarySettingExpansion salarySettingExpansion = this.retriveSalarySalarySettingExpansion(fundingLine);
+
+            if (salarySettingExpansion != null) {
+                salarySettingExpansionSet.add(salarySettingExpansion);
+            }
+        }
+
+        this.saveAppointmentFundings(appointmentFundings);
+
+        for (SalarySettingExpansion salarySettingExpansion : salarySettingExpansionSet) {
+            salarySettingExpansion.refreshReferenceObject(BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING);
+            this.saveSalarySetting(salarySettingExpansion);
         }
     }
 
@@ -765,7 +785,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         ObjectUtil.buildObjectWithoutReferenceFields(vacantAppointmentFunding, appointmentFunding);
         vacantAppointmentFunding.setEmplid(BCConstants.VACANT_EMPLID);
         vacantAppointmentFunding.setAppointmentFundingDeleteIndicator(false);
-        vacantAppointmentFunding.setPersistedDeleteIndicator(false);       
+        vacantAppointmentFunding.setPersistedDeleteIndicator(false);
         vacantAppointmentFunding.setVersionNumber(null);
 
         return vacantAppointmentFunding;

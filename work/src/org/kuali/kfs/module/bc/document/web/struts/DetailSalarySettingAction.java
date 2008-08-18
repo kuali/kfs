@@ -138,7 +138,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             }
 
             // validate the savable appointment funding lines
-            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", "", document, savableAppointmentFundings, savableFunding));
+            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", "", document, savableFunding));
             if (!isValid) {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
@@ -149,22 +149,8 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         if (!transactionLocked) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-
-        Set<SalarySettingExpansion> salarySettingExpansionSet = new HashSet<SalarySettingExpansion>();
-        for (PendingBudgetConstructionAppointmentFunding fundingLine : savableAppointmentFundings) {
-            SalarySettingExpansion salarySettingExpansion = salarySettingService.retriveSalarySalarySettingExpansion(fundingLine);
-
-            if (salarySettingExpansion != null) {
-                salarySettingExpansionSet.add(salarySettingExpansion);
-            }
-        }
-
-        salarySettingService.saveAppointmentFundings(savableAppointmentFundings);
-
-        for (SalarySettingExpansion salarySettingExpansion : salarySettingExpansionSet) {
-            salarySettingExpansion.refreshReferenceObject(BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING);
-            salarySettingService.saveSalarySetting(salarySettingExpansion);
-        }
+        
+        salarySettingService.saveSalarySetting(savableAppointmentFundings);
 
         // release all transaction locks
         salarySettingForm.releaseTransactionLocks();

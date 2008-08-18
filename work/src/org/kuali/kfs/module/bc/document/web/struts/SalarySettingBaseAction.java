@@ -173,8 +173,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
 
         salarySettingService.purgeAppointmentFunding(appointmentFundings, appointmentFunding);
-        messageList.add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
-
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -249,18 +248,14 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
             errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
-        LOG.info("normalizePayRateAndAmount1");
 
         // validate the new appointment funding line
         BudgetExpansionEvent normalizePayRateAndAmountEvent = new NormalizePayrateAndAmountEvent("", "", document, appointmentFunding);
         boolean isValid = this.invokeRules(normalizePayRateAndAmountEvent);
         if (!isValid) {
-            LOG.info("normalizePayRateAndAmount2");
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
-        LOG.info("normalizePayRateAndAmount3");
         salarySettingService.normalizePayRateAndAmount(appointmentFunding);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

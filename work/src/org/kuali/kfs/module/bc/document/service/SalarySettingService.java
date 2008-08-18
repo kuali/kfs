@@ -166,11 +166,18 @@ public interface SalarySettingService {
     public void adjustRequestedSalaryByPercent(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
-     * save the salary setting and its associated budget construction monthly and appointment funding
+     * save the salary setting and its associated appointment funding
      * 
      * @param salarySettingExpansion the given salary setting expansion, a pending budget construction GL object
      */
     public void saveSalarySetting(SalarySettingExpansion salarySettingExpansion);
+    
+    /**
+     * save the given appointment fundings and associated salary setting expansion 
+     * 
+     * @param appointmentFunding the given appointment funding
+     */
+    public void saveSalarySetting(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings);
 
     /**
      * save the given appointment fundings

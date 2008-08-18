@@ -65,15 +65,6 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
-
-        if (StringUtils.equals(BCConstants.POSITION_SALARY_SETTING_REFRESH_CALLER, refreshCaller)) {
-            // TODO do things specific to returning from Position Salary Setting
-        }
-
-        if (StringUtils.equals(BCConstants.INCUMBENT_SALARY_SETTING_REFRESH_CALLER, refreshCaller)) {
-            // TODO do things specific to returning from Position Salary Setting
-        }
 
         salarySettingForm.populateBCAFLines();
 
@@ -194,7 +185,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
             }
                        
             // validate the savable appointment funding lines
-            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", "", document, savableAppointmentFundings, savableFunding));
+            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", "", document, savableFunding));
             if(!isValid) {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }

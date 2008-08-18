@@ -41,7 +41,7 @@ public class SalarySettingRules implements SalarySettingRule {
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSaveAppointmentFunding(java.util.List,
      *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
-    public boolean processSaveAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("processSaveAppointmentFunding() start");
 
         boolean hasValidFormat = budgetConstructionRuleHelperService.isFieldFormatValid(appointmentFunding, errorMap);

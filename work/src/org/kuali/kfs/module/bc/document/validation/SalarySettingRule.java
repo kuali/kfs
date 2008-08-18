@@ -31,7 +31,7 @@ public interface SalarySettingRule extends BusinessRule {
      * @param appointmentFunding the given appointment funding
      * @return true if the appointment funding can pass all rule before saved, otherwise, false
      */
-    public boolean processSaveAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
      * process the rules before the given appointment funding is created

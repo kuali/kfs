@@ -68,7 +68,7 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SalarySetti
     public boolean processExpansionRule(BudgetExpansionEvent budgetExpansionEvent) {
         boolean valid = true;
 
-        Class expansionRuleClass = budgetExpansionEvent.getExpansionRuleInterfaceClass();
+        Class<? extends BusinessRule> expansionRuleClass = budgetExpansionEvent.getExpansionRuleInterfaceClass();
         for (BusinessRule expansionRule : expansionRules) {
             if (expansionRuleClass.isAssignableFrom(expansionRule.getClass())) {
                 valid &= budgetExpansionEvent.invokeExpansionRuleMethod(expansionRule);
@@ -119,8 +119,8 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SalarySetti
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSaveAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
-    public boolean processSaveAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        return salarySettingRules.processSaveAppointmentFunding(savableAppointmentFundings, appointmentFunding);
+    public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        return salarySettingRules.processSaveAppointmentFunding(appointmentFunding);
     }
 
     /**

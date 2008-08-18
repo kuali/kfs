@@ -397,19 +397,21 @@
                         <xsd:attribute name="purpose" use="optional" default="standard">
                         	<xsd:simpleType>
 								<xsd:restriction base="xsd:string">
+									<!--  This is the only value allowed in EPIC/Kuali -->
 									<xsd:enumeration value="standard"/>
-									<xsd:enumeration value="creditMemo"/>
+									<!--<xsd:enumeration value="creditMemo"/>
 									<xsd:enumeration value="debitMemo"/>
-									<xsd:enumeration value="lineLevelCreditMemo"/>
+									<xsd:enumeration value="lineLevelCreditMemo"/>-->
 	   							</xsd:restriction>
   							</xsd:simpleType>
   						</xsd:attribute>	
                         <xsd:attribute name="operation" default="new">
                         	<xsd:simpleType>
 								<xsd:restriction base="xsd:string">
+									<!--  This is the only value allowed in EPIC/Kuali -->
 									<xsd:enumeration value="new"/>
-									<xsd:enumeration value="delete"/>
-									<xsd:enumeration value="update"/>
+									<!--<xsd:enumeration value="delete"/>
+									<xsd:enumeration value="update"/>-->
 	   							</xsd:restriction>
   							</xsd:simpleType>
   						</xsd:attribute>	
@@ -1429,8 +1431,9 @@
             <xsd:attribute name="deploymentMode" use="optional" default="production">
             	<xsd:simpleType>
 					<xsd:restriction base="xsd:string">
+						<!-- This is the only value allowed in kuali -->
 						<xsd:enumeration value="production"/>
-						<xsd:enumeration value="test"/>
+						<!-- <xsd:enumeration value="test"/>  -->
 					 </xsd:restriction>
 				 </xsd:simpleType>
   			</xsd:attribute>				

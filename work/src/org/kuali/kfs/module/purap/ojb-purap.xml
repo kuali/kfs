@@ -3224,7 +3224,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary" table="AP_ELCTRNC_INV_LOAD_SUM_T">
-    <field-descriptor name="invoiceLoadSummaryIdentifier" column="INV_LOAD_SUM_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="INV_LOAD_SUM_ID"/>
+    <field-descriptor name="invoiceLoadSummaryIdentifier" column="INV_LOAD_SUM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="INV_LOAD_SUM_ID"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="vendorDunsNumber" column="VNDR_DUNS_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>

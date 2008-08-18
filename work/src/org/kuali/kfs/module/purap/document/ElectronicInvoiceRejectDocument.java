@@ -40,7 +40,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   private Boolean invoiceFileTaxInLineIndicator = Boolean.FALSE;
   private Boolean invoiceFileSpecialHandlingInLineIndicator = Boolean.FALSE;
   private Boolean invoiceFileShippingInLineIndicator = Boolean.FALSE;
-  private Boolean InvoiceFileDiscountInLineIndicator = Boolean.FALSE;
+  private Boolean invoiceFileDiscountInLineIndicator = Boolean.FALSE;
   
   private String invoiceFileName;
   private String vendorDunsNumber;
@@ -141,7 +141,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     this.invoiceFileTaxInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isTaxInLine());
     this.invoiceFileSpecialHandlingInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isSpecialHandlingInLine());
     this.invoiceFileShippingInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isShippingInLine());
-    this.InvoiceFileDiscountInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isDiscountInLine());
+    this.invoiceFileDiscountInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isDiscountInLine());
     
     this.invoiceFileName = ei.getFileName();
     this.vendorDunsNumber = ei.getDunsNumber();
@@ -548,16 +548,16 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     this.purchaseOrderIdentifier = epicPurchaseOrderId;
   }
   /**
-   * @return Returns the InvoiceFileDiscountInLineIndicator.
+   * @return Returns the invoiceFileDiscountInLineIndicator.
    */
   public Boolean getInvoiceFileDiscountInLineIndicator() {
-    return InvoiceFileDiscountInLineIndicator;
+    return invoiceFileDiscountInLineIndicator;
   }
   /**
-   * @param InvoiceFileDiscountInLineIndicator The InvoiceFileDiscountInLineIndicator to set.
+   * @param invoiceFileDiscountInLineIndicator The invoiceFileDiscountInLineIndicator to set.
    */
   public void setInvoiceFileDiscountInLineIndicator(Boolean fileDiscountInLineIndicator) {
-    this.InvoiceFileDiscountInLineIndicator = fileDiscountInLineIndicator;
+    this.invoiceFileDiscountInLineIndicator = fileDiscountInLineIndicator;
   }
   /**
    * @return Returns the invoiceFileHeaderTypeIndicator.

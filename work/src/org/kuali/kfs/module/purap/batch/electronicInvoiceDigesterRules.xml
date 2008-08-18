@@ -70,8 +70,6 @@
 		   </set-properties-rule>
 	   </pattern>
 	   
-	   
-	   
 	   <pattern value="Request/InvoiceDetailRequest/InvoiceDetailRequestHeader">
 	   
 		   <object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestHeader" />

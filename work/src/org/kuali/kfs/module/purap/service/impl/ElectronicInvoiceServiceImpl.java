@@ -3,7 +3,10 @@
  */
 package org.kuali.kfs.module.purap.service.impl;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -16,7 +19,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestHeader;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestSummary;
@@ -40,7 +46,8 @@ import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceService;
 import org.kuali.kfs.module.purap.util.cxml.ElectronicInvoiceParser;
 import org.kuali.kfs.pdp.service.EnvironmentService;
-import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
@@ -52,8 +59,8 @@ import org.xml.sax.SAXParseException;
  * @author delyea
  */
 public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
+    
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceServiceImpl.class);
-  private static org.apache.log4j.Logger SERVICELOG = org.apache.log4j.Logger.getLogger("epic.service." + ElectronicInvoiceServiceImpl.class.getName());
   
   private static BigDecimal zero = new BigDecimal(0.00);
   
@@ -61,9 +68,11 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   private PurchaseOrderService purchaseOrderService;
   private PaymentRequestService paymentRequestService;
   private VendorService vendorService;
-  private ReferenceService referenceService;
   private EnvironmentService environmentService;
   private ElectronicInvoiceMappingService electronicInvoiceMappingService;
+  
+  private ElectronicInvoiceInputFileType electronicInvoiceInputFileType;
+  private BatchInputFileService batchInputFileService;
   
   public void setElectronicInvoicingDao(ElectronicInvoicingDao electronicInvoicingDao) {
     this.electronicInvoicingDao = electronicInvoicingDao;
@@ -77,9 +86,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   public void setVendorService(VendorService vendorService) {
     this.vendorService = vendorService;
   }
-  public void setReferenceService(ReferenceService referenceService) {
-    this.referenceService = referenceService;
-  }
+
   public void setEnvironmentService(EnvironmentService environmentService) {
     this.environmentService = environmentService;
   }
@@ -88,9 +95,16 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     this.electronicInvoiceMappingService = electronicInvoiceMappingService;
   }
   
+  public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
+      this.batchInputFileService = batchInputFileService;
+  }
+  public void setElectronicInvoiceInputFileType(ElectronicInvoiceInputFileType electronicInvoiceInputFileType) {
+      this.electronicInvoiceInputFileType = electronicInvoiceInputFileType;
+  }
+  
   //FIXME check user authorization 
   public boolean areExternalResourcesAccessible() {
-    SERVICELOG.debug("areExternalResourcesAccessible() started");
+    LOG.debug("areExternalResourcesAccessible() started");
     UniversalUser testUser = null;
     /*
     try {
@@ -103,7 +117,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
       // stop run and fail
       String error = "The user service was not able to make a connection and get a user";
       LOG.fatal("loadElectronicInvoices() " + error);
-      SERVICELOG.debug("areExternalResourcesAccessible() ended");
+      LOG.debug("areExternalResourcesAccessible() ended");
       return false;
     }
     
@@ -111,7 +125,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
       // workflow is down or had problems... stop run and fail
       String error = "Workflow was not accessible and no valid invoices could be processed as PREQs";
       LOG.fatal("loadElectronicInvoices() " + error);
-      SERVICELOG.debug("areExternalResourcesAccessible() ended");
+      LOG.debug("areExternalResourcesAccessible() ended");
       return false;
     }
     */
@@ -119,20 +133,20 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   }
   
   public ElectronicInvoiceLoadSummary saveElectronicInvoiceLoadSummary(ElectronicInvoiceLoadSummary eils) {
-    SERVICELOG.debug("saveElectronicInvoiceLoadSummary() started");
+    LOG.debug("saveElectronicInvoiceLoadSummary() started");
     electronicInvoicingDao.saveElectronicInvoiceLoadSummary(eils);
-    SERVICELOG.debug("saveElectronicInvoiceLoadSummary() ended");
+    LOG.debug("saveElectronicInvoiceLoadSummary() ended");
     return eils;
   }
 
   public void saveElectronicInvoiceReject(ElectronicInvoiceRejectDocument eir) {
-    SERVICELOG.debug("saveElectronicInvoiceReject() started");
+    LOG.debug("saveElectronicInvoiceReject() started");
     electronicInvoicingDao.saveElectronicInvoiceReject(eir);
-    SERVICELOG.debug("saveElectronicInvoiceReject() ended");
+    LOG.debug("saveElectronicInvoiceReject() ended");
   }
 
   public void routePendingElectronicInvoices() {
-    SERVICELOG.debug("routePendingElectronicInvoices() started");
+    LOG.debug("routePendingElectronicInvoices() started");
     List pendingEInvoices = electronicInvoicingDao.getPendingElectronicInvoices();
     for (Iterator iter = pendingEInvoices.iterator(); iter.hasNext();) {
       PaymentRequestDocument preq = (PaymentRequestDocument) iter.next();
@@ -143,14 +157,20 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
       //FIXME route the preq
       //paymentRequestService.routePaymentRequestAsEpicWorkflowUser(preq);
     }
-    SERVICELOG.debug("routePendingElectronicInvoices() ended");
+    LOG.debug("routePendingElectronicInvoices() ended");
   }
   
-  public String addFileReject(ElectronicInvoice ei, String tableErrorMessage) {
-    ei.setFileRejected(ElectronicInvoice.FILE_REJECTED);
-    ElectronicInvoiceRejectReason eirr = new ElectronicInvoiceRejectReason(PurapConstants.ElectronicInvoice.REJECT_REASON_TYPE_FILE,ei.getFileName(),tableErrorMessage);
-    ei.addFileRejectReasonToList(eirr);
-    return "File Name '" + ei.getFileName() + "' ERROR: " + tableErrorMessage;
+  public String addFileReject(ElectronicInvoice electronicInvoice, 
+                              String tableErrorMessage) {
+      
+    electronicInvoice.setFileRejected(ElectronicInvoice.FILE_REJECTED);
+    ElectronicInvoiceRejectReason eInvoiceRejectReason = new ElectronicInvoiceRejectReason(PurapConstants.ElectronicInvoice.REJECT_REASON_TYPE_FILE,
+                                                                                           electronicInvoice.getFileName(),
+                                                                                           tableErrorMessage);
+    electronicInvoice.addFileRejectReasonToList(eInvoiceRejectReason);
+    
+    return "File Name '" + electronicInvoice.getFileName() + "' ERROR: " + tableErrorMessage;
+    
   }
 
   public String addInvoiceOrderReject(ElectronicInvoice ei,ElectronicInvoiceOrder eio,String tableErrorMessage) {
@@ -161,83 +181,84 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     return "File Name '" + ei.getFileName() + "' ERROR: " + tableErrorMessage;
   }
 
-  public ElectronicInvoice loadElectronicInvoice(String filename) {
-    SERVICELOG.debug("loadElectronicInvoice(String) started");
+  public ElectronicInvoice loadElectronicInvoice(String filename)
+  throws CxmlParseException {
+    LOG.debug("loadElectronicInvoice(String) started");
     File invoiceFile = new File(filename);
-    SERVICELOG.debug("loadElectronicInvoice(String) ended");
+    LOG.debug("loadElectronicInvoice(String) ended");
     return this.loadElectronicInvoice(invoiceFile);
   }
   
-  public ElectronicInvoice loadElectronicInvoice(File file) {
-    SERVICELOG.debug("loadElectronicInvoice() started");
+  public ElectronicInvoice loadElectronicInvoice(File invoiceFile)
+  throws CxmlParseException {
+      
+    LOG.debug("loadElectronicInvoice() started");
     
-    ElectronicInvoiceParser eip = null;
-    ElectronicInvoice ei = null;
-    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    BufferedInputStream fileStream = null;
     try {
-      DocumentBuilder builder = factory.newDocumentBuilder();
-      factory.setCoalescing(true);  //so it expands CDATA stuff
+        fileStream = new BufferedInputStream(new FileInputStream(invoiceFile));
+    }catch (FileNotFoundException e) {
+        /**
+         * This never happen since we're getting this file name from the existing file
+         */
+        throw new RuntimeException(invoiceFile.getAbsolutePath() + " not available");
+    }
 
-//      Document doc = builder.parse( filename );
-      Document doc = builder.parse(file);
-      eip = new ElectronicInvoiceParser(doc);
-      ei = eip.parseElectronicInvoiceFile(file.getName());
-      ei.setFileName(file.getName());
-      
-      // Currently we do not accept Header Invoices as our CXML is not setup
-      // to parse them correctly therefor the data will be completely wrong so
-      // we cannot write to the reject files
-      if (ei.getInvoiceDetailRequestHeader().isHeaderInvoiceIndicator()) {
-        String errorMessage = "File is in CXML Header Format (unable to write to reject database tables)";
-        String logMessage = this.addFileReject(ei, errorMessage);
-        LOG.error("loadElectronicInvoice() " + logMessage + "... invoice will reject");
-        return ei;
-      }
-      
-      // if this file is not a Header type Invoice file but there are no
-      // <InvoiceDetailOrder> tags we cannot process or save reject data
-      if (ei.getInvoiceDetailOrders().size() < 1) {
-        String errorMessage = "File does not containt any Invoice information (unable to write to reject database tables)";
-        String logMessage = this.addFileReject(ei, errorMessage);
-        LOG.error("loadElectronicInvoice() " + logMessage + "... invoice will reject");
-        return ei;
-      }
-
-    } catch (CxmlParseError c) {
-      throw c;
-    } catch (SAXParseException spe) {
-      LOG.error("loadElectronicInvoice() Error parsing XML", spe);
-      SERVICELOG.debug("loadElectronicInvoice() ended");
-      throw new CxmlParseException("Error parsing XML",spe);
-    } catch (SAXException sxe) {
-      LOG.error("loadElectronicInvoice() Error parsing XML", sxe);
-      SERVICELOG.debug("loadElectronicInvoice() ended");
-      throw new CxmlParseException("Error parsing XML",sxe);
-    } catch (ParserConfigurationException pce) {
-      LOG.error("loadElectronicInvoice() Error parsing XML", pce);
-      SERVICELOG.debug("loadElectronicInvoice() ended");
-      throw new CxmlParseException("Error parsing XML",pce);
-    } catch (IOException ioe) {
-      LOG.error("loadElectronicInvoice() Error parsing XML", ioe);
-      SERVICELOG.debug("loadElectronicInvoice() ended");
-      throw new CxmlParseException("Error parsing XML",ioe);
-    } catch (Throwable t) {
-      LOG.error("loadElectronicInvoice() Error parsing XML", t);
-      SERVICELOG.debug("loadElectronicInvoice() ended");
-      throw new CxmlParseException("Error parsing XML",t);
+    ElectronicInvoice electronicInvoice = null;
+    try {
+        byte[] fileByteContent = IOUtils.toByteArray(fileStream);
+        electronicInvoice = (ElectronicInvoice) batchInputFileService.parse(electronicInvoiceInputFileType, fileByteContent);
+    }catch (IOException e) {
+        try {
+            fileStream.close();
+        }
+        catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        throw new CxmlParseException("Error parsing " + invoiceFile.getName(),e);
+    }catch (XMLParseException e) {
+        try {
+            fileStream.close();
+        }
+        catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        throw new CxmlParseException("Error parsing " + invoiceFile.getName(),e);
     }
     
-    if (ei == null) {
-      LOG.error("loadElectronicInvoice() No Parsing error caught but ElectronicInvoice object is null");
-      SERVICELOG.debug("loadElectronicInvoice() ended");
-      throw new PurError("No Parsing error caught but ElectronicInvoice object is null");
+    try {
+        fileStream.close();
+    }
+    catch (IOException e1) {
+        e1.printStackTrace();
+    }
+    
+    electronicInvoice.setFileName(invoiceFile.getName());
+    
+    //Currently we do not accept Header Invoices as our CXML is not setup
+    // to parse them correctly therefor the data will be completely wrong so
+    // we cannot write to the reject files
+    if (electronicInvoice.getInvoiceDetailRequestHeader().isHeaderInvoiceIndicator()) {
+      String errorMessage = "File is in CXML Header Format (unable to write to reject database tables)";
+      String logMessage = this.addFileReject(electronicInvoice, errorMessage);
+      LOG.error("loadElectronicInvoice() " + logMessage + "... invoice will reject");
+      return electronicInvoice;
+    }
+    
+    //if this file is not a Header type Invoice file but there are no
+    // <InvoiceDetailOrder> tags we cannot process or save reject data
+    if (electronicInvoice.getInvoiceDetailOrders().size() < 1) {
+      String errorMessage = "File does not containt any Invoice information (unable to write to reject database tables)";
+      String logMessage = this.addFileReject(electronicInvoice, errorMessage);
+      LOG.error("loadElectronicInvoice() " + logMessage + "... invoice will reject");
+      return electronicInvoice;
     }
     
     // get the customer number out of the Electronic Invoice using the Mapping object
-    ei.setCustomerNumber(electronicInvoiceMappingService.getInvoiceCustomerNumber(ei));
+    electronicInvoice.setCustomerNumber(electronicInvoiceMappingService.getInvoiceCustomerNumber(electronicInvoice));
     
     // setup catalog numbers for items
-    for (Iterator orderIter = ei.getInvoiceDetailOrders().iterator(); orderIter.hasNext();) {
+    for (Iterator orderIter = electronicInvoice.getInvoiceDetailOrders().iterator(); orderIter.hasNext();) {
       ElectronicInvoiceOrder invoiceOrder = (ElectronicInvoiceOrder) orderIter.next();
       for (Iterator itemIter = invoiceOrder.getInvoiceItems().iterator(); itemIter.hasNext();) {
         ElectronicInvoiceItem invoiceItem = (ElectronicInvoiceItem) itemIter.next();
@@ -247,13 +268,15 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
       }
     }
 
-    SERVICELOG.debug("loadElectronicInvoice() ended");
-    return ei;
+    LOG.debug("loadElectronicInvoice() ended");
+    
+    return electronicInvoice;
+    
   }
   
   // Below we check for the DUNS number in the E-Invoice CXML
   public void findVendorDUNSNumber(ElectronicInvoice ei) {
-    SERVICELOG.debug("findVendorDUNSNumber() started");
+    LOG.debug("findVendorDUNSNumber() started");
     String dunsNumber = null;
 
     // Get the DUNS number from the CXML
@@ -280,32 +303,26 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     ei.setDunsNumber(dunsNumber);
   }
   
-  public void doCxmlValidationChecks(ElectronicInvoice ei) {
-    SERVICELOG.debug("doCxmlValidationChecks() started");
-    ElectronicInvoiceDetailRequestHeader header = ei.getInvoiceDetailRequestHeader();
+  public void doCxmlValidationChecks(ElectronicInvoice electronicInvoice) {
+      
+    LOG.debug("doCxmlValidationChecks() started");
+    ElectronicInvoiceDetailRequestHeader header = electronicInvoice.getInvoiceDetailRequestHeader();
     
-
-    if ( (ei.getInvoiceDetailRequestHeader().getInvoiceId() == null) || ("".equals(ei.getInvoiceDetailRequestHeader().getInvoiceId())) ) {
-      // invoice id is empty
+    if (StringUtils.isBlank(electronicInvoice.getInvoiceDetailRequestHeader().getInvoiceId())) {
       String errorMessage = "File has no invoice number present";
-      String logMessage = this.addFileReject(ei, errorMessage);
+      String logMessage = this.addFileReject(electronicInvoice, errorMessage);
       LOG.error("doCxmlValidationChecks() " + logMessage + "... invoice will reject");
     }
 
-    if ( (ei.getInvoiceDetailRequestHeader().getInvoiceDateString() == null) || ("".equals(ei.getInvoiceDetailRequestHeader().getInvoiceDateString())) ) {
-      // invoice date is empty
+    if (StringUtils.isBlank(electronicInvoice.getInvoiceDetailRequestHeader().getInvoiceDateString())) {
       String errorMessage = "File has no invoice date present";
-      String logMessage = this.addFileReject(ei, errorMessage);
+      String logMessage = this.addFileReject(electronicInvoice, errorMessage);
       LOG.error("doCxmlValidationChecks() " + logMessage + "... invoice will reject");
     } else {
-      if (ei.getInvoiceDetailRequestHeader().getInvoiceDate() == null) {
-        // invoice date is unreadable
+      if (electronicInvoice.getInvoiceDetailRequestHeader().getInvoiceDate() == null) {
         String errorMessage = "File has an invalid invoice date (unreadable by EPIC system)";
-        String logMessage = this.addFileReject(ei, errorMessage);
+        String logMessage = this.addFileReject(electronicInvoice, errorMessage);
         LOG.error("doCxmlValidationChecks() " + logMessage + "... invoice will reject");
-        
-//        LOG.error("doCxmlValidationChecks() " + errorMessage + "... invoice will use system date");
-//        ei.getInvoiceDetailRequestHeader().setInvoiceDate(new Date());
       }
     }
 
@@ -313,53 +330,10 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     if (header.isInformationOnly()) {
       // we do not care about informational only invoices
       String errorMessage = "File is set as 'Information Only Invoice'";
-      String logMessage = this.addFileReject(ei, errorMessage);
-      LOG.error("doCxmlValidationChecks() " + logMessage + "... invoice will reject");
-    }
-    
-    // operation must be correct code to identify e-invoice as new invoice
-    boolean validCode = false;
-    for (int i = 0; i < ElectronicInvoiceMappingService.CXML_VALID_OPERATION_CODES.length; i++) {
-      String validOperationCode = ElectronicInvoiceMappingService.CXML_VALID_OPERATION_CODES[i];
-      if (validOperationCode.equalsIgnoreCase(header.getOperation())) {
-        validCode = true;
-        break;
-      }
-    }
-    if (!validCode) {
-      String errorMessage = "File has invalid CXML Operation Code: '" + header.getOperation() + "'";
-      String logMessage = this.addFileReject(ei, errorMessage);
-      LOG.error("doCxmlValidationChecks() " + logMessage + "... invoice will reject");
-    }
-      
-    // purpose must be correct code to identify e-invoice as new invoice
-    validCode = false;
-    for (int i = 0; i < ElectronicInvoiceMappingService.CXML_VALID_PURPOSE_CODES.length; i++) {
-      String validPurposeCode = ElectronicInvoiceMappingService.CXML_VALID_PURPOSE_CODES[i];
-      if (validPurposeCode.equalsIgnoreCase(header.getPurpose())) {
-        validCode = true;
-        break;
-      }
-    }
-    if (!validCode) {
-      String errorMessage = "File has invalid CXML Purpose Code: '" + header.getPurpose() + "'";
-      String logMessage = this.addFileReject(ei, errorMessage);
+      String logMessage = this.addFileReject(electronicInvoice, errorMessage);
       LOG.error("doCxmlValidationChecks() " + logMessage + "... invoice will reject");
     }
 
-    // deployment mode checks
-    String environment = environmentService.getEnvironment();
-//    if (  ( (PurapConstants.ElectronicInvoice.CXML_DEPLOYMENT_MODE_PRODUCTION.equalsIgnoreCase(header.getDeploymentMode())) &&
-//            (!(EnvironmentService.PRODUCTION_ENVIRONMENT.equalsIgnoreCase(environment))) ) ||
-//          ( (!(PurapConstants.ElectronicInvoice.CXML_DEPLOYMENT_MODE_PRODUCTION.equalsIgnoreCase(header.getDeploymentMode()))) &&
-//            (EnvironmentService.PRODUCTION_ENVIRONMENT.equalsIgnoreCase(environment)) ) ) {
-    if ( (!(PurapConstants.ElectronicInvoice.CXML_DEPLOYMENT_MODE_PRODUCTION.equalsIgnoreCase(ei.getDeploymentMode()))) &&
-            (PurapConstants.PRODUCTION_ENVIRONMENT.equalsIgnoreCase(environment)) ) {
-      // we have a production e-invoice and we are NOT in production EPIC
-      String errorMessage = "File has deployment type '" + ei.getDeploymentMode() + "' and EPIC environment was '" + environment + "'";
-      String logMessage = this.addFileReject(ei, errorMessage);
-      LOG.error("doCxmlValidationChecks() " + logMessage + "... invoice will reject");
-    }
   }
   
   /**
@@ -372,84 +346,87 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
    * @param ei
    * @param emailFilename
    */
-  public void doCxmlAmountValidationChecks(ElectronicInvoice ei,Map itemTypeMappings) {
-    SERVICELOG.debug("doCxmlAmountValidationChecks() started");
-    ElectronicInvoiceDetailRequestHeader header = ei.getInvoiceDetailRequestHeader();
-    ElectronicInvoiceDetailRequestSummary summary = ei.getInvoiceDetailRequestSummary();
+  public void doCxmlAmountValidationChecks(ElectronicInvoice electronicInvoice,
+                                           Map itemTypeMappings) {
+      
+    LOG.debug("doCxmlAmountValidationChecks() started");
+    
+    ElectronicInvoiceDetailRequestHeader header = electronicInvoice.getInvoiceDetailRequestHeader();
+    ElectronicInvoiceDetailRequestSummary summary = electronicInvoice.getInvoiceDetailRequestSummary();
 
-    if (ei.getInvoiceDetailOrders().size() < 1) {
+    if (electronicInvoice.getInvoiceDetailOrders().size() < 1) {
       // should have already been covered
       LOG.error("doCxmlAmountValidationChecks() ");
       String errorMessage = "File does not containt any Invoice information";
-      String logMessage = this.addFileReject(ei, errorMessage);
+      String logMessage = this.addFileReject(electronicInvoice, errorMessage);
       LOG.error("doCxmlAmountValidationChecks() " + logMessage + "... invoice file will reject");
-    } else if (ei.getInvoiceDetailOrders().size() >= 1) {
+    } else if (electronicInvoice.getInvoiceDetailOrders().size() >= 1) {
       String amountDescriptor = "tax amount";
       try {
         // more then one PREQ in single file
         if (!(header.isTaxInLine())) {
-          this.validateCxmlSummaryAmountValues(ei,summary.getInvoiceTaxAmount(),summary.getTaxAmountCurrency(),amountDescriptor,
+          this.validateCxmlSummaryAmountValues(electronicInvoice,summary.getInvoiceTaxAmount(),summary.getTaxAmountCurrency(),amountDescriptor,
               ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX,itemTypeMappings);
         } else {
           // tax totals are at line item level
-          this.validateCxmlLineAmountValues(ei,summary.getInvoiceTaxAmount(),summary.getTaxAmountCurrency(),amountDescriptor,
+          this.validateCxmlLineAmountValues(electronicInvoice,summary.getInvoiceTaxAmount(),summary.getTaxAmountCurrency(),amountDescriptor,
               ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX,itemTypeMappings);
         }
       } catch (NumberFormatException n) {
         // error for bad number data
         String errorMessage = "File contains an invalid " + amountDescriptor + " data (An amount exists in file in unreadable format)";
-        String logMessage = this.addFileReject(ei, errorMessage);
+        String logMessage = this.addFileReject(electronicInvoice, errorMessage);
         LOG.error("doCxmlAmountValidationChecks() " + logMessage + "... invoice file will reject");
         return;
       }
       amountDescriptor = "special handling amount";
       try {
         if (!(header.isSpecialHandlingInLine())) {
-          this.validateCxmlSummaryAmountValues(ei,summary.getInvoiceSpecialHandlingAmount(),summary.getSpecialHandlingAmountCurrency(),amountDescriptor,
+          this.validateCxmlSummaryAmountValues(electronicInvoice,summary.getInvoiceSpecialHandlingAmount(),summary.getSpecialHandlingAmountCurrency(),amountDescriptor,
               ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING,itemTypeMappings);
         } else {
           // special handling totals are at line item level
-          this.validateCxmlLineAmountValues(ei, summary.getInvoiceSpecialHandlingAmount(),summary.getSpecialHandlingAmountCurrency(),amountDescriptor,
+          this.validateCxmlLineAmountValues(electronicInvoice, summary.getInvoiceSpecialHandlingAmount(),summary.getSpecialHandlingAmountCurrency(),amountDescriptor,
               ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING,itemTypeMappings);
         }
       } catch (NumberFormatException n) {
         // error for bad number data
         String errorMessage = "File contains an invalid " + amountDescriptor + " data (An amount exists in file in unreadable format)";
-        String logMessage = this.addFileReject(ei, errorMessage);
+        String logMessage = this.addFileReject(electronicInvoice, errorMessage);
         LOG.error("doCxmlAmountValidationChecks() " + logMessage + "... invoice file will reject");
         return;
       }
       amountDescriptor = "shipping amount";
       try {
         if (!(header.isShippingInLine())) {
-          this.validateCxmlSummaryAmountValues(ei,summary.getInvoiceShippingAmount(),summary.getShippingAmountCurrency(),amountDescriptor,
+          this.validateCxmlSummaryAmountValues(electronicInvoice,summary.getInvoiceShippingAmount(),summary.getShippingAmountCurrency(),amountDescriptor,
               ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING,itemTypeMappings);
         } else {
           // shipping totals are at line item level
-          this.validateCxmlLineAmountValues(ei, summary.getInvoiceShippingAmount(),summary.getShippingAmountCurrency(),amountDescriptor,
+          this.validateCxmlLineAmountValues(electronicInvoice, summary.getInvoiceShippingAmount(),summary.getShippingAmountCurrency(),amountDescriptor,
               ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING,itemTypeMappings);
         }
       } catch (NumberFormatException n) {
         // error for bad number data
         String errorMessage = "File contains an invalid " + amountDescriptor + " data (An amount exists in file in unreadable format)";
-        String logMessage = this.addFileReject(ei, errorMessage);
+        String logMessage = this.addFileReject(electronicInvoice, errorMessage);
         LOG.error("doCxmlAmountValidationChecks() " + logMessage + "... invoice file will reject");
         return;
       }
       amountDescriptor = "discount amount";
       try {
         if (!(header.isDiscountInLine())) {
-          this.validateCxmlSummaryAmountValues(ei,summary.getInvoiceDiscountAmount(),summary.getDiscountAmountCurrency(),amountDescriptor,
+          this.validateCxmlSummaryAmountValues(electronicInvoice,summary.getInvoiceDiscountAmount(),summary.getDiscountAmountCurrency(),amountDescriptor,
               ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DISCOUNT,itemTypeMappings);
         } else {
           // discount totals are at line item level
-          this.validateCxmlLineAmountValues(ei,summary.getInvoiceDiscountAmount(),summary.getDiscountAmountCurrency(),amountDescriptor,
+          this.validateCxmlLineAmountValues(electronicInvoice,summary.getInvoiceDiscountAmount(),summary.getDiscountAmountCurrency(),amountDescriptor,
               ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DISCOUNT,itemTypeMappings);
         }
       } catch (NumberFormatException n) {
         // error for bad number data
         String errorMessage = "File contains an invalid " + amountDescriptor + " data (An amount exists in file in unreadable format)";
-        String logMessage = this.addFileReject(ei, errorMessage);
+        String logMessage = this.addFileReject(electronicInvoice, errorMessage);
         LOG.error("doCxmlAmountValidationChecks() " + logMessage + "... invoice file will reject");
         return;
       }
@@ -521,7 +498,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   
   // Below is the method we store all the matching business logic in
   public void matchElectronicInvoiceToVendor(ElectronicInvoice ei) {
-    SERVICELOG.debug("matchElectronicInvoiceToVendor() started");
+    LOG.debug("matchElectronicInvoiceToVendor() started");
 
     VendorDetail vd = vendorService.getVendorByDunsNumber(ei.getDunsNumber());
     if (vd == null) {
@@ -540,7 +517,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   
   // Below is the method we store all the matching business logic in
   public void matchElectronicInvoiceToPurchaseOrder(ElectronicInvoice ei, ElectronicInvoiceOrder eio) {
-    SERVICELOG.debug("matchElectronicInvoiceToPurchaseOrder() started");
+    LOG.debug("matchElectronicInvoiceToPurchaseOrder() started");
     
     Integer invoicePurchaseOrderID = null;
     try {
@@ -699,11 +676,11 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //      }
 //    }
     
-    SERVICELOG.debug("matchElectronicInvoiceToPurchaseOrder() ended");
+    LOG.debug("matchElectronicInvoiceToPurchaseOrder() ended");
   }
   
   public void performElectronicInvoiceOrderValidation(ElectronicInvoice ei, ElectronicInvoiceOrder eio) {
-    SERVICELOG.debug("performElectronicInvoiceOrderValidation() started");
+    LOG.debug("performElectronicInvoiceOrderValidation() started");
 //      Integer invoicePurchaseOrderID = null;
 //      try {
 //        invoicePurchaseOrderID = new Integer(Integer.parseInt(eio.getInvoicePurchaseOrderID()));
@@ -877,11 +854,11 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
         }
       }
       
-      SERVICELOG.debug("performElectronicInvoiceOrderValidation() ended");
+      LOG.debug("performElectronicInvoiceOrderValidation() ended");
     }
   
   public PaymentRequestInitializationValidationErrors validatePaymentRequestCreation(ElectronicInvoice ei,ElectronicInvoiceOrder eio) {
-    SERVICELOG.debug("validatePaymentRequestCreation() started");
+    LOG.debug("validatePaymentRequestCreation() started");
     // here we call the validation of the Payment Request Creation
     // in order to check to see if this Invoice can be processed
     // according the the PREQ business rules
@@ -903,13 +880,13 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
         LOG.error("validatePaymentRequestCreation() " + errorMessage);
       }
     }
-    SERVICELOG.debug("validatePaymentRequestCreation() ended");
+    LOG.debug("validatePaymentRequestCreation() ended");
     return initErrors;
   }
   
   public PaymentRequestDocument createPaymentRequestFromInvoice(ElectronicInvoice ei,ElectronicInvoiceOrder eio,
       PaymentRequestInitializationValidationErrors initData, Map itemTypeMappings) {
-    SERVICELOG.debug("createPaymentRequestFromInvoice() started");
+    LOG.debug("createPaymentRequestFromInvoice() started");
 
     /*
      * FIXME uncomment the following starting from here 
@@ -1161,7 +1138,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
         LOG.warn("createPaymentRequestFromInvoice() PAYMENT REQUEST FOR PO NUMBER '" + eio.getPurchaseOrderID() + "' WOULD HAVE SAVED");
         LOG.warn("createPaymentRequestFromInvoice() **********************************************************************************" +
         "************************************************************** ");
-        SERVICELOG.debug("createPaymentRequestFromInvoice() ended");
+        LOG.debug("createPaymentRequestFromInvoice() ended");
         return pr;
       }
 
@@ -1213,7 +1190,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
       }    
     }
     
-    SERVICELOG.debug("createPaymentRequestFromInvoice() ended");
+    LOG.debug("createPaymentRequestFromInvoice() ended");
     return pr;
         
     * FIXME uncomment the above ending here
@@ -1230,6 +1207,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
       throw new PurError("Invoice Item Mapping Table does not have record for Invoice Item Type Code '" + invoiceItemType + "'");
     }
   }
+
 }
 /*
 Copyright (c) 2004, 2005 The National Association of College and

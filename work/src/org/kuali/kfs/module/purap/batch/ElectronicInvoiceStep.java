@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.batch.service.ElectronicInvoiceHelperService;
+import org.kuali.kfs.module.purap.service.ElectronicInvoiceLoadService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
@@ -31,64 +32,20 @@ public class ElectronicInvoiceStep extends AbstractStep {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceStep.class);
 
-    private ElectronicInvoiceHelperService electronicInvoiceHelperService;
-    private BatchInputFileService batchInputFileService;
-    private BatchInputFileType electronicInvoiceInputFileType;
+    private ElectronicInvoiceLoadService electronicInvoiceLoadService; 
 
     public boolean execute(String jobName, 
                            Date jobRunDate) {
         
-        File dir = new File(electronicInvoiceInputFileType.getDirectoryPath());
-        File[] files = dir.listFiles();
-        
-        boolean processSuccess = true;
-        List<File> processedFiles = new ArrayList();
-        for (File file : files){
-            processSuccess = electronicInvoiceHelperService.loadElectronicInvoiceFile(file);
-            if (processSuccess) {
-                processedFiles.add(file);
-            }
-        }
-
-//        removeDoneFiles(processedFiles);
-
-        return processSuccess;
+        return electronicInvoiceLoadService.loadElectronicInvoices();
     }
 
-    /**
-     * Clears out associated .done files for the processed data files.
-     */
-    private void removeDoneFiles(List<File> dataFiles) {
-        for (File dataFile : dataFiles) {
-            File doneFile;
-            try {
-                doneFile = new File(StringUtils.substringBeforeLast(dataFile.getCanonicalPath(), ".") + ".done");
-                if (doneFile.exists()) {
-                    if (!doneFile.delete()){
-                        /**
-                         * FIXME : is it required to do anything here... but in the gl step, there is no check like this.
-                         */
-                    }
-                }
-            }
-            catch (IOException e) {
-                /**
-                 * FIXME: Dont know what to do here
-                 */
-            }
-            
-        }
+    public ElectronicInvoiceLoadService getElectronicInvoiceLoadService() {
+        return electronicInvoiceLoadService;
     }
 
-    public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
-        this.batchInputFileService = batchInputFileService;
+    public void setElectronicInvoiceLoadService(ElectronicInvoiceLoadService electronicInvoiceLoadService) {
+        this.electronicInvoiceLoadService = electronicInvoiceLoadService;
     }
 
-    public void setElectronicInvoiceInputFileType(BatchInputFileType electronicInvoiceInputFileType) {
-        this.electronicInvoiceInputFileType = electronicInvoiceInputFileType;
-    }
-
-    public void setElectronicInvoiceHelperService(ElectronicInvoiceHelperService electronicInvoiceHelperService) {
-        this.electronicInvoiceHelperService = electronicInvoiceHelperService;
-    }
 }

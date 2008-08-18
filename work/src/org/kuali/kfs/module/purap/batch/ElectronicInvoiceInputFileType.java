@@ -21,7 +21,6 @@ import java.text.FieldPosition;
 import java.text.SimpleDateFormat;
 
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.batch.service.ElectronicInvoiceHelperService;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
@@ -35,7 +34,6 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceInputFileType.class);
 
     private DateTimeService dateTimeService;
-    private ElectronicInvoiceHelperService electronicInvoiceHelperService;
 
     /**
      * Returns the identifier of the electronic invoice file type
@@ -59,17 +57,14 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
                               Object parsedFileContents, 
                               String userIdentifier) {
         
-        ElectronicInvoice electronicInvoiceBatch = (ElectronicInvoice) parsedFileContents;
-        Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
+//        ElectronicInvoice electronicInvoiceBatch = (ElectronicInvoice) parsedFileContents;
+//        Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
+//
+//        StringBuffer buf = new StringBuffer();
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+//        formatter.setLenient(false);
+//        formatter.format(currentTimestamp, buf, new FieldPosition(0));
 
-        StringBuffer buf = new StringBuffer();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        formatter.setLenient(false);
-        formatter.format(currentTimestamp, buf, new FieldPosition(0));
-
-        /**
-         * TODO: Have to fix for the proper file name.... 
-         */
 //        String fileName = "gl_idbilltrans_" + electronicInvoiceBatch.getChartOfAccountsCode() + electronicInvoiceBatch.getOrganizationCode();
 //        fileName += "_" + user.getPersonUserIdentifier().toLowerCase();
 //        if (StringUtils.isNotBlank(userIdentifier)) {
@@ -80,28 +75,18 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
 //        // remove spaces in filename
 //        fileName = StringUtils.remove(fileName, " ");
 
-        return "test.xml";
+        return null;
     }
 
     public String getTitleKey() {
-//        return KFSKeyConstants.MESSAGE_BATCH_UPLOAD_TITLE_COLLECTOR;
-        return "dono";
-    }
-
-    /**
-     * Sets the electronicInvoiceHelperService attribute value.
-     */
-    public void setElectronicInvoiceHelperService(ElectronicInvoiceHelperService electronicInvoiceHelperService) {
-        this.electronicInvoiceHelperService = electronicInvoiceHelperService;
+        return null;
     }
 
     public boolean validate(Object parsedFileContents) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     public boolean checkAuthorization(UniversalUser user, File batchFile) {
-        // TODO Auto-generated method stub
         return false;
     }
 

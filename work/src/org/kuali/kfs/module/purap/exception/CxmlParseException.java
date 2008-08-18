@@ -8,7 +8,7 @@ package org.kuali.kfs.module.purap.exception;
  * @author delyea
  *
  */
-public class CxmlParseException extends Error {
+public class CxmlParseException extends Exception {
   public CxmlParseException() {
     super();
   }

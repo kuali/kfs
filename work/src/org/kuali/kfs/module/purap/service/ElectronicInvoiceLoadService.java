@@ -15,7 +15,7 @@ public interface ElectronicInvoiceLoadService {
    * 
    * @param directoryOfFiles - directory where files are located
    */
-  public boolean loadElectronicInvoices(String directoryOfFiles,String emailFilename);
+    public boolean loadElectronicInvoices();
 
   /**
    * Use the given filename to load a CXML document into EPIC

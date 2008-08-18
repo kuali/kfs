@@ -11,6 +11,7 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.exception.CxmlParseException;
 import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors;
 
 
@@ -37,9 +38,9 @@ public interface ElectronicInvoiceService {
 
   public String addInvoiceOrderReject(ElectronicInvoice ei,ElectronicInvoiceOrder eio,String tableErrorMessage);
 
-  public ElectronicInvoice loadElectronicInvoice(String filename);
+  public ElectronicInvoice loadElectronicInvoice(String filename) throws CxmlParseException;
   
-  public ElectronicInvoice loadElectronicInvoice(File file);
+  public ElectronicInvoice loadElectronicInvoice(File file) throws CxmlParseException;
   
   public void findVendorDUNSNumber(ElectronicInvoice ei);
   

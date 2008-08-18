@@ -505,10 +505,6 @@
         </property>
     </bean>
 
-    <bean id="electronicInvoiceLoadService" 
-		class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceLoadServiceImpl">
-	</bean>
-	
 	<bean id="purchasingPreDisbursementImmediatesExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -570,8 +566,42 @@
 		</property>
 	</bean>
 	
-	<bean id="electronicInvoiceHelperService" class="org.kuali.kfs.module.purap.batch.service.impl.ElectronicInvoiceHelperServiceImpl">
-		<property name="batchInputFileService">
+	<bean id="electronicInvoiceLoadService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceLoadServiceImpl">
+		 <property name="electronicInvoiceService">
+            <ref bean="electronicInvoiceService" />
+        </property>
+         <property name="electronicInvoiceMappingService">
+            <ref bean="electronicInvoiceMappingService" />
+        </property>
+        <property name="electronicInvoiceInputFileType">
+		    <ref bean="electronicInvoiceInputFileType" />
+		</property>
+	</bean>
+
+	<bean id="environmentService" class="org.kuali.kfs.pdp.service.impl.EnvironmentServiceImpl">
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+	</bean>
+	
+	<bean id="electronicInvoiceService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceServiceImpl">
+		<property name="electronicInvoicingDao">
+		    <ref bean="electronicInvoicingDao" />
+		</property>
+		<property name="purchaseOrderService">
+            <ref bean="purchaseOrderService" />
+        </property>
+		<property name="paymentRequestService">
+            <ref bean="paymentRequestService" />
+        </property>
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
+        <property name="environmentService">
+            <ref bean="environmentService" />
+        </property>
+         <property name="electronicInvoiceMappingService">
+            <ref bean="electronicInvoiceMappingService" />
+        </property>
+        <property name="batchInputFileService">
 		    <ref bean="batchInputFileService" />
 		</property>
 		<property name="electronicInvoiceInputFileType">
@@ -579,6 +609,14 @@
 		</property>
 	</bean>
 	
+	<bean id="electronicInvoiceMappingService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceMappingServiceImpl">
+        <property name="electronicInvoicingDao">
+            <ref bean="electronicInvoicingDao" />
+        </property>
+	</bean>
+	
+	<bean id="electronicInvoicingDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.ElectronicInvoicingDaoOjb"/>
+    
 	<bean id="electronicInvoiceExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -588,14 +626,8 @@
 	</bean>
 	
 	<bean id="electronicInvoiceExtractStep" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceStep" parent="step">
-		<property name="electronicInvoiceHelperService">
-			<ref bean="electronicInvoiceHelperService" />
-		</property>
-		<property name="batchInputFileService">
-		    <ref bean="batchInputFileService" />
-		</property>
-		<property name="electronicInvoiceInputFileType">
-		    <ref bean="electronicInvoiceInputFileType" />
+		<property name="electronicInvoiceLoadService">
+			<ref bean="electronicInvoiceLoadService" />
 		</property>
 	</bean>
 	
@@ -611,9 +643,6 @@
 	    </property>
 	    <property name="schemaLocation">
 	       <value>org/kuali/kfs/module/purap/batch/electronicInvoice.xsd</value>
-	    </property>
-	    <property name="electronicInvoiceHelperService">
-	       <ref bean="electronicInvoiceHelperService"/>
 	    </property>
 	</bean>
 	

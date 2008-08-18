@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
@@ -26,12 +27,13 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.service.impl.PersistenceServiceStructureImplBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class PurchasingServiceImpl implements PurchasingService {
+public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase implements PurchasingService {
 
     private ParameterService parameterService;
     private SequenceAccessorService sequenceAccessorService;
@@ -98,7 +100,9 @@ public class PurchasingServiceImpl implements PurchasingService {
     
     private PurchasingCapitalAssetItem getItemIfAlreadyInCamsItemsList (PurApItem item, List<PurchasingCapitalAssetItem> camsItemsList) {
         if (item.getItemIdentifier() == null) {
-            Integer itemIdentifier = new Integer(sequenceAccessorService.getNextAvailableSequenceNumber("PO_ITM_ID").toString());
+            ClassDescriptor cd = this.getClassDescriptor(item.getClass());
+            String sequenceName = cd.getFieldDescriptorByName("itemIdentifier").getSequenceName();
+            Integer itemIdentifier = new Integer(sequenceAccessorService.getNextAvailableSequenceNumber(sequenceName).toString());            
             item.setItemIdentifier(itemIdentifier);
         }
         for (PurchasingCapitalAssetItem camsItem : camsItemsList) {

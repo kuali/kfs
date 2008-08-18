@@ -17,9 +17,12 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
-public class FormatSelection implements Serializable {
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+
+public class FormatSelection extends TransientBusinessObjectBase {
     String campus;
     Date startDate;
     List customerList;
@@ -59,5 +62,17 @@ public class FormatSelection implements Serializable {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap(); 
+        
+        m.put("campus", this.campus);
+        m.put("startDate", this.startDate);
+        m.put("customerList", this.customerList);
+        m.put("rangeList", this.rangeList);
+        
+        return m;
     }
 }

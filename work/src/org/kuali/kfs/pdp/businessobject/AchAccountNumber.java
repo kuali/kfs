@@ -19,29 +19,28 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 
 /**
  * @author delyea
  * @hibernate.class table="PDP.PDP_ACH_ACCT_NBR_T"
  */
 
-public class AchAccountNumber implements Serializable, PersistenceBrokerAware {
+public class AchAccountNumber extends TimestampedBusinessObjectBase {
 
     private Integer id; // PMT_GRP_ID Primary Key
     private String achBankAccountNbr; // ACH_BNK_ACCT_NBR
     private Integer version; // VER_NBR
-    private Timestamp lastUpdate;
-
+    
     public AchAccountNumber() {
         super();
     }
@@ -136,46 +135,16 @@ public class AchAccountNumber implements Serializable, PersistenceBrokerAware {
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
-
+    
     /**
-     * @return Returns the lastUpdate.
+     * 
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
-    }
-
-    /**
-     * @param lastUpdate The lastUpdate to set.
-     */
-    public void setLastUpdate(Timestamp lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("id", this.id);
+        
+        return m;
     }
 }

@@ -418,7 +418,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
             ur.updateUser(userService);
         }
         catch (UserNotFoundException e) {
-            b.setLastUpdateUser(null);
+            //b.setLastUpdateUser(null);
         }
     }
 

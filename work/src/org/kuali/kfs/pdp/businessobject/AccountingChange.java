@@ -19,19 +19,13 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
+import org.kuali.rice.kns.bo.KualiCodeBase;
+
 
 /**
  * @author jsissom
  */
-public class AccountingChange extends CodeImpl {
+public class AccountingChange extends KualiCodeBase {
     public AccountingChange() {
     }
-
-    protected int getHashValue1() {
-        return 37;
-    };
-
-    protected int getHashValue2() {
-        return 39;
-    };
 }

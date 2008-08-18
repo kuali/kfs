@@ -29,16 +29,16 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
- * @author delyea
- * @hibernate.class table="PDP.PDP_PMT_GRP_HIST_T"
+ * 
  */
 
-public class PaymentGroupHistory implements UserRequired, Serializable, PersistenceBrokerAware {
+public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
 
     private Integer id; // PMT_GRP_HIST_ID
 
@@ -55,7 +55,6 @@ public class PaymentGroupHistory implements UserRequired, Serializable, Persiste
     private Boolean origPmtSpecHandling; // ORIG_PMT_SPCL_HANDLG_IND VARCHAR2 1
     private Boolean pmtCancelExtractStat; // PMT_CNCL_EXTRT_STAT_IND VARCHAR2 1
     private Timestamp pmtCancelExtractDate; // PMT_CNCL_EXTRT_TS
-    private Timestamp lastUpdate;
     private Integer version; // VER_NBR
 
     private String disbursementTypeCode;
@@ -421,46 +420,5 @@ public class PaymentGroupHistory implements UserRequired, Serializable, Persiste
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
-
-    /**
-     * @return Returns the lastUpdate.
-     */
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
-    }
-
-    /**
-     * @param lastUpdate The lastUpdate to set.
-     */
-    public void setLastUpdate(Timestamp lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
+    
 }

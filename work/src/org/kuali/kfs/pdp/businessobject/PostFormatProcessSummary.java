@@ -22,17 +22,19 @@ package org.kuali.kfs.pdp.businessobject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.pdp.dataaccess.ProcessSummaryDao;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.springframework.transaction.annotation.Transactional;
 
 
 /**
- * @author jsissom
+ * 
  */
 @Transactional
-public class PostFormatProcessSummary {
+public class PostFormatProcessSummary extends TransientBusinessObjectBase {
     private static BigDecimal zero = new BigDecimal(0);
     private List processSummary = new ArrayList();
 
@@ -114,5 +116,14 @@ public class PostFormatProcessSummary {
                 ps.setEndDisbursementNbr(nbr);
             }
         }
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap(); 
+
+        m.put("processSummary", this.processSummary);
+        
+        return m;
     }
 }

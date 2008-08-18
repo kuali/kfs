@@ -20,11 +20,14 @@
 package org.kuali.kfs.pdp.businessobject;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 /**
- * @author jsissom
+ * 
  */
-public class SecurityRecord implements Serializable {
+public class SecurityRecord extends TransientBusinessObjectBase {
     private boolean sysAdminRole = false;
     private boolean rangesRole = false;
     private boolean cancelRole = false;
@@ -153,5 +156,25 @@ public class SecurityRecord implements Serializable {
 
     public void setViewIdPartialBank(boolean viewIdPartialBank) {
         this.viewIdPartialBank = viewIdPartialBank;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap(); 
+
+        m.put("sysAdminRole", this.sysAdminRole);
+        m.put("rangesRole", this.rangesRole);
+        m.put("cancelRole", this.cancelRole);
+        m.put("submitRole", this.submitRole);
+        m.put("processRole", this.processRole);
+        m.put("holdRole", this.holdRole);
+        m.put("viewAllRole", this.viewAllRole);
+        m.put("viewIdRole", this.viewIdRole);
+        m.put("viewBankRole", this.viewBankRole);
+        m.put("limitedViewRole", this.limitedViewRole);
+        m.put("taxHoldersRole", this.taxHoldersRole);
+        m.put("viewIdPartialBank", this.viewIdPartialBank);
+        
+        return m;
     }
 }

@@ -33,6 +33,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
@@ -41,7 +42,7 @@ import org.kuali.rice.kns.service.UniversalUserService;
  * @author jsissom
  * @hibernate.class table="PDP.PDP_CUST_PRFL_T"
  */
-public class CustomerProfile implements UserRequired, Serializable, PersistenceBrokerAware {
+public class CustomerProfile extends TimestampedBusinessObjectBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfile.class);
 
     private String achPaymentDescription; // ACH_PMT_DESC
@@ -77,9 +78,6 @@ public class CustomerProfile implements UserRequired, Serializable, PersistenceB
     private BigDecimal fileThresholdAmount; // FL_THRSHLD_AMT
     private String fileThresholdEmailAddress; // CUST_FILE_THRSHLD_EMAIL_ADDR
     private Integer id; // CUST_ID
-    private Timestamp lastUpdate; // LST_UPDT_TS
-    private UniversalUser lastUpdateUser;
-    private String lastUpdateUserId; // LST_UPDT_USR_ID
     private Boolean nraReview; // CUST_NRA_RVW_IND
     private Integer version; // VER_NBR
     private String orgCode; // ORG_CD
@@ -107,33 +105,6 @@ public class CustomerProfile implements UserRequired, Serializable, PersistenceB
 
     public String getSortName() {
         return (this.chartCode + this.orgCode + this.subUnitCode);
-    }
-
-    public UniversalUser getLastUpdateUser() {
-        return lastUpdateUser;
-    }
-
-    public void setLastUpdateUser(UniversalUser s) {
-        if (s != null) {
-            this.lastUpdateUserId = s.getPersonUniversalIdentifier();
-        }
-        else {
-            this.lastUpdateUserId = null;
-        }
-        this.lastUpdateUser = s;
-    }
-
-    public String getLastUpdateUserId() {
-        return lastUpdateUserId;
-    }
-
-    public void setLastUpdateUserId(String lastUpdateUserId) {
-        this.lastUpdateUserId = lastUpdateUserId;
-    }
-
-    public void updateUser(UniversalUserService userService) throws UserNotFoundException {
-        UniversalUser u = userService.getUniversalUser(lastUpdateUserId);
-        setLastUpdateUser(u);
     }
 
     /**
@@ -415,14 +386,6 @@ public class CustomerProfile implements UserRequired, Serializable, PersistenceB
      */
     public Integer getId() {
         return id;
-    }
-
-    /**
-     * @hibernate.property column="LST_UPDT_TS" not-null="true"
-     * @return Returns the lastUpdate.
-     */
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
     }
 
     /**
@@ -797,13 +760,6 @@ public class CustomerProfile implements UserRequired, Serializable, PersistenceB
     }
 
     /**
-     * @param lastUpdate The lastUpdate to set.
-     */
-    public void setLastUpdate(Timestamp lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    /**
      * @param nraReview The nraReview to set.
      */
     public void setNraReview(Boolean nraReview) {
@@ -903,33 +859,5 @@ public class CustomerProfile implements UserRequired, Serializable, PersistenceB
 
     public String toString() {
         return new ToStringBuilder(this).append("chartCode", this.chartCode).append("orgCode", this.orgCode).append("subUnitCode", this.subUnitCode).toString();
-    }
-
-    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-
     }
 }

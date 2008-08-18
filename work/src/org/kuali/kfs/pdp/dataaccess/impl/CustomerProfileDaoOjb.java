@@ -62,7 +62,7 @@ public class CustomerProfileDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
             ur.updateUser(userService);
         }
         catch (UserNotFoundException e) {
-            b.setLastUpdateUser(null);
+            //b.setLastUpdateUser(null);
         }
     }
 

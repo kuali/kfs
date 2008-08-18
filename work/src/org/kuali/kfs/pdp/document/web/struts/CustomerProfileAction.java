@@ -85,7 +85,7 @@ public class CustomerProfileAction extends BaseAction {
                     DisbursementType dt = (DisbursementType) iter.next();
                     CustomerBankForm cbf = new CustomerBankForm();
                     cbf.setDisbursementTypeCode(dt.getCode());
-                    cbf.setDisbursementDescription(dt.getDescription());
+                    cbf.setDisbursementDescription(dt.getName());
                     newProfileForm.setCustomerBankForms(i, cbf);
                     i++;
                 }
@@ -117,7 +117,7 @@ public class CustomerProfileAction extends BaseAction {
                     DisbursementType dt = (DisbursementType) iter.next();
                     CustomerBankForm cbf = new CustomerBankForm();
                     cbf.setDisbursementTypeCode(dt.getCode());
-                    cbf.setDisbursementDescription(dt.getDescription());
+                    cbf.setDisbursementDescription(dt.getName());
                     CustomerBank cb = custProfile.getCustomerBankByDisbursementType(dt.getCode());
                     if (cb != null) {
                         cbf.setBankId(cb.getBank().getId());

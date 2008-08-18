@@ -16,9 +16,7 @@
 <descriptor-repository version="1.0">
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.AccountingChange" table="PDP_ACCTG_CHG_CD_T">
     <field-descriptor name="code" column="ACCTG_CHG_CD" jdbc-type="VARCHAR" primarykey="true"/>
-    <field-descriptor name="description" column="ACCTG_CHG_CD_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="name" column="ACCTG_CHG_CD_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
@@ -165,7 +163,7 @@
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.DisbursementType" table="PDP_DISB_TYP_CD_T">
     <field-descriptor name="code" column="DISB_TYP_CD" jdbc-type="VARCHAR" primarykey="true"/>
-    <field-descriptor name="description" column="DISB_TYP_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="name" column="DISB_TYP_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>

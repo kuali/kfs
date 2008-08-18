@@ -33,13 +33,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 
 /**
- * @author delyea
- * @hibernate.class table="PDP.PDP_PMT_DTL_T"
+ * 
  */
 
-public class PaymentDetail implements Serializable, PersistenceBrokerAware {
+public class PaymentDetail extends TimestampedBusinessObjectBase {
     private static BigDecimal zero = new BigDecimal(0);
 
     private Integer id; // PMT_DTL_ID
@@ -56,7 +56,6 @@ public class PaymentDetail implements Serializable, PersistenceBrokerAware {
     private BigDecimal invTotShipAmount; // INV_TOT_SHP_AMT
     private BigDecimal invTotOtherDebitAmount; // INV_TOT_OTHR_DEBIT_AMT
     private BigDecimal invTotOtherCreditAmount; // INV_TOT_OTHR_CRDT_AMT
-    private Timestamp lastUpdate; // LST_UPDT_TS
     private Integer version; // VER_NBR
     private Boolean primaryCancelledPayment; // PDP_PRM_PMT_CNCL_IND
     private Timestamp lastDisbursementActionDate;
@@ -179,14 +178,6 @@ public class PaymentDetail implements Serializable, PersistenceBrokerAware {
      */
     public Integer getVersion() {
         return version;
-    }
-
-    /**
-     * @return
-     * @hibernate.property column="LST_UPDT_TS" length="7"
-     */
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
     }
 
     /**
@@ -334,13 +325,6 @@ public class PaymentDetail implements Serializable, PersistenceBrokerAware {
     }
 
     /**
-     * @param timestamp
-     */
-    public void setLastUpdate(Timestamp timestamp) {
-        lastUpdate = timestamp;
-    }
-
-    /**
      * @param decimal
      */
     public void setNetPaymentAmount(BigDecimal decimal) {
@@ -433,31 +417,4 @@ public class PaymentDetail implements Serializable, PersistenceBrokerAware {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
 
-    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
 }

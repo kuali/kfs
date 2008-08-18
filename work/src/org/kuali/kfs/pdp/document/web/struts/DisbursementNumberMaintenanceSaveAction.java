@@ -88,7 +88,7 @@ public class DisbursementNumberMaintenanceSaveAction extends BaseAction {
                 dnr.setId(dnmf.getId());
             }
             dnr.setBank((Bank) bankService.get(dnmf.getBankId()));
-            dnr.setLastUpdateUser(getUser(request));
+            //dnr.setLastUpdateUser(getUser(request));
 
             try {
                 disbursementNumberRangeService.save(dnr);

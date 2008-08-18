@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Created on Jun 30, 2004
- *
- */
-package org.kuali.kfs.pdp.businessobject;
+package org.kuali.kfs.sys.businessobject;
 
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import java.sql.Timestamp;
 
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
-/**
- * 
- */
-public class DisbursementType extends KualiCodeBase {
-    public DisbursementType() {
-    }
-
+public interface TimestampedBusinessObject {
+    /**
+     * @return Returns the lastUpdateUserId.
+     */ 
+    public String getLastUpdateUserId();
+    
+    /**
+     * @return Returns the lastUpdateUser.
+     */ 
+    public UniversalUser getLastUpdateUser();
+    
+    /**
+     * @return Returns the lastUpdate.
+     */ 
+    public Timestamp getLastUpdate();
 }

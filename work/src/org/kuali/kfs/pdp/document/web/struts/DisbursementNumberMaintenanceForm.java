@@ -86,7 +86,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
         dnr.setId(this.getId());
         dnr.setLastAssignedDisbNbr(GeneralUtilities.convertStringToInteger(this.getLastAssignedDisbNbr()));
         dnr.setLastUpdate(this.getLastUpdate());
-        dnr.setLastUpdateUser(this.getLastUpdateUser());
+        //dnr.setLastUpdateUser(this.getLastUpdateUser());
         dnr.setLastUpdateUserId(this.getLastUpdateUserId());
         dnr.setPhysCampusProcCode(this.getPhysCampusProcCode().toUpperCase());
         dnr.setVersion(this.getVersion());

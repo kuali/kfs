@@ -21,16 +21,18 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 
 /**
- * @author jsissom
+ * 
  */
-public class FormatResult implements Serializable, Comparable {
+public class FormatResult extends TransientBusinessObjectBase implements Comparable {
     private Integer procId;
     private boolean pymtAttachment;
     private boolean pymtSpecialHandling;
@@ -220,5 +222,14 @@ public class FormatResult implements Serializable, Comparable {
 
     public String toString() {
         return new ToStringBuilder(this).append("procId", procId).append("sortGroupId", getSortGroupId()).append("cust", cust).toString();
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        
+        m.put("procId", this.procId);
+        
+        return m;
     }
 }

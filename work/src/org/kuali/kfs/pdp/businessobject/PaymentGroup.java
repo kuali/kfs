@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -29,8 +30,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class PaymentGroup implements Serializable, PersistenceBrokerAware {
+public class PaymentGroup extends PersistableBusinessObjectBase {
     private static BigDecimal zero = new BigDecimal(0);
 
     private Integer id; // PMT_GRP_ID
@@ -923,5 +925,14 @@ public class PaymentGroup implements Serializable, PersistenceBrokerAware {
 
     public void setEpicPaymentPaidExtractedDate(Timestamp epicPaymentPaidExtractedDate) {
         this.epicPaymentPaidExtractedDate = epicPaymentPaidExtractedDate;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap(); 
+
+        m.put("id", this.id);
+        
+        return m;
     }
 }

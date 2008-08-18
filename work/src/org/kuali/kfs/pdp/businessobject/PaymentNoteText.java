@@ -29,13 +29,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 
 /**
- * @author delyea
- * @hibernate.class table="PDP.PDP_PMT_NTE_TXT_T"
+ * 
  */
 
-public class PaymentNoteText implements Serializable, PersistenceBrokerAware {
+public class PaymentNoteText extends TimestampedBusinessObjectBase {
 
     private Integer id; // PMT_NTE_ID
 
@@ -44,7 +44,6 @@ public class PaymentNoteText implements Serializable, PersistenceBrokerAware {
 
     private Integer customerNoteLineNbr; // CUST_NTE_LN_NBR
     private String customerNoteText; // CUST_NTE_TXT
-    private Timestamp lastUpdate;
     private Integer version; // VER_NBR
 
     public PaymentNoteText() {
@@ -142,46 +141,5 @@ public class PaymentNoteText implements Serializable, PersistenceBrokerAware {
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
-
-    /**
-     * @return Returns the lastUpdate.
-     */
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
-    }
-
-    /**
-     * @param lastUpdate The lastUpdate to set.
-     */
-    public void setLastUpdate(Timestamp lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
+  
 }

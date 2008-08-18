@@ -19,7 +19,6 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -27,8 +26,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
@@ -37,7 +36,7 @@ import org.kuali.rice.kns.service.UniversalUserService;
  * @author jsissom
  * @hibernate.class table="PDP.PDP_BNK_CD_T"
  */
-public class Bank implements UserRequired, Serializable, PersistenceBrokerAware {
+public class Bank extends TimestampedBusinessObjectBase {
     private Integer id;
     private Integer version;
     private String description;
@@ -47,10 +46,7 @@ public class Bank implements UserRequired, Serializable, PersistenceBrokerAware 
     private Boolean active;
     private DisbursementType disbursementType;
     private String disbursementTypeCode;
-    private Timestamp lastUpdate;
-    private UniversalUser lastUpdateUser;
-    private String lastUpdateUserId;
-
+   
     /**
      * 
      */
@@ -58,19 +54,7 @@ public class Bank implements UserRequired, Serializable, PersistenceBrokerAware 
         super();
         active = Boolean.FALSE;
     }
-
-    public void updateUser(UniversalUserService userService) throws UserNotFoundException {
-        UniversalUser u = userService.getUniversalUser(lastUpdateUserId);
-        if (u == null) {
-            lastUpdateUserId = null;
-            lastUpdateUser = null;
-        }
-        else {
-            lastUpdateUserId = u.getPersonUniversalIdentifier();
-            lastUpdateUser = u;
-        }
-    }
-
+    
     /**
      * @hibernate.property column="BNK_ACCT_NBR" length="17" not-null="true"
      * @return Returns the accountNumber.
@@ -153,21 +137,6 @@ public class Bank implements UserRequired, Serializable, PersistenceBrokerAware 
     }
 
     /**
-     * @hibernate.property column="LST_UPDT_TS" not-null="true"
-     * @return Returns the lastUpdate.
-     */
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
-    }
-
-    /**
-     * @param lastUpdate The lastUpdate to set.
-     */
-    public void setLastUpdate(Timestamp lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    /**
      * @hibernate.property column="BNK_NM" not-null="true"
      * @return Returns the name.
      */
@@ -212,41 +181,6 @@ public class Bank implements UserRequired, Serializable, PersistenceBrokerAware 
         this.routingNumber = routingNumber;
     }
 
-    /**
-     * @hibernate.property column="LST_UPDT_USR_ID" not-null="true"
-     * @return Returns the lastUpdateUserId.
-     */
-    public String getLastUpdateUserId() {
-        return lastUpdateUserId;
-    }
-
-    /**
-     * @return Returns the lastUpdateUser.
-     */
-    public UniversalUser getLastUpdateUser() {
-        return lastUpdateUser;
-    }
-
-    /**
-     * @param lastUpdateUser The lastUpdateUser to set.
-     */
-    public void setLastUpdateUser(UniversalUser lastUpdateUser) {
-        if (lastUpdateUser != null) {
-            this.lastUpdateUserId = lastUpdateUser.getPersonUniversalIdentifier();
-        }
-        else {
-            this.lastUpdateUserId = null;
-        }
-        this.lastUpdateUser = lastUpdateUser;
-    }
-
-    /**
-     * @param lastUpdateUserId The lastUpdateUserId to set.
-     */
-    public void setLastUpdateUserId(String lastUpdateUserId) {
-        this.lastUpdateUserId = lastUpdateUserId;
-    }
-
     public boolean equals(Object obj) {
         if (!(obj instanceof Bank)) {
             return false;
@@ -263,31 +197,4 @@ public class Bank implements UserRequired, Serializable, PersistenceBrokerAware 
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
 
-    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
 }

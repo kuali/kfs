@@ -87,7 +87,7 @@ public class BankDaoOjb extends PlatformAwareDaoBaseOjb implements BankDao {
             ur.updateUser(userService);
         }
         catch (UserNotFoundException e) {
-            b.setLastUpdateUser(null);
+            //b.setLastUpdateUser(null);
         }
     }
 

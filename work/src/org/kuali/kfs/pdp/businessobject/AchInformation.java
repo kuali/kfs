@@ -19,10 +19,14 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
+import java.util.LinkedHashMap;
+
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+
 /**
  * @author jsissom
  */
-public class AchInformation {
+public class AchInformation extends TransientBusinessObjectBase {
     private String idType;
     private String payeeId;
     private String departmentCode;
@@ -89,5 +93,20 @@ public class AchInformation {
 
     public void setAchAccountType(String achAccountType) {
         this.achAccountType = achAccountType;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        
+        m.put("idType", this.idType);
+        m.put("payeeId", this.payeeId);
+        m.put("departmentCode", this.departmentCode);
+        m.put("achBankRoutingNbr", this.achBankRoutingNbr);
+        m.put("achBankAccountNbr", this.achBankAccountNbr);
+        m.put("achAccountType", this.achAccountType);
+        m.put("adviceEmailAddress", this.adviceEmailAddress);
+        
+        return m;
     }
 }

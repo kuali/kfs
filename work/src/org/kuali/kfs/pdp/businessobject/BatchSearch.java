@@ -22,11 +22,14 @@ package org.kuali.kfs.pdp.businessobject;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.LinkedHashMap;
+
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 /**
- * @author delyea
+ * 
  */
-public class BatchSearch implements Serializable {
+public class BatchSearch extends TransientBusinessObjectBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchSearch.class);
 
     private Integer batchId;
@@ -148,5 +151,21 @@ public class BatchSearch implements Serializable {
      */
     public void setSubUnitCode(String subUnitCode) {
         this.subUnitCode = subUnitCode;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        
+        m.put("batchId", this.batchId);                  
+        m.put("paymentCount", this.paymentCount);         
+        m.put("paymentTotalAmount", this.paymentTotalAmount);
+        m.put("beginDate", this.beginDate);               
+        m.put("endDate", this.endDate);                 
+        m.put("chartCode", this.chartCode);             
+        m.put("orgCode", this.orgCode);               
+        m.put("subUnitCode", this.subUnitCode);    
+        
+        return m;
     }
 }

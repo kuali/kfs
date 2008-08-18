@@ -16,8 +16,11 @@
 package org.kuali.kfs.pdp.businessobject;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 
-public class DailyReport implements Comparable {
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+
+public class DailyReport extends TransientBusinessObjectBase implements Comparable {
     private boolean pymtAttachment;
     private boolean pymtSpecialHandling;
     private boolean processImmediate;
@@ -153,6 +156,21 @@ public class DailyReport implements Comparable {
 
     public void setPymtSpecialHandling(boolean pymtSpecialHandling) {
         this.pymtSpecialHandling = pymtSpecialHandling;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        
+        m.put("pymtAttachment", this.pymtAttachment);
+        m.put("pymtSpecialHandling", this.pymtSpecialHandling);
+        m.put("processImmediate", this.processImmediate);
+        m.put("customer", this.customer);
+        m.put("amount", this.amount);
+        m.put("payments", this.payments);
+        m.put("payees", this.payees);      
+        
+        return m;
     }
 
     

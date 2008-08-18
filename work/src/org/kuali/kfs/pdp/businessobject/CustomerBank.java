@@ -29,15 +29,15 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
- * @author jsissom
- * @hibernate.class table="PDP.PDP_CUST_BNK_T"
+ * 
  */
-public class CustomerBank implements UserRequired, Serializable, PersistenceBrokerAware {
+public class CustomerBank extends TimestampedBusinessObjectBase {
     private Integer id; // CUST_BNK_ID
     private Integer version;
 
@@ -50,44 +50,13 @@ public class CustomerBank implements UserRequired, Serializable, PersistenceBrok
     private String disbursementTypeCode;
     private DisbursementType disbursementType; // DISB_TYP_CD
 
-    private Timestamp lastUpdate; // LST_UPDT_TS
-    private UniversalUser lastUpdateUser;
-    private String lastUpdateUserId; // LST_UPDT_USR_ID
-
     /**
      * 
      */
     public CustomerBank() {
         super();
     }
-
-    public UniversalUser getLastUpdateUser() {
-        return lastUpdateUser;
-    }
-
-    public void setLastUpdateUser(UniversalUser s) {
-        if (s != null) {
-            this.lastUpdateUserId = s.getPersonUniversalIdentifier();
-        }
-        else {
-            this.lastUpdateUserId = null;
-        }
-        this.lastUpdateUser = s;
-    }
-
-    public String getLastUpdateUserId() {
-        return lastUpdateUserId;
-    }
-
-    public void setLastUpdateUserId(String lastUpdateUserId) {
-        this.lastUpdateUserId = lastUpdateUserId;
-    }
-
-    public void updateUser(UniversalUserService userService) throws UserNotFoundException {
-        UniversalUser u = userService.getUniversalUser(lastUpdateUserId);
-        setLastUpdateUser(u);
-    }
-
+   
     /**
      * @hibernate.many-to-one column="CUST_ID" class="edu.iu.uis.pdp.bo.CustomerProfile" not-null="true"
      * @return Returns the customerId.
@@ -164,21 +133,6 @@ public class CustomerBank implements UserRequired, Serializable, PersistenceBrok
         this.version = ver;
     }
 
-    /**
-     * @hibernate.property column="LST_UPDT_TS" not-null="true"
-     * @return Returns the lastUpdate.
-     */
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
-    }
-
-    /**
-     * @param timestamp
-     */
-    public void setLastUpdate(Timestamp timestamp) {
-        lastUpdate = timestamp;
-    }
-
     public boolean equals(Object obj) {
         if (!(obj instanceof CustomerBank)) {
             return false;
@@ -195,31 +149,4 @@ public class CustomerBank implements UserRequired, Serializable, PersistenceBrok
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
 
-    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
 }

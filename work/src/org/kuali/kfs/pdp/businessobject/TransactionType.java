@@ -19,19 +19,14 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
+import org.kuali.rice.kns.bo.KualiCodeBase;
+
 
 /**
- * @author jsissom
+ * 
  */
-public class TransactionType extends CodeImpl {
+public class TransactionType extends KualiCodeBase {
     public TransactionType() {
     }
 
-    protected int getHashValue1() {
-        return 53;
-    };
-
-    protected int getHashValue2() {
-        return 59;
-    };
 }

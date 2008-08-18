@@ -19,19 +19,14 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
+import org.kuali.rice.kns.bo.KualiCodeBase;
+
 
 /**
- * @author jsissom
+ * 
  */
-public class PaymentStatus extends CodeImpl {
+public class PaymentStatus extends KualiCodeBase {
     public PaymentStatus() {
     }
-
-    protected int getHashValue1() {
-        return 41;
-    };
-
-    protected int getHashValue2() {
-        return 53;
-    };
+   
 }

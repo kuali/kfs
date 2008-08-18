@@ -19,10 +19,10 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -30,12 +30,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.FlexibleAccountUpdateable;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
- * @author jsissom
+ *
  */
-public class GlPendingTransaction implements Serializable, FlexibleAccountUpdateable {
+public class GlPendingTransaction extends PersistableBusinessObjectBase implements FlexibleAccountUpdateable {
     private Integer id; // GL_PENDING_ENTRY_ID NUMBER 8 0
     private String fsOriginCd; // FS_ORIGIN_CD VARCHAR2 2
     private String fdocNbr; // FDOC_NBR VARCHAR2 9
@@ -366,4 +367,12 @@ public class GlPendingTransaction implements Serializable, FlexibleAccountUpdate
     }
     
     public void setAccount(Account a) { /* don't do nada; we're just fulfilling the contract of FlexibleAccountUpdateable */ }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap(); 
+        m.put("id", this.id);
+        
+        return m;
+    }
 }

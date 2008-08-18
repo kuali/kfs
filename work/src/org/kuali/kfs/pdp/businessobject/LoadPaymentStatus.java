@@ -21,15 +21,17 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.pdp.service.impl.paymentparser.XmlHeader;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 
 /**
- * @author jsissom
+ *
  */
-public class LoadPaymentStatus implements Serializable {
+public class LoadPaymentStatus extends TransientBusinessObjectBase {
     private List warnings;
     private int detailCount;
     private BigDecimal detailTotal;
@@ -85,5 +87,14 @@ public class LoadPaymentStatus implements Serializable {
 
     public void setWarnings(List warnings) {
         this.warnings = warnings;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap(); 
+        m.put("detailCount", this.detailCount);
+        m.put("batchId", this.batchId);
+        
+        return m;
     }
 }

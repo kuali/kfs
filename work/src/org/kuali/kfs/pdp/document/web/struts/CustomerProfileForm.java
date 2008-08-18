@@ -251,7 +251,7 @@ public class CustomerProfileForm extends ActionForm {
         cp.setFileThresholdAmount(GeneralUtilities.convertStringToBigDecimal(this.getFileThresholdAmount()));
         cp.setFileThresholdEmailAddress(this.getFileThresholdEmailAddress());
         cp.setLastUpdate(this.getLastUpdate());
-        cp.setLastUpdateUser(this.getLastUpdateUser());
+        //cp.setLastUpdateUser(this.getLastUpdateUser());
         cp.setNraReview(this.getNraReview());
         cp.setOrgCode(this.getOrgCode().toUpperCase());
         cp.setOwnershipCodeRequired(this.getOwnershipCodeRequired());

@@ -487,7 +487,7 @@ public class FormatServiceImpl implements FormatService {
                     pg.setDisbursementNbr(new Integer(number));
 
                     range.setLastAssignedDisbNbr(new Integer(number));
-                    range.setLastUpdateUser(p.getProcessUser());
+                    //range.setLastUpdateUser(p.getProcessUser());
                     range.setLastUpdate(nowTs); // This is needed so we know which ranges to save at the end of the format
 
                     // Update the summary information
@@ -504,7 +504,7 @@ public class FormatServiceImpl implements FormatService {
                 pg.setDisbursementNbr(new Integer(number));
 
                 range.setLastAssignedDisbNbr(new Integer(number));
-                range.setLastUpdateUser(p.getProcessUser());
+                //range.setLastUpdateUser(p.getProcessUser());
                 range.setLastUpdate(nowTs); // This is needed so we know which ranges to save at the end of the format
 
                 // Update the summary information

@@ -29,15 +29,15 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
- * @author delyea
- * @hibernate.class table="PDP.PDP_DISB_NBR_RANGE_T"
+ * 
  */
-public class DisbursementNumberRange implements UserRequired, Serializable, PersistenceBrokerAware {
+public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
 
     private Integer id; // DISB_NBR_RANGE_ID
     private String physCampusProcCode; // PHYS_CMP_PROC_CD
@@ -46,9 +46,6 @@ public class DisbursementNumberRange implements UserRequired, Serializable, Pers
     private Integer endDisbursementNbr; // END_DISB_NBR
     private Timestamp disbNbrEffectiveDt; // DISB_NBR_EFF_DT
     private Timestamp disbNbrExpirationDt; // DISB_NBR_EXPR_DT
-    private Timestamp lastUpdate; // LST_UPDT_TS
-    private UniversalUser lastUpdateUser;
-    private String lastUpdateUserId; // LST_UPDT_USR_ID
     private Integer version; // VER_NBR
 
     private Integer bankId;
@@ -57,34 +54,6 @@ public class DisbursementNumberRange implements UserRequired, Serializable, Pers
     public DisbursementNumberRange() {
         super();
     }
-
-    public UniversalUser getLastUpdateUser() {
-        return lastUpdateUser;
-    }
-
-    public void setLastUpdateUser(UniversalUser s) {
-        if (s != null) {
-            this.lastUpdateUserId = s.getPersonUniversalIdentifier();
-        }
-        else {
-            this.lastUpdateUserId = null;
-        }
-        this.lastUpdateUser = s;
-    }
-
-    public String getLastUpdateUserId() {
-        return lastUpdateUserId;
-    }
-
-    public void setLastUpdateUserId(String lastUpdateUserId) {
-        this.lastUpdateUserId = lastUpdateUserId;
-    }
-
-    public void updateUser(UniversalUserService userService) throws UserNotFoundException {
-        UniversalUser u = userService.getUniversalUser(lastUpdateUserId);
-        setLastUpdateUser(u);
-    }
-
     /**
      * @hibernate.id column="DISB_NBR_RANGE_ID" generator-class="sequence"
      * @hibernate.generator-param name="sequence" value="PDP.PDP_DISB_NBR_RANGE_ID_SEQ"
@@ -100,15 +69,6 @@ public class DisbursementNumberRange implements UserRequired, Serializable, Pers
     public void setId(Integer documentTypeId) {
         this.id = documentTypeId;
     }
-
-    /**
-     * @return
-     * @hibernate.property column="LST_UPDT_TS" not-null="true"
-     */
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
-    }
-
     /**
      * @return
      * @hibernate.version column="VER_NBR" not-null="true"
@@ -216,13 +176,6 @@ public class DisbursementNumberRange implements UserRequired, Serializable, Pers
     }
 
     /**
-     * @param timestamp
-     */
-    public void setLastUpdate(Timestamp timestamp) {
-        lastUpdate = timestamp;
-    }
-
-    /**
      * @param string
      */
     public void setPhysCampusProcCode(String string) {
@@ -250,33 +203,5 @@ public class DisbursementNumberRange implements UserRequired, Serializable, Pers
 
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
-    }
-
-    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-
     }
 }

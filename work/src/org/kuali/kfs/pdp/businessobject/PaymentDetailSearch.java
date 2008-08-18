@@ -23,11 +23,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.LinkedHashMap;
+
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 /**
- * @author delyea
+ * 
  */
-public class PaymentDetailSearch implements Serializable {
+public class PaymentDetailSearch extends TransientBusinessObjectBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailSearch.class);
 
     // INDIVIDUAL SEARCH PARMS
@@ -413,5 +416,35 @@ public class PaymentDetailSearch implements Serializable {
      */
     public void setPaymentId(Integer paymentId) {
         this.paymentId = paymentId;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap(); 
+
+        m.put("custPaymentDocNbr", this.custPaymentDocNbr);
+        m.put("invoiceNbr", this.invoiceNbr);
+        m.put("purchaseOrderNbr", this.purchaseOrderNbr);
+        m.put("payeeName", this.payeeName);
+        m.put("payeeId", this.payeeId);
+        m.put("payeeIdTypeCd", this.payeeIdTypeCd);
+        m.put("pymtAttachment", this.pymtAttachment);
+        m.put("pymtSpecialHandling", this.pymtSpecialHandling);
+        m.put("processImmediate", this.processImmediate);
+        m.put("disbursementNbr", this.disbursementNbr);
+        m.put("netPaymentAmount", this.netPaymentAmount);
+        m.put("beginDisbursementDate", this.beginDisbursementDate);
+        m.put("endDisbursementDate", this.endDisbursementDate);
+        m.put("beginPaymentDate", this.beginPaymentDate);
+        m.put("endPaymentDate", this.endPaymentDate);
+        m.put("paymentStatusCode", this.paymentStatusCode);
+        m.put("disbursementTypeCode", this.disbursementTypeCode);
+        m.put("requisitionNbr", this.requisitionNbr);
+        m.put("customerInstitutionNumber", this.customerInstitutionNumber);
+        m.put("processId", this.processId);
+        m.put("paymentId", this.paymentId);
+        m.put("chartCode", this.chartCode);
+        
+        return m;
     }
 }

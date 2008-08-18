@@ -9,7 +9,6 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
-import org.kuali.kfs.module.cam.businessobject.PendingPurchaseOrder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;

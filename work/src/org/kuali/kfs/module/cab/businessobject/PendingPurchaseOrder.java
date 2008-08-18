@@ -1,4 +1,4 @@
-package org.kuali.kfs.module.cam.businessobject;
+package org.kuali.kfs.module.cab.businessobject;
 
 import java.util.LinkedHashMap;
 

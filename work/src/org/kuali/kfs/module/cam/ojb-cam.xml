@@ -635,22 +635,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.cam.businessobject.PendingPurchaseOrder" table="CB_PND_PO_T">
-	<field-descriptor name="purchaseOrderNumber" column="PO_NUMBER" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="requiredNumber" column="REQ_NUMBER" jdbc-type="VARCHAR"/>
-	<field-descriptor name="departmentRepresentative" column="DEPT_REP" jdbc-type="VARCHAR"/>
-	<field-descriptor name="deliverToName" column="DELIVER_TO_NAME" jdbc-type="VARCHAR"/>
-	<field-descriptor name="deliverToAddress1" column="DELIVER_TO_ADDR1" jdbc-type="VARCHAR"/>
-	<field-descriptor name="deliverToAddress2" column="DELIVER_TO_ADDR2" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requestName" column="REQUEST_NAME" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requestAddress1" column="REQUEST_ADDR1" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requestAddress2" column="REQUEST_ADDR2" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requestorPersonEmailAddress" column="RQSTR_PRSN_EMAIL_ADDR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requestorPersonPhoneNumber" column="RQSTR_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument" table="CM_INVN_ERR_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

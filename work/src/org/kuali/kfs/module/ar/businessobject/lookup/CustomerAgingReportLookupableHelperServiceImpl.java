@@ -25,7 +25,10 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -52,8 +55,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private EncryptionService encryptionService;
     private DataDictionaryService dataDictionaryService;
     private Map fieldConversions;
-
-
+    private CustomerInvoiceDocument[] allOpenInvoices; 
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
     
     /**
      * Get the search results that meet the input search criteria.
@@ -63,10 +66,44 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public List getSearchResults(Map fieldValues) {
-        LOG.debug("\n\ngetSearchResults() started");
+        LOG.debug("\n\n\n\n ***********************    getSearchResults() started\n");
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+
+        LOG.debug("\n\n\n\n \t\t\t\t***********************    customerInvoiceDocumentService should not be null \n\n");
+
+       // List invoices = (List) customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
+        Collection<CustomerInvoiceDocument> invoices = customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
+        CustomerAgingReportDetail testcustomer1 = new CustomerAgingReportDetail();
+        // Put the search related stuff in the objects
+        //for (Iterator iter = invoices.iterator(); iter.hasNext();) {
+        //Collection<CustomerInvoiceDocument> customerinvoice = nonAppliedHoldingService.getNonAppliedHoldingsForCustomer(customerNumber);
+
+        for (CustomerInvoiceDocument cid : invoices) {
+            testcustomer1.setChartOfAccountsCode(cid.getBillByChartOfAccountCode());
+        }
+//        for (Object object : invoices) {
+//            CustomerInvoiceDocument cid = (CustomerInvoiceDocument) object;
+//            testcustomer1.setChartOfAccountsCode(cid.getBillByChartOfAccountCode());
+//        }
+        //CustomerInvoiceDocument cid = (CustomerInvoiceDocument) iter.next();
+           
+
+            if (LOG.isInfoEnabled()) {
+           //     LOG.info("CustomerInvoiceDocument cidgetTotalDollarAmount=" + cid.getTotalDollarAmount() + "\t\tCustomerName=" + cid.getCustomer().getCustomerNumber());
+            }
+
+//            TransientBalanceInquiryAttributes dbo = ab.getDummyBusinessObject();
+//            dbo.setConsolidationOption(consolidationOption);
+//            dbo.setCostShareOption(costShareOption);
+//            dbo.setPendingEntryOption(pendingEntryOption);
+//            dbo.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
+        
+        
+        
+        
+        
         
         // create some fake entries to test with
         CustomerAgingReportDetail matt = new CustomerAgingReportDetail();

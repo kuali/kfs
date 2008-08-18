@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AssetRetirementReason-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Asset Retirement Reason" />
     <property name="attributes" >
       <list>
         <ref bean="AssetRetirementReason-active" />

@@ -15,6 +15,7 @@
       <ref bean="AssetPayment-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="paymentSequenceNumber" />
+    <property name="objectLabel" value="Asset Payment" />
     <property name="attributes" >
       <list>
         <ref bean="AssetPayment-accountChargeAmount" />

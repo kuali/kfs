@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AssetDepreciationMethod-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Asset Depreciation Method" />
     <property name="attributes" >
       <list>
         <ref bean="AssetDepreciationMethod-depreciationMethodCode" />

@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="PendingPurchaseOrder-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Pending Purchase Order" />
     <property name="attributes" >
       <list>
         <ref bean="PendingPurchaseOrder-deliverToAddress1" />

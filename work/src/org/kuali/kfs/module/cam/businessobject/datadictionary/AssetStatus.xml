@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AssetStatus-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Asset Status" />
     <property name="attributes" >
       <list>
         <ref bean="AssetStatus-active" />

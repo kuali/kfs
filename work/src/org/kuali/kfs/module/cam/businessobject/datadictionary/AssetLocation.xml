@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AssetLocation-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Asset Location" />
     <property name="attributes" >
       <list>
         <ref bean="AssetLocation-assetLocationCityName" />

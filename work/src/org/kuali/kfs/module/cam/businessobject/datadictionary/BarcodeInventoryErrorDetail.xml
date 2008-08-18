@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BarcodeInventoryErrorDetail-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Barcode Inventory Error Detail" />
     <property name="attributes" >
       <list>
         <ref bean="BarcodeInventoryErrorDetail-assetConditionCode" />

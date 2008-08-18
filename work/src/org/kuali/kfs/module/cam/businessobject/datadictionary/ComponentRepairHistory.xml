@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="ComponentRepairHistory-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Component Repair History" />
     <property name="attributes" >
       <list>
         <ref bean="ComponentRepairHistory-capitalAssetNumber" />

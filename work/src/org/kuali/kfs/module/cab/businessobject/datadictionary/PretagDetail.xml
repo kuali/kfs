@@ -11,6 +11,7 @@
     <property name="inquiryDefinition" >
       <ref bean="PretagDetail-inquiryDefinition" />
     </property>
+    <property name="objectLabel" value="Pretag Detail" />
     <property name="attributes" >
       <list>
         <ref bean="PretagDetail-purchaseOrderNumber" />

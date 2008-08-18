@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="PurchasingAccountsPayableItemAsset-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Purchasing Accounts Payable Item Asset" />
     <property name="attributes" >
       <list>
         <ref bean="PurchasingAccountsPayableItemAsset-documentNumber" />

@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AssetRetirementGlobal-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Asset Retirement Global" />
     <property name="attributes" >
       <list>
         <ref bean="AssetRetirementGlobal-documentNumber" />

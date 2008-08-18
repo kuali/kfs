@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AssetLocationGlobalDetail-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Asset Location Global Detail" />
     <property name="attributes" >
       <list>
         <ref bean="AssetLocationGlobalDetail-buildingCode" />

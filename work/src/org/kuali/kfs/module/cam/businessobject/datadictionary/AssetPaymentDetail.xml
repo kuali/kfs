@@ -8,6 +8,7 @@
 
   <bean id="AssetPaymentDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" />
+    <property name="objectLabel" value="Asset Payment Detail" />
     <property name="attributes" >
       <list>      
         <ref bean="AssetPaymentDetail-expenditureFinancialDocumentNumber" />

@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AssetOrganization-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Asset Organization" />
     <property name="attributes" >
       <list>
         <ref bean="AssetOrganization-capitalAssetNumber" />

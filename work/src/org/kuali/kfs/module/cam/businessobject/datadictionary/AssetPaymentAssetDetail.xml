@@ -10,6 +10,7 @@
     <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail" />
     
     <property name="titleAttribute" value="capitalAssetNumber" />
+    <property name="objectLabel" value="Asset Payment Asset Detail" />
     <property name="attributes" >
       <list>
         <ref bean="AssetPaymentAssetDetail-documentNumber" />

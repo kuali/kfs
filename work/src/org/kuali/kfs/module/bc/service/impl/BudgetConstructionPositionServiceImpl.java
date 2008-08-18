@@ -27,6 +27,7 @@ import org.kuali.kfs.module.bc.exception.BudgetPositionAlreadyExistsException;
 import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +50,7 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
      * @see org.kuali.kfs.module.bc.service.BudgetConstructionPositionService#pullNewPositionFromExternal(java.lang.Integer,
      *      java.lang.String)
      */
+    @Transactional
     public synchronized void pullNewPositionFromExternal(Integer universityFiscalYear, String positionNumber) throws BudgetPositionAlreadyExistsException {
         // call humanResourcesPayrollService service to pull record
         Position position = humanResourcesPayrollService.getPosition(universityFiscalYear, positionNumber);
@@ -153,6 +155,7 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
     /**
      * @see org.kuali.kfs.module.bc.service.BudgetConstructionPositionService#getByPrimaryId(java.lang.String, java.lang.String)
      */
+    @NonTransactional
     public BudgetConstructionPosition getByPrimaryId(String fiscalYear, String positionNumber) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
@@ -164,6 +167,7 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
     /**
      * @see org.kuali.kfs.module.bc.service.BudgetConstructionPositionService#isBudgetingPosition(org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition)
      */
+    @NonTransactional
     public boolean isBudgetablePosition(BudgetConstructionPosition budgetConstructionPosition) {
         return budgetConstructionPosition != null && budgetConstructionPosition.isBudgetedPosition() && budgetConstructionPosition.isEffective();
     }
@@ -173,6 +177,7 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
      * 
      * @param businessObjectService The businessObjectService to set.
      */
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -182,6 +187,7 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
      * 
      * @param humanResourcesPayrollService The humanResourcesPayrollService to set.
      */
+    @NonTransactional
     public void setHumanResourcesPayrollService(HumanResourcesPayrollService humanResourcesPayrollService) {
         this.humanResourcesPayrollService = humanResourcesPayrollService;
     }
@@ -191,8 +197,8 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
      * 
      * @param budgetConstructionDao The budgetConstructionDao to set.
      */
+    @NonTransactional
     public void setBudgetConstructionDao(BudgetConstructionDao budgetConstructionDao) {
         this.budgetConstructionDao = budgetConstructionDao;
     }
-
 }

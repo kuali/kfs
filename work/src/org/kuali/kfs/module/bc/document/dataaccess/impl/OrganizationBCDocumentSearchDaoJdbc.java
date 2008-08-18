@@ -177,14 +177,20 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
 
         // assign org for the account's current level
         sqlText.append("UPDATE ld_bcn_acctsel_t asel \n");
-        sqlText.append("SET (org_fin_coa_cd, org_cd) =  \n");
-        sqlText.append("    (SELECT h1.org_fin_coa_cd, \n");
-        sqlText.append("            h1.org_cd \n");
+        sqlText.append("SET org_fin_coa_cd =  \n");
+        sqlText.append("    (SELECT h1.org_fin_coa_cd \n");
         sqlText.append("    FROM ld_bcn_acct_org_hier_t h1 \n");
         sqlText.append("    WHERE asel.univ_fiscal_yr = h1.univ_fiscal_yr \n");
         sqlText.append("      AND asel.fin_coa_cd = h1.fin_coa_cd \n");
         sqlText.append("      AND asel.account_nbr = h1.account_nbr \n");
-        sqlText.append("      AND asel.org_level_cd = h1.org_level_cd) \n");
+        sqlText.append("      AND asel.org_level_cd = h1.org_level_cd), \n");
+        sqlText.append("    org_cd =  \n");
+        sqlText.append("    (SELECT h1.org_cd \n");
+        sqlText.append("    FROM ld_bcn_acct_org_hier_t h1 \n");
+        sqlText.append("    WHERE asel.univ_fiscal_yr = h1.univ_fiscal_yr \n");
+        sqlText.append("      AND asel.fin_coa_cd = h1.fin_coa_cd \n");
+        sqlText.append("      AND asel.account_nbr = h1.account_nbr \n");
+        sqlText.append("      AND asel.org_level_cd = h1.org_level_cd) \n");       
         sqlText.append("WHERE asel.person_unvl_id = ? \n");
         sqlText.append("AND EXISTS (SELECT * \n");
         sqlText.append("    FROM ld_bcn_acct_org_hier_t h2 \n");
@@ -192,15 +198,19 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("      AND asel.fin_coa_cd = h2.fin_coa_cd \n");
         sqlText.append("      AND asel.account_nbr = h2.account_nbr \n");
         sqlText.append("      AND asel.org_level_cd = h2.org_level_cd) \n");
-
+  
         buildAccountManagerDelegateListTemplates[1] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
         // assign org for accounts at level 0
         sqlText.append("UPDATE ld_bcn_acctsel_t asel \n");
-        sqlText.append("SET (org_fin_coa_cd, org_cd) =  \n");
-        sqlText.append("    (SELECT r1.rpts_to_fin_coa_cd, \n");
-        sqlText.append("            r1.rpts_to_org_cd \n");
+        sqlText.append("SET org_fin_coa_cd =  \n");
+        sqlText.append("    (SELECT r1.rpts_to_fin_coa_cd \n");
+        sqlText.append("    FROM ld_bcn_acct_rpts_t r1 \n");
+        sqlText.append("    WHERE asel.fin_coa_cd = r1.fin_coa_cd \n");
+        sqlText.append("      AND asel.account_nbr = r1.account_nbr), \n");
+        sqlText.append("    org_cd =  \n");
+        sqlText.append("    (SELECT r1.rpts_to_org_cd \n");
         sqlText.append("    FROM ld_bcn_acct_rpts_t r1 \n");
         sqlText.append("    WHERE asel.fin_coa_cd = r1.fin_coa_cd \n");
         sqlText.append("      AND asel.account_nbr = r1.account_nbr) \n");
@@ -210,7 +220,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("    FROM ld_bcn_acct_rpts_t r2 \n");
         sqlText.append("    WHERE asel.fin_coa_cd = r2.fin_coa_cd \n");
         sqlText.append("      AND asel.account_nbr = r2.account_nbr)  \n");
-
+        
         buildAccountManagerDelegateListTemplates[2] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
     }

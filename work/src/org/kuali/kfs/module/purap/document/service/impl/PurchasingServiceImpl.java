@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ojb.broker.metadata.ClassDescriptor;
+import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -117,13 +117,13 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
     private PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
         Class camsItemClass = purDoc.getPurchasingCapitalAssetItemClass();
         PurchasingCapitalAssetItem camsItem;
-        PurchasingCapitalAssetSystem resultSystem;
+        CapitalAssetSystem resultSystem;
         try {
             camsItem = (PurchasingCapitalAssetItem)(camsItemClass.newInstance());
             camsItem.setItemIdentifier(purapItem.getItemIdentifier());
             //If the system type is INDIVIDUAL then for each of the capital asset items, we need a system attached to it.
             if (purDoc.getCapitalAssetSystemTypeCode().equals("IND")) {
-                resultSystem = (PurchasingCapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
+                resultSystem = (CapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
                 camsItem.setPurchasingCapitalAssetSystem(resultSystem);
                 purDoc.getPurchasingCapitalAssetSystems().add(resultSystem);
             }
@@ -149,9 +149,9 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
     }
     
     public void setupCAMSSystem(PurchasingDocument purDoc) {
-        PurchasingCapitalAssetSystem resultSystem;
+        CapitalAssetSystem resultSystem;
         try {
-            resultSystem = (PurchasingCapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
+            resultSystem = (CapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
             //If the system type is ONE or MULTIPLE then we need a system attached to the document.
             if (purDoc.getCapitalAssetSystemTypeCode().equals("ONE") || purDoc.getCapitalAssetSystemTypeCode().equals("MUL")) {
                 if (purDoc.getPurchasingCapitalAssetSystems().size() == 0) {

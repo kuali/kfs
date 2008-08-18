@@ -21,18 +21,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
@@ -48,8 +45,11 @@ import org.kuali.kfs.module.purap.fixture.PurchasingCapitalAssetFixture;
 import org.kuali.kfs.module.purap.fixture.RecurringPaymentBeginEndDatesFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCommodityCodeFixture;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class contains tests of the rule validation methods present in PurchasingDocumentRuleBase. These should include any tests
@@ -510,7 +510,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     public void validateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeOneAsset() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ASSET_NUMBER_REQUIRING_TRAN_TYPE_ONE_ASSET;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
-        List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
+        List<ItemCapitalAsset> assets = fixture.getAssets();
         assertTrue(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
     }
     
@@ -523,7 +523,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     public void validateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeNoAssets() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ASSET_NUMBER_REQUIRING_TRAN_TYPE_NO_ASSETS;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
-        List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
+        List<ItemCapitalAsset> assets = fixture.getAssets();
         assertFalse(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
     }
     
@@ -536,7 +536,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     public void validateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeTwoAssets() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ASSET_NUMBER_REQUIRING_TRAN_TYPE_TWO_ASSETS;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
-        List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
+        List<ItemCapitalAsset> assets = fixture.getAssets();
         assertTrue(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
     }
     
@@ -549,7 +549,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     public void validateCapitalAssetNumberRequirements_NonAssetNumberRequiringTranTypeNoAssets() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NONASSET_NUMBER_REQUIRING_TRAN_TYPE_NO_ASSETS;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
-        List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
+        List<ItemCapitalAsset> assets = fixture.getAssets();
         assertTrue(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
     }
     
@@ -562,7 +562,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     public void validateCapitalAssetNumberRequirements_NonAssetNumberRequiringTranTypeOneAsset() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NONASSET_NUMBER_REQUIRING_TRAN_TYPE_ONE_ASSET;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
-        List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
+        List<ItemCapitalAsset> assets = fixture.getAssets();
         assertTrue(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
     }    
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
+import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingItemCapitalAssetRule;
 import org.kuali.rice.kns.document.Document;
@@ -33,7 +33,7 @@ public final class AddPurchasingItemCapitalAssetEvent extends PurchasingItemCapi
      * @param document document the event was invoked on
      * @param itemCapitalAsset the item being added 
      */
-    public AddPurchasingItemCapitalAssetEvent(String errorPathPrefix, Document document, PurchasingItemCapitalAsset itemCapitalAsset) {
+    public AddPurchasingItemCapitalAssetEvent(String errorPathPrefix, Document document, ItemCapitalAsset itemCapitalAsset) {
         super("adding item capital asset to document " + getDocumentId(document), errorPathPrefix, document, itemCapitalAsset);
     }
 

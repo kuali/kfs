@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
@@ -30,7 +30,7 @@ public abstract class PurchasingCapitalAssetLocationEventBase extends KualiDocum
     private static final Logger LOG = Logger.getLogger(PurchasingCapitalAssetLocationEventBase.class);
 
 
-    private final PurchasingCapitalAssetLocation capitalAssetLocation;
+    private final CapitalAssetLocation capitalAssetLocation;
 
     /**
      * Copies the item and calls the super constructor
@@ -40,7 +40,7 @@ public abstract class PurchasingCapitalAssetLocationEventBase extends KualiDocum
      * @param document the document the event is being called on
      * @param location the location that is having the event called on
      */
-    public PurchasingCapitalAssetLocationEventBase(String description, String errorPathPrefix, Document document, PurchasingCapitalAssetLocation capitalAssetLocation) {
+    public PurchasingCapitalAssetLocationEventBase(String description, String errorPathPrefix, Document document, CapitalAssetLocation capitalAssetLocation) {
         super(description, errorPathPrefix, document);
 
         this.capitalAssetLocation = capitalAssetLocation;
@@ -51,7 +51,7 @@ public abstract class PurchasingCapitalAssetLocationEventBase extends KualiDocum
     /**     
      * @see org.kuali.kfs.module.purap.document.validation.event.PurchasingCapitalAssetLocationEvent#getCapitalAssetLocation()
      */
-    public PurchasingCapitalAssetLocation getCapitalAssetLocation() {
+    public CapitalAssetLocation getCapitalAssetLocation() {
         return capitalAssetLocation;
     }
 

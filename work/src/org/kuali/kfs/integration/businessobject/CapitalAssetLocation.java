@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.businessobject;
+package org.kuali.kfs.integration.businessobject;
 
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
-public interface PurchasingCapitalAssetLocation {
+public interface CapitalAssetLocation {
 
     public Integer getCapitalAssetSystemIdentifier();
 

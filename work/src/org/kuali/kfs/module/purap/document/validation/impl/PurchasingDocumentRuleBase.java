@@ -25,6 +25,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
+import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -36,9 +38,7 @@ import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionTypeRule;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -1250,7 +1250,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param itemIdentifier
      * @return
      */
-    public boolean validateCapitalAssetNumberRequirements(CapitalAssetTransactionType capitalAssetTransactionType, List<PurchasingItemCapitalAsset> assets, boolean warn, String itemIdentifier) {
+    public boolean validateCapitalAssetNumberRequirements(CapitalAssetTransactionType capitalAssetTransactionType, List<ItemCapitalAsset> assets, boolean warn, String itemIdentifier) {
         boolean valid = true;
         if ((capitalAssetTransactionType != null) &&
             (capitalAssetTransactionType.getCapitalAssetTransactionTypeCode() != null) &&
@@ -1343,12 +1343,12 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return true;
     }
 
-    public boolean processAddItemCapitalAssetBusinessRules(PurchasingDocument purchasingDocument, PurchasingItemCapitalAsset asset) {
+    public boolean processAddItemCapitalAssetBusinessRules(PurchasingDocument purchasingDocument, ItemCapitalAsset asset) {
         // TODO Auto-generated method stub
         return true;
     }
 
-    public boolean processAddCapitalAssetLocationBusinessRules(PurchasingDocument purchasingDocument, PurchasingCapitalAssetLocation location) {
+    public boolean processAddCapitalAssetLocationBusinessRules(PurchasingDocument purchasingDocument, CapitalAssetLocation location) {
         // TODO Auto-generated method stub
         return true;
     }

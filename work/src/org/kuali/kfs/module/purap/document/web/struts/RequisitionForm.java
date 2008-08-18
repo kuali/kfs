@@ -17,9 +17,9 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.math.BigDecimal;
 
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
+import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
@@ -27,7 +27,6 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -96,14 +95,14 @@ public class RequisitionForm extends PurchasingFormBase {
     }
 
     @Override
-    public PurchasingItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
-        PurchasingItemCapitalAsset asset = new RequisitionItemCapitalAsset();
+    public ItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
+        ItemCapitalAsset asset = new RequisitionItemCapitalAsset();
         return asset;
     }
 
     @Override
-    public PurchasingCapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
-        PurchasingCapitalAssetLocation location = new RequisitionCapitalAssetLocation();
+    public CapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
+        CapitalAssetLocation location = new RequisitionCapitalAssetLocation();
         return location;
     }
 

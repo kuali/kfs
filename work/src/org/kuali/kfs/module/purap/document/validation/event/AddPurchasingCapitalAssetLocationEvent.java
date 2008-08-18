@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingCapitalAssetLocationRule;
 import org.kuali.rice.kns.document.Document;
@@ -33,7 +33,7 @@ public final class AddPurchasingCapitalAssetLocationEvent extends PurchasingCapi
      * @param document document the event was invoked on
      * @param item the item being added 
      */
-    public AddPurchasingCapitalAssetLocationEvent(String errorPathPrefix, Document document, PurchasingCapitalAssetLocation location) {
+    public AddPurchasingCapitalAssetLocationEvent(String errorPathPrefix, Document document, CapitalAssetLocation location) {
         super("adding location to document " + getDocumentId(document), errorPathPrefix, document, location);
     }
 

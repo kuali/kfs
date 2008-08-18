@@ -18,13 +18,14 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusinessObjectBase implements PurchasingCapitalAssetLocation {
+public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusinessObjectBase implements CapitalAssetLocation {
 
     private Integer capitalAssetLocationIdentifier;
     private Integer capitalAssetSystemIdentifier;

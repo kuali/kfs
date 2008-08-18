@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
+import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -48,8 +48,8 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     private List<PurApAccountingLine> accountDistributionsourceAccountingLines;
     private PurApAccountingLine accountDistributionnewSourceLine;
 
-    private PurchasingItemCapitalAsset newPurchasingItemCapitalAssetLine;
-    private PurchasingCapitalAssetLocation newPurchasingCapitalAssetLocationLine;
+    private ItemCapitalAsset newPurchasingItemCapitalAssetLine;
+    private CapitalAssetLocation newPurchasingCapitalAssetLocationLine;
 
     private BigDecimal totalPercentageOfAccountDistributionsourceAccountingLines;
 
@@ -221,42 +221,42 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
 
     //CAMS ASSET
     //Must be overridden
-    public PurchasingItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
-        PurchasingItemCapitalAsset asset = null;
+    public ItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
+        ItemCapitalAsset asset = null;
         return asset;
     }
 
-    public void setNewPurchasingItemCapitalAssetLine(PurchasingItemCapitalAsset newItemCapitalAssetLine) {
+    public void setNewPurchasingItemCapitalAssetLine(ItemCapitalAsset newItemCapitalAssetLine) {
         this.newPurchasingItemCapitalAssetLine = newItemCapitalAssetLine;
     }
 
-    public PurchasingItemCapitalAsset getNewPurchasingItemCapitalAssetLine() {
+    public ItemCapitalAsset getNewPurchasingItemCapitalAssetLine() {
         return newPurchasingItemCapitalAssetLine;
     }
 
-    public PurchasingItemCapitalAsset getAndResetNewPurchasingItemCapitalAssetLine() {
-        PurchasingItemCapitalAsset asset = getNewPurchasingItemCapitalAssetLine();
+    public ItemCapitalAsset getAndResetNewPurchasingItemCapitalAssetLine() {
+        ItemCapitalAsset asset = getNewPurchasingItemCapitalAssetLine();
         setNewPurchasingItemCapitalAssetLine(setupNewPurchasingItemCapitalAssetLine());
         return asset;
     }
 
     //CAMS LOCATION
     //Must be overridden
-    public PurchasingCapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
-        PurchasingCapitalAssetLocation location = null;
+    public CapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
+        CapitalAssetLocation location = null;
         return location;
     }
 
-    public void setNewPurchasingCapitalAssetLocationLine(PurchasingCapitalAssetLocation newCapitalAssetLocationLine) {
+    public void setNewPurchasingCapitalAssetLocationLine(CapitalAssetLocation newCapitalAssetLocationLine) {
         this.newPurchasingCapitalAssetLocationLine = newCapitalAssetLocationLine;
     }
 
-    public PurchasingCapitalAssetLocation getNewPurchasingCapitalAssetLocationLine() {
+    public CapitalAssetLocation getNewPurchasingCapitalAssetLocationLine() {
         return newPurchasingCapitalAssetLocationLine;
     }
 
-    public PurchasingCapitalAssetLocation getAndResetNewPurchasingCapitalAssetLocationLine() {
-        PurchasingCapitalAssetLocation asset = getNewPurchasingCapitalAssetLocationLine();
+    public CapitalAssetLocation getAndResetNewPurchasingCapitalAssetLocationLine() {
+        CapitalAssetLocation asset = getNewPurchasingCapitalAssetLocationLine();
         setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
         return asset;
     }

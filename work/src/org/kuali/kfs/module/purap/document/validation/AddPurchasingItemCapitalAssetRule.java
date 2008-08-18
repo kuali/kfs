@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation;
 
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
+import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 /**
@@ -31,5 +31,5 @@ public interface AddPurchasingItemCapitalAssetRule {
      * @param purchasingDocument the PurchasingDocument to check 
      * @return true if the business rules pass
      */
-    public boolean processAddItemCapitalAssetBusinessRules(PurchasingDocument purchasingDocument, PurchasingItemCapitalAsset asset);
+    public boolean processAddItemCapitalAssetBusinessRules(PurchasingDocument purchasingDocument, ItemCapitalAsset asset);
 }

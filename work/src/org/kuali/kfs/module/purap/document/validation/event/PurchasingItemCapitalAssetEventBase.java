@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
+import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
@@ -30,7 +30,7 @@ public abstract class PurchasingItemCapitalAssetEventBase extends KualiDocumentE
     private static final Logger LOG = Logger.getLogger(PurchasingItemCapitalAssetEventBase.class);
 
 
-    private final PurchasingItemCapitalAsset itemCapitalAsset;
+    private final ItemCapitalAsset itemCapitalAsset;
 
     /**
      * Copies the item and calls the super constructor
@@ -40,7 +40,7 @@ public abstract class PurchasingItemCapitalAssetEventBase extends KualiDocumentE
      * @param document the document the event is being called on
      * @param item the item that is having the event called on
      */
-    public PurchasingItemCapitalAssetEventBase(String description, String errorPathPrefix, Document document, PurchasingItemCapitalAsset itemCapitalAsset) {
+    public PurchasingItemCapitalAssetEventBase(String description, String errorPathPrefix, Document document, ItemCapitalAsset itemCapitalAsset) {
         super(description, errorPathPrefix, document);
 
         this.itemCapitalAsset = itemCapitalAsset;
@@ -51,7 +51,7 @@ public abstract class PurchasingItemCapitalAssetEventBase extends KualiDocumentE
     /**
      * @see org.kuali.kfs.module.purap.document.validation.event.PurchasingItemCapitalAssetEvent#getItemCapitalAsset()
      */
-    public PurchasingItemCapitalAsset getItemCapitalAsset() {
+    public ItemCapitalAsset getItemCapitalAsset() {
         return itemCapitalAsset;
     }
 

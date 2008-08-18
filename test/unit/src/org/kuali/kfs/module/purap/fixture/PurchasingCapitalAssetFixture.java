@@ -19,14 +19,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.PurapConstants.CAMSValidationStrings;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PurCams;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum PurchasingCapitalAssetFixture {
     
@@ -61,7 +60,7 @@ public enum PurchasingCapitalAssetFixture {
     KualiDecimal extendedPrice;
     CapitalAssetTransactionType capitalAssetTransactionType = null;
     RecurringPaymentType recurringPaymentType = null;
-    List<PurchasingItemCapitalAsset> assets = null;
+    List<ItemCapitalAsset> assets = null;
     
     /**
      * Constructor used for tests of PurchasingDocumentRuleBase.validateAccountingLinesNotCapitalAndExpense.
@@ -113,7 +112,7 @@ public enum PurchasingCapitalAssetFixture {
     private PurchasingCapitalAssetFixture(CapitalAssetTransactionType capitalAssetTransactionType, Long... capitalAssetNumbers) {
         this.capitalAssetTransactionType = capitalAssetTransactionType;
         if ( capitalAssetNumbers != null ) {
-            this.assets = new ArrayList<PurchasingItemCapitalAsset>();
+            this.assets = new ArrayList<ItemCapitalAsset>();
             for( Long capitalAssetNumber : capitalAssetNumbers ) {
                 //TODO: Fix this
                 //this.assets.add(new PurchasingItemCapitalAssetBase(capitalAssetNumber));
@@ -157,11 +156,11 @@ public enum PurchasingCapitalAssetFixture {
         this.quantity = quantity;
     }
 
-    public List<PurchasingItemCapitalAsset> getAssets() {
+    public List<ItemCapitalAsset> getAssets() {
         return assets;
     }
 
-    public void setAssets(List<PurchasingItemCapitalAsset> assets) {
+    public void setAssets(List<ItemCapitalAsset> assets) {
         this.assets = assets;
     }
 

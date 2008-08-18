@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
+import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
 
 public enum PurchasingCapitalAssetSystemFixture {
@@ -59,10 +59,10 @@ public enum PurchasingCapitalAssetSystemFixture {
         this.locations = locations;
     }
     
-    public PurchasingCapitalAssetSystem createPurchasingCapitalAssetSystem(Class clazz) {
-        PurchasingCapitalAssetSystem assetSystem = null;
+    public CapitalAssetSystem createPurchasingCapitalAssetSystem(Class clazz) {
+        CapitalAssetSystem assetSystem = null;
         try {
-            assetSystem = (PurchasingCapitalAssetSystem) clazz.newInstance();
+            assetSystem = (CapitalAssetSystem) clazz.newInstance();
         }
         catch (InstantiationException e) {
             throw new RuntimeException("asset system creation failed. class = " + clazz);
@@ -79,7 +79,7 @@ public enum PurchasingCapitalAssetSystemFixture {
         assetSystem.setCapitalAssetNoteText(capitalAssetNoteText);
         
         for (PurchasingCapitalAssetLocationFixture locationFixture : locations) {
-            PurchasingCapitalAssetLocation location = locationFixture.createPurchasingCapitalAssetLocation(RequisitionCapitalAssetLocation.class);
+            CapitalAssetLocation location = locationFixture.createPurchasingCapitalAssetLocation(RequisitionCapitalAssetLocation.class);
             assetSystem.getPurchasingCapitalAssetLocations().add(location);
         }
         return assetSystem;

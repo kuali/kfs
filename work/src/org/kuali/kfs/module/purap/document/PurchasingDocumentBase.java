@@ -22,6 +22,7 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState;
@@ -31,7 +32,6 @@ import org.kuali.kfs.module.purap.businessobject.FundingSource;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
@@ -147,7 +147,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private VendorContract vendorContract;
     private CapitalAssetSystemType capitalAssetSystemType;
     private CapitalAssetSystemState capitalAssetSystemState;
-    private List<PurchasingCapitalAssetSystem> purchasingCapitalAssetSystems;
+    private List<CapitalAssetSystem> purchasingCapitalAssetSystems;
     private List<PurchasingCapitalAssetItem> purchasingCapitalAssetItems;
     
     private boolean receivingDocumentRequiredIndicator;
@@ -1052,11 +1052,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.capitalAssetSystemState = capitalAssetSystemState;
     }
 
-    public List<PurchasingCapitalAssetSystem> getPurchasingCapitalAssetSystems() {
+    public List<CapitalAssetSystem> getPurchasingCapitalAssetSystems() {
         return purchasingCapitalAssetSystems;
     }
 
-    public void setPurchasingCapitalAssetSystems(List<PurchasingCapitalAssetSystem> purchasingCapitalAssetSystems) {
+    public void setPurchasingCapitalAssetSystems(List<CapitalAssetSystem> purchasingCapitalAssetSystems) {
         this.purchasingCapitalAssetSystems = purchasingCapitalAssetSystems;
     }
 

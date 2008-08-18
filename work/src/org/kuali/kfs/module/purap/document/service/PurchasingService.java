@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import java.util.List;
-
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 public interface PurchasingService {

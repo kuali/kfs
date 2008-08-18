@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
 
 public enum PurchasingCapitalAssetLocationFixture {
   
@@ -61,10 +61,10 @@ public enum PurchasingCapitalAssetLocationFixture {
         this.capitalAssetCountryCode = capitalAssetCountryCode;
     }
     
-    public PurchasingCapitalAssetLocation createPurchasingCapitalAssetLocation(Class clazz) {
-        PurchasingCapitalAssetLocation location = null;
+    public CapitalAssetLocation createPurchasingCapitalAssetLocation(Class clazz) {
+        CapitalAssetLocation location = null;
         try {
-            location = (PurchasingCapitalAssetLocation) clazz.newInstance();
+            location = (CapitalAssetLocation) clazz.newInstance();
         }
         catch (InstantiationException e) {
             throw new RuntimeException("location creation failed. class = " + clazz);

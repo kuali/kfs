@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
@@ -29,6 +29,6 @@ public interface PurchasingCapitalAssetLocationEvent extends KualiDocumentEvent 
      * 
      * @return an location
      */
-    public abstract PurchasingCapitalAssetLocation getCapitalAssetLocation();
+    public abstract CapitalAssetLocation getCapitalAssetLocation();
 
 }

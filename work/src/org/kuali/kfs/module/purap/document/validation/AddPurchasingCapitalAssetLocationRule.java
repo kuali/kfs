@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation;
 
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 /**
@@ -31,5 +31,5 @@ public interface AddPurchasingCapitalAssetLocationRule {
      * @param purchasingDocument the PurchasingDocument to check 
      * @return true if the business rules pass
      */
-    public boolean processAddCapitalAssetLocationBusinessRules(PurchasingDocument purchasingDocument, PurchasingCapitalAssetLocation location);
+    public boolean processAddCapitalAssetLocationBusinessRules(PurchasingDocument purchasingDocument, CapitalAssetLocation location);
 }

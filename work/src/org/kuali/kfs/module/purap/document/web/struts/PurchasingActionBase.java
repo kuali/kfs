@@ -27,6 +27,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
+import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
+import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -36,10 +39,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetLocation;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
@@ -653,7 +653,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     
     public ActionForward addItemCapitalAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        PurchasingItemCapitalAsset asset = purchasingForm.getNewPurchasingItemCapitalAssetLine();
+        ItemCapitalAsset asset = purchasingForm.getNewPurchasingItemCapitalAssetLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingItemCapitalAssetEvent("", purDocument, asset));
@@ -661,7 +661,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         if (rulePassed) {
             //get specific asset item and grab system as well and attach asset number
             PurchasingCapitalAssetItem assetItem = purDocument.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
-            PurchasingCapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
+            CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
             asset = purchasingForm.getAndResetNewPurchasingItemCapitalAssetLine();
             asset.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());            
             system.getPurchasingItemCapitalAssets().add(asset);
@@ -672,7 +672,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     public ActionForward deleteItemCapitalAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        PurchasingItemCapitalAsset asset = purchasingForm.getNewPurchasingItemCapitalAssetLine();
+        ItemCapitalAsset asset = purchasingForm.getNewPurchasingItemCapitalAssetLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         
         boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
@@ -683,7 +683,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             String assetIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
 
             PurchasingCapitalAssetItem assetItem = purDocument.getPurchasingCapitalAssetItems().get(Integer.parseInt(assetItemIndex));
-            PurchasingCapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
+            CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
             system.getPurchasingItemCapitalAssets().remove(Integer.parseInt(assetIndex));
         }
 
@@ -692,7 +692,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     public ActionForward addCapitalAssetLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        PurchasingCapitalAssetLocation location = purchasingForm.getNewPurchasingCapitalAssetLocationLine();
+        CapitalAssetLocation location = purchasingForm.getNewPurchasingCapitalAssetLocationLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingCapitalAssetLocationEvent("", purDocument, location));
@@ -700,7 +700,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         if (rulePassed) {
             //get specific asset item and grab system as well and attach asset number
             PurchasingCapitalAssetItem assetItem = purDocument.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
-            PurchasingCapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
+            CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
             location = purchasingForm.getAndResetNewPurchasingCapitalAssetLocationLine();
             location.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());
             system.getPurchasingCapitalAssetLocations().add(location);
@@ -711,7 +711,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     public ActionForward deleteCapitalAssetLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        PurchasingCapitalAssetLocation location = purchasingForm.getNewPurchasingCapitalAssetLocationLine();
+        CapitalAssetLocation location = purchasingForm.getNewPurchasingCapitalAssetLocationLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         
         boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
@@ -723,7 +723,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             
             //get specific asset item and grab system as well and attach asset number
             PurchasingCapitalAssetItem assetItem = purDocument.getPurchasingCapitalAssetItems().get(Integer.parseInt(assetItemIndex));
-            PurchasingCapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();                        
+            CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();                        
             system.getPurchasingCapitalAssetLocations().remove(Integer.parseInt(locationIndex));            
         }
 

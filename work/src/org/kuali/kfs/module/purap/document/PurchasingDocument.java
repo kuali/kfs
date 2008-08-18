@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
@@ -29,7 +30,6 @@ import org.kuali.kfs.module.purap.businessobject.FundingSource;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
@@ -503,9 +503,9 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
 
     public void setCapitalAssetSystemState(CapitalAssetSystemState capitalAssetSystemState);
 
-    public List<PurchasingCapitalAssetSystem> getPurchasingCapitalAssetSystems();
+    public List<CapitalAssetSystem> getPurchasingCapitalAssetSystems();
     
-    public void setPurchasingCapitalAssetSystems(List<PurchasingCapitalAssetSystem> purchasingCapitalAssetSystems);
+    public void setPurchasingCapitalAssetSystems(List<CapitalAssetSystem> purchasingCapitalAssetSystems);
 
     public List<PurchasingCapitalAssetItem> getPurchasingCapitalAssetItems();
 

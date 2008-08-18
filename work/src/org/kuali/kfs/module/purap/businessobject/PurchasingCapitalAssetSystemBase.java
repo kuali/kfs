@@ -19,10 +19,13 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
+import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
+import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusinessObjectBase implements PurchasingCapitalAssetSystem {
+public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusinessObjectBase implements CapitalAssetSystem {
 
     private Integer capitalAssetSystemIdentifier;
     private String capitalAssetSystemDescription;
@@ -31,8 +34,8 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
     private String capitalAssetManufacturerName;
     private String capitalAssetModelDescription;
     private String capitalAssetNoteText;
-    private List<PurchasingItemCapitalAsset> purchasingItemCapitalAssets;
-    private List<PurchasingCapitalAssetLocation> purchasingCapitalAssetLocations;
+    private List<ItemCapitalAsset> purchasingItemCapitalAssets;
+    private List<CapitalAssetLocation> purchasingCapitalAssetLocations;
 
     public PurchasingCapitalAssetSystemBase() {
         super();
@@ -80,19 +83,19 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
         this.capitalAssetModelDescription = capitalAssetModelDescription;
     }
 
-    public List<PurchasingItemCapitalAsset> getPurchasingItemCapitalAssets() {
+    public List<ItemCapitalAsset> getPurchasingItemCapitalAssets() {
         return purchasingItemCapitalAssets;
     }
 
-    public void setPurchasingItemCapitalAssets(List<PurchasingItemCapitalAsset> purchasingItemCapitalAssets) {
+    public void setPurchasingItemCapitalAssets(List<ItemCapitalAsset> purchasingItemCapitalAssets) {
         this.purchasingItemCapitalAssets = purchasingItemCapitalAssets;
     }
 
-    public List<PurchasingCapitalAssetLocation> getPurchasingCapitalAssetLocations() {
+    public List<CapitalAssetLocation> getPurchasingCapitalAssetLocations() {
         return purchasingCapitalAssetLocations;
     }
 
-    public void setPurchasingCapitalAssetLocations(List<PurchasingCapitalAssetLocation> purchasingCapitalAssetLocations) {
+    public void setPurchasingCapitalAssetLocations(List<CapitalAssetLocation> purchasingCapitalAssetLocations) {
         this.purchasingCapitalAssetLocations = purchasingCapitalAssetLocations;
     }
 

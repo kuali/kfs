@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.businessobject;
+package org.kuali.kfs.integration.businessobject;
 
 import java.util.List;
 
 
-public interface PurchasingCapitalAssetSystem {
+public interface CapitalAssetSystem {
 
     public String getCapitalAssetSystemDescription();
 
@@ -40,13 +40,13 @@ public interface PurchasingCapitalAssetSystem {
 
     public void setCapitalAssetModelDescription(String capitalAssetModelDescription);
 
-    public List<PurchasingItemCapitalAsset> getPurchasingItemCapitalAssets();
+    public List<ItemCapitalAsset> getPurchasingItemCapitalAssets();
 
-    public void setPurchasingItemCapitalAssets(List<PurchasingItemCapitalAsset> purchasingItemCapitalAssets);
+    public void setPurchasingItemCapitalAssets(List<ItemCapitalAsset> purchasingItemCapitalAssets);
 
-    public List<PurchasingCapitalAssetLocation> getPurchasingCapitalAssetLocations();
+    public List<CapitalAssetLocation> getPurchasingCapitalAssetLocations();
 
-    public void setPurchasingCapitalAssetLocations(List<PurchasingCapitalAssetLocation> purchasingCapitalAssetLocations);
+    public void setPurchasingCapitalAssetLocations(List<CapitalAssetLocation> purchasingCapitalAssetLocations);
 
     public Integer getCapitalAssetSystemIdentifier();
 

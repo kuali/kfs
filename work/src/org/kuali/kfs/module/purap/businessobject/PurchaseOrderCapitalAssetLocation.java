@@ -1,5 +1,7 @@
 package org.kuali.kfs.module.purap.businessobject;
 
+import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
+
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -7,7 +9,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 public class PurchaseOrderCapitalAssetLocation extends PurchasingCapitalAssetLocationBase {
 
-    private PurchasingCapitalAssetSystem purchaseOrderCapitalAssetSystem;
+    private CapitalAssetSystem purchaseOrderCapitalAssetSystem;
 
 	/**
 	 * Default constructor.
@@ -16,11 +18,11 @@ public class PurchaseOrderCapitalAssetLocation extends PurchasingCapitalAssetLoc
 
 	}
 	
-	public PurchasingCapitalAssetSystem getPurchaseOrderCapitalAssetSystem() {
+	public CapitalAssetSystem getPurchaseOrderCapitalAssetSystem() {
         return purchaseOrderCapitalAssetSystem;
     }
 
-    public void setPurchaseOrderCapitalAssetSystem(PurchasingCapitalAssetSystem purchaseOrderCapitalAssetSystem) {
+    public void setPurchaseOrderCapitalAssetSystem(CapitalAssetSystem purchaseOrderCapitalAssetSystem) {
         this.purchaseOrderCapitalAssetSystem = purchaseOrderCapitalAssetSystem;
     }
 

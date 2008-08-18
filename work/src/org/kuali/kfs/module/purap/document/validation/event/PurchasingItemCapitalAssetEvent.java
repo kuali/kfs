@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
+import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
@@ -29,6 +29,6 @@ public interface PurchasingItemCapitalAssetEvent extends KualiDocumentEvent {
      * 
      * @return an item
      */
-    public abstract PurchasingItemCapitalAsset getItemCapitalAsset();
+    public abstract ItemCapitalAsset getItemCapitalAsset();
 
 }

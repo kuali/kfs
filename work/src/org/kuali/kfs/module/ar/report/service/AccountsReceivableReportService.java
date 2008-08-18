@@ -32,7 +32,7 @@ public interface AccountsReceivableReportService {
 
    public File generateInvoice(CustomerInvoiceDocument invoice);
    
-   public void generateInvoicesByBillingOrg(String chartCode, String orgCode, Date date);
+   public List<File> generateInvoicesByBillingOrg(String chartCode, String orgCode, Date date);
    
    public List<File> generateInvoicesByProcessingOrg(String chartCode, String orgCode, Date date);
    
@@ -41,10 +41,10 @@ public interface AccountsReceivableReportService {
    public void generateCreditMemo(CustomerCreditMemoDocument creditMemo) throws WorkflowException;
    
    
-   public void generateStatementByBillingOrg(String chartCode, String orgCode);
+   public List<File> generateStatementByBillingOrg(String chartCode, String orgCode);
 
-   public void generateStatementByAccount(String accountNumber);
+   public List<File> generateStatementByAccount(String accountNumber);
 
-   public void generateStatementByCustomer(String customerNumber);
+   public List<File> generateStatementByCustomer(String customerNumber);
    
 }

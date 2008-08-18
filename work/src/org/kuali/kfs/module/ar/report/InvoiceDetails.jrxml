@@ -48,9 +48,9 @@
 	<field name="invoiceItemUnitOfMeasureCode" class="java.lang.String"/>
 	<field name="invoiceItemDescription" class="java.lang.String"/>
 	<field name="invoiceItemCode" class="java.lang.String"/>
-	<field name="invoiceItemUnitPrice" class="org.kuali.core.util.KualiDecimal"/>
-	<field name="amount" class="org.kuali.core.util.KualiDecimal"/>
-	<field name="invoiceItemTaxAmount" class="org.kuali.core.util.KualiDecimal"/>
+	<field name="invoiceItemUnitPrice" class="org.kuali.rice.kns.util.KualiDecimal"/>
+	<field name="amount" class="org.kuali.rice.kns.util.KualiDecimal"/>
+	<field name="invoiceItemTaxAmount" class="org.kuali.rice.kns.util.KualiDecimal"/>
 
 
 		<group  name="details" minHeightToStartNewPage="265" >

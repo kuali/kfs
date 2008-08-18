@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.report.service;
 
+import java.io.File;
 import java.util.Date;
 
 import org.kuali.kfs.module.ar.report.util.CustomerStatementReportDataHolder;
@@ -30,5 +31,5 @@ public interface CustomerStatementReportService {
      * @param reportDataHolder the given report data holder
      * @param runDate the datetime of the repor generation
      */
-    void generateReport(CustomerStatementReportDataHolder reportDataHolder, Date runDate);
+    public File generateReport(CustomerStatementReportDataHolder reportDataHolder, Date runDate);
 }

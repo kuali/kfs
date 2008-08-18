@@ -93,7 +93,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Date date = creditMemo.getDocumentHeader().getDocumentFinalDate();
         creditMemoMap.put("createDate", dateTimeService.toDateString(date));
         reportDataHolder.setCreditmemo(creditMemoMap);
-        
+
         Map<String, String> customerMap = new HashMap<String, String>();
         customerMap.put("id", custID);
         if (billToAddr != null){ 
@@ -112,7 +112,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
             } 
         }
-       
+
         reportDataHolder.setCustomer(customerMap);
 
         Map<String, String> invoiceMap = new HashMap<String, String>();
@@ -174,10 +174,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             sysinfoMap.put("FEIN", "FED ID# "+sysinfo.getUniversityFederalEmployerIdentificationNumber());
 
         reportDataHolder.setSysinfo(sysinfoMap);
-        
+
         invoiceMap.put("billingOrgFax", orgOptions.getOrganizationFaxNumber());
         invoiceMap.put("billingOrgPhone", orgOptions.getOrganizationPhoneNumber());
-       
+
         creditMemo.populateCustomerCreditMemoDetailsAfterLoad();
         List<CustomerCreditMemoDetail> detailsList = creditMemo.getCreditMemoDetails();
         List<CustomerCreditMemoDetailReportDataHolder> details = new ArrayList<CustomerCreditMemoDetailReportDataHolder>();
@@ -187,7 +187,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             detailDataHolder = new CustomerCreditMemoDetailReportDataHolder(detail, detail.getCustomerInvoiceDetail());
             details.add(detailDataHolder);
         }
-        
+
         reportDataHolder.setDetails(details);
 
         Date runDate = dateTimeService.getCurrentSqlDate();
@@ -197,8 +197,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
     }
     public File generateInvoice(CustomerInvoiceDocument invoice) {
-        
-       // invoice.getDocumentHeader().refreshReferenceObject("workflowDocument");
+
+        // invoice.getDocumentHeader().refreshReferenceObject("workflowDocument");
         CustomerInvoiceReportDataHolder reportDataHolder = new CustomerInvoiceReportDataHolder();
         String custID = invoice.getAccountsReceivableDocumentHeader().getCustomerNumber();
         CustomerService custService = SpringContext.getBean(CustomerService.class);
@@ -283,7 +283,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         String firstChartCode = firstDetail.getChartOfAccountsCode();
         String firstAccount = firstDetail.getAccountNumber();
         invoiceMap.put("chartAndAccountOfFirstItem", firstChartCode+firstAccount);
-      
+
 
         Map<String, String> sysinfoMap = new HashMap<String, String>();
         InstitutionNameValueFinder finder = new InstitutionNameValueFinder();
@@ -322,24 +322,35 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         sysinfoMap.put("remitToState", orgOptions.getOrganizationRemitToState().toString());
         sysinfoMap.put("remitToZip", orgOptions.getOrganizationRemitToZipCode());
 
-      
-        
+
+
         invoiceMap.put("billingOrgFax", orgOptions.getOrganizationFaxNumber());
         invoiceMap.put("billingOrgPhone", orgOptions.getOrganizationPhoneNumber());
 
-        
+
         reportDataHolder.setSysinfo(sysinfoMap);
         reportDataHolder.setDetails(detailsList);
         reportDataHolder.setInvoice(invoiceMap);
-        
+
         Date runDate = dateTimeService.getCurrentSqlDate();
         CustomerInvoiceReportService service = SpringContext.getBean(CustomerInvoiceReportService.class);
         File report = service.generateReport(reportDataHolder, runDate);
+
+        invoice.setPrintDate(runDate);
+        invoice.setPrintInvoiceIndicator("Y");
+        DocumentService docService = SpringContext.getBean(DocumentService.class);
+        try {
+            docService.saveDocument(invoice);
+        }
+        catch (WorkflowException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return report;
     }
 
-    public void generateStatement(String billingChartCode, String billingOrgCode, String customerNumber, List<CustomerStatementDetailReportDataHolder> details){
-        
+    public File generateStatement(String billingChartCode, String billingOrgCode, String customerNumber, List<CustomerStatementDetailReportDataHolder> details){
+
         CustomerStatementReportDataHolder reportDataHolder = new CustomerStatementReportDataHolder();
         CustomerAddressService addrService = SpringContext.getBean(CustomerAddressService.class);
         CustomerAddress billToAddr = addrService.getPrimaryAddress(customerNumber);
@@ -362,11 +373,11 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
             } 
         }
-        
+
         reportDataHolder.setCustomer(customerMap);
 
         Map<String, String> invoiceMap = new HashMap<String, String>();
-       
+
         invoiceMap.put("customerOrg", billingOrgCode);
         OrganizationService orgService = SpringContext.getBean(OrganizationService.class);
         Org billingOrg = orgService.getByPrimaryId(billingChartCode, billingOrgCode);
@@ -375,7 +386,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         KualiDecimal amountDue = new KualiDecimal(0);
         for (Iterator itr = details.iterator(); itr.hasNext();) {
             CustomerStatementDetailReportDataHolder data = (CustomerStatementDetailReportDataHolder)itr.next();
-         
+
             if (data.getFinancialDocumentTotalAmountCharge()!=null) {
                 System.out.println(data.getFinancialDocumentTotalAmountCharge()+"    charge");
                 amountDue = amountDue.add(data.getFinancialDocumentTotalAmountCharge());
@@ -387,7 +398,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         }
         System.out.println(amountDue);
         invoiceMap.put("amountDue", amountDue.toString());
-        
+
 
         Map<String, String> sysinfoMap = new HashMap<String, String>();
         InstitutionNameValueFinder finder = new InstitutionNameValueFinder();
@@ -406,7 +417,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         invoiceMap.put("billingOrgFax", orgOptions.getOrganizationFaxNumber());
         invoiceMap.put("billingOrgPhone", orgOptions.getOrganizationPhoneNumber());
-        
+
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
 
@@ -419,7 +430,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         String univAddr = processingOrg.getOrganizationCityName() +", "+ 
         processingOrg.getOrganizationStateCode() +" "+ processingOrg.getOrganizationZipCode();
         sysinfoMap.put("univAddr", univAddr);
-        
+
         reportDataHolder.setSysinfo(sysinfoMap);
         reportDataHolder.setDetails(details);
         reportDataHolder.setInvoice(invoiceMap);
@@ -427,101 +438,67 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         dateTimeService = SpringContext.getBean(DateTimeService.class);
         Date runDate = dateTimeService.getCurrentSqlDate();
         CustomerStatementReportService service = SpringContext.getBean(CustomerStatementReportService.class);
-        System.out.println("start generate()");
-        System.out.println(runDate);
-        service.generateReport(reportDataHolder, runDate);
-        System.out.println("finish generate()");
+        File f = service.generateReport(reportDataHolder, runDate);
+        return f;
     }
-    
-    public void generateInvoicesByBillingOrg(String chartCode, String orgCode, Date date) {
+
+    public List<File> generateInvoicesByBillingOrg(String chartCode, String orgCode, Date date) {
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode, date);
-        DocumentService docService = SpringContext.getBean(DocumentService.class);
-        
-        
+        List<File> reports = new ArrayList<File>();
+
         for (Iterator itr = invoices.iterator(); itr.hasNext();) {
             CustomerInvoiceDocument doc = (CustomerInvoiceDocument)itr.next();
-            if (date!=null&&doc.getPrintDate()!=null) {
-                if (doc.getPrintDate().equals(date)) {
-                    generateInvoice(doc);
+            if (doc.getPrintInvoiceOption().getPrintInvoiceIndicator().equals("B") && doc.getPrintInvoiceIndicator().equals("N")) {
+                if (date == null)
+                    reports.add(generateInvoice(doc));
+                else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate())!=null) {
+                    if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
+                        reports.add(generateInvoice(doc));
+                    }
                 }
-            } else {
-                generateInvoice(doc);
             }
         }
-        
+        return reports;
     }
-    
+
     public List<File> generateInvoicesByProcessingOrg(String chartCode, String orgCode, Date date){
         dateTimeService = SpringContext.getBean(DateTimeService.class);
-       CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-       List<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
-       List<File> reports = new ArrayList<File>();
-       for (Iterator itr = invoices.iterator(); itr.hasNext();) {
-           CustomerInvoiceDocument doc = (CustomerInvoiceDocument)itr.next();
-         //  System.out.println(dateTimeService.toDateString(date));
-           
-          // System.out.println(dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()));
-           if (date == null)
-               reports.add(generateInvoice(doc));
-           else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate())!=null) {
-               if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
-                   reports.add(generateInvoice(doc));
-               }
-         
-           }
-               
-       }
-       System.out.println(reports);
-       return reports;
+        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        List<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+        List<File> reports = new ArrayList<File>();
+        for (Iterator itr = invoices.iterator(); itr.hasNext();) {
+            CustomerInvoiceDocument doc = (CustomerInvoiceDocument)itr.next();
+            if (doc.getPrintInvoiceOption().getPrintInvoiceIndicator().equals("Q")) {
+                if (date == null)
+                    reports.add(generateInvoice(doc));
+                else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate())!=null) {
+                    if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
+                        reports.add(generateInvoice(doc));
+                    }
+
+                }
+            }
+        }
+        return reports;
     }
-   
-    
-    public void generateStatementByBillingOrg(String chartCode, String orgCode) {
+
+
+    public List<File> generateStatementByBillingOrg(String chartCode, String orgCode) {
 
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode, null);
+        System.out.println(invoices);
         List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
         CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
-        String customerNumber = "";
-        for (Iterator itr = invoices.iterator(); itr.hasNext();) {
-            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument)itr.next();
-            if (invoice.isOpenInvoiceIndicator()) {
-                
-                Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
-                for (Iterator it = creditMemos.iterator(); it.hasNext();) {
-                    CustomerCreditMemoDocument doc = (CustomerCreditMemoDocument)it.next();
-                    doc.populateCustomerCreditMemoDetailsAfterLoad();
-                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
-                    details.add(detail);
-                }
-                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
-                details.add(detail);
-                customerNumber = invoice.getCustomer().getCustomerNumber();
-             
-            }
-        }
-        
-        generateStatement(chartCode, orgCode, customerNumber, details);
-        
-    }
-    
-    public void generateStatementByAccount(String accountNumber) {
-        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
-        
-        List<CustomerInvoiceDocument> invoiceList = new ArrayList<CustomerInvoiceDocument>(invoices);
-        Collections.sort(invoiceList);
-        
-        List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
-        CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
+        List<File> reports = new ArrayList<File>();
         CustomerInvoiceDocument ctrlDoc = new CustomerInvoiceDocument();
-
-        for (Iterator itr = invoiceList.iterator(); itr.hasNext();) {
+        for (Iterator itr = invoices.iterator(); itr.hasNext();) {
 
             CustomerInvoiceDocument invoice = (CustomerInvoiceDocument)itr.next();
-            
-                    // 
+
+            // 
             if (invoice.isOpenInvoiceIndicator()) {
 
                 Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
@@ -537,36 +514,34 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             }
             if (invoice.compareTo(ctrlDoc) != 0) {  
                 System.out.println("generating statement");
-                generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), details);
+                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), details));
                 details.clear();
             }
             ctrlDoc = invoice;
-           
+
         }
+        return reports;
     }
 
-    public void generateStatementByCustomer(String customerNumber) {
+    public List<File> generateStatementByAccount(String accountNumber) {
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber);
-   
+        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
+
         List<CustomerInvoiceDocument> invoiceList = new ArrayList<CustomerInvoiceDocument>(invoices);
         Collections.sort(invoiceList);
-        
+
         List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
         CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
         CustomerInvoiceDocument ctrlDoc = new CustomerInvoiceDocument();
+        List<File> reports = new ArrayList<File>();
 
-        
+
         for (Iterator itr = invoiceList.iterator(); itr.hasNext();) {
 
             CustomerInvoiceDocument invoice = (CustomerInvoiceDocument)itr.next();
-            
-            if (invoice.isOpenInvoiceIndicator()) {
 
-                if (invoice.compareTo(ctrlDoc) != 0) {  
-                    generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), details);
-                    details.clear();
-                }
+            // 
+            if (invoice.isOpenInvoiceIndicator()) {
 
                 Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
                 for (Iterator it = creditMemos.iterator(); it.hasNext();) {
@@ -579,12 +554,61 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                 details.add(detail);
 
             }
-            
+            if (invoice.compareTo(ctrlDoc) != 0) {  
+                System.out.println("generating statement");
+                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), details));
+                details.clear();
+            }
             ctrlDoc = invoice;
+
         }
-        
-    
-    
+        return reports;
+    }
+
+    public List<File> generateStatementByCustomer(String customerNumber) {
+        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber);
+
+        List<CustomerInvoiceDocument> invoiceList = new ArrayList<CustomerInvoiceDocument>(invoices);
+        Collections.sort(invoiceList);
+
+        List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
+        CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
+        CustomerInvoiceDocument ctrlDoc = new CustomerInvoiceDocument();
+
+
+        List<File> reports = new ArrayList<File>();
+
+
+        for (Iterator itr = invoiceList.iterator(); itr.hasNext();) {
+
+            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument)itr.next();
+
+            // 
+            if (invoice.isOpenInvoiceIndicator()) {
+
+                Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
+                for (Iterator it = creditMemos.iterator(); it.hasNext();) {
+                    CustomerCreditMemoDocument doc = (CustomerCreditMemoDocument)it.next();
+                    doc.populateCustomerCreditMemoDetailsAfterLoad();
+                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Credit Memo");
+                    details.add(detail);
+                }
+                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), "Invoice");
+                details.add(detail);
+
+            }
+            if (invoice.compareTo(ctrlDoc) != 0) {  
+                System.out.println("generating statement");
+                reports.add(generateStatement(invoice.getBillByChartOfAccountCode(), invoice.getBilledByOrganizationCode(), invoice.getAccountsReceivableDocumentHeader().getCustomerNumber(), details));
+                details.clear();
+            }
+            ctrlDoc = invoice;
+
+        }
+        return reports;
+
+
     }
 
 

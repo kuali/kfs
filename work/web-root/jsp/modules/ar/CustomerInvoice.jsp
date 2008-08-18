@@ -25,42 +25,42 @@
 	
 	
 	
-	 <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Section">
+	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Invoice Section">
             
 			<tr>		
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
+                <th align=right valign=middle class="grid" style="width: 25%;">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.chartOfAccountsCode}" /></div>
                 </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;">
+                <td align=left valign=middle class="grid" style="width: 25%;">
 					<kul:htmlControlAttribute attributeEntry="${orgAttributes.chartOfAccountsCode}" property="chartCode"  />	
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Chart"  fieldConversions="chartOfAccountsCode:chartCode"  />
                 </td>
 				                       
             </tr>
             <tr>
-				<th align=right valign=middle class="bord-l-b">
+				<th align=right valign=middle class="grid">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.organizationCode}" /></div>
                 </th>
-                <td align=left valign=middle class="datacell">
+                <td align=left valign=middle class="grid">
                     <kul:htmlControlAttribute attributeEntry="${orgAttributes.organizationCode}" property="orgCode"  />
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org"  fieldConversions="organizationCode:orgCode" lookupParameters="orgCode:organizationCode,chartCode:chartOfAccountsCode"/>
                 </td>                
 				            
             </tr>
              <tr>
-				<th align=right valign=middle class="bord-l-b">
+				<th align=right valign=middle class="grid">
                     <div align="right">Print invoices for date:</div>
                 </th>
-                <td align=left valign=middle class="datacell">
+                <td align=left valign=middle class="grid">
                     <kul:dateInput attributeEntry="${orgAttributes.organizationBeginDate}" property="runDate"/>
                 </td>                
 				            
             </tr>
             <tr>
-           		<th align=right valign=middle class="bord-l-b">
+           		<th align=right valign=middle class="grid">
                     <div align="right">*Org Type:</div>
                 </th>
-            	<td align=left valign=middle class="datacell">
+            	<td align=left valign=middle class="grid">
                     <html-el:radio property="orgType" value="P"/>Processing
                     <html-el:radio property="orgType" value="B"/>Billing
                 </td>

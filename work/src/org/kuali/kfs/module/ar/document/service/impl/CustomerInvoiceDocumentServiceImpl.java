@@ -187,11 +187,13 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             docNumbers.add(doc.getDocumentNumber());
         }
         customerInvoiceDocuments.clear();
-        try {
-            customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers);
-        } catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
-        }      
+        if (docNumbers.size() !=0) {
+            try {
+                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers);
+            } catch (WorkflowException e) {
+                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+            }      
+        }
         return customerInvoiceDocuments;
     }
     

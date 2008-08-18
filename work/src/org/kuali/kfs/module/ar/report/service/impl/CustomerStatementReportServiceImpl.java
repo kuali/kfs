@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -41,7 +42,7 @@ public class CustomerStatementReportServiceImpl implements CustomerStatementRepo
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportService#generateReportForExtractProcess(org.kuali.module.effort.util.ExtractProcessReportDataHolder, java.util.Date)
      */
-    public void generateReport(CustomerStatementReportDataHolder reportDataHolder, Date runDate) {
+    public File generateReport(CustomerStatementReportDataHolder reportDataHolder, Date runDate) {
         String reportFileName = customerStatementReportInfo.getReportFileName();
         String reportDirectory = customerStatementReportInfo.getReportsDirectory();
         String reportTemplateClassPath = customerStatementReportInfo.getReportTemplateClassPath();
@@ -57,8 +58,9 @@ public class CustomerStatementReportServiceImpl implements CustomerStatementRepo
 
         String template = reportTemplateClassPath + reportTemplateName;
         String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "");
-        System.out.println(fullReportFileName);
+        File report = new File(fullReportFileName+".pdf");
         reportGenerationService.generateReportToPdfFile(reportData, template, fullReportFileName);
+        return report;
     }
     
     /**

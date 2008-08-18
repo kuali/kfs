@@ -33,6 +33,8 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -1339,6 +1341,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @RelatesTo(JiraIssue.KFSMI1273)
     @SuppressWarnings("deprecation")
     public void testCheckCgIncomeStreamRequired_CGAcctNoIncomeStreamFields() {
 
@@ -1371,6 +1374,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @RelatesTo(JiraIssue.KFSMI1273)
     @SuppressWarnings("deprecation")
     public void testCheckCgIncomeStreamRequired_CGAcctInvalidIncomeStreamAccount() {
 
@@ -1402,6 +1406,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @RelatesTo(JiraIssue.KFSMI1273)
     @SuppressWarnings("deprecation")
     public void testCheckCgIncomeStreamRequired_GFAcctNoIncomeStreamFields() {
 

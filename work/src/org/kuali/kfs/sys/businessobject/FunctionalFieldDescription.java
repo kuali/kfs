@@ -32,20 +32,28 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
     private String functionalFieldDescription;
     private boolean active;
     
+    private BusinessObjectComponent businessObjectComponent;
     private BusinessObjectProperty businessObjectProperty;
     
     @Override
     public void refreshNonUpdateableReferences() {
-        if (((businessObjectProperty == null)
-                || !businessObjectProperty.getNamespaceCode().equals(getNamespaceCode())
-                || !businessObjectProperty.getComponentClass().equals(getComponentClass())
+        if (((businessObjectComponent == null)
+                || !businessObjectComponent.getNamespaceCode().equals(getNamespaceCode())
+                || !businessObjectComponent.getComponentClass().equals(getComponentClass())
                 || !businessObjectProperty.getPropertyName().equals(getPropertyName()))
               && (StringUtils.isNotBlank(getComponentClass()) && StringUtils.isNotBlank(getPropertyName()))) {
-            setBusinessObjectProperty(new BusinessObjectProperty(new BusinessObjectComponent(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getComponentClass())), SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getComponentClass()).getAttributeDefinition(getPropertyName())));
-            setNamespaceCode(businessObjectProperty.getNamespaceCode());
-            setNamespaceName(businessObjectProperty.getNamespaceName());
-            setComponentLabel(businessObjectProperty.getComponentLabel());
-            setPropertyLabel(businessObjectProperty.getPropertyLabel());
+            setBusinessObjectComponent(new BusinessObjectComponent(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getComponentClass())));
+            setNamespaceCode(businessObjectComponent.getNamespaceCode());
+            setNamespaceName(businessObjectComponent.getNamespaceName());
+            setComponentLabel(businessObjectComponent.getComponentLabel());
+            if (((businessObjectProperty == null)
+                    || !businessObjectProperty.getNamespaceCode().equals(getNamespaceCode())
+                    || !businessObjectProperty.getComponentClass().equals(getComponentClass())
+                    || !businessObjectProperty.getPropertyName().equals(getPropertyName()))
+                  && (StringUtils.isNotBlank(getComponentClass()) && StringUtils.isNotBlank(getPropertyName()))) {
+                setBusinessObjectProperty(new BusinessObjectProperty(businessObjectComponent, SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getComponentClass()).getAttributeDefinition(getPropertyName())));
+                setPropertyLabel(businessObjectProperty.getPropertyLabel());
+            }
         }
     }
 
@@ -114,6 +122,14 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public BusinessObjectComponent getBusinessObjectComponent() {
+        return businessObjectComponent;
+    }
+
+    public void setBusinessObjectComponent(BusinessObjectComponent businessObjectComponent) {
+        this.businessObjectComponent = businessObjectComponent;
     }
 
     public BusinessObjectProperty getBusinessObjectProperty() {

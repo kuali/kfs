@@ -30,6 +30,29 @@
     <property name="relationships" >
       <list>
           <bean parent="RelationshipDefinition">
+             <property name="objectAttributeName" value="businessObjectComponent" />
+          	 <property name="primitiveAttributes" >
+               <list>
+                 <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="namespaceCode"
+                    p:targetName="namespaceCode" />
+                 <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="componentLabel"
+                    p:targetName="componentLabel" />
+               </list>
+            </property>
+          	 <property name="supportAttributes" >
+               <list>
+                 <bean parent="SupportAttributeDefinition"
+                    p:sourceName="namespaceName"
+                    p:targetName="namespaceName" />
+                 <bean parent="SupportAttributeDefinition"
+                    p:sourceName="componentClass"
+                    p:targetName="componentClass" />
+               </list>
+            </property>
+          </bean>
+          <bean parent="RelationshipDefinition">
              <property name="objectAttributeName" value="businessObjectProperty" />
           	 <property name="primitiveAttributes" >
                <list>

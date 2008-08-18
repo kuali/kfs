@@ -25,6 +25,7 @@ import java.util.Set;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -37,8 +38,13 @@ import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -254,11 +260,20 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
         LOG.debug("handleRouteStatusChange() start...");
 
         super.handleRouteStatusChange();
-
         KualiWorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsApproved()) {
-            SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
+        try {
+            if (workflowDocument.stateIsFinal()) {
+                GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+                SpringContext.getBean(EffortCertificationDocumentService.class).generateSalaryExpenseTransferDocument(this);
+            }
         }
+        catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }               
+            //           SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
     }
 
     /**

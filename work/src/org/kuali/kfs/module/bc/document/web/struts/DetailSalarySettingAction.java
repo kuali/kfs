@@ -22,10 +22,13 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static org.kuali.kfs.module.bc.BCConstants.ErrorKey.DETAIL_SALARY_SETTING_TAB_ERRORS;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -36,7 +39,9 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.document.validation.event.AddAppointmentFundingEvent;
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
 import org.kuali.kfs.module.bc.document.validation.event.SaveSalarySettingEvent;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -133,12 +138,12 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             // retrieve corresponding document in advance in order to use the rule framework
             BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);
             if (document == null) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.toString());
+                GlobalVariables.getErrorMap().putError(DETAIL_SALARY_SETTING_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
 
             // validate the savable appointment funding lines
-            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", "", document, savableFunding));
+            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", DETAIL_SALARY_SETTING_TAB_ERRORS, document, savableFunding));
             if (!isValid) {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
@@ -167,29 +172,34 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
-        this.applyDefaultValuesIfEmpty(newAppointmentFunding);
+        salarySettingForm.refreshBCAFLine(newAppointmentFunding);
+               
+        // setup a working appointment funding so that the default values can be applied
+        PendingBudgetConstructionAppointmentFunding workingAppointmentFunding = new PendingBudgetConstructionAppointmentFunding();
+        ObjectUtil.buildObject(workingAppointmentFunding, newAppointmentFunding);
+        this.applyDefaultValuesIfEmpty(workingAppointmentFunding);
 
         // retrieve corresponding document in advance in order to use the rule framework
-        BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(newAppointmentFunding);
+        BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(workingAppointmentFunding);
         if (document == null) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, newAppointmentFunding.toString());
+            GlobalVariables.getErrorMap().putError(DETAIL_SALARY_SETTING_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, workingAppointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // validate the new appointment funding line
-        BudgetExpansionEvent addAppointmentFundingEvent = new AddAppointmentFundingEvent("", "", document, appointmentFundings, newAppointmentFunding);
+        BudgetExpansionEvent addAppointmentFundingEvent = new AddAppointmentFundingEvent("", DETAIL_SALARY_SETTING_TAB_ERRORS, document, appointmentFundings, workingAppointmentFunding);
         boolean isValid = this.invokeRules(addAppointmentFundingEvent);
         if (!isValid) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // acquire a lock for the new appointment funding line
-        boolean gotLocks = salarySettingForm.acquirePositionAndFundingLocks(newAppointmentFunding);
+        boolean gotLocks = salarySettingForm.acquirePositionAndFundingLocks(workingAppointmentFunding);
         if (!gotLocks) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
-        appointmentFundings.add(newAppointmentFunding);
+        appointmentFundings.add(workingAppointmentFunding);
         salarySettingForm.setNewBCAFLine(salarySettingForm.createNewAppointmentFundingLine());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

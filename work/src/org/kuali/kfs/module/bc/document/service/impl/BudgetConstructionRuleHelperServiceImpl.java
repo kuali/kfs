@@ -25,6 +25,7 @@ import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -89,7 +90,6 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidIncumbent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    @Logged
     public boolean hasValidIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         String emplid = appointmentFunding.getEmplid();
         BudgetConstructionIntendedIncumbent intendedIncumbent = appointmentFunding.getBudgetConstructionIntendedIncumbent();

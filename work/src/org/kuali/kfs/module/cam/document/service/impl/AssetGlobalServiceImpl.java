@@ -67,24 +67,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
                 postable.setObjectCode(SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(assetPaymentDetail.getPostingYear(), assetPaymentDetail.getChartOfAccountsCode(), acquisitionType.getIncomeAssetObjectCode()));
             };
 
-        },
-        CAPITALIZATION {
-            void setParams(AssetGlpeSourceDetail postable, AssetPaymentDetail assetPaymentDetail, AssetObjectCode assetObjectCode, OffsetDefinition offsetDefinition, AssetAcquisitionType acquisitionType) {
-                postable.setCapitalization(true);
-                postable.setFinancialDocumentLineDescription(CamsConstants.AssetGlobal.LINE_DESCRIPTION_CAPITALIZATION);
-                postable.setFinancialObjectCode(assetObjectCode.getCapitalizationFinancialObjectCode());
-                postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
-            };
-
-        },
-        CAPITALIZATION_OFFSET {
-            void setParams(AssetGlpeSourceDetail postable, AssetPaymentDetail assetPaymentDetail, AssetObjectCode assetObjectCode, OffsetDefinition offsetDefinition, AssetAcquisitionType acquisitionType) {
-                postable.setCapitalizationOffset(true);
-                postable.setFinancialDocumentLineDescription(CamsConstants.AssetGlobal.LINE_DESCRIPTION_CAPITALIZATION_OFFSET);
-                postable.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
-                postable.setObjectCode(offsetDefinition.getFinancialObject());
-            };
-
         };
 
         abstract void setParams(AssetGlpeSourceDetail postable, AssetPaymentDetail assetPaymentDetail, AssetObjectCode assetObjectCode, OffsetDefinition offsetDefinition, AssetAcquisitionType acquisitionType);
@@ -165,8 +147,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
                         if (ObjectUtils.isNotNull(assetPaymentDetail.getFinancialObjectCode())) {
                             KualiDecimal accountChargeAmount = assetPaymentDetail.getAmount();
                             if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
-                                assetGlobalGlPoster.getGeneralLedgerPendingEntrySourceDetails().add(createAssetGlpePostable(assetGlobal, srcPlantAcct, assetPaymentDetail, AmountCategory.CAPITALIZATION));
-                                assetGlobalGlPoster.getGeneralLedgerPendingEntrySourceDetails().add(createAssetGlpePostable(assetGlobal, srcPlantAcct, assetPaymentDetail, AmountCategory.CAPITALIZATION_OFFSET));
                                 assetGlobalGlPoster.getGeneralLedgerPendingEntrySourceDetails().add(createAssetGlpePostable(assetGlobal, srcPlantAcct, assetPaymentDetail, AmountCategory.PAYMENT));
                                 assetGlobalGlPoster.getGeneralLedgerPendingEntrySourceDetails().add(createAssetGlpePostable(assetGlobal, srcPlantAcct, assetPaymentDetail, AmountCategory.PAYMENT_OFFSET));
                             }

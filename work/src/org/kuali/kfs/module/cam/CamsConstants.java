@@ -267,8 +267,6 @@ public class CamsConstants extends JSTLConstants {
         public static final String NEW_ACQUISITION_TYPE_CODE = "N";
         public static final String LINE_DESCRIPTION_PAYMENT = "Payment";
         public static final String LINE_DESCRIPTION_PAYMENT_OFFSET = "Payment Offset";
-        public static final String LINE_DESCRIPTION_CAPITALIZATION = "Capitalization";
-        public static final String LINE_DESCRIPTION_CAPITALIZATION_OFFSET = "Capitalization Offset";
         public static final String SECTION_ID_ASSET_INFORMATION = "assetInformation";
     }
 }

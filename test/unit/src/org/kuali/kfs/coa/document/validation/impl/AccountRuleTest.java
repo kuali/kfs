@@ -1341,7 +1341,6 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
-    @RelatesTo(JiraIssue.KFSMI1273)
     @SuppressWarnings("deprecation")
     public void testCheckCgIncomeStreamRequired_CGAcctNoIncomeStreamFields() {
 
@@ -1374,7 +1373,6 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
-    @RelatesTo(JiraIssue.KFSMI1273)
     @SuppressWarnings("deprecation")
     public void testCheckCgIncomeStreamRequired_CGAcctInvalidIncomeStreamAccount() {
 
@@ -1406,7 +1404,6 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
-    @RelatesTo(JiraIssue.KFSMI1273)
     @SuppressWarnings("deprecation")
     public void testCheckCgIncomeStreamRequired_GFAcctNoIncomeStreamFields() {
 

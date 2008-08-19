@@ -17,6 +17,8 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
@@ -47,8 +49,7 @@ public class CreditMemoAccountHistory extends CreditMemoAccount {
      */
     public CreditMemoAccountHistory(CreditMemoAccount cma) {
         // copy base attributes
-        PurApObjectUtils.populateFromBaseClass(PurApAccountingLineBase.class, cma, this);
-        PurApObjectUtils.populateFromBaseClass(AccountingLineBase.class, cma, this);
+        PurApObjectUtils.populateFromBaseWithSuper(cma, this, new HashMap<String, Class<?>>(), new HashSet<Class>());
         this.setAccountHistoryTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
     }
 

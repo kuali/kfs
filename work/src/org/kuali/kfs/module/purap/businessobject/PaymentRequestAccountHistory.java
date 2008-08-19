@@ -17,6 +17,8 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
@@ -47,8 +49,7 @@ public class PaymentRequestAccountHistory extends PaymentRequestAccount {
      */
     public PaymentRequestAccountHistory(PaymentRequestAccount pra) {
         // copy base attributes
-        PurApObjectUtils.populateFromBaseClass(PurApAccountingLineBase.class, pra, this);
-        PurApObjectUtils.populateFromBaseClass(AccountingLineBase.class, pra, this);
+        PurApObjectUtils.populateFromBaseWithSuper(pra, this, new HashMap<String, Class<?>>(), new HashSet<Class>());
         this.setAccountHistoryTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
     }
 

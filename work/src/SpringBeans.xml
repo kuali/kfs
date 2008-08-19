@@ -117,6 +117,7 @@
 				<value>maintenanceDocumentDictionaryService</value>
 				<value>transactionalDocumentDictionaryService</value>
 				<value>maintenanceDocumentRuleBase</value>
+				<value>sessionDocumentService</value>
 			</set>
 		</property>
 	</bean>
@@ -802,4 +803,24 @@
 			<ref bean="persistenceStructureService" />
 		</property>
 	</bean>
+	
+	<bean id="sessionDocumentService" class="org.kuali.rice.kns.service.impl.SessionDocumentServiceImpl">
+		<property name="maxCacheSize" value="${session.document.cache.size}" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="sessionDocumentDao">
+			<ref bean="sessionDocumentDao" />
+		</property>
+	</bean>
+	
+		<bean id="sessionDocumentDao" class="org.kuali.rice.kns.dao.proxy.SessionDocumentDaoProxy">
+    	<property name="sessionDocumentDaoJpa" ref="sessionDocumentDaoJpa" />
+    	<property name="sessionDocumentDaoOjb" ref="sessionDocumentDaoOjb" />
+  	</bean>
+  
+    <bean id="sessionDocumentDaoJpa" class="org.kuali.rice.kns.dao.impl.SessionDocumentDaoJpa" />
+
+	<bean id="sessionDocumentDaoOjb" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.SessionDocumentDaoOjb" />
+	
 </beans>

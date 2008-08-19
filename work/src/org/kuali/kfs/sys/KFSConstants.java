@@ -811,6 +811,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String BATCH_SCHEDULE_CUTOFF_TIME = "CUTOFF_TIME";
         public static final String BATCH_SCHEDULE_CUTOFF_TIME_IS_NEXT_DAY = "CUTOFF_TIME_NEXT_DAY_IND";
         public static final String BATCH_SCHEDULE_STATUS_CHECK_INTERVAL = "STATUS_CHECK_INTERVAL";
+        
 
         /**
          * Used by PurgePendingAttachmentsJob to compute the maximum amount of time a pending attachment is allowed to persist on
@@ -820,6 +821,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
 
         public static final String JOB_ADMIN_WORKGROUP = "SCHEDULE_ADMIN_GROUP";
         public static final String JOB_WORKGROUP_SUFFIX = "_SCHEDULE_GROUP";
+        
+        public static final String NUMBER_OF_DAYS_SINCE_LAST_UPDATE  = "NUMBER_OF_DAYS_SINCE_LAST_UPDATE";
     }
 
     public static class GeneralLedgerApplicationParameterKeys {

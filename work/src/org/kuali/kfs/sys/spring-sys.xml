@@ -195,6 +195,7 @@
 				<ref bean="purgePendingAttachmentsStep" />
 				<ref bean="purgeOldLookupResultsStep" />
 				<ref bean="purgeTempFilesStep" />
+				<ref bean="purgeSessionDocumentsStep" />
 			</list>
 		</property>
 	</bean>
@@ -214,6 +215,12 @@
 	<bean id="purgeTempFilesStep" class="org.kuali.kfs.sys.batch.PurgeTempFilesStep" parent="step">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+	
+	<bean id="purgeSessionDocumentsStep" class="org.kuali.kfs.sys.batch.PurgeSessionDocumentsStep" parent="step">
+		<property name="sessionDocumentService">
+			<ref bean="sessionDocumentService" />
 		</property>
 	</bean>
 	
@@ -480,7 +487,7 @@
     		</list>
     	</property>
     </bean>
-    
+
     <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
 
 	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />

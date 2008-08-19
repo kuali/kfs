@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AwardOrganization-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Award Organization" />
     <property name="attributes" >
       <list>
         <ref bean="AwardOrganization-chartOfAccountsCode" />
@@ -76,9 +77,8 @@
     </property>
   </bean>
 
-  <bean id="AwardOrganization-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
-  </bean>
-  <bean id="AwardOrganization-active" parent="AwardOrganization-active-parentBean">
+  <bean id="AwardOrganization-active" parent="AwardOrganization-active-parentBean" />
+  <bean id="AwardOrganization-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
       <property name="name" value="active" />
   </bean>
   

@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="RoutingFormPurpose-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Routing Form Purpose" />
     <property name="attributes" >
       <list>
         <ref bean="RoutingFormPurpose-documentNumber" />

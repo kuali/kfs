@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="ProposalSubcontractor-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Proposal Subcontractor" />
     <property name="attributes" >
       <list>
         <ref bean="ProposalSubcontractor-proposalNumber" />
@@ -89,7 +90,7 @@
   </bean>
   <bean id="ProposalSubcontractor-active" parent="ProposalSubcontractor-active-parentBean" />
 
-  <bean id="ProposalSubcontractor-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ProposalSubcontractor-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="ProposalSubcontractor-newCollectionRecord" parent="ProposalSubcontractor-newCollectionRecord-parentBean" />

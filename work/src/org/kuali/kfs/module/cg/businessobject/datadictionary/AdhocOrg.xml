@@ -8,6 +8,7 @@
 
   <bean id="AdhocOrg-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AdhocOrg" />
+    <property name="objectLabel" value="Ad Hoc Organization" />
     <property name="attributes" >
       <list>
         <ref bean="AdhocOrg-documentNumber" />

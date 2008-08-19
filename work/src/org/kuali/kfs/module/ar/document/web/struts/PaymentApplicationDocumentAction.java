@@ -147,7 +147,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             Integer invoicePaidAppliedItemNbr = applicationDocument.getAppliedPayments().size() + 1;
             // if the customer invoice detail number is in the list of selected details to apply full amounts
             if (invoiceItemNumbers.indexOf(customerInvoiceDetail.getSequenceNumber().toString()) != -1) {
-                // aply full amount for the detail
+                // apply full amount for the detail
                 InvoicePaidApplied invoicePaidApplied = paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(customerInvoiceDetail, applicationDocNbr, universityFiscalYear, universityFiscalPeriodCode, customerInvoiceDetail.getOpenAmount(), invoicePaidAppliedItemNbr);
                 // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
                 if (invoicePaidApplied != null) {

@@ -66,6 +66,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
     private ErrorMap errorMap = GlobalVariables.getErrorMap();
+    private static final List<String> comparableFields = getComparableFields(); 
 
     /**
      * Constructs a DetailSalarySettingForm.java.
@@ -203,7 +204,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
                     this.releaseTransactionLocks();
 
-                    // TODO: need to release position and funding locks: this.releasePositionAndFundingLocks() ?
                     return false;
                 }
             }
@@ -283,8 +283,9 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * determine whether there is any active funding line in the given savable appointment funding lines
      */
     public List<PendingBudgetConstructionAppointmentFunding> getActiveFundingLines() {
-        List<PendingBudgetConstructionAppointmentFunding> activeFundingLines = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+        LOG.info("getActiveFundingLines() started");
 
+        List<PendingBudgetConstructionAppointmentFunding> activeFundingLines = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getSavableAppointmentFundings()) {
             if (!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
                 activeFundingLines.add(appointmentFunding);
@@ -322,11 +323,11 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * position/incumbent
      */
     public void pickAppointmentFundingsForSingleAccount() {
+        LOG.info("pickAppointmentFundingsForSingleAccount() started");
+        
         List<PendingBudgetConstructionAppointmentFunding> excludedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
-        List<String> keyFields = this.getComparableFields();
-
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getAppointmentFundings()) {
-            if (!ObjectUtil.equals(appointmentFunding, this, keyFields)) {
+            if (!ObjectUtil.equals(appointmentFunding, this, comparableFields)) {
                 excludedFundings.add(appointmentFunding);
             }
         }
@@ -338,9 +339,11 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * Funding/transaction locks are not required for the lines associated with a document already open in budget by account mode
      */
     private BudgetConstructionLockStatus getLockStatusForBudgetByAccountMode(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.info("getLockStatusForBudgetByAccountMode() started");
+
         BudgetConstructionLockStatus transactionLockStatus = null;
 
-        if (this.isBudgetByAccountMode() && lockService.isAccountLocked(appointmentFunding)) {
+        if (this.isBudgetByAccountMode() && ObjectUtil.equals(appointmentFunding, this, comparableFields)) {
             transactionLockStatus = new BudgetConstructionLockStatus();
             transactionLockStatus.setLockStatus(LockStatus.SUCCESS);
         }
@@ -352,7 +355,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * get the names of comparable fields that are considered to determine a single account, that is, the fundings are considered
      * being assocated with the given account if they have the same values of the fields as specified.
      */
-    private List<String> getComparableFields() {
+    public static List<String> getComparableFields() {
         List<String> comparableFields = new ArrayList<String>();
         comparableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         comparableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);

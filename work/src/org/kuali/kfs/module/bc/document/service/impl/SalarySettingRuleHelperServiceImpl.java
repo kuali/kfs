@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
@@ -186,8 +187,8 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
         // Requested csf amount must be greater than 0 if there is a leave
         if (!StringUtils.equals(leaveDurationCode, NONE.durationCode)) {
-            if (csfTimePercent == null || csfTimePercent.compareTo(BigDecimal.ZERO) <= 0) {
-                errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_TIME_PERCENT, BCKeyConstants.ERROR_TIME_PERCENT_GREATER_THAN_ZERO_REQUIRED);
+            if (csfTimePercent == null || csfTimePercent.compareTo(BigDecimal.ZERO) <= 0 || csfTimePercent.compareTo(BCConstants.ONE_HUNDRED) > 0 ) {
+                errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_TIME_PERCENT, BCKeyConstants.ERROR_LEAVE_TIME_PERCENT_NOT_IN_RANGE, BigDecimal.ZERO.toPlainString(), BCConstants.ONE_HUNDRED.toPlainString());
                 return false;
             }
         }
@@ -202,8 +203,8 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
     @Logged
     public boolean hasValidRequestedFteQuantity(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         BigDecimal requestedFteQuantity = appointmentFunding.getAppointmentRequestedFteQuantity();
-        if (requestedFteQuantity == null || requestedFteQuantity.compareTo(BigDecimal.ZERO) < 0) {
-            errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_FTE_QUANTITY, BCKeyConstants.ERROR_NEGATIVE_FTE_QUANTITY);
+        if (requestedFteQuantity == null || requestedFteQuantity.compareTo(BigDecimal.ZERO) < 0 || requestedFteQuantity.compareTo(BigDecimal.ONE) > 0) {
+            errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_FTE_QUANTITY, BCKeyConstants.ERROR_FTE_QUANTITY_NOT_IN_RANGE, BigDecimal.ZERO.toPlainString(), BigDecimal.ONE.toPlainString());
             return false;
         }
 
@@ -255,8 +256,8 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
             return false;
         }
 
-        if (requestedTimePercent.compareTo(BigDecimal.ZERO) < 0) {
-            errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_TIME_PERCENT, BCKeyConstants.ERROR_NEGATIVE_REQUESTED_TIME_PERCENT);
+        if (requestedTimePercent.compareTo(BigDecimal.ZERO) < 0 || requestedTimePercent.compareTo(BCConstants.ONE_HUNDRED) > 0 ) {
+            errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_TIME_PERCENT, BCKeyConstants.ERROR_TIME_PERCENT_NOT_IN_RANGE, BigDecimal.ZERO.toPlainString(), BCConstants.ONE_HUNDRED.toPlainString());
             return false;
         }
 

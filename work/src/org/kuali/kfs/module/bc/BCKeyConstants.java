@@ -164,5 +164,8 @@ public class BCKeyConstants {
     public static final String ERROR_EMPTY_REQUESTED_TIME_PERCENT = "error.budget.emptyRequestedTimePercent";
     public static final String ERROR_NEGATIVE_REQUESTED_TIME_PERCENT = "error.budget.negativeRequestedTimePercent";
     public static final String ERROR_DETAIL_POSITION_NOT_REQUIRED = "error.budget.detailPositionNotRequired";
+    public static final String ERROR_FTE_QUANTITY_NOT_IN_RANGE = "error.budget.fteQuantityNotInRange";
+    public static final String ERROR_LEAVE_TIME_PERCENT_NOT_IN_RANGE = "error.budget.leaveTimePercentNotInRange";
+    public static final String ERROR_TIME_PERCENT_NOT_IN_RANGE = "error.budget.timePercentNotInRange";
 }
 

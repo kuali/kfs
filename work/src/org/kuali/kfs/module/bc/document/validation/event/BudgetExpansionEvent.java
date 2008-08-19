@@ -34,14 +34,6 @@ public abstract class BudgetExpansionEvent extends KualiDocumentEventBase {
         super(description, errorPathPrefix, document);
         this.budgetConstructionDocument = (BudgetConstructionDocument) document;
     }
-    
-    /**
-     * Constructs a BudgetExpansionEvent.java.
-     * @param errorPathPrefix
-     */
-    public BudgetExpansionEvent(String errorPathPrefix) {
-        this("", errorPathPrefix, new BudgetConstructionDocument());
-    }
 
     /**
      * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()

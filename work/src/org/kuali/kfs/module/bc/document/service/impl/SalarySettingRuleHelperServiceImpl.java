@@ -60,7 +60,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
         boolean hasActiveJob = humanResourcesPayrollService.isActiveJob(emplid, positionNumber, fiscalYear, SynchronizationCheckType.ALL);
         if (!hasActiveJob) {
-            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_NO_ACTIVE_JOB_FOUND, appointmentFunding.getEmplid(), appointmentFunding.getPositionNumber());
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_NO_ACTIVE_JOB_FOUND, appointmentFunding.getEmplid(), appointmentFunding.getPositionNumber());
             return false;
         }
 
@@ -134,7 +134,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
     public boolean hasNoExistingLine(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         boolean hasNoExistingLine = salarySettingService.findAppointmentFunding(appointmentFundings, appointmentFunding) == null;
         if (!hasNoExistingLine) {
-            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_DUPLICATE_FUNDING_LINE);
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_DUPLICATE_FUNDING_LINE);
             return false;
         }
 

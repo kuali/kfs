@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.batch.service.ReportGenerationService;
@@ -52,6 +53,8 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
     public final static String DESIGN_FILE_EXTENSION = ReportGeneration.DESIGN_FILE_EXTENSION;
     public final static String JASPER_REPORT_EXTENSION = ReportGeneration.JASPER_REPORT_EXTENSION;
     public final static String PDF_FILE_EXTENSION = ReportGeneration.PDF_FILE_EXTENSION;
+    
+    public final static String SEPARATOR = "/";
 
     /**
      * @see org.kuali.kfs.sys.batch.service.ReportGenerationService#generateReportToPdfFile(java.util.Map, java.lang.String, java.lang.String)
@@ -90,11 +93,16 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
             JRDataSource jrDataSource = JasperReportsUtils.convertReportData(dataSource);
 
             reportFileName = reportFileName + PDF_FILE_EXTENSION;
+            File reportDirectory = new File(StringUtils.substringBeforeLast(reportFileName, SEPARATOR));
+            if(!reportDirectory.exists()) {
+                reportDirectory.mkdir();
+            }
+            
             JasperRunManager.runReportToPdfFile(jasperReportName, reportFileName, reportData, jrDataSource);
         }
         catch (Exception e) {
             LOG.error(e);
-            throw new RuntimeException(e);
+            throw new RuntimeException("Fail to generate report.", e);
         }
     }
 
@@ -128,7 +136,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
         }
         catch (Exception e) {
             LOG.error(e);
-            throw new RuntimeException(e);
+            throw new RuntimeException("Fail to generate report.", e);
         }
     }
 
@@ -138,7 +146,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
      */
     public String buildFullFileName(Date runDate, String directory, String fileName, String extension) {
         String runtimeStamp = new SimpleDateFormat("yyyyMMdd_HHmmssSSS").format(runDate);
-        String fileNamePattern = "{0}/{1}_{2}{3}";
+        String fileNamePattern = "{0}" + SEPARATOR + "{1}_{2}{3}";
 
         return MessageFormat.format(fileNamePattern, directory, fileName, runtimeStamp, extension);
     }

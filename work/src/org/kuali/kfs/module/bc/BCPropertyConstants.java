@@ -70,4 +70,5 @@ public class BCPropertyConstants {
     public static final String ADD_LINE = "addLine";
     public static final String SINGLE_ACCOUNT_MODE = "singleAccountMode";
     public static final String ADJUSTMENT_AMOUNT = "adjustmentAmount";
+    public static final String NEW_BCAF_Line = "newBCAFLine";
 }

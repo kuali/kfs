@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import static org.kuali.kfs.module.bc.BCConstants.ErrorKey.DETAIL_SALARY_SETTING_TAB_ERRORS;
+import static org.kuali.kfs.module.bc.BCConstants.ErrorKey.ADD_FUNDING_LINE_TAB_ERRORS;
 
 import java.util.List;
 
@@ -178,12 +179,12 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(workingAppointmentFunding);
         if (document == null) {
-            GlobalVariables.getErrorMap().putError(DETAIL_SALARY_SETTING_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, workingAppointmentFunding.getAppointmentFundingString());
+            GlobalVariables.getErrorMap().putError(ADD_FUNDING_LINE_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, workingAppointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // validate the new appointment funding line
-        BudgetExpansionEvent addAppointmentFundingEvent = new AddAppointmentFundingEvent("", DETAIL_SALARY_SETTING_TAB_ERRORS, document, appointmentFundings, workingAppointmentFunding);
+        BudgetExpansionEvent addAppointmentFundingEvent = new AddAppointmentFundingEvent("", ADD_FUNDING_LINE_TAB_ERRORS, document, appointmentFundings, workingAppointmentFunding);
         boolean isValid = this.invokeRules(addAppointmentFundingEvent);
         if (!isValid) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);

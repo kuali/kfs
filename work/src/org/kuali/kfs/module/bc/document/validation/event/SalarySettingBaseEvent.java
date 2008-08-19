@@ -22,16 +22,6 @@ import org.kuali.rice.kns.document.Document;
  * Base class for salary setting events. 
  */
 public abstract class SalarySettingBaseEvent extends BudgetExpansionEvent {
-    
-    /**
-     * Constructs a SalarySettingEvent.java.
-     * 
-     * @param errorPathPrefix the specified error path prefix
-     */
-    public SalarySettingBaseEvent(String errorPathPrefix) {
-        super(errorPathPrefix);
-    }
-
     /**
      * Constructs a SalarySettingBaseEvent.java.
      * @param description the given description

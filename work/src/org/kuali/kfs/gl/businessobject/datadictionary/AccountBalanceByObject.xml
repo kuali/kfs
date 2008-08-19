@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AccountBalanceByObject-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Account Balance By Object" />
     <property name="attributes" >
       <list>
         <ref bean="AccountBalanceByObject-universityFiscalYear" />

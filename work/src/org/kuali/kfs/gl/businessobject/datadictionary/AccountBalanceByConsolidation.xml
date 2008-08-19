@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AccountBalanceByConsolidation-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Account Balance By Consolidation" />
     <property name="attributes" >
       <list>
         <ref bean="AccountBalanceByConsolidation-universityFiscalYear" />

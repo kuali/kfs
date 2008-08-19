@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AccountBalancePendingEntry-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Account Balance Pending Entry" />
     <property name="attributes" >
       <list>
         <ref bean="AccountBalancePendingEntry-documentNumber" />

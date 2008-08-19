@@ -83,7 +83,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         /**
          * FIXME: Is it a file name or emailid
          */
-        String emailFileName = "test.txt";
+        String emailFileName = "c:\\test.txt";
 
         LOG.info("loadElectronicInvoices() Invoice Base Directory - " + electronicInvoiceInputFileType.getDirectoryPath());
         LOG.info("loadElectronicInvoices() Invoice Source Directory - " + sourceDirName);
@@ -120,7 +120,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
             mailText.append("\n\n");
             
             writeEmailFile(mailText, emailFileName);
-
+            return false;
         }
 
         try {
@@ -133,6 +133,13 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
             throw new RuntimeException(e);
         }
 
+        /**
+         * FIMXE : Introduce param here
+         */
+        Boolean moveFiles = true;
+
+        LOG.info("Is moving files allowed - " + moveFiles);
+        
         /**
          * FIXME : I think this is not needed
          */
@@ -150,13 +157,6 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         for (int i = 0; i < filesToBeProcessed.length; i++) {
 
             LOG.info("Processing " + filesToBeProcessed[i].getName() + "....");
-
-            /**
-             * FIMXE : Introduce param here
-             */
-            Boolean moveFiles = true;
-
-            LOG.error("Is moving files allowed - " + moveFiles);
 
             boolean isRejected = processElectronicInvoice(eInvoiceLoad, filesToBeProcessed[i]);
 
@@ -182,15 +182,15 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
             }
         }
 
-//         StringBuffer summaryText = runLoadSave(eInvoiceLoad);
-//            
-//         StringBuffer finalText = new StringBuffer();
-//         finalText.append(summaryText);
-//         finalText.append("\n");
-//         finalText.append(emailTextErrorList);
-//         this.writeEmailFile(finalText,emailFileName);
+         StringBuffer summaryText = runLoadSave(eInvoiceLoad);
 
-        LOG.error("Processing completed");
+         StringBuffer finalText = new StringBuffer();
+         finalText.append(summaryText);
+         finalText.append("\n");
+         finalText.append(emailTextErrorList);
+         writeEmailFile(finalText,emailFileName);
+
+        LOG.debug("Processing completed");
 
         return hasRejectedFile;
 
@@ -234,20 +234,23 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         
         summaryMessage.append("\n\n");
         
+        /**
+         * venkat - commented out to test the load summary persistance 
+         */
         // save the reject information
-        for (Iterator rejectIter = eInvoiceLoad.getElectronicInvoiceRejects().iterator(); rejectIter.hasNext();) {
-            
-            ElectronicInvoiceRejectDocument eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) rejectIter.next();
-            LOG.info("runLoadSave() Saving Invoice Reject for DUNS '" + eInvoiceRejectDocument.getVendorDunsNumber() + "'");
-            
-            if (savedLoadSummariesMap.containsKey(eInvoiceRejectDocument.getVendorDunsNumber())) {
-                eInvoiceRejectDocument.setInvoiceLoadSummary((ElectronicInvoiceLoadSummary) savedLoadSummariesMap.get(eInvoiceRejectDocument.getVendorDunsNumber()));
-            }
-            else {
-                eInvoiceRejectDocument.setInvoiceLoadSummary((ElectronicInvoiceLoadSummary) savedLoadSummariesMap.get(UNKNOWN_DUNS_IDENTIFIER));
-            }
-            electronicInvoiceService.saveElectronicInvoiceReject(eInvoiceRejectDocument);
-        }
+//        for (Iterator rejectIter = eInvoiceLoad.getElectronicInvoiceRejects().iterator(); rejectIter.hasNext();) {
+//            
+//            ElectronicInvoiceRejectDocument eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) rejectIter.next();
+//            LOG.info("runLoadSave() Saving Invoice Reject for DUNS '" + eInvoiceRejectDocument.getVendorDunsNumber() + "'");
+//            
+//            if (savedLoadSummariesMap.containsKey(eInvoiceRejectDocument.getVendorDunsNumber())) {
+//                eInvoiceRejectDocument.setInvoiceLoadSummary((ElectronicInvoiceLoadSummary) savedLoadSummariesMap.get(eInvoiceRejectDocument.getVendorDunsNumber()));
+//            }
+//            else {
+//                eInvoiceRejectDocument.setInvoiceLoadSummary((ElectronicInvoiceLoadSummary) savedLoadSummariesMap.get(UNKNOWN_DUNS_IDENTIFIER));
+//            }
+//            electronicInvoiceService.saveElectronicInvoiceReject(eInvoiceRejectDocument);
+//        }
         
         moveFileList(eInvoiceLoad.getRejectFilesToMove());
         
@@ -357,7 +360,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
                 LOG.debug("processElectronicInvoice() ended");
                 return electronicInvoice.isFileRejected();
             }
-
+            
             // TODO FUTURE ENHANCEMENT: E-Invoicing - enable per vendor acceptance/rejecting of electronic invoice item types here
             // itemTypeMappings = electronicInvoiceMappingService.getItemMappingMap(ei.getVendorHeaderID(), ei.getVendorDetailID());
             // here we are getting the EPIC standard E-Invoice Item Mappings
@@ -436,7 +439,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
                             catch (Throwable t) {
                                 LOG.error("processElectronicInvoice() Error found validating PREQ Creation: ", t);
                                 errorThrown = t;
-                                errorMessage = "PO NUMBER - '" + eio.getPurchaseOrderID() + "': E-Invoice Matching Succeeded " + "but PREQ creation had error in creation validation, Contact Developerment Team for assistance";
+                                errorMessage = "PO NUMBER - '" + eio.getPurchaseOrderID() + "': E-Invoice Matching Succeeded but PREQ creation had error in creation validation, Contact Development Team for assistance";
                             }
                             if ((initData == null) || (errorThrown != null)) {
                                 String logMessage = electronicInvoiceService.addInvoiceOrderReject(electronicInvoice, eio, errorMessage);
@@ -533,7 +536,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
             // updated load object
             eil.insertInvoiceLoadSummary(eils);
             eil.addInvoiceReject(eirDoc);
-            KNSServiceLocator.getDocumentService().saveDocument(eirDoc);
+//            KNSServiceLocator.getDocumentService().saveDocument(eirDoc);
         }
         catch (WorkflowException e) {
             // TODO Auto-generated catch block
@@ -584,7 +587,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
                 // updated load object
                 eInvoiceLoad.insertInvoiceLoadSummary(eInvoiceLoadSummary);
                 eInvoiceLoad.addInvoiceReject(eInvoiceRejectDocument);
-                KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
+//                KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
             }
             catch (WorkflowException e) {
                 e.printStackTrace();
@@ -637,8 +640,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         // check for existing load summary with current vendor duns number
         if (eInvoiceLoad.getInvoiceLoadSummaries().containsKey(fileDunsNumber)) {
             eInvoiceLoadSummary = (ElectronicInvoiceLoadSummary) eInvoiceLoad.getInvoiceLoadSummaries().get(fileDunsNumber);
-        }
-        else {
+        } else {
             eInvoiceLoadSummary = new ElectronicInvoiceLoadSummary(fileDunsNumber);
         }
 

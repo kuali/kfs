@@ -347,7 +347,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     if (electronicInvoice.getInvoiceDetailOrders().size() < 1) {
       // should have already been covered
       LOG.error("doCxmlAmountValidationChecks() ");
-      String errorMessage = "File does not containt any Invoice information";
+      String errorMessage = "File does not contain any Invoice information";
       String logMessage = this.addFileReject(electronicInvoice, errorMessage);
       LOG.error("doCxmlAmountValidationChecks() " + logMessage + "... invoice file will reject");
     } else if (electronicInvoice.getInvoiceDetailOrders().size() >= 1) {
@@ -428,8 +428,8 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     // we only care if the amount is more than 0
     if ( (zero.compareTo(summaryAmount)) != 0 ) {
       // amount is not zero - check valid dollars
-      String epicItemType = this.getEpicItemTypeCodeForInvoiceCode(invoiceLineItemTypeCode,itemTypeMappings);
-      if (!(electronicInvoiceMappingService.acceptAmountType(epicItemType))) {
+      String kualiItemType = this.getKualiItemTypeCodeForInvoiceCode(invoiceLineItemTypeCode,itemTypeMappings);
+      if (!(electronicInvoiceMappingService.acceptAmountType(kualiItemType))) {
         // we do not accept this type of amount from e-invoice
         String errorMessage = "File contains a summary " + amountDescriptor + " which we do not accept";
         String logMessage = this.addFileReject(ei, errorMessage);
@@ -451,8 +451,8 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     BigDecimal lineItemAmount = ei.getFileTotalAmountForInLineItems(invoiceLineItemTypeCode);
     if ( (zero.compareTo(lineItemAmount)) != 0 ) {
       // line item total is not zero so we check other errors
-      String epicItemType = this.getEpicItemTypeCodeForInvoiceCode(invoiceLineItemTypeCode,itemTypeMappings);
-      if (!(electronicInvoiceMappingService.acceptAmountType(epicItemType))) {
+      String kualiItemType = this.getKualiItemTypeCodeForInvoiceCode(invoiceLineItemTypeCode,itemTypeMappings);
+      if (!(electronicInvoiceMappingService.acceptAmountType(kualiItemType))) {
         // we do not accept this type of amount from e-invoice
         String errorMessage = "File contains a line item total " + amountDescriptor + " which we do not accept";
         String logMessage = this.addFileReject(ei, errorMessage);
@@ -524,6 +524,10 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(invoicePurchaseOrderID);
     if (po != null) {
       // Purchase Order exists in system... check for Vendor Match
+        LOG.error("ei.getVendorHeaderID()...."+ei.getVendorHeaderID());
+        LOG.error("ei.getVendorDetailID()...."+ei.getVendorDetailID());
+        LOG.error("po.getVendorHeaderGeneratedIdentifier()...."+po.getVendorHeaderGeneratedIdentifier());
+        LOG.error("po.getVendorDetailAssignedIdentifier()...."+po.getVendorDetailAssignedIdentifier());
       if ( (ei.getVendorHeaderID().compareTo(po.getVendorHeaderGeneratedIdentifier()) == 0) && 
            (ei.getVendorDetailID().compareTo(po.getVendorDetailAssignedIdentifier()) == 0) ) {
         // successful invoice vendor match to purchase order vendor
@@ -749,7 +753,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
         }
         
         if (!poi.isItemActiveIndicator()) {
-          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  Kuali item (line number '" + poi.getItemLineNumber() + 
                 "') is Inactive due to Amendment";
           String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
           LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
@@ -761,7 +765,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
         if ( poi.getItemCatalogNumber() != null && !"".equals(poi.getItemCatalogNumber()) ) {
           if (!(poi.getItemCatalogNumber().equalsIgnoreCase(electronicInvoiceMappingService.getCatalogNumber(eii)))) {
             // catalog number is not empty and it does not match
-            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  Kuali item (line number '" + poi.getItemLineNumber() + 
                 "') does not match electronic invoice catalog number '" + electronicInvoiceMappingService.getCatalogNumber(eii) + "'";
             String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
             LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
@@ -771,7 +775,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
         
         if ((poi.getItemUnitPrice().compareTo(eii.getInvoiceLineUnitCostBigDecimal())) != 0 ) {
           // Unit Cost does not match from e-invoice
-          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  Kuali item (line number '" + poi.getItemLineNumber() + 
               "') does not match electronic invoice unit price '" + eii.getInvoiceLineUnitCostBigDecimal() + "'";
           String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
           LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
@@ -779,7 +783,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
         } else {
           if (!(electronicInvoiceMappingService.isCodeValidCurrency(eii.getUnitPriceCurrency()))) {
             // Unit Cost matches but currency is invalid
-            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  Kuali item (line number '" + poi.getItemLineNumber() + 
                 "') matches invoice unit cost but invoice unit cost currency code is '" + eii.getUnitPriceCurrency() + 
                 "' which we do not accept";
             String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
@@ -792,7 +796,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
           // PO ITEM is QTY based
           if (zero.compareTo(poi.getItemOutstandingEncumberedQuantity().bigDecimalValue()) >= 0) {
             // we have no quantity left encumbered on the po item
-            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  Kuali item (line number '" + poi.getItemLineNumber() + 
                 "') outstanding encumbered order quantity is '" + poi.getItemOutstandingEncumberedQuantity() + "'";
             String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
             LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
@@ -800,7 +804,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
           }
           if (eii.getInvoiceLineQuantityBigDecimal() == null) {
             // we have quantity entered on the PO Item but the Invoice has no quantity
-            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  Kuali item (line number '" + poi.getItemLineNumber() + 
                 "') has outstanding encumbered quantity of '" + poi.getItemOutstandingEncumberedQuantity() + "' but invoice quantity is empty";
             String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
             LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
@@ -810,7 +814,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
           } else {
             if ((eii.getInvoiceLineQuantityBigDecimal().compareTo(poi.getItemOutstandingEncumberedQuantity().bigDecimalValue())) > 0) {
               // we have more quantity on the e-invoice than left outstanding encumbered on the PO item
-              String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+              String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  Kuali item (line number '" + poi.getItemLineNumber() + 
                   "') outstanding encumbered order quantity is less than e-invoice item quantity";
               String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
               LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
@@ -823,7 +827,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
           // PO ITEM is DOLLARS based
           if ((zero.compareTo(poi.getItemOutstandingEncumberedAmount().bigDecimalValue())) >= 0) {
             // we have no dollars left encumbered on the po item
-            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  Kuali item (line number '" + poi.getItemLineNumber() + 
                 "') outstanding encumbered amount is '" + poi.getItemOutstandingEncumberedAmount() + "'";
             String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
             LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
@@ -832,7 +836,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
             // we have encumbered dollars left on PO.... check
             if (eii.getInvoiceLineSubTotalAmountBigDecimal().compareTo(poi.getItemOutstandingEncumberedAmount().bigDecimalValue()) > 0) {
               // we have more subtotal dollars on the e-invoice than dollars left outstanding encumbered on the PO itm
-              String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+              String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  Kuali item (line number '" + poi.getItemLineNumber() + 
                   "') outstanding encumbered amount is less than e-invoice item amount";
               String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
               LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
@@ -847,31 +851,35 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
       LOG.debug("performElectronicInvoiceOrderValidation() ended");
     }
   
-  public PaymentRequestInitializationValidationErrors validatePaymentRequestCreation(ElectronicInvoice ei,ElectronicInvoiceOrder eio) {
+  public PaymentRequestInitializationValidationErrors validatePaymentRequestCreation(ElectronicInvoice eInvoice,
+                                                                                     ElectronicInvoiceOrder eInvoiceOrder) {
+      
     LOG.debug("validatePaymentRequestCreation() started");
+    
     // here we call the validation of the Payment Request Creation
     // in order to check to see if this Invoice can be processed
     // according the the PREQ business rules
-    /*
-     * FIXME uncomment this: 
-    PaymentRequestInitializationValidationErrors initErrors = paymentRequestService.validateElectronicInvoicePaymentRequest(eio.getPurchaseOrderID(),
-        ei.getInvoiceDetailRequestHeader().getInvoiceDate(),ei.getInvoiceDetailRequestHeader().getInvoiceId(),ei.getFileName());
-    * FIXME comment the following line.
-    */ 
-    PaymentRequestInitializationValidationErrors initErrors = null;
-    List errorStrings = initErrors.errorMessages;
+    PaymentRequestInitializationValidationErrors initErrors = paymentRequestService.validateElectronicInvoicePaymentRequest(eInvoiceOrder.getPurchaseOrderID(),
+                                                                                                                            eInvoice.getInvoiceDetailRequestHeader().getInvoiceDate(),
+                                                                                                                            eInvoice.getInvoiceDetailRequestHeader().getInvoiceId(),
+                                                                                                                            eInvoice.getFileName());
     
-    if (!(errorStrings.isEmpty())) {
-      // we found at least one error and must deal with it
-      LOG.error("validatePaymentRequestCreation() found following errors trying to initialize an Electronic Invoice Payment Request:");
-      for (Iterator iter = errorStrings.iterator(); iter.hasNext();) {
-        String errorMessage = (String) iter.next();
-        String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
-        LOG.error("validatePaymentRequestCreation() " + errorMessage);
-      }
-    }
-    LOG.debug("validatePaymentRequestCreation() ended");
-    return initErrors;
+    
+        List errorStrings = initErrors.errorMessages;
+
+        if (!(errorStrings.isEmpty())) {
+            // we found at least one error and must deal with it
+            LOG.error("validatePaymentRequestCreation() found following errors trying to initialize an Electronic Invoice Payment Request:");
+            for (Iterator iter = errorStrings.iterator(); iter.hasNext();) {
+                String errorMessage = (String) iter.next();
+                String logMessage = this.addInvoiceOrderReject(eInvoice, eInvoiceOrder, errorMessage);
+                LOG.error("validatePaymentRequestCreation() " + errorMessage);
+            }
+        }
+        
+        LOG.debug("validatePaymentRequestCreation() ended");
+        
+        return initErrors;
   }
   
   public PaymentRequestDocument createPaymentRequestFromInvoice(ElectronicInvoice ei,ElectronicInvoiceOrder eio,
@@ -1188,7 +1196,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     return null;
   }
   
-  private String getEpicItemTypeCodeForInvoiceCode(String invoiceItemType,Map itemTypeMappings) {
+  private String getKualiItemTypeCodeForInvoiceCode(String invoiceItemType,Map itemTypeMappings) {
     if (itemTypeMappings.containsKey(invoiceItemType)) {
       ElectronicInvoiceItemMapping itemMapping = (ElectronicInvoiceItemMapping)itemTypeMappings.get(invoiceItemType);
       return itemMapping.getItemTypeCode();

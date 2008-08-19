@@ -3,7 +3,7 @@
   <Header>
     <From>
       <Credential domain="DUNS">
-        <Identity>032991460</Identity>
+        <Identity>002254837</Identity>
         <SharedSecret>boise1</SharedSecret>
       </Credential>
     </From>
@@ -14,7 +14,7 @@
     </To>
     <Sender>
       <Credential domain="DUNS">
-        <Identity>032991460</Identity>
+        <Identity>002254837</Identity>
         <SharedSecret>boise1</SharedSecret>
       </Credential>
       <UserAgent>Supplier</UserAgent>
@@ -23,7 +23,7 @@
   <Request deploymentMode="production">
     <InvoiceDetailRequest>
       <InvoiceDetailRequestHeader invoiceID="28949AUG1208" purpose="standard" operation="new" invoiceDate="2008-08-12T12:00:00">
-        <InvoiceDetailHeaderIndicator/>
+        <InvoiceDetailHeaderIndicator isHeaderInvoice='yes'/>
         <InvoiceDetailLineIndicator/>
         <InvoicePartner>
           <Contact role="shipTo" addressID="">

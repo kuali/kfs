@@ -81,16 +81,16 @@ public class ElectronicInvoicingDaoOjb extends PlatformAwareDaoBaseOjb implement
   public Map getDefaultItemMappingMap() {
     LOG.debug("getDefaultItemMappingMap() started");
     Criteria criteria = new Criteria();
-    criteria.addIsNull("vendorHeaderGeneratedId");
-    criteria.addIsNull("vendorHeaderGeneratedId");
+    criteria.addIsNull("vendorHeaderGeneratedIdentifier");
+    criteria.addIsNull("vendorDetailAssignedIdentifier");
     return this.getItemMappingMap(criteria);
   }
 
   public Map getItemMappingMap(Integer vendorHeaderId, Integer vendorDetailId) {
     LOG.debug("getItemMappingMap() started for vendor id " + vendorHeaderId + "-" + vendorDetailId);
     Criteria criteria = new Criteria();
-    criteria.addEqualTo("vendorHeaderGeneratedId", vendorHeaderId);
-    criteria.addEqualTo("vendorDetailAssignedId", vendorDetailId);
+    criteria.addEqualTo("vendorHeaderGeneratedIdentifier", vendorHeaderId);
+    criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorDetailId);
     return this.getItemMappingMap(criteria);
   }
   

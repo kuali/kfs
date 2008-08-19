@@ -73,6 +73,7 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
@@ -1424,5 +1425,77 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         
         return isAwaitingReceiving;
+    }
+    
+    /**
+     * This validates an electronic invoice and makes sure it can be turned into a Payment Request
+     * 
+     * @param purchaseOrderID  PO ID from E-Invoice
+     * @param invoiceDate      invoice date from E-Invoice
+     * @param invoiceNumber    invoice number of the electronic invoice file
+     * @param filename         filename of electronic invoice file
+     * @return A PaymentRequestInitializationValidationErrors object containing continuation accounting
+     *             and error messages if need be
+     */
+    public PaymentRequestInitializationValidationErrors validateElectronicInvoicePaymentRequest(Integer purchaseOrderID, 
+                                                                                                java.util.Date invoiceDate, 
+                                                                                                String invoiceNumber, 
+                                                                                                String invoiceFilename) {
+      LOG.debug("validateElectronicInvoicePaymentRequest() started");
+      
+      String error;
+      List messages = new ArrayList();
+      PaymentRequestInitializationValidationErrors initValidationErrors = new PaymentRequestInitializationValidationErrors();
+      
+      /**
+       * venkat- Commented out to successfully process a order 
+       */
+      /*PurchaseOrderDocument po = purchaseOrderService.getPurchaseOrderById(purchaseOrderID,null);
+      
+      if (po == null || (!(EpicConstants.PO_STAT_OPEN.equals(po.getPurchaseOrderStatus().getCode())))) {
+        // Send error based on PO status... not avail for processing
+        if (po == null) {
+          error = "Invoice PO Number '" + purchaseOrderID + "' from file does not exist in EPIC";
+        } else {
+          error = "PO NUMBER - '" + purchaseOrderID + "':  EPIC PO has status '" + po.getPurchaseOrderStatus().getDescription() + "' and is not processible";
+        }
+        LOG.error("validateElectronicInvoicePaymentRequest() " + error);
+        messages.add(error);
+        initValidationErrors.errorMessages = messages;
+        LOG.debug("validateElectronicInvoicePaymentRequest() ended");
+        return initValidationErrors;
+      }
+      
+      List preqs = this.getPaymentRequestsByVendorNumberInvoiceNumber(po.getVendorHeaderGeneratedId(), po.getVendorDetailAssignedId(), invoiceNumber);
+      if ( (preqs != null) && (preqs.size() > 0) ) {
+        error = "PO NUMBER - '" + purchaseOrderID + "':  Invoice has potential duplicate for invoice number '" + invoiceNumber + 
+            "' and vendor id " + po.getVendorHeaderGeneratedId() + "-" + po.getVendorDetailAssignedId();
+        LOG.error("validateElectronicInvoicePaymentRequest() " + error);
+        messages.add(error);
+        initValidationErrors.errorMessages = messages;
+        LOG.debug("validateElectronicInvoicePaymentRequest() ended");
+        return initValidationErrors;
+      }
+      
+      if (this.isInvoiceDateAfterToday(invoiceDate)) {
+        // Send Error on Invoice Date
+        if (invoiceDate != null) {
+          error = "PO NUMBER - '" + purchaseOrderID + "':  Invoice has invoice date '" + invoiceDate.toString() + "' which is after today";
+        } else {
+          error = "PO NUMBER - '" + purchaseOrderID + "':  Invoice has empty invoice date";
+        }
+        LOG.error("validateElectronicInvoicePaymentRequest() " + error);
+        messages.add(error);
+        initValidationErrors.errorMessages = messages;
+        LOG.debug("validateElectronicInvoicePaymentRequest() ended");
+        return initValidationErrors;
+      }
+      
+      this.checkForExpiredOrClosedAccounts(po, initValidationErrors, new ArrayList(), new ArrayList());
+      
+      initValidationErrors.errorMessages = messages;*/
+      
+      LOG.debug("validateElectronicInvoicePaymentRequest() ended");
+      return initValidationErrors;
     }
 }

@@ -48,24 +48,30 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
     this.vendorDunsNumber = vendorDunsNumber;
   }
   
-  public void addSuccessfulInvoiceOrder(BigDecimal amount, ElectronicInvoice ei) {
-    this.isEmpty = Boolean.FALSE;
-    this.invoiceLoadSuccessCount = new Integer(this.invoiceLoadSuccessCount.intValue() + 1);
-    this.fileProcessDate = new Timestamp((new Date()).getTime());
+  public void addSuccessfulInvoiceOrder(BigDecimal amount, 
+                                        ElectronicInvoice eInvoice) {
+    isEmpty = Boolean.FALSE;
+    invoiceLoadSuccessCount = new Integer(invoiceLoadSuccessCount.intValue() + 1);
+    fileProcessDate = new Timestamp((new Date()).getTime());
+    
     if (amount != null) {
-      this.invoiceLoadSuccessAmount = this.invoiceLoadSuccessAmount.add(amount);
+      invoiceLoadSuccessAmount = invoiceLoadSuccessAmount.add(amount);
     }
-    this.setupEpicVendorInformation(ei);
+    
+    setupVendorInformation(eInvoice);
   }
   
-  public void addFailedInvoiceOrder(BigDecimal amount, ElectronicInvoice ei) {
-    this.isEmpty = Boolean.FALSE;
-    this.invoiceLoadFailCount = new Integer(this.invoiceLoadFailCount.intValue() + 1);
-    this.fileProcessDate = new Timestamp((new Date()).getTime());
+  public void addFailedInvoiceOrder(BigDecimal amount, 
+                                    ElectronicInvoice eInvoice) {
+    isEmpty = Boolean.FALSE;
+    invoiceLoadFailCount = new Integer(invoiceLoadFailCount.intValue() + 1);
+    fileProcessDate = new Timestamp((new Date()).getTime());
+    
     if (amount != null) {
-      this.invoiceLoadFailAmount = this.invoiceLoadFailAmount.add(amount);
+      invoiceLoadFailAmount = invoiceLoadFailAmount.add(amount);
     }
-    this.setupEpicVendorInformation(ei);
+    
+    setupVendorInformation(eInvoice);
   }
   
   public void addFailedInvoiceOrder(ElectronicInvoice ei) {
@@ -76,24 +82,29 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
     this.addFailedInvoiceOrder(new BigDecimal(0),null);
   }
 
-  private void setupEpicVendorInformation(ElectronicInvoice ei) {
-    if ( (ei != null) && (this.getVendorHeaderGeneratedIdentifier() == null) && (this.getVendorDetailAssignedIdentifier() == null) ) {
-      this.setVendorHeaderGeneratedIdentifier(ei.getVendorHeaderID());
-      this.setVendorDetailAssignedIdentifier(ei.getVendorDetailID());
-      this.setVendorName(ei.getVendorName());
+  private void setupVendorInformation(ElectronicInvoice eInvoice) {
+      
+    if (eInvoice != null && 
+        getVendorHeaderGeneratedIdentifier() == null && 
+        getVendorDetailAssignedIdentifier() == null) {
+        
+        setVendorHeaderGeneratedIdentifier(eInvoice.getVendorHeaderID());
+        setVendorDetailAssignedIdentifier(eInvoice.getVendorDetailID());
+        setVendorName(eInvoice.getVendorName());
+        
     }
   }
   
   public String getVendorDescriptor() {
-    String epicDescriptor = null;
+    String kualiDescriptor = null;
     if ( (this.vendorName != null) && (this.vendorHeaderGeneratedIdentifier != null) && (this.vendorDetailAssignedIdentifier != null) ) {
-      epicDescriptor = "  (EPIC Match:  " + this.vendorName + "  ~  " + vendorHeaderGeneratedIdentifier + "-" + vendorDetailAssignedIdentifier + ")";
+      kualiDescriptor = "  (Kuali Match:  " + this.vendorName + "  ~  " + vendorHeaderGeneratedIdentifier + "-" + vendorDetailAssignedIdentifier + ")";
     } else if ( (this.vendorHeaderGeneratedIdentifier != null) && (this.vendorDetailAssignedIdentifier != null) ) {
-      epicDescriptor = "  (EPIC Match:  " + vendorHeaderGeneratedIdentifier + "-" + vendorDetailAssignedIdentifier + ")";
+      kualiDescriptor = "  (Kuali Match:  " + vendorHeaderGeneratedIdentifier + "-" + vendorDetailAssignedIdentifier + ")";
     } else if (this.vendorName != null) {
-      epicDescriptor = "  (EPIC Match:  " + this.vendorName + ")";
+      kualiDescriptor = "  (Kuali Match:  " + this.vendorName + ")";
     }
-    return this.getVendorDunsNumber() + ((epicDescriptor != null) ? epicDescriptor : "");
+    return this.getVendorDunsNumber() + ((kualiDescriptor != null) ? kualiDescriptor : "");
   }
 
   /**
@@ -106,8 +117,8 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
   /**
    * @param vendorDetailAssignedIdentifier the vendorDetailAssignedIdentifier to set
    */
-  public void setVendorDetailAssignedIdentifier(Integer epicVendorDetailId) {
-    this.vendorDetailAssignedIdentifier = epicVendorDetailId;
+  public void setVendorDetailAssignedIdentifier(Integer kualiVendorDetailId) {
+    this.vendorDetailAssignedIdentifier = kualiVendorDetailId;
   }
 
   /**
@@ -120,8 +131,8 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
   /**
    * @param vendorHeaderGeneratedIdentifier the vendorHeaderGeneratedIdentifier to set
    */
-  public void setVendorHeaderGeneratedIdentifier(Integer epicVendorHeaderId) {
-    this.vendorHeaderGeneratedIdentifier = epicVendorHeaderId;
+  public void setVendorHeaderGeneratedIdentifier(Integer kualiVendorHeaderId) {
+    this.vendorHeaderGeneratedIdentifier = kualiVendorHeaderId;
   }
 
   /**
@@ -134,8 +145,8 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
   /**
    * @param vendorName the vendorName to set
    */
-  public void setVendorName(String epicVendorName) {
-    this.vendorName = epicVendorName;
+  public void setVendorName(String kualiVendorName) {
+    this.vendorName = kualiVendorName;
   }
   
   /**

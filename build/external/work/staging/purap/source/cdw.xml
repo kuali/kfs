@@ -9,7 +9,7 @@
 
       <Credential domain="DUNS" >
 
-        <Identity>94288871</Identity>
+        <Identity>002254837</Identity>
 
       </Credential>
 
@@ -29,7 +29,7 @@
 
       <Credential domain="DUNS" >
 
-        <Identity>94288871</Identity>
+        <Identity>002254837</Identity>
 
         <SharedSecret>INDIANA</SharedSecret>
 
@@ -47,9 +47,9 @@
 
       <InvoiceDetailRequestHeader invoiceID="LDR3491" purpose="standard" invoiceDate="2008-07-24T00:00:00-06:00" >
 
-        <InvoiceDetailHeaderIndicator isHeaderInvoice='yes'/>
+        <InvoiceDetailHeaderIndicator/>
 
-        <InvoiceDetailLineIndicator/>
+        <InvoiceDetailLineIndicator isTaxInLine='yes' isSpecialHandlingInLine='yes' isShippingInLine='yes' isDiscountInLine='no' isAccountingInLine='yes'/>
 
         <InvoicePartner>
 
@@ -143,17 +143,17 @@
 
         <InvoiceDetailOrderInfo>
 
-          <OrderReference orderID="450235" orderDate="2008-07-18" ></OrderReference>
+          <OrderReference orderID="1008" orderDate="2008-07-18" ></OrderReference>
 
         </InvoiceDetailOrderInfo>
 
-        <InvoiceDetailItem invoiceLineNumber="1" quantity="1" >
+        <InvoiceDetailItem invoiceLineNumber="1" quantity="10" >
 
-          <UnitOfMeasure>EA</UnitOfMeasure>
+          <UnitOfMeasure>BG</UnitOfMeasure>
 
           <UnitPrice>
 
-            <Money currency="USD" >130.12</Money>
+            <Money currency="USD" >100.00</Money>
 
           </UnitPrice>
 
@@ -161,11 +161,11 @@
 
             <ItemID>
 
-              <SupplierPartID>1450244</SupplierPartID>
+              <SupplierPartID>1212</SupplierPartID>
 
             </ItemID>
 
-            <Description xml:lang="en" >PINNACLE VIDEO TRANSFER</Description>
+            <Description xml:lang="en" >test</Description>
 
             <ManufacturerPartID/>
 
@@ -175,7 +175,7 @@
 
           <SubtotalAmount>
 
-            <Money currency="USD" >130.12</Money>
+            <Money currency="USD" >100.00</Money>
 
           </SubtotalAmount>
 
@@ -187,7 +187,7 @@
 
         <SubtotalAmount>
 
-          <Money currency="USD" >130.12</Money>
+          <Money currency="USD" >100.00</Money>
 
         </SubtotalAmount>
 
@@ -213,13 +213,13 @@
 
         <NetAmount>
 
-          <Money currency="USD" >130.12</Money>
+          <Money currency="USD" >100.00</Money>
 
         </NetAmount>
 
         <DueAmount>
 
-          <Money currency="USD" >130.12</Money>
+          <Money currency="USD" >100.00</Money>
 
         </DueAmount>
 

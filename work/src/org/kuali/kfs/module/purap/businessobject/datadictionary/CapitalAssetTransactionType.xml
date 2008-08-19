@@ -35,7 +35,7 @@
   <bean id="CapitalAssetTransactionType-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetTransactionTypeCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="CA Transaction Type Code" />
+    <property name="label" value="Capital Asset Transaction Type Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
@@ -51,7 +51,7 @@
 
   <bean id="CapitalAssetTransactionType-capitalAssetTransactionTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetTransactionTypeDescription" />
-    <property name="label" value="CA Transaction Type Description" />
+    <property name="label" value="Capital Asset Transaction Type Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
@@ -68,7 +68,7 @@
   <bean id="CapitalAssetTransactionType-capitalAssetTransactionTypeServiceIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetTransactionTypeServiceIndicator" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="CA Transaction Type Service Indicator" />
+    <property name="label" value="Capital Asset Transaction Type Service Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
     <property name="control" >

@@ -24,56 +24,69 @@
 	headerTitle="Billing Statement Generation" docTitle="Billing Statement Generation" renderMultipart="true"
 	transactionalDocument="false" htmlFormAction="arCustomerStatement" errorKey="foo">
 
-	 <table cellpadding="0" cellspacing="0" class="datatable" summary="Billing Statement">
+	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Billing Statement">
 			<tr>		
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
+                <th align=right valign=middle class="grid" style="width: 25%;">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${invoiceAttributes.billByChartOfAccountCode}" /></div>
                 </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;">
+                <td align=left valign=middle class="grid" style="width: 25%;">
 					<kul:htmlControlAttribute attributeEntry="${invoiceAttributes.billByChartOfAccountCode}" property="chartCode"  />	
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Chart"  fieldConversions="chartOfAccountsCode:chartCode"  />
                 </td>
 				                       
             </tr>
             <tr>
-				<th align=right valign=middle class="bord-l-b">
+				<th align=right valign=middle class="grid">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${invoiceAttributes.billedByOrganizationCode}" /></div>
                 </th>
-                <td align=left valign=middle class="datacell">
+                <td align=left valign=middle class="grid">
                     <kul:htmlControlAttribute attributeEntry="${invoiceAttributes.billedByOrganizationCode}" property="orgCode"  />
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org"  fieldConversions="organizationCode:orgCode" lookupParameters="orgCode:organizationCode,chartCode:chartOfAccountsCode"/>
                 </td>                
 				            
             </tr>
              <tr>
-				<th align=right valign=middle class="bord-l-b">
+				<th align=right valign=middle class="grid">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${arDocHeaderAttributes.customerNumber}"/></div>
                 </th>
-                <td align=left valign=middle class="datacell">
+                <td align=left valign=middle class="grid">
                 	<kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}" property="customerNumber"  />
                 	<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" fieldConversions="customerNbr:customerNumber" lookupParameters="customerNumber:customerNbr" />
                 </td>                
 				            
             </tr>
               <tr>
-				<th align=right valign=middle class="bord-l-b">
+				<th align=right valign=middle class="grid">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${accountAttributes.accountNumber}"/></div>
                 </th>
-                <td align=left valign=middle class="datacell">
+                <td align=left valign=middle class="grid">
                 	<kul:htmlControlAttribute attributeEntry="${accountAttributes.accountNumber}" property="accountNumber"  />
                 	<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" fieldConversions="accountNbr:accountNumber" lookupParameters="accountNumber:accountNbr" />
                 </td>                
 				            
             </tr>
             
-            
-         <th>
-            <html-el:image property="methodToCall.selectOperation" styleClass="tinybutton" src="${ConfigProperties.externalizable.images.url}tinybutton-generate.gif" />
-           </th>
-      
-        
+       
         </tr>
         </table>
     
+     <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	
+  	
+	
+     <div id="globalbuttons" class="globalbuttons">
+	        	
+	        	<c:if test="${!empty extraButtons}">
+		        	<c:forEach items="${extraButtons}" var="extraButton">
+		        		<html:image src="${extraButton.extraButtonSource}" styleClass="globalbuttons" property="${extraButton.extraButtonProperty}" title="${extraButton.extraButtonAltText}" alt="${extraButton.extraButtonAltText}"/>
+		        	</c:forEach>
+	        	</c:if>
+	</div>
+	
+	<div>
+	  <c:if test="${!empty KualiForm.report }">
+            	 <a href="${KualiForm.report}">Report Link</a>
+            </c:if>
+   </div>
+	
 
 </kul:page>

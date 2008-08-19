@@ -15,9 +15,15 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**
  * This class is the action form for Customer Aging Reports.
@@ -31,7 +37,7 @@ public class CustomerStatementForm extends KualiForm {
     private String orgCode;
     private String accountNumber;
     private String customerNumber;
-
+    private File report;
    
 
     @Override
@@ -109,12 +115,59 @@ public class CustomerStatementForm extends KualiForm {
         this.accountNumber = accountNumber;
     }
 
+    
+    
+    /**
+     * Gets the report attribute. 
+     * @return Returns the report.
+     */
+    public File getReport() {
+        return report;
+    }
+
+    /**
+     * Sets the report attribute value.
+     * @param report The report to set.
+     */
+    public void setReport(File report) {
+        this.report = report;
+    }
+
     public void clear() {
         this.accountNumber = null;
         this.customerNumber = null;
         this.chartCode = null;
         this.orgCode = null;
     }
-
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        List<ExtraButton> buttons = new ArrayList<ExtraButton>();
+     //   HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
+       
+        // Print button
+        ExtraButton printButton = new ExtraButton();
+        printButton.setExtraButtonProperty("methodToCall.print");
+        printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
+        printButton.setExtraButtonAltText("Print");
+        buttons.add(printButton);
+        
+        // Clear button
+        ExtraButton clearButton = new ExtraButton();
+        clearButton.setExtraButtonProperty("methodToCall.clear");
+        clearButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_clear.gif");
+        clearButton.setExtraButtonAltText("Clear");
+        buttons.add(clearButton);
+        
+        // Cancel button
+        ExtraButton cancelButton = new ExtraButton();
+        cancelButton.setExtraButtonProperty("methodToCall.cancel");
+        cancelButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_cancel.gif");
+        cancelButton.setExtraButtonAltText("Cancel");
+        buttons.add(cancelButton);
+        
+        return buttons;
+    }
+    
+    
 
 }

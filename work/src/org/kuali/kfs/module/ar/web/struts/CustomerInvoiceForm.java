@@ -37,42 +37,39 @@ public class CustomerInvoiceForm extends KualiForm {
     private String chartCode;
     private String orgCode;
     private String orgType;
-    private boolean operationSelected = false;
     private Date runDate;
     private File report;
-    
-    
+
+
     @Override
     public List<ExtraButton> getExtraButtons() {
-        System.out.println("getExtraButtons()");
         List<ExtraButton> buttons = new ArrayList<ExtraButton>();
-     //   HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
-       
+
         // Print button
         ExtraButton printButton = new ExtraButton();
         printButton.setExtraButtonProperty("methodToCall.print");
         printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
         printButton.setExtraButtonAltText("Print");
         buttons.add(printButton);
-        
+
         // Clear button
         ExtraButton clearButton = new ExtraButton();
         clearButton.setExtraButtonProperty("methodToCall.clear");
         clearButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_clear.gif");
         clearButton.setExtraButtonAltText("Clear");
         buttons.add(clearButton);
-        
+
         // Cancel button
         ExtraButton cancelButton = new ExtraButton();
         cancelButton.setExtraButtonProperty("methodToCall.cancel");
         cancelButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_cancel.gif");
         cancelButton.setExtraButtonAltText("Cancel");
         buttons.add(cancelButton);
-        
+
         return buttons;
     }
-    
-    
+
+
 
 
     /**
@@ -114,27 +111,6 @@ public class CustomerInvoiceForm extends KualiForm {
     }
 
 
-
-    /**
-     * Gets the operationSelected attribute. 
-     * @return Returns the operationSelected.
-     */
-    public boolean isOperationSelected() {
-        return operationSelected;
-    }
-
-
-
-    /**
-     * Sets the operationSelected attribute value.
-     * @param operationSelected The operationSelected to set.
-     */
-    public void setOperationSelected(boolean operationSelected) {
-        this.operationSelected = operationSelected;
-    }
-
-
-
     /**
      * Gets the orgType attribute. 
      * @return Returns the orgType.
@@ -160,7 +136,7 @@ public class CustomerInvoiceForm extends KualiForm {
         super.populate(request);
     }
 
-    
+
 
     /**
      * Gets the chartCode attribute. 

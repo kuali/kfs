@@ -32,7 +32,7 @@
 	<parameter name="details" isForPrompting="false" class="java.util.List"/>
 
 		<background>
-			<band height="752"  isSplitAllowed="true" >
+			<band height="749"  isSplitAllowed="true" >
 				<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() ==1)]]></printWhenExpression>
 				<staticText>
 					<reportElement

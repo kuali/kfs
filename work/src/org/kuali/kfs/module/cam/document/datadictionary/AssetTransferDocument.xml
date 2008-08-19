@@ -205,6 +205,7 @@
     <property name="name" value="offCampusZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
+    <property name="required" value="false" />
     <property name="summary" value="offCampusZipCode" />
     <property name="description" value="offCampusZipCode description..." />
   </bean>

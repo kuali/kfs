@@ -261,6 +261,7 @@
     <property name="name" value="borrowerStorageZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
+    <property name="required" value="false" />
     <property name="summary" value="borrowerStorageZipCode" />
     <property name="description" value="borrowerStorageZipCode description..." />
   </bean>

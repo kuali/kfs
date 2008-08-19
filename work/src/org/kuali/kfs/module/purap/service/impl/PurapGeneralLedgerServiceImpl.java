@@ -45,9 +45,14 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccount;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
@@ -418,6 +423,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
             // Manually save preq summary accounts
             savePaymentRequestSummaryAccounts(summaryAccounts, preq.getPurapDocumentIdentifier());
+            
+            // Manually save preq account history (CAMS needs this)
+            savePaymentRequestAccountHistories(preq.getItems());
         }
 
         // Manually save GL entries for Payment Request and encumbrances
@@ -493,6 +501,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 cm.generateGeneralLedgerPendingEntries(summaryAccount.getAccount(), sequenceHelper);
                 sequenceHelper.increment(); // increment for the next line
             }
+
+            // Manually save cm account history (CAMS needs this)
+            saveCreditMemoAccountHistories(cm.getItems());
         }
 
         saveGLEntries(cm.getGeneralLedgerPendingEntries());
@@ -1344,6 +1355,38 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     private void saveGLEntries(List<GeneralLedgerPendingEntry> glEntries) {
         LOG.debug("saveGLEntries() started");
         businessObjectService.save(glEntries);
+    }
+
+    /**
+     * Save the given payment request account histories for the given document.
+     * 
+     * @param paymentRequestAccounts Accounts to be saved
+     */
+    private void savePaymentRequestAccountHistories(List<PaymentRequestItem> paymentRequestItems) {
+        LOG.debug("savePaymentRequestAccountHistories() started");
+        List<PaymentRequestAccountHistory> accountHistories = new ArrayList();
+        for (PaymentRequestItem item : paymentRequestItems) {
+            for (PurApAccountingLine account : item.getSourceAccountingLines()) {
+                accountHistories.add(new PaymentRequestAccountHistory((PaymentRequestAccount)account));
+            }
+        }
+        businessObjectService.save(accountHistories);
+    }
+
+    /**
+     * Save the given credit memo account histories for the given document.
+     * 
+     * @param creditMemoAccounts Accounts to be saved
+     */
+    private void saveCreditMemoAccountHistories(List<CreditMemoItem> creditMemoItems) {
+        LOG.debug("saveCreditMemoAccountHistories() started");
+        List<CreditMemoAccountHistory> accountHistories = new ArrayList();
+        for (CreditMemoItem item : creditMemoItems) {
+            for (PurApAccountingLine account : item.getSourceAccountingLines()) {
+                accountHistories.add(new CreditMemoAccountHistory((CreditMemoAccount)account));
+            }
+        }
+        businessObjectService.save(accountHistories);
     }
 
     /**

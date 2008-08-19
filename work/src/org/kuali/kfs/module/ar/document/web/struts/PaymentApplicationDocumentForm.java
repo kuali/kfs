@@ -47,6 +47,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     private ArrayList<CustomerInvoiceDetail> customerInvoiceDetails;
     private ArrayList<CustomerInvoiceDocument> invoices;
     private Map<String, Collection> appliedPaymentsPerCustomerInvoiceDetail;
+    private Integer nextNonInvoicedLineNumber;
 
     /**
      * Constructs a PaymentApplicationDocumentForm.java.
@@ -63,6 +64,14 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         appliedPaymentsPerCustomerInvoiceDetail = new HashMap<String, Collection>();
     }
     
+    public Integer getNextNonInvoicedLineNumber() {
+        return nextNonInvoicedLineNumber;
+    }
+
+    public void setNextNonInvoicedLineNumber(Integer nextNonInvoicedLineNumber) {
+        this.nextNonInvoicedLineNumber = nextNonInvoicedLineNumber;
+    }
+
     /**
      * @return
      */

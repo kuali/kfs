@@ -119,6 +119,7 @@
                 
                 <logic:iterate id="nonInvoicedPayment" name="KualiForm"
 	                   property="paymentApplicationDocument.nonInvoicedPayments" indexId="ctr">
+                    <html:hidden property="paymentApplicationDocument.nonInvoicedPayment[${ctr}].financialDocumentLineNumber" />
 	                <html:hidden property="paymentApplicationDocument.nonInvoicedPayment[${ctr}].documentNumber" />
 	                <html:hidden property="paymentApplicationDocument.nonInvoicedPayment[${ctr}].versionNumber" />
 	                <html:hidden property="paymentApplicationDocument.nonInvoicedPayment[${ctr}].objectId" />

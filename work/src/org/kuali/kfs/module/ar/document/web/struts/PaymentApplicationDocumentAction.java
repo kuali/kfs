@@ -31,6 +31,7 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
+import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
@@ -243,6 +244,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
         PaymentApplicationDocument pAppDoc = (PaymentApplicationDocument) pform.getDocument();
         NonInvoiced nonInvoiced = pform.getNonInvoicedAddLine();
+        nonInvoiced.setDocumentNumber(pAppDoc.getDocumentNumber());
+        nonInvoiced.setFinancialDocumentLineNumber(pform.getNextNonInvoicedLineNumber());
 
         // advanceDeposit business rules
         boolean rulePassed = validateNewNonInvoiced(nonInvoiced);
@@ -276,8 +279,24 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * 
      * @param applicationDocumentForm
      */
-    private void initializeForm(PaymentApplicationDocumentForm applicationDocumentForm) {
-
+    private void initializeForm(PaymentApplicationDocumentForm form) {
+        if(null != form) {
+            if(null != form.getDocument()) {
+                PaymentApplicationDocument d = form.getPaymentApplicationDocument();
+                if(null != d.getNonInvoicedDistributions()) {
+                    for(NonInvoicedDistribution u : d.getNonInvoicedDistributions()) {
+                        if(null == form.getNextNonInvoicedLineNumber()) {
+                            form.setNextNonInvoicedLineNumber(u.getFinancialDocumentLineNumber());
+                        } else if (u.getFinancialDocumentLineNumber() > form.getNextNonInvoicedLineNumber()) {
+                            form.setNextNonInvoicedLineNumber(u.getFinancialDocumentLineNumber());
+                        }
+                    }
+                }
+            }
+            if(null == form.getNextNonInvoicedLineNumber()) {
+                form.setNextNonInvoicedLineNumber(1);
+            }
+        }
     }
 
     /**

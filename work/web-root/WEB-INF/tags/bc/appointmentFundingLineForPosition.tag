@@ -190,7 +190,7 @@
 		<td colspan="${colspan}" class="infoline" style="border-bottom: none;">
 			<center><br/>
 			<bc:appointmentFundingDetail fundingLine="${fundingLine}" fundingLineName="${fundingLineName}" 
-				lineIndex="${lineIndex}" readOnly="${readOnly || fundingLine.displayOnlyMode}"/>
+				lineIndex="${lineIndex}" hasBeenAdded="${hasBeenAdded}" readOnly="${readOnly || fundingLine.displayOnlyMode}"/>
 			<br/></center>
 		</td>            
 	</tr>

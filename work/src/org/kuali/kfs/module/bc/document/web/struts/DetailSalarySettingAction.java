@@ -66,6 +66,8 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
                 salarySettingForm.releaseTransactionLocks();
                 salarySettingForm.releasePositionAndFundingLocks();
             }
+            
+            LOG.fatal("Unexpected errors occurred. " + e.getMessage());
         }
 
         return executeAction;

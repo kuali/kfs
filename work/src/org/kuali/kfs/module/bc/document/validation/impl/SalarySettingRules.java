@@ -26,7 +26,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-
 /**
  * the rule implementation for the actions of salary setting component
  */
@@ -34,8 +33,8 @@ public class SalarySettingRules implements SalarySettingRule {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRules.class);
 
     private BudgetConstructionRuleHelperService budgetConstructionRuleHelperService = SpringContext.getBean(BudgetConstructionRuleHelperService.class);
-    public SalarySettingRuleHelperService salarySettingRuleHelperService = SpringContext.getBean(SalarySettingRuleHelperService.class);
-    public ErrorMap errorMap = GlobalVariables.getErrorMap();
+    private SalarySettingRuleHelperService salarySettingRuleHelperService = SpringContext.getBean(SalarySettingRuleHelperService.class);
+    private ErrorMap errorMap = GlobalVariables.getErrorMap();
 
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSaveAppointmentFunding(java.util.List,

@@ -22,6 +22,7 @@
 <%@ attribute name="lineIndex" required="false" description="The index of the funding line"%>
 <%@ attribute name="isSetteingByIncumbent" required="false" description="The index of the funding line"%>
 <%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
+<%@ attribute name="hasBeenAdded" required="false" description="determine if the current funding line has been added"%>
 
 <c:set var="reasonAttributes" value="${DataDictionary['BudgetConstructionAppointmentFundingReason'].attributes}" />
 <c:set var="bcsfAttributes"	value="${DataDictionary['BudgetConstructionCalculatedSalaryFoundationTracker'].attributes}" />
@@ -48,7 +49,7 @@
 		<th style="width: 10%;">Reason Amount</th>
 	</tr>
 	
-	<c:if test="${!empty fundingLine.bcnCalculatedSalaryFoundationTracker}">
+	<c:if test="${hasBeenAdded && !empty fundingLine.bcnCalculatedSalaryFoundationTracker}">
 	<tr>
 		<th style="text-align: right;">CSF:</th>	
 		

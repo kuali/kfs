@@ -8,6 +8,7 @@
 
   <bean id="AdvanceDepositDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.AdvanceDepositDetail" />
+    <property name="objectLabel" value="Advance Deposit Detail" />
     <property name="attributes" >
       <list>
         <ref bean="AdvanceDepositDetail-documentNumber" />

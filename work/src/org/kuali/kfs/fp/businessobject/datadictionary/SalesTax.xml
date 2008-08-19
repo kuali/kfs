@@ -9,6 +9,7 @@
   <bean id="SalesTax-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.SalesTax" />
     <property name="titleAttribute" value="code" />
+    <property name="objectLabel" value="Sales Tax" />
     <property name="attributes" >
       <list>
         <ref bean="SalesTax-chartOfAccountsCode" />

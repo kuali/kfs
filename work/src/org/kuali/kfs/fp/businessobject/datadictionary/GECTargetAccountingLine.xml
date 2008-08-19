@@ -8,6 +8,7 @@
 
   <bean id="GECTargetAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.GECTargetAccountingLine" />
+    <property name="objectLabel" value="General Error Correction Target Accounting Line" />
     <property name="attributes" >
       <list>
         <ref bean="GECTargetAccountingLine-objectCode.financialObjectTypeCode" />

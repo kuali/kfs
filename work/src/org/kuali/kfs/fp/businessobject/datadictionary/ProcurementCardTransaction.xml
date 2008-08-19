@@ -8,6 +8,7 @@
 
   <bean id="ProcurementCardTransaction-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.ProcurementCardTransaction" />
+    <property name="objectLabel" value="Procurement Card Transaction" />
     <property name="attributes" >
       <list>
         <ref bean="ProcurementCardTransaction-cardCycleAmountLimit" />

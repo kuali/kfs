@@ -8,6 +8,7 @@
 
   <bean id="DisbursementVoucherPreConferenceDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail" />
+    <property name="objectLabel" value="Disbursement Voucher PreConference Detail" />
     <property name="attributes" >
       <list>
         <ref bean="DisbursementVoucherPreConferenceDetail-dvConferenceDestinationName" />

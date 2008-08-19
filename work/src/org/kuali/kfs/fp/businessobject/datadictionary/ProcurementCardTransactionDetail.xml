@@ -11,6 +11,7 @@
     <property name="inquiryDefinition" >
       <ref bean="ProcurementCardTransactionDetail-inquiryDefinition" />
     </property>
+    <property name="objectLabel" value="Procurement Card Transaction Detail" />
     <property name="attributes" >
       <list>
         <ref bean="ProcurementCardTransactionDetail-documentNumber" />

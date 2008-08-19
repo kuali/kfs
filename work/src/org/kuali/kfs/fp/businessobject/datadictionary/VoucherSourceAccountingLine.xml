@@ -8,6 +8,7 @@
 
   <bean id="VoucherSourceAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine" />
+    <property name="objectLabel" value="Voucher Source Accounting Line" />
     <property name="attributes" >
       <list>
         <ref bean="VoucherSourceAccountingLine-objectCode.financialObjectTypeCode" />

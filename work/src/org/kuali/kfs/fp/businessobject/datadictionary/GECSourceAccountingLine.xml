@@ -8,6 +8,7 @@
 
   <bean id="GECSourceAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.GECSourceAccountingLine" />
+    <property name="objectLabel" value="General Error Correction Source Accounting Line" />
     <property name="attributes" >
       <list>
         <ref bean="GECSourceAccountingLine-objectCode.financialObjectTypeCode" />

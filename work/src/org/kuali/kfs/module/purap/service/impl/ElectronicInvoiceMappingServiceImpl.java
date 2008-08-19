@@ -12,11 +12,13 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
 import org.kuali.kfs.module.purap.dataaccess.ElectronicInvoicingDao;
 import org.kuali.kfs.module.purap.dataaccess.impl.ElectronicInvoicingDaoOjb;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author delyea
  *
  */
+@Transactional
 public class ElectronicInvoiceMappingServiceImpl implements ElectronicInvoiceMappingService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoicingDaoOjb.class);
   

@@ -51,6 +51,7 @@ import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -58,6 +59,7 @@ import org.xml.sax.SAXParseException;
 /**
  * @author delyea
  */
+@Transactional
 public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceServiceImpl.class);
@@ -205,32 +207,20 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     }
 
     ElectronicInvoice electronicInvoice = null;
+    
     try {
         byte[] fileByteContent = IOUtils.toByteArray(fileStream);
         electronicInvoice = (ElectronicInvoice) batchInputFileService.parse(electronicInvoiceInputFileType, fileByteContent);
     }catch (IOException e) {
-        try {
-            fileStream.close();
-        }
-        catch (IOException e1) {
-            e1.printStackTrace();
-        }
         throw new CxmlParseException("Error parsing " + invoiceFile.getName(),e);
     }catch (XMLParseException e) {
+        throw new CxmlParseException("Error parsing " + invoiceFile.getName(),e);
+    }finally{
         try {
             fileStream.close();
-        }
-        catch (IOException e1) {
+        }catch (IOException e1) {
             e1.printStackTrace();
         }
-        throw new CxmlParseException("Error parsing " + invoiceFile.getName(),e);
-    }
-    
-    try {
-        fileStream.close();
-    }
-    catch (IOException e1) {
-        e1.printStackTrace();
     }
     
     electronicInvoice.setFileName(invoiceFile.getName());
@@ -240,7 +230,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     // we cannot write to the reject files
     if (electronicInvoice.getInvoiceDetailRequestHeader().isHeaderInvoiceIndicator()) {
       String errorMessage = "File is in CXML Header Format (unable to write to reject database tables)";
-      String logMessage = this.addFileReject(electronicInvoice, errorMessage);
+      String logMessage = addFileReject(electronicInvoice, errorMessage);
       LOG.error("loadElectronicInvoice() " + logMessage + "... invoice will reject");
       return electronicInvoice;
     }
@@ -249,7 +239,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     // <InvoiceDetailOrder> tags we cannot process or save reject data
     if (electronicInvoice.getInvoiceDetailOrders().size() < 1) {
       String errorMessage = "File does not containt any Invoice information (unable to write to reject database tables)";
-      String logMessage = this.addFileReject(electronicInvoice, errorMessage);
+      String logMessage = addFileReject(electronicInvoice, errorMessage);
       LOG.error("loadElectronicInvoice() " + logMessage + "... invoice will reject");
       return electronicInvoice;
     }
@@ -320,7 +310,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
       LOG.error("doCxmlValidationChecks() " + logMessage + "... invoice will reject");
     } else {
       if (electronicInvoice.getInvoiceDetailRequestHeader().getInvoiceDate() == null) {
-        String errorMessage = "File has an invalid invoice date (unreadable by EPIC system)";
+        String errorMessage = "File has an invalid invoice date (unreadable by Kuali system)";
         String logMessage = this.addFileReject(electronicInvoice, errorMessage);
         LOG.error("doCxmlValidationChecks() " + logMessage + "... invoice will reject");
       }
@@ -502,12 +492,12 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 
     VendorDetail vd = vendorService.getVendorByDunsNumber(ei.getDunsNumber());
     if (vd == null) {
-      String errorMessage = "File DUNS Number '" + ei.getDunsNumber() + "' does not exist in EPIC Vendor System";
+      String errorMessage = "File DUNS Number '" + ei.getDunsNumber() + "' does not exist in Kuali Vendor System";
       String logMessage = this.addFileReject(ei, errorMessage);
       LOG.error("matchElectronicInvoiceToVendor() " + logMessage + "... invoice will reject");
       return;
     }
-    LOG.info(" Electronic Invoice DUNS Number '" + ei.getDunsNumber() + "' matches to EPIC Vendor ID '" + 
+    LOG.info(" Electronic Invoice DUNS Number '" + ei.getDunsNumber() + "' matches to Kuali Vendor ID '" + 
         vd.getVendorHeaderGeneratedIdentifier() + "-" + vd.getVendorDetailAssignedIdentifier() + "'");
     ei.setVendorHeaderID(vd.getVendorHeaderGeneratedIdentifier());
     ei.setVendorDetailID(vd.getVendorDetailAssignedIdentifier());
@@ -538,26 +528,26 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
            (ei.getVendorDetailID().compareTo(po.getVendorDetailAssignedIdentifier()) == 0) ) {
         // successful invoice vendor match to purchase order vendor
         LOG.info("matchElectronicInvoiceToPurchaseOrder() Electronic Invoice PO Number '" + invoicePurchaseOrderID + 
-            "' matches to EPIC PO ID '" + po.getPurapDocumentIdentifier() + "' with matching DUNS Vendor ID '" + po.getVendorHeaderGeneratedIdentifier() + 
+            "' matches to Kuali PO ID '" + po.getPurapDocumentIdentifier() + "' with matching DUNS Vendor ID '" + po.getVendorHeaderGeneratedIdentifier() + 
             "-" + po.getVendorDetailAssignedIdentifier() + "'");
         eio.setPurchaseOrderID(po.getPurapDocumentIdentifier());
         eio.setPurchaseOrderCampusCode(po.getDeliveryCampus().getCampusCode());
         if (po.getDocumentHeader() == null) {
           String errorMessage = "matchElectronicInvoiceToPurchaseOrder() Electronic Invoice PO Number '" + invoicePurchaseOrderID + 
-              "' matches to EPIC PO ID '" + po.getPurapDocumentIdentifier() + "' with matching DUNS Vendor but PO has no Document Header";
+              "' matches to Kuali PO ID '" + po.getPurapDocumentIdentifier() + "' with matching DUNS Vendor but PO has no Document Header";
           String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
           LOG.info("matchElectronicInvoiceToPurchaseOrder()  PO Vendor ID: " + po.getVendorHeaderGeneratedIdentifier() + "-" + po.getVendorDetailAssignedIdentifier() + "  -  Electronic Invoice Vendor ID: " + ei.getVendorHeaderID() + "-" + ei.getVendorDetailID());
           LOG.error("matchElectronicInvoiceToPurchaseOrder() " + logMessage + "... this PO invoice will reject");
         }
       } else {
-        String errorMessage = "Vendor from EPIC PO (DUNS: '" + po.getVendorDetail().getVendorDunsNumber() + 
+        String errorMessage = "Vendor from Kuali PO (DUNS: '" + po.getVendorDetail().getVendorDunsNumber() + 
             "') does not match Electronic Invoice File Vendor (DUNS: '" + ei.getDunsNumber() + "')";
         String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
         LOG.error("matchElectronicInvoiceToPurchaseOrder() " + logMessage + "... this PO invoice will reject");
         LOG.error("matchElectronicInvoiceToPurchaseOrder()  PO Vendor ID: " + po.getVendorHeaderGeneratedIdentifier() + "-" + po.getVendorDetailAssignedIdentifier() + "  -  Electronic Invoice Vendor ID: " + ei.getVendorHeaderID() + "-" + ei.getVendorDetailID());
       }
     } else {
-      String errorMessage = "Electronic Invoice File PO Number '" + invoicePurchaseOrderID + "' does not exist in EPIC";
+      String errorMessage = "Electronic Invoice File PO Number '" + invoicePurchaseOrderID + "' does not exist in Kuali";
       String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
       LOG.error("matchElectronicInvoiceToPurchaseOrder() " + logMessage + "... this PO invoice will reject");
     }

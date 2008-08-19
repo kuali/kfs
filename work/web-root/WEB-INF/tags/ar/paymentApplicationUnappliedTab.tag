@@ -20,6 +20,7 @@
     description="If document is in read only mode"%>
 <%@ attribute name="isCustomerSelected" required="true"
     description="Whether or not the customer is set" %>
+<c:set var="nonAppliedHolding" value="${KualiForm.document.nonAppliedHolding}" />
 <c:set var="unappliedAttributes" value="${DataDictionary['NonAppliedHolding'].attributes}" />
 <c:set var="customerAttributes" value="${DataDictionary['Customer'].attributes}" />
 
@@ -34,7 +35,8 @@
                             attributeEntry="${customerAttributes.customerNumber}"
                             property="document.nonAppliedHolding.customerNumber"/>
                         <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" autoSearch="true"
-                            fieldConversions="document.nonAppliedHolding.customerNumber:customer.customerNumber" />
+                            fieldConversions="customerNumber:document.nonAppliedHolding.customerNumber"
+                            lookupParameters="document.nonAppliedHolding.customerNumber:customerNumber" />
                     </td>
                     <th><label for=''>Amount</label></th>
                     <td>

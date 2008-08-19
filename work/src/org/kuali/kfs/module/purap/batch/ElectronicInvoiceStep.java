@@ -37,7 +37,8 @@ public class ElectronicInvoiceStep extends AbstractStep {
     public boolean execute(String jobName, 
                            Date jobRunDate) {
         
-        return electronicInvoiceLoadService.loadElectronicInvoices();
+//        return electronicInvoiceLoadService.loadElectronicInvoices();
+        return true;
     }
 
     public ElectronicInvoiceLoadService getElectronicInvoiceLoadService() {

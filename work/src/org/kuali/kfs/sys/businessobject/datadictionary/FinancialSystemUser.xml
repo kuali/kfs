@@ -370,7 +370,8 @@
 
   <bean id="FinancialSystemUserPrimaryOrganization-parentBean" abstract="true" parent="BusinessObjectEntry"
   	p:businessObjectClass="org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization"
-  	p:titleAttribute="personUniversalIdentifier">
+  	p:titleAttribute="personUniversalIdentifier"
+  	p:objectLabel="Financial System User Primary Organization">
 
     <property name="attributes" >
       <list>
@@ -424,7 +425,8 @@
 
   <bean id="FinancialSystemUserOrganizationSecurity-parentBean" abstract="true" parent="BusinessObjectEntry"
   	p:businessObjectClass="org.kuali.kfs.sys.businessobject.FinancialSystemUserOrganizationSecurity"
-  	p:titleAttribute="personUniversalIdentifier">
+  	p:titleAttribute="personUniversalIdentifier"
+  	p:objectLabel="Financial System User Organization Security">
 
     <property name="attributes" >
       <list>

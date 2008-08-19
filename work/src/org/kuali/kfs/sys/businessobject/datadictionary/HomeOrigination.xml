@@ -15,6 +15,7 @@
       <ref bean="HomeOrigination-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="finSystemHomeOriginationCode" />
+    <property name="objectLabel" value="Home Origination" />
     <property name="attributes" >
       <list>
         <ref bean="HomeOrigination-finSystemHomeOriginationCode" />

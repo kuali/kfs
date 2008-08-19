@@ -12,6 +12,7 @@
       <ref bean="BatchJobStatus-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="name" />
+    <property name="objectLabel" value="Batch Job Status" />
     <property name="attributes" >
       <list>
         <ref bean="BatchJobStatus-name" />

@@ -10,6 +10,7 @@
     <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemUser" />
     <property name="inquiryDefinition" ref="FinancialSystemUser-inquiryDefinition" />
     <property name="lookupDefinition" ref="FinancialSystemUser-lookupDefinition" />
+    <property name="objectLabel" value="Financial System User" />
     <property name="attributes" >
       <list merge="false">
         <ref bean="FinancialSystemUser-personUniversalIdentifier" />
@@ -77,7 +78,7 @@
   <bean id="FinancialSystemUser-versionNumber" parent="AttributeReferenceDummy-versionNumber" />
 
   <bean id="FinancialSystemUser-activeFinancialSystemUser" parent="FinancialSystemUser-activeFinancialSystemUser-parentBean" />
-  <bean id="FinancialSystemUser-activeFinancialSystemUser-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"
+  <bean id="FinancialSystemUser-activeFinancialSystemUser-parentBean" abstract="true" parent="GenericAttributes-activeIndicator"
     p:name="activeFinancialSystemUser"
     p:label="Active Financial System User">
   </bean>
@@ -410,7 +411,7 @@
   <bean id="FinancialSystemUserPrimaryOrganization-organizationCode-parentBean" abstract="true" parent="Org-organizationCode" />
 
   <bean id="FinancialSystemUserPrimaryOrganization-active" parent="FinancialSystemUserPrimaryOrganization-active-parentBean" />
-  <bean id="FinancialSystemUserPrimaryOrganization-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"
+  <bean id="FinancialSystemUserPrimaryOrganization-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator"
     p:name="active"
     p:label="Active?">
   </bean>
@@ -466,7 +467,7 @@
   </bean>
 
   <bean id="FinancialSystemUserOrganizationSecurity-active" parent="FinancialSystemUserOrganizationSecurity-active-parentBean" />
-  <bean id="FinancialSystemUserOrganizationSecurity-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"
+  <bean id="FinancialSystemUserOrganizationSecurity-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator"
     p:name="active"
     p:label="Active?">
   </bean>

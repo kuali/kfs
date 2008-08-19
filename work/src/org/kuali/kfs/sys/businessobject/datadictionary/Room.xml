@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="Room-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Room" />
     <property name="attributes" >
       <list>
         <ref bean="Room-campusCode" />

@@ -15,6 +15,7 @@
       <ref bean="KualiModuleBO-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="name" />
+    <property name="objectLabel" value="Kuali Module Business Object" />
     <property name="attributes" >
       <list>
         <ref bean="KualiModuleBO-moduleName" />

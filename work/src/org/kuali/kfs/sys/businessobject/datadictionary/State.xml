@@ -15,6 +15,7 @@
       <ref bean="State-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="postalStateCode" />
+    <property name="objectLabel" value="State" />
     <property name="attributes" >
       <list>
         <ref bean="State-postalStateCode" />

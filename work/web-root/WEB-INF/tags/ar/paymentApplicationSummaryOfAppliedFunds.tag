@@ -18,9 +18,8 @@
 	description="If has related cash control document"%>
 <%@ attribute name="readOnly" required="true"
 	description="If document is in read only mode"%>
-
-<c:set var="isCustomerSelected"
-	value="${!empty KualiForm.document.accountsReceivableDocumentHeader.customerNumber}" />
+<%@ attribute name="isCustomerSelected" required="true"
+    description="Whether or not the customer is set" %>
 
 <kul:tab tabTitle="Summary of Applied Funds"
 	defaultOpen="${isCustomerSelected}"
@@ -63,8 +62,6 @@
 										</tr>
 										<logic:iterate id="appliedPayment" name="KualiForm"
 											property="document.appliedPayments" indexId="ctr">
-
-
 											<tr>
 												<html:hidden
 													property="document.appliedPayment[${ctr}].documentNumber" />

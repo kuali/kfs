@@ -20,6 +20,8 @@ import java.util.Date;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * Payment Request Summary Account Business Object.
@@ -51,6 +53,7 @@ public class AccountsPayableSummaryAccount extends PaymentRequestAccount {
         this.setProjectCode(account.getProjectCode());
         this.setOrganizationReferenceId(account.getOrganizationReferenceId());
         this.setAmount(account.getAmount());
+        this.setUpdateTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
     }
 
     public PaymentRequestDocument getPaymentRequest() {

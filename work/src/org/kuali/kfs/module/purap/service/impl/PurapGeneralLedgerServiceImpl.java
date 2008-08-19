@@ -280,7 +280,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         }
 
         Map actualsNegative = new HashMap();
-        List<AccountsPayableSummaryAccount> oldAccountingLines = getPaymentRequestSummaryAccounts(preq.getPurapDocumentIdentifier());
+        List<AccountsPayableSummaryAccount> oldAccountingLines = getAccountsPayableSummaryAccounts(preq.getPurapDocumentIdentifier());
 
         for (AccountsPayableSummaryAccount oldAccount : oldAccountingLines) {
             actualsNegative.put(oldAccount.generateSourceAccountingLine(), oldAccount.getAmount());
@@ -422,7 +422,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
 
             // Manually save preq summary accounts
-            savePaymentRequestSummaryAccounts(summaryAccounts, preq.getPurapDocumentIdentifier());
+            saveAccountsPayableSummaryAccounts(summaryAccounts, preq.getPurapDocumentIdentifier());
             
             // Manually save preq account history (CAMS needs this)
             savePaymentRequestAccountHistories(preq.getItems());
@@ -1395,14 +1395,14 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param sourceLines Accounts to be saved
      * @param purapDocumentIdentifier Purap document id for accounts
      */
-    private void savePaymentRequestSummaryAccounts(List<SummaryAccount> summaryAccounts, Integer purapDocumentIdentifier) {
-        LOG.debug("savePaymentRequestSummaryAccounts() started");
+    private void saveAccountsPayableSummaryAccounts(List<SummaryAccount> summaryAccounts, Integer purapDocumentIdentifier) {
+        LOG.debug("saveAccountsPayableSummaryAccounts() started");
         purapAccountingService.deleteSummaryAccounts(purapDocumentIdentifier);
-        List<AccountsPayableSummaryAccount> preqSummaryAccounts = new ArrayList();
+        List<AccountsPayableSummaryAccount> apSummaryAccounts = new ArrayList();
         for (SummaryAccount summaryAccount : summaryAccounts) {
-            preqSummaryAccounts.add(new AccountsPayableSummaryAccount(summaryAccount.getAccount(), purapDocumentIdentifier));
+            apSummaryAccounts.add(new AccountsPayableSummaryAccount(summaryAccount.getAccount(), purapDocumentIdentifier));
         }
-        businessObjectService.save(preqSummaryAccounts);
+        businessObjectService.save(apSummaryAccounts);
     }
 
     /**
@@ -1411,8 +1411,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param purapDocumentIdentifier Purap document id for accounts
      * @return List of summary accounts
      */
-    private List getPaymentRequestSummaryAccounts(Integer purapDocumentIdentifier) {
-        LOG.debug("getPaymentRequestSummaryAccounts() started");
+    private List getAccountsPayableSummaryAccounts(Integer purapDocumentIdentifier) {
+        LOG.debug("getAccountsPayableSummaryAccounts() started");
         Map fieldValues = new HashMap();
         fieldValues.put(PurapPropertyConstants.PURAP_DOC_ID, purapDocumentIdentifier);
         return new ArrayList(businessObjectService.findMatching(AccountsPayableSummaryAccount.class, fieldValues));

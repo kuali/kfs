@@ -352,7 +352,7 @@ function addCfp(agencyNumber) {
   if (fptAgencyNumber!=null && fptAgencyNumber.value!="") {
 	    var newdiv = document.createElement("div");
 	  newdiv.setAttribute("id","newDiv");
-	  newdiv.innerHTML = "<input type='image' name='methodToCall.clearFedPassthrough.anchor1' src='static/images/tinybutton-clearfptagency.jpg' class='tinybutton' alt='clear fed passthrough'>";
+	  newdiv.innerHTML = "<input type='image' name='methodToCall.clearFedPassthrough.anchor1' src='static/images/tinybutton-clearfptagency.jpg' class='tinybutton' title='clear fed passthrough' alt='clear fed passthrough'>";
 	  myDiv.appendChild(newdiv);
   }
 }

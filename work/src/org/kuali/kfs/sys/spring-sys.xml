@@ -480,6 +480,8 @@
     		</list>
     	</property>
     </bean>
+    
+    <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
 
 	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
 	

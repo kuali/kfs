@@ -59,9 +59,6 @@ public class TextAreaRenderer extends FieldRendererBase {
         tag.setCols(Integer.toString(getField().getCols()));
         tag.setStyleClass(getField().getStyleClass());
         tag.setStyleId(getFieldName());
-        if (hasTabIndex()) {
-            tag.setTabindex(getTabIndex());
-        }
         
         tag.doStartTag();
         tag.doEndTag();

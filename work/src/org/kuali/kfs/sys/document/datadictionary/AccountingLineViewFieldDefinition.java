@@ -17,8 +17,12 @@ package org.kuali.kfs.sys.document.datadictionary;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.DynamicNameLabelGenerator;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.document.web.AccountingLineViewOverrideField;
 import org.kuali.kfs.sys.document.web.TableJoining;
@@ -35,6 +39,8 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     private boolean useShortLabel = false;
     private boolean hidden = false;
     private List<AccountingLineViewOverrideFieldDefinition> overrideFields;
+    private String dynamicNameLabelGeneratorBeanName;
+    private DynamicNameLabelGenerator dynamicNameLabelGenerator;
 
     /**
      * Gets the dynamicLabelProperty attribute. 
@@ -98,6 +104,34 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
      */
     public void setOverrideFields(List<AccountingLineViewOverrideFieldDefinition> overrideFields) {
         this.overrideFields = overrideFields;
+    }
+
+    /**
+     * Gets the dynamicNameLabelGeneratorBeanName attribute. 
+     * @return Returns the dynamicNameLabelGeneratorBeanName.
+     */
+    public String getDynamicNameLabelGeneratorBeanName() {
+        return dynamicNameLabelGeneratorBeanName;
+    }
+
+    /**
+     * Sets the dynamicNameLabelGeneratorBeanName attribute value.
+     * @param dynamicNameLabelGeneratorBeanName The dynamicNameLabelGeneratorBeanName to set.
+     */
+    public void setDynamicNameLabelGeneratorBeanName(String dynamicNameLabelGeneratorBeanName) {
+        this.dynamicNameLabelGeneratorBeanName = dynamicNameLabelGeneratorBeanName;
+    }
+    
+    /**
+     * Returns the dynamicNameLabelGenerator for this field definition, if it has one
+     * @return an implementation of DynamicNameLabelGenerator to use for this field
+     */
+    public DynamicNameLabelGenerator getDynamicNameLabelGenerator() {
+        if (!StringUtils.isBlank(dynamicNameLabelGeneratorBeanName) && dynamicNameLabelGenerator == null) {
+            Map<String, DynamicNameLabelGenerator> generators = SpringContext.getBeansOfType(DynamicNameLabelGenerator.class);
+            dynamicNameLabelGenerator = generators.get(dynamicNameLabelGeneratorBeanName);
+        }
+        return dynamicNameLabelGenerator;
     }
 
     /**

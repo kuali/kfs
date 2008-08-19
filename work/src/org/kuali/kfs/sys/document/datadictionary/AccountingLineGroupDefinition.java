@@ -31,12 +31,10 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
     private String groupLabel;
     private Class<? extends AccountingLine> accountingLineClass;
     private AccountingLineViewDefinition accountingLineView;
-    private Class<? extends AccountingLineParser> importedLineParser;
     private String importedLinePropertyPrefix;
     private List<? extends TotalDefinition> totals;
     private Class<? extends AccountingLineAuthorizer> accountingLineAuthorizerClass;
     private int forceColumnCount = -1;
-    private int tabIndexPasses = 2;
     private String errorKey;
     
     private AccountingLineAuthorizer accountingLineAuthorizer;
@@ -45,7 +43,6 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
      * Validates that:
      * 1) this accounting line group has an accounting line class
      * 2) this accounting line group has an accounting line view 
-     * 3) if importedLineParser is specified, then importedLinePropertyPrefix exists
      * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
@@ -54,12 +51,6 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
         }
         if (accountingLineView == null) {
             throw new AttributeValidationException("Please specify an accountingLineView for AccountingLineGroup "+getId());
-        }
-        if (importedLineParser != null && StringUtils.isBlank(importedLinePropertyPrefix)) {
-            throw new AttributeValidationException("As an imported line parser class has been specified, please also specify an imported line property prefix");
-        }
-        if (tabIndexPasses < 1) {
-            throw new AttributeValidationException("Please specify a positive number of tab index passes");
         }
     }
 
@@ -109,22 +100,6 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
      */
     public void setGroupLabel(String groupLabel) {
         this.groupLabel = groupLabel;
-    }
-
-    /**
-     * Gets the importedLineParser attribute. 
-     * @return Returns the importedLineParser.
-     */
-    public Class<? extends AccountingLineParser> getImportedLineParser() {
-        return importedLineParser;
-    }
-
-    /**
-     * Sets the importedLineParser attribute value.
-     * @param importedLineParser The importedLineParser to set.
-     */
-    public void setImportedLineParser(Class<? extends AccountingLineParser> importedLineParser) {
-        this.importedLineParser = importedLineParser;
     }
 
     /**
@@ -189,22 +164,6 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
      */
     public void setForceColumnCount(int forceColumnCount) {
         this.forceColumnCount = forceColumnCount;
-    }
-
-    /**
-     * Gets the tabIndexPasses attribute. 
-     * @return Returns the tabIndexPasses.
-     */
-    public int getTabIndexPasses() {
-        return tabIndexPasses;
-    }
-
-    /**
-     * Sets the tabIndexPasses attribute value.
-     * @param tabIndexPasses The tabIndexPasses to set.
-     */
-    public void setTabIndexPasses(int tabIndexPasses) {
-        this.tabIndexPasses = tabIndexPasses;
     }
 
     /**

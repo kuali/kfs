@@ -61,9 +61,8 @@ public interface RenderableElement {
     public abstract void appendFields(List<Field> fields);
     
     /**
-     * If the renderable element is a TabIndexRequestor and asks for the tab index on a pass within passIndexes, then the tab index will be populated 
-     * @param passIndexes an array of tab indexes per pass; so, the index for pass 1 lives in passIndexes[0], etc.
+     * Allows the arbitrarily high tab index to be set for controls
      * @param reallyHighIndex a really high index for elements who should not be tabbed to
      */
-    public abstract void populateWithTabIndexIfRequested(int[] passIndexes, int reallyHighIndex);
+    public abstract void populateWithTabIndexIfRequested(int reallyHighIndex);
 }

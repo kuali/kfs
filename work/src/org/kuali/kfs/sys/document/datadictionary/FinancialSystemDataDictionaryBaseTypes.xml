@@ -8,6 +8,11 @@
         class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry" abstract="true"
     />
     <bean id="TransactionalDocumentEntry" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry" />
+    
+    <bean id="AccountingDocumentEntry" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry">
+    	<property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
+    </bean>
+    
     <bean id="HelpDefinition" class="org.kuali.kfs.dictionary.HelpDefinition" abstract="true" />
     
     <bean id="AccountingLineView" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewDefinition" />
@@ -25,8 +30,6 @@
     <bean id="AccountingLineView-actions" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionsDefinition" />
     
     <bean id="AccountingLineGroup" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition">
-    	<property name="tabIndexPasses" value="2" />
-		<property name="importedLineParser" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
 		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase" />
     </bean>
     

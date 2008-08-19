@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * A contract for classes which wish to provide information about an accounting line which is being rendered
@@ -74,4 +75,9 @@ public interface AccountingLineRenderingContext {
      * Forces the population of values for all fields used to render the accounting line
      */
     public abstract void populateValuesForFields();
+    
+    /**
+     * @return the accounting document that this line to render is part of (or will be, once it is successfully added)
+     */
+    public abstract AccountingDocument getAccountingDocument();
 }

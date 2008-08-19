@@ -29,6 +29,23 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
  * Renders a quick field for an element
  */
 public class QuickFinderRenderer extends FieldRendererBase {
+    private int tabIndex = -1;
+    
+    /**
+     * Gets the tabIndex attribute. 
+     * @return Returns the tabIndex.
+     */
+    public int getTabIndex() {
+        return tabIndex;
+    }
+
+    /**
+     * Sets the tabIndex attribute value.
+     * @param tabIndex The tabIndex to set.
+     */
+    public void setTabIndex(int tabIndex) {
+        this.tabIndex = tabIndex;
+    }
 
     /**
      * Renders the quick finder to the page context
@@ -73,7 +90,7 @@ public class QuickFinderRenderer extends FieldRendererBase {
         quickFinderHtml.append(getField().getFieldLabel());
         quickFinderHtml.append("\" ");
         
-        if (hasTabIndex()) {
+        if (tabIndex > -1) {
             quickFinderHtml.append(" tabIndex=\"");
             quickFinderHtml.append(getTabIndex());
             quickFinderHtml.append("\"");
@@ -133,6 +150,16 @@ public class QuickFinderRenderer extends FieldRendererBase {
      */
     public boolean renderQuickfinder() {
         return false;
+    }
+
+    /**
+     * Clears the tab index
+     * @see org.kuali.kfs.sys.document.web.renderers.FieldRendererBase#clear()
+     */
+    @Override
+    public void clear() {
+        super.clear();
+        tabIndex = -1;
     }
 
 }

@@ -149,7 +149,7 @@ public class AccountingLineGroupTag extends TagSupport {
     public int doStartTag() throws JspException {
         super.doStartTag();
         List<RenderableAccountingLineContainer> containers = generateContainersForAllLines();
-        group = new AccountingLineGroup(groupDefinition, containers, collectionPropertyName, getEditModes(), getErrors(), getForm().getDisplayedErrors());
+        group = new AccountingLineGroup(groupDefinition, getDocument(), containers, collectionPropertyName, getEditModes(), getErrors(), getForm().getDisplayedErrors());
         if (getParent() instanceof AccountingLinesTag) {
             ((AccountingLinesTag)getParent()).addGroupToRender(group);
             resetTag();
@@ -241,13 +241,13 @@ public class AccountingLineGroupTag extends TagSupport {
         final AccountingDocument document = getDocument();
         final FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         
-        if (!shouldRenderAsReadOnly() && !StringUtils.isBlank(newLinePropertyName)) {
-            containers.add(buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null));
-        }
         int count = 0;
         for (AccountingLine accountingLine : getAccountingLineCollection()) {
             containers.add(buildContainerForLine(groupDefinition, document, accountingLine, currentUser, new Integer(count)));
             count += 1;
+        }
+        if (!StringUtils.isBlank(newLinePropertyName) && !getGroupDefinition().getAccountingLineAuthorizer().isGroupReadOnly(document, collectionPropertyName, currentUser, getEditModes())) {
+            containers.add(0, buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null));
         }
         return containers;
     }
@@ -273,15 +273,8 @@ public class AccountingLineGroupTag extends TagSupport {
         container.setRenderHelp(form.isFieldLevelHelpEnabled());
         container.setShowDetails(!form.isHideDetails());
         container.setUnconvertedValues(form.getUnconvertedValues());
+        container.setAccountingDocument(getDocument());
         return container;
-    }
-    
-    /**
-     * Determines if this group should be rendered as read only 
-     * @return true if the group should be rendered as read only, false otherwise
-     */
-    protected boolean shouldRenderAsReadOnly() {
-        return getEditModes().containsKey(AuthorizationConstants.EditMode.VIEW_ONLY);
     }
 
     /**

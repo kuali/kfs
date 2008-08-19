@@ -45,12 +45,6 @@ public interface FieldRenderer extends Renderer {
     public abstract boolean renderQuickfinder();
     
     /**
-     * Sets the tab index the field being rendered should use
-     * @param tabIndex the tab index to set on the field
-     */
-    public abstract void setTabIndex(int tabIndex);
-    
-    /**
      * Sets the tab index the field being rendered should use - if it never ever wants to get tabbed to
      * @param tabIndex a tab index no human will have the patience to reach
      */
@@ -71,4 +65,10 @@ public interface FieldRenderer extends Renderer {
      * @throws JspException thrown if something goes wrong in rendering
      */
     public abstract void closeNoWrapSpan(PageContext pageContext, Tag parentTag) throws JspException;
+    
+    /**
+     * Overrides the onBlur setting for this renderer
+     * @param onBlur the onBlur value to set and return from buildOnBlur
+     */
+    public abstract void overrideOnBlur(String onBlur);
 }

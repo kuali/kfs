@@ -65,12 +65,6 @@ public class DropDownRenderer extends FieldRendererBase {
         
         selectControl.append(" style=\"\"");
         
-        if (hasTabIndex()) {
-            selectControl.append(" tabIndex=\"");
-            selectControl.append(getTabIndex());
-            selectControl.append("\"");
-        }
-        
         selectControl.append(" title=\"");
         selectControl.append(getField().getFieldLabel());
         selectControl.append("\"");
@@ -98,23 +92,11 @@ public class DropDownRenderer extends FieldRendererBase {
     protected String buildOptions() {
         StringBuilder options = new StringBuilder();
         
-        if (getField().getHasBlankValidValue()) {
-            options.append(buildBlankOption());
-        }
-        
         for (Object keyLabelPairAsObj : getField().getFieldValidValues()) {
             options.append(buildOption((KeyLabelPair)keyLabelPairAsObj));
         }
         
         return options.toString();
-    }
-    
-    /**
-     * Builds a blank option tag
-     * @return a String holding a tag for a blank option
-     */
-    protected String buildBlankOption() {
-        return "<option value=\"\"></option>";
     }
     
     /**

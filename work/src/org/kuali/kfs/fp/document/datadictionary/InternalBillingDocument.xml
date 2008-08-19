@@ -6,7 +6,7 @@
 
   <bean id="InternalBillingDocument" parent="InternalBillingDocument-parentBean" />
 
-  <bean id="InternalBillingDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="InternalBillingDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true" />
     <property name="label" value="Internal Billing" />
     <property name="shortLabel" value="Internal Billing" />

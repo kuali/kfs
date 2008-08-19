@@ -65,9 +65,6 @@ public class TextRenderer extends FieldRendererBase {
         tag.setStyleClass(getField().getStyleClass());
         tag.setValue(getField().getPropertyValue());
         tag.setStyleId(getFieldName());
-        if (hasTabIndex()) {
-            tag.setTabindex(getTabIndex());
-        }
         
         tag.doStartTag();
         tag.doEndTag();

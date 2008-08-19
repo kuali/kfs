@@ -25,12 +25,16 @@ import javax.servlet.jsp.tagext.Tag;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.document.web.renderers.DynamicNameLabelRenderer;
 import org.kuali.kfs.sys.document.web.renderers.FieldRenderer;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 
@@ -40,9 +44,9 @@ import org.kuali.rice.kns.web.ui.Field;
 public class AccountingLineViewField extends FieldTableJoiningWithHeader implements HeaderLabelPopulating, ReadOnlyable {
     private Field field;
     private AccountingLineViewFieldDefinition definition;
-    private int tabIndex;
     private int arbitrarilyHighIndex;
     private List<AccountingLineViewOverrideField> overrideFields;
+    private PersistenceStructureService persistenceStructureService;
     
     /**
      * Gets the definition attribute. 
@@ -178,30 +182,45 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param fieldNames the list of all fields being displayed on this accounting line
      */
     protected void populateFieldForLookupAndInquiry(AccountingLine accountingLine, List<String> fieldNames) {
-        LookupUtils.setFieldQuickfinder(accountingLine, getField().getPropertyName(), getField(), fieldNames);
-        LookupUtils.setFieldDirectInquiry(getField());
+        if (!isHidden()) {
+            LookupUtils.setFieldQuickfinder(accountingLine, getField().getPropertyName(), getField(), fieldNames);
+            if (isReadOnly()) {
+                FieldUtils.setInquiryURL(getField(), accountingLine, getField().getPropertyName());
+            }
+        }
+    }
+    
+    /**
+     * Lazily retrieves the persistence structure service
+     * @return an implementation of PersistenceStructureService
+     */
+    protected PersistenceStructureService getPersistenceStructureService() {
+        if (persistenceStructureService == null) {
+            persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
+        }
+        return persistenceStructureService;
     }
     
     /**
      * Does some initial set up on the field renderer - sets the field and the business object being rendered
      * @param fieldRenderer the field renderer to prepare
      * @param accountingLine the accounting line being rendered
+     * @param accountingLineProperty the property to get the accounting line from the form
+     * @param fieldNames the names of all the fields that will be rendered as part of this accounting line
      */
     protected void prepareFieldRenderer(FieldRenderer fieldRenderer, Field field, AccountingLine accountingLine, String accountingLineProperty, List<String> fieldNames) {
         fieldRenderer.setField(field);
         
         getField().setPropertyPrefix(accountingLineProperty);
         populateFieldForLookupAndInquiry(accountingLine, fieldNames);
-        if (!StringUtils.isBlank(definition.getDynamicLabelProperty())) {
+        
+        if (definition.getDynamicNameLabelGenerator() != null) {
+            fieldRenderer.overrideOnBlur(definition.getDynamicNameLabelGenerator().getDynamicNameLabelOnBlur(accountingLine, accountingLineProperty));
+        } else if (!StringUtils.isBlank(definition.getDynamicLabelProperty())) {
             fieldRenderer.setDynamicNameLabel(accountingLineProperty+"."+definition.getDynamicLabelProperty());
         }
         
-        final int passNumber = getTabIndexPass();
-        if (passNumber > -1) {
-            //renderer.setTabIndex(tabIndex);
-            fieldRenderer.setTabIndex(0);
-            fieldRenderer.setArbitrarilyHighTabIndex(arbitrarilyHighIndex);
-        }
+        fieldRenderer.setArbitrarilyHighTabIndex(arbitrarilyHighIndex);
     }
     
     /**
@@ -209,7 +228,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @return true if a dynamic field label should be rendered, false otherwise
      */
     protected boolean shouldRenderDynamicFeldLabel() {
-        return (!StringUtils.isBlank(getField().getWebOnBlurHandler()) && !StringUtils.isBlank(definition.getDynamicLabelProperty()) && !getField().getFieldType().equals(Field.HIDDEN));
+        return (!getField().getFieldType().equals(Field.HIDDEN) && ((!StringUtils.isBlank(getField().getWebOnBlurHandler()) && !StringUtils.isBlank(definition.getDynamicLabelProperty())) || definition.getDynamicNameLabelGenerator() != null));
     }
     
     /**
@@ -257,18 +276,24 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * Renders a dynamic field label
      * @param pageContext the page context to render to
      * @param parentTag the parent tag requesting this rendering
-     * @param context the rendering context
+     * @param accountingLine the line which owns the field being rendered
+     * @param accountingLinePropertyPath the path from the form to the accounting line
      */
     protected void renderDynamicNameLabel(PageContext pageContext, Tag parentTag, AccountingLine accountingLine, String accountingLinePropertyPath) throws JspException {
         DynamicNameLabelRenderer renderer = new DynamicNameLabelRenderer();
-        if (!StringUtils.isBlank(getField().getPropertyValue())) {
-            if (getField().isSecure()) {
-                renderer.setFieldValue(getField().getDisplayMask().maskValue(getField().getPropertyValue()));
-            } else {
-                renderer.setFieldValue(getDynamicNameLabelDisplayedValue(accountingLine));
+        if (definition.getDynamicNameLabelGenerator() != null) {
+            renderer.setFieldName(definition.getDynamicNameLabelGenerator().getDynamicNameLabelFieldName(accountingLine, accountingLinePropertyPath));
+            renderer.setFieldValue(definition.getDynamicNameLabelGenerator().getDynamicNameLabelValue(accountingLine, accountingLinePropertyPath));
+        } else {
+            if (!StringUtils.isBlank(getField().getPropertyValue())) {
+                if (getField().isSecure()) {
+                    renderer.setFieldValue(getField().getDisplayMask().maskValue(getField().getPropertyValue()));
+                } else {
+                    renderer.setFieldValue(getDynamicNameLabelDisplayedValue(accountingLine));
+                }
             }
+            renderer.setFieldName(accountingLinePropertyPath+"."+definition.getDynamicLabelProperty());
         }
-        renderer.setFieldName(accountingLinePropertyPath+"."+definition.getDynamicLabelProperty());
         renderer.render(pageContext, parentTag);
         renderer.clear();
     }
@@ -279,7 +304,17 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @return the value to display for the dynamic name label
      */
     protected String getDynamicNameLabelDisplayedValue(AccountingLine accountingLine) {
-        final Object value = ObjectUtils.getPropertyValue(accountingLine, definition.getDynamicLabelProperty());
+        String dynamicLabelProperty = definition.getDynamicLabelProperty();
+        Object value = accountingLine;
+        while (dynamicLabelProperty.indexOf('.') > -1) {
+            String currentProperty = StringUtils.substringBefore(dynamicLabelProperty, ".");
+            dynamicLabelProperty = StringUtils.substringAfter(dynamicLabelProperty, ".");
+            if (value instanceof PersistableBusinessObject) {
+                ((PersistableBusinessObject)value).refreshReferenceObject(currentProperty);
+            }
+            value = ObjectUtils.getPropertyValue(value, currentProperty);
+        }
+        value = ObjectUtils.getPropertyValue(value, dynamicLabelProperty);
         if (value != null) return value.toString();
         return null;
     }
@@ -320,29 +355,10 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     }
     
     /**
-     * @see org.kuali.kfs.sys.document.web.TabIndexRequestor#setTabIndex(int, int)
-     */
-    public void setTabIndex(int currentTabIndex, int arbitrarilyHighIndex) {
-        this.tabIndex = currentTabIndex;
-        this.arbitrarilyHighIndex = arbitrarilyHighIndex;
-    }
-    
-    /**
-     * If hidden or read only, gets passed over; otherwise asks for the first pass
-     * @see org.kuali.kfs.sys.document.web.TabIndexRequestor#getTabIndexPass()
-     */
-    public int getTabIndexPass() {
-        if (isReadOnly() || isHidden()) return -1;
-        return 0;
-    }
-    
-    /**
      * @see org.kuali.kfs.sys.document.web.RenderableElement#populateWithTabIndexIfRequested(int[], int)
      */
-    public void populateWithTabIndexIfRequested(int[] passIndexes, int reallyHighIndex) {
-        if (getTabIndexPass() > -1) {
-            setTabIndex(passIndexes[getTabIndexPass()], reallyHighIndex);
-        }
+    public void populateWithTabIndexIfRequested(int reallyHighIndex) {
+        this.arbitrarilyHighIndex = reallyHighIndex;
     }
     
 }

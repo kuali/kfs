@@ -216,4 +216,11 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         
         return false; // default?  you can't edit the line none!
     }
+
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#isGroupReadOnly(org.kuali.kfs.sys.document.AccountingDocument, java.lang.String, org.kuali.kfs.sys.businessobject.FinancialSystemUser, java.util.Map)
+     */
+    public boolean isGroupReadOnly(AccountingDocument accountingDocument, String accountingLineCollectionProperty, FinancialSystemUser currentUser, Map<String, String> editModesForDocument) {
+        return editModesForDocument.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY);
+    }
 }

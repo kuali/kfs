@@ -24,12 +24,14 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.TotalDefinition;
 import org.kuali.kfs.sys.document.web.renderers.CellCountCurious;
 import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
 import org.kuali.kfs.sys.document.web.renderers.ImportLineRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This represents an accounting line group in renderable state
@@ -40,8 +42,8 @@ public class AccountingLineGroup {
     private Map editModes;
     private String collectionPropertyName;
     private List<RenderableAccountingLineContainer> containers;
+    private AccountingDocument accountingDocument;
     private int cellCount = 0;
-    private int renderTabIndex;
     private int arbitrarilyHighIndex;
     private List errors;
     private Map displayedErrors;
@@ -49,14 +51,16 @@ public class AccountingLineGroup {
     /**
      * Constructs a AccountingLineGroup
      * @param groupDefinition the data dictionary group definition for this accounting line group
+     * @param accountingDocument the document which owns or will own the accounting line being rendered
      * @param containers the containers within this group
      * @param collectionPropertyName the property name of the collection of accounting lines owned by this group
      * @param editModes the Map of edit modes
      * @param errors a List of errors keys for errors on the page
      * @param displayedErrors a Map of errors that have already been displayed
      */
-    public AccountingLineGroup(AccountingLineGroupDefinition groupDefinition, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, Map editModes, List errors, Map displayedErrors) {
+    public AccountingLineGroup(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, Map editModes, List errors, Map displayedErrors) {
         this.groupDefinition = groupDefinition;
+        this.accountingDocument = accountingDocument;
         this.containers = containers;
         this.collectionPropertyName = collectionPropertyName;
         this.editModes = editModes;
@@ -113,6 +117,10 @@ public class AccountingLineGroup {
             importLineRenderer.setCellCount(getWidthInCells());
             importLineRenderer.setEditModes(editModes);
             importLineRenderer.setLineCollectionProperty(collectionPropertyName);
+            importLineRenderer.setAccountingDocument(accountingDocument);
+            if (groupDefinition.getAccountingLineAuthorizer().isGroupReadOnly(accountingDocument, collectionPropertyName, GlobalVariables.getUserSession().getFinancialSystemUser(), editModes)) {
+                importLineRenderer.overrideCanUpload(false); // we're read only - so we can't upload
+            }
             importLineRenderer.render(pageContext, parentTag);
             importLineRenderer.clear();
         }
@@ -141,25 +149,9 @@ public class AccountingLineGroup {
     protected void renderAccountingLineContainers(PageContext pageContext, Tag parentTag) throws JspException {
         for (RenderableAccountingLineContainer container : containers) {
             container.populateValuesForFields();
-            int[] passIndexes = generateNextTabIndexes();
-            container.populateWithTabIndexIfRequested(passIndexes, arbitrarilyHighIndex);
+            container.populateWithTabIndexIfRequested(arbitrarilyHighIndex);
             container.renderElement(pageContext, parentTag, container);
-            setStartingTabIndex(passIndexes[passIndexes.length - 1] + 1);
         }
-    }
-    
-    /**
-     * Based on the renderTabIndex and the number of passes needed, defined in the group definition
-     * @return an array of pass indexes
-     */
-    public int[] generateNextTabIndexes() {
-        int[] result = new int[groupDefinition.getTabIndexPasses()];
-        int i = 0;
-        while (i < result.length) {
-            result[i] = renderTabIndex + i;
-            i += 1;
-        }
-        return result;
     }
     
     /**
@@ -197,20 +189,9 @@ public class AccountingLineGroup {
     }
     
     /**
-     * Sets the tab index before rendering
-     * @param startingTabIndex the tab index starting with the first usuable tab index
+     * Sets the form's arbitrarily high tab index
+     * @param arbitrarilyHighIndex the index to set
      */
-    public void setStartingTabIndex(int startingTabIndex) {
-        renderTabIndex = startingTabIndex;
-    }
-    
-    /**
-     * @return the next available tab index after all rendering has been accomplished 
-     */
-    public int getEndingTabIndex() {
-        return renderTabIndex;
-    }
-    
     public void setArbitrarilyHighIndex(int arbitrarilyHighIndex) {
         this.arbitrarilyHighIndex = arbitrarilyHighIndex;
     }

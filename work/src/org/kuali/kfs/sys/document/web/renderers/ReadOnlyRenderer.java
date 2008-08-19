@@ -24,6 +24,8 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -32,6 +34,8 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  */
 public class ReadOnlyRenderer extends FieldRendererBase {
     private HiddenTag persistingTag = new HiddenTag();
+    
+    private final static String APPLICATION_URL_PROPERTY = "application.url";
 
     /**
      * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
@@ -119,6 +123,8 @@ public class ReadOnlyRenderer extends FieldRendererBase {
         StringBuilder beginInquiryLink = new StringBuilder();
         
         beginInquiryLink.append("<a href=\"");
+        beginInquiryLink.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ReadOnlyRenderer.APPLICATION_URL_PROPERTY));
+        beginInquiryLink.append("/kr/");
         beginInquiryLink.append(getField().getInquiryURL());
         beginInquiryLink.append("\" target=\"blank\">");
         

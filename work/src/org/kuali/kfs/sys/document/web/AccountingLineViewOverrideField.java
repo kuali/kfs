@@ -37,7 +37,6 @@ public class AccountingLineViewOverrideField implements RenderableElement {
     private AccountingLineViewField parent;
     private AccountingLineViewOverrideFieldDefinition definition;
     private Field overrideField;
-    private int tabIndex;
     private int arbitrarilyHighIndex;
     
     /**
@@ -87,8 +86,7 @@ public class AccountingLineViewOverrideField implements RenderableElement {
      * 
      * @see org.kuali.kfs.sys.document.web.RenderableElement#populateWithTabIndexIfRequested(int[], int)
      */
-    public void populateWithTabIndexIfRequested(int[] passIndexes, int reallyHighIndex) {
-        tabIndex = passIndexes[0];
+    public void populateWithTabIndexIfRequested(int reallyHighIndex) {
         arbitrarilyHighIndex = reallyHighIndex;
     }
 
@@ -100,7 +98,6 @@ public class AccountingLineViewOverrideField implements RenderableElement {
         OverrideFieldRenderer renderer = new OverrideFieldRenderer();
         renderer.setField(overrideField);
         renderer.setArbitrarilyHighTabIndex(arbitrarilyHighIndex);
-        renderer.setTabIndex(tabIndex);
         renderer.setReadOnly(parent.isReadOnly());
         renderer.setOverrideNeededValue(getOverrideNeededValue(renderingContext.getAccountingLine()));
         renderer.setAccountingLine(renderingContext.getAccountingLine());

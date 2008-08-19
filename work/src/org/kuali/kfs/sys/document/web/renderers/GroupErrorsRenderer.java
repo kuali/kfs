@@ -77,14 +77,16 @@ public class GroupErrorsRenderer implements Renderer {
                 out.write(buildErrorTitle());
                 
                 for (String errorKey : matchingErrorKeys) {
-                    errorTag.setPageContext(pageContext);
-                    errorTag.setParent(parentTag);
-                    errorTag.setProperty(errorKey);
+                    if (!getErrorsRendered().contains(errorKey)) {
+                        errorTag.setPageContext(pageContext);
+                        errorTag.setParent(parentTag);
+                        errorTag.setProperty(errorKey);
                        
-                    errorTag.doStartTag();
-                    errorTag.doEndTag();
+                        errorTag.doStartTag();
+                        errorTag.doEndTag();
                         
-                    getErrorsRendered().add(errorKey);
+                        getErrorsRendered().add(errorKey);
+                    }
                 }
                 
                 out.write(buildTableRowAndCellClosing());
@@ -129,6 +131,11 @@ public class GroupErrorsRenderer implements Renderer {
         
         for (Object keyAsObject : errorPropertyList) {
             String key = (String)keyAsObject;
+            if (key.indexOf("..") > -1) {
+                // there are badly formed keys created by one of the required fields tests (like BO validation or something).  I suppose I could fix it.  This is easier
+                getErrorsRendered().add(key);
+                key = key.replaceAll("\\.\\.", ".");
+            }
             if (matchesGroup(key, keysToMatch)) {
                 matchingErrorKeys.add(key);
             }

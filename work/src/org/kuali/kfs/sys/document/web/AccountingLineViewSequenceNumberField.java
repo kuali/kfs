@@ -114,5 +114,5 @@ public class AccountingLineViewSequenceNumberField extends FieldTableJoiningWith
      * Does nothing
      * @see org.kuali.kfs.sys.document.web.RenderableElement#populateWithTabIndexIfRequested(int[], int)
      */
-    public void populateWithTabIndexIfRequested(int[] passIndexes, int reallyHighIndex) { }
+    public void populateWithTabIndexIfRequested(int reallyHighIndex) { }
 }

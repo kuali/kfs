@@ -118,9 +118,9 @@ public class AccountingLineTable implements RenderableElement {
     /**
      * @see org.kuali.kfs.sys.document.web.RenderableElement#populateWithTabIndexIfRequested(int[], int)
      */
-    public void populateWithTabIndexIfRequested(int[] passIndexes, int reallyHighIndex) {
+    public void populateWithTabIndexIfRequested(int reallyHighIndex) {
         for (AccountingLineTableRow row : rows) {
-            row.populateWithTabIndexIfRequested(passIndexes, reallyHighIndex);
+            row.populateWithTabIndexIfRequested(reallyHighIndex);
         }
     }
     

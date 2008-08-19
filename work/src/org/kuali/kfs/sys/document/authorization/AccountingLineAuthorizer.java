@@ -86,4 +86,14 @@ public interface AccountingLineAuthorizer {
      * @return one of the "classic" edit modes - AuthorizationConstants.EditMode.UNVIEWABLE, AuthorizationConstants.EditMode.VIEW_ONLY, or AuthorizationConstants.EditMode.FULL_ENTRY
      */
     public abstract String editModeForAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser, Map<String, String> editModesForDocument);
+    
+    /**
+     * Determines if the entire group is rendered as read only, which means that no new line will appear
+     * @param accountingDocument the accounting document which the collection of line are on
+     * @param accountingLineCollectionProperty the collection of lines
+     * @param currentUser the current user
+     * @param editModesForDocument the current edit modes on the document
+     * @return true if the entire group is read only, false otherwise
+     */
+    public abstract boolean isGroupReadOnly(AccountingDocument accountingDocument, String accountingLineCollectionProperty, FinancialSystemUser currentUser, Map<String, String> editModesForDocument);
 }

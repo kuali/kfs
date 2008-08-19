@@ -102,19 +102,7 @@
 <%@ attribute name="sourceTotalsOverride" required="false" description="A map of totals to override the typical totaling behavior on the source accounting line group." type="java.util.Map" %>
 <%@ attribute name="targetTotalsOverride" required="false" description="A map of totals to override the typical totaling behavior on the target accounting line group." type="java.util.Map" %>
 
-<c:if test="${!accountingLineScriptsLoaded}">
-	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
-	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
-	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
-	<script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/ObjectTypeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/ProjectCodeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/OriginationCodeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/DocumentTypeService.js"></script>
-	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
-	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
-</c:if>
+<kfs:accountingLineScriptImports />
 
 <c:forEach items="${editableAccounts}" var="account">
   <html:hidden property="editableAccounts(${account.key})" value="${account.key}"/>

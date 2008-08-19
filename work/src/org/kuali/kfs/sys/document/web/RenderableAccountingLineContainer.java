@@ -25,6 +25,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
@@ -45,6 +46,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     private List<Field> fields;
     private List<String> fieldNames;
     private Map unconvertedValues;
+    private AccountingDocument accountingDocument;
     
     /**
      * Gets the accountingLine attribute. 
@@ -270,9 +272,9 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     /**
      * @see org.kuali.kfs.sys.document.web.RenderableElement#populateWithTabIndexIfRequested(int[], int)
      */
-    public void populateWithTabIndexIfRequested(int[] passIndexes, int reallyHighIndex) {
+    public void populateWithTabIndexIfRequested( int reallyHighIndex) {
         for (AccountingLineTableRow row : rows) {
-            row.populateWithTabIndexIfRequested(passIndexes, reallyHighIndex);
+            row.populateWithTabIndexIfRequested(reallyHighIndex);
         }
     }
     
@@ -318,13 +320,32 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
         }
     }
     
+    /**
+     * Sets the masked value equal to the value if the current user can see the unmasked value for a secure field
+     * @param field the field to possible change the value for
+     * @param boDDEntry the data dictionary entry for the accounting line
+     */
     protected void setShouldShowSecure(Field field, BusinessObjectEntry boDDEntry) {
         if (field.isSecure()) {
             String workgroupName = boDDEntry.getAttributeDefinition(field.getPropertyName()).getDisplayWorkgroup();
         
             if (GlobalVariables.getUserSession().getFinancialSystemUser().isMember(workgroupName)) {
-                field.setSecure(false);
+                field.setDisplayMaskValue(field.getPropertyValue());
             }
         }
+    }
+    /**
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getAccountingDocument()
+     */
+    public AccountingDocument getAccountingDocument() {
+        return accountingDocument;
+    }
+    
+    /**
+     * Sets the accounting document for this accounting line container
+     * @param accountingDocument the accounting document to set
+     */
+    public void setAccountingDocument(AccountingDocument accountingDocument) {
+        this.accountingDocument = accountingDocument;
     }
 }

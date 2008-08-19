@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.document.validation.event.AccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
@@ -45,6 +46,8 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -58,7 +61,9 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     protected List sourceAccountingLines;
     protected List targetAccountingLines;
     
-    private final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
+    private transient FinancialSystemTransactionalDocumentEntry dataDictionaryEntry;
+    private transient Class sourceAccountingLineClass;
+    private transient Class targetAccountingLineClass;
 
     /**
      * Default constructor.
@@ -268,7 +273,10 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLineClass()
      */
     public Class getSourceAccountingLineClass() {
-        return SourceAccountingLine.class;
+        if (sourceAccountingLineClass == null) {
+            sourceAccountingLineClass = (getDataDictionaryEntry().getAccountingLineGroups() != null && getDataDictionaryEntry().getAccountingLineGroups().containsKey("source") && getDataDictionaryEntry().getAccountingLineGroups().get("source").getAccountingLineClass() != null) ? getDataDictionaryEntry().getAccountingLineGroups().get("source").getAccountingLineClass() : SourceAccountingLine.class;
+        }
+        return sourceAccountingLineClass;
     }
 
     /**
@@ -277,7 +285,10 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLineClass()
      */
     public Class getTargetAccountingLineClass() {
-        return TargetAccountingLine.class;
+        if (targetAccountingLineClass == null) {
+            targetAccountingLineClass = (getDataDictionaryEntry().getAccountingLineGroups() != null && getDataDictionaryEntry().getAccountingLineGroups().containsKey("target") && getDataDictionaryEntry().getAccountingLineGroups().get("target").getAccountingLineClass() != null) ? getDataDictionaryEntry().getAccountingLineGroups().get("target").getAccountingLineClass() : TargetAccountingLine.class;
+        }
+        return targetAccountingLineClass;
     }
 
     /**
@@ -286,7 +297,28 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * @return AccountingLineParser
      */
     public AccountingLineParser getAccountingLineParser() {
+        try {
+            if (getDataDictionaryEntry().getImportedLineParserClass() != null) {
+                return getDataDictionaryEntry().getImportedLineParserClass().newInstance();
+            }
+        }
+        catch (InstantiationException ie) {
+            throw new IllegalStateException("Accounting Line Parser class "+getDataDictionaryEntry().getImportedLineParserClass().getName()+" cannot be instantiated", ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new IllegalStateException("Illegal Access Exception while attempting to instantiate Accounting Line Parser class "+getDataDictionaryEntry().getImportedLineParserClass().getName(), iae);
+        }
         return new AccountingLineParserBase();
+    }
+
+    /**
+     * @return the data dictionary entry for this document
+     */
+    public FinancialSystemTransactionalDocumentEntry getDataDictionaryEntry() {
+        if (dataDictionaryEntry == null) {
+            dataDictionaryEntry = (FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(getClass()));
+        }
+        return dataDictionaryEntry;
     }
 
     public String getSourceAccountingLineEntryName() {

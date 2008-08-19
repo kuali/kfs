@@ -90,12 +90,6 @@ public class RadioButtonGroupRenderer extends FieldRendererBase {
         radioButton.append(keyLabelPair.getKey());
         radioButton.append("\"");
         
-        if (hasTabIndex()) {
-            radioButton.append(" tabIndex=\"");
-            radioButton.append(getTabIndex());
-            radioButton.append("\"");
-        }
-        
         String onBlur = buildOnBlur();
         if (!StringUtils.isBlank(onBlur)) {
             radioButton.append(" ");

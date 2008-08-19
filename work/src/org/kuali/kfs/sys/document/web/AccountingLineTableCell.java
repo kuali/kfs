@@ -221,9 +221,10 @@ public class AccountingLineTableCell implements RenderableElement {
     /**
      * @see org.kuali.kfs.sys.document.web.RenderableElement#populateWithTabIndexIfRequested(int[], int)
      */
-    public void populateWithTabIndexIfRequested(int[] passIndexes, int reallyHighIndex) {
+    public void populateWithTabIndexIfRequested(int reallyHighIndex) {
         for (RenderableElement element : renderableElements) {
-            element.populateWithTabIndexIfRequested(passIndexes, reallyHighIndex);
+            element.populateWithTabIndexIfRequested(reallyHighIndex);
         }
     }
+    
 }

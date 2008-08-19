@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.document.datadictionary;
 
 import java.util.Map;
 
+import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
 
 /**
@@ -26,6 +27,7 @@ import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
 public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocumentEntry {
     private Map<Class, String> validationMap;
     private Map<String, AccountingLineGroupDefinition> accountingLineGroups;
+    private Class<? extends AccountingLineParser> importedLineParserClass;
 
     /**
      * Gets the validationMap attribute. 
@@ -57,5 +59,21 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
      */
     public void setAccountingLineGroups(Map<String, AccountingLineGroupDefinition> accountingLineGroups) {
         this.accountingLineGroups = accountingLineGroups;
+    }
+    
+    /**
+     * Gets the importedLineParserClass attribute. 
+     * @return Returns the importedLineParserClass.
+     */
+    public Class<? extends AccountingLineParser> getImportedLineParserClass() {
+        return importedLineParserClass;
+    }
+
+    /**
+     * Sets the importedLineParserClass attribute value.
+     * @param importedLineParserClass The importedLineParserClass to set.
+     */
+    public void setImportedLineParserClass(Class<? extends AccountingLineParser> importedLineParser) {
+        this.importedLineParserClass = importedLineParser;
     }
 }

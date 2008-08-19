@@ -26,9 +26,12 @@ import javax.servlet.jsp.tagext.Tag;
 import org.apache.struts.taglib.html.FileTag;
 import org.apache.struts.taglib.html.ImageTag;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * Renders the standard group header/import line
@@ -37,12 +40,14 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     private int titleCellSpan = 4;
     private int cellCount = 1;
     private AccountingLineGroupDefinition accountingLineGroupDefinition;
+    private AccountingDocument accountingDocument;
     private Map editModes;
     private String lineCollectionProperty;
     private FileTag scriptFileTag = new FileTag();
     private FileTag noscriptFileTag = new FileTag();
     private ImageTag uploadButtonTag = new ImageTag();
     private ImageTag cancelButtonTag = new ImageTag();
+    private boolean shouldUpload = true;
     
     /**
      * Constructs a ImportLineRenderer, setting defaults on the tags that will always exist
@@ -67,6 +72,8 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
         titleCellSpan = 4;
         editModes = null;
         lineCollectionProperty = null;
+        accountingDocument = null;
+        shouldUpload = true;
         
         // clean script file tag
         scriptFileTag.setPageContext(null);
@@ -215,7 +222,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
                 out.write("\t}\n");
                 out.write("\tdocument.write(\n");
                 out.write("\t\t'<a id=\""+showLink+"\" href=\"#\" onclick=\""+showImport+"();return false;\">' +\n");
-                out.write("\t\t'<img src=\""+KNSServiceLocator.getKualiConfigurationService().getPropertyString("externalizable.images.url")+"tinybutton-importlines.gif\" title=\"import file\" alt=\"import file\"' +\n");
+                out.write("\t\t'<img src=\""+SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url")+"tinybutton-importlines.gif\" title=\"import file\" alt=\"import file\"' +\n");
                 out.write("\t\t'width=\"72\" height=\"15\" border=\"0\" align=\"middle\" class=\"det-button\">' +\n");
                 out.write("\t\t'</a>' +\n");
                 out.write("\t\t'<div id=\""+uploadDiv+"\" style=\"display:none;\" >' +\n");
@@ -314,11 +321,19 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
     }
     
     /**
-     * Determines if an upload can proceed on this 
-     * @return
+     * Determines if an upload can proceed for the accounting line group
+     * @return true if upload is possible, false otherwise
      */
     protected boolean canUpload() {
-        return (getEditModes().containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && getAccountingLineGroupDefinition().getImportedLineParser() != null);
+        return (getEditModes().containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && accountingDocument.getAccountingLineParser() != null && shouldUpload);
+    }
+    
+    /**
+     * Allows overriding of whether something can be uploaded - though this serves only to turn uploading more off, never more on
+     * @param allowUpload should we be allowed to upload?
+     */
+    public void overrideCanUpload(boolean allowUpload) {
+        this.shouldUpload = allowUpload;
     }
 
     /**
@@ -335,6 +350,22 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
      */
     public void setCellCount(int cellCount) {
         this.cellCount = cellCount;
+    }
+
+    /**
+     * Gets the accountingDocument attribute. 
+     * @return Returns the accountingDocument.
+     */
+    public AccountingDocument getAccountingDocument() {
+        return accountingDocument;
+    }
+
+    /**
+     * Sets the accountingDocument attribute value.
+     * @param accountingDocument The accountingDocument to set.
+     */
+    public void setAccountingDocument(AccountingDocument accountingDocument) {
+        this.accountingDocument = accountingDocument;
     }
 
     /**

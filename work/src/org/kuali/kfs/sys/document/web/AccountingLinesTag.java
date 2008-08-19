@@ -154,21 +154,8 @@ public class AccountingLinesTag extends BodyTagSupport {
         final int startingTabIndex = form.getCurrentTabIndex();
         final int arbitrarilyHighIndex = form.getNextArbitrarilyHighIndex();
         for (AccountingLineGroup group : groupsToRender) {
-            group.setStartingTabIndex(startingTabIndex);
             group.setArbitrarilyHighIndex(arbitrarilyHighIndex);
             group.renderEverything(pageContext, this);
-            updateCurrentTabIndex(form, group.getEndingTabIndex());
-        }
-    }
-    
-    /**
-     * Updates the form's current tab index to whatever was after the last group
-     * @param form the form to update
-     * @param tabIndex the tab index to update to
-     */
-    protected void updateCurrentTabIndex(KualiDocumentFormBase form, int tabIndex) {
-        while (form.getCurrentTabIndex() < tabIndex) {
-            form.incrementTabIndex();
         }
     }
     

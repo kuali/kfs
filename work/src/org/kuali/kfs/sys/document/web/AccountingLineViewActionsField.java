@@ -34,7 +34,6 @@ import org.kuali.rice.kns.web.ui.Field;
  */
 public class AccountingLineViewActionsField extends FieldTableJoiningWithHeader {
     private String name = KFSConstants.AccountingLineViewStandardBlockNames.ACTION_BLOCK;
-    private int tabIndex;
 
     /**
      * Returns the name of this actions field
@@ -103,8 +102,6 @@ public class AccountingLineViewActionsField extends FieldTableJoiningWithHeader 
     public void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
         ActionsRenderer renderer = new ActionsRenderer();
         renderer.setActions(renderingContext.getActionsForLine());
-        //renderer.setTabIndex(tabIndex);
-        renderer.setTabIndex(0);
         renderer.render(pageContext, parentTag);
         renderer.clear();
     }
@@ -123,20 +120,9 @@ public class AccountingLineViewActionsField extends FieldTableJoiningWithHeader 
     public void appendFields(List<Field> fields) { }
 
     /**
-     * Populated on the second pass
-     * @see org.kuali.kfs.sys.document.web.TabIndexRequestor#getTabIndexPass()
-     */
-    public int getTabIndexPass() {
-        return 1;
-    }
-
-    /**
+     * Doesn't do anything
      * @see org.kuali.kfs.sys.document.web.RenderableElement#populateWithTabIndexIfRequested(int[], int)
      */
-    public void populateWithTabIndexIfRequested(int[] passIndexes, int reallyHighIndex) {
-        if (getTabIndexPass() > -1) {
-            this.tabIndex = passIndexes[getTabIndexPass()];
-        }
-    }
+    public void populateWithTabIndexIfRequested(int reallyHighIndex) {}
     
 }

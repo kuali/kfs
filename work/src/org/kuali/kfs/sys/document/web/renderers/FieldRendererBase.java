@@ -22,6 +22,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.service.DynamicNameLabelGenerator;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.Field;
 
@@ -32,8 +35,8 @@ public abstract class FieldRendererBase implements FieldRenderer {
     private Field field;
     private DataDictionaryService dataDictionaryService;
     private String dynamicNameLabel;
-    private int tabIndex = -1;
     private int arbitrarilyHighTabIndex = -1;
+    private String onBlur;
 
     /**
      * Sets the field to render
@@ -62,8 +65,8 @@ public abstract class FieldRendererBase implements FieldRenderer {
      */
     public void clear() {
         this.field = null;
-        this.tabIndex = -1;
         this.arbitrarilyHighTabIndex = -1;
+        this.onBlur = null;
     }
     
     /**
@@ -85,9 +88,7 @@ public abstract class FieldRendererBase implements FieldRenderer {
         if (!StringUtils.isBlank(getField().getQuickFinderClassNameImpl()) && renderQuickfinder()) {
             QuickFinderRenderer renderer = new QuickFinderRenderer();
             renderer.setField(getField());
-            if (hasTabIndex()) {
-                renderer.setTabIndex(getQuickfinderTabIndex());
-            }
+            renderer.setTabIndex(getQuickfinderTabIndex());
             renderer.render(pageContext, parentTag);
             renderer.clear();
         }
@@ -98,18 +99,29 @@ public abstract class FieldRendererBase implements FieldRenderer {
      * @return a value for onblur=
      */
     protected String buildOnBlur() {
-        StringBuilder onblur = new StringBuilder();
-        if (!StringUtils.isBlank(getField().getWebOnBlurHandler())) {
-            onblur.append(getField().getWebOnBlurHandler());
-            onblur.append("( this.name");
-            if (!StringUtils.isBlank(getDynamicNameLabel())) {
-                onblur.append(", '");
-                onblur.append(getDynamicNameLabel());
-                onblur.append("'");
+        if (onBlur == null) {
+            StringBuilder onblur = new StringBuilder();
+            if (!StringUtils.isBlank(getField().getWebOnBlurHandler())) {
+                onblur.append(getField().getWebOnBlurHandler());
+                onblur.append("( this.name");
+                if (!StringUtils.isBlank(getDynamicNameLabel())) {
+                    onblur.append(", '");
+                    onblur.append(getDynamicNameLabel());
+                    onblur.append("'");
+                }
+                onblur.append(" );");
             }
-            onblur.append(" );");
+            onBlur = onblur.toString();
         }
-        return onblur.toString();
+        return onBlur;
+    }
+    
+    /**
+     * Overrides the onBlur setting for this renderer
+     * @param onBlur the onBlur value to set and return from buildOnBlur
+     */
+    public void overrideOnBlur(String onBlur) {
+        this.onBlur = onBlur;
     }
     
     /**
@@ -124,30 +136,6 @@ public abstract class FieldRendererBase implements FieldRenderer {
      */
     public void setDynamicNameLabel(String dynamicNameLabel) {
         this.dynamicNameLabel = dynamicNameLabel;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.web.renderers.FieldRenderer#setTabIndex(int)
-     */
-    public void setTabIndex(int tabIndex) {
-        this.tabIndex = tabIndex;   
-    }
-    
-    /**
-     * Retrieves the set tab index as a String, or, if the tabIndex was never set, returns a null
-     * @return the tab index as a String or null
-     */
-    protected String getTabIndex() {
-        if (hasTabIndex()) return Integer.toString(tabIndex); 
-        return null;
-    }
-    
-    /**
-     * Determines if a tab index has been set for the field being rendered
-     * @return true if a tab index has been set and therefore should be rendered; false if not
-     */
-    protected boolean hasTabIndex() {
-        return tabIndex > -1;
     }
 
     /**

@@ -40,7 +40,7 @@
               <tr>
                 <th width="35%" class="bord-l-b">
                   <div align="right">
-                    <kul:htmlAttributeLabel attributeEntry="${DataDictionary.AuxiliaryVoucherDocument.attributes.accountingPeriod}" useShortLabel="false" />
+                    <kul:htmlAttributeLabel labelFor="selectedAccountingPeriod" attributeEntry="${DataDictionary.AuxiliaryVoucherDocument.attributes.accountingPeriod}" useShortLabel="false" />
                   </div>
                 </th>
                 <td class="datacell-nowrap">
@@ -49,7 +49,7 @@
                         <html:hidden property="selectedAccountingPeriod" />
 					</c:if>
 					<c:if test="${!readOnly}">
-                        <select name="selectedAccountingPeriod">
+                        <select id="selectedAccountingPeriod" name="selectedAccountingPeriod">
 							<c:forEach items="${KualiForm.accountingPeriods}" var="accountingPeriod">
 								<c:set var="accountingPeriodCompositeValue" value="${accountingPeriod.universityFiscalPeriodCode}${accountingPeriod.universityFiscalYear}" />
 								<c:choose>

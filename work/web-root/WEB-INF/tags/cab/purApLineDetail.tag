@@ -41,19 +41,19 @@
 <tr style="color:${color}">
 	<c:choose>
 	<c:when test="${lineItemsName == 'assetLineItems'}">
-	   	<td rowspan="2"><INPUT TYPE="checkbox" id="src${seq-1}" NAME="src${seq-1}" onclick="toggle('src${seq-1}','trg${seq-1}');" ></td>
-		<td rowspan="2"><INPUT TYPE="checkbox" id="trg${seq-1}" NAME="trg${seq-1}"  onclick="toggle('trg${seq-1}','src${seq-1}');"></td>
+	   	<td rowspan="2"><INPUT TYPE="checkbox" title="Check Source" id="src${seq-1}" NAME="src${seq-1}" onclick="toggle('src${seq-1}','trg${seq-1}');" ></td>
+		<td rowspan="2"><INPUT TYPE="checkbox" title="Check Target" id="trg${seq-1}" NAME="trg${seq-1}"  onclick="toggle('trg${seq-1}','src${seq-1}');"></td>
 	</c:when>	
 	<c:otherwise>
 	<c:choose>
 	<c:when test="${lineItemsName == 'additionalChargeLineItems'}">			
 		<c:if test="${linePos-1 == 0}" >
-	   		<td rowspan="${rowSpanNbr*2}"><INPUT TYPE="checkbox" id="addl${seq-1}" NAME="addl${seq-1}"></td>
+	   		<td rowspan="${rowSpanNbr*2}"><INPUT TYPE="checkbox" title="Check Additional" id="addl${seq-1}" NAME="addl${seq-1}"></td>
 			<td rowspan="${rowSpanNbr*2}">&nbsp;</td>
 	   	</c:if>
 	</c:when>
 	<c:otherwise>
-		<td rowspan="2"><INPUT TYPE="checkbox" id="addl${seq-1}" NAME="addl${seq-1}"></td>
+		<td rowspan="2"><INPUT TYPE="checkbox" title="Check Additional" id="addl${seq-1}" NAME="addl${seq-1}"></td>
 		<td rowspan="2">&nbsp</td>
 	</c:otherwise>
 	</c:choose>

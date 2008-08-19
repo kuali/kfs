@@ -153,7 +153,7 @@ function checkCheckAllOrNone() {
 				summary="cash receipts available for deposit">
 				<tr>
 					<td>
-					<div align="center"><input type="checkbox" name="masterCRCheckBox"
+					<div align="center"><input type="checkbox" title="Check All or None" name="masterCRCheckBox"
 						onclick="checkCRAllOrNone();" id="masterCRCheckBox" /></div>
 					</td>
 					<kul:htmlAttributeHeaderCell labelFor="masterCRCheckBox" literalLabel="#" scope="col" />
@@ -330,7 +330,7 @@ function checkCheckAllOrNone() {
           <table cellpadding="0" cellspacing="0" class="datatable" summary="cashiering checks available for deposit">
             <tr>
               <td>
-                <div align="center"><input type="checkbox" name="masterCheckCheckBox" onclick="checkCheckAllOrNone();" id="masterCheckCheckBox" /></div>
+                <div align="center"><input type="checkbox" title="Check All or None" name="masterCheckCheckBox" onclick="checkCheckAllOrNone();" id="masterCheckCheckBox" /></div>
               </td>
               <kul:htmlAttributeHeaderCell literalLabel="#" scope="col" />
               <kul:htmlAttributeHeaderCell literalLabel="Check Number" scope="col" />

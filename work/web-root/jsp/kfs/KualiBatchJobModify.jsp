@@ -60,17 +60,17 @@
 						<c:if test="${job.group == 'unscheduled' && !job.running}">
 							<table class="positioningTable">
 								<tr>
-									<td>Start Step: </td>
-									<td><input type="text" name="startStep" value="1" size="3" /></td>
+									<td><label for="startStep">Start Step</label>: </td>
+									<td><input type="text" id="startStep" name="startStep" value="1" size="3" /></td>
 								</tr>
 								<tr>
-									<td>End Step: </td>
-									<td><input type="text" name="endStep" value="${job.numSteps}" size="3" /></td>
+									<td><label for="endStep">End Step</label>: </td>
+									<td><input type="text" id="endStep" name="endStep" value="${job.numSteps}" size="3" /></td>
 								</tr>
 								<tr>
-									<td>Start Date/Time: </td>
+									<td><label for="startTime">Start Date/Time</label>: </td>
 									<td>
-										<input type="text" name="startTime" id="startTime" value="" maxlength="20" size="20" onchange="" onblur="" style="" class="">
+										<input type="text" id="startTime" name="startTime" id="startTime" value="" maxlength="20" size="20" onchange="" onblur="" style="" class="">
 										<img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="startTime_datepicker" style="cursor: pointer;" title="Date selector" alt="Date selector" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';"	/>
 						                <script type="text/javascript">
 						                  Calendar.setup(
@@ -86,9 +86,9 @@
 									</td>
 								</tr>
 								<tr>
-									<td>Results Email Address: </td>
+									<td><label for="emailAddress">Results Email Address</label>: </td>
 									<td>
-										<input type="text" name="emailAddress" id="emailAddress" value="" />
+										<input type="text" id="emailAddress" name="emailAddress" id="emailAddress" value="" />
 										<img src="${ConfigProperties.externalizable.images.url}tinybutton-mailtome.gif" onclick="document.getElementById('emailAddress').value = '${userEmailAddress}';" styleClass="globalbuttons" title="Mail To Me" alt="Mail To Me" />
 									</td>
 								</tr>

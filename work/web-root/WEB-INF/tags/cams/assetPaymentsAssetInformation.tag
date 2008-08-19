@@ -50,7 +50,7 @@
 			        <th class="grid" width="10%" align="center">0</div></th>
 			        <th class="grid" width="10%" align="center">0</div></th>       		
 					<th class="datacell" rowspan="" nowrap="nowrap" width="5%">
-			            <div align="center"><input name="methodToCall.deleteAssetPaymentAssetDetail.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" class="tinybutton" title="Delete Accounting Line 1" alt="Delete asset" type="image">
+			            <div align="center"><input name="methodToCall.deleteAssetPaymentAssetDetail.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" class="tinybutton" title="Delete Accounting Line" alt="Delete Accounting Line" type="image">
 			        </th>
 			    </tr>
 		</table>

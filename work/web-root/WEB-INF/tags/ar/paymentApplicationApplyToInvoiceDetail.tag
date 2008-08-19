@@ -91,8 +91,8 @@
 								class="datatable">
 								<tr>
 									<td colspan='2' class='tab-subhead'>
-										Invoices
-										<select name="selectedInvoiceDocumentNumber">
+										<label for="selectedInvoiceDocumentNumber">Invoices</label>
+										<select id="selectedInvoiceDocumentNumber" name="selectedInvoiceDocumentNumber">
 											<c:forEach items="${KualiForm.invoices}" var="invoice">
 												<c:choose>
 													<c:when
@@ -301,7 +301,7 @@
 																		property="customerInvoiceDetail[${ctr}].amountToBeApplied" />
 																</td>
 																<td>
-																	<input type='checkbox' name="fullApply"
+																	<input type='checkbox' title="Apply Full Amount" name="fullApply"
 																		value="${customerInvoiceDetail.sequenceNumber}">
 																</td>
 															</tr>

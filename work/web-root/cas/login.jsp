@@ -50,30 +50,30 @@ button to continue.  A password is not required, because this is a </font><font 
 
 
         <tr>
-        <td><font face="Arial,Helvetica"><b>UserID:</b></td>
+        <td><font face="Arial,Helvetica"><b><label for="username">UserID</label>:</b></td>
         <td>
-        <input type="text" name="username" maxlength="8"></td>
+        <input type="text" id="username" name="username" maxlength="8"></td>
         </tr>
 		<c:if test="${requestScope.showPasswordField}">
 	        <tr>
-	        <td><font face="Arial,Helvetica"><b>Password:</b></td>
+	        <td><font face="Arial,Helvetica"><b><label for="password">Password</label>:</b></td>
 	        <td>
-	        <input type="text" name="password" maxlength="200"></td>
+	        <input type="text" id="password" name="password" maxlength="200"></td>
 	        </tr>
         </c:if>
 
         <tr>
         <td colspan="2" align="left">
-	<input type="checkbox" name="warn" value="true" />
+	<input type="checkbox" id="" name="warn" value="true" />
         <small>
-	    <small>Warn me before logging me in to other sites.</small>
+	    <small><label for="warn">Warn me before logging me in to other sites</label>.</small>
         </small>
 	</tr>
 
         <tr>
         <td colspan="2" align="right">
 	<input type="hidden" name="lt" value="<%= request.getAttribute("edu.yale.its.tp.cas.lt") %>" />
-        <input type="submit" value="Login">
+        <input type="submit" value="Login" title="Login">
         </td>
         </tr>
 

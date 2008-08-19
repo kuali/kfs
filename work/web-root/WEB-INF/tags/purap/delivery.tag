@@ -234,12 +234,12 @@
 					<!--
 					<c:choose>
 						<c:when test="${KualiForm.document.addressToVendorIndicator == 'true'}">
-							&nbsp;<input type=radio name="document.addressToVendorIndicator" value="true" checked />&nbsp;Receiving Address&nbsp;
-							&nbsp;<input type=radio name="document.addressToVendorIndicator" value="false" />&nbsp;Final Delivery Address&nbsp;
+							&nbsp;<input type=radio title="${documentAttributes.addressToVendorIndicator.label} - Receiving Address" name="document.addressToVendorIndicator" value="true" checked />&nbsp;Receiving Address&nbsp;
+							&nbsp;<input type=radio title="${documentAttributes.addressToVendorIndicator.label} - Final Delivery Address" name="document.addressToVendorIndicator" value="false" />&nbsp;Final Delivery Address&nbsp;
 						</c:when>
 						<c:otherwise>
-							&nbsp;<input type=radio name="document.addressToVendorIndicator" value="false" />&nbsp;Receiving Address&nbsp;
-							&nbsp;<input type=radio name="document.addressToVendorIndicator" value="true" checked />&nbsp;Final Delivery Address&nbsp;
+							&nbsp;<input type=radio title="${documentAttributes.addressToVendorIndicator.label} - Receiving Address" name="document.addressToVendorIndicator" value="false" />&nbsp;Receiving Address&nbsp;
+							&nbsp;<input type=radio title="${documentAttributes.addressToVendorIndicator.label} - Final Delivery Address" name="document.addressToVendorIndicator" value="true" checked />&nbsp;Final Delivery Address&nbsp;
 						</c:otherwise>
 					</c:choose>
 					-->

@@ -22,12 +22,12 @@
 <%-- Below form used for non java script enabled browsers --%>
 <form name="disabledJavaScriptPrintForm" id="disabledJavaScriptPrintForm" method="post" action="${printReceivingTicketPDFUrl}">
   <noscript>
-    Click this button to see the ${receivingDocLabel} PDF:&nbsp;&nbsp;&nbsp;<input type="submit" value="View ${receivingDocLabel} PDF">
+    Click this button to see the ${receivingDocLabel} PDF:&nbsp;&nbsp;&nbsp;<input type="submit" title="View ${receivingDocLabel} PDF" value="View ${receivingDocLabel} PDF">
   </noscript>
 </form>
 <form name="disabledJavaScriptReturnForm" id="disabledJavaScriptReturnForm" method="post" action="${displayReceivingDocTabbedPageUrl}">
   <noscript>
-    Click this button return to the ${receivingDocLabel} tabbed page:&nbsp;&nbsp;&nbsp;<input type="submit" value="Return to the ${receivingDocLabel}">
+    Click this button return to the ${receivingDocLabel} tabbed page:&nbsp;&nbsp;&nbsp;<input type="submit" title="Return to the ${receivingDocLabel}" value="Return to the ${receivingDocLabel}">
   </noscript>
 </form>
 

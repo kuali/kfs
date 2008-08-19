@@ -38,7 +38,7 @@
 				<tr>
 					<th width="35%" class="bord-l-b">
 					<div align="right"><kul:htmlAttributeLabel
-						attributeEntry="${journalVoucherAttributes.accountingPeriod}"
+						labelFor="selectedAccountingPeriod" attributeEntry="${journalVoucherAttributes.accountingPeriod}"
 						useShortLabel="false" /></div>
 					</th>
 					<td class="datacell-nowrap"><c:if test="${readOnly}">
@@ -52,7 +52,7 @@
 						    }
 						//-->
 						</SCRIPT>
-						<select name="selectedAccountingPeriod"
+						<select id="selectedAccountingPeriod" name="selectedAccountingPeriod"
 							onchange="submitForChangedAccountingPeriod()">
 							<c:forEach items="${KualiForm.accountingPeriods}"
 								var="accountingPeriod">
@@ -82,7 +82,7 @@
 				<tr>
 					<th width="35%" class="bord-l-b">
 					<div align="right"><kul:htmlAttributeLabel
-						attributeEntry="${journalVoucherAttributes.balanceTypeCode}"
+						labelFor="selectedBalanceType.code" attributeEntry="${journalVoucherAttributes.balanceTypeCode}"
 						useShortLabel="false" /></div>
 					</th>
 					<td class="datacell-nowrap"><html:hidden
@@ -101,7 +101,7 @@
 						    }
 						//-->
 						</SCRIPT>
-						<select name="selectedBalanceType.code"
+						<select id="selectedBalanceType.code" name="selectedBalanceType.code"
 							onchange="submitForChangedBalanceType()">
 							<c:forEach items="${KualiForm.balanceTypes}" var="balanceType">
 								<c:choose>

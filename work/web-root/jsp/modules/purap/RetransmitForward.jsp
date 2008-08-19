@@ -25,12 +25,12 @@
   <input type="hidden" name="selectedItemIndexes" value="${selectedItemIndexes}" />
   <input type="hidden" name="poDocumentNumberForRetransmit" value="${docId}">
   <noscript>
-    Click this button to see the ${purchaseOrderLabel} PDF:&nbsp;&nbsp;&nbsp;<input type="submit" value="View ${purchaseOrderLabel} PDF">
+    Click this button to see the ${purchaseOrderLabel} PDF:&nbsp;&nbsp;&nbsp;<input type="submit" title="View ${purchaseOrderLabel} PDF" value="View ${purchaseOrderLabel} PDF">
   </noscript>
 </form>
 <form name="disabledJavaScriptReturnForm" id="disabledJavaScriptReturnForm" method="post" action="${displayPOTabbedPageUrl}">
   <noscript>
-    Click this button return to the ${purchaseOrderLabel} tabbed page:&nbsp;&nbsp;&nbsp;<input type="submit" value="Return to the ${purchaseOrderLabel}">
+    Click this button return to the ${purchaseOrderLabel} tabbed page:&nbsp;&nbsp;&nbsp;<input type="submit" title="Return to the ${purchaseOrderLabel}" value="Return to the ${purchaseOrderLabel}">
   </noscript>
 </form>
 

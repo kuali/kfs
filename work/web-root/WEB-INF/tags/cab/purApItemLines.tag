@@ -26,7 +26,7 @@
 		<td class="tab-subhead"  width="100%" colspan="17">Line Items</td>
 	</tr>	
 	<tr>
-		<th class="grid" align="center"><input type="checkbox" id="all" name="all" onclick="selectSources(this);" > Source</th>
+		<th class="grid" align="center"><input type="checkbox" title="Mark All" id="all" name="all" onclick="selectSources(this);" > Source</th>
 		<th class="grid" align="center">Target
 		<kul:htmlAttributeHeaderCell literalLabel="Seq #"/>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}"/>

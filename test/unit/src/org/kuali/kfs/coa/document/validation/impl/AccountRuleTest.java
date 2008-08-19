@@ -29,10 +29,12 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.suite.RelatesTo;
 import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.bo.user.AuthenticationUserId;
@@ -1282,7 +1284,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     }
 
     @SuppressWarnings("deprecation")
-    public void testCheckCgIncomeStreamRequired_NotApplicableAccount() {
+    public void testCheckIncomeStreamRequired_NotApplicableAccount() {
 
 
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
@@ -1312,8 +1314,9 @@ public class AccountRuleTest extends ChartRuleTestBase {
     }
 
     @SuppressWarnings("deprecation")
-    public void testCheckCgIncomeStreamRequired_GFMPRACTException() {
-
+    public void testCheckIncomeStreamRequired_GFMPRACTException() {
+        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
+        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
@@ -1342,8 +1345,9 @@ public class AccountRuleTest extends ChartRuleTestBase {
     }
 
     @SuppressWarnings("deprecation")
-    public void testCheckCgIncomeStreamRequired_CGAcctNoIncomeStreamFields() {
-
+    public void testCheckIncomeStreamRequired_CGAcctNoIncomeStreamFields() {
+        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
+        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
@@ -1374,8 +1378,9 @@ public class AccountRuleTest extends ChartRuleTestBase {
     }
 
     @SuppressWarnings("deprecation")
-    public void testCheckCgIncomeStreamRequired_CGAcctInvalidIncomeStreamAccount() {
-
+    public void testCheckIncomeStreamRequired_CGAcctInvalidIncomeStreamAccount() {
+        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
+        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
@@ -1388,6 +1393,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
         subFundGroup.setSubfundgrpActivityIndicator(true);
 
         // add the subFundGroup info to Account
+        newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
         newAccount.setSubFundGroup(subFundGroup);
 
@@ -1405,8 +1412,9 @@ public class AccountRuleTest extends ChartRuleTestBase {
     }
 
     @SuppressWarnings("deprecation")
-    public void testCheckCgIncomeStreamRequired_GFAcctNoIncomeStreamFields() {
-
+    public void testCheckIncomeStreamRequired_GFAcctNoIncomeStreamFields() {
+        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
+        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);

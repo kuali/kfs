@@ -186,9 +186,8 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         }
 
         // validate the new appointment funding line
-        BudgetExpansionEvent addAppointmentFundingEvent = new AddAppointmentFundingEvent("", BCPropertyConstants.NEW_BCAF_LINE, document, appointmentFundings, workingAppointmentFunding);
-        boolean isValid = this.invokeRules(addAppointmentFundingEvent);
-        
+        BudgetExpansionEvent addAppointmentFundingEvent = new AddAppointmentFundingEvent(KFSConstants.EMPTY_STRING, BCPropertyConstants.NEW_BCAF_LINE, document, appointmentFundings, workingAppointmentFunding);
+        boolean isValid = this.invokeRules(addAppointmentFundingEvent);        
         if (!isValid) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }

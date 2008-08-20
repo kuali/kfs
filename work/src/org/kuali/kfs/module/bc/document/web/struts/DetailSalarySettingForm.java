@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import static org.kuali.kfs.module.bc.BCConstants.ErrorKey.DETAIL_SALARY_SETTING_TAB_ERRORS;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -143,7 +141,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             // update the access flags of the current funding line
             boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.getUniversalUser());
             if (!updated) {
-                errorMap.putError(DETAIL_SALARY_SETTING_TAB_ERRORS, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS);
+                errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS, appointmentFunding.getAppointmentFundingString());
                 this.releasePositionAndFundingLocks();
                 return false;
             }
@@ -157,7 +155,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
             BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position, this.getUniversalUser());
             if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
-                errorMap.putError(DETAIL_SALARY_SETTING_TAB_ERRORS, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
+                errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
                 this.releasePositionAndFundingLocks();
                 return false;
             }
@@ -169,7 +167,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             }
 
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
-                errorMap.putError(DETAIL_SALARY_SETTING_TAB_ERRORS, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.getAppointmentFundingString());
+                errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.getAppointmentFundingString());
                 this.releasePositionAndFundingLocks();
                 return false;
             }
@@ -200,7 +198,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
                 }
 
                 if (!LockStatus.SUCCESS.equals(transactionLockStatus.getLockStatus())) {
-                    errorMap.putError(DETAIL_SALARY_SETTING_TAB_ERRORS, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, appointmentFunding.getAppointmentFundingString());
+                    errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, appointmentFunding.getAppointmentFundingString());
 
                     this.releaseTransactionLocks();
 

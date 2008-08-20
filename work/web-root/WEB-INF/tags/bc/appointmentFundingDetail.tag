@@ -75,6 +75,8 @@
 		<td class="datacell">&nbsp;</td>
 		<td class="datacell">&nbsp;</td>
 		
+		<fmt:formatNumber var="formattedCsfTimePercent" value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfTimePercent}" 
+        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 cellProperty="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0].csfTimePercent"
@@ -82,10 +84,10 @@
                 field="csfTimePercent"
                 fieldAlign="right"
                 readOnly="true"
-                rowSpan="1" dataFieldCssClass="amount" />
+                rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedCsfTimePercent}"/>
         
         <fmt:formatNumber var="formattedCsfFteQuantity" value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity}" 
-        		type="number" groupingUsed="true" minFractionDigits="4" />         
+        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>         
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 cellProperty="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity"
@@ -138,7 +140,7 @@
                 
         <td class="datacell" style="text-align: right;" rowSpan="1">
         	<fmt:formatNumber var="formattedFteQuantity" value="${fundingLine.appointmentRequestedFteQuantity}" 
-        		type="number" groupingUsed="true" minFractionDigits="4" />	
+        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>	
         		
 		    <bc:pbglLineDataCellDetail detailField="appointmentRequestedFteQuantity" accountingLine="${fundingLineName}" 
 		    	dataFieldCssClass="nowrap" formattedNumberValue="${formattedFteQuantity}"/>
@@ -193,6 +195,8 @@
 		<td>&nbsp;</td>		
 		<td>&nbsp;</td>
 		
+		<fmt:formatNumber var="formattedReqCsfTimePercent" value="${fundingLine.appointmentRequestedCsfTimePercent}" 
+        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/> 
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
@@ -200,11 +204,11 @@
 				detailFunctionExtraParam="'${postionFieldPrefix}budgetConstructionPosition.iuPayMonths', '${postionFieldPrefix}budgetConstructionPosition.iuNormalWorkMonths','${fundingLineName}.appointmentRequestedCsfFteQuantity',"
                 fieldAlign="right"
                 readOnly="${readOnly || vacantLine}" disabled="${disabled}"
-                rowSpan="1" dataFieldCssClass="amount" />
+                rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedReqCsfTimePercent}"/>
                 
         <td class="datacell" style="text-align: right;" rowSpan="1">
         	<fmt:formatNumber var="formattedReqCsfFteQuantity" value="${fundingLine.appointmentRequestedCsfFteQuantity}" 
-        		type="number" groupingUsed="true" minFractionDigits="4" />	
+        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>	
         		
 		    <bc:pbglLineDataCellDetail detailField="appointmentRequestedCsfFteQuantity" accountingLine="${fundingLineName}" 
 		    	dataFieldCssClass="nowrap" formattedNumberValue="${formattedReqCsfFteQuantity}"/>
@@ -231,7 +235,7 @@
 		<td>&nbsp;</td>
         
         <fmt:formatNumber var="formattedIndendedFteQuantity" value="${fundingLine.appointmentTotalIntendedFteQuantity}" 
-        		type="number" groupingUsed="true" minFractionDigits="4" />          
+        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>          
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"

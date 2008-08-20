@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
-import java.sql.Date;
+
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ import org.kuali.rice.kns.datadictionary.mask.Mask;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -55,8 +57,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private EncryptionService encryptionService;
     private DataDictionaryService dataDictionaryService;
     private Map fieldConversions;
-    private CustomerInvoiceDocument[] allOpenInvoices; 
     private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+    
     
     /**
      * Get the search results that meet the input search criteria.
@@ -71,40 +73,57 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
+        Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+        Date reportDate = today;
+        Date reportDateCutoff1; // MJM need to add 4 more cutoff dates based on fieldValues.get...
+        
         LOG.debug("\n\n\n\n \t\t\t\t***********************    customerInvoiceDocumentService should not be null \n\n");
 
        // List invoices = (List) customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
         Collection<CustomerInvoiceDocument> invoices = customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
         CustomerAgingReportDetail testcustomer1 = new CustomerAgingReportDetail();
-        // Put the search related stuff in the objects
-        //for (Iterator iter = invoices.iterator(); iter.hasNext();) {
-        //Collection<CustomerInvoiceDocument> customerinvoice = nonAppliedHoldingService.getNonAppliedHoldingsForCustomer(customerNumber);
-
+       
+        Map<String,Object> knownCustomers = new HashMap<String,Object>(invoices.size());
+      // EXAMPLE: fieldNamesValuesForParameter.put("parameterNamespaceCode",CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);       
+       
+        KualiDecimal totalbalance = new KualiDecimal(0.00);
+        CustomerAgingReportDetail custDetail = null;
+        
+        // iterate over all invoices consolidating balances for each customer
         for (CustomerInvoiceDocument cid : invoices) {
-            testcustomer1.setChartOfAccountsCode(cid.getBillByChartOfAccountCode());
-        }
-//        for (Object object : invoices) {
-//            CustomerInvoiceDocument cid = (CustomerInvoiceDocument) object;
-//            testcustomer1.setChartOfAccountsCode(cid.getBillByChartOfAccountCode());
-//        }
-        //CustomerInvoiceDocument cid = (CustomerInvoiceDocument) iter.next();
            
+            Date approvalDate = cid.getCustomerPurchaseOrderDate();  
+        
+           
+            if (knownCustomers.containsKey(cid.getCustomer().getCustomerNumber()) && approvalDate.before(reportDate)) {
+                // not a new customer id and invoice approvalDate is valid
+                custDetail = (CustomerAgingReportDetail)knownCustomers.get(cid.getCustomer().getCustomerNumber());
+            }
+            else { //if (approvalDate.before(reportDate)) {
+                // new customer id, so create a new CustomerAgingReportDetail
+                custDetail = new CustomerAgingReportDetail();
+                custDetail.setCustomerName(cid.getCustomer().getCustomerName());
+                custDetail.setCustomerNumber(cid.getCustomer().getCustomerNumber());
+                // if (approvalDate.
+                custDetail.setUnpaidBalance0to30(cid.getTotalDollarAmount());
+                knownCustomers.put(cid.getCustomer().getCustomerNumber(), custDetail);
+            }
+              
+             
+       
+
+            if (LOG.isInfoEnabled()) {
+                LOG.info("\t\tcustDetail=\t" + custDetail.getCustomerNumber() + "\t"+custDetail.getUnpaidBalance0to30());
+            }
+        }
+           
+
 
             if (LOG.isInfoEnabled()) {
            //     LOG.info("CustomerInvoiceDocument cidgetTotalDollarAmount=" + cid.getTotalDollarAmount() + "\t\tCustomerName=" + cid.getCustomer().getCustomerNumber());
             }
 
-//            TransientBalanceInquiryAttributes dbo = ab.getDummyBusinessObject();
-//            dbo.setConsolidationOption(consolidationOption);
-//            dbo.setCostShareOption(costShareOption);
-//            dbo.setPendingEntryOption(pendingEntryOption);
-//            dbo.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
-        
-        
-        
-        
-        
-        
+  
         // create some fake entries to test with
         CustomerAgingReportDetail matt = new CustomerAgingReportDetail();
         matt.setCustomerName("Matt");
@@ -139,8 +158,10 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         results.add(matt);
         results.add(justin);
         results.add(patty);
-            
-     
+        for (Object detail : knownCustomers.values()) {
+            results.add(detail);
+        }   
+  
         
         LOG.info("\t\t sending results back... \n\n\n");
         return new CollectionIncomplete(results, new Long(results.size()));

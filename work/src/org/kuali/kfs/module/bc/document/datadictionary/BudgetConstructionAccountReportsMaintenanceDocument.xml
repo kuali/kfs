@@ -50,7 +50,6 @@
     <property name="summary" value="Budget Construction Account Reports Maintenance Document" />
     <property name="description" value="Document used to create or update Budget Construction Account Reports Maintenance Document objects" />
     <property name="documentTypeName" value="AccountReportsMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionAccountReportsRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BCAR" />
     <property name="authorizations" >
@@ -59,7 +58,7 @@
           <property name="action" value="initiate" />
           <property name="authorizedGroups" >
             <set>
-              <value>SY_MAINTENANCE_USERS</value>
+              <value>kualiUniversalGroup</value>
             </set>
           </property>
         </bean>

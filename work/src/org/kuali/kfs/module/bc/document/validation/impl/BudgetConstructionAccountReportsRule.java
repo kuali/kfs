@@ -55,8 +55,9 @@ public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRul
 
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
 
+        // checkUserAuthorized() is removed and let the document user the default authorizer - See KULBUD-47 Jira
         // check user authorized for this transaction
-        success &= checkUserAuthorized();
+     //   success &= checkUserAuthorized();
 
         return success;
     }
@@ -69,9 +70,10 @@ public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRul
         boolean success = true;
 
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
-
+        
+        // checkUserAuthorized() is removed and let the document user the default authorizer - See KULBUD-47 Jira
         // check user authorized for this transaction
-        success &= checkUserAuthorized();
+    //    success &= checkUserAuthorized();
         return success;
     }
 
@@ -82,8 +84,9 @@ public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRul
 
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
 
+        // checkUserAuthorized() is removed and let the document user the default authorizer - See KULBUD-47 Jira        
         // check user authorized for this transaction
-        checkUserAuthorized();
+    //    checkUserAuthorized();
         return true;
     }
 
@@ -92,7 +95,8 @@ public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRul
      * Check that the user is authorized to process this document. The user is authorized if either of the following are true: 1.
      * The transaction user is the manager of the Chart 2. The transaction user is the manager of the Root Chart
      */
-
+    // checkUserAuthorized() is removed and let the document user the default authorizer - See KULBUD-47 Jira
+    
     protected boolean checkUserAuthorized() {
 
         boolean success = true;
@@ -101,7 +105,7 @@ public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRul
         if (!(newBCAccountReports.getChartOfAccounts() == null)) {
 
             chartUserId = newBCAccountReports.getChartOfAccounts().getFinCoaManagerUniversalId();
-            if (transactionUserId.equals(chartUserId) || transactionUserId.equals(rootChartUserId)) {
+            if (transactionUserId.equals(chartUserId)) {
                 success = true;
             }
             else {

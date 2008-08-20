@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -28,6 +27,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
@@ -52,7 +52,7 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingBaseAction.class);
@@ -174,7 +174,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
 
         salarySettingService.purgeAppointmentFunding(appointmentFundings, appointmentFunding);
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -210,7 +210,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
 
-        return this.adjustSalarySettingLinePercent(mapping, appointmentFunding);
+        return this.adjustSalarySettingLinePercent(mapping, salarySettingForm, appointmentFunding);
     }
 
     /**
@@ -223,11 +223,21 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         KualiDecimal adjustmentAmount = salarySettingForm.getAdjustmentAmount();
         String adjustmentMeasurement = salarySettingForm.getAdjustmentMeasurement();
 
+        if (StringUtils.isBlank(adjustmentMeasurement)) {
+            errorMap.putError(BCPropertyConstants.ADJUSTMENT_MEASUREMENT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        if (ObjectUtils.isNull(adjustmentAmount)) {
+            errorMap.putError(BCPropertyConstants.ADJUSTMENT_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_AMOUNT_REQUIRED);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             appointmentFunding.setAdjustmentAmount(adjustmentAmount);
             appointmentFunding.setAdjustmentMeasurement(adjustmentMeasurement);
 
-            ActionForward adjustAction = this.adjustSalarySettingLinePercent(mapping, appointmentFunding);
+            ActionForward adjustAction = this.adjustSalarySettingLinePercent(mapping, salarySettingForm, appointmentFunding);
             if (!errorMap.isEmpty()) {
                 return adjustAction;
             }
@@ -242,16 +252,18 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     public ActionForward normalizePayRateAndAmount(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
-        
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
+        String errorKeyPrefix = this.getErrorKeyPrefixOfAppointmentFundingLine(appointmentFundings, appointmentFunding);
+
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
         if (document == null) {
-            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
+            errorMap.putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // validate the new appointment funding line
-        BudgetExpansionEvent normalizePayRateAndAmountEvent = new NormalizePayrateAndAmountEvent("", "", document, appointmentFunding);
+        BudgetExpansionEvent normalizePayRateAndAmountEvent = new NormalizePayrateAndAmountEvent("", errorKeyPrefix, document, appointmentFunding);
         boolean isValid = this.invokeRules(normalizePayRateAndAmountEvent);
         if (!isValid) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -264,16 +276,20 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     /**
      * adjust the requested salary amount of the given appointment funding line by pecent or given amount
      */
-    public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, ActionForm form, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
+        String errorKeyPrefix = this.getErrorKeyPrefixOfAppointmentFundingLine(appointmentFundings, appointmentFunding);
+
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
         if (document == null) {
-            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
+            errorMap.putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // validate the new appointment funding line
-        BudgetExpansionEvent adjustPercentEvent = new AdjustSalarySettingLinePercentEvent("", "", document, appointmentFunding);
+        BudgetExpansionEvent adjustPercentEvent = new AdjustSalarySettingLinePercentEvent("", errorKeyPrefix, document, appointmentFunding);
         boolean isValid = this.invokeRules(adjustPercentEvent);
         if (!isValid) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -319,4 +335,24 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     protected boolean invokeRules(KualiDocumentEvent event) {
         return SpringContext.getBean(KualiRuleService.class).applyRules(event);
     }
+
+    /**
+     * build the error key prefix based on the given information
+     * 
+     * @param fundingAwareObjectName the name of object that holds the given set of appointment funding lines
+     * @param appointmentFundings the given set of appointment funding lines
+     * @param appointmentFunding the given appointment funding line
+     * @return the error key prefix built from the given information
+     */
+    protected String getErrorKeyPrefixOfAppointmentFundingLine(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        int indexOfFundingLine = appointmentFundings.indexOf(appointmentFunding);
+        String pattern = "{0}.{1}[{2}]";
+
+        return MessageFormat.format(pattern, this.getFundingAwareObjectName(), BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING, indexOfFundingLine);
+    }
+
+    /**
+     * get the name of object that holds a set of appointment funding lines
+     */
+    protected abstract String getFundingAwareObjectName();
 }

@@ -55,6 +55,8 @@ function importDWRInterface(interfaceName, interfaceScriptHolder) {
 function BudgetObjectInfoUpdator(){ 
 	requestedCsfAmountSuffix = ".appointmentRequestedCsfAmount";
 	requestedCsfTimePercentSuffix = ".appointmentRequestedCsfTimePercent";
+	requestedCsfFteQuantitySuffix = ".appointmentRequestedCsfFteQuantity";
+	emptyString = '';
 	
 	var interfaceScriptHolder = new Object();
 	importDWRInterface("BudgetConstructionAppointmentFundingReasonCodeService", interfaceScriptHolder);
@@ -73,15 +75,21 @@ BudgetObjectInfoUpdator.prototype.loadDurationInfo = function(durationCodeFieldN
     var fieldNamePrefix = findElPrefix(durationCodeFieldName).trim();
     var requestedCsfAmountField = document.getElementById(fieldNamePrefix + requestedCsfAmountSuffix);
     var requestedCsfTimePercentField = document.getElementById(fieldNamePrefix + requestedCsfTimePercentSuffix);
+    var requestedCsfFteQuantityField = document.getElementById(fieldNamePrefix + requestedCsfFteQuantitySuffix);
 
-	if (durationCode=='') {
-		clearRecipients(durationDescriptionFieldName, "");
+	if (durationCode==emptyString) {
+		clearRecipients(durationDescriptionFieldName, emptyString);
 	}
 	else {
 		var isDefualtCode = (durationCode == "NONE");								
 		if(isDefualtCode){
 			requestedCsfAmountField.setAttribute('disabled', 'disabled');
+			requestedCsfAmountField.setAttribute('value', emptyString);
+			
 			requestedCsfTimePercentField.setAttribute('disabled', 'disabled');
+			requestedCsfTimePercentField.setAttribute('value', emptyString);
+			
+			requestedCsfFteQuantityField.setAttribute('value', emptyString);
 		}
 		else{
 			requestedCsfAmountField.removeAttribute('disabled');
@@ -114,7 +122,7 @@ BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonAmountFiel
     var reasonAmountField = document.getElementById(reasonAmountFieldName).trim();
 
 	if (reasonCode=='') {
-		clearRecipients(reasonDescriptionFieldName, "");
+		clearRecipients(reasonDescriptionFieldName, emptyString);
 		reasonAmountField.setAttribute('disabled', 'disabled');
 	} else {
 		reasonAmountField.removeAttribute('disabled');
@@ -175,11 +183,11 @@ BudgetObjectInfoUpdator.prototype.loadPositionInfo = function(universityFiscalYe
 	var emplid = DWRUtil.getValue( emplidFieldName ).trim();
 	var positionNumber = DWRUtil.getValue( positionNumberFieldName ).trim();
 
-	if (positionNumber == '' || universityFiscalYear == '') {
-		clearRecipients(positionDescriptionFieldName, "");
-		clearRecipients(iuNormalWorkMonthsFieldName, "");
-		clearRecipients(iuPayMonthsFieldName, "");
-		clearRecipients(positionFullTimeEquivalencyFieldName, "");
+	if (positionNumber == emptyString || universityFiscalYear == emptyString) {
+		clearRecipients(positionDescriptionFieldName, emptyString);
+		clearRecipients(iuNormalWorkMonthsFieldName, emptyString);
+		clearRecipients(iuPayMonthsFieldName, emptyString);
+		clearRecipients(positionFullTimeEquivalencyFieldName, emptyString);
 	} else {
 		var dwrReply = {
 			callback:function(data) {
@@ -190,9 +198,9 @@ BudgetObjectInfoUpdator.prototype.loadPositionInfo = function(universityFiscalYe
 				setRecipientValue( positionFullTimeEquivalencyFieldName, data.positionFullTimeEquivalency);
 			} else {
 				setRecipientValue( positionDescriptionFieldName, wrapError( "position not found" ), true );
-				clearRecipients(iuNormalWorkMonthsFieldName, "");
-				clearRecipients(iuPayMonthsFieldName, "");
-				clearRecipients(positionFullTimeEquivalencyFieldName, "");			
+				clearRecipients(iuNormalWorkMonthsFieldName, emptyString);
+				clearRecipients(iuPayMonthsFieldName, emptyString);
+				clearRecipients(positionFullTimeEquivalencyFieldName, emptyString);			
 			} },
 			errorHandler:function( errorMessage ) { 
 				setRecipientValue( positionDescriptionFieldName, wrapError( "position not found" ), true );
@@ -213,14 +221,14 @@ BudgetObjectInfoUpdator.prototype.loadAdministrativePostInfo = function(emplidFi
 	var positionNumber = DWRUtil.getValue( positionNumberFieldName ).trim();
 
 	if (positionNumber == '' || emplid == '') {
-		clearRecipients(administrativePostFieldName, "");
+		clearRecipients(administrativePostFieldName, emptyString);
 	} else {
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
 				setRecipientValue( administrativePostFieldName, data.administrativePost);
 			} else {
-				clearRecipients(administrativePostFieldName, "");			
+				clearRecipients(administrativePostFieldName, emptyString);			
 			} },
 			errorHandler:function( errorMessage ) { 
 				setRecipientValue( administrativePostFieldName, wrapError( "administrative post not found" ), true );
@@ -239,8 +247,8 @@ BudgetObjectInfoUpdator.prototype.recalculateFTE = function(payMonthsFieldName, 
     var payMonths = DWRUtil.getValue(payMonthsFieldName).trim();
     var fundingMonths = DWRUtil.getValue(fundingMonthsFieldName).trim();
 
-	if (timePercent=='' || payMonths=='' || fundingMonths=='') {
-		clearRecipients(fteQuantityFieldName, '');
+	if (timePercent==emptyString || payMonths==emptyString || fundingMonths==emptyString) {
+		clearRecipients(fteQuantityFieldName, emptyString);
 	} else {
 		var dwrReply = {
 			callback:function(data) {

@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -80,5 +81,13 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#getFundingAwareObjectName()
+     */
+    @Override
+    protected String getFundingAwareObjectName() {
+        return BCPropertyConstants.BUDGET_CONSTRUCTION_INTENDED_INCUMBENT;
     }
 }

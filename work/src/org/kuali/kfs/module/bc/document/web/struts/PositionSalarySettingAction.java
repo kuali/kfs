@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -175,5 +176,13 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         }
 
         return false;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#getFundingAwareObjectName()
+     */
+    @Override
+    protected String getFundingAwareObjectName() {
+        return BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION;
     }
 }

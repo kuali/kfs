@@ -17,6 +17,8 @@ package org.kuali.kfs.module.bc.document.validation.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService;

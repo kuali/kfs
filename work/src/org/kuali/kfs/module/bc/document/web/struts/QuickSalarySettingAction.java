@@ -176,16 +176,19 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getAppointmentFundings();
-        
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();        
+     
         for(PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
+            String errorKeyPrefix = this.getErrorKeyPrefixOfAppointmentFundingLine(appointmentFundings, savableFunding);
+            
             BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);        
             if(document == null) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
+                GlobalVariables.getErrorMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
                        
             // validate the savable appointment funding lines
-            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", "", document, savableFunding));
+            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", errorKeyPrefix, document, savableFunding));
             if(!isValid) {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
@@ -247,5 +250,13 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         salarySettingMethodAction.put(BCConstants.POSITION_SALARY_SETTING_ACTION, BCConstants.POSITION_SALARY_SETTING_METHOD);
 
         return salarySettingMethodAction;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#getFundingAwareObjectName()
+     */
+    @Override
+    protected String getFundingAwareObjectName() {
+        return BCPropertyConstants.SALARY_SETTING_EXPANSION;
     }
 }

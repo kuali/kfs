@@ -3280,9 +3280,9 @@
     <field-descriptor name="vendorDunsNumber" column="VNDR_DUNS_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="fileProcessDate" column="FL_PROC_DT" jdbc-type="DATE"/>
     <field-descriptor name="invoiceLoadSuccessCount" column="INV_LOAD_SCCSS_CNT" jdbc-type="INTEGER"/>
-    <field-descriptor name="invoiceLoadSuccessAmount" column="INV_LOAD_SCCSS_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceLoadSuccessAmount" column="INV_LOAD_SCCSS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="invoiceLoadFailCount" column="INV_LOAD_FAIL_CNT" jdbc-type="INTEGER"/>
-    <field-descriptor name="invoiceLoadFailAmount" column="INV_LOAD_FAIL_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceLoadFailAmount" column="INV_LOAD_FAIL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.OrganizationParameter" table="PUR_AP_ORG_PARM_T">

@@ -576,6 +576,7 @@
         <property name="electronicInvoiceInputFileType">
 		    <ref bean="electronicInvoiceInputFileType" />
 		</property>
+		<property name="mailService" ref="mailService"/>
 	</bean>
 
 	<bean id="environmentService" class="org.kuali.kfs.pdp.service.impl.EnvironmentServiceImpl">

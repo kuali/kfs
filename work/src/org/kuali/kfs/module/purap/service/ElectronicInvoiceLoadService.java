@@ -13,7 +13,6 @@ public interface ElectronicInvoiceLoadService {
    * Use the given filename to load a CXML document into EPIC
    * for processing and matching
    * 
-   * @param directoryOfFiles - directory where files are located
    */
     public boolean loadElectronicInvoices();
 

@@ -175,20 +175,25 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     
   }
 
-  public String addInvoiceOrderReject(ElectronicInvoice ei,ElectronicInvoiceOrder eio,String tableErrorMessage) {
+  public String addInvoiceOrderReject(ElectronicInvoice ei,
+                                      ElectronicInvoiceOrder eio,
+                                      String tableErrorMessage) {
+      
     ei.setContainsRejects(ElectronicInvoice.FILE_DOES_CONTAIN_REJECTS);
     eio.setRejected(ElectronicInvoiceOrder.INVOICE_ORDER_REJECTED);
     ElectronicInvoiceRejectReason eirr = new ElectronicInvoiceRejectReason(PurapConstants.ElectronicInvoice.REJECT_REASON_TYPE_ORDER,ei.getFileName(),tableErrorMessage);
     eio.addRejectReasonToList(eirr);
+    
     return "File Name '" + ei.getFileName() + "' ERROR: " + tableErrorMessage;
+    
   }
 
   public ElectronicInvoice loadElectronicInvoice(String filename)
   throws CxmlParseException {
-    LOG.debug("loadElectronicInvoice(String) started");
+      
     File invoiceFile = new File(filename);
-    LOG.debug("loadElectronicInvoice(String) ended");
-    return this.loadElectronicInvoice(invoiceFile);
+    return loadElectronicInvoice(invoiceFile);
+    
   }
   
   public ElectronicInvoice loadElectronicInvoice(File invoiceFile)
@@ -524,10 +529,6 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
     PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(invoicePurchaseOrderID);
     if (po != null) {
       // Purchase Order exists in system... check for Vendor Match
-        LOG.error("ei.getVendorHeaderID()...."+ei.getVendorHeaderID());
-        LOG.error("ei.getVendorDetailID()...."+ei.getVendorDetailID());
-        LOG.error("po.getVendorHeaderGeneratedIdentifier()...."+po.getVendorHeaderGeneratedIdentifier());
-        LOG.error("po.getVendorDetailAssignedIdentifier()...."+po.getVendorDetailAssignedIdentifier());
       if ( (ei.getVendorHeaderID().compareTo(po.getVendorHeaderGeneratedIdentifier()) == 0) && 
            (ei.getVendorDetailID().compareTo(po.getVendorDetailAssignedIdentifier()) == 0) ) {
         // successful invoice vendor match to purchase order vendor

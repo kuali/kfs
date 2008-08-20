@@ -1,4 +1,30 @@
 /*
+ Copyright (c) 2004, 2005 The National Association of College and
+ University Business Officers, Cornell University, Trustees of Indiana
+ University, Michigan State University Board of Trustees, Trustees of San
+ Joaquin Delta College, University of Hawai'i, The Arizona Board of
+ Regents on behalf of the University of Arizona, and the r*smart group.
+
+ Licensed under the Educational Community License Version 1.0 (the 
+ "License"); By obtaining, using and/or copying this Original Work, you
+ agree that you have read, understand, and will comply with the terms and
+ conditions of the Educational Community License.
+
+ You may obtain a copy of the License at:
+
+ http://kualiproject.org/license.html
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ DEALINGS IN THE SOFTWARE. 
+ */
+
+/*
  * Created on Aug 12, 2005
  */
 package org.kuali.kfs.module.purap.service.impl;
@@ -38,7 +64,10 @@ import org.kuali.kfs.module.purap.service.ElectronicInvoiceService;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.mail.InvalidAddressException;
+import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.MailService;
 
 
 /**
@@ -55,6 +84,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
     private ElectronicInvoiceService electronicInvoiceService;
     private ElectronicInvoiceMappingService electronicInvoiceMappingService;
     private ElectronicInvoiceInputFileType electronicInvoiceInputFileType;
+    private MailService mailService;
 
     public void setElectronicInvoiceService(ElectronicInvoiceService electronicInvoiceService) {
         this.electronicInvoiceService = electronicInvoiceService;
@@ -68,6 +98,10 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         this.electronicInvoiceInputFileType = electronicInvoiceInputFileType;
     }
 
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
+    }
+    
     public boolean loadElectronicInvoices() {
 
         LOG.debug("loadElectronicInvoices() started");
@@ -132,7 +166,11 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
              */
             throw new RuntimeException(e);
         }
-
+        
+        /**
+         * TODO : Is it required to clean up the accept and reject dir bcos it is possible
+         * for the duplicate file name
+         */
         /**
          * FIMXE : Introduce param here
          */
@@ -264,27 +302,17 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
             boolean success = this.moveFile(fileToMove, (String) filesToMove.get(fileToMove));
             if (!success) {
                 String errorMessage = "File with name '" + fileToMove.getName() + "' could not be moved";
-                LOG.error("loadElectronicInvoices() " + errorMessage);
-                LOG.debug("loadElectronicInvoices() ended");
                 throw new PurError(errorMessage);
             }
         }
     }
 
     private boolean moveFile(File fileForMove, String location) {
-
-        LOG.debug("moveFile() started");
-
         File moveDir = new File(location);
-
-        LOG.info("moveFile() Moving file '" + fileForMove.getName() + "' to '" + moveDir.getAbsolutePath() + "'");
-
         boolean success = fileForMove.renameTo(new File(moveDir, fileForMove.getName()));
-
         if (success) {
             LOG.info("moveFile() Succeeded in moving file '" + fileForMove.getName() + "' to '" + moveDir.getAbsolutePath() + "'");
-        }
-        else {
+        }else {
             LOG.error("moveFile() Failed moving file '" + fileForMove.getName() + "' to '" + moveDir.getAbsolutePath() + "'");
         }
         return success;
@@ -458,7 +486,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
                                 }
                                 else {
                                     if (pr == null) {
-                                        errorMessage = "PO NUMBER - '" + eio.getPurchaseOrderID() + "':  E-Invoice Matching Succeeded " + "but PREQ creation had error in E-Invoice processing, Contact Development Team as soon as possible";
+                                        errorMessage = "PO NUMBER - '" + eio.getPurchaseOrderID() + "':  E-Invoice Matching Succeeded but PREQ creation had error in E-Invoice processing, Contact Development Team as soon as possible";
                                         String logMessage = electronicInvoiceService.addInvoiceOrderReject(electronicInvoice, eio, errorMessage);
                                         LOG.error("processElectronicInvoice() " + logMessage + "... this PO invoice will reject");
                                         this.rejectSingleElectronicInvoiceOrderDetail(electronicInvoiceLoad, loadSummaryDunsNumber, electronicInvoice, eio);
@@ -707,31 +735,20 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
                     // just ignore it
                 }
         }
+        
+        
+        /*MailMessage mailMessage = new MailMessage();
+        mailMessage.addToAddress("vpremchandran@deltacollege.edu");
+        mailMessage.setSubject("E-Invoice Load Results");
+        mailMessage.setMessage(message.toString());
+        mailMessage.setFromAddress("mpvenkat@gmail.com");
+        
+        try {
+            mailService.sendMessage(mailMessage);
+        }catch (InvalidAddressException e) {
+            LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
+        }*/
+        
     }
 
 }
-/*
- Copyright (c) 2004, 2005 The National Association of College and
- University Business Officers, Cornell University, Trustees of Indiana
- University, Michigan State University Board of Trustees, Trustees of San
- Joaquin Delta College, University of Hawai'i, The Arizona Board of
- Regents on behalf of the University of Arizona, and the r*smart group.
-
- Licensed under the Educational Community License Version 1.0 (the 
- "License"); By obtaining, using and/or copying this Original Work, you
- agree that you have read, understand, and will comply with the terms and
- conditions of the Educational Community License.
-
- You may obtain a copy of the License at:
-
- http://kualiproject.org/license.html
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
- OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- TORT OR OTHERWISE, ARISING
- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- DEALINGS IN THE SOFTWARE. 
- */

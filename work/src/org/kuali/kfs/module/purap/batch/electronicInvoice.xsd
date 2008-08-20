@@ -77,8 +77,20 @@
                             <xsd:complexType>
                               <xsd:simpleContent>
                                 <xsd:extension base="xsd:string">
-                                  <xsd:attribute name="isHeaderInvoice" type="xsd:string" use="optional"/>
-                                  <xsd:attribute name="isVatRecoverable" type="xsd:string" use="optional"/>
+                                  <xsd:attribute name="isHeaderInvoice" use="optional">
+                                  	<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:enumeration value="yes"/>
+	   									</xsd:restriction>
+  									</xsd:simpleType>
+  								  </xsd:attribute>	
+                                  <xsd:attribute name="isVatRecoverable" use="optional">
+                                  	<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:enumeration value="yes"/>
+	   									</xsd:restriction>
+  									</xsd:simpleType>
+  								  </xsd:attribute>	
                                 </xsd:extension>
                               </xsd:simpleContent>
                             </xsd:complexType>
@@ -87,11 +99,41 @@
                             <xsd:complexType>
                               <xsd:simpleContent>
                                 <xsd:extension base="xsd:string">
-                                  <xsd:attribute name="isTaxInLine" type="xsd:string" use="optional" />
-                                  <xsd:attribute name="isSpecialHandlingInLine" type="xsd:string" use="optional" />
-                                  <xsd:attribute name="isShippingInLine" type="xsd:string" use="optional" />
-                                  <xsd:attribute name="isDiscountInLine" type="xsd:string" use="optional" />
-                                  <xsd:attribute name="isAccountingInLine" type="xsd:string" use="optional" />
+                                  <xsd:attribute name="isTaxInLine" use="optional">
+                                  	<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:enumeration value="yes"/>
+	   									</xsd:restriction>
+  									</xsd:simpleType>
+  								  </xsd:attribute>	
+                                  <xsd:attribute name="isSpecialHandlingInLine" use="optional">
+                                  	<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:enumeration value="yes"/>
+	   									</xsd:restriction>
+  									</xsd:simpleType>
+  								  </xsd:attribute>	
+                                  <xsd:attribute name="isShippingInLine" use="optional">
+                                  	<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:enumeration value="yes"/>
+	   									</xsd:restriction>
+  									</xsd:simpleType>
+  								  </xsd:attribute>	
+                                  <xsd:attribute name="isDiscountInLine" use="optional" >
+                                  	<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:enumeration value="yes"/>
+	   									</xsd:restriction>
+  									</xsd:simpleType>
+  								  </xsd:attribute>	
+                                  <xsd:attribute name="isAccountingInLine" use="optional">
+                                  	<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:enumeration value="yes"/>
+	   									</xsd:restriction>
+  									</xsd:simpleType>
+  								  </xsd:attribute>	
                                 </xsd:extension>
                               </xsd:simpleContent>
                             </xsd:complexType>

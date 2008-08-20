@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
@@ -92,7 +93,7 @@ public class ElectronicInvoiceItem {
   }
   
   public BigDecimal getInvoiceLineQuantityBigDecimal() {
-    if ( (this.quantity != null) && (!("".equalsIgnoreCase(this.quantity))) ) {
+    if (StringUtils.isNotEmpty(quantity)) {
       return new BigDecimal(this.quantity);
     } else {
       return null;
@@ -100,7 +101,7 @@ public class ElectronicInvoiceItem {
   }
   
   public BigDecimal getInvoiceLineUnitCostBigDecimal() {
-    if (this.unitPrice != null) {
+    if (StringUtils.isNotEmpty(unitPrice)) {
       return new BigDecimal(this.unitPrice);
     } else {
       return zero;
@@ -108,7 +109,7 @@ public class ElectronicInvoiceItem {
   }
   
   public BigDecimal getInvoiceLineSubTotalAmountBigDecimal() {
-    if (this.subTotalAmount != null) {
+    if (StringUtils.isNotEmpty(subTotalAmount)) {
       return new BigDecimal(this.subTotalAmount);
     } else {
       return zero;
@@ -116,7 +117,7 @@ public class ElectronicInvoiceItem {
   }
 
   public BigDecimal getInvoiceLineTaxAmountBigDecimal() {
-    if (this.taxAmount != null) {
+    if (StringUtils.isNotEmpty(taxAmount)) {
       return new BigDecimal(this.taxAmount);
     } else {
       return zero;
@@ -124,7 +125,7 @@ public class ElectronicInvoiceItem {
   }
 
   public BigDecimal getInvoiceLineSpecialHandlingAmountBigDecimal() {
-    if (this.invoiceLineSpecialHandlingAmount != null) {
+    if (StringUtils.isNotEmpty(invoiceLineSpecialHandlingAmount)) {
       return new BigDecimal(this.invoiceLineSpecialHandlingAmount);
     } else {
       return zero;
@@ -132,7 +133,7 @@ public class ElectronicInvoiceItem {
   }
 
   public BigDecimal getInvoiceLineShippingAmountBigDecimal() {
-    if (this.invoiceLineShippingAmount != null) {
+    if (StringUtils.isNotEmpty(invoiceLineShippingAmount)) {
       return new BigDecimal(this.invoiceLineShippingAmount);
     } else {
       return zero;
@@ -140,7 +141,7 @@ public class ElectronicInvoiceItem {
   }
 
   public BigDecimal getInvoiceLineGrossAmountBigDecimal() {
-    if (this.invoiceLineGrossAmount != null) {
+    if (StringUtils.isNotEmpty(invoiceLineGrossAmount)) {
       return new BigDecimal(this.invoiceLineGrossAmount);
     } else {
       return zero;
@@ -148,7 +149,7 @@ public class ElectronicInvoiceItem {
   }
 
   public BigDecimal getInvoiceLineDiscountAmountBigDecimal() {
-    if (this.invoiceLineDiscountAmount != null) {
+    if (StringUtils.isNotEmpty(invoiceLineDiscountAmount)) {
       return new BigDecimal(this.invoiceLineDiscountAmount);
     } else {
       return zero;
@@ -156,7 +157,7 @@ public class ElectronicInvoiceItem {
   }
 
   public BigDecimal getInvoiceLineNetAmountBigDecimal() {
-    if (this.invoiceLineNetAmount != null) {
+    if (StringUtils.isNotEmpty(invoiceLineNetAmount)) {
       return new BigDecimal(this.invoiceLineNetAmount);
     } else {
       return zero;

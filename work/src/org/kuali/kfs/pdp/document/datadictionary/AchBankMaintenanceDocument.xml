@@ -35,7 +35,7 @@
     </property>
     <property name="documentTypeName" value="AchBankMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.AchBankRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.pdp.document.authorization.AchBankDocumentAuthorizer" />
     <property name="documentTypeCode" value="ABNK" />
     <property name="workflowProperties" >
       <ref bean="AchBankMaintenanceDocument-workflowProperties" />
@@ -64,9 +64,19 @@
     <property name="title" value="Edit ACH Bank" />
     <property name="maintainableItems" >
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="bankRoutingNumber"
-              p:required="true" />
+        <bean parent="MaintainableFieldDefinition">
+          <property name="name" value="bankRoutingNumber" />
+          <property name="required" value="true" />
+          <property name="displayMask" >
+            <bean parent="Mask">
+              <property name="maskFormatter" >
+                <bean parent="MaskFormatterLiteral"
+                      p:literal="*********" />
+              </property>
+            </bean>
+          </property>
+          <property name="displayEditMode" value="entry" />
+        </bean> 
         <bean parent="MaintainableFieldDefinition"
               p:name="bankOfficeCode"
               p:required="true" />

@@ -57,7 +57,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 
 
 /**
- * @author delyea
+ * 
  */
 public class CustomerProfileSaveAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfileSaveAction.class);
@@ -218,8 +218,8 @@ public class CustomerProfileSaveAction extends BaseAction {
                         if (!(element.getBankId().equals(new Integer(0)))) {
                             // User has stored a bankId
                             CustomerBank cb = new CustomerBank();
-                            DisbursementType dt = (DisbursementType) referenceService.getCode("DisbursementType", element.getDisbursementTypeCode());
-                            cb.setDisbursementType(dt);
+                            //DisbursementType dt = (DisbursementType) referenceService.getCode("DisbursementType", element.getDisbursementTypeCode());
+                            //cb.setDisbursementType(dt);
                             cb.setCustomerProfile(cp);
                             //cb.setLastUpdateUser(getUser(request));
 
@@ -235,7 +235,7 @@ public class CustomerProfileSaveAction extends BaseAction {
 
                             Bank b = bankService.get(element.getBankId());
                             cb.setBank(b);
-                            LOG.debug("executeLogic() Now storing CustomerBank with bankId " + element.getBankId() + " and DisbursementType of " + dt.getName());
+                            //LOG.debug("executeLogic() Now storing CustomerBank with bankId " + element.getBankId() + " and DisbursementType of " + dt.getName());
                             customerProfileService.saveCustomerBank(cb);
                         }
                         else {
@@ -256,11 +256,11 @@ public class CustomerProfileSaveAction extends BaseAction {
                         if (!(element.getBankId().equals(new Integer(0)))) {
                             // Array for this ACH type contains a bankId
                             LOG.debug("executeLogic() No CustomerBanks or profile stored... so now storing with bankId " + element.getBankId());
-                            DisbursementType dt = (DisbursementType) referenceService.getCode("DisbursementType", element.getDisbursementTypeCode());
+                            //DisbursementType dt = (DisbursementType) referenceService.getCode("DisbursementType", element.getDisbursementTypeCode());
                             Bank b = bankService.get(element.getBankId());
 
                             CustomerBank cb = new CustomerBank();
-                            cb.setDisbursementType(dt);
+                            //cb.setDisbursementType(dt);
                             cb.setCustomerProfile(cp);
                             cb.setBank(b);
                             //cb.setLastUpdateUser(getUser(request));

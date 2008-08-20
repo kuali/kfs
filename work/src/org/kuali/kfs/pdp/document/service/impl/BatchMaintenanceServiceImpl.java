@@ -21,11 +21,8 @@ package org.kuali.kfs.pdp.document.service.impl;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.pdp.businessobject.Code;
-import org.kuali.kfs.pdp.businessobject.PaymentChange;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
-import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
@@ -38,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 /**
- * @author HSTAPLET
+ * 
  */
 @Transactional
 public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
@@ -62,16 +59,16 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
-        Code cd = referenceService.getCode("PaymentChange", changeStatus);
-        paymentGroupHistory.setPaymentChange((PaymentChange) cd);
+        //Code cd = referenceService.getCode("PaymentChange", changeStatus);
+        //paymentGroupHistory.setPaymentChange((PaymentChange) cd);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
         paymentGroupHistory.setChangeUser(user);
         paymentGroupHistory.setChangeNoteText(note);
         paymentGroupHistory.setPaymentGroup(paymentGroup);
         paymentGroupHistoryDao.save(paymentGroupHistory);
 
-        Code code = referenceService.getCode("PaymentStatus", newPaymentStatus);
-        paymentGroup.setPaymentStatus((PaymentStatus) code);
+        //Code code = referenceService.getCode("PaymentStatus", newPaymentStatus);
+        //paymentGroup.setPaymentStatus((PaymentStatus) code);
         paymentGroupDao.save(paymentGroup);
         LOG.debug("changeStatus() Status has been changed; exit method.");
     }

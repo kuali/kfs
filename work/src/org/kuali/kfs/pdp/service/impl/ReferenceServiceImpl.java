@@ -22,7 +22,6 @@ package org.kuali.kfs.pdp.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.pdp.businessobject.Code;
 import org.kuali.kfs.pdp.dataaccess.ReferenceDao;
 import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
@@ -30,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 /**
- * @author jsissom
+ * 
  */
 @Transactional
 public class ReferenceServiceImpl implements ReferenceService {
@@ -41,9 +40,9 @@ public class ReferenceServiceImpl implements ReferenceService {
         super();
     }
 
-    public Code getCode(String type, String key) {
+    /*public Code getCode(String type, String key) {
         return referenceDao.getCode(type, key);
-    }
+    }*/
 
     public Map getallMap(String type) {
         return referenceDao.getAllMap(type);
@@ -53,21 +52,21 @@ public class ReferenceServiceImpl implements ReferenceService {
         return referenceDao.getAll(type);
     }
 
-    public Code addCode(String type, String code, String description, UniversalUser u) {
+    /*public Code addCode(String type, String code, String description, UniversalUser u) {
         return referenceDao.addCode(type, code, description, u);
-    }
+    }*/
 
     public void updateCode(String code, String description, String type, UniversalUser u) {
         referenceDao.updateCode(code, description, type, u);
     }
 
-    public void updateCode(Code item, UniversalUser u) {
+    /*public void updateCode(Code item, UniversalUser u) {
         referenceDao.updateCode(item, u);
-    }
+    }*/
 
-    public void deleteCode(Code item) {
+    /*public void deleteCode(Code item) {
         referenceDao.deleteCode(item);
-    }
+    }*/
 
     public void setReferenceDao(ReferenceDao r) {
         this.referenceDao = r;

@@ -26,18 +26,15 @@ import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.kfs.pdp.businessobject.Code;
-import org.kuali.kfs.pdp.businessobject.UserRequired;
 import org.kuali.kfs.pdp.dataaccess.ReferenceDao;
 import org.kuali.kfs.pdp.exception.ConfigurationError;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
 
 
 /**
- * @author jsissom
+ * 
  */
 public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements ReferenceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReferenceDaoOjb.class);
@@ -55,11 +52,11 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
 
     private void updateUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
-            updateUser((Code) iter.next());
+            //updateUser((Code) iter.next());
         }
     }
 
-    private void updateUser(Code b) {
+    /*private void updateUser(Code b) {
         UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
@@ -67,7 +64,7 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
         catch (UserNotFoundException e) {
             b.setLastUpdateUser(null);
         }
-    }
+    }*/
 
     private Class getClass(String name) {
         String fullName = "org.kuali.kfs.pdp.businessobject." + name;
@@ -80,7 +77,7 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
         }
     }
 
-    public Code getCode(String type, String key) {
+    /*public Code getCode(String type, String key) {
         LOG.debug("getCode() for " + type);
 
         Criteria criteria = new Criteria();
@@ -91,7 +88,7 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
             updateUser(code);
         }
         return code;
-    }
+    }*/
 
     public List getAll(String type) {
         LOG.debug("getAll() for " + type);
@@ -110,13 +107,13 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
         Map hm = new HashMap();
 
         for (Iterator iter = getAll(type).iterator(); iter.hasNext();) {
-            Code element = (Code) iter.next();
-            hm.put(element.getCode(), element);
+            /*Code element = (Code) iter.next();
+            hm.put(element.getCode(), element);*/
         }
         return hm;
     }
 
-    public Code addCode(String type, String code, String description, UniversalUser u) {
+    /*public Code addCode(String type, String code, String description, UniversalUser u) {
         Class clazz = getClass(type);
         Code c;
 
@@ -138,7 +135,7 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
 
         getPersistenceBrokerTemplate().store(c);
         return c;
-    }
+    }*/
 
     // FROM TAFKAT
     public void updateCode(String code, String description, String type, UniversalUser u) {
@@ -147,27 +144,27 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
         Criteria criteria = new Criteria();
         criteria.addEqualTo("code", code);
 
-        Code c = (Code) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(getClass(type), criteria));
+        //Code c = (Code) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(getClass(type), criteria));
 
-        c.setDescription(description);
-        c.setLastUpdateUser(u);
+        //c.setDescription(description);
+        //c.setLastUpdateUser(u);
 
-        getPersistenceBrokerTemplate().store(c);
+        //getPersistenceBrokerTemplate().store(c);
 
     }
 
     // OLD PDP
-    public void updateCode(Code item, UniversalUser u) {
+   /* public void updateCode(Code item, UniversalUser u) {
         LOG.debug("updateCode() started");
 
         item.setLastUpdateUser(u);
 
         getPersistenceBrokerTemplate().store(item);
-    }
+    }*/
 
-    public void deleteCode(Code item) {
+    /*public void deleteCode(Code item) {
         LOG.debug("deleteCode() started");
 
         getPersistenceBrokerTemplate().delete(item);
-    }
+    }*/
 }

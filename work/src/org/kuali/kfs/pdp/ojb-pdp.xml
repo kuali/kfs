@@ -34,8 +34,8 @@
     <field-descriptor name="description" column="BNK_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="name" column="BNK_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="routingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>    
+	<field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
 
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR"/>
@@ -164,9 +164,9 @@
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.DisbursementType" table="PDP_DISB_TYP_CD_T">
     <field-descriptor name="code" column="DISB_TYP_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="name" column="DISB_TYP_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
+  	<!--field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/-->
+    <!--field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/-->
+    <!--field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/-->
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.DocumentType" table="PDP_DOC_TYP_CD_T">

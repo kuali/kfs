@@ -74,7 +74,7 @@ public class BankSaveAction extends BaseAction {
             bank.setAccountNumber(bankForm.getAccountNumber());
             bank.setActive(bankForm.getActive());
             bank.setDescription(bankForm.getDescription());
-            bank.setDisbursementType((DisbursementType) referenceService.getCode("DisbursementType", bankForm.getDisbursementTypeCode()));
+            //bank.setDisbursementType((DisbursementType) referenceService.getCode("DisbursementType", bankForm.getDisbursementTypeCode()));
             if ((bankForm.getId() == null) || (bankForm.getId().intValue() == 0)) {
                 bank.setId(null);
             } else {

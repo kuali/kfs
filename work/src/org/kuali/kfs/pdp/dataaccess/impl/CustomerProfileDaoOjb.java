@@ -19,22 +19,19 @@
  */
 package org.kuali.kfs.pdp.dataaccess.impl;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.pdp.businessobject.UserRequired;
 import org.kuali.kfs.pdp.dataaccess.CustomerProfileDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
 
 
 /**
- * @author jsissom
+ * 
  */
 public class CustomerProfileDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerProfileDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfileDaoOjb.class);
@@ -50,13 +47,13 @@ public class CustomerProfileDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
         userService = us;
     }
 
-    private void updateUser(List l) {
+    /*private void updateUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             updateUser((CustomerProfile) iter.next());
         }
-    }
+    }*/
 
-    private void updateUser(CustomerProfile b) {
+    /*private void updateUser(CustomerProfile b) {
         UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
@@ -64,7 +61,7 @@ public class CustomerProfileDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
         catch (UserNotFoundException e) {
             //b.setLastUpdateUser(null);
         }
-    }
+    }*/
 
     public List getAll() {
         LOG.debug("getAll() started");
@@ -75,7 +72,7 @@ public class CustomerProfileDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
         qbc.addOrderByAscending("subUnitCode");
 
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        updateUser(l);
+        //updateUser(l);
         return l;
     }
 
@@ -87,7 +84,7 @@ public class CustomerProfileDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
 
         CustomerProfile cp = (CustomerProfile) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(CustomerProfile.class, criteria));
         if (cp != null) {
-            updateUser(cp);
+            //updateUser(cp);
         }
         // List s = cp.getCustomerBanks();
         // LOG.error("get() Banks (customerId: " + cp.getId() + "):");
@@ -108,7 +105,7 @@ public class CustomerProfileDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
 
         CustomerProfile cp = (CustomerProfile) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(CustomerProfile.class, criteria));
         if (cp != null) {
-            updateUser(cp);
+            //updateUser(cp);
         }
         return cp;
     }

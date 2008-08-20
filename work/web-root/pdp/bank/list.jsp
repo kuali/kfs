@@ -85,7 +85,7 @@
       </td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.name}"/>&nbsp;</td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.description}"/>&nbsp;</td>
-      <td nowrap="nowrap" class="datacell"><c:out value="${b.disbursementType.description}"/>&nbsp;</td>
+      <td nowrap="nowrap" class="datacell"><c:out value="${b.disbursementType.name}"/>&nbsp;</td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.routingNumber}"/>&nbsp;</td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.accountNumber}"/>&nbsp;</td>
       <td nowrap="nowrap" class="datacell">

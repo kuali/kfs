@@ -23,7 +23,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -31,15 +30,13 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.BatchSearch;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
-import org.kuali.kfs.pdp.businessobject.UserRequired;
 import org.kuali.kfs.pdp.dataaccess.BatchSearchDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
 
 
 /**
- * @author jsissom
+ * 
  */
 public class BatchSearchDaoOjb extends PlatformAwareDaoBaseOjb implements BatchSearchDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchSearchDaoOjb.class);
@@ -92,7 +89,7 @@ public class BatchSearchDaoOjb extends PlatformAwareDaoBaseOjb implements BatchS
         LOG.debug("getAllBatchesForSearchCriteria() Query = " + qbc.toString());
 
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        updateUser(l);
+        //updateUser(l);
         return l;
 
     }
@@ -115,13 +112,13 @@ public class BatchSearchDaoOjb extends PlatformAwareDaoBaseOjb implements BatchS
         userService = us;
     }
 
-    private void updateUser(List l) {
+    /*private void updateUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             updateUser((Batch) iter.next());
         }
-    }
+    }*/
 
-    private void updateUser(Batch b) {
+   /* private void updateUser(Batch b) {
         UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
@@ -129,5 +126,5 @@ public class BatchSearchDaoOjb extends PlatformAwareDaoBaseOjb implements BatchS
         catch (UserNotFoundException e) {
             b.setSubmiterUser(null);
         }
-    }
+    }*/
 }

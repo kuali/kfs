@@ -22,25 +22,24 @@ package org.kuali.kfs.pdp.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.pdp.businessobject.Code;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 
 
 /**
- * @author jsissom
+ * 
  */
 public interface ReferenceService {
-    public Code getCode(String type, String key);
+    //public Code getCode(String type, String key);
 
     public List getAll(String type);
 
     public Map getallMap(String type);
 
-    public Code addCode(String type, String code, String description, UniversalUser u);
+    //public Code addCode(String type, String code, String description, UniversalUser u);
 
     public void updateCode(String code, String description, String type, UniversalUser u);
 
-    public void updateCode(Code item, UniversalUser u);
+    //public void updateCode(Code item, UniversalUser u);
 
-    public void deleteCode(Code item);
+    //public void deleteCode(Code item);
 }

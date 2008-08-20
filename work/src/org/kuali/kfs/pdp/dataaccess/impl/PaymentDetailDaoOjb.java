@@ -34,19 +34,14 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpConstants.PurapParameterConstants;
-import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.DailyReport;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
-import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
-import org.kuali.kfs.pdp.businessobject.PaymentProcess;
-import org.kuali.kfs.pdp.businessobject.UserRequired;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.UniversalUserService;
 
@@ -240,10 +235,10 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         PaymentDetail cp = (PaymentDetail) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
 
         if (cp.getPaymentGroup().getBatch() != null) {
-            updateBatchUser(cp.getPaymentGroup().getBatch());
+            //updateBatchUser(cp.getPaymentGroup().getBatch());
         }
         if (cp.getPaymentGroup().getProcess() != null) {
-            updateProcessUser(cp.getPaymentGroup().getProcess());
+            //updateProcessUser(cp.getPaymentGroup().getProcess());
         }
         if (cp.getPaymentGroup().getPaymentGroupHistory() != null) {
             updateChangeUser(cp.getPaymentGroup().getPaymentGroupHistory());
@@ -293,10 +288,10 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
 
         if (cp != null) {
             if (cp.getPaymentGroup().getBatch() != null) {
-                updateBatchUser(cp.getPaymentGroup().getBatch());
+                //updateBatchUser(cp.getPaymentGroup().getBatch());
             }
             if (cp.getPaymentGroup().getProcess() != null) {
-                updateProcessUser(cp.getPaymentGroup().getProcess());
+                //updateProcessUser(cp.getPaymentGroup().getProcess());
             }
             if (cp.getPaymentGroup().getPaymentGroupHistory() != null) {
                 updateChangeUser(cp.getPaymentGroup().getPaymentGroupHistory());
@@ -323,7 +318,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         qbc.addOrderBy("bankId", true);
 
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        updateDnr(l);
+        //updateDnr(l);
         return l;
     }
 
@@ -372,11 +367,11 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
 
     private void updateChangeUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
-            updateChangeUser((PaymentGroupHistory) iter.next());
+            //updateChangeUser((PaymentGroupHistory) iter.next());
         }
     }
 
-    private void updateChangeUser(PaymentGroupHistory b) {
+    /*private void updateChangeUser(PaymentGroupHistory b) {
         UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
@@ -384,9 +379,9 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         catch (UserNotFoundException e) {
             b.setChangeUser(null);
         }
-    }
+    }*/
 
-    private void updateBatchUser(Batch b) {
+    /*private void updateBatchUser(Batch b) {
         UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
@@ -394,9 +389,9 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         catch (UserNotFoundException e) {
             b.setSubmiterUser(null);
         }
-    }
+    }*/
 
-    private void updateProcessUser(PaymentProcess b) {
+    /*private void updateProcessUser(PaymentProcess b) {
         UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
@@ -404,15 +399,15 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         catch (UserNotFoundException e) {
             b.setProcessUser(null);
         }
-    }
+    }*/
 
-    private void updateDnr(List l) {
+    /*private void updateDnr(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             updateDnr((DisbursementNumberRange) iter.next());
         }
-    }
+    }*/
 
-    private void updateDnr(DisbursementNumberRange b) {
+    /*private void updateDnr(DisbursementNumberRange b) {
         UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
@@ -420,7 +415,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         catch (UserNotFoundException e) {
             //b.setLastUpdateUser(null);
         }
-    }
+    }*/
 
     public void setUniversalUserService(UniversalUserService us) {
         userService = us;

@@ -29,16 +29,14 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
-import org.kuali.kfs.pdp.businessobject.UserRequired;
 import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
 
 
 /**
- * @author jsissom
+ * 
  */
 public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessDaoOjb.class);
@@ -77,7 +75,7 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
 
         PaymentProcess p = (PaymentProcess) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentProcess.class, c));
         if (p != null) {
-            updateProcessUser(p);
+            //updateProcessUser(p);
             return p;
         }
         else {
@@ -104,11 +102,11 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
 
     private void updateProcessUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
-            updateProcessUser((PaymentProcess) iter.next());
+            //updateProcessUser((PaymentProcess) iter.next());
         }
     }
 
-    private void updateProcessUser(PaymentProcess b) {
+    /*private void updateProcessUser(PaymentProcess b) {
         UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
@@ -116,5 +114,5 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         catch (UserNotFoundException e) {
             b.setProcessUser(null);
         }
-    }
+    }*/
 }

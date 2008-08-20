@@ -56,7 +56,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         LOG.debug("markPaymentsForFormat() entered paydate = " + paydate);
         LOG.debug("markPaymentsForFormat() actual paydate = " + paydateTs);
 
-        PaymentStatus format = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.FORMAT);
+        //PaymentStatus format = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.FORMAT);
 
         List customerIds = new ArrayList();
         for (Iterator iter = customers.iterator(); iter.hasNext();) {
@@ -104,7 +104,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         while (groupIterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) groupIterator.next();
             paymentGroup.setLastUpdate(paydateTs);
-            paymentGroup.setPaymentStatus(format);
+            //paymentGroup.setPaymentStatus(format);
             paymentGroup.setProcess(proc);
             getPersistenceBrokerTemplate().store(paymentGroup);
         }
@@ -115,7 +115,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
 
         Timestamp now = new Timestamp((new Date()).getTime());
 
-        PaymentStatus openStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
+        //PaymentStatus openStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processId", proc.getId());
@@ -125,7 +125,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         while (groupIterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) groupIterator.next();
             paymentGroup.setLastUpdate(now);
-            paymentGroup.setPaymentStatus(openStatus);
+            //paymentGroup.setPaymentStatus(openStatus);
             getPersistenceBrokerTemplate().store(paymentGroup);
         }
     }

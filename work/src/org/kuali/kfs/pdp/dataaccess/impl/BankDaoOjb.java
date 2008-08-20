@@ -19,21 +19,18 @@
  */
 package org.kuali.kfs.pdp.dataaccess.impl;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.pdp.businessobject.Bank;
-import org.kuali.kfs.pdp.businessobject.UserRequired;
 import org.kuali.kfs.pdp.dataaccess.BankDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
 
 
 /**
- * @author jsissom
+ * 
  */
 public class BankDaoOjb extends PlatformAwareDaoBaseOjb implements BankDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankDaoOjb.class);
@@ -56,7 +53,7 @@ public class BankDaoOjb extends PlatformAwareDaoBaseOjb implements BankDao {
         qbc.addOrderBy("name", true);
 
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        updateUser(l);
+        //updateUser(l);
 
         return l;
     }
@@ -71,17 +68,17 @@ public class BankDaoOjb extends PlatformAwareDaoBaseOjb implements BankDao {
         qbc.addOrderBy("name", true);
 
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        updateUser(l);
+        //updateUser(l);
         return l;
     }
 
-    private void updateUser(List l) {
+   /* private void updateUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             updateUser((Bank) iter.next());
         }
-    }
+    }*/
 
-    private void updateUser(Bank b) {
+    /*private void updateUser(Bank b) {
         UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
@@ -89,7 +86,7 @@ public class BankDaoOjb extends PlatformAwareDaoBaseOjb implements BankDao {
         catch (UserNotFoundException e) {
             //b.setLastUpdateUser(null);
         }
-    }
+    }*/
 
     public Bank get(Integer bankId) {
         LOG.debug("get() started");
@@ -99,7 +96,7 @@ public class BankDaoOjb extends PlatformAwareDaoBaseOjb implements BankDao {
 
         Bank b = (Bank) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(Bank.class, criteria));
         if (b != null) {
-            updateUser(b);
+            //updateUser(b);
         }
         return b;
     }
@@ -114,7 +111,7 @@ public class BankDaoOjb extends PlatformAwareDaoBaseOjb implements BankDao {
         qbc.addOrderBy("name", true);
 
         List l = (List) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(Bank.class, criteria));
-        updateUser(l);
+        //updateUser(l);
         return l;
     }
 

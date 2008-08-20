@@ -19,21 +19,19 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * 
@@ -59,7 +57,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     private Integer version; // VER_NBR
     private Boolean primaryCancelledPayment; // PDP_PRM_PMT_CNCL_IND
     private Timestamp lastDisbursementActionDate;
-
+    
     private List accountDetail = new ArrayList();
     private List notes = new ArrayList();
 
@@ -415,6 +413,14 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
 
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
+    }
+    
+    /**
+     * Returns the value of the system parameter that contains the disbursement cancellation email address
+     * 
+     */
+    public String getDisbursementCancellationEmailAddress() {
+        return SpringContext.getBean(ParameterService.class).getParameterValue(PaymentDetail.class, PdpParameterConstants.DISBURSEMENT_CANCELLATION_EMAIL_ADDRESSES);
     }
 
 }

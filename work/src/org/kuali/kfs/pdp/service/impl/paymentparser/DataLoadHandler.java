@@ -40,9 +40,7 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.pdp.businessobject.AccountingChange;
 import org.kuali.kfs.pdp.businessobject.Batch;
-import org.kuali.kfs.pdp.businessobject.Code;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountHistory;
@@ -234,10 +232,10 @@ public class DataLoadHandler implements PdpFileHandler {
 
         // Load all the accounting change codes
         acctgChngCds = referenceDao.getAllMap("AccountingChange");
-        openStatus = (PaymentStatus) referenceDao.getCode("PaymentStatus", OPEN_CD);
-        heldForEmployee = (PaymentStatus) referenceDao.getCode("PaymentStatus", HELD_TAX_EMPLOYEE_CD);
-        heldForNRA = (PaymentStatus) referenceDao.getCode("PaymentStatus", HELD_TAX_NRA_CD);
-        heldForNRAEmployee = (PaymentStatus) referenceDao.getCode("PaymentStatus", HELD_TAX_NRA_EMPL_CD);
+        //openStatus = (PaymentStatus) referenceDao.getCode("PaymentStatus", OPEN_CD);
+        //heldForEmployee = (PaymentStatus) referenceDao.getCode("PaymentStatus", HELD_TAX_EMPLOYEE_CD);
+        //heldForNRA = (PaymentStatus) referenceDao.getCode("PaymentStatus", HELD_TAX_NRA_CD);
+        //heldForNRAEmployee = (PaymentStatus) referenceDao.getCode("PaymentStatus", HELD_TAX_NRA_EMPL_CD);
 
     }
 
@@ -387,7 +385,7 @@ public class DataLoadHandler implements PdpFileHandler {
         }
     }
 
-    private PaymentAccountHistory newAccountHistory(String attName, String newValue, String oldValue, Code changeCode) {
+    /*private PaymentAccountHistory newAccountHistory(String attName, String newValue, String oldValue, Code changeCode) {
         PaymentAccountHistory pah = new PaymentAccountHistory();
         pah.setAcctAttributeName(attName);
         pah.setAcctAttributeNewValue(newValue);
@@ -395,9 +393,9 @@ public class DataLoadHandler implements PdpFileHandler {
         pah.setAcctChangeDate(now);
         pah.setAccountingChange((AccountingChange) changeCode);
         return pah;
-    }
+    }*/
 
-    private void replaceAccountingString(Code objChangeCd, List changeRecords, PaymentAccountDetail pad) {
+    /*private void replaceAccountingString(Code objChangeCd, List changeRecords, PaymentAccountDetail pad) {
         changeRecords.add(newAccountHistory("fin_coa_cd", customer.getDefaultChartCode(), pad.getFinChartCode(), objChangeCd));
         changeRecords.add(newAccountHistory("account_nbr", customer.getDefaultAccountNumber(), pad.getAccountNbr(), objChangeCd));
         changeRecords.add(newAccountHistory("sub_acct_nbr", customer.getDefaultSubAccountNumber(), pad.getSubAccountNbr(), objChangeCd));
@@ -409,7 +407,7 @@ public class DataLoadHandler implements PdpFileHandler {
         pad.setSubAccountNbr(customer.getDefaultSubAccountNumber());
         pad.setFinObjectCode(customer.getDefaultObjectCode());
         pad.setFinSubObjectCode(customer.getDefaultSubObjectCode());
-    }
+    }*/
 
     private void processAccountSoftEdits(PaymentAccountDetail pad, Timestamp now) {
         List changeRecords = new ArrayList();
@@ -423,8 +421,8 @@ public class DataLoadHandler implements PdpFileHandler {
                 // Put in account number from customer profile
                 errors.add("Account number " + pad.getFinChartCode() + "-" + pad.getAccountNbr() + " is not valid. Replaced with default accounting string");
 
-                Code objChangeCd = (Code) acctgChngCds.get("ACCT");
-                replaceAccountingString(objChangeCd, changeRecords, pad);
+                //Code objChangeCd = (Code) acctgChngCds.get("ACCT");
+                //replaceAccountingString(objChangeCd, changeRecords, pad);
                 replacement = true;
             }
 
@@ -436,7 +434,7 @@ public class DataLoadHandler implements PdpFileHandler {
                         // Get rid of sub account
                         errors.add("Sub Account code " + pad.getFinChartCode() + "-" + pad.getAccountNbr() + "-" + pad.getSubAccountNbr() + " is invalid.  Removed");
 
-                        changeRecords.add(newAccountHistory("sub_acct_nbr", "-----", pad.getSubAccountNbr(), (Code) acctgChngCds.get("SA")));
+                        //changeRecords.add(newAccountHistory("sub_acct_nbr", "-----", pad.getSubAccountNbr(), (Code) acctgChngCds.get("SA")));
                         pad.setSubAccountNbr("-----");
                     }
                 }
@@ -449,8 +447,8 @@ public class DataLoadHandler implements PdpFileHandler {
                     // Put in object from customer profile
                     errors.add("Object code " + pad.getFinChartCode() + "-" + pad.getFinObjectCode() + " is invalid. Replaced with default accounting string");
 
-                    Code objChangeCd = (Code) acctgChngCds.get("OBJ");
-                    replaceAccountingString(objChangeCd, changeRecords, pad);
+                    //Code objChangeCd = (Code) acctgChngCds.get("OBJ");
+                    //replaceAccountingString(objChangeCd, changeRecords, pad);
                     replacement = true;
                 }
             }
@@ -463,7 +461,7 @@ public class DataLoadHandler implements PdpFileHandler {
                         // Get rid of sub object
                         errors.add("Sub Object code " + pad.getFinChartCode() + "-" + pad.getAccountNbr() + "-" + pad.getFinObjectCode() + "-" + pad.getFinSubObjectCode() + " is invalid.  Removed");
 
-                        changeRecords.add(newAccountHistory("fin_subobj_cd", "---", pad.getFinSubObjectCode(), (Code) acctgChngCds.get("SO")));
+                        //changeRecords.add(newAccountHistory("fin_subobj_cd", "---", pad.getFinSubObjectCode(), (Code) acctgChngCds.get("SO")));
                         pad.setFinSubObjectCode("---");
                     }
                 }
@@ -476,7 +474,7 @@ public class DataLoadHandler implements PdpFileHandler {
                     // Get rid of project
                     errors.add("Project code " + pad.getProjectCode() + " is invalid.  Removed");
 
-                    changeRecords.add(newAccountHistory("project_cd", "----------", pad.getProjectCode(), (Code) acctgChngCds.get("PROJ")));
+                    //changeRecords.add(newAccountHistory("project_cd", "----------", pad.getProjectCode(), (Code) acctgChngCds.get("PROJ")));
 
                     pad.setProjectCode("----------");
                 }

@@ -261,9 +261,9 @@
             <display-el:column sortable="true" sortProperty="paymentGroup.paymentStatus.code" title="Status" headerClass="thfont" class="datacell">
               <font size="0px"><c:out value="${item.paymentGroup.paymentStatus.code}" /></font>&nbsp;
             </display-el:column>
-            <display-el:column sortable="true" sortProperty="paymentGroup.disbursementType.description" title="Disb. Type" headerClass="thfont" class="datacell">
+            <display-el:column sortable="true" sortProperty="paymentGroup.disbursementType.name" title="Disb. Type" headerClass="thfont" class="datacell">
               <c:if test="${item.paymentGroup.disbursementType!=null}" >
-                <font size="0px"><c:out value="${item.paymentGroup.disbursementType.description}" /></font>
+                <font size="0px"><c:out value="${item.paymentGroup.disbursementType.name}" /></font>
               </c:if>&nbsp;
             </display-el:column>
             <display-el:column sortable="true" sortProperty="paymentGroup.disbursementNbr" title="Disb. Number" headerClass="thfont" class="datacell">

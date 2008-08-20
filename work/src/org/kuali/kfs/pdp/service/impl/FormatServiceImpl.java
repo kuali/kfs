@@ -397,7 +397,7 @@ public class FormatServiceImpl implements FormatService {
             LOG.debug("startFormatProcess() Customer: " + element);
         }
 
-        PaymentStatus formatStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.FORMAT);
+        //PaymentStatus formatStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.FORMAT);
 
         Date now = new Date();
         formatProcessDao.add(campus, now);

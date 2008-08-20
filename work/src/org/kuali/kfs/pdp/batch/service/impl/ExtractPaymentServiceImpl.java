@@ -148,7 +148,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        PaymentStatus extractedStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.EXTRACTED);
+        //PaymentStatus extractedStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.EXTRACTED);
 
         String filename = getOutputFile("pdp_ach", processDate);
         LOG.debug("extractAchPayments() filename = " + filename);
@@ -167,7 +167,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 if (!testMode) {
                     pg.setDisbursementDate(new Timestamp(processDate.getTime()));
                     pg.setLastUpdate(new Timestamp(processDate.getTime()));
-                    pg.setPaymentStatus(extractedStatus);
+                    //pg.setPaymentStatus(extractedStatus);
                     paymentGroupService.save(pg);
                 }
 

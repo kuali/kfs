@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="Lockbox-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Lockbox" />
     <property name="attributes" >
       <list>
         <ref bean="Lockbox-batchSequenceNumber" />

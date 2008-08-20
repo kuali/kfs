@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="NonAppliedDistributionMove-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Non Applied Distribution Move" />
     <property name="attributes" >
       <list>
         <ref bean="NonAppliedDistributionMove-documentNumber" />

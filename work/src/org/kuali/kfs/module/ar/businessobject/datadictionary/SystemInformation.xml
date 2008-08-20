@@ -15,6 +15,7 @@
       <ref bean="SystemInformation-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="systemInformationViewer" />
+    <property name="objectLabel" value="System Information" />
     <property name="attributes" >
       <list>
         <ref bean="SystemInformation-systemInformationViewer" />

@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="DocumentRecurrence-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Document Recurrence" />
     <property name="attributes" >
       <list>
         <ref bean="DocumentRecurrence-documentNumber" />

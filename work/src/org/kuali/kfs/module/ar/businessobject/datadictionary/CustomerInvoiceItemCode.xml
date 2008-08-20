@@ -15,6 +15,7 @@
       <ref bean="CustomerInvoiceItemCode-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="invoiceItemCode" />
+    <property name="objectLabel" value="Customer Invoice Item Code" />
     <property name="attributes" >
       <list>
         <ref bean="CustomerInvoiceItemCode-taxableIndicator" />

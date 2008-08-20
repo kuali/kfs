@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="CustomerAgingReportDetail-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Customer Aging Report" />
     <property name="attributes" >
       <list>
     <ref bean="CustomerAgingReportDetail-chartOfAccountsCode" />

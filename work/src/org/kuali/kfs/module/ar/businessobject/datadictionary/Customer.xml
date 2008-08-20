@@ -18,6 +18,7 @@
 			<ref bean="Customer-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="customerNumber" />
+        <property name="objectLabel" value="Customer" />
 		<property name="attributes">
 			<list>
 				<ref bean="Customer-customer800PhoneNumber" />

@@ -15,6 +15,7 @@
       <ref bean="OrganizationAccountingDefault-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="organizationAccountingDefaultViewer" />
+    <property name="objectLabel" value="Organization Accounting Default" />
     <property name="attributes" >
       <list>
         <ref bean="OrganizationAccountingDefault-organizationAccountingDefaultViewer" />

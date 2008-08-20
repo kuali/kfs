@@ -15,6 +15,7 @@
       <ref bean="OrganizationOptions-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="organizationOptionsViewer" />
+    <property name="objectLabel" value="Organization Options" />
     <property name="attributes" >
       <list>
         <ref bean="OrganizationOptions-organizationOptionsViewer" />

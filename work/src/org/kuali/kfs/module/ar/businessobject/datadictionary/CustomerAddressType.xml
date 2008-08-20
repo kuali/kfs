@@ -15,6 +15,7 @@
       <ref bean="CustomerAddressType-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="customerAddressTypeCode" />
+    <property name="objectLabel" value="Customer Address Type" />
     <property name="attributes" >
       <list>
         <ref bean="CustomerAddressType-customerAddressTypeCode" />

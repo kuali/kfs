@@ -15,6 +15,7 @@
       <ref bean="PaymentMedium-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="customerPaymentMediumCode" />
+    <property name="objectLabel" value="Payment Medium" />
     <property name="attributes" >
       <list>
         <ref bean="PaymentMedium-customerPaymentMediumCode" />

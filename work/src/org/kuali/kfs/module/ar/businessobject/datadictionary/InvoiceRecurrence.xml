@@ -15,6 +15,7 @@
       <ref bean="InvoiceRecurrence-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="invoiceNumber" />
+    <property name="objectLabel" value="Invoice Recurrence" />
     <property name="attributes" >
       <list>
         <ref bean="InvoiceRecurrence-invoiceNumber" />

@@ -15,6 +15,7 @@
       <ref bean="CustomerType-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="customerTypeCode" />
+    <property name="objectLabel" value="Customer Type" />
     <property name="attributes" >
       <list>
         <ref bean="CustomerType-customerTypeCode" />

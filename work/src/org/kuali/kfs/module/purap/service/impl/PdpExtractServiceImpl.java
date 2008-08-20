@@ -132,7 +132,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         LOG.debug("extractPayments() started");
 
         if (openPaymentStatus == null) {
-            openPaymentStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
+            //openPaymentStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
         }
 
         String userId = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_USER_ID);

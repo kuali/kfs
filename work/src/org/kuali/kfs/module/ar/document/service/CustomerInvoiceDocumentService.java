@@ -156,11 +156,4 @@ public interface CustomerInvoiceDocumentService {
      * @return
      */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);    
-     
-     /**
-     * This method creates a dummy customer invoice document for functional testing
-     */
-    public void createCustomerInvoiceDocumentForFunctionalTesting();
-
- 
 }

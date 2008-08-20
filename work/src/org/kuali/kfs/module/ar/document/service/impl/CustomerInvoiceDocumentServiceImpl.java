@@ -484,45 +484,4 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
         this.customerInvoiceDetailService = customerInvoiceDetailService;
     }
-
-    public void createCustomerInvoiceDocumentForFunctionalTesting() {
-       
-        CustomerInvoiceDocument customerInvoiceDocument;
-        try {
-            customerInvoiceDocument = (CustomerInvoiceDocument)documentService.getNewDocument(CustomerInvoiceDocument.class);
-            LOG.info("Created customer invoice document " + customerInvoiceDocument.getDocumentNumber());
-        } catch (WorkflowException e) {
-            throw new RuntimeException("Customer Invoice Document creation failed.");
-        }
-        
-        setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
-        customerInvoiceDocument.getDocumentHeader().setDocumentDescription("ADDING CUSTOMER INVOICE DOCUMENT");
-        customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber("ABB2");
-        
-        for (int i = 0; i < 10; i++) { 
-            customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument));
-        }
-        
-        try {
-            SpringContext.getBean(DocumentService.class).routeDocument(customerInvoiceDocument, null, null);
-            LOG.info("Submitted customer invoice document " + customerInvoiceDocument.getDocumentNumber());
-        } catch (WorkflowException e){
-            throw new RuntimeException("Customer Invoice Document routing failed.");
-        }
-    }
-    
-    protected CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument){
-        CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
-        customerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
-        customerInvoiceDetail.setChartOfAccountsCode("BL");
-        customerInvoiceDetail.setAccountNumber("1031400");
-        customerInvoiceDetail.setFinancialObjectCode("1500");
-        customerInvoiceDetail.setAccountsReceivableObjectCode("8118");
-        customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
-        customerInvoiceDetail.setInvoiceItemUnitPrice(new KualiDecimal(10));
-        customerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(10));
-        customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0));
-        customerInvoiceDetail.setAmount(new KualiDecimal(10));
-        return customerInvoiceDetail;
-    }
 }

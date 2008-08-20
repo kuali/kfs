@@ -15,12 +15,16 @@
  */
 package org.kuali.kfs.module.ar.batch;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.purap.batch.ElectronicInvoiceStep;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -29,15 +33,23 @@ import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     
     CustomerInvoiceDocumentService customerInvoiceDocumentService;
     BusinessObjectService businessObjectService;
+    DocumentService documentService;
+    DateTimeService dateTimeService;
     
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentBatchStep.class);
+
     // parameter constants and logging
+    private static final int NUMBER_OF_INVOICES_TO_CREATE = 10;
     private static final String CUSTOMER_INVOICE_DOCUMENT_INITIATOR = "KHUNTLEY";
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-AR";
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "CustomerInvoiceDocumentBatchStep";
@@ -57,9 +69,11 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
         catch (UserNotFoundException nfex) {
         } 
-        
-        customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        customerInvoiceDocumentService.createCustomerInvoiceDocumentForFunctionalTesting();
+
+        for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){
+            createCustomerInvoiceDocumentForFunctionalTesting();
+            Thread.sleep(5000);
+        }
         setInitiatedParameter();
         return true;
     }
@@ -110,7 +124,68 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
            pkMapForParameter.put(pkFieldName,fieldNamesValuesForParameter.get(pkFieldName));
        }
        return (pkMapForParameter);
-    } 
+    }
+    
+    public void createCustomerInvoiceDocumentForFunctionalTesting() {
+        
+        CustomerInvoiceDocument customerInvoiceDocument;
+        try {
+            customerInvoiceDocument = (CustomerInvoiceDocument)documentService.getNewDocument(CustomerInvoiceDocument.class);
+            LOG.info("Created customer invoice document " + customerInvoiceDocument.getDocumentNumber());
+        } catch (WorkflowException e) {
+            throw new RuntimeException("Customer Invoice Document creation failed.");
+        }
+        
+        customerInvoiceDocumentService.setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
+        customerInvoiceDocument.getDocumentHeader().setDocumentDescription("ADDING CUSTOMER INVOICE DOCUMENT");
+        customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber("ABB2");
+        
+        for (int i = 0; i < 15; i++) { 
+            customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument));
+        }
+        
+        try {
+            documentService.blanketApproveDocument(customerInvoiceDocument, null, null);
+            LOG.info("Submitted customer invoice document " + customerInvoiceDocument.getDocumentNumber());
+        } catch (WorkflowException e){
+            throw new RuntimeException("Customer Invoice Document routing failed.");
+        }
+    }
+    
+    protected CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument){
+        CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
+        customerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
+        customerInvoiceDetail.setChartOfAccountsCode("BL");
+        customerInvoiceDetail.setAccountNumber("1031400");
+        customerInvoiceDetail.setFinancialObjectCode("1500");
+        customerInvoiceDetail.setAccountsReceivableObjectCode("8118");
+        customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
+        customerInvoiceDetail.setInvoiceItemUnitPrice(new KualiDecimal(10));
+        customerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(10));
+        customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0));
+        customerInvoiceDetail.setAmount(new KualiDecimal(10));
+        return customerInvoiceDetail;
+    }  
+    
+    
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }    
     
     public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
         return customerInvoiceDocumentService;

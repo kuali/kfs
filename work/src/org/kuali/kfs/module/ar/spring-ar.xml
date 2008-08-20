@@ -39,17 +39,13 @@
 		<property name="jobNames">
 			<list>
 				<value>lockboxJob</value>
-				<!-- 
 				<value>customerInvoiceDocumentBatchJob</value>
-				-->
 			</list>
 		</property>
 		<property name="triggerNames">
 			<list>
 				<value>lockboxJobTrigger</value>
-				<!--
 				<value>customerInvoiceDocumentBatchJobTrigger</value>
-				-->
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
@@ -290,10 +286,9 @@
 		</property>
 	</bean>
 	
-	<!-- 
     <bean id="customerInvoiceDocumentBatchJobTrigger" parent="simpleTrigger">
     	<property name="jobName" value="customerInvoiceDocumentBatchJob" />
-    	<property name="startDelay" value="300000" />
+    	<property name="startDelay" value="240000" />
     	<property name="repeatCount" value="0" />
     </bean>	
 	
@@ -304,6 +299,12 @@
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
 		</property>		
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>		
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>					
 	</bean>
 	
 	<bean id="customerInvoiceDocumentBatchJob" parent="scheduledJobDescriptor">
@@ -313,7 +314,6 @@
 			</list>
 		</property>
 	</bean>
-	-->
 	
 	<bean id="cashControlElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.module.ar.document.service.impl.CashControlElectronicPaymentClaimingHelperImpl">
 		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>

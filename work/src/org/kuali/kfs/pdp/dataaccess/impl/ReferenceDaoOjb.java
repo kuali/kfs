@@ -94,10 +94,10 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
         LOG.debug("getAll() for " + type);
 
         QueryByCriteria qbc = new QueryByCriteria(getClass(type));
-        qbc.addOrderBy("description", true);
+        qbc.addOrderBy("name", true);
 
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        updateUser(l);
+        //updateUser(l);
         return l;
     }
 

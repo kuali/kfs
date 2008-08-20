@@ -465,10 +465,10 @@
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentStatus" table="PDP_PMT_STAT_CD_T">
     <field-descriptor name="code" column="PMT_STAT_CD" jdbc-type="VARCHAR" primarykey="true"/>
-    <field-descriptor name="description" column="PMT_STAT_CD_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
+    <field-descriptor name="name" column="PMT_STAT_CD_DESC" jdbc-type="VARCHAR"/>
+    <!--field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/-->
+    <!--field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/-->
+    <!--field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/-->
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentProcess" table="PDP_PROC_T">

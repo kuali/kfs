@@ -62,6 +62,7 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
 
         if (incumbentSalarySettingForm.isRefreshIncumbentBeforeSalarySetting()) {
             SpringContext.getBean(BudgetConstructionIntendedIncumbentService.class).refreshIncumbentFromExternal(incumbentSalarySettingForm.getEmplid());
+            budgetConstructionIntendedIncumbent.refresh();
         }
 
         incumbentSalarySettingForm.setBudgetConstructionIntendedIncumbent(budgetConstructionIntendedIncumbent);

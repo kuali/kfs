@@ -296,6 +296,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
         if (requestedAmount == null && payRate == null) {
             errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCKeyConstants.ERROR_EMPTY_PAY_RATE_ANNUAL_AMOUNT);
+            errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_EMPTY_PAY_RATE_ANNUAL_AMOUNT);
             return false;
         }
 

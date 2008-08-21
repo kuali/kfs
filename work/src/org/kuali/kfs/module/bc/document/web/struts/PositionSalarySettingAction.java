@@ -94,6 +94,8 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
                     throw new RuntimeException(String.format("unable to unlock position and active funding records: %s, %s, %s", universityFiscalYear, positionNumber, personUniversalIdentifier));
                 }
             }
+            
+            budgetConstructionPosition.refresh();
         }
 
         positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);

@@ -64,6 +64,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     private KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+    private KualiRuleService kualiRuleService = SpringContext.getBean(KualiRuleService.class);
 
     private List<String> messageList = GlobalVariables.getMessageList();
     private ErrorMap errorMap = GlobalVariables.getErrorMap();
@@ -330,7 +331,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      * @return true if the rules associated with the given event pass; otherwise, false
      */
     protected boolean invokeRules(KualiDocumentEvent event) {
-        return SpringContext.getBean(KualiRuleService.class).applyRules(event);
+        return kualiRuleService.applyRules(event);
     }
 
     /**

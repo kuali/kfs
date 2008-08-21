@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
@@ -635,7 +636,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the readOnlyEntry.
      */
     public boolean isViewOnlyEntry() {
-        /**boolean viewOnly = false;
+        /*boolean viewOnly = false;
         if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
             viewOnly = Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
         }
@@ -651,8 +652,13 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
             viewOnly = true;
         }
 
-        return viewOnly;**/
+        return viewOnly;*/
+        
         // TODO: restore the logic above
+        List<String> messageList =  GlobalVariables.getMessageList();
+        if(!messageList.contains(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED)) {
+            messageList.add(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED);
+        }
         return false;
     }
 }

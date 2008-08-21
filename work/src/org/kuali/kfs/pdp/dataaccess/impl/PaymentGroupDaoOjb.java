@@ -123,9 +123,9 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
         if (cp.getProcess() != null) {
             //updateProcessUser(cp.getProcess());
         }
-        if (cp.getPaymentGroupHistory() != null) {
+        /*if (cp.getPaymentGroupHistory() != null) {
             updatePaymentGroupHistoryList(cp.getPaymentGroupHistory());
-        }
+        }*/
         return cp;
     }
 
@@ -149,12 +149,12 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
         return (List) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
     }
 
-    private void updatePaymentGroupHistoryList(List l) {
+    /*private void updatePaymentGroupHistoryList(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             PaymentGroupHistory element = (PaymentGroupHistory) iter.next();
             //updateChangeUser(element);
         }
-    }
+    }*/
 
     /*private void updateChangeUser(PaymentGroupHistory b) {
         UserRequired ur = (UserRequired) b;

@@ -91,7 +91,7 @@
 						              <c:out value="${item.changeUser.personUserIdentifier}"/>&nbsp;
 												</td>
 						            <td class="datacell">
-						              <c:out value="${item.disbursementType.description}"/>&nbsp;
+						              <c:out value="${item.disbursementType.name}"/>&nbsp;
 												</td>
 						            <td class="datacell">
 						              <c:out value="${item.origDisburseNbr}"/>&nbsp;

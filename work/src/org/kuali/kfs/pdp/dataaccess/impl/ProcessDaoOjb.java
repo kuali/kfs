@@ -95,16 +95,16 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         qbc.setEndAtIndex(number.intValue());
         qbc.addOrderByDescending("processTimestamp");
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        updateProcessUser(l);
+        //updateProcessUser(l);
 
         return l;
     }
 
-    private void updateProcessUser(List l) {
+    /*private void updateProcessUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             //updateProcessUser((PaymentProcess) iter.next());
         }
-    }
+    }*/
 
     /*private void updateProcessUser(PaymentProcess b) {
         UserRequired ur = (UserRequired) b;

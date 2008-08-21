@@ -295,7 +295,7 @@
                                     <input type="image" name="btnReIssueCancel" src="<%= request.getContextPath() + "/pdp/images/button_cancreissuedis.gif" %>" alt="Cancel & Reissue Disbursement" align="absmiddle">
                                   </c:when>
                                   <c:otherwise>
-                                    <strong>This disbursement may not be cancelled or cancelled and reissued because the disbursement date is before <fmt:formatDate value="${PaymentDetail.lastDisbursementActionDate}" pattern="MM/dd/yyyy"/>.</strong>
+                                    <strong>This disbursement may not be cancelled or cancelled and reissued in PDP because the disbursement date is before <fmt:formatDate value="${PaymentDetail.lastDisbursementActionDate}" pattern="MM/dd/yyyy"/>. Please contact <c:out value="${PaymentDetail.disbursementCancellationEmailAddress}" /> for further assistance.</strong>
                                   </c:otherwise>
                                 </c:choose>
                               </c:when>

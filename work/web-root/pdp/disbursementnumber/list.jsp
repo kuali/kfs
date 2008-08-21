@@ -83,7 +83,7 @@
         <a href="disbursementmaint.do?dnrId=<c:out value="${b.id}"/>"><c:out value="${b.id}"/></a>&nbsp;
       </td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.physCampusProcCode}"/>&nbsp;</td>
-      <td nowrap="nowrap" class="datacell"><c:out value="${b.bank.disbursementType.description}"/>&nbsp;</td>
+      <td nowrap="nowrap" class="datacell"><c:out value="${b.bank.disbursementType.name}"/>&nbsp;</td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.bank.description}"/>&nbsp;</td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.beginDisbursementNbr}"/>&nbsp;</td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.endDisbursementNbr}"/>&nbsp;</td>

@@ -126,7 +126,7 @@
                 <td align=left class="datacell"> 
                   <html:select size="1" name="PdpPaymentDetailSearchForm" property="disbursementTypeCode" tabindex="5">
                     <html:option value="">&nbsp;</html:option>
-                    <html:options collection="DisbursementTypeList" name="PdpPaymentDetailSearchForm" property="code" labelProperty="description" />
+                    <html:options collection="DisbursementTypeList" name="PdpPaymentDetailSearchForm" property="code" labelProperty="name" />
                   </html:select>
                 </td>
                 <th align=right nowrap >Immediate:</th>
@@ -202,7 +202,7 @@
                 <td align=left class="datacell">
                   <html:select size="1" name="PdpPaymentDetailSearchForm" property="paymentStatusCode" tabindex="17">
                     <html:option value="">&nbsp;</html:option>
-                    <html:options collection="PaymentStatusList" name="PdpPaymentDetailSearchForm" property="code" labelProperty="description" />
+                    <html:options collection="PaymentStatusList" name="PdpPaymentDetailSearchForm" property="code" labelProperty="name" />
                   </html:select>
                 </td>
               </tr>

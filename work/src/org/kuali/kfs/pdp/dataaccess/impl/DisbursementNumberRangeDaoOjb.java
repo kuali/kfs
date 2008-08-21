@@ -47,11 +47,11 @@ public class DisbursementNumberRangeDaoOjb extends PlatformAwareDaoBaseOjb imple
         userService = us;
     }
 
-    private void updateUser(List l) {
+    /*private void updateUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             //updateUser((DisbursementNumberRange) iter.next());
         }
-    }
+    }*/
 
     /*private void updateUser(DisbursementNumberRange b) {
         UserRequired ur = (UserRequired) b;
@@ -71,7 +71,7 @@ public class DisbursementNumberRangeDaoOjb extends PlatformAwareDaoBaseOjb imple
         qbc.addOrderBy("bank.disbursementType.code", true);
 
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        updateUser(l);
+        //updateUser(l);
         return l;
     }
 

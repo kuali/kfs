@@ -95,7 +95,7 @@
                       Disbursement Type:
                     </th>
                     <td width="25%" align=left class="datacell">            
-                      <c:out value="${PaymentDetail.paymentGroup.disbursementType.description}"/>
+                      <c:out value="${PaymentDetail.paymentGroup.disbursementType.name}"/>
                       &nbsp;
                     </td>  
                     <th align=right valign=top nowrap>

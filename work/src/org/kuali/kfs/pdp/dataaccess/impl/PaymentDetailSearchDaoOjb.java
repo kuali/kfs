@@ -150,7 +150,7 @@ public class PaymentDetailSearchDaoOjb extends PlatformAwareDaoBaseOjb implement
         qbc.setEndAtIndex(total);
         LOG.debug("getAllPaymentsForSearchCriteria() Query = " + qbc.toString());
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        updateUser(l);
+        //updateUser(l);
 
         return l;
 
@@ -252,7 +252,7 @@ public class PaymentDetailSearchDaoOjb extends PlatformAwareDaoBaseOjb implement
         return finalResults;
     }
 
-    private void updateUser(List l) {
+    /*private void updateUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             PaymentDetail p = (PaymentDetail) iter.next();
             if (p.getPaymentGroup().getBatch() != null) {
@@ -262,16 +262,16 @@ public class PaymentDetailSearchDaoOjb extends PlatformAwareDaoBaseOjb implement
                 //updateProcessUser(p.getPaymentGroup().getProcess());
             }
             if (p.getPaymentGroup().getPaymentGroupHistory() != null) {
-                updateChangeUser(p.getPaymentGroup().getPaymentGroupHistory());
+                //updateChangeUser(p.getPaymentGroup().getPaymentGroupHistory());
             }
         }
-    }
+    }*/
 
-    private void updateChangeUser(List l) {
+    /*private void updateChangeUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             //updateChangeUser((PaymentGroupHistory) iter.next());
         }
-    }
+    }*/
 
     /*private void updateChangeUser(PaymentGroupHistory b) {
         UserRequired ur = (UserRequired) b;

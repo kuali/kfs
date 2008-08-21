@@ -65,7 +65,7 @@
     <td align="left" class="datacell">
     <logic:iterate id="b" name="BankList" indexId="i">
     	<html:radio property="bankId" value="${b.id}" tabindex="2" />
-    		<c:out value="${b.name}"/> - <c:out value="${b.disbursementType.description}"/><br>
+    		<c:out value="${b.name}"/> - <c:out value="${b.disbursementType.name}"/><br>
     </logic:iterate>&nbsp;
     </td>
   </tr>

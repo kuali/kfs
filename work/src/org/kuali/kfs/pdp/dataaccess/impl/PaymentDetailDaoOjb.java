@@ -241,7 +241,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
             //updateProcessUser(cp.getPaymentGroup().getProcess());
         }
         if (cp.getPaymentGroup().getPaymentGroupHistory() != null) {
-            updateChangeUser(cp.getPaymentGroup().getPaymentGroupHistory());
+            //updateChangeUser(cp.getPaymentGroup().getPaymentGroupHistory());
         }
         return cp;
     }
@@ -286,7 +286,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
             }
         }
 
-        if (cp != null) {
+        /*if (cp != null) {
             if (cp.getPaymentGroup().getBatch() != null) {
                 //updateBatchUser(cp.getPaymentGroup().getBatch());
             }
@@ -294,9 +294,9 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
                 //updateProcessUser(cp.getPaymentGroup().getProcess());
             }
             if (cp.getPaymentGroup().getPaymentGroupHistory() != null) {
-                updateChangeUser(cp.getPaymentGroup().getPaymentGroupHistory());
+                //updateChangeUser(cp.getPaymentGroup().getPaymentGroupHistory());
             }
-        }
+        }*/
         return cp;
     }
 
@@ -365,11 +365,11 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
     }
 
-    private void updateChangeUser(List l) {
+    /*private void updateChangeUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             //updateChangeUser((PaymentGroupHistory) iter.next());
         }
-    }
+    }*/
 
     /*private void updateChangeUser(PaymentGroupHistory b) {
         UserRequired ur = (UserRequired) b;

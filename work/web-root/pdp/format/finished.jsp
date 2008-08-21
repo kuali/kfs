@@ -59,7 +59,7 @@
          <tr>
             <td><c:out value="${item.sortGroupName}"/></td>
             <td><c:out value="${item.cust.chartCode}/${item.cust.orgCode}/${item.cust.subUnitCode} ${item.cust.customerDescription}"/></td>
-            <td><c:out value="${item.disbursementType.description}"/></td>
+            <td><c:out value="${item.disbursementType.name}"/></td>
             <td align="right"><c:out value="${item.beginDisbursementNbr}"/></td>
             <td align="right"><c:out value="${item.endDisbursementNbr}"/></td>            
             <td align="right"><fmt:formatNumber value="${item.payments}"/></td>

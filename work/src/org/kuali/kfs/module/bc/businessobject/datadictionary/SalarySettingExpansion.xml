@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="SalarySettingExpansion-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Salary Setting Expansion" />
     <property name="attributes" >
       <list>
         <ref bean="SalarySettingExpansion-accountLineAnnualBalanceAmount" />

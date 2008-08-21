@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetConstructionTwoPlugListMove-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Budget Construction Two Plug List Move" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionTwoPlugListMove-accountLineAnnualBalanceAmount" />

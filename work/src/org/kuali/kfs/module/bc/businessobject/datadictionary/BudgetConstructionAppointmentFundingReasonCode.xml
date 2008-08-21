@@ -15,6 +15,7 @@
       <ref bean="BudgetConstructionAppointmentFundingReasonCode-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="appointmentFundingReasonCode" />
+    <property name="objectLabel" value="Budget Construction Appointment Funding Reason Code" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionAppointmentFundingReasonCode-appointmentFundingReasonCode" />

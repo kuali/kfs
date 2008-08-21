@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetConstructionActiveJobMove-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Budget Construction Active Job Move" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionActiveJobMove-departmentIdentifier" />

@@ -11,6 +11,7 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetConstructionRequestImport-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Budget Construction Request Import" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionRequestImport-fileName" />

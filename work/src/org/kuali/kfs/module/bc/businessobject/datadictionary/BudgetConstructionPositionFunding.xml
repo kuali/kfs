@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetConstructionPositionFunding-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Budget Construction Position Funding" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionPositionFunding-accountNumber" />

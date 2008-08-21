@@ -15,6 +15,7 @@
       <ref bean="CalculatedSalaryFoundationTrackerOverride-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="emplid" />
+    <property name="objectLabel" value="Calculated Salary Foundation Tracker Override" />
     <property name="attributes" >
       <list>
         <ref bean="CalculatedSalaryFoundationTrackerOverride-accountNumber" />

@@ -15,6 +15,7 @@
       <ref bean="BudgetConstructionPosition-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="positionNumber" />
+    <property name="objectLabel" value="Budget Construction Position" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionPosition-budgetedPosition" />

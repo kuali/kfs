@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetConstructionAccountSelect-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Budget Construction Account Select" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionAccountSelect-accountNumber" />

@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="CalculatedSalaryFoundationEarnCode-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Calculated Salary Foundation Earn Code" />
     <property name="attributes" >
       <list>
         <ref bean="CalculatedSalaryFoundationEarnCode-csfEligibleFlag" />

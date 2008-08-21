@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetConstructionLevelSummary-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Budget Construction Level Summary" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionLevelSummary-accountLineAnnualBalanceAmount" />

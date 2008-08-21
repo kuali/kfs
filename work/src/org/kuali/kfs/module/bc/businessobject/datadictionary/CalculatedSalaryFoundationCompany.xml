@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="CalculatedSalaryFoundationCompany-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Calculated Salary Foundation Company" />
     <property name="attributes" >
       <list>
         <ref bean="CalculatedSalaryFoundationCompany-hrmsCompany" />

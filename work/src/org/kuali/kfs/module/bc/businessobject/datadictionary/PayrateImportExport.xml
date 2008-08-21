@@ -8,6 +8,7 @@
 
   <bean id="PayrateImportExport-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.PayrateImportExport" />
+    <property name="objectLabel" value="Payrate Import Export" />
     <property name="attributes" >
       <list>
         <ref bean="PayrateImportExport-positionUnionCode" />

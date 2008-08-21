@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetConstructionPositionSelect-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Budget Construction Position Select" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionPositionSelect-emplid" />

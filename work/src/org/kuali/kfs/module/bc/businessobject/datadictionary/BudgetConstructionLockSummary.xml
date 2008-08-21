@@ -11,6 +11,7 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetConstructionLockSummary-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Budget Construction Lock Summary" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionLockSummary-lockType" />

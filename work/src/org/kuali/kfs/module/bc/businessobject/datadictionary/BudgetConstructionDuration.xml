@@ -15,6 +15,7 @@
       <ref bean="BudgetConstructionDuration-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="appointmentDurationCode" />
+    <property name="objectLabel" value="Budget Construction Duration" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionDuration-appointmentDurationCode" />

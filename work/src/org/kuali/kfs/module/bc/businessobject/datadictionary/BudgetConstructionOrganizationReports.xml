@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetConstructionOrganizationReports-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Budget Construction Organization Reports" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionOrganizationReports-chartOfAccountsCode" />

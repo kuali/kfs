@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="CalculatedSalaryFoundationAction-lookupDefinition" />
     </property>
+    <property name="objectLabel" value="Calculated Salary Foundation Action" />
     <property name="attributes" >
       <list>
         <ref bean="CalculatedSalaryFoundationAction-action" />

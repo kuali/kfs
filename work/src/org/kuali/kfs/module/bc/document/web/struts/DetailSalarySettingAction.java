@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.NONE;
+
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -203,9 +205,22 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    // determine whether any active funding line is invloved leave
+    protected boolean hasFundingLineInvolveLeave(List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings) {
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : activeAppointmentFundings) {
+            String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
+
+            if (!StringUtils.equals(leaveDurationCode, NONE.durationCode)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     // apply the default values to the certain fields when the fields are empty
-    private void applyDefaultValuesIfEmpty(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    protected void applyDefaultValuesIfEmpty(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         if (StringUtils.isBlank(appointmentFunding.getSubAccountNumber())) {
             appointmentFunding.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }

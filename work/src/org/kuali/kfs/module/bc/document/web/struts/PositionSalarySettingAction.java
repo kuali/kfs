@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import static org.kuali.kfs.module.bc.BCConstants.AppointmentFundingDurationCodes.NONE;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +22,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -165,19 +162,6 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
                 warnings.add(BCKeyConstants.WARNING_RECALCULATE_NEEDED);
             }
         }
-    }
-
-    // determine whether any active funding line is invloved leave
-    private boolean hasFundingLineInvolveLeave(List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings) {
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : activeAppointmentFundings) {
-            String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
-
-            if (!StringUtils.equals(leaveDurationCode, NONE.durationCode)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

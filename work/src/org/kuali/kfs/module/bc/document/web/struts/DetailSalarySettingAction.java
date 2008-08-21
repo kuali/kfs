@@ -207,7 +207,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
     }
     
     // determine whether any active funding line is invloved leave
-    protected boolean hasFundingLineInvolveLeave(List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings) {
+    protected boolean hasFundingLineInvolvedLeave(List<PendingBudgetConstructionAppointmentFunding> activeAppointmentFundings) {
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : activeAppointmentFundings) {
             String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
 

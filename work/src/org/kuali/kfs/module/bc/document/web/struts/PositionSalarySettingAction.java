@@ -142,7 +142,7 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             return;
         }
 
-        boolean hasFundingLineInvolveLeave = this.hasFundingLineInvolveLeave(activeAppointmentFundings);
+        boolean hasFundingLineInvolveLeave = this.hasFundingLineInvolvedLeave(activeAppointmentFundings);
         BudgetConstructionPosition budgetConstructionPosition = positionSalarySettingForm.getBudgetConstructionPosition();
 
         BigDecimal positionFte = budgetConstructionPosition.getPositionFullTimeEquivalency();

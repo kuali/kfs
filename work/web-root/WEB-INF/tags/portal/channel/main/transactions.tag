@@ -24,7 +24,8 @@
         <li><portal:portalLink displayTitle="true" title="Customer Credit Memo" url="arCustomerCreditMemoDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerCreditMemoDocument" /></li>
         <li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoiceDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerInvoiceDocument" /></li>
         <li><portal:portalLink displayTitle="true" title="Customer Invoice Writeoff" url="arCustomerInvoiceWriteoffDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerInvoiceWriteoffDocument" /></li>
-        <li><portal:portalLink displayTitle="true" title="Payment Application" url="arPaymentApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=PaymentApplicationDocument" /></li>
+		<li><portal:portalLink displayTitle="true" title="Customer Invoice Writeoff Lookup" url="arCustomerInvoiceWriteoffLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>        
+		<li><portal:portalLink displayTitle="true" title="Payment Application" url="arPaymentApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=PaymentApplicationDocument" /></li>
     </ul>
 
     <strong>Budget Construction</strong><br />

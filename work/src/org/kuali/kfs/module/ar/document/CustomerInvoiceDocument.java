@@ -80,6 +80,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private Date printDate;
     private KualiDecimal stateTaxPercent;
     private KualiDecimal localTaxPercent;
+    private Integer age;
 
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 	private Chart billByChartOfAccount;
@@ -214,7 +215,15 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 		return billingDate;
 	}
 
-	/**
+	public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    /**
 	 * Sets the billingDate attribute.
 	 *
 	 * @param billingDate The billingDate to set.

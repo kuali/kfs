@@ -711,6 +711,9 @@
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService"/>
+		</property>
 	</bean>
 
 	<bean id="universalUserLookupable" class="org.kuali.rice.kns.lookup.UniversalUserLookupableImpl" parent="kualiLookupable">

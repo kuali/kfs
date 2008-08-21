@@ -60,6 +60,9 @@ public class BudgetConstructionPositionServiceImpl implements BudgetConstruction
         if (retrievedPosition != null) {
             throw new BudgetPositionAlreadyExistsException(universityFiscalYear, positionNumber);
         }
+        else {
+            retrievedPosition = new BudgetConstructionPosition();
+        }
         
         // populate BudgetConstructionPosition
         BudgetConstructionPosition budgetConstructionPosition = buildBudgetPosition(position, retrievedPosition);

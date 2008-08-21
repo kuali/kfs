@@ -98,6 +98,8 @@ public class BudgetConstructionImportExportAction extends BudgetExpansionAction 
      */
     public String getTextFieldDelimiter(BudgetConstructionImportExportForm form) {
         String delimiter = form.getTextFieldDelimiter();
+        
+        if ( delimiter.equals(BCConstants.RequestImportTextFieldDelimiter.NOTHING.toString()) ) delimiter = "";        
         if ( delimiter.equals(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()) ) delimiter = form.getOtherTextFieldDelimiter();
         
         return delimiter;

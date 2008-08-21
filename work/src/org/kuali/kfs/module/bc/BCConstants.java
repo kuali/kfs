@@ -337,7 +337,7 @@ public class BCConstants extends JSTLConstants {
             if (this.equals(QUOTE))
                 return "\"";
             if (this.equals(NOTHING))
-                return "";
+                return " ";
 
             return this.toString();
         }

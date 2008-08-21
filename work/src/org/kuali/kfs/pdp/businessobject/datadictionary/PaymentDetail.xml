@@ -14,7 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="PaymentDetail-lookupDefinition" />
     </property>
-    <property name="objectLabel" value="Account Clearing House Bank" />
+    <property name="objectLabel" value="Payment Detail" />
     <property name="attributes" >
       <list>
         <ref bean="PaymentDetail-id" />

@@ -23,34 +23,27 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.PreCommitSuite;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.datadictionary.FieldDefinition;
 import org.kuali.rice.kns.datadictionary.LookupDefinition;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.suite.AnnotationTestSuite;
-import org.kuali.kfs.sys.suite.PreCommitSuite;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
 public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(DataDictionaryConfigurationTest.class);
     private DataDictionary dataDictionary;
-    private Map<String, Exception> dataDictionaryLoadFailures;
-    private Map<String, String> dataDictionaryWarnings;
 
     public void testAllDataDictionaryDocumentTypesExistInDocumentTypeTable() throws Exception {
         List<String> documentTypeCodes = new ArrayList<String>();
@@ -58,7 +51,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
             documentTypeCodes.add(type.getDocumentTypeCode());
         }
         // Using HashSet since duplicate objects would otherwise be returned
-        HashSet<DocumentEntry> documentEntries = new HashSet(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntries().values());
+        HashSet<DocumentEntry> documentEntries = new HashSet(dataDictionary.getDocumentEntries().values());
         List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
         for (DocumentEntry documentEntry : documentEntries) {
             String code = documentEntry.getDocumentTypeCode();
@@ -97,7 +90,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
             throw (e);
         }
         // Using HashSet since duplicate objects would otherwise be returned
-        HashSet<DocumentEntry> documentEntries = new HashSet(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntries().values());
+        HashSet<DocumentEntry> documentEntries = new HashSet(dataDictionary.getDocumentEntries().values());
         List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
         for (DocumentEntry documentEntry : documentEntries) {
             String name = documentEntry.getDocumentTypeName();
@@ -116,9 +109,8 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     }
 
     public void testActiveFieldExistInLookupAndResultSection() throws Exception{
-        DataDictionaryService dataDictionaryService = (DataDictionaryService)SpringContext.getBean(DataDictionaryService.class);
         List<Class> noActiveFieldClassList = new ArrayList<Class>();
-        for(BusinessObjectEntry businessObjectEntry:dataDictionaryService.getDataDictionary().getBusinessObjectEntries().values()){
+        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
             List<Class> iList = Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
             try {
                 if(iList.contains(Class.forName("org.kuali.rice.kns.bo.Inactivateable"))){
@@ -136,20 +128,17 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     }
 
     public void testAllBusinessObjectsHaveObjectLabel() throws Exception {
-        DataDictionaryService dataDictionaryService = (DataDictionaryService)SpringContext.getBean(DataDictionaryService.class);
         List<Class> noObjectLabelClassList = new ArrayList<Class>();
-        for(BusinessObjectEntry businessObjectEntry:dataDictionaryService.getDataDictionary().getBusinessObjectEntries().values()){
+        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
             if (StringUtils.isBlank(businessObjectEntry.getObjectLabel())) {
                 noObjectLabelClassList.add(businessObjectEntry.getBusinessObjectClass());
             }
         }
         assertEquals(noObjectLabelClassList.toString(), 0, noObjectLabelClassList.size());
     }
-
+    
     protected void setUp() throws Exception {
         super.setUp();
         dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
-        dataDictionaryLoadFailures = new TreeMap();
-        dataDictionaryWarnings = new TreeMap();
     }
 }

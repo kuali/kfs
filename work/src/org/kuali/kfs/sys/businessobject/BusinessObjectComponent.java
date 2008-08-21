@@ -37,8 +37,7 @@ public class BusinessObjectComponent extends PersistableBusinessObjectBase {
         setNamespaceCode(SpringContext.getBean(ParameterService.class).getNamespace(businessObjectEntry.getBusinessObjectClass()));
         setNamespaceName(new ParameterNamespaceValuesFinder().getKeyLabel(getNamespaceCode()));
         setComponentClass(businessObjectEntry.getBusinessObjectClass().getName());
-        // TODO fix this once DataDictionaryConfigurationTest.testAllBusinessObjectsHaveObjectLabel is passing
-        setComponentLabel(KFSUtils.getBusinessTitleForClass(businessObjectEntry.getBusinessObjectClass()));
+        setComponentLabel(businessObjectEntry.getObjectLabel());
     }
 
     public String getNamespaceCode() {

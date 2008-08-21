@@ -217,9 +217,9 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
         byte[] fileByteContent = IOUtils.toByteArray(fileStream);
         electronicInvoice = (ElectronicInvoice) batchInputFileService.parse(electronicInvoiceInputFileType, fileByteContent);
     }catch (IOException e) {
-        throw new CxmlParseException("Error parsing " + invoiceFile.getName(),e);
+        throw new CxmlParseException(e.getMessage());
     }catch (XMLParseException e) {
-        throw new CxmlParseException("Error parsing " + invoiceFile.getName(),e);
+        throw new CxmlParseException(e.getMessage());
     }finally{
         try {
             fileStream.close();

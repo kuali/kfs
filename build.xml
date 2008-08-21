@@ -195,10 +195,11 @@
 	<target name="filter-project-rice" unless="no.filter.project.rice" depends="init-properties">
 		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
 		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
-		<delete failonerror="false" includeemptydirs="true">
-			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**/kr/**/*" />
-			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**/en/**/*" />
-		</delete>
+		<!-- delete Rice JSP and tag compiled files to force re-compilation -->
+		<delete dir="${appserver.work.dir}/${ant.project.name}-${build.environment}/org/apache/jsp/kr" />
+		<delete dir="${appserver.work.dir}/${ant.project.name}-${build.environment}/org/apache/jsp/en" />
+		<delete dir="${appserver.work.dir}/${ant.project.name}-${build.environment}/org/apache/jsp/tag/web/kr" />
+		<delete dir="${appserver.work.dir}/${ant.project.name}-${build.environment}/org/apache/jsp/tag/web/en" />
 	</target>
 	
   	<target name="filter-project-spring-ide" unless="no.filter.project.spring.ide" depends="init-properties">

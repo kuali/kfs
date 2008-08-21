@@ -35,7 +35,6 @@ import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
-import org.kuali.kfs.module.cg.businessobject.ExternalCfda;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;

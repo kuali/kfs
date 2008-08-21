@@ -1037,6 +1037,9 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public CapitalAssetSystemType getCapitalAssetSystemType() {
+        if(ObjectUtils.isNull(capitalAssetSystemType)){
+            this.refreshReferenceObject("capitalAssetSystemType");
+        }
         return capitalAssetSystemType;
     }
 
@@ -1045,6 +1048,9 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public CapitalAssetSystemState getCapitalAssetSystemState() {
+        if(ObjectUtils.isNull(capitalAssetSystemState)){
+            this.refreshReferenceObject("capitalAssetSystemState");
+        }
         return capitalAssetSystemState;
     }
 

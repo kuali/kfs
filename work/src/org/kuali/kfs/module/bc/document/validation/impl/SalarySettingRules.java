@@ -127,7 +127,17 @@ public class SalarySettingRules implements SalarySettingRule {
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustSalaraySettingLinePercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        return salarySettingRuleHelperService.hasValidAdjustmentAmount(appointmentFunding, errorMap);
+        boolean canBeAdjusted =  salarySettingRuleHelperService.canBeAdjusted(appointmentFunding, errorMap);
+        if(!canBeAdjusted) {
+            return false;
+        }
+        
+        boolean hasValidAdjustmentAmount = salarySettingRuleHelperService.hasValidAdjustmentAmount(appointmentFunding, errorMap);
+        if(!hasValidAdjustmentAmount) {
+            return false;
+        }
+        
+        return true;
     }
 
     /**

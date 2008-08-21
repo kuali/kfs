@@ -47,6 +47,24 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
     private SalarySettingService salarySettingService;
     private HumanResourcesPayrollService humanResourcesPayrollService;
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#canBeAdjusted(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.rice.kns.util.ErrorMap)
+     */
+    @Logged
+    public boolean canBeAdjusted(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+        if (appointmentFunding.getEffectiveCSFTracker() == null) {
+            errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_CANNOT_ADJUST_FUNDING_WITHOUT_EFFECTIVE_CSF_TRACKER);
+            return false;
+        }
+        
+        if (appointmentFunding.isAppointmentFundingDeleteIndicator()) {
+            errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_CANNOT_ADJUST_FUNDING_MARKED_AS_DELETE);
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasActiveJob(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,

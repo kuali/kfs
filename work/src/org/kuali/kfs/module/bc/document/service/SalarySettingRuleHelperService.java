@@ -30,6 +30,16 @@ import org.kuali.rice.kns.util.spring.Logged;
  * define a set of validations methods for salary setting
  */
 public interface SalarySettingRuleHelperService {
+    
+    /**
+     * determine whether the salary amount of the given appointment funding can be adjusted 
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @param errorMap the given error map that can hold the error message if any
+     * @return true if the salary amount of the given appointment funding can be adjusted; otherwise, false
+     */
+    public boolean canBeAdjusted(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+    
     /**
      * determine whether the given appointment funding is associated with an active job
      * 

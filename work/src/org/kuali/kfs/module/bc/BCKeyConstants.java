@@ -167,5 +167,7 @@ public class BCKeyConstants {
     public static final String ERROR_FTE_QUANTITY_NOT_IN_RANGE = "error.budget.fteQuantityNotInRange";
     public static final String ERROR_LEAVE_TIME_PERCENT_NOT_IN_RANGE = "error.budget.leaveTimePercentNotInRange";
     public static final String ERROR_TIME_PERCENT_NOT_IN_RANGE = "error.budget.timePercentNotInRange";
+    public static final String ERROR_CANNOT_ADJUST_FUNDING_WITHOUT_EFFECTIVE_CSF_TRACKER = "error.budget.cannotAdjustFundingWithoutEffectiveCSFTracker";
+    public static final String ERROR_CANNOT_ADJUST_FUNDING_MARKED_AS_DELETE = "error.budget.cannotAdjustFundingMarkedAsDelete";
 }
 

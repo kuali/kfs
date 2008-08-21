@@ -52,14 +52,14 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
     private Integer nextCapitalAssetPaymentLineNumber;
     
-    private List<AssetPaymentDetail> assetPaymentDetail;
+    //private List<AssetPaymentDetail> assetPaymentDetail;
     private List<AssetPaymentAssetDetail> assetPaymentAssetDetail;
 
     private Long capitalAssetNumber;
     
     public AssetPaymentDocument() {
         super();
-        this.setAssetPaymentDetail(new TypedArrayList(AssetPaymentDetail.class)); 
+        //this.setAssetPaymentDetail(new TypedArrayList(AssetPaymentDetail.class)); 
         this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));
     }    
     
@@ -108,7 +108,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.sourceAccountingLines.add(assetPaymentDetail);
         //this.sourceAccountingLines.add(line);
 
-        this.assetPaymentDetail.add(assetPaymentDetail);
+        //this.assetPaymentDetail.add(assetPaymentDetail);
         
         this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);        
         this.setNextCapitalAssetPaymentLineNumber(this.nextSourceLineNumber);
@@ -183,13 +183,13 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     }
 
 
-    public List<AssetPaymentDetail> getAssetPaymentDetail() {
-        return assetPaymentDetail;
-    }
-
-    public void setAssetPaymentDetail(List<AssetPaymentDetail> assetPaymentDetail) {
-        this.assetPaymentDetail = assetPaymentDetail;
-    }
+//    public List<AssetPaymentDetail> getAssetPaymentDetail() {
+//        return assetPaymentDetail;
+//    }
+//
+//    public void setAssetPaymentDetail(List<AssetPaymentDetail> assetPaymentDetail) {
+//        this.assetPaymentDetail = assetPaymentDetail;
+//    }
 
 
     public List<AssetPaymentAssetDetail> getAssetPaymentAssetDetail() {

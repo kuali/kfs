@@ -138,7 +138,7 @@
 						<tr/>
 				</table>				
 				<cams:viewPayments	defaultTabHide="true" assetPayments="${assetPayments}"	assetValueObj="${assetObject}" assetValue="${assetValue}"/>				
-				<cams:viewPaymentInProcess defaultTabHide="true" assetPaymentDetails="${KualiForm.document.assetPaymentDetail}" assetPaymentAssetDetail="${assetPaymentsAssetDetail}"/>
+				<cams:viewPaymentInProcess defaultTabHide="true" assetPaymentDetails="${KualiForm.document.sourceAccountingLines}" assetPaymentAssetDetail="${assetPaymentsAssetDetail}"/>
 			</div>
 		</kul:tab>
 		</td>

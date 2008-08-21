@@ -48,32 +48,44 @@
 				</tr>
 				
 				<c:set var="totalPayments" value="${0.00}" />
+				<c:set var="line" value="${-1}"/>
 				<c:forEach var="payment" items="${assetPaymentDetails}">
+					<c:set var="line" value="${line + 1}"/>
+					<c:set var="object" value="document.sourceAccountingLine[${line}]"/>
+				
 					<c:set var="allocatedAmount" value="${0.00}"/>		
 					<c:if test="${totalHistoricalAmount > 0 }">
 						<c:set var="previousTotalCost" value="${assetPaymentAssetDetail.previousTotalCostAmount}" />
 			    	    <c:set var="percentage" value="${previousTotalCost / totalHistoricalAmount }"/>
-				        <c:set var="allocatedAmount" value="${documentTotal * percentage}"/>
+			    	    <c:set var="allocatedAmount" value="${payment.amount * percentage}"/>
 					</c:if>
-					<c:set var="amount" value="${payment.amount}" />
-					<c:set var="totalPayments" value="${allocatedAmount + totalPayments}" />
+
+					<c:set var="totalPayments" value="${allocatedAmount + totalPayments}"/>
 									 	
 					<tr>
-		 				<td class="grid">${payment.chartOfAccountsCode}</td>
-						<td class="grid">${payment.accountNumber}</td>
-						<td class="grid">${payment.subAccountNumber}</td>								
-						<td class="grid">${payment.financialObjectCode}</td>								
-						<td class="grid">${payment.financialSubObjectCode}</td>								
-						<td class="grid">${payment.projectCode}</td>								
-						<td class="grid">${payment.organizationReferenceId}</td>								
-						<td class="grid">${payment.documentNumber}</td>								
-						<td class="grid">${payment.expenditureFinancialDocumentTypeCode}</td>								
-						<td class="grid">${payment.purchaseOrderNumber}</td>								
-						<td class="grid">${payment.requisitionNumber}</td>								
-						<td class="grid">${payment.expenditureFinancialDocumentPostedDate}</td>								
-						<td class="grid">${payment.financialDocumentPostingYear}</td>								
-						<td class="grid">${payment.financialDocumentPostingPeriodCode}</td>								
-						<td class="grid">${payment.transferPaymentIndicator}</td>								
+					
+					
+		 				<td class="grid"><kul:htmlControlAttribute property="${object}.chartOfAccountsCode" attributeEntry="${assetPaymentAttributes.chartOfAccountsCode}" readOnly="true"/></td>								
+						<td class="grid">
+							<kul:htmlControlAttribute property="${object}.accountNumber" attributeEntry="${assetPaymentAttributes.accountNumber}" readOnly="true" readOnlyBody="true">								
+								<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Account" keyValues="chartOfAccountsCode=${KualiForm.document.sourceAccountingLines[line].chartOfAccountsCode}&amp;accountNumber=${KualiForm.document.sourceAccountingLines[line].accountNumber}" render="true">
+		                			<html:hidden write="true" property="${object}.accountNumber" />
+        		        		</kul:inquiry>&nbsp;
+            				</kul:htmlControlAttribute>
+		      			</td>
+						<td class="grid"><kul:htmlControlAttribute property="${object}.subAccountNumber" attributeEntry="${assetPaymentAttributes.subAccountNumber}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.financialObjectCode" attributeEntry="${assetPaymentAttributes.financialObjectCode}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.financialSubObjectCode" attributeEntry="${assetPaymentAttributes.financialSubObjectCode}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.projectCode" attributeEntry="${assetPaymentAttributes.projectCost}" readOnly="true"/></td>
+						<td class="grid"><kul:htmlControlAttribute property="${object}.organizationReferenceId" attributeEntry="${assetPaymentAttributes.organizationReferenceId}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.documentNumber" attributeEntry="${assetPaymentAttributes.documentNumber}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.expenditureFinancialDocumentTypeCode" attributeEntry="${assetPaymentAttributes.expenditureFinancialDocumentTypeCode}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.purchaseOrderNumber" attributeEntry="${assetPaymentAttributes.purchaseOrderNumber}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.requisitionNumber" attributeEntry="${assetPaymentAttributes.requisitionNumber}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.expenditureFinancialDocumentPostedDate" attributeEntry="${assetPaymentAttributes.expenditureFinancialDocumentPostingDate}" readOnly="true"/></td>
+						<td class="grid"><kul:htmlControlAttribute property="${object}.financialDocumentPostingYear" attributeEntry="${assetPaymentAttributes.financialDocumentPostingYear}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.financialDocumentPostingPeriodCode" attributeEntry="${assetPaymentAttributes.financialDocumentPostingPeriodCode}" readOnly="true"/></td>														
+						<td class="grid">${payment.transferPaymentIndicator}</td>
 						<td class="grid" align="right"><fmt:formatNumber value="${allocatedAmount}" maxFractionDigits="2" minFractionDigits="2"/></td>
 					</tr>
 				</c:forEach>

@@ -25,6 +25,7 @@ import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -44,7 +45,8 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentDocumentPreRules.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
 
-    public boolean doRules(Document document) {
+    
+    public boolean doRules(Document document) {        
         if (hasDifferentObjectSubTypes((AssetPaymentDocument) document)) {
             if (!isOkHavingDifferentObjectSubTypes()) {
                 event.setActionForwardName(KFSConstants.MAPPING_BASIC);
@@ -66,14 +68,9 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
             return false;
         }
         
-        //TODO FIX IT
-        //document.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
-
         List<String> subTypes = new ArrayList<String>();
         subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
 
-        List<AssetPayment> assetPayments=null;
-        //List<AssetPayment> assetPayments = document.getAsset().getAssetPayments();
         List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
         List<String> validObjectSubTypes = new ArrayList<String>();
 
@@ -97,27 +94,33 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
             return true;
         }
 
-        // Comparing against the already approved asset payments
-        if (!assetPayments.isEmpty()) {
-            for (AssetPayment assetPayment : assetPayments) {
-                String paymentSubObjectType = assetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
-
-                validObjectSubTypes = new ArrayList<String>();
-                for (String subType : subTypes) {
-                    validObjectSubTypes = Arrays.asList(StringUtils.split(subType, ","));
-                    if (validObjectSubTypes.contains(paymentSubObjectType)) {
-                        break;
-                    }
+        List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail(); 
+        for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {
+            assetPaymentAssetDetail.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
+            List<AssetPayment> assetPayments = assetPaymentAssetDetail.getAsset().getAssetPayments();
+            
+            // Comparing against the already approved asset payments
+            if (!assetPayments.isEmpty()) {
+                for (AssetPayment assetPayment : assetPayments) {
+                    String paymentSubObjectType = assetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
+    
                     validObjectSubTypes = new ArrayList<String>();
-                }
-                if (validObjectSubTypes.isEmpty())
-                    validObjectSubTypes.add(paymentSubObjectType);
-
-                // Comparing the same asset payment document
-                for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
-                    if (!validObjectSubTypes.contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
-                        // Differences where found.
-                        return true;
+                    for (String subType : subTypes) {
+                        validObjectSubTypes = Arrays.asList(StringUtils.split(subType, ","));
+                        if (validObjectSubTypes.contains(paymentSubObjectType)) {
+                            break;
+                        }
+                        validObjectSubTypes = new ArrayList<String>();
+                    }
+                    if (validObjectSubTypes.isEmpty())
+                        validObjectSubTypes.add(paymentSubObjectType);
+    
+                    // Comparing the same asset payment document
+                    for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
+                        if (!validObjectSubTypes.contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
+                            // Differences where found.
+                            return true;
+                        }
                     }
                 }
             }

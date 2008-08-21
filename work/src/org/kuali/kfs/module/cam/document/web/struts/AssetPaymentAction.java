@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.document.web.struts;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.document.validation.event.DiscountCustomerInvoiceDetailEvent;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
@@ -39,6 +41,7 @@ import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentAction.class);
@@ -135,7 +138,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
             insertAccountingLine(true, assetPaymentForm, line);
 
             // clear the used newTargetLine
-            assetPaymentForm.setNewSourceLine(null);
+            assetPaymentForm.setNewSourceLine(null);            
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -156,10 +159,19 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 
         AssetPaymentDocument    assetPaymentDocument    = assetPaymentForm.getAssetPaymentDocument();
         AssetPaymentAssetDetail newAssetPaymentAssetDetail = new AssetPaymentAssetDetail(); 
+        String sCapitalAssetNumber = assetPaymentForm.getCapitalAssetNumber();
 
-        Long capitalAssetNumber = new Long(assetPaymentForm.getCapitalAssetNumber());
-        
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
+        
+        Long capitalAssetNumber=null;
+        try {
+            capitalAssetNumber = new Long(Long.parseLong(sCapitalAssetNumber));
+        }
+        catch (NumberFormatException e) {
+            sCapitalAssetNumber = (sCapitalAssetNumber == null ? " " : sCapitalAssetNumber);             
+            GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, sCapitalAssetNumber);            
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);            
+        }        
         
         boolean rulePassed = true;
 
@@ -171,8 +183,6 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         if (rulePassed) {                
             newAssetPaymentAssetDetail.setPreviousTotalCostAmount(newAssetPaymentAssetDetail.getAsset().getTotalCostAmount());
             assetPaymentForm.getAssetPaymentDocument().addAssetPaymentAssetDetail(newAssetPaymentAssetDetail);
-            newAssetPaymentAssetDetail.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
-
             assetPaymentForm.setCapitalAssetNumber("");        
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -35,7 +35,7 @@
 		forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}">
 	</fin:accountingLines>
 	
-	<cams:viewPaymentInProcessByAsset assetPaymentAssetDetail="${KualiForm.document.assetPaymentAssetDetail}" assetPaymentDetail="${KualiForm.document.assetPaymentDetail}" />
+	<cams:viewPaymentInProcessByAsset assetPaymentAssetDetail="${KualiForm.document.assetPaymentAssetDetail}" assetPaymentDetail="${KualiForm.document.sourceAccountingLines}" />
 	
     <kul:notes />
     <kul:adHocRecipients />

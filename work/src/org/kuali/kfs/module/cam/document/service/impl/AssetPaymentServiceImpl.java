@@ -151,7 +151,8 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      */
     //TODO FIX it
     private void createNewPayments(AssetPaymentDocument document) {
-        List<AssetPaymentDetail> assetPaymentDetailLines = document.getAssetPaymentDetail();
+        //List<AssetPaymentDetail> assetPaymentDetailLines = document.getAssetPaymentDetail();
+        List<AssetPaymentDetail> assetPaymentDetailLines = document.getSourceAccountingLines();
         List<PersistableBusinessObject> assetPayments = new ArrayList<PersistableBusinessObject>();
         Integer maxSequenceNo=new Integer(0);        
 

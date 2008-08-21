@@ -41,34 +41,54 @@
 				<th class="grid" align="center"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.financialDocumentPostingPeriodCode}" readOnly="true" /></th>
 				<th class="grid" align="center"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.amount}" readOnly="true" /></th>
 			</tr>
-			
-			<c:set var="assetPos" value="-1" />			
-			<c:forEach var="paymentAsset" items="${assetPaymentAssetDetail}">
-	 			<c:set var="assetPos" value="${assetPos+1}" />
-			 	<c:set var="paymentPos" value="${-1}" />
-			 	
-			 	<c:set var="percentage" value="${KualiForm.document.assetPaymentAssetDetail[assetPos].previousTotalCostAmount / totalHistoricalAmount }"/>
-			 		 	
-		 		<fmt:formatNumber var="rowTotal" value="${documentTotal * percentage }" maxFractionDigits="2" minFractionDigits="2"/>			 		 				 		 	
-							
+
+			<c:set var="pos" value="${-1}"/>			
+			<c:forEach var="assetDetail" items="${assetPaymentAssetDetail}">
+				<c:set var="pos" value="${pos + 1}"/>	
+						 		 			
+				<c:set var="line" value="${-1}"/>
 				<c:forEach var="payment" items="${assetPaymentDetail}">
-				 	<c:set var="paymentPos" value="${paymentPos+1}" />	 	
+					<c:set var="line" value="${line + 1}"/>
+
+					<c:set var="object" value="document.sourceAccountingLine[${line}]"/>
+
+					<c:set var="allocatedAmount" value="${0.00}"/>								
+					<c:if test="${totalHistoricalAmount > 0 }">
+						<c:set var="previousTotalCost" value="${assetDetail.previousTotalCostAmount}" />
+					 	<c:set var="percentage" value="${previousTotalCost / totalHistoricalAmount }"/>
+				 		<c:set var="paymentAmount" value="${payment.amount}" />			 										 		
+				 		<fmt:formatNumber var="allocatedAmount" value="${paymentAmount * percentage }" maxFractionDigits="2" minFractionDigits="2"/>			 		 				 		 					
+					</c:if>				
+				
+				
 					<tr>
-		 				<td class="grid"><kul:htmlControlAttribute property="document.assetPaymentAssetDetail[${assetPos}].capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true"/></td>								
-		 				<td class="grid"><kul:htmlControlAttribute property="document.assetPaymentDetail[${paymentPos}].chartOfAccountsCode" attributeEntry="${assetPaymentAttributes.chartOfAccountsCode}" readOnly="true"/></td>										
 						<td class="grid">
-							<kul:htmlControlAttribute property="document.assetPaymentDetail[${paymentPos}].accountNumber" attributeEntry="${assetPaymentAttributes.accountNumber}" readOnly="true">								
-		            		</kul:htmlControlAttribute>
-				      	</td>		
-						<td class="grid"><kul:htmlControlAttribute property="document.assetPaymentDetail[${paymentPos}].subAccountNumber" attributeEntry="${assetPaymentAttributes.subAccountNumber}" readOnly="true"/></td>								
-						<td class="grid"><kul:htmlControlAttribute property="document.assetPaymentDetail[${paymentPos}].financialObjectCode" attributeEntry="${assetPaymentAttributes.financialObjectCode}" readOnly="true"/></td>								
-						<td class="grid"><kul:htmlControlAttribute property="document.assetPaymentDetail[${paymentPos}].financialSubObjectCode" attributeEntry="${assetPaymentAttributes.financialSubObjectCode}" readOnly="true"/></td>								
-						<td class="grid"><kul:htmlControlAttribute property="document.assetPaymentDetail[${paymentPos}].projectCode" attributeEntry="${assetPaymentAttributes.projectCode}" readOnly="true"/></td>								
-						<td class="grid"><kul:htmlControlAttribute property="document.assetPaymentDetail[${paymentPos}].expenditureFinancialDocumentPostedDate" attributeEntry="${assetPaymentAttributes.financialDocumentPostingDate}" readOnly="true"/></td>								
-						<td class="grid"><kul:htmlControlAttribute property="document.assetPaymentDetail[${paymentPos}].financialDocumentPostingYear" attributeEntry="${assetPaymentAttributes.financialDocumentPostingYear}" readOnly="true"/></td>								
-						<td class="grid"><kul:htmlControlAttribute property="document.assetPaymentDetail[${paymentPos}].financialDocumentPostingPeriodCode" attributeEntry="${assetPaymentAttributes.financialDocumentPostingPeriodCode}" readOnly="true"/></td>								
-						<td class="grid" align="right">${rowTotal}</td>								
+				      		<kul:htmlControlAttribute property="document.assetPaymentAssetDetail[${pos}].capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true" readOnlyBody="true">
+								<kul:inquiry boClassName="org.kuali.kfs.module.cam.businessobject.Asset" keyValues="capitalAssetNumber=${KualiForm.document.assetPaymentAssetDetail[pos].capitalAssetNumber}" render="true">
+			              			<html:hidden write="true" property="document.assetPaymentAssetDetail[${pos}].capitalAssetNumber" />
+				           		</kul:inquiry>&nbsp;
+				       		</kul:htmlControlAttribute>
+			 			</td>
+		 												
+		 				<td class="grid"><kul:htmlControlAttribute property="${object}.chartOfAccountsCode" attributeEntry="${assetPaymentAttributes.chartOfAccountsCode}" readOnly="true"/></td>								
+						<td class="grid">
+							<kul:htmlControlAttribute property="${object}.accountNumber" attributeEntry="${assetPaymentAttributes.accountNumber}" readOnly="true" readOnlyBody="true">								
+								<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Account" keyValues="chartOfAccountsCode=${KualiForm.document.sourceAccountingLines[line].chartOfAccountsCode}&amp;accountNumber=${KualiForm.document.sourceAccountingLines[line].accountNumber}" render="true">
+		                			<html:hidden write="true" property="${object}.accountNumber" />
+        		        		</kul:inquiry>&nbsp;
+            				</kul:htmlControlAttribute>
+		      			</td>
+						<td class="grid"><kul:htmlControlAttribute property="${object}.subAccountNumber" attributeEntry="${assetPaymentAttributes.subAccountNumber}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.financialObjectCode" attributeEntry="${assetPaymentAttributes.financialObjectCode}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.financialSubObjectCode" attributeEntry="${assetPaymentAttributes.financialSubObjectCode}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.projectCode" attributeEntry="${assetPaymentAttributes.projectCost}" readOnly="true"/></td>
+						<td class="grid"><kul:htmlControlAttribute property="${object}.expenditureFinancialDocumentPostedDate" attributeEntry="${assetPaymentAttributes.expenditureFinancialDocumentPostingDate}" readOnly="true"/></td>
+						<td class="grid"><kul:htmlControlAttribute property="${object}.financialDocumentPostingYear" attributeEntry="${assetPaymentAttributes.financialDocumentPostingYear}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.financialDocumentPostingPeriodCode" attributeEntry="${assetPaymentAttributes.financialDocumentPostingPeriodCode}" readOnly="true"/></td>								
+						<td class="grid" align="right">${allocatedAmount}</td>								
 					</tr>
+
+
 				</c:forEach>					
 			</c:forEach>
 		</table>

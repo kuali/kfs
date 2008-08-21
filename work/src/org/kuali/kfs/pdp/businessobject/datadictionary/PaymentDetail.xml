@@ -1,0 +1,155 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PaymentDetail" parent="PaymentDetail-parentBean" />
+
+  <bean id="PaymentDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentDetail" />
+    <property name="inquiryDefinition" >
+      <ref bean="PaymentDetail-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PaymentDetail-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Account Clearing House Bank" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PaymentDetail-id" />
+        <!--ref bean="PaymentDetail-invoiceNbr" />
+        <ref bean="PaymentDetail-purchaseOrderNbr" />
+        <ref bean="PaymentDetail-custPaymentDocNbr" />
+        <ref bean="PaymentDetail-financialDocumentTypeCode" />
+        <ref bean="PaymentDetail-requisitionNbr" />
+        <ref bean="PaymentDetail-organizationDocNbr" />
+        <ref bean="PaymentDetail-origInvoiceAmount" />
+        <ref bean="PaymentDetail-netPaymentAmount" />
+        <ref bean="PaymentDetail-invTotDiscountAmount" />
+        <ref bean="PaymentDetail-invTotShipAmount" />
+        <ref bean="PaymentDetail-invTotOtherDebitAmount" />
+        <ref bean="PaymentDetail-invTotOtherCreditAmount" />
+        <ref bean="PaymentDetail-primaryCancelledPayment" />
+        <ref bean="PaymentDetail-lastDisbursementActionDate" /-->
+        
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="PaymentDetail-id" parent="PaymentDetail-id-parentBean" />
+
+  <bean id="PaymentDetail-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Bank Service Number" />
+    <property name="shortLabel" value="Bank Service Number" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="ID" />
+    <property name="description" value="ID" />
+  </bean>
+  
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="PaymentDetail-inquiryDefinition" parent="PaymentDetail-inquiryDefinition-parentBean" />
+
+  <bean id="PaymentDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Payment Detail Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="id" />
+              <!--bean parent="FieldDefinition"
+                    p:attributeName="bankOfficeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankServiceNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankNewRoutingNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankStreetAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankStateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankZipExtensionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankPhoneAreaCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankPhonePrefixNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankPhoneSuffixNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankInstitutionStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankDataViewCode" /-->
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="PaymentDetail-lookupDefinition" parent="PaymentDetail-lookupDefinition-parentBean" />
+
+  <bean id="PaymentDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Payment Detail Lookup" />
+    <property name="instructions" value="Lookup a Payment Detail" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>id</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="id" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="id" />
+        <!--bean parent="FieldDefinition"
+              p:attributeName="bankName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="bankCityName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="bankStateCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="bankZipCode" /-->
+      </list>
+    </property>
+  </bean>
+</beans>

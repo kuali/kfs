@@ -141,7 +141,7 @@
               p:name="manufacturerModelNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationText" />
-       <bean parent="MaintainableFieldDefinition"
+       	<bean parent="MaintainableFieldDefinition"
               p:name="representativeUniversalIdentifier" /> 
         <bean parent="MaintainableFieldDefinition"
               p:name="assetRepresentative.personUserIdentifier" />
@@ -289,8 +289,8 @@
                 <property name="maintainableFields" >
                   <list>
                 	 <bean parent="MaintainableFieldDefinition"
-                   		 p:name="capitalAssetNumber"
-                   		 p:readOnly="true" />
+                   		  p:name="capitalAssetNumber"
+                   		  p:readOnly="true" />
                     <bean parent="MaintainableFieldDefinition"
                           p:name="serialNumber" 
                           p:readOnlyAfterAdd="true" />
@@ -307,13 +307,44 @@
                           p:name="campusTagNumber" 
                           p:readOnlyAfterAdd="true" />
                     <bean parent="MaintainableFieldDefinition"
-                          p:name="nationalStockNumber"
+                          p:name="nationalStockNumber" 
                           p:readOnlyAfterAdd="true" />
                     <bean parent="MaintainableFieldDefinition"
                           p:name="versionNumber" />
 					<bean parent="MaintainableFieldDefinition"
                     	  p:name="newCollectionRecord"
-                    	  p:defaultValue="true" />                           
+                    	  p:defaultValue="true" />	  
+                   	<!-- AS START -->        	                   	
+                   	<bean parent="MaintainableFieldDefinition"
+                    	  p:name="representativeUniversalIdentifier"
+                          p:readOnlyAfterAdd="true" />
+                    <!-- user validation needed?
+			       	<bean parent="MaintainableFieldDefinition"
+			              p:name="representativeUniversalIdentifier" /> 
+			        <bean parent="MaintainableFieldDefinition"
+			              p:name="assetGlobal.assetRepresentative.personUserIdentifier" />
+			        <bean parent="MaintainableFieldDefinition"
+			              p:name="assetGlobal.assetRepresentative.personName"
+			              p:readOnly="true" />
+			        -->
+                    <bean parent="MaintainableFieldDefinition"
+                    	  p:name="capitalAssetTypeCode"
+                          p:readOnlyAfterAdd="true" /> 
+                   	<bean parent="MaintainableFieldDefinition"
+                    	  p:name="capitalAssetDescription"
+                          p:readOnlyAfterAdd="true" /> 
+                   	<bean parent="MaintainableFieldDefinition"
+                    	  p:name="manufacturerName"
+                          p:readOnlyAfterAdd="true" />
+                   	<bean parent="MaintainableFieldDefinition"
+                    	  p:name="organizationText"
+                          p:readOnlyAfterAdd="true" />  
+					<bean parent="MaintainableFieldDefinition"
+                    	  p:name="manufacturerModelNumber"
+                          p:readOnlyAfterAdd="true" />
+                   	<bean parent="MaintainableFieldDefinition"
+                    	  p:name="separateSourceAmount"
+                          p:readOnlyAfterAdd="true" />                    
                   </list>
                 </property>
               </bean>

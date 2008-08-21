@@ -32,7 +32,12 @@
         <ref bean="AssetGlobalDetail-locationQuantity" />
         <ref bean="AssetGlobalDetail-versionNumber" />
         <ref bean="AssetGlobalDetail-newCollectionRecord" />
+        <!-- AS START -->
         <ref bean="AssetGlobalDetail-representativeUniversalIdentifier" />
+        <!-- 
+        <ref bean="AssetGlobalDetail-assetGlobal.assetRepresentative.personUserIdentifier" />
+        <ref bean="AssetGlobalDetail-assetGlobal.assetRepresentative.personName" />
+        -->
 		<ref bean="AssetGlobalDetail-capitalAssetTypeCode" />
 		<ref bean="AssetGlobalDetail-capitalAssetDescription" />
 		<ref bean="AssetGlobalDetail-manufacturerName" />
@@ -44,10 +49,7 @@
   </bean>
 
 <!-- Attribute Definitions -->
-
-
   <bean id="AssetGlobalDetail-buildingCode" parent="AssetGlobalDetail-buildingCode-parentBean" />
-
   <bean id="AssetGlobalDetail-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingCode" />
     <property name="forceUppercase" value="true" />
@@ -64,8 +66,8 @@
     <property name="summary" value="buildingCode" />
     <property name="description" value="buildingCode description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-buildingRoomNumber" parent="AssetGlobalDetail-buildingRoomNumber-parentBean" />
-
   <bean id="AssetGlobalDetail-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingRoomNumber" />
     <property name="forceUppercase" value="true" />
@@ -82,8 +84,8 @@
     <property name="summary" value="buildingRoomNumber" />
     <property name="description" value="buildingRoomNumber description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-buildingSubRoomNumber" parent="AssetGlobalDetail-buildingSubRoomNumber-parentBean" />
-
   <bean id="AssetGlobalDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingSubRoomNumber" />
     <property name="forceUppercase" value="true" />
@@ -100,8 +102,8 @@
     <property name="summary" value="buildingSubRoomNumber" />
     <property name="description" value="buildingSubRoomNumber description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-campusCode" parent="AssetGlobalDetail-campusCode-parentBean" />
-
   <bean id="AssetGlobalDetail-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusCode" />
     <property name="forceUppercase" value="true" />
@@ -118,8 +120,8 @@
     <property name="summary" value="campusCode" />
     <property name="description" value="campusCode description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-campusTagNumber" parent="AssetGlobalDetail-campusTagNumber-parentBean" />
-
   <bean id="AssetGlobalDetail-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusTagNumber" />
     <property name="forceUppercase" value="true" />
@@ -136,8 +138,8 @@
     <property name="summary" value="campusTagNumber" />
     <property name="description" value="campusTagNumber description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-capitalAssetNumber" parent="AssetGlobalDetail-capitalAssetNumber-parentBean" />
-
   <bean id="AssetGlobalDetail-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetNumber" />
     <property name="forceUppercase" value="true" />
@@ -154,8 +156,8 @@
     <property name="summary" value="capitalAssetNumber" />
     <property name="description" value="capitalAssetNumber description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-documentNumber" parent="AssetGlobalDetail-documentNumber-parentBean" />
-
   <bean id="AssetGlobalDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
     <property name="forceUppercase" value="true" />
@@ -172,8 +174,8 @@
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-governmentTagNumber" parent="AssetGlobalDetail-governmentTagNumber-parentBean" />
-
   <bean id="AssetGlobalDetail-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="governmentTagNumber" />
     <property name="forceUppercase" value="true" />
@@ -190,8 +192,8 @@
     <property name="summary" value="governmentTagNumber" />
     <property name="description" value="governmentTagNumber description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-nationalStockNumber" parent="AssetGlobalDetail-nationalStockNumber-parentBean" />
-
   <bean id="AssetGlobalDetail-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nationalStockNumber" />
     <property name="forceUppercase" value="true" />
@@ -208,8 +210,8 @@
     <property name="summary" value="nationalStockNumber" />
     <property name="description" value="nationalStockNumber description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-offCampusAddress" parent="AssetGlobalDetail-offCampusAddress-parentBean" />
-
   <bean id="AssetGlobalDetail-offCampusAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="offCampusAddress" />
     <property name="forceUppercase" value="true" />
@@ -227,8 +229,8 @@
     <property name="summary" value="offCampusAddress" />
     <property name="description" value="offCampusAddress description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-offCampusCityName" parent="AssetGlobalDetail-offCampusCityName-parentBean" />
-
   <bean id="AssetGlobalDetail-offCampusCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="offCampusCityName" />
     <property name="forceUppercase" value="true" />
@@ -246,8 +248,8 @@
     <property name="summary" value="offCampusCityName" />
     <property name="description" value="offCampusCityName description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-offCampusCountryCode" parent="AssetGlobalDetail-offCampusCountryCode-parentBean" />
-
   <bean id="AssetGlobalDetail-offCampusCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="offCampusCountryCode" />
     <property name="forceUppercase" value="true" />
@@ -264,8 +266,8 @@
     <property name="summary" value="offCampusCountryCode" />
     <property name="description" value="offCampusCountryCode description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-offCampusName" parent="AssetGlobalDetail-offCampusName-parentBean" />
-
   <bean id="AssetGlobalDetail-offCampusName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="offCampusName" />
     <property name="forceUppercase" value="true" />
@@ -283,8 +285,8 @@
     <property name="summary" value="offCampusName" />
     <property name="description" value="offCampusName description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-offCampusStateCode" parent="AssetGlobalDetail-offCampusStateCode-parentBean" />
-
   <bean id="AssetGlobalDetail-offCampusStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
     <property name="name" value="offCampusStateCode" />
     <property name="forceUppercase" value="true" />
@@ -293,8 +295,8 @@
     <property name="summary" value="offCampusStateCode" />
     <property name="description" value="offCampusStateCode description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-offCampusZipCode" parent="AssetGlobalDetail-offCampusZipCode-parentBean" />
-
   <bean id="AssetGlobalDetail-offCampusZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
     <property name="name" value="offCampusZipCode" />
     <property name="label" value="Off Campus Postal Code" />
@@ -302,8 +304,8 @@
     <property name="summary" value="offCampusZipCode" />
     <property name="description" value="offCampusZipCode description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-organizationAssetTypeIdentifier" parent="AssetGlobalDetail-organizationAssetTypeIdentifier-parentBean" />
-
   <bean id="AssetGlobalDetail-organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationAssetTypeIdentifier" />
     <property name="forceUppercase" value="true" />
@@ -320,8 +322,8 @@
     <property name="summary" value="organizationAssetTypeIdentifier" />
     <property name="description" value="organizationAssetTypeIdentifier description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-organizationInventoryName" parent="AssetGlobalDetail-organizationInventoryName-parentBean" />
-
   <bean id="AssetGlobalDetail-organizationInventoryName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationInventoryName" />
     <property name="forceUppercase" value="true" />
@@ -338,8 +340,8 @@
     <property name="summary" value="organizationInventoryName" />
     <property name="description" value="organizationInventoryName description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-serialNumber" parent="AssetGlobalDetail-serialNumber-parentBean" />
-
   <bean id="AssetGlobalDetail-serialNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="serialNumber" />
     <property name="forceUppercase" value="true" />
@@ -356,8 +358,8 @@
     <property name="summary" value="serialNumber" />
     <property name="description" value="serialNumber description..." />
   </bean>
+  
   <bean id="AssetGlobalDetail-locationQuantity" parent="AssetGlobalDetail-locationQuantity-parentBean" />
-
   <bean id="AssetGlobalDetail-locationQuantity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="locationQuantity" />
     <property name="forceUppercase" value="false" />
@@ -374,41 +376,86 @@
     <property name="summary" value="locationQuantity" />
     <property name="description" value="locationQuantity description..." />
   </bean>
-  <bean id="AssetGlobalDetail-versionNumber" parent="AssetGlobalDetail-versionNumber-parentBean" />
-
-  <bean id="AssetGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   
-  </bean>
+  <bean id="AssetGlobalDetail-versionNumber" parent="AssetGlobalDetail-versionNumber-parentBean" />
+  <bean id="AssetGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+  
   <bean id="AssetGlobalDetail-newCollectionRecord" parent="AssetGlobalDetail-newCollectionRecord-parentBean" />
-
-  <bean id="AssetGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord">
-  </bean>
+  <bean id="AssetGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord" />
+  
+  <!-- AS START -->
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier" parent="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" />
-  <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="AssetGlobal-representativeUniversalIdentifier">
+  <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="representativeUniversalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Representative" />
+    <property name="shortLabel" value="representative" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="representativeUniversalIdentifier" />
+    <property name="description" value="representativeUniversalIdentifier description..." />
   </bean>
+  
+  <!-- user ID validation needed?  
+  <bean id="AssetGlobalDetail-representativeUniversalIdentifier" parent="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" />
+  <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="representativeUniversalIdentifier" />
+    <property name="label" value="Asset Representative" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="displayLabelAttribute" value="assetGlobal.assetRepresentative.personUserIdentifier" />
+  </bean>
+  
+  <bean id="AssetGlobalDetail-assetGlobal.assetRepresentative.personUserIdentifier" parent="AssetGlobalDetail-assetGlobal.assetRepresentative.personUserIdentifier-parentBean" />
+  <bean id="AssetGlobalDetail-assetGlobal.assetRepresentative.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="assetGlobal.assetRepresentative.personUserIdentifier" />
+    <property name="label" value="Asset Representative" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="assetGlobal.assetRepresentative.personName"
+            p:universalIdAttributeName="representativeUniversalIdentifier"
+            p:userIdAttributeName="assetGlobal.assetRepresentative.personUserIdentifier" />
+    </property>
+  </bean>
+  
+  <bean id="AssetGlobalDetail-assetGlobal.assetRepresentative.personName" parent="AssetGlobalDetail-assetGlobal.assetRepresentative.personName-parentBean" />
+  <bean id="AssetGlobalDetail-assetGlobal.assetRepresentative.personName-parentBean" abstract="true" parent="UniversalUser-personName">
+    <property name="name" value="assetGlobal.assetRepresentative.personName" />
+    <property name="label" value="Asset Representative" />
+    <property name="required" value="false" />
+  </bean>  
+  -->
   
   <bean id="AssetGlobalDetail-capitalAssetTypeCode" parent="AssetGlobalDetail-capitalAssetTypeCode-parentBean" />
-  <bean id="AssetGlobalDetail-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetGlobal-capitalAssetTypeCode">
-  </bean>
+  <bean id="AssetGlobalDetail-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetGlobal-capitalAssetTypeCode" />
   
   <bean id="AssetGlobalDetail-capitalAssetDescription" parent="AssetGlobalDetail-capitalAssetDescription-parentBean" />
-  <bean id="AssetGlobalDetail-capitalAssetDescription-parentBean" abstract="true" parent="AssetGlobal-capitalAssetDescription">
-  </bean>
+  <bean id="AssetGlobalDetail-capitalAssetDescription-parentBean" abstract="true" parent="AssetGlobal-capitalAssetDescription" />
   
   <bean id="AssetGlobalDetail-manufacturerName" parent="AssetGlobalDetail-manufacturerName-parentBean" />
-  <bean id="AssetGlobalDetail-manufacturerName-parentBean" abstract="true" parent="AssetGlobal-manufacturerName">
-  </bean>
+  <bean id="AssetGlobalDetail-manufacturerName-parentBean" abstract="true" parent="AssetGlobal-manufacturerName" />
   
   <bean id="AssetGlobalDetail-organizationText" parent="AssetGlobalDetail-organizationText-parentBean" />
-  <bean id="AssetGlobalDetail-organizationText-parentBean" abstract="true" parent="AssetGlobal-organizationText">
-  </bean>
+  <bean id="AssetGlobalDetail-organizationText-parentBean" abstract="true" parent="AssetGlobal-organizationText" /> 
   
   <bean id="AssetGlobalDetail-manufacturerModelNumber" parent="AssetGlobalDetail-manufacturerModelNumber-parentBean" />
-  <bean id="AssetGlobalDetail-manufacturerModelNumber-parentBean" abstract="true" parent="AssetGlobal-manufacturerModelNumber">
-  </bean>
-  
+  <bean id="AssetGlobalDetail-manufacturerModelNumber-parentBean" abstract="true" parent="AssetGlobal-manufacturerModelNumber" />
+
   <bean id="AssetGlobalDetail-separateSourceAmount" parent="AssetGlobalDetail-separateSourceAmount-parentBean" />
   <bean id="AssetGlobalDetail-separateSourceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
   	<property name="name" value="separateSourceAmount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Separate Source Amount" />
+    <property name="shortLabel" value="Separate Source Amount" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
 </beans>

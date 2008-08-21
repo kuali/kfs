@@ -290,6 +290,14 @@ public class CamsPropertyConstants {
         public static final String ASSET_UNIQUE_DETAILS = "assetGlobalUniqueDetails";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String DOCUMENT_NUMBER = "documentNumber";
+        // Asset Separate
+        public static String REPRESENTATIVE_UNIVERSAL_IDENTIFIER = "representativeUniversalIdentifier";
+        public static String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
+        public static String CAPITAL_ASSET_DESCRIPTION = "capitalAssetDescription";
+        public static String MANUFACTURER_NAME = "manufacturerName";
+        public static String ORGANIZATION_TEXT = "organizationText";
+        public static String MANUFACTURER_MODEL_NUMBER = "manufacturerModelNumber";
+        public static String SEPARATE_SOURCE_AMOUNT = "separateSourceAmount"; // Long
     }
 
     public static class AssetDepreciationConvention {

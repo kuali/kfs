@@ -181,6 +181,10 @@
     	<property name="universityDateService" ref="universityDateService"/>
     	<property name="parameterService" ref="parameterService"/>
     </bean>
+
+    <bean id="assetAcquisitionTypeService" class="org.kuali.kfs.module.cam.document.service.impl.AssetAcquisitionTypeServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService" />
+    </bean>  
     
     <bean id="assetComponentDao" parent="platformAwareDao" class="org.kuali.kfs.module.cam.document.dataaccess.impl.AssetComponentDaoOjb"/>
     

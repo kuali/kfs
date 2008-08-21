@@ -325,5 +325,9 @@ public class CamsPropertyConstants {
         public static String CONDITION_REFERENCE="condition";
         public static final String BARCODE_INVENTORY_DETAIL = "barcodeInventoryErrorDetail";
     }
+    
+    public static class AssetAcquisitionType {
+        public final static String ACQUISITION_TYPE_CODE = "acquisitionTypeCode";
+    }
+    
 }
-

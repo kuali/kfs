@@ -34,6 +34,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.gl.AssetGlobalGeneralLedgerPendingEntrySource;
+import org.kuali.kfs.module.cam.document.service.AssetAcquisitionTypeService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -74,6 +75,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
+    private static AssetAcquisitionTypeService assetAcquisitionTypeService = SpringContext.getBean(AssetAcquisitionTypeService.class);
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
     private static BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
@@ -528,8 +530,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
             success &= validatePaymentCollection(assetGlobal);
         
-            // System shall not generate any GL entries for acquisition type code new
-            if ((success & super.processCustomSaveDocumentBusinessRules(document)) && !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
+            // System shall only GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode
+            // is for capital assets
+            if ((success & super.processCustomSaveDocumentBusinessRules(document))
+                    && assetAcquisitionTypeService.hasIncomeAssetObjectCode(acquisitionTypeCode)
+                    && this.isCapitalStatus(assetGlobal)) {
                 // create poster
                 AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
                 // create postables

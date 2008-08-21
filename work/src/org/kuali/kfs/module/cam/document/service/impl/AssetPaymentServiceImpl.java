@@ -19,6 +19,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -29,6 +30,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.dataaccess.AssetPaymentDao;
@@ -93,7 +95,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#processApprovedAssetPayment(org.kuali.kfs.module.cam.document.AssetPaymentDocument)
      */
-    public void processApprovedAssetPayment(AssetPaymentDocument document) {        
+    public void processApprovedAssetPayment(AssetPaymentDocument document, KualiDecimal totalHistoricalAmount) {        
         // Creating new asset payment records
         createNewPayments(document);
         
@@ -101,7 +103,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         //updatePaymentAssetPreviousTotalCost(document);
         
         // Updating the total cost of the asset
-        //updateAssetTotalCost(document);        
+        updateAssetTotalCost(document,totalHistoricalAmount);        
     }
 
     /**
@@ -109,18 +111,28 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      * 
      * @param asset bo where the update will occur
      * @param subTotal amount of the new asset payment detail records
-     *
-    private void updateAssetTotalCost(AssetPaymentDocument assetPaymentDocument) {
-        KualiDecimal subTotal = assetPaymentDocument.getSourceTotal();
-        KualiDecimal totalCost = subTotal.add(assetPaymentDocument.getAsset().getTotalCostAmount());
-        
-        //Retrieving the asset that will have its cost updated
-        Asset asset = (Asset) getBusinessObjectService().retrieve(assetPaymentDocument.getAsset());        
-        asset.setTotalCostAmount(totalCost);
-        
-        //Saving changes
-        getBusinessObjectService().save(asset);
-     }*/
+     */
+    private void updateAssetTotalCost(AssetPaymentDocument assetPaymentDocument, KualiDecimal totalHistoricalAmount) {
+        List<AssetPaymentAssetDetail> assetPaymentAssetDetails = assetPaymentDocument.getAssetPaymentAssetDetail(); 
+        KualiDecimal totalCost = assetPaymentDocument.getSourceTotal();
+
+        for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {
+            KualiDecimal percentage = assetPaymentAssetDetail.getPreviousTotalCostAmount().divide(totalHistoricalAmount);
+            KualiDecimal allocatedAmount=totalCost.multiply(percentage);
+            
+            totalCost = totalCost.add(assetPaymentAssetDetail.getPreviousTotalCostAmount());    
+
+            //Retrieving the asset that will have its cost updated
+            HashMap<String,Long> keys = new HashMap<String,Long>();
+            keys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER,assetPaymentAssetDetail.getCapitalAssetNumber());
+            
+            Asset asset = (Asset) getBusinessObjectService().findByPrimaryKey(Asset.class, keys);        
+            asset.setTotalCostAmount(assetPaymentAssetDetail.getPreviousTotalCostAmount().add(allocatedAmount));
+            
+            //Saving changes
+            getBusinessObjectService().save(asset);
+        }
+     }
 
     /**
      * 
@@ -141,9 +153,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     private void createNewPayments(AssetPaymentDocument document) {
         List<AssetPaymentDetail> assetPaymentDetailLines = document.getAssetPaymentDetail();
         List<PersistableBusinessObject> assetPayments = new ArrayList<PersistableBusinessObject>();
-        Integer maxSequenceNo=new Integer(0);
-        //Integer maxSequenceNo = this.getMaxSequenceNumber(document.getAsset().getCapitalAssetNumber());
-        
+        Integer maxSequenceNo=new Integer(0);        
 
         try {
             // Creating a new payment record for each asset payment detail.
@@ -222,6 +232,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         }
         LOG.debug("Finished - adjustAmounts()");
     }
+
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;

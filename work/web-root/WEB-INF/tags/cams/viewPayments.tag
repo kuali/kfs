@@ -17,7 +17,6 @@
 <%@ attribute name="assetPayments" type="java.util.List" required="true" description="Payments list" %>
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>
 <%@ attribute name="assetValueObj" type="java.lang.String" required="false" description="Asset object name" %>
-
 <%@ attribute name="assetValue" type="org.kuali.kfs.module.cam.businessobject.Asset" required="false" description="Asset object value" %>
 
 <c:if test="${fn:length(assetPayments) <= CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY}">
@@ -26,8 +25,10 @@
 		<c:set var="assetValue" value="${KualiForm.document.asset}" />
 	</c:if>
 	<c:set var="assetPaymentAttributes" value="${DataDictionary.AssetPayment.attributes}" />
+	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 	<c:set var="pos" value="-1" />
-<kul:tab tabTitle="Payments" defaultOpen="${!defaultTabHide}">
+
+	<kul:tab tabTitle="Processed Payments" defaultOpen="${!defaultTabHide}" useCurrentTabIndexAsKey="true">
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
 			<tr>
@@ -51,6 +52,7 @@
 	<c:forEach var="payment" items="${assetPayments}">
 	 	<c:set var="pos" value="${pos+1}" />
 	 	<c:set var="posValue" value="${pos}" />
+	 	
 			<tr>
  				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].chartOfAccountsCode" attributeEntry="${assetPaymentAttributes.chartOfAccountsCode}" readOnly="true"/></td>								
 
@@ -79,12 +81,11 @@
 			</tr>
 	</c:forEach>
 			<tr>
-				<th class="grid" align="right" colspan="15"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.paymentTotalCost}" readOnly="true" /></th>
-				<td class="grid" align="right"><kul:htmlControlAttribute property="${assetValueObj}.paymentTotalCost" attributeEntry="${assetPaymentAttributes.paymentTotalCost}" readOnly="true"/></td>
+				<th class="grid" align="right" colspan="15"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetAttributes.paymentTotalCost}" readOnly="true" /></th>
+				<td class="grid" align="right"><kul:htmlControlAttribute property="${assetValueObj}.paymentTotalCost" attributeEntry="${assetAttributes.paymentTotalCost}" readOnly="true"/></td>
 			</tr>						
 		</table>
 		</div>
 </kul:tab>
 </c:if>
-
-<cams:assetPaymentsLookupLink capitalAssetNumber="${KualiForm.document.asset.capitalAssetNumber}"/>
+<cams:assetPaymentsLookupLink capitalAssetNumber="${assetValue.capitalAssetNumber}"/>

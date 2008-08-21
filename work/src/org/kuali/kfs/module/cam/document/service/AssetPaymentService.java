@@ -16,9 +16,12 @@
 package org.kuali.kfs.module.cam.document.service;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface AssetPaymentService {
 
@@ -53,7 +56,7 @@ public interface AssetPaymentService {
      * 
      * @param assetPaymentDetail
      */
-    public void processApprovedAssetPayment(AssetPaymentDocument assetPaymentDocument);
+    public void processApprovedAssetPayment(AssetPaymentDocument assetPaymentDocument, KualiDecimal totalHistoricalAmount);
 
 
     /**

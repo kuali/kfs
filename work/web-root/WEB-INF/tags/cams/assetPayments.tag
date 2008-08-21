@@ -15,35 +15,38 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
+<c:set var="viewOnly" value="${!empty KualiForm.editingMode['viewOnly']}"/>
 
-<kul:tab tabTitle="Assets" defaultOpen="true">
-	<div class="tab-container" id="G3" align="center">
+<kul:tab tabTitle="Assets" defaultOpen="true" tabErrorKey="document.capitalAssetNumber*">
+	<div class="tab-container" id="assets" align="center">
 		<table class="datatable" width="100%" border="0" cellpadding="0" cellspacing="0">
 			<tr>
 				<td colspan="3" class="subhead">
 			    	<span class="subhead-left">Assets</span>
 			  	</td>
 			</tr>
-		    <tr>
-			    <th width="3%">Asset Number:</th>
-				<td class="infoline" valign="top">															   
-					<kul:htmlControlAttribute attributeEntry="${assetAttributes.capitalAssetNumber}" property="capitalAssetNumber"/>				
-					<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" fieldConversions="capitalAssetNumber:capitalAssetNumber"
-					lookupParameters="capitalAssetNumber:capitalAssetNumber" />					
-				</td>
-				<td class="infoline" rowspan="" nowrap="nowrap" width="5%">
-				    <input name="methodToCall.insertAssetPaymentAssetDetail" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" class="tinybutton" title="Add an asset" alt="Add an asset" type="image">
-			    </td>
-		    </tr>
-		    <tr>
-		    	<th colspan="3" style="padding: 0px;border-bottom-style:none;border-top-style:none;">&nbsp;&nbsp;</th>
-		    </tr>
+			<c:if test="${!viewOnly}">
+			    <tr>
+				    <th width="10%">Asset Number:</th>
+					<td class="infoline" valign="top" width="84%">															   
+						<kul:htmlControlAttribute attributeEntry="${assetAttributes.capitalAssetNumber}" property="capitalAssetNumber"/>				
+						<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" fieldConversions="capitalAssetNumber:capitalAssetNumber"
+						lookupParameters="capitalAssetNumber:capitalAssetNumber" />					
+					</td>
+					<td class="infoline" width="6%" align="center">
+					    <input name="methodToCall.insertAssetPaymentAssetDetail" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" class="tinybutton" title="Add an asset" alt="Add an asset" type="image">
+				    </td>
+			    </tr>
+				<tr>
+					<td colspan="7">
+					</td>
+				</tr>
+			</c:if>
 			<tr>
-				<td colspan="7" style="padding: 0px;border-bottom-style:none">
+				<td colspan="7" style="padding: 0px;border-bottom-style:none;border-left-style:none;border-right-style:none;border-top-style:none;">
 					<cams:assetPaymentsAssetInformation/>
 				</td>
 			</tr>
 		</table>
-    </div>
-    
+    </div>    
 </kul:tab>

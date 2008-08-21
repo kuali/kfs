@@ -81,7 +81,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         List<BarcodeInventoryErrorDetail> inventory = new ArrayList<BarcodeInventoryErrorDetail>();
 
         // Deleting previous error messages
-        GlobalVariables.getErrorMap().clear();
+        //GlobalVariables.getErrorMap().clear();
 
         Long lineNumber = new Long(0);
         for (BarcodeInventoryErrorDetail barcodeInventoryErrorDetail : barcodeInventoryErrorDetails) {
@@ -346,7 +346,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             }
         }
 
-        //Deleting lock error messages from global variable.
+        //Deleting asset locked error messages from global variable.
         for(ErrorMessage em : el) {
             GlobalVariables.getErrorMap().getMessages(KFSConstants.GLOBAL_ERRORS).remove(em);
         }        

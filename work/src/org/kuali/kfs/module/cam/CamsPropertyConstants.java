@@ -298,6 +298,7 @@ public class CamsPropertyConstants {
 
     public static class AssetPaymentDocument {
         public static final String ASSET = "asset";
+        public static final String ASSET_PAYMENTS = "assetPayments";
     }
     
     public static class AssetObjectCode {

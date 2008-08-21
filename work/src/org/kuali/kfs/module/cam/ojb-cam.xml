@@ -250,6 +250,11 @@
 	<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="agencyNumber" />
 	</reference-descriptor>
+
+ 	<collection-descriptor name="assetPaymentAssetDetails" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+ 		<orderby name="documentNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="capitalAssetNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cam.businessobject.AssetGlobal" table="CM_CPTLAST_DOC_T">
@@ -484,17 +489,12 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
-	<field-descriptor name="previousTotalCostAmount" column="CPTLAST_PREV_TOT_CST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="nextCapitalAssetPaymentLineNumber" column="NXT_AST_PMT_LN_NBR" jdbc-type="INTEGER"/>
 
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="capitalAssetNumber" />
-	</reference-descriptor>
-   <collection-descriptor name="assetPaymentDetail" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+   <collection-descriptor name="assetPaymentDetail" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>    
@@ -503,7 +503,6 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>    	
    <collection-descriptor name="assetPaymentAssetDetail" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-        <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>    	
 </class-descriptor>
@@ -523,7 +522,7 @@
 	<field-descriptor name="financialSubObjectCode" 			column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="projectCode" 						column="PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationReferenceId" 			column="ORG_REFERENCE_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="amount" 				column="ACCT_CHARGE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="amount" 							column="ACCT_CHARGE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="expenditureFinancialSystemOriginationCode"  column="EXPND_FS_ORIGIN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="expenditureFinancialDocumentNumber" 		column="EXPND_FDOC_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="expenditureFinancialDocumentTypeCode" 		column="EXPND_FDOC_TYP_CD" jdbc-type="VARCHAR"/>

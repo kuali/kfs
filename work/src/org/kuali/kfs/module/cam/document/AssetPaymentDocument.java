@@ -16,12 +16,14 @@
 package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAccountingLineParser;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
@@ -37,6 +39,7 @@ import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -47,20 +50,19 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AssetPaymentDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
 
-    private Long    capitalAssetNumber;
     private Integer nextCapitalAssetPaymentLineNumber;
-    KualiDecimal    previousTotalCostAmount;
     
-    private List<AssetPaymentDetail>        assetPaymentDetail;
-    private List<AssetPaymentAssetDetail>   assetPaymentAssetDetail;    
-    //private Asset asset;
+    private List<AssetPaymentDetail> assetPaymentDetail;
+    private List<AssetPaymentAssetDetail> assetPaymentAssetDetail;
 
+    private Long capitalAssetNumber;
+    
     public AssetPaymentDocument() {
         super();
-        assetPaymentDetail = new ArrayList<AssetPaymentDetail>();
-        assetPaymentAssetDetail = new ArrayList<AssetPaymentAssetDetail>();      
-    }
-
+        this.setAssetPaymentDetail(new TypedArrayList(AssetPaymentDetail.class)); 
+        this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));
+    }    
+    
     /**
      * Determines if the given AccountingLine (as a GeneralLedgerPostable) is a credit or a debit, in terms of GLPE generation
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
@@ -69,7 +71,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return false;
     }
-
 
     /**
      * 
@@ -80,10 +81,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.getAssetPaymentAssetDetail().add(assetPaymentAssetDetail);
     }
 
-    
-    
-    
-    
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
@@ -108,7 +105,11 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
         line = (SourceAccountingLine) assetPaymentDetail;
 
-        this.sourceAccountingLines.add(line);
+        this.sourceAccountingLines.add(assetPaymentDetail);
+        //this.sourceAccountingLines.add(line);
+
+        this.assetPaymentDetail.add(assetPaymentDetail);
+        
         this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);        
         this.setNextCapitalAssetPaymentLineNumber(this.nextSourceLineNumber);
     }
@@ -127,7 +128,9 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
             maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
 
             List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-            maintenanceLocks.add(assetService.generateAssetLock(documentNumber, capitalAssetNumber));
+            for(AssetPaymentAssetDetail assetPaymentAssetDetail:this.getAssetPaymentAssetDetail()) {
+                maintenanceLocks.add(assetService.generateAssetLock(documentNumber, assetPaymentAssetDetail.getCapitalAssetNumber()));
+            }            
             maintenanceDocumentService.storeLocks(maintenanceLocks);
         }
     }    
@@ -143,7 +146,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         
         //Update asset payment table with the approved asset detail records.
         if (workflowDocument.stateIsProcessed()) {
-            SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this);
+            SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this,this.getAssetsTotalHistoricalCost());
 
             SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
         }
@@ -171,16 +174,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         return new AssetPaymentAccountingLineParser();
     }
 
-
-    public Long getCapitalAssetNumber() {
-        return capitalAssetNumber;
-    }
-
-
-    public void setCapitalAssetNumber(Long capitalAssetNumber) {
-        this.capitalAssetNumber = capitalAssetNumber;
-    }
-
     public Integer getNextCapitalAssetPaymentLineNumber() {
         return nextCapitalAssetPaymentLineNumber;
     }
@@ -198,21 +191,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.assetPaymentDetail = assetPaymentDetail;
     }
 
-//    public Asset getAsset() {
-//        return asset;
-//    }
-//
-//    public void setAsset(Asset asset) {
-//        this.asset = asset;
-//    }
-
-    public KualiDecimal getPreviousTotalCostAmount() {
-        return previousTotalCostAmount;
-    }
-
-    public void setPreviousTotalCostAmount(KualiDecimal previousTotalCostAmount) {
-        this.previousTotalCostAmount = previousTotalCostAmount;
-    }
 
     public List<AssetPaymentAssetDetail> getAssetPaymentAssetDetail() {
         return assetPaymentAssetDetail;
@@ -221,4 +199,21 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public void setAssetPaymentAssetDetail(List<AssetPaymentAssetDetail> assetPaymentAssetDetail) {
         this.assetPaymentAssetDetail = assetPaymentAssetDetail;
     }
+
+    public Long getCapitalAssetNumber() {
+        return capitalAssetNumber;
+    }
+
+    public void setCapitalAssetNumber(Long capitalAssetNumber) {
+        this.capitalAssetNumber = capitalAssetNumber;
+    }
+    
+    public KualiDecimal getAssetsTotalHistoricalCost() {
+        KualiDecimal total = new KualiDecimal(0);
+        for(AssetPaymentAssetDetail detail:this.getAssetPaymentAssetDetail())
+            total = total.add(detail.getPreviousTotalCostAmount());
+        
+        return total;
+    }
+    
 }

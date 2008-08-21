@@ -176,7 +176,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
+    <property name="maxLength" value="14" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>

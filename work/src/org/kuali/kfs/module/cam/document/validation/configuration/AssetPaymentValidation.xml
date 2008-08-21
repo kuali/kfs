@@ -220,4 +220,23 @@
   		</property>
 	</bean>
 
+
+	<bean id="AssetPayment-addAssetPaymentAssetValidation" parent="AssetPayment-addAssetPaymentAssetValidation-parentBean" scope="prototype" />
+	
+	<bean id="AssetPayment-addAssetPaymentAssetValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+				<bean parent="AssetPayment-assetValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="assetPaymentAssetDetail" />
+								<property name="targetValidationProperty" value="assetPaymentAssetDetailForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>				
+			</list>
+  		</property>
+	</bean>	
 </beans>

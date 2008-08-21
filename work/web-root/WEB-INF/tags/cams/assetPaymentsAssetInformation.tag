@@ -2,40 +2,60 @@
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
 <c:set var="assetPaymentAssetDetailAttributes" value="${DataDictionary.AssetPaymentAssetDetail.attributes}" />
+<c:set var="documentTotal" value="${KualiForm.document.sourceTotal}" />
+<c:set var="totalHistoricalAmount" value="${KualiForm.document.assetsTotalHistoricalCost}"/>
+<c:set var="globalTotalAllocated" 	   value="${0.00}"/>
+<c:set var="globalTotalHistoricalCost" value="${0.00}"/>
+
+<c:set var="viewOnly" value="${!empty KualiForm.editingMode['viewOnly']}"/>
 
 <logic:iterate id="assetPaymentAssetDetail" name="KualiForm" property="document.assetPaymentAssetDetail" indexId="ctr">
-		<c:out value="${ctr}"/>
+		<c:set var="capitalAssetNumber" value="${KualiForm.document.assetPaymentAssetDetail[ctr].capitalAssetNumber}"/>
+		<html:hidden property="document.assetPaymentAssetDetail[${ctr}].versionNumber"/>
+
 		<c:set var="assetObject" value="document.assetPaymentAssetDetail[${ctr}].asset" />
 		<c:set var="assetValue" value="${KualiForm.document.assetPaymentAssetDetail[ctr].asset}" />
-	
-	  	<html:hidden property="document.assetPaymentAssetDetail[${ctr}].documentNumber"/>
-
-		<table cellpadding="0" cellspacing="0" class="datatable" summary="AssetSummary" borders="0">
-		      	<tr>
+		<c:set var="assetPayments" value="${KualiForm.document.assetPaymentAssetDetail[ctr].asset.assetPayments}" />
+		<c:set var="assetPaymentsAssetDetail" value="${KualiForm.document.assetPaymentAssetDetail[ctr]}" />
+		
+		<c:set var="totalAllocated" value="${0.00}"/>
+		<c:set var="newTotal" value="${0.00}"/>
+		<c:set var="previousCost" value="${KualiForm.document.assetPaymentAssetDetail[ctr].previousTotalCostAmount}"/>
+				
+		<c:if test="${totalHistoricalAmount > 0 }">
+	        <c:set var="percentage" value="${previousCost / totalHistoricalAmount }"/>
+	        <c:set var="totalAllocated" value="${documentTotal * percentage}"/>
+		 	<fmt:formatNumber var="newTotal" value="${totalAllocated + previousCost }" maxFractionDigits="2" minFractionDigits="2"/>			 		 	
+		</c:if>
+		<table borders="0" cellpadding="0" cellspacing="0">
+		<tr>
+		<td style="padding: 0px;border-bottom-style: solid; border-bottom-width: 2px;border-top-style: solid; border-top-width: 1px;">
+		
+		<table cellpadding="0" cellspacing="0" class="datatable" summary="AssetSummary" borders="1">
+		      	<!-- tr>
 					<td class="subhead"  width="100%" colspan="7"><span class="subhead-left">
-					${KualiForm.document.assetPaymentAssetDetail[ctr].capitalAssetNumber}</span></td>
-				</tr>	
-							
-				<tr>
+					${KualiForm.document.assetPaymentAssetDetail[ctr].capitalAssetNumber} </span></td>
+				</tr> -->
+				<tr>					
 					<kul:htmlAttributeHeaderCell width="10%" align="center" attributeEntry="${assetAttributes.capitalAssetNumber}"/>
-					<kul:htmlAttributeHeaderCell width="45%" align="center" attributeEntry="${assetAttributes.capitalAssetDescription}"/>
+					<kul:htmlAttributeHeaderCell width="42%" align="center" attributeEntry="${assetAttributes.capitalAssetDescription}"/>
 					<kul:htmlAttributeHeaderCell width="10%" align="center" attributeEntry="${accountAttributes.organizationCode}"/>
 					<kul:htmlAttributeHeaderCell width="10%" align="center" attributeEntry="${assetPaymentAssetDetailAttributes.previousTotalCostAmount}"/>
-			        <th class="grid" width="10%" align="center">Allocated</th>
+			        <th class="grid" width="10%" align="center" style="padding: border-top-style:solid;">Allocated</th>
 			        <th class="grid" width="10%" align="center">New Total</th>
-					<th class="grid" width="5%" align="center">Actions</th>			
+					<th class="grid" width="8%" align="center"><c:if test="${!viewOnly}">Actions</c:if></th>			
 				</tr>
 		
 			    <tr>
-			      	<td class="grid">
-			      		<kul:htmlControlAttribute property="document.assetPaymentAssetDetail[${ctr}].capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true">
-							<kul:inquiry boClassName="org.kuali.kfs.module.cam.businessobject.Asset" keyValues="capitalAssetNumber=document.assetPaymentAssetDetail[${ctr}].capitalAssetNumber" render="true">
+			      	<td class="grid" width="10%">
+			      		<kul:htmlControlAttribute property="document.assetPaymentAssetDetail[${ctr}].capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true" readOnlyBody="true">
+							<kul:inquiry boClassName="org.kuali.kfs.module.cam.businessobject.Asset" keyValues="capitalAssetNumber=${document.assetPaymentAssetDetail[ctr].capitalAssetNumber}" render="true">
 		              			<html:hidden write="true" property="document.assetPaymentAssetDetail[${ctr}].capitalAssetNumber" />
 			           		</kul:inquiry>&nbsp;
 			       		</kul:htmlControlAttribute>
 			   		</td>
 		   			
-					<td class="grid" width="45%">
+					<td class="grid" width="40%">
 						<kul:htmlControlAttribute property="${assetObject}.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/>
 					</td>
 					   		
@@ -47,19 +67,25 @@
 				        <kul:htmlControlAttribute property="document.assetPaymentAssetDetail[${ctr}].previousTotalCostAmount" attributeEntry="${assetPaymentAssetDetailAttributes.previousTotalCostAmount}" readOnly="true"/>
 			        </th>
 			        
-			        <th class="grid" width="10%" align="center">0</div></th>
-			        <th class="grid" width="10%" align="center">0</div></th>       		
+			        <th class="grid" width="10%" align="center"><fmt:formatNumber value="${totalAllocated}" maxFractionDigits="2" minFractionDigits="2"/></th>
+			        <th class="grid" width="10%" align="center">${newTotal}</th>
+			               		
 					<th class="datacell" rowspan="" nowrap="nowrap" width="5%">
-			            <div align="center"><input name="methodToCall.deleteAssetPaymentAssetDetail.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" class="tinybutton" title="Delete Accounting Line" alt="Delete Accounting Line" type="image">
+						<c:if test="${!viewOnly}">			               		
+				            <div align="center"><input name="methodToCall.deleteAssetPaymentAssetDetail.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" class="tinybutton" title="Delete Accounting Line 1" alt="Delete asset" type="image">
+						</c:if>			        				            
 			        </th>
 			    </tr>
 		</table>
 
-		<kul:tab tabTitle="Asset Information" defaultOpen="true"> 		    
-			<div class="tab-container" align="center" id="tab-AssetInformation-div${ctrl}">
-				<table cellpadding="0" cellspacing="0" class="datatable" summary="Asset" borders="0">
+		<c:set var="globalTotalAllocated"	   value="${globalTotalAllocated + totalAllocated}"/>
+		<c:set var="globalTotalHistoricalCost" value="${globalTotalHistoricalCost + previousCost}"/>
+
+		<kul:tab tabTitle="Asset Information" defaultOpen="false" useCurrentTabIndexAsKey="true"> 		    
+			<div class="tab-container" align="center" id="tab-AssetInformation-div">
+				<table cellpadding="0" cellspacing="0" class="datatable" summary="Asset">
 						<tr>
-							<td class="total-line" colspan="12" style="padding: 0px;">		
+							<td  colspan="12" style="padding: 0px;">		
 					
 								<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 									<tr>
@@ -110,8 +136,24 @@
 								</table>
 						  </td>
 						<tr/>
-				</table>
+				</table>				
+				<cams:viewPayments	defaultTabHide="true" assetPayments="${assetPayments}"	assetValueObj="${assetObject}" assetValue="${assetValue}"/>				
+				<cams:viewPaymentInProcess defaultTabHide="true" assetPaymentDetails="${KualiForm.document.assetPaymentDetail}" assetPaymentAssetDetail="${assetPaymentsAssetDetail}"/>
 			</div>
 		</kul:tab>
+		</td>
+		</tr>
+		</table>				 
 </logic:iterate>
 
+<c:if test="${fn:length(KualiForm.document.assetPaymentAssetDetail) > 0}">
+	<table cellpadding="0" cellspacing="0" class="datatable" summary="AssetSummary" borders="1">
+		<tr>
+			<kul:htmlAttributeHeaderCell colspan="3" literalLabel="Grand Total:" align="right" width="62%"/>
+			<th class="grid" align="center" width="10%"><fmt:formatNumber value="${globalTotalHistoricalCost}" maxFractionDigits="2" minFractionDigits="2"/></th>
+			<th class="grid" align="center" width="10%"><fmt:formatNumber value="${globalTotalAllocated}" maxFractionDigits="2" minFractionDigits="2"/></th>
+			<th class="grid" align="center" width="10%"><fmt:formatNumber value="${globalTotalAllocated + globalTotalHistoricalCost}" maxFractionDigits="2" minFractionDigits="2"/></th>
+			<th class="grid" width="8%">&nbsp;</th>	
+		</tr>
+	</table>
+</c:if>	

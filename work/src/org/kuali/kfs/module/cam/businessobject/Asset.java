@@ -120,6 +120,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private ObjSubTyp financialObjectSubType;
     private AssetAcquisitionType acquisitionType;
     private Agency agency;
+    private List<AssetPaymentAssetDetail> assetPaymentAssetDetails;
 
 
     // Non-persisted attributes:
@@ -143,6 +144,7 @@ public class Asset extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public Asset() {
+        this.assetPaymentAssetDetails = new TypedArrayList(AssetPaymentAssetDetail.class);
         this.assetPayments = new TypedArrayList(AssetPayment.class);
         this.assetRepairHistory = new TypedArrayList(AssetRepairHistory.class);
         this.assetComponents = new TypedArrayList(AssetComponent.class);
@@ -1931,6 +1933,14 @@ public class Asset extends PersistableBusinessObjectBase {
 
     public void setAgency(Agency agency) {
         this.agency = agency;
+    }
+
+    public List<AssetPaymentAssetDetail> getAssetPaymentAssetDetails() {
+        return assetPaymentAssetDetails;
+    }
+
+    public void setAssetPaymentAssetDetails(List<AssetPaymentAssetDetail> assetPaymentAssetDetails) {
+        this.assetPaymentAssetDetails = assetPaymentAssetDetails;
     }
 
 

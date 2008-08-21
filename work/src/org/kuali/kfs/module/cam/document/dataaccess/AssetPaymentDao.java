@@ -15,10 +15,14 @@
  */
 package org.kuali.kfs.module.cam.document.dataaccess;
 
+import java.util.List;
+
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
+
 
 public interface AssetPaymentDao {
     /**
-     * This method gets the maximum asset payment sequence number column from database and sets the value
+     * Gets the maximum asset payment sequence number column from database and sets the value
      * 
      * @param capitalAssetNumber
      * @return max payment number

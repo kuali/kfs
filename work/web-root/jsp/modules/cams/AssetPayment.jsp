@@ -21,7 +21,7 @@
     <kfs:hiddenDocumentFields />
   	<html:hidden property="document.capitalAssetNumber"/>
 	<html:hidden property="document.nextCapitalAssetPaymentLineNumber"/>
-
+	
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
     <cams:assetPayments /> 
@@ -34,7 +34,9 @@
 		extraHiddenFields=",paymentApplicationDate,transferPaymentIndicator,sequenceNumber"
 		forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}">
 	</fin:accountingLines>
-
+	
+	<cams:viewPaymentInProcessByAsset assetPaymentAssetDetail="${KualiForm.document.assetPaymentAssetDetail}" assetPaymentDetail="${KualiForm.document.assetPaymentDetail}" />
+	
     <kul:notes />
     <kul:adHocRecipients />
     <kul:routeLog />

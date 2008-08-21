@@ -16,28 +16,26 @@
 package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
     private Long capitalAssetNumber;
     private KualiDecimal previousTotalCostAmount;
     private Asset asset;
-    
-    
-    protected LinkedHashMap<String, String> toStringMapper() {
-        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        if (this.documentNumber != null) {
-            m.put("paymentSequenceNumber", this.documentNumber.toString());
-        }
-        if (this.capitalAssetNumber != null) {
-            m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
-        }
-        return m;
-    }
+    private List<AssetPaymentDetail> assetPaymentDetails;
+    private FinancialSystemDocumentHeader documentHeader;
 
+    public AssetPaymentAssetDetail() { 
+        this.assetPaymentDetails = new TypedArrayList(AssetPaymentDetail.class);  
+        this.documentHeader = new FinancialSystemDocumentHeader(); 
+    }
+    
     public Long getCapitalAssetNumber() {
         return capitalAssetNumber;
     }
@@ -68,6 +66,33 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
 
     public void setAsset(Asset asset) {
         this.asset = asset;
+    }
+    
+    protected LinkedHashMap<String, String> toStringMapper() {
+        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
+        if (this.documentNumber != null) {
+            m.put("paymentSequenceNumber", this.documentNumber.toString());
+        }
+        if (this.capitalAssetNumber != null) {
+            m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
+        }
+        return m;
+    }
+
+    public List<AssetPaymentDetail> getAssetPaymentDetails() {
+        return assetPaymentDetails;
+    }
+
+    public void setAssetPaymentDetails(List<AssetPaymentDetail> assetPaymentDetails) {
+        this.assetPaymentDetails = assetPaymentDetails;
+    }
+
+    public FinancialSystemDocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
     }
 
 }

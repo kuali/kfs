@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.cam.document.validation.impl;
 
+import java.util.List;
+
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -34,9 +37,15 @@ public class AssetPaymentLockValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
-        if (assetService.isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
-            return false;
+        List<AssetPaymentAssetDetail> assetPaymentAssetDetails =assetPaymentDocument.getAssetPaymentAssetDetail(); 
+        
+        for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {            
+            //if (assetService.isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
+            if (assetService.isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentAssetDetail.getCapitalAssetNumber())){                            
+                return false;
+            }
         }
+        
         return true;
     }
 

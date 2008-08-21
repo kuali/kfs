@@ -16,6 +16,7 @@
         <ref bean="AssetPaymentAssetDetail-documentNumber" />
         <ref bean="AssetPaymentAssetDetail-capitalAssetNumber" />
         <ref bean="AssetPaymentAssetDetail-previousTotalCostAmount" />
+        <ref bean="AssetPaymentAssetDetail-versionNumber" />        
       </list>
     </property>
   </bean>
@@ -37,26 +38,18 @@
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
   </bean>
-  
+
+
   <bean id="AssetPaymentAssetDetail-capitalAssetNumber" parent="AssetPaymentAssetDetail-capitalAssetNumber-parentBean" />
-  <bean id="AssetPaymentAssetDetail-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Number" />
-    <property name="shortLabel" value="Asset Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
-    </property>
-    <property name="summary" value="capitalAssetNumber" />
-    <property name="description" value="capitalAssetNumber description..." />
+  <bean id="AssetPaymentAssetDetail-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
   </bean>
-  
-  <bean id="AssetPaymentAssetDetail-previousTotalCostAmount" parent="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" />
+
+  <bean id="AssetPaymentAssetDetail-versionNumber" parent="AssetPaymentAssetDetail-versionNumber-parentBean" />
+  <bean id="AssetPaymentAssetDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+
+
+ <bean id="AssetPaymentAssetDetail-previousTotalCostAmount" parent="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" />
   <bean id="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="previousTotalCostAmount" />
     <property name="label" value="Previous Cost" />
@@ -65,5 +58,5 @@
     <property name="description" value="previousTotalCostAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   
-  </bean>
+  </bean>    
 </beans>

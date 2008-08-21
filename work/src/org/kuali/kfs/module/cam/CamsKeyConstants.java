@@ -75,6 +75,8 @@ public class CamsKeyConstants {
         public static final String PREVIOUS_COST_LABEL = "label.document.payment.previousCost";
         public static final String NEW_TOTAL_LABEL = "label.document.payment.newTotal";
         
+        public static final String ERROR_NON_CAPITAL_ASSET = "error.non.capital.asset.payment";
+        public static final String ERROR_ASSET_EXISTS_IN_DOCUMENT="error.asset.exists.in.payment.document";
     }
 
     public static class Transfer {

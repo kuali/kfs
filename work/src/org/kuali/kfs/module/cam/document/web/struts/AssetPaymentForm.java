@@ -16,13 +16,11 @@
 package org.kuali.kfs.module.cam.document.web.struts;
 
 import java.util.Calendar;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
@@ -36,11 +34,8 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     private static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
@@ -212,7 +207,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
      * parameter to the accountingLine.tag in order to display them.
      * 
      * @return LinkedHashMap
-     */
+     *
     public LinkedHashMap<String, String> getAssetPaymentTotals() {
         LinkedHashMap<String, String> totals = new LinkedHashMap<String, String>();
         CurrencyFormatter cf = new CurrencyFormatter();
@@ -225,5 +220,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         totals.put(kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.PREVIOUS_COST_LABEL), (String) cf.format(assetTotalCost));
         totals.put(kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.NEW_TOTAL_LABEL), (String) cf.format(getAssetPaymentDocument().getSourceTotal().add(assetTotalCost)));
         return totals;
-    }
+    }*/
 }
+
+

@@ -302,7 +302,7 @@
     <property name="name" value="capitalAssetNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Asset Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Asset Number" />    
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -848,7 +848,7 @@
   <bean id="Asset-totalCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalCostAmount" />
     <property name="label" value="Total Cost" />
-    <property name="shortLabel" value="Amount" />
+    <property name="shortLabel" value="Total Cost" />
     <property name="summary" value="totalCostAmount" />
     <property name="description" value="totalCostAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
@@ -1114,8 +1114,8 @@
 
   <bean id="Asset-paymentTotalCost-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="paymentTotalCost" />
-    <property name="label" value="Display Total Cost" />
-    <property name="shortLabel" value="Total Cost" />
+    <property name="label" value="Payments Total" />
+    <property name="shortLabel" value="Payments Total" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="Asset-federalContribution" parent="Asset-federalContribution-parentBean" />

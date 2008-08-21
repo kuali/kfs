@@ -41,7 +41,7 @@ public class PurApDocumentLookupableHelperServiceImpl extends KualiLookupableHel
         PurchasingAccountsPayableDocument purApDoc = (PurchasingAccountsPayableDocument) bo;
 
         Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, CabConstants.PURAP_START_METHOD);
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, CabConstants.Actions.START);
         parameters.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purApDoc.getPurchaseOrderIdentifier().toString());
 
         String url = UrlFactory.parameterizeUrl(CabConstants.CB_INVOICE_LINE_ACTION, parameters);

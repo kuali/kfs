@@ -18,26 +18,25 @@
 
 <c:set var="purApDocumentAttributes" value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
 <c:set var="purApItemAssetAttributes" value="${DataDictionary.PurchasingAccountsPayableItemAsset.attributes}" />
-
-<kul:tab tabTitle="Line Items" defaultOpen="true">
+<html:hidden property="additionalChargeIndicator" />
+<kul:tab tabTitle="Line Items" defaultOpen="true" tabErrorKey="purApDocs*">
 <div class="tab-container" align="center">
 <table width="100%" cellpadding="0" cellspacing="0" class="datatable">	
 	<tr>
 		<td class="tab-subhead"  width="100%" colspan="17">Line Items</td>
 	</tr>	
 	<tr>
-		<th class="grid" align="center"><input type="checkbox" title="Mark All" id="all" name="all" onclick="selectSources(this);" > Source</th>
-		<th class="grid" align="center">Target
+		<th class="grid" align="center"><input type="checkbox" id="all" name="all" onclick="selectSources(this);" >Select</th>
 		<kul:htmlAttributeHeaderCell literalLabel="Seq #"/>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}"/>
   		<th class="grid" align="center">Doc Type
   		<th class="grid" align="center">Invoice Status
-  		<kul:htmlAttributeHeaderCell attributeEntry="${purApItemAssetAttributes.itemLineNumber}"/>
+  		<th class="grid" align="center">Line #
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/>
   		<th class="grid" align="center">Split Qty
   		<th class="grid" align="center">Unit Cost
   		<th class="grid" align="center">Object Code
-  		<kul:htmlAttributeHeaderCell attributeEntry="${purApItemAssetAttributes.capitalAssetDescription}"/>
+  		<kul:htmlAttributeHeaderCell attributeEntry="${purApItemAssetAttributes.accountsPayableLineItemDescription}"/>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}"/>
 	    <th class="grid" align="center">TI</th>
 	    <th class="grid" align="center">Action</th>
@@ -45,24 +44,11 @@
     <c:forEach items="${KualiForm.purApDocs}" var="purApDoc" >
     	<c:set var="docPos" value="${docPos+1}" />
     	<c:set var="linePos" value="0" />
-    	<c:forEach items="${purApDoc.assetLineItems}" var="assetLine" >
+    	<html:hidden property="purApDocs[${docPos-1}].versionNumber" />
+    	<c:forEach items="${purApDoc.purchasingAccountsPayableItemAssets}" var="assetLine" >
 	    	<c:set var="seq" value="${seq+1}" />
     		<c:set var="linePos" value="${linePos+1}" />
-    		<cab:purApLineDetail seq="${seq}" docPos="${docPos}" linePos="${linePos}" lineItemsName="assetLineItems" itemLine="${assetLine}">
-    		</cab:purApLineDetail>
-		</c:forEach>
-		<c:set var="linePos" value="0" />
-    	<c:forEach items="${purApDoc.additionalChargeLineItems}" var="assetLine" >
-	    	<c:set var="seq" value="${seq+1}" />
-    		<c:set var="linePos" value="${linePos+1}" />
-    		<cab:purApLineDetail seq="${seq}" docPos="${docPos}" linePos="${linePos}" rowSpanNbr="${purApDoc.additionalChargeLineItemsSize}" lineItemsName="additionalChargeLineItems" itemLine="${assetLine}">
-    		</cab:purApLineDetail>
-		</c:forEach>
-		<c:set var="linePos" value="0" />
-    	<c:forEach items="${purApDoc.tradeInLineItems}" var="assetLine" varStatus="size">
-	    	<c:set var="seq" value="${seq+1}" />
-    		<c:set var="linePos" value="${linePos+1}" />
-    		<cab:purApLineDetail seq="${seq}" docPos="${docPos}" linePos="${linePos}" lineItemsName="tradeInLineItems" itemLine="${assetLine}">
+    		<cab:purApLineDetail seq="${seq}" docPos="${docPos}" linePos="${linePos}" itemLine="${assetLine}">
     		</cab:purApLineDetail>
 		</c:forEach>
 	</c:forEach>
@@ -70,7 +56,6 @@
 		<td class="grid" colspan="16">
 		<div align="center">
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-merge.gif" styleClass="tinybutton" property="methodToCall.merge" title="merge" alt="merge" onclick="merge();"/>&nbsp;&nbsp;&nbsp;
-			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-allocate.gif" styleClass="tinybutton" property="methodToCall.allocate" title="allocate" alt="allocate" onclick="allocate();"/>
 		</div>
 		</td>
 	</tr>

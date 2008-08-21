@@ -38,10 +38,19 @@
   </bean>
   <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier" parent="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" />
 
-  <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier" >
+  <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition" >
     <property name="name" value="purapDocumentIdentifier" />
   	<property name="label" value="Invoice" />
     <property name="shortLabel" value="Invoice" />
+    <property name="forceUppercase" value="true" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
   </bean>
   <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" parent="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" />
 

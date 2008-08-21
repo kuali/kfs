@@ -37,11 +37,14 @@ public class CabConstants extends JSTLConstants {
     
     public static final String TRADE_IN_TYPE_CODE = "TRDI";
     
-    public static final String PURAP_START_METHOD = "start";
     public static final String CB_INVOICE_LINE_ACTION = "cabPurApLine.do";
+    public static final String DOT_DOC = ".doc";
+    public static final String DOT_LINE = ".line";
     
     public static class Actions {
         public static final String PROCESS = "process";
+        public static final String START = "start";
+        public static final String SPLIT = "split";
     }
     
 }

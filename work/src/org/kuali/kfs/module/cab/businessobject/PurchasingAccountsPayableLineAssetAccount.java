@@ -22,6 +22,18 @@ public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusine
     GeneralLedgerEntry generalLedgerEntry;
     PurchasingAccountsPayableItemAsset purchasingAccountsPayableItemAsset;
 
+    public PurchasingAccountsPayableLineAssetAccount() {
+        
+    }
+    
+    public PurchasingAccountsPayableLineAssetAccount(PurchasingAccountsPayableItemAsset itemAsset, Long generalLedgerAccountIdentifier) {
+        this.documentNumber = itemAsset.getDocumentNumber();
+        this.accountsPayableLineItemIdentifier = itemAsset.getAccountsPayableLineItemIdentifier();
+        this.capitalAssetBuilderLineNumber = itemAsset.getCapitalAssetBuilderLineNumber();
+        this.generalLedgerAccountIdentifier = generalLedgerAccountIdentifier;
+        this.setActive(true);
+    }
+    
     public String getDocumentNumber() {
         return documentNumber;
     }

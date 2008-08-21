@@ -19,8 +19,16 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.module.cab.CabKeyConstants;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -29,12 +37,38 @@ public class PurApLineForm extends KualiForm {
     private String purchaseOrderIdentifier;
     private String purApContactEmailAddress;
     private String purApContactPhoneNumber;
-    
+
     private List<PurchasingAccountsPayableDocument> purApDocs;
-    
+    private String[] systemCheckbox;
+    private int actionPurApDocIndex;
+    private int actionItemAssetIndex;
+    private boolean additionalChargeIndicator;
+
+
     public PurApLineForm() {
         this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
+        this.additionalChargeIndicator = false;
     }
+
+    public boolean isAdditionalChargeIndicator() {
+        return additionalChargeIndicator;
+    }
+
+
+    public void setAdditionalChargeIndicator(boolean additionalChargeIndicator) {
+        this.additionalChargeIndicator = additionalChargeIndicator;
+    }
+
+
+    public String[] getSystemCheckbox() {
+        return systemCheckbox;
+    }
+
+
+    public void setSystemCheckbox(String[] systemCheckbox) {
+        this.systemCheckbox = systemCheckbox;
+    }
+
 
     public String getPurApContactEmailAddress() {
         return purApContactEmailAddress;
@@ -54,8 +88,36 @@ public class PurApLineForm extends KualiForm {
 
     @Override
     public void populate(HttpServletRequest request) {
-        // TODO Auto-generated method stub
         super.populate(request);
+        
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            // populate collection index
+            int purApDocIndex = Integer.parseInt(StringUtils.substringBetween(parameterName, CabConstants.DOT_DOC, "."));
+            int itemAssetIndex = Integer.parseInt(StringUtils.substringBetween(parameterName, CabConstants.DOT_LINE, "."));
+            this.setActionPurApDocIndex(purApDocIndex);
+            this.setActionItemAssetIndex(itemAssetIndex);
+        }
+    }
+
+
+    public int getActionPurApDocIndex() {
+        return actionPurApDocIndex;
+    }
+
+
+    public void setActionPurApDocIndex(int purApDocIndex) {
+        this.actionPurApDocIndex = purApDocIndex;
+    }
+
+
+    public int getActionItemAssetIndex() {
+        return actionItemAssetIndex;
+    }
+
+
+    public void setActionItemAssetIndex(int itemAssetIndex) {
+        this.actionItemAssetIndex = itemAssetIndex;
     }
 
 

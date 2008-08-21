@@ -55,19 +55,24 @@ public class CabPropertyConstants {
         public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS = "purchasingAccountsPayableItemAssets";
+        
     }
 
     public static class PurchasingAccountsPayableItemAsset {
         public static final String ACCOUNTS_PAYABLE_LINE_ITEM_IDENTIFIER = "accountsPayableLineItemIdentifier";
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String ITEM_LINE_NUMBER = "itemLineNumber";
+        public static final String CAPITAL_ASSET_BUILDER_LINE_NUMBER = "capitalAssetBuilderLineNumber";
+        public static final String ACCOUNTS_PAYABLE_ITEM_QUANTITY = "accountsPayableItemQuantity";
+        public static final String SPLIT_QTY = "splitQty";
     }
 
     public static class PurchasingAccountsPayableLineAssetAccount {
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String PUR_ITM_ID = "accountsPayableLineItemIdentifier";
         public static final String CAB_LINE_NUMBER = "capitalAssetBuilderLineNumber";
-        
+        public static final String GENERAL_LEDGER_ENTRY = "generalLedgerEntry";
+        public static final String PURAP_ITEM_ASSET = "purchasingAccountsPayableItemAsset";
     }
     
     public static class Pretag {
@@ -76,6 +81,10 @@ public class CabPropertyConstants {
     }
 
     public static final String DOCUMENT_NUMBER = "documentNumber";
+    
+    public static class PurApLineForm {
+        public static final String PURAP_DOCS = "purApDocs";
+    }
 
     public static class GeneralLedgerPendingEntry {
         public static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";

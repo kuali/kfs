@@ -15,16 +15,34 @@
  */
 package org.kuali.kfs.module.cab.document.service;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 
+
+/**
+ * This class declares methods used by CAB PurAp Line process
+ */
 public interface PurApLineService {
+
     /**
+     * Build the purApDocList collection which have the same po_id and set the field values for each line items.
      * 
-     * Build the purApDocList collection which have the same po_id and set the field values for each items.
-     * @param purApLineForm
+     * @param purApLineForm form
      */
-    
-    public void setPurApInformation(PurApLineForm purApLineForm, HttpServletRequest request);
+    void setPurApInformation(PurApLineForm purApLineForm);
+
+    /**
+     * Changes percent quantities to a quantity of 1 for selected line item.
+     * 
+     * @param itemAsset Selected line item.
+     */
+    void processPercentPayment(PurchasingAccountsPayableItemAsset itemAsset);
+
+    /**
+     * Split the selected line item quantity and create a new line item.
+     * 
+     * @param itemAsset Selected line item.
+     * @return
+     */
+    PurchasingAccountsPayableItemAsset processSplit(PurchasingAccountsPayableItemAsset itemAsset);
 }

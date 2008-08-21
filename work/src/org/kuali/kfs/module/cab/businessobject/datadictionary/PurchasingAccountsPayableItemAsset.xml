@@ -20,6 +20,7 @@
         <ref bean="PurchasingAccountsPayableItemAsset-documentNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier" />
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber" />
+        <ref bean="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription" />
         <ref bean="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity" />
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetDescription" />
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetTypeCode" />
@@ -92,7 +93,26 @@
     <property name="description" value="capitalAssetBuilderLineNumber description..." />
   </bean>
   
+  
+  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription" parent="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription-parentBean" />
 
+  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountsPayableLineItemDescription" />
+    <property name="label" value="Asset Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="4000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="2"
+            p:cols="20" />
+    </property>
+    <property name="summary" value="capitalAssetDescription" />
+    <property name="description" value="capitalAssetDescription description..." />    
+  </bean>
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity" parent="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean" />
 
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean" abstract="true" parent="AttributeDefinition">

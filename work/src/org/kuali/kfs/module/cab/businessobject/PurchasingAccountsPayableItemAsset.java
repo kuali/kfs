@@ -1,5 +1,6 @@
 package org.kuali.kfs.module.cab.businessobject;
 
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjectBase {
+public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjectBase implements Comparable<PurchasingAccountsPayableItemAsset>{
 
     private String documentNumber;
     private Integer accountsPayableLineItemIdentifier;
@@ -33,6 +34,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     // non persistent fields
     private Integer itemLineNumber;
+    // TODO: difference from capitalAssetTypeCode? 
     private String capitalAssetTransactionTypeCode;
     private boolean additionalChargeNonTradeInIndicator;
     private boolean tradeInIndicator;
@@ -40,6 +42,15 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private KualiDecimal unitCost;
     private KualiDecimal totalCost;
     private String firstFincialObjectCode;
+    private KualiDecimal splitQty;
+
+    public KualiDecimal getSplitQty() {
+        return splitQty;
+    }
+
+    public void setSplitQty(KualiDecimal splitQty) {
+        this.splitQty = splitQty;
+    }
 
     public int getPurchasingAccountsPayableLineAssetAccountsSize() {
         return this.purchasingAccountsPayableLineAssetAccounts.size();
@@ -74,6 +85,17 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
     }
 
+    public PurchasingAccountsPayableItemAsset(PurchasingAccountsPayableItemAsset initialItemAsset) {
+        this.documentNumber = initialItemAsset.documentNumber;
+        this.accountsPayableLineItemIdentifier = initialItemAsset.getAccountsPayableLineItemIdentifier();
+        this.accountsPayableLineItemDescription = initialItemAsset.getAccountsPayableLineItemDescription();
+        this.itemLineNumber = initialItemAsset.getItemLineNumber();
+        this.firstFincialObjectCode = initialItemAsset.getFirstFincialObjectCode();
+        this.active = true;
+        this.purchasingAccountsPayableAssetDetails = new TypedArrayList(PurchasingAccountsPayableAssetDetail.class);
+        this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
+    }
+    
     public List<PurchasingAccountsPayableLineAssetAccount> getPurchasingAccountsPayableLineAssetAccounts() {
         return purchasingAccountsPayableLineAssetAccounts;
     }
@@ -412,6 +434,18 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     public void setTotalCost(KualiDecimal totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public int compareTo(PurchasingAccountsPayableItemAsset o) {
+        boolean o1ItemTypeBelowTheLine = this.isAdditionalChargeNonTradeInIndicator() | this.isTradeInIndicator();
+        boolean o2ItemTypeBelowTheLine = o.isAdditionalChargeNonTradeInIndicator() | o.isTradeInIndicator();
+        if (o1ItemTypeBelowTheLine && !o2ItemTypeBelowTheLine) {
+            return 1;
+        }
+        else if (o2ItemTypeBelowTheLine && !o1ItemTypeBelowTheLine) {
+            return -1;
+        }
+        return 0;
     }
     
 }

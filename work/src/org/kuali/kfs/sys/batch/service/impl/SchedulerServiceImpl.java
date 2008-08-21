@@ -34,11 +34,13 @@ import org.kuali.kfs.sys.batch.ScheduleStep;
 import org.kuali.kfs.sys.batch.SimpleTriggerDescriptor;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.KualiModule;
+import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.service.ModuleService;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.ObjectAlreadyExistsException;
@@ -53,13 +55,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class SchedulerServiceImpl implements SchedulerService {
     private static final Logger LOG = Logger.getLogger(SchedulerServiceImpl.class);
     private static final String SCHEDULE_JOB_NAME = "scheduleJob";
-    private static final String JOB_STATUS_PARAMETER = "status";
+    public static final String JOB_STATUS_PARAMETER = "status";
     private static final String SOFT_DEPENDENCY_CODE = "softDependency";
     private static final String HARD_DEPENDENCY_CODE = "hardDependency";
 
     private Scheduler scheduler;
     private JobListener jobListener;
-    private KualiModuleService moduleService;
+    private KualiModuleService kualiModuleService;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
     private MailService mailService;
@@ -86,9 +88,9 @@ public class SchedulerServiceImpl implements SchedulerService {
         catch (SchedulerException e) {
             throw new RuntimeException("SchedulerServiceImpl encountered an exception when trying to register the global job listener", e);
         }
-        for (KualiModule module : moduleService.getInstalledModules()) {
-            LOG.info("Loading scheduled jobs for: " + module.getModuleId());
-            for (String jobName : module.getJobNames()) {
+        for (ModuleService moduleService : kualiModuleService.getInstalledModuleServices()) {
+            LOG.info("Loading scheduled jobs for: " + moduleService.getModuleConfiguration().getNamespaceCode());
+            for (String jobName : moduleService.getModuleConfiguration().getJobNames()) {
                 try {
                     loadJob(BatchSpringContext.getJobDescriptor(jobName));
                 }
@@ -96,7 +98,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                     LOG.error("unable to find job bean definition for job: " + ex.getBeanName(), ex);
                 }
             }
-            for (String triggerName : module.getTriggerNames()) {
+            for (String triggerName : moduleService.getModuleConfiguration().getTriggerNames()) {
                 try {
                     addTrigger(BatchSpringContext.getTriggerDescriptor(triggerName).getTrigger());
                 }
@@ -456,7 +458,13 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     public String getStatus(JobDetail jobDetail) {
-        return jobDetail.getJobDataMap().getString(JOB_STATUS_PARAMETER);
+        KfsModuleServiceImpl moduleService = (KfsModuleServiceImpl)
+            SpringContext.getBean(KualiModuleService.class).getResponsibleModuleServiceForJob(jobDetail.getName());
+        //If the module service has status information for a job, get the status from it
+        //else get status from job detail data map 
+        return (moduleService!=null && moduleService.hasJobStatus(jobDetail.getName()))
+                    ? moduleService.getJobStatus(jobDetail.getName())
+                    : jobDetail.getJobDataMap().getString(SchedulerServiceImpl.JOB_STATUS_PARAMETER);
     }
 
     private JobDetail getScheduledJobDetail(String jobName) {
@@ -495,8 +503,8 @@ public class SchedulerServiceImpl implements SchedulerService {
      * 
      * @param moduleService The moduleService to set.
      */
-    public void setModuleService(KualiModuleService moduleService) {
-        this.moduleService = moduleService;
+    public void setKualiModuleService(KualiModuleService moduleService) {
+        this.kualiModuleService = moduleService;
     }
 
     /**

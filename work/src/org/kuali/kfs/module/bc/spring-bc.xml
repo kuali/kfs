@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="budgetModule" parent="budgetModule-parentBean" />
 
-    <bean id="budgetModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="bc" />
-		<property name="moduleName" value="Budget Construction" />
-		<property name="moduleCode" value="BC" />
+    <bean id="bcModuleConfiguration" parent="bcModuleConfiguration-parentBean" />
+	
+    <bean id="bcModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-BC" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="budgetModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.module.bc</value>
+                <value>org.kuali.kfs.integration.businessobject.bc</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/bc/businessobject/datadictionary</value>
@@ -52,14 +56,12 @@
 		</property>
 	</bean>
 
-    <bean id="budgetModuleAuthorizer" parent="financialSystemModuleAuthorizer" class="org.kuali.kfs.module.bc.BudgetModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.module.bc.</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="bcModuleService" parent="bcModuleService-parentBean"/>
 
+    <bean id="bcModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="bcModuleConfiguration" />
+	</bean>
+	
 	<bean id="budgetDocumentService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetDocumentServiceImpl">
 		<property name="budgetConstructionDao">
 			<ref bean="budgetConstructionDao" />

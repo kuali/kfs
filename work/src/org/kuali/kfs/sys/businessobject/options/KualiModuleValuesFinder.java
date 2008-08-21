@@ -19,9 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.KualiModule;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -36,11 +37,12 @@ public class KualiModuleValuesFinder extends KeyValuesBase {
      */
     public List<KeyLabelPair> getKeyValues() {
         KualiModuleService moduleService = SpringContext.getBean(KualiModuleService.class);
-        List<KualiModule> results = moduleService.getInstalledModules();
+        List<ModuleService> results = moduleService.getInstalledModuleServices();
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>( results.size() );
         labels.add(new KeyLabelPair("", ""));
-        for (KualiModule module : results) {
-            labels.add(new KeyLabelPair(module.getModuleCode(), module.getModuleName()));
+        for (ModuleService module : results) {
+            labels.add(new KeyLabelPair(module.getModuleConfiguration().getNamespaceCode(), 
+                    SpringContext.getBean(KualiModuleService.class).getNamespaceName(module.getModuleConfiguration().getNamespaceCode())));
         }
         return labels;
     }

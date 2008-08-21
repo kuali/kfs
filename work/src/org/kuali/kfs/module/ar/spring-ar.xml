@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>	
-    <bean id="arModule" parent="arModule-parentBean" />
 
-    <bean id="arModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="ar" />
-		<property name="moduleName" value="Accounts Receivable" />
-		<property name="moduleCode" value="AR" />
+    <bean id="arModuleConfiguration" parent="arModuleConfiguration-parentBean" />
+	
+    <bean id="arModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-AR" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="arModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.module.ar</value>
+                <value>org.kuali.kfs.integration.businessobject.ar</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/ar/businessobject/datadictionary</value>
@@ -35,7 +39,6 @@
 				<value>org/kuali/kfs/module/ar/ojb-ar.xml</value>
 			</list>
 		</property>
-
 		<property name="jobNames">
 			<list>
 				<value>lockboxJob</value>
@@ -55,13 +58,11 @@
 		</property>		
 	</bean>
 
-    <bean id="arModuleAuthorizer" parent="financialSystemModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.module.ar.</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="arModuleService" parent="arModuleService-parentBean"/>
+
+    <bean id="arModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="arModuleConfiguration" />
+	</bean>
 
 	<!--  AR DAOs  -->
 	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerDaoOjb" />

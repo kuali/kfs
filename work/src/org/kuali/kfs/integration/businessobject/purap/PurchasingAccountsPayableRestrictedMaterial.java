@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.businessobject;
+package org.kuali.kfs.integration.businessobject.purap;
+
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 /**
  * An interface that declares methods to retrieve information about Restricted Materials.
  */
-public interface PurchasingAccountsPayableRestrictedMaterial {
+public interface PurchasingAccountsPayableRestrictedMaterial extends ExternalizableBusinessObject {
 
     /**
      * Gets the code for this restricted material

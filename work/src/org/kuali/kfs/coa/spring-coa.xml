@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="chartModule" parent="chartModule-parentBean" />
 
-    <bean id="chartModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="coa" />
-		<property name="moduleName" value="Chart Of Accounts" />
-		<property name="moduleCode" value="COA" />
+    <bean id="coaModuleConfiguration" parent="coaModuleConfiguration-parentBean" />
+	
+    <bean id="coaModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-COA" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="chartModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.coa</value>
+                <value>org.kuali.kfs.integration.businessobject.coa</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/coa/businessobject/datadictionary</value>
@@ -46,14 +50,13 @@
 				<value>populatePriorYearDataJob</value>
 			</list>
 		</property>
+
 	</bean>
 
-    <bean id="chartModuleAuthorizer" parent="financialSystemModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.coa.</value>
-            </list>
-        </property>
+    <bean id="coaModuleService" parent="coaModuleService-parentBean"/>
+
+    <bean id="coaModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+    	<property name="moduleConfiguration" ref="coaModuleConfiguration"/>
     </bean>
 
 	<bean id="accountService" class="org.kuali.kfs.coa.service.impl.AccountServiceImpl">

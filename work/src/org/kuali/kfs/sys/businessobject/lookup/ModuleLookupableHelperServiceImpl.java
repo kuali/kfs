@@ -23,12 +23,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.KualiModuleBO;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.KualiModule;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ModuleService;
 
 public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -41,18 +41,21 @@ public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServ
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        List<KualiModule> modules = SpringContext.getBean(KualiModuleService.class).getInstalledModules();
+        List<ModuleService> modules = SpringContext.getBean(KualiModuleService.class).getInstalledModuleServices();
         String codeValue = fieldValues.get("moduleCode");
         String nameValue = fieldValues.get("moduleName");
         List<KualiModuleBO> boModules = new ArrayList();
-        for (KualiModule mod : modules) {
-            if (!StringUtils.isEmpty(nameValue) && !StringUtils.containsIgnoreCase(mod.getModuleName(), nameValue)) {
+        String tempNamespaceName;
+        for (ModuleService mod : modules) {
+            if (!StringUtils.isEmpty(nameValue) && !StringUtils.containsIgnoreCase(mod.getModuleConfiguration().getNamespaceCode(), nameValue)) {
                 continue;
             }
-            if (!StringUtils.isEmpty(codeValue) && !StringUtils.containsIgnoreCase(mod.getModuleCode(), codeValue)) {
+            tempNamespaceName = SpringContext.getBean(KualiModuleService.class).getNamespaceName(mod.getModuleConfiguration().getNamespaceCode());
+            if (!StringUtils.isEmpty(codeValue) && !StringUtils.containsIgnoreCase(tempNamespaceName, codeValue)) {
                 continue;
             }
-            boModules.add(new KualiModuleBO(mod.getModuleCode(), mod.getModuleId(), mod.getModuleName()));
+            boModules.add(new KualiModuleBO(mod.getModuleConfiguration().getNamespaceCode(), 
+                    mod.getModuleConfiguration().getNamespaceCode(), tempNamespaceName));
         }
         return boModules;
     }

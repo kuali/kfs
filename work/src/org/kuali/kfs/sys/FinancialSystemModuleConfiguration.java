@@ -15,8 +15,7 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.rice.kns.KualiModule;
-import org.kuali.rice.kns.authorization.KualiModuleAuthorizer;
+import org.kuali.rice.kns.bo.ModuleConfiguration;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.rules.PreRulesContinuationBase;
 import org.kuali.rice.kns.service.KualiModuleUserService;
@@ -24,20 +23,8 @@ import org.kuali.rice.kns.service.KualiModuleUserService;
 /**
  * Slim subclass to enforce class hierarchy not enforced by the parent class' contract.
  */
-public class FinancialSystemModule extends KualiModule {
+public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
 
-    public FinancialSystemModuleAuthorizer getKfsModuleAuthorizer() {
-        return (FinancialSystemModuleAuthorizer)getModuleAuthorizer();
-    }
-    
-    @Override
-    public void setModuleAuthorizer(KualiModuleAuthorizer moduleAuthorizer) {
-        if ( !(moduleAuthorizer instanceof FinancialSystemModuleAuthorizer) ) {
-            throw new IllegalArgumentException( "Module authorizers for KfsModules must implement the FinancialSystemModuleAuthorizer interface.  Was: " + moduleAuthorizer.getClass() );
-        }
-        super.setModuleAuthorizer(moduleAuthorizer);
-    }
-    
     @Override
     public void setModuleUserRule(MaintenanceDocumentRuleBase moduleUserRule) {
         throw new UnsupportedOperationException( "Module User properties are not used on FinancialSystemModule instances.");

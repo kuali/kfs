@@ -82,7 +82,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         AuthorizationType defaultAuthorizationType = new AuthorizationType.Default(batchInputFileType.getClass());
         if (!getKualiModuleService().isAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser(), defaultAuthorizationType)) {
             LOG.error("User not authorized for lookup action for this object: " + batchInputFileType.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), defaultAuthorizationType, getKualiModuleService().getResponsibleModule(batchInputFileType.getClass()));
+            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), defaultAuthorizationType, getKualiModuleService().getResponsibleModuleService(batchInputFileType.getClass()));
         }
 
         boolean isAuthorizedForType = SpringContext.getBean(BatchInputFileSetService.class).isUserAuthorizedForBatchType(batchInputFileType, GlobalVariables.getUserSession().getFinancialSystemUser());

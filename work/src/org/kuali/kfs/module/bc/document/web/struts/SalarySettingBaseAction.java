@@ -39,7 +39,6 @@ import org.kuali.kfs.module.bc.document.validation.event.NormalizePayrateAndAmou
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.KualiModule;
 import org.kuali.rice.kns.authorization.AuthorizationType;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.AuthorizationException;
@@ -49,6 +48,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -101,7 +101,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         if (!getKualiModuleService().isAuthorized(currentUser, bcAuthorizationType)) {
             LOG.error("User not authorized to use this action: " + this.getClass().getName());
 
-            KualiModule module = getKualiModuleService().getResponsibleModule(this.getClass());
+            ModuleService module = getKualiModuleService().getResponsibleModuleService(this.getClass());
             throw new ModuleAuthorizationException(currentUser.getPersonUserIdentifier(), bcAuthorizationType, module);
         }
     }

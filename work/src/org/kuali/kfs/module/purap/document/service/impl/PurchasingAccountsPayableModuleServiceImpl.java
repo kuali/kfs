@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableItemBuyerAndSellerSummary;
 import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableItemCostSummary;
-import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableRestrictedMaterial;
+import org.kuali.kfs.integration.businessobject.purap.PurchasingAccountsPayableRestrictedMaterial;
 import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;

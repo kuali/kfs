@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.businessobject;
+package org.kuali.kfs.integration.businessobject.cg;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
-public interface ContractsAndGrantsCfda extends PersistableBusinessObject {
+public interface ContractsAndGrantsCfda extends ExternalizableBusinessObject {
     /**
      * Gets the cfdaNumber attribute.
      * 

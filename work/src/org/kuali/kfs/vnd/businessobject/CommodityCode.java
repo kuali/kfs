@@ -19,11 +19,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableRestrictedMaterial;
+import org.kuali.kfs.integration.businessobject.purap.PurchasingAccountsPayableRestrictedMaterial;
 import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -87,7 +88,7 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     }
 
     public PurchasingAccountsPayableRestrictedMaterial getRestrictedMaterial() {
-        if (StringUtils.isBlank(restrictedMaterialCode)) {
+        /*if (StringUtils.isBlank(restrictedMaterialCode)) {
             if (restrictedMaterial != null) {
                 restrictedMaterial = null;
             }
@@ -96,7 +97,10 @@ public class CommodityCode extends PersistableBusinessObjectBase {
                 restrictedMaterial = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getRestrictedMaterialByCode(this.restrictedMaterialCode);
             }
         }
-        return restrictedMaterial;
+        return restrictedMaterial;*/
+        return restrictedMaterial = (PurchasingAccountsPayableRestrictedMaterial)SpringContext.getBean(KualiModuleService.class)
+                                .getResponsibleModuleService(PurchasingAccountsPayableRestrictedMaterial.class)
+                                .retrieveExternalizableBusinessObjectIfNecessary(this, restrictedMaterial, "restrictedMaterial");
     }
 
     public boolean isSalesTaxIndicator() {

@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="camsModule" parent="camsModule-parentBean" />
 
-    <bean id="camsModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="cam" />
-		<property name="moduleName" value="Capital Asset Management" />
-		<property name="moduleCode" value="CAM" />
+    <bean id="camModuleConfiguration" parent="camModuleConfiguration-parentBean" />
+
+    <bean id="camModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-CAM" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="camsModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.module.cam</value>
+                <value>org.kuali.kfs.integration.businessobject.cam</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/cam/businessobject/datadictionary</value>
@@ -35,7 +39,6 @@
 				<value>org/kuali/kfs/module/cam/ojb-cam.xml</value>
 			</list>
 		</property>
-
 		<property name="jobNames">
 			<list>
 				<value>assetDepreciationBatchJob</value>
@@ -51,13 +54,11 @@
 		<!-- Asset Depreciation batch - END -->								
 	</bean>
 
-    <bean id="camsModuleAuthorizer" parent="financialSystemModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.module.cam.</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="camModuleService" parent="camModuleService-parentBean"/>
+
+    <bean id="camModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="camModuleConfiguration" />
+	</bean>
 
 <!-- ********* Begin of depreciation batch beans ********** -->
 	<bean id="assetDepreciationService" class="org.kuali.kfs.module.cam.batch.service.impl.AssetDepreciationServiceImpl">											       

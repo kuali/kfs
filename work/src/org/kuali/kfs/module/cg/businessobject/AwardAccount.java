@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -27,7 +28,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * This class represents an association between an award and an account. It's like a reference to the account from the award. This
  * way an award can maintain a collection of these references instead of owning accounts directly.
  */
-public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector, Inactivateable {
+public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector, Inactivateable, ContractsAndGrantsAccountAwardInformation {
 
     private Long proposalNumber;
     private String chartOfAccountsCode;
@@ -48,10 +49,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         projectDirector = new ProjectDirector();
     }
 
-    /**
-     * Gets the proposalNumber attribute.
-     * 
-     * @return Returns the proposalNumber
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
      */
     public Long getProposalNumber() {
         return proposalNumber;
@@ -67,10 +66,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     }
 
 
-    /**
-     * Gets the chartOfAccountsCode attribute.
-     * 
-     * @return Returns the chartOfAccountsCode
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getChartOfAccountsCode()
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -86,10 +83,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     }
 
 
-    /**
-     * Gets the accountNumber attribute.
-     * 
-     * @return Returns the accountNumber
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAccountNumber()
      */
     public String getAccountNumber() {
         return accountNumber;
@@ -104,11 +99,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         this.accountNumber = accountNumber;
     }
 
-
-    /**
-     * Gets the personUniversalIdentifier attribute.
-     * 
-     * @return Returns the personUniversalIdentifier
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getPersonUniversalIdentifier()
      */
     public String getPersonUniversalIdentifier() {
         return personUniversalIdentifier;
@@ -123,11 +115,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         this.personUniversalIdentifier = personUniversalIdentifier;
     }
 
-
-    /**
-     * Gets the account attribute.
-     * 
-     * @return Returns the account
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAccount()
      */
     public Account getAccount() {
         return account;
@@ -145,10 +134,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         this.account = account;
     }
 
-    /**
-     * Gets the chartOfAccounts attribute.
-     * 
-     * @return Returns the chartOfAccounts
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getChartOfAccounts()
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -166,10 +153,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         this.chartOfAccounts = chartOfAccounts;
     }
 
-    /**
-     * Gets the project director attribute.
-     * 
-     * @return Returns the projectDirector.
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirector()
      */
     public ProjectDirector getProjectDirector() {
         return projectDirector;
@@ -202,10 +187,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         return m;
     }
 
-    /**
-     * This method returns the Award object associated with this AwardAccount.
-     * 
-     * @return The Award object associated with this AwardAccount.
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAward()
      */
     public Award getAward() {
         return award;

@@ -30,7 +30,6 @@ import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants.COMPONENT;
 import org.kuali.kfs.sys.service.impl.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kns.KualiModule;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.bo.ParameterDetailType;
@@ -41,6 +40,7 @@ import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -60,7 +60,7 @@ public class ParameterServiceImpl implements ParameterService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ParameterServiceImpl.class);
     private static List<ParameterDetailType> components = new ArrayList<ParameterDetailType>();
     private DataDictionaryService dataDictionaryService;
-    private KualiModuleService moduleService;
+    private KualiModuleService kualiModuleService;
     private BusinessObjectService businessObjectService;
     private ThreadLocal<Map<String,Parameter>> parameterCache = new ThreadLocal<Map<String,Parameter>>();
 
@@ -294,9 +294,9 @@ public class ParameterServiceImpl implements ParameterService {
             if (documentOrStepClass.isAnnotationPresent(NAMESPACE.class)) {
                 return ((NAMESPACE) documentOrStepClass.getAnnotation(NAMESPACE.class)).namespace();
             }
-            KualiModule module = moduleService.getResponsibleModule(documentOrStepClass);
-            if (module != null) {
-                return ParameterConstants.FINANCIAL_NAMESPACE_PREFIX + module.getModuleCode();
+            ModuleService moduleService = kualiModuleService.getResponsibleModuleService(documentOrStepClass);
+            if (moduleService != null) {
+                return moduleService.getModuleConfiguration().getNamespaceCode();
             }
             if (documentOrStepClass.getName().startsWith("org.kuali.rice.kns")) {
                 return ParameterConstants.NERVOUS_SYSTEM_NAMESPACE;
@@ -447,8 +447,8 @@ public class ParameterServiceImpl implements ParameterService {
         this.dataDictionaryService = dataDictionaryService;
     }
 
-    public void setModuleService(KualiModuleService moduleService) {
-        this.moduleService = moduleService;
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

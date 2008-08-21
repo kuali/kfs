@@ -32,7 +32,6 @@ import org.kuali.rice.kew.lookupable.Field;
 import org.kuali.rice.kew.lookupable.Row;
 import org.kuali.rice.kew.validation.ValidationContext;
 import org.kuali.rice.kew.validation.ValidationResults;
-import org.kuali.rice.kns.KualiModule;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -41,6 +40,7 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.rice.kns.lookup.keyvalues.ModuleValuesFinder;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -162,8 +162,8 @@ public class SystemWorkgroupExtensionAttribute implements ExtensionAttribute {
 
         ValidationResults results = new ValidationResults();
         if (!StringUtils.isBlank(moduleCode)) {
-            KualiModule module = SpringContext.getBean(KualiModuleService.class).getModuleByCode(moduleCode);
-            if (module == null) {
+            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode(moduleCode);
+            if (moduleService == null) {
                 results.addValidationResult("Module Code is invalid.");
             }
         }

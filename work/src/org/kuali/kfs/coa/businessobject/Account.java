@@ -32,8 +32,10 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
-import org.kuali.kfs.integration.businessobject.ContractsAndGrantsCfda;
+import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
+import org.kuali.kfs.module.cg.businessobject.ExternalCfda;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,6 +45,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
@@ -144,7 +147,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private AccountDescription accountDescription;
 
     private List subAccounts;
-    private List awards;
+    private List<ContractsAndGrantsAccountAwardInformation> awards;
 
     /**
      * Default no-arg constructor.
@@ -748,20 +751,16 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return a CFDA record
      */
     public ContractsAndGrantsCfda getCfda() {
-        if (StringUtils.isBlank(accountCfdaNumber)) {
-            if (cfda != null) {
-                cfda = null;
-            }
-        } else {
-            if (cfda == null || !cfda.getCfdaNumber().equals(accountCfdaNumber)) {
-                cfda = SpringContext.getBean(ContractsAndGrantsModuleService.class).getCfda(accountCfdaNumber);
-            }
-        }
-        return cfda;
+        return cfda = (ContractsAndGrantsCfda)SpringContext.getBean(KualiModuleService.class)
+                    .getResponsibleModuleService(ContractsAndGrantsCfda.class)
+                    .retrieveExternalizableBusinessObjectIfNecessary(this, cfda, "cfda");
     }
     
-    public List getAwards() {
+    public List<ContractsAndGrantsAccountAwardInformation> getAwards() {
         // TODO this code totally breaks modularization but can't be fixed until data dictionary modularization plans come down the pike
+        awards = (List)SpringContext.getBean(KualiModuleService.class)
+                        .getResponsibleModuleService(ContractsAndGrantsAccountAwardInformation.class)
+                        .retrieveExternalizableBusinessObjectsList(this, "awards", ContractsAndGrantsAccountAwardInformation.class);
         return awards;
     }
     

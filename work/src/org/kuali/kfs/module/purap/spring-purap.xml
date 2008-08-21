@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="purapModule" parent="purapModule-parentBean" />
 
-    <bean id="purapModule-parentBean" class="org.kuali.rice.kns.KualiModule" abstract="true">
-		<property name="moduleId" value="purap" />
-		<property name="moduleName" value="Purchasing/Accounts Payable" />
-		<property name="moduleCode" value="PURAP" />
+    <bean id="purapModuleConfiguration" parent="purapModuleConfiguration-parentBean" />
+
+    <bean id="purapModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-PURAP" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="purapModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.module.purap</value>
+                <value>org.kuali.kfs.integration.businessobject.purap</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/purap/businessobject/datadictionary</value>
@@ -53,15 +57,18 @@
 				<value>electronicInvoiceExtractJobTrigger</value>
 			</list>
 		</property>
+		<property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.businessobject.purap.PurchasingAccountsPayableRestrictedMaterial" value="org.kuali.kfs.module.purap.businessobject.RestrictedMaterial" />
+            </map>
+        </property> 
 	</bean>
 
-    <bean id="purapModuleAuthorizer" parent="activeStaffFacultyAffiliateModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.module.purap.</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="purapModuleService" parent="purapModuleService-parentBean"/>
+
+    <bean id="purapModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="purapModuleConfiguration" />
+	</bean>
 
 	<!--  override accounting service -->
     <bean id="purapAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl">

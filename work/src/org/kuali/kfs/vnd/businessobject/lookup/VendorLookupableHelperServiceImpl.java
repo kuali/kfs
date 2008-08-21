@@ -86,7 +86,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, bo.getClass().getName());
 
-            List pkNames = getPersistenceStructureService().listPrimaryKeyFieldNames(getBusinessObjectClass());
+            List pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
             for (Iterator<String> iter = pkNames.iterator(); iter.hasNext();) {
                 String fieldNm = iter.next();
                 if (!fieldNm.equals(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID) || !((VendorDetail) bo).isVendorParentIndicator() || (((VendorDetail) bo).isVendorParentIndicator()) && !methodToCall.equals(KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION)) {

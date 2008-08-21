@@ -75,7 +75,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         AuthorizationType adHocAuthorizationType = new AuthorizationType.AdHocRequest(this.getClass(), methodToCall);
         if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser(), adHocAuthorizationType)) {
             LOG.error("User not authorized to use this action: " + this.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), adHocAuthorizationType, getKualiModuleService().getResponsibleModule(((KualiForm) form).getClass()));
+            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), adHocAuthorizationType, getKualiModuleService().getResponsibleModuleService(((KualiForm) form).getClass()));
         }
 
         UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();

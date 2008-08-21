@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="effortModule" parent="effortModule-parentBean" />
 
-    <bean id="effortModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="ec" />
-		<property name="moduleName" value="Effort Certification" />
-		<property name="moduleCode" value="EC" />
+    <bean id="ecModuleConfiguration" parent="ecModuleConfiguration-parentBean" />
+    
+    <bean id="ecModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-EC" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="effortModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.module.ec</value>
+                <value>org.kuali.kfs.integration.businessobject.ec</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/ec/businessobject/datadictionary</value>
@@ -49,13 +53,11 @@
 		</property>
 	</bean>
 
-    <bean id="effortModuleAuthorizer" parent="financialSystemModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.module.ec.</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="ecModuleService" parent="ecModuleService-parentBean"/>
+
+    <bean id="ecModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="ecModuleConfiguration" />
+	</bean>
 	
 	<!-- Section 1: Batch Job Definitions --> 
 	<bean id="effortCertificationExtractJob" parent="unscheduledJobDescriptor">

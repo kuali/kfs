@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="vendorModule" parent="vendorModule-parentBean" />
 
-	<bean id="vendorModule-parentBean" class="org.kuali.rice.kns.KualiModule" abstract="true">
-		<property name="moduleId" value="vnd" />
-		<property name="moduleName" value="Vendor" />
-		<property name="moduleCode" value="VND" />
+    <bean id="vndModuleConfiguration" parent="vndModuleConfiguration-parentBean" />
+
+	<bean id="vndModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+		<property name="namespaceCode" value="KFS-VND"/>
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="vendorModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.vnd</value>
+                <value>org.kuali.kfs.integration.businessobject.vnd</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/vnd/businessobject/datadictionary</value>
@@ -41,14 +45,12 @@
 			</list>
 		</property>
 	</bean>
-    
-    <bean id="vendorModuleAuthorizer" parent="activeStaffFacultyAffiliateModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.vnd.</value>
-            </list>
-        </property>
-    </bean>   
+
+    <bean id="vndModuleService" parent="vndModuleService-parentBean"/>
+
+    <bean id="vndModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="vndModuleConfiguration" />
+	</bean>
 
 	<bean id="workflow-org.kuali.kfs.vnd.businessobject.VendorType-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">

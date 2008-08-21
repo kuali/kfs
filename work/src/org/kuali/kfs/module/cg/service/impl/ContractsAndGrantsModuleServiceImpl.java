@@ -22,11 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
-import org.kuali.kfs.integration.businessobject.ContractsAndGrantsCfda;
+import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
-import org.kuali.kfs.module.cg.businessobject.AccountAwardInformation;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.service.AgencyService;
@@ -142,6 +141,8 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     }
     
     /**
+     * TODO: This method does not seem to be used anywhere. Revisit...
+     * 
      * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getAwardInformationForAccount(java.lang.String, java.lang.String)
      */
     public List<ContractsAndGrantsAccountAwardInformation> getAwardInformationForAccount(String chartOfAccountsCode, String accountNumber) {
@@ -158,7 +159,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Adding award: "+awardAccountAsObject.toString());
             }
-            awardAccounts.add(new AccountAwardInformation((AwardAccount)awardAccountAsObject));
+            awardAccounts.add((AwardAccount)awardAccountAsObject);
         }
         return awardAccounts;
     }

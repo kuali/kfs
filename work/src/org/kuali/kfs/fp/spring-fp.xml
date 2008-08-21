@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="financialModule" parent="financialModule-parentBean" />
 
-    <bean id="financialModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="fp" />
-		<property name="moduleName" value="Financial Processing" />
-		<property name="moduleCode" value="FP" />
+    <bean id="fpModuleConfiguration" parent="fpModuleConfiguration-parentBean" />
+	
+    <bean id="fpModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-FP" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="financialModuleAuthorizer" />
+        <property name="packagePrefixes">
+			<list>
+                <value>org.kuali.kfs.fp</value>
+                <value>org.kuali.kfs.integration.businessobject.fp</value>
+			</list>
+		</property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/fp/businessobject/datadictionary</value>
@@ -48,13 +52,11 @@
 		</property>
 	</bean>
 
-    <bean id="financialModuleAuthorizer" parent="financialSystemModuleAuthorizer">
-        <property name="packagePrefixes">
-			<list>
-                <value>org.kuali.kfs.fp.</value>
-			</list>
-		</property>
-	</bean>
+    <bean id="fpModuleService" parent="fpModuleService-parentBean"/>
+
+    <bean id="fpModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+    	<property name="moduleConfiguration" ref="fpModuleConfiguration" />
+    </bean>
 
 	<bean id="travelMileageRateDao" parent="platformAwareDao" class="org.kuali.kfs.fp.document.dataaccess.impl.TravelMileageRateDaoOjb" />
 	

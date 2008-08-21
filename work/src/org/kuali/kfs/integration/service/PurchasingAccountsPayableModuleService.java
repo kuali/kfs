@@ -18,7 +18,7 @@ package org.kuali.kfs.integration.service;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableRestrictedMaterial;
+import org.kuali.kfs.integration.businessobject.purap.PurchasingAccountsPayableRestrictedMaterial;
 
 /**
  * Methods needed to interface with a Purchasing/Accounts Payable module

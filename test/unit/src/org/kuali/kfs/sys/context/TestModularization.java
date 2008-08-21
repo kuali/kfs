@@ -40,24 +40,24 @@ public class TestModularization extends KualiTestBase {
     public void testSpring() throws Exception {
         boolean testSucceeded = true;
         StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
-        for (String moduleId : OPTIONAL_MODULE_IDS) {
-            testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(moduleId, errorMessage);
+        for (String namespaceCode : OPTIONAL_MODULE_IDS) {
+            testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(namespaceCode, errorMessage);
         }
         System.out.print(errorMessage.toString());
         assertTrue(errorMessage.toString(), testSucceeded);
     }
 
-    private boolean testOptionalModuleSpringConfiguration(String moduleId, StringBuffer errorMessage) {
+    private boolean testOptionalModuleSpringConfiguration(String namespaceCode, StringBuffer errorMessage) {
         // switch to a different context classloader context so that we don't blow away our existing configuration
         ContextClassLoaderBinder binder = new ContextClassLoaderBinder();
         binder.bind(new URLClassLoader(new URL[0]));
         ClassPathXmlApplicationContext context = null;
         try {
-            context = new ClassPathXmlApplicationContext(new StringBuffer(BASE_SPRING_FILESET).append(",org/kuali/kfs/module/").append(moduleId).append("/spring-").append(moduleId).append(".xml").toString().split(","));
+            context = new ClassPathXmlApplicationContext(new StringBuffer(BASE_SPRING_FILESET).append(",org/kuali/kfs/module/").append(namespaceCode).append("/spring-").append(namespaceCode).append(".xml").toString().split(","));
             return true;
         }
         catch (Exception e) {
-            errorMessage.append("\n").append(moduleId).append("\n\t").append(e.getMessage());
+            errorMessage.append("\n").append(namespaceCode).append("\n\t").append(e.getMessage());
             return false;
         }
         finally {
@@ -76,41 +76,41 @@ public class TestModularization extends KualiTestBase {
     public void testOjb() throws Exception {
         boolean testSucceeded = true;
         StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in OJB configuration:");
-        HashSet<String> allModuleIds = new HashSet();
-        for (String moduleId : SYSTEM_MODULE_IDS) {
-            allModuleIds.add(moduleId);
+        HashSet<String> allNamespaceCodes = new HashSet();
+        for (String namespaceCode : SYSTEM_MODULE_IDS) {
+            allNamespaceCodes.add(namespaceCode);
         }
-        for (String moduleId : OPTIONAL_MODULE_IDS) {
-            allModuleIds.add(moduleId);
+        for (String namespaceCode : OPTIONAL_MODULE_IDS) {
+            allNamespaceCodes.add(namespaceCode);
         }
-        for (String moduleId : allModuleIds) {
-            testSucceeded = testSucceeded & testOptionalModuleOjbConfiguration(moduleId, errorMessage);
+        for (String namespaceCode : allNamespaceCodes) {
+            testSucceeded = testSucceeded & testOptionalModuleOjbConfiguration(namespaceCode, errorMessage);
         }
         assertTrue(errorMessage.toString(), testSucceeded);
     }
 
-    private boolean testOptionalModuleOjbConfiguration(String moduleId, StringBuffer errorMessage) throws FileNotFoundException {
+    private boolean testOptionalModuleOjbConfiguration(String namespaceCode, StringBuffer errorMessage) throws FileNotFoundException {
         boolean testSucceeded = true;
-        for (String referencedModuleId : OPTIONAL_MODULE_IDS) {
-            if (!moduleId.equals(referencedModuleId)) {
+        for (String referencedNamespaceCode : OPTIONAL_MODULE_IDS) {
+            if (!namespaceCode.equals(referencedNamespaceCode)) {
                 Scanner scanner = null;
-                scanner = new Scanner("work/src/" + SpringContext.getBean(KualiModuleService.class).getModule(referencedModuleId).getDatabaseRepositoryFilePaths().iterator().next());
+                scanner = new Scanner("work/src/" + SpringContext.getBean(KualiModuleService.class).getModuleService(referencedNamespaceCode).getModuleConfiguration().getDatabaseRepositoryFilePaths().iterator().next());
                 scanner.useDelimiter(" ");
                 int count = 0;
                 while (scanner.hasNext()) {
-                    if (scanner.next().contains(((KualiModuleAuthorizerBase) SpringContext.getBean(KualiModuleService.class).getModule(referencedModuleId).getModuleAuthorizer()).getPackagePrefixes().iterator().next())) {
+                    if (scanner.next().contains((SpringContext.getBean(KualiModuleService.class).getModuleService(referencedNamespaceCode).getModuleConfiguration()).getPackagePrefixes().iterator().next())) {
                         count++;
                     }
                 }
                 if (count > 0) {
                     if (testSucceeded) {
                         testSucceeded = false;
-                        errorMessage.append("\n").append(moduleId).append(": ");
+                        errorMessage.append("\n").append(namespaceCode).append(": ");
                     }
                     else {
                         errorMessage.append(", ");
                     }
-                    errorMessage.append(count).append(" references to ").append(referencedModuleId);
+                    errorMessage.append(count).append(" references to ").append(referencedNamespaceCode);
                 }
             }
         }

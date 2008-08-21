@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.rice.kns.KualiModule;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -34,7 +34,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 @ConfigureContext(initializeBatchSchedule=true)
 @AnnotationTestSuite(PreCommitSuite.class)
 public class BatchConfigurationTest extends KualiTestBase {
-    private List<KualiModule> modules;
+    private List<ModuleService> moduleServices;
     private Collection<JobDescriptor> jobDescriptors;
     private Collection<TriggerDescriptor> triggerDescriptors;
 
@@ -44,7 +44,7 @@ public class BatchConfigurationTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        modules = SpringContext.getBean(KualiModuleService.class).getInstalledModules();
+        moduleServices = SpringContext.getBean(KualiModuleService.class).getInstalledModuleServices();
         jobDescriptors = SpringContext.getBeansOfType(JobDescriptor.class).values();
         triggerDescriptors = SpringContext.getBeansOfType(TriggerDescriptor.class).values();
     }
@@ -55,14 +55,14 @@ public class BatchConfigurationTest extends KualiTestBase {
     public final void testRegisteredJobsExist() throws Exception {
         List<String> nonExistentJobNames = new ArrayList();
         StringBuffer errorMessage = new StringBuffer("The following registered job names do not correspond to JobDescriptor beans:");
-        for (KualiModule module : modules) {
-            for (String jobName : module.getJobNames()) {
+        for (ModuleService module : moduleServices) {
+            for (String jobName : module.getModuleConfiguration().getJobNames()) {
                 try {
                     BatchSpringContext.getJobDescriptor(jobName);
                 }
                 catch (NoSuchBeanDefinitionException e) {
                     nonExistentJobNames.add(jobName);
-                    errorMessage.append("\n\t").append(module.getModuleCode()).append(": ").append(jobName);
+                    errorMessage.append("\n\t").append(module.getModuleConfiguration().getNamespaceCode()).append(": ").append(jobName);
                 }
             }
         }
@@ -75,14 +75,14 @@ public class BatchConfigurationTest extends KualiTestBase {
     public final void testRegisteredTriggersExist() throws Exception {
         List<String> nonExistentTriggerNames = new ArrayList();
         StringBuffer errorMessage = new StringBuffer("The following registered trigger names do not correspond to TriggerDescriptor beans:");
-        for (KualiModule module : modules) {
-            for (String triggerName : module.getTriggerNames()) {
+        for (ModuleService module : moduleServices) {
+            for (String triggerName : module.getModuleConfiguration().getTriggerNames()) {
                 try {
                     BatchSpringContext.getTriggerDescriptor(triggerName);
                 }
                 catch (NoSuchBeanDefinitionException e) {
                     nonExistentTriggerNames.add(triggerName);
-                    errorMessage.append("\n\t").append(module.getModuleCode()).append(": ").append(triggerName);
+                    errorMessage.append("\n\t").append(module.getModuleConfiguration().getNamespaceCode()).append(": ").append(triggerName);
                 }
             }
         }
@@ -97,8 +97,8 @@ public class BatchConfigurationTest extends KualiTestBase {
         StringBuffer errorMessage = new StringBuffer("The following JobDescriptor beans are not registered with KFS as a whole or any module:");
         for (JobDescriptor jobDescriptor : SpringContext.getBeansOfType(JobDescriptor.class).values()) {
             boolean isRegistered = false;
-            for (KualiModule module : modules) {
-                if (module.getJobNames().contains(jobDescriptor.getJobDetail().getName())) {
+            for (ModuleService module : moduleServices) {
+                if (module.getModuleConfiguration().getJobNames().contains(jobDescriptor.getJobDetail().getName())) {
                     isRegistered = true;
                     break;
                 }
@@ -119,8 +119,8 @@ public class BatchConfigurationTest extends KualiTestBase {
         StringBuffer errorMessage = new StringBuffer("The following TriggerDescriptor beans are not registered with KFS as a whole or any module:");
         for (TriggerDescriptor triggerDescriptor : SpringContext.getBeansOfType(TriggerDescriptor.class).values()) {
             boolean isRegistered = false;
-            for (KualiModule module : modules) {
-                if (module.getTriggerNames().contains(triggerDescriptor.getTrigger().getName())) {
+            for (ModuleService module : moduleServices) {
+                if (module.getModuleConfiguration().getTriggerNames().contains(triggerDescriptor.getTrigger().getName())) {
                     isRegistered = true;
                     break;
                 }

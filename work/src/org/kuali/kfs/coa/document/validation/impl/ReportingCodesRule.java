@@ -129,7 +129,7 @@ public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
 
             // attempt to retrieve the specified object from the db
             PersistableBusinessObject referenceBo;
-            referenceBo = businessObjectService.getReferenceIfExists((PersistableBusinessObject) newReportingCode, "reportingCodes");
+            referenceBo = (PersistableBusinessObject)businessObjectService.getReferenceIfExists((PersistableBusinessObject) newReportingCode, "reportingCodes");
             if (!ObjectUtils.isNotNull(referenceBo)) {
                 putFieldError("financialReportsToReportingCode", KFSKeyConstants.ERROR_EXISTENCE, "Reports To Reporting Code");
                 success &= false;

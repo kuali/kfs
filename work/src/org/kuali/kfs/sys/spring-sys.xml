@@ -20,14 +20,17 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="financialSystemModule" parent="financialSystemModule-parentBean" />
-
-    <bean id="financialSystemModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-        <property name="moduleId" value="sys" />
-        <property name="moduleName" value="Financial System" />
-        <property name="moduleCode" value="SYS" />
+    <bean id="financialSystemModuleConfiguration" parent="financialSystemModuleConfiguration-parentBean" />
+		
+    <bean id="financialSystemModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-SYS" />
         <property name="initializeDataDictionary" value="true" />
-        <property name="moduleAuthorizer" ref="financialSystemCoreModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.sys</value>
+                <value>org.kuali.kfs.integration.businessobject.sys</value>
+            </list>
+        </property>
         <property name="dataDictionaryPackages">
             <list>
                 <value>org/kuali/kfs/sys/businessobject/datadictionary</value>
@@ -57,14 +60,12 @@
         </property>
     </bean>
 
-    <bean id="financialSystemCoreModuleAuthorizer" parent="financialSystemModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.sys.</value>
-            </list>
-        </property>
+    <bean id="financialSystemModuleService" parent="financialSystemModuleService-parentBean"/>
+
+    <bean id="financialSystemModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+    	<property name="moduleConfiguration" ref="financialSystemModuleConfiguration" />
     </bean>
-	
+
     <!-- begin batch framework -->
 	<bean id="scheduler" class="org.kuali.kfs.sys.batch.SchedulerFactoryBean">
 		<property name="useQuartzScheduling" value="${use.quartz.scheduling}" />
@@ -98,7 +99,7 @@
 	<bean id="schedulerService" class="org.kuali.kfs.sys.batch.service.impl.SchedulerServiceImpl">
 		<property name="scheduler" ref="scheduler" />
 		<property name="jobListener" ref="jobListener" />
-		<property name="moduleService" ref="kualiModuleService" />
+		<property name="kualiModuleService" ref="kualiModuleService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="mailService" ref="mailService" />		
@@ -228,7 +229,7 @@
 	
 	<bean id="parameterService" class="org.kuali.kfs.sys.service.impl.ParameterServiceImpl">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
-		<property name="moduleService" ref="kualiModuleService" />
+		<property name="kualiModuleService" ref="kualiModuleService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	

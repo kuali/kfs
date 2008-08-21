@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="laborModule" parent="laborModule-parentBean" />
 
-    <bean id="laborModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="ld" />
-		<property name="moduleName" value="Labor Distribution" />
-		<property name="moduleCode" value="LD" />
+    <bean id="ldModuleConfiguration" parent="ldModuleConfiguration-parentBean" />
+    
+    <bean id="ldModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-LD"/>
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="laborModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.module.ld</value>
+                <value>org.kuali.kfs.integration.businessobject.ld</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/ld/businessobject/datadictionary</value>
@@ -54,13 +58,11 @@
 		</property>
 	</bean>
 
-    <bean id="laborModuleAuthorizer" parent="financialSystemModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.module.ld.</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="ldModuleService" parent="ldModuleService-parentBean"/>
+
+    <bean id="ldModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="ldModuleConfiguration" />
+	</bean>
 
     <!--  Section 1: Spring Beans for Business Objects -->
 		

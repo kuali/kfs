@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.businessobject.ContractsAndGrantsCfda;
+import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**

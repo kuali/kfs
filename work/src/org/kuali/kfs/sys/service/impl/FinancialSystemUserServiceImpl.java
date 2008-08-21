@@ -28,7 +28,6 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.KualiModule;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.user.PersonPayrollId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
@@ -196,31 +195,38 @@ public class FinancialSystemUserServiceImpl extends UniversalUserServiceImpl imp
     }
     
     public boolean isActiveForAnyModule( FinancialSystemUser user ) {
-        for ( KualiModule module : getKualiModuleService().getInstalledModules() ) {
-            if ( module.getModuleAuthorizer() != null ) {
-                if ( ((FinancialSystemModuleAuthorizerBase)module.getModuleAuthorizer()).canAccessModule(user) ) {
+        /*for ( ModuleService moduleService : getKualiModuleService().getInstalledModuleServices() ) {
+            if ( moduleService.getModuleAuthorizer() != null ) {
+                if ( ((FinancialSystemModuleAuthorizerBase)moduleService.getModuleAuthorizer()).canAccessModule(user) ) {
                     return true;
                 }
             } else {
-                LOG.error( "ModuleAuthorizer for module " + module.getModuleId() + " is null!" );
+                LOG.error( "ModuleAuthorizer for module " + moduleService.getModule().getModuleId() + " is null!" );
             }
         }
-        return false;
+        return false;*/
+        //all canAccessModule does is : return user.isActiveFinancialSystemUser(), so just returning this for now
+        //TODO: revise this
+        return user.isActiveFinancialSystemUser();
     }
     
-    public boolean isActiveForModule( FinancialSystemUser user, String moduleId ) {
-        for ( KualiModule module : getKualiModuleService().getInstalledModules() ) {
-            if ( module.getModuleId().equals(moduleId) ) {
-                if ( module.getModuleAuthorizer() != null ) {
-                    if ( ((FinancialSystemModuleAuthorizerBase)module.getModuleAuthorizer()).canAccessModule(user) ) {
+    public boolean isActiveForModule( FinancialSystemUser user, String namespaceCode) {
+        /*for ( ModuleService moduleService : getKualiModuleService().getInstalledModuleServices() ) {
+            if ( moduleService.getModuleConfiguration().getNamespaceCode().equals(namespaceCode) ) {
+                if ( moduleService.getModuleAuthorizer() != null ) {
+                    if ( ((FinancialSystemModuleAuthorizerBase)moduleService.getModuleAuthorizer()).canAccessModule(user) ) {
+                        //all canAccessModule does is : return user.isActiveFinancialSystemUser();
                         return true;
                     }
                 } else {
-                    LOG.error( "ModuleAuthorizer for module " + module.getModuleId() + " is null!" );
+                    LOG.error( "ModuleAuthorizer for module " + moduleService.getModule().getModuleId() + " is null!" );
                 }
             }
         }
-        return false;
+        return false;*/
+        //all canAccessModule does is : return user.isActiveFinancialSystemUser(), so just returning this for now
+        //TODO: revise this
+        return user.isActiveFinancialSystemUser();
     }
     
     /**

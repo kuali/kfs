@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="cgModule" parent="cgModule-parentBean" />
 
-    <bean id="cgModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="cg" />
-		<property name="moduleName" value="Contracts and Grants" />
-		<property name="moduleCode" value="CG" />
+    <bean id="cgModuleConfiguration" parent="cgModuleConfiguration-parentBean" />
+    
+    <bean id="cgModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-CG" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="cgModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.module.cg</value>
+                <value>org.kuali.kfs.integration.businessobject.cg</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
@@ -51,15 +55,19 @@
 				<value>cfdaJobTrigger</value>
 			</list>
 		</property>
+		<property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.cg.businessobject.Cfda" />
+                <entry key="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
+            </map>
+        </property> 
 	</bean>
 
-    <bean id="cgModuleAuthorizer" parent="financialSystemModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.module.cg.</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="cgModuleService" parent="cgModuleService-parentBean"/>
+
+    <bean id="cgModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
+	</bean>
 	
 	<!-- DAOs -->
 	<bean id="awardDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AwardDaoOjb" />

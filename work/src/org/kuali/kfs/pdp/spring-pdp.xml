@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="pdpModule" parent="pdpModule-parentBean" />
 
-    <bean id="pdpModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="pdp" />
-		<property name="moduleName" value="Pre-Disbursement Processor" />
-		<property name="moduleCode" value="PDP" />
+    <bean id="pdpModuleConfiguration" parent="pdpModuleConfiguration-parentBean" />
+
+    <bean id="pdpModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-PDP"/>
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="pdpModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.pdp</value>
+                <value>org.kuali.kfs.integration.businessobject.pdp</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/pdp/businessobject/datadictionary</value>
@@ -56,13 +60,11 @@
 		</property>
 	</bean>
 
-    <bean id="pdpModuleAuthorizer" parent="financialSystemModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.pdp.</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="pdpModuleService" parent="pdpModuleService-parentBean"/>
+
+    <bean id="pdpModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="pdpModuleConfiguration" />
+	</bean>
 
 	<bean id="pdpPayeeTypeDao" class="org.kuali.kfs.pdp.dataaccess.impl.PayeeTypeDaoMap">
     	<property name="payees">
@@ -427,11 +429,6 @@
 	</bean>
 
 	<bean id="processPdpCancelsAndPaidJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="processPdpCancelsAndPaidStep" />
-			</list>
-		</property>
 	</bean>
 
 	

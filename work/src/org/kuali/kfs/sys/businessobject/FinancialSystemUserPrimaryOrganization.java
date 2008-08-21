@@ -20,14 +20,14 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.KualiModule;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ModuleService;
 
 public class FinancialSystemUserPrimaryOrganization extends PersistableBusinessObjectBase implements ChartOrgHolder, Inactivateable {
 
-    private transient static KualiModuleService moduleService;
+    private transient static KualiModuleService kualiModuleService;
     
     private String personUniversalIdentifier;
     private String moduleId;
@@ -37,23 +37,23 @@ public class FinancialSystemUserPrimaryOrganization extends PersistableBusinessO
 
     private Chart chartOfAccounts;
     private Org organization;
-    private transient KualiModule module;
+    private transient ModuleService moduleService;
 
     @Override
     public void refresh() {
         super.refresh();
-        module = null;
+        moduleService = null;
         if ( moduleId != null ) {
-            getModule();
+            getModuleService();
         }
     }
     
     @Override
     public void refreshNonUpdateableReferences() {
         super.refreshNonUpdateableReferences();
-        module = null;
+        moduleService = null;
         if ( moduleId != null ) {
-            getModule();
+            getModuleService();
         }
     }
 
@@ -84,7 +84,7 @@ public class FinancialSystemUserPrimaryOrganization extends PersistableBusinessO
 
 
     public void setModuleId(String moduleId) {
-        this.module = null;
+        this.moduleService = null;
         this.moduleId = moduleId;
     }
 
@@ -129,24 +129,24 @@ public class FinancialSystemUserPrimaryOrganization extends PersistableBusinessO
     }
 
 
-    public KualiModule getModule() {
-        if ( module == null ) {
-            module = getModuleService().getModule(getModuleId());
-        }
-        return module;
-    }
-
-
-    public void setModule(KualiModule module) {
-        this.module = module;
-    }
-
-
-    public static KualiModuleService getModuleService() {
+    public ModuleService getModuleService() {
         if ( moduleService == null ) {
-            moduleService = SpringContext.getBean(KualiModuleService.class);
+            moduleService = getKualiModuleService().getModuleService(getModuleId());
         }
         return moduleService;
+    }
+
+
+    public void setModuleService(ModuleService moduleService) {
+        this.moduleService = moduleService;
+    }
+
+
+    public static KualiModuleService getKualiModuleService() {
+        if ( kualiModuleService == null ) {
+            kualiModuleService = SpringContext.getBean(KualiModuleService.class);
+        }
+        return kualiModuleService;
     }
 
     public boolean isActive() {

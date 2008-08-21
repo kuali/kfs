@@ -18,9 +18,9 @@ package org.kuali.kfs.integration.service;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
-import org.kuali.kfs.integration.businessobject.ContractsAndGrantsCfda;
+import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 
 public interface ContractsAndGrantsModuleService {

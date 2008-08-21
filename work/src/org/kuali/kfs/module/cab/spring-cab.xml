@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="capitalAssetBuilderModule" parent="capitalAssetBuilderModule-parentBean" />
 
-    <bean id="capitalAssetBuilderModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="cab" />
-		<property name="moduleName" value="Capital Asset Builder" />
-		<property name="moduleCode" value="CAB" />
+    <bean id="cabModuleConfiguration" parent="cabModuleConfiguration-parentBean" />
+	
+    <bean id="cabModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-CAB" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer" ref="capitalAssetBuilderModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.module.cab</value>
+                <value>org.kuali.kfs.integration.businessobject.cab</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/cab/businessobject/datadictionary</value>
@@ -52,14 +56,11 @@
 		</property>		
 	</bean>
 
-    <bean id="capitalAssetBuilderModuleAuthorizer" parent="financialSystemModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.module.cab.</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="cabModuleService" parent="cabModuleService-parentBean"/>
 
+    <bean id="cabModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="cabModuleConfiguration" />
+	</bean>
 	
 <!-- ********* Begin of pre-asset tagging batch beans ********** -->
 	<bean id="preAssetTaggingService" class="org.kuali.kfs.module.cab.batch.service.impl.PreAssetTaggingServiceImpl">

@@ -16,14 +16,18 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="glModule" parent="glModule-parentBean" />
 
-    <bean id="glModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="gl" />
-		<property name="moduleName" value="General Ledger" />
-		<property name="moduleCode" value="GL" />
+    <bean id="glModuleConfiguration" parent="glModuleConfiguration-parentBean" />
+    
+    <bean id="glModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="KFS-GL" />
 		<property name="initializeDataDictionary" value="true" />
-        <property name="moduleAuthorizer" ref="glModuleAuthorizer" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.gl</value>
+                <value>org.kuali.kfs.integration.businessobject.gl</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/gl/businessobject/datadictionary</value>
@@ -58,13 +62,11 @@
 		</property>
 	</bean>
 
-    <bean id="glModuleAuthorizer" parent="financialSystemModuleAuthorizer">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.gl.</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="glModuleService" parent="glModuleService-parentBean"/>
+
+    <bean id="glModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="glModuleConfiguration" />
+	</bean>
 
 	<bean id="universityDateDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UniversityDateDaoOjb" />
 

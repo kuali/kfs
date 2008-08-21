@@ -8,13 +8,14 @@
 
   <bean id="LaborObject-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LaborObject" />
+    <property name="objectLabel" value="Labor Object" />
+    
     <property name="inquiryDefinition" >
       <ref bean="LaborObject-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
       <ref bean="LaborObject-lookupDefinition" />
     </property>
-    <property name="objectLabel" value="Labor Object Code" />
     <property name="attributes" >
       <list>
         <ref bean="LaborObject-chartOfAccountsCode" />

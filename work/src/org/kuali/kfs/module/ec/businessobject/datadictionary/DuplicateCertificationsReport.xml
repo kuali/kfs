@@ -8,6 +8,8 @@
 
   <bean id="DuplicateCertificationsReport-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.DuplicateCertificationsReport" />
+    <property name="objectLabel" value="Duplicate Certifications Report" />
+    
     <property name="lookupDefinition" >
       <ref bean="DuplicateCertificationsReport-lookupDefinition" />
     </property>

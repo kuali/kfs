@@ -8,6 +8,8 @@
 
   <bean id="AccountStatusBaseFunds-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds" />
+    <property name="objectLabel" value="Account Status Base Funds" />
+     
     <property name="inquiryDefinition" >
       <ref bean="AccountStatusBaseFunds-inquiryDefinition" />
     </property>

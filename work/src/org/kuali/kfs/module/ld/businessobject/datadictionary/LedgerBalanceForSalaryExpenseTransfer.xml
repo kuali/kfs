@@ -8,6 +8,8 @@
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LedgerBalanceForSalaryExpenseTransfer" />
+    <property name="objectLabel" value="Labor Ledger Balance for Salary Expense Transfer" />
+    
     <property name="inquiryDefinition" >
       <ref bean="LedgerBalanceForSalaryExpenseTransfer-inquiryDefinition" />
     </property>

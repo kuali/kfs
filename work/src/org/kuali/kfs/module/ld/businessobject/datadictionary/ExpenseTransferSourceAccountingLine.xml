@@ -8,6 +8,8 @@
 
   <bean id="ExpenseTransferSourceAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine" />
+    <property name="objectLabel" value="Expense Transfer Source Accounting Line" />
+    
     <property name="attributes" >
       <list>
         <ref bean="ExpenseTransferSourceAccountingLine-emplid" />

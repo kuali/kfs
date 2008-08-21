@@ -8,6 +8,8 @@
 
   <bean id="EffortCertificationDocumentBuild-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild" />
+    <property name="objectLabel" value="Effort Certification Document Build" />
+    
     <property name="inquiryDefinition" >
       <ref bean="EffortCertificationDocumentBuild-inquiryDefinition" />
     </property>

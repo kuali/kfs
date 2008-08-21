@@ -8,6 +8,8 @@
 
   <bean id="LaborGeneralLedgerEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry" />
+    <property name="objectLabel" value="Labor General Ledger Entry" />
+    
     <property name="inquiryDefinition" >
       <ref bean="LaborGeneralLedgerEntry-inquiryDefinition" />
     </property>

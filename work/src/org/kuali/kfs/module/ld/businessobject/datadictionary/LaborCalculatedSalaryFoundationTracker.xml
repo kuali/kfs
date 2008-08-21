@@ -8,6 +8,8 @@
 
   <bean id="LaborCalculatedSalaryFoundationTracker-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LaborCalculatedSalaryFoundationTracker" />
+    <property name="objectLabel" value="Labor Calculated Salary Foundation Tracker" />
+    
     <property name="inquiryDefinition" >
       <ref bean="LaborCalculatedSalaryFoundationTracker-inquiryDefinition" />
     </property>

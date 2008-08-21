@@ -8,6 +8,8 @@
 
   <bean id="EmployeeFunding-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.EmployeeFunding" />
+    <property name="objectLabel" value="Employee Funding" />
+    
     <property name="inquiryDefinition" >
       <ref bean="EmployeeFunding-inquiryDefinition" />
     </property>

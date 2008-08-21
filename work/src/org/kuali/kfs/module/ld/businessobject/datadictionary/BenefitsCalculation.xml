@@ -8,13 +8,14 @@
 
   <bean id="BenefitsCalculation-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" />
+    <property name="objectLabel" value="Labor Benefits Calculation" />
+    
     <property name="inquiryDefinition" >
       <ref bean="BenefitsCalculation-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
       <ref bean="BenefitsCalculation-lookupDefinition" />
     </property>
-    <property name="objectLabel" value="Labor Benefits Calculation" />
     <property name="attributes" >
       <list>
         <ref bean="BenefitsCalculation-universityFiscalYear" />

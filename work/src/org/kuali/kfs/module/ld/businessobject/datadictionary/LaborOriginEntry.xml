@@ -8,6 +8,8 @@
 
   <bean id="LaborOriginEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" />
+    <property name="objectLabel" value="Labor Origin Entry" />
+    
     <property name="inquiryDefinition" >
       <ref bean="LaborOriginEntry-inquiryDefinition" />
     </property>

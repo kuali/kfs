@@ -8,6 +8,8 @@
 
   <bean id="LedgerEntryForExpenseTransfer-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LedgerEntryForExpenseTransfer" />
+    <property name="objectLabel" value="Labor Ledger Entry for Expense Transfer" />
+    
     <property name="inquiryDefinition" >
       <ref bean="LedgerEntryForExpenseTransfer-inquiryDefinition" />
     </property>

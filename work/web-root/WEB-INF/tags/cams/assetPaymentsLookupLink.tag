@@ -22,7 +22,7 @@
     <c:set var="isTransactionalDocument" value="true" />
 </c:if>
 
-<kul:tab tabTitle="Payments Lookup" defaultOpen="false"> 
+<kul:tab tabTitle="Payments Lookup" defaultOpen="false" useCurrentTabIndexAsKey="true"> 
     <div class="tab-container" align="center">
       <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
       	<tr>

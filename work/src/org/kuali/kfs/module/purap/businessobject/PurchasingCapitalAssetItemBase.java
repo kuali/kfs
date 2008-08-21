@@ -105,7 +105,12 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
     public PurchasingItem getPurchasingItem(){       
         PurchasingDocument pd = this.getPurchasingDocument();
         
-        return pd.getPurchasingItem(this.getItemIdentifier());
+        if(( pd != null) && ( this.getItemIdentifier() != null)) {
+            return pd.getPurchasingItem(this.getItemIdentifier());
+        }
+        else {
+            return null;
+        }
     }
     
     protected LinkedHashMap toStringMapper() {

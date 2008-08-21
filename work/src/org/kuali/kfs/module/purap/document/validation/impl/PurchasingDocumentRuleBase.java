@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
 import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -978,7 +979,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         if ((itemQuantity != null) && 
             (itemQuantity.isGreaterThan(KualiDecimal.ZERO))) {
             String capitalAssetPriceThreshold = SpringContext.getBean(ParameterService.class).getParameterValue(
-                    ParameterConstants.PURCHASING_DOCUMENT.class, 
+                    AssetGlobal.class, 
                     PurapParameterConstants.CapitalAsset.CAPITAL_ASSET_PRICE_THRESHOLD);
             if ((extendedPrice != null) &&
                 (StringUtils.isNotEmpty(capitalAssetPriceThreshold)) &&
@@ -987,7 +988,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 String possiblyCapitalAssetObjectCodeLevels = "";
                 try {
                     possiblyCapitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(
-                            ParameterConstants.PURCHASING_DOCUMENT.class, 
+                            ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, 
                             PurapParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS);
                     if (StringUtils.contains(possiblyCapitalAssetObjectCodeLevels,objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode())) {
                         valid &= false;
@@ -1158,7 +1159,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         if ((capitalAssetTransactionType != null) &&
             (capitalAssetTransactionType.getCapitalAssetTransactionTypeCode() != null)) {
             String recurringTransactionTypeCodes = SpringContext.getBean(ParameterService.class).getParameterValue(
-                    ParameterConstants.PURCHASING_DOCUMENT.class, 
+                    ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, 
                     PurapParameterConstants.CapitalAsset.RECURRING_CAMS_TRAN_TYPES);
             
             
@@ -1297,7 +1298,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @return      True if the ObjectCode's level is the one designated as specifically for capital assets.
      */
     public boolean isCapitalAssetObjectCode(ObjectCode oc) {
-        String capitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, 
+        String capitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, 
                 PurapParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS);
         return ( StringUtils.containsIgnoreCase( capitalAssetObjectCodeLevels, oc.getFinancialObjectLevelCode() ) ? true : false );
     }

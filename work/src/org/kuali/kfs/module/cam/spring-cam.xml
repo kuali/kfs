@@ -237,6 +237,7 @@
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="assetPaymentService" ref="assetPaymentService" />
     	<property name="parameterService" ref="parameterService" />
+    	<property name="assetService" ref="assetService" />
     </bean>
 
 	 <bean id="documentLockingService" class="org.kuali.kfs.module.cam.document.service.impl.DocumentLockingServiceImpl">

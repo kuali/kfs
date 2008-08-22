@@ -15,34 +15,25 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kns.exception.ValidationException;
 
+@ConfigureContext
 public class AssetServiceTest extends KualiTestBase {
 
     private AssetService assetService;
 
-    @Override
-    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
         assetService = SpringContext.getBean(AssetService.class);
     }
 
 
-    /**
-     * Test isObjectSubTypeCompatible
-     * 
-     * @throws Exception
-     */
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
     public void testIsObjectSubTypeCompatible_Success() throws Exception {
         List<String> ls = new ArrayList<String>();
         ls.add("UC");
@@ -71,12 +62,6 @@ public class AssetServiceTest extends KualiTestBase {
         assertTrue(assetService.isObjectSubTypeCompatible(ls));
     }
     
-    /**
-     * Test isObjectSubTypeCompatible
-     * 
-     * @throws Exception
-     */
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
     public void testIsObjectSubTypeCompatible_Failure() throws Exception {
         List<String> ls = new ArrayList<String>();
         ls.add("BD");
@@ -88,5 +73,25 @@ public class AssetServiceTest extends KualiTestBase {
         ls.add("UF");
         ls.add("LI");        
         assertFalse(assetService.isObjectSubTypeCompatible(ls));
+    }
+
+    public void testIsMovableFinancialObjectSubtypeCode_Success() throws Exception {
+        assertTrue(assetService.isMovableFinancialObjectSubtypeCode("C2"));
+    }
+    
+    public void testIsMovableFinancialObjectSubtypeCode_Failure() throws Exception {
+        assertFalse(assetService.isMovableFinancialObjectSubtypeCode("LI"));
+        
+        boolean failedAsExpected = false;
+
+        // Test one that doesn't exist, throws exception
+        try {
+            assetService.isMovableFinancialObjectSubtypeCode("XY");
+        }
+        catch (ValidationException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
     }
 }

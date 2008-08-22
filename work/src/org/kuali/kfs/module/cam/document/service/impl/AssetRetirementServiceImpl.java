@@ -36,6 +36,7 @@ import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceB
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -111,13 +112,22 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
     private BusinessObjectService businessObjectService;
     private AssetPaymentService assetPaymentService;
     private ParameterService parameterService;
-
+    private AssetService assetService;
+    
     public ParameterService getParameterService() {
         return parameterService;
     }
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    
+    public AssetService getAssetService() {
+        return assetService;
+    }
+
+    public void setAssetService(AssetService assetService) {
+        this.assetService = assetService;
     }
 
     public UniversityDateService getUniversityDateService() {
@@ -410,13 +420,10 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         if (ObjectUtils.isNotNull(payment.getFinancialObject()) && ObjectUtils.isNotNull(asset.getOrganizationOwnerAccount())) {
             String financialObjectSubTypeCode = payment.getFinancialObject().getFinancialObjectSubTypeCode();
 
-            if (StringUtils.isNotBlank(financialObjectSubTypeCode)) {
-                if (Arrays.asList(parameterService.getParameterValue(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).split(";")).contains(financialObjectSubTypeCode)) {
-                    plantFundAccount = asset.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
-                }
-                else if (Arrays.asList(parameterService.getParameterValue(Asset.class, CamsConstants.Parameters.NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).split(";")).contains(financialObjectSubTypeCode)) {
-                    plantFundAccount = asset.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
-                }
+            if (assetService.isMovableFinancialObjectSubtypeCode(financialObjectSubTypeCode)) {
+                plantFundAccount = asset.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
+            } else {
+                plantFundAccount = asset.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
             }
         }
 

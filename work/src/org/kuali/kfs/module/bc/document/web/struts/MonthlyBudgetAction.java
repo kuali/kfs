@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
@@ -40,6 +41,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 public class MonthlyBudgetAction extends BudgetExpansionAction {
@@ -135,6 +137,10 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
             budgetConstructionMonthly.setFinancialBalanceTypeCode(monthlyBudgetForm.getFinancialBalanceTypeCode());
             budgetConstructionMonthly.setFinancialObjectTypeCode(monthlyBudgetForm.getFinancialObjectTypeCode());
             budgetConstructionMonthly.refreshReferenceObject("pendingBudgetConstructionGeneralLedger");
+            monthlyBudgetForm.setMonthlyPersisted(false);
+        }
+        else {
+            monthlyBudgetForm.setMonthlyPersisted(true);
         }
         monthlyBudgetForm.setBudgetConstructionMonthly(budgetConstructionMonthly);
 
@@ -160,12 +166,29 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         // TODO validate and store monthly changes, for now save using BOService
         SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionMonthly);
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+        monthlyBudgetForm.setMonthlyPersisted(true);
         
         
         // TODO set the calling form's bcDoc.setBenefitsCalcNeeded(true)
         // this is proof of concept code for now. this should check for a change in any of the monthly fields and
         // eventually store should calc benefits immediately, and replace the benefits accounting lines in session
         // to keep the DB consistent and to keep session in sync with the DB
+        
+        // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save
+        this.callForBenefitsCalcIfNeeded(monthlyBudgetForm, budgetConstructionMonthly);
+//        if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()){
+//            if (budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit() != null && !budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit().isEmpty()){
+//
+//                BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
+//                budgetConstructionForm.getBudgetConstructionDocument().setMonthlyBenefitsCalcNeeded(true);
+//                
+//            }
+//        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    private void callForBenefitsCalcIfNeeded(MonthlyBudgetForm monthlyBudgetForm,BudgetConstructionMonthly budgetConstructionMonthly){
         
         // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save 
         if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()){
@@ -176,8 +199,6 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
                 
             }
         }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -204,12 +225,99 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
                     // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
                     SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionMonthly);
 
+                    this.callForBenefitsCalcIfNeeded(monthlyBudgetForm, budgetConstructionMonthly);
                 }
                 // else go to close logic below
             }
         }
         
         return returnToCaller(mapping, form, request, response);
+    }
+
+    public ActionForward performMonthlySpread(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        MonthlyBudgetForm tForm = (MonthlyBudgetForm) form;
+        BudgetConstructionMonthly bcMth = tForm.getBudgetConstructionMonthly();
+        KualiInteger requestAmt = bcMth.getPendingBudgetConstructionGeneralLedger().getAccountLineAnnualBalanceAmount();
+        if (requestAmt != null){
+            bcMth.setFinancialDocumentMonth2LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
+            bcMth.setFinancialDocumentMonth3LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
+            bcMth.setFinancialDocumentMonth4LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
+            bcMth.setFinancialDocumentMonth5LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
+            bcMth.setFinancialDocumentMonth6LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
+            bcMth.setFinancialDocumentMonth7LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
+            bcMth.setFinancialDocumentMonth8LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
+            bcMth.setFinancialDocumentMonth9LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
+            bcMth.setFinancialDocumentMonth10LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
+            bcMth.setFinancialDocumentMonth11LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
+            bcMth.setFinancialDocumentMonth12LineAmount(new KualiInteger(requestAmt.divide(new KualiInteger(12))));
+
+            KualiInteger totSoFar = bcMth.getFinancialDocumentMonth2LineAmount();
+            totSoFar = totSoFar.add(bcMth.getFinancialDocumentMonth3LineAmount().add(bcMth.getFinancialDocumentMonth4LineAmount()));
+            totSoFar = totSoFar.add(bcMth.getFinancialDocumentMonth5LineAmount().add(bcMth.getFinancialDocumentMonth6LineAmount()));
+            totSoFar = totSoFar.add(bcMth.getFinancialDocumentMonth7LineAmount().add(bcMth.getFinancialDocumentMonth8LineAmount()));
+            totSoFar = totSoFar.add(bcMth.getFinancialDocumentMonth9LineAmount().add(bcMth.getFinancialDocumentMonth10LineAmount()));
+            totSoFar = totSoFar.add(bcMth.getFinancialDocumentMonth11LineAmount().add(bcMth.getFinancialDocumentMonth12LineAmount()));
+
+            bcMth.setFinancialDocumentMonth1LineAmount(requestAmt.subtract(totSoFar));
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward performMonthlyZero(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        MonthlyBudgetForm tForm = (MonthlyBudgetForm) form;
+        BudgetConstructionMonthly bcMth = tForm.getBudgetConstructionMonthly();
+
+        bcMth.setFinancialDocumentMonth1LineAmount(new KualiInteger(0));
+        bcMth.setFinancialDocumentMonth2LineAmount(new KualiInteger(0));
+        bcMth.setFinancialDocumentMonth3LineAmount(new KualiInteger(0));
+        bcMth.setFinancialDocumentMonth4LineAmount(new KualiInteger(0));
+        bcMth.setFinancialDocumentMonth5LineAmount(new KualiInteger(0));
+        bcMth.setFinancialDocumentMonth6LineAmount(new KualiInteger(0));
+        bcMth.setFinancialDocumentMonth7LineAmount(new KualiInteger(0));
+        bcMth.setFinancialDocumentMonth8LineAmount(new KualiInteger(0));
+        bcMth.setFinancialDocumentMonth9LineAmount(new KualiInteger(0));
+        bcMth.setFinancialDocumentMonth10LineAmount(new KualiInteger(0));
+        bcMth.setFinancialDocumentMonth11LineAmount(new KualiInteger(0));
+        bcMth.setFinancialDocumentMonth12LineAmount(new KualiInteger(0));
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward performMonthlyDelete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
+        BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
+
+        // don't really need this test since the delete button isn't displayed in readOnly mode
+        if (!monthlyBudgetForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) && monthlyBudgetForm.getEditingMode().containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) {
+            Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+
+            // logic for delete question
+            if (question == null) {
+                // ask question if not already asked
+                return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_DELETE_QUESTION, kualiConfiguration.getPropertyString(BCKeyConstants.QUESTION_DELETE), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
+            }
+            else {
+                Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+                if ((KFSConstants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+
+                    // if yes button clicked - delete and close
+                    SpringContext.getBean(BusinessObjectService.class).delete(budgetConstructionMonthly);
+
+                    // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save
+                    this.callForBenefitsCalcIfNeeded(monthlyBudgetForm, budgetConstructionMonthly);
+
+                    return returnToCaller(mapping, form, request, response);
+                }
+                // else go to close logic below
+            }
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**

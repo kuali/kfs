@@ -985,35 +985,21 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // Do specific refresh stuff here based on refreshCaller parameter
         // typical refresh callers would be monthlyBudget or salarySetting or lookupable
-        // need to look at optmistic locking problems since we will be storing the values in the form before hand
-        // this locking problem may workout if we store first then put the form in session
         String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
 
         if (refreshCaller != null && refreshCaller.equalsIgnoreCase(BCConstants.MONTHLY_BUDGET_REFRESH_CALLER)) {
 
-            // TODO do things specific to returning from MonthlyBudget
-            // like refreshing the line itself if the monthly budget process overrides the annual request
-            // this would need to know what line to operate on (or refresh from DB for set this in performMonthly*)
-            // might not need since monthly process should just update the value directly in DB and form session object
-            // need to check if editing mode
-            // calc monthly benefits if line changes
+            // monthly process applies any changes to the DB and the form session object
+            // including any override to the request amount which also changes the request total 
+            // it also sets up calc monthly benefits if the line is involved in benefits
+            BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+            budgetDocumentService.calculateBenefitsIfNeeded(budgetConstructionForm.getBudgetConstructionDocument());
 
         }
         if (refreshCaller != null && refreshCaller.equalsIgnoreCase(BCConstants.QUICK_SALARY_SETTING_REFRESH_CALLER)) {
 
 
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-
-            // TODO do things specific to returning from Salary Setting
-            // like refreshing the line itself if the salary setting process overrides the annual request
-            // this would need to know what line to operate on
-            // might not need since ss process should just update the value directly in DB and form session object
-            // need to check if editing mode
-
-            // TODO this needs to do a line by line comparison of SS detail lines before and after
-            // if a line changes, put a fresh copy of the expenditure lines from the DB into the bc document
-            // currently just looking at existence of 2plg before/after, if either exists benefits will be calced once upon return
-            // this handles the situation but may be slow
 
             // if editing - reload expenditure and check for changes to detail salary lines and 2plg request amount
             // populate sets the old2PLGAmount before going to salary setting

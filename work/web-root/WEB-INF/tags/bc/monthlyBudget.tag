@@ -43,6 +43,7 @@
               <html:hidden property="financialSubObjectCode" />
               <html:hidden property="financialBalanceTypeCode" />
               <html:hidden property="financialObjectTypeCode" />
+              <html:hidden property="monthlyPersisted" />
           </kul:htmlAttributeHeaderCell>
           <kul:htmlAttributeHeaderCell attributeEntry="${pbglAttributes.chartOfAccountsCode}" />
           <kul:htmlAttributeHeaderCell attributeEntry="${pbglAttributes.accountNumber}" />
@@ -291,7 +292,11 @@
               <c:if test="${!readOnly}">
                 <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_monthspread.gif" styleClass="tinybutton" property="methodToCall.performMonthlySpread.anchormonthlyBudgetLineLineAnchor" title="Spread Evenly To Months" alt="Spread Evenly To Months"/>
                 <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton" property="methodToCall.performMonthlyZero.anchormonthlyBudgetLineLineAnchor" title="Set Months To Zero" alt="Set Months To Zero"/>
-                <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_monthdel.gif" styleClass="tinybutton" property="methodToCall.performMonthlyDelete.anchormonthlyBudgetLineLineAnchor" title="Delete Monthly" alt="Delete Monthly"/>
+                
+                <c:if test="${KualiForm.monthlyPersisted}">
+                  <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_monthdel.gif" styleClass="tinybutton" property="methodToCall.performMonthlyDelete.anchormonthlyBudgetLineLineAnchor" title="Delete Monthly" alt="Delete Monthly"/>
+                </c:if>
+
               </c:if>
               &nbsp;
               </div>

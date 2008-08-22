@@ -29,6 +29,8 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MonthlyBudgetForm.class);
 
     private BudgetConstructionMonthly budgetConstructionMonthly;
+    private boolean monthlyPersisted;
+
     // TODO remove - was here originally for kul:page tag use
     // private String docTypeName;
 
@@ -231,6 +233,22 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
+    }
+
+    /**
+     * Gets the monthlyPersisted attribute. 
+     * @return Returns the monthlyPersisted.
+     */
+    public boolean isMonthlyPersisted() {
+        return monthlyPersisted;
+    }
+
+    /**
+     * Sets the monthlyPersisted attribute value.
+     * @param monthlyPersisted The monthlyPersisted to set.
+     */
+    public void setMonthlyPersisted(boolean monthlyPersisted) {
+        this.monthlyPersisted = monthlyPersisted;
     }
 
     /**

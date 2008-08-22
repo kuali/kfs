@@ -3065,7 +3065,7 @@
 
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderDeliveryCampusCode" column="PO_DLVY_CMP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceLoadSummaryIdentifier" column="INV_LOAD_SUM_ID" jdbc-type="BIGINT" index="true"/>
+    <field-descriptor name="invoiceLoadSummaryIdentifier" column="AP_ELCTRNC_INV_LOAD_SUM_ID" jdbc-type="INTEGER" index="true"/>
     
     <field-descriptor name="vendorDunsNumber" column="VNDR_DUNS_NBR" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
@@ -3104,24 +3104,24 @@
     <field-descriptor name="invoiceOrderPurchaseOrderDate" column="INV_ORD_PO_ORD_DT" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceOrderSupplierOrderInformationIdentifier" column="INV_ORD_SUPP_ORD_INFO_ID" jdbc-type="VARCHAR"/>
 
-    <field-descriptor name="invoiceItemDiscountAmount" column="INV_ITM_DSCT_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemDiscountAmount" column="INV_ITM_DSCT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemDiscountCurrencyCode" column="INV_ITM_DSCT_CRNCY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemGrossAmount" column="INV_ITM_GRS_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemGrossAmount" column="INV_ITM_GRS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemGrossCurrencyCode" column="INV_ITM_GRS_CRNCY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemNetAmount" column="INV_ITM_NET_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemNetAmount" column="INV_ITM_NET_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemNetCurrencyCode" column="INV_ITM_NET_CRNCY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemShippingAmount" column="INV_ITM_SHP_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemShippingAmount" column="INV_ITM_SHP_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemShippingCurrencyCode" column="INV_ITM_SHP_CRNCY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceItemShippingDescription" column="INV_ITM_SHP_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemSpecialHandlingAmount" column="INV_ITM_SPCL_HANDLG_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemSpecialHandlingAmount" column="INV_ITM_SPCL_HANDLG_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemSpecialHandlingCurrencyCode" column="INV_ITM_SPCL_HANDLG_CRNCY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemSubTotalAmount" column="INV_ITM_SUB_TOT_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemSubTotalAmount" column="INV_ITM_SUB_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemSubTotalCurrencyCode" column="INV_ITM_SUB_TOT_CRNCY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemTaxAmount" column="INV_ITM_TAX_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemTaxAmount" column="INV_ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemTaxCurrencyCode" column="INV_ITM_TAX_CRNCY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceItemTaxDescription" column="INV_ITM_TAX_DESC" jdbc-type="VARCHAR"/>
 
-	  <field-descriptor name="invoiceShipToAddressType" column="INV_SHP_TO_ADDR_TYP_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="invoiceShipToAddressType" column="INV_SHP_TO_ADDR_TYP_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceShipToAddressName" column="INV_ADDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceShipToAddressLine1" column="INV_SHP_TO_LN1_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceShipToAddressLine2" column="INV_SHP_TO_LN2_ADDR" jdbc-type="VARCHAR"/>
@@ -3133,9 +3133,9 @@
     <field-descriptor name="invoiceShipToAddressCountryName" column="INV_SHP_TO_CNTRY_NM" jdbc-type="VARCHAR"/>
 	
     <field-descriptor name="invoiceBillToAddressType" column="INV_BILL_TO_ADDR_TYP_NM" jdbc-type="VARCHAR"/>
-		<field-descriptor name="invoiceBillToAddressName" column="INV_BILL_TO_ADDR_NM" jdbc-type="VARCHAR"/>
-		<field-descriptor name="invoiceBillToAddressLine1" column="INV_BILL_TO_LN1_ADDR" jdbc-type="VARCHAR"/>
-		<field-descriptor name="invoiceBillToAddressLine2" column="INV_BILL_TO_LN2_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="invoiceBillToAddressName" column="INV_BILL_TO_ADDR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="invoiceBillToAddressLine1" column="INV_BILL_TO_LN1_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="invoiceBillToAddressLine2" column="INV_BILL_TO_LN2_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceBillToAddressLine3" column="INV_BILL_TO_LN3_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceBillToAddressCityName" column="INV_BILL_TO_CTY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceBillToAddressStateCode" column="INV_BILL_TO_ST_CD" jdbc-type="VARCHAR"/>
@@ -3161,11 +3161,10 @@
     </reference-descriptor>
     <reference-descriptor name="purchaseOrderDeliveryCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderDeliveryCampusCode" />
-    </reference-descriptor>
+    </reference-descriptor>-->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-     -->
      
     <reference-descriptor auto-retrieve="true" auto-update="none" auto-delete="none"
         class-ref="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary" name="invoiceLoadSummary">
@@ -3174,14 +3173,13 @@
 
     <collection-descriptor auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true"
         element-class-ref="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectItem" name="invoiceRejectItems">
-        <orderby name="referenceLineNumber" sort="ASC"/>
+        <orderby name="invoiceItemLineNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="purapDocumentIdentifier"/>
     </collection-descriptor>
 
     <collection-descriptor auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true"
         element-class-ref="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason" name="invoiceRejectReasons">
         <orderby name="invoiceRejectReasonTypeCode" sort="ASC"/>
-        <orderby name="id" sort="ASC"/>
         <inverse-foreignkey field-ref="purapDocumentIdentifier"/>
     </collection-descriptor>
 </class-descriptor>
@@ -3197,21 +3195,21 @@
     <field-descriptor name="invoiceItemUnitOfMeasureCode" column="INV_ITM_UOM_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceItemUnitPrice" column="INV_ITM_UNIT_PRC" jdbc-type="DECIMAL"/>
     <field-descriptor name="invoiceItemUnitPriceCurrencyCode" column="INV_ITM_UNIT_PRC_CRNCY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemSubTotalAmount" column="INV_ITM_SUB_TOT_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemSubTotalAmount" column="INV_ITM_SUB_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemSubTotalCurrencyCode" column="INV_ITM_SUB_TOT_CRNCY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemSpecialHandlingAmount" column="INV_ITM_SPCL_HANDLG_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemSpecialHandlingAmount" column="INV_ITM_SPCL_HANDLG_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemSpecialHandlingCurrencyCode" column="INV_ITM_SPCL_HANDLG_CRNCY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemShippingAmount" column="INV_ITM_SHP_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemShippingAmount" column="INV_ITM_SHP_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemShippingCurrencyCode" column="INV_ITM_SHP_CRNCY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceItemShippingDescription" column="INV_ITM_SHP_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemTaxAmount" column="INV_ITM_TAX_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemTaxAmount" column="INV_ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemTaxCurrencyCode" column="INV_ITM_TAX_CRNCY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceItemTaxDescription" column="INV_ITM_TAX_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemGrossAmount" column="INV_ITM_GRS_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemGrossAmount" column="INV_ITM_GRS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemGrossCurrencyCode" column="INV_ITM_GRS_CRNCY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemDiscountAmount" column="INV_ITM_DSCT_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemDiscountAmount" column="INV_ITM_DSCT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemDiscountCurrencyCode" column="INV_ITM_DSCT_CRNCY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceItemNetAmount" column="INV_ITM_NET_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invoiceItemNetAmount" column="INV_ITM_NET_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="invoiceItemNetCurrencyCode" column="INV_ITM_NET_CRNCY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceReferenceItemLineNumber" column="INV_REF_ITM_LN_NBR" jdbc-type="INTEGER"/>
     <field-descriptor name="invoiceReferenceItemSerialNumber" column="INV_REF_ITM_SERIAL_NBR" jdbc-type="VARCHAR"/>

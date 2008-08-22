@@ -4,12 +4,12 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * @author delyea
@@ -24,11 +24,11 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
   private Integer vendorDetailAssignedIdentifier;
   private String vendorName;
   private Integer invoiceLoadSuccessCount = new Integer(0);
-  private BigDecimal invoiceLoadSuccessAmount = new BigDecimal(0.00);
+  private KualiDecimal invoiceLoadSuccessAmount = new KualiDecimal(0.00);
   private Integer invoiceLoadFailCount = new Integer(0);
-  private BigDecimal invoiceLoadFailAmount = new BigDecimal(0.00);
+  private KualiDecimal invoiceLoadFailAmount = new KualiDecimal(0.00);
   private Boolean isEmpty = Boolean.TRUE;
-  private Timestamp fileProcessDate;
+  private Date fileProcessDate;
   
   /**
    * 
@@ -48,7 +48,7 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
     this.vendorDunsNumber = vendorDunsNumber;
   }
   
-  public void addSuccessfulInvoiceOrder(BigDecimal amount, 
+  public void addSuccessfulInvoiceOrder(KualiDecimal amount, 
                                         ElectronicInvoice eInvoice) {
     isEmpty = Boolean.FALSE;
     invoiceLoadSuccessCount = new Integer(invoiceLoadSuccessCount.intValue() + 1);
@@ -61,7 +61,7 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
     setupVendorInformation(eInvoice);
   }
   
-  public void addFailedInvoiceOrder(BigDecimal amount, 
+  public void addFailedInvoiceOrder(KualiDecimal amount, 
                                     ElectronicInvoice eInvoice) {
     isEmpty = Boolean.FALSE;
     invoiceLoadFailCount = new Integer(invoiceLoadFailCount.intValue() + 1);
@@ -75,11 +75,11 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
   }
   
   public void addFailedInvoiceOrder(ElectronicInvoice ei) {
-    this.addFailedInvoiceOrder(new BigDecimal(0),ei);
+    this.addFailedInvoiceOrder(new KualiDecimal(0),ei);
   }
   
   public void addFailedInvoiceOrder() {
-    this.addFailedInvoiceOrder(new BigDecimal(0),null);
+    this.addFailedInvoiceOrder(new KualiDecimal(0),null);
   }
 
   private void setupVendorInformation(ElectronicInvoice eInvoice) {
@@ -152,14 +152,14 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
   /**
    * @return the invoiceLoadFailAmount
    */
-  public BigDecimal getInvoiceLoadFailAmount() {
+  public KualiDecimal getInvoiceLoadFailAmount() {
     return invoiceLoadFailAmount;
   }
 
   /**
    * @param invoiceLoadFailAmount the invoiceLoadFailAmount to set
    */
-  public void setInvoiceLoadFailAmount(BigDecimal failAmount) {
+  public void setInvoiceLoadFailAmount(KualiDecimal failAmount) {
     this.invoiceLoadFailAmount = failAmount;
   }
   
@@ -208,14 +208,14 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
   /**
    * @return the invoiceLoadSuccessAmount
    */
-  public BigDecimal getInvoiceLoadSuccessAmount() {
+  public KualiDecimal getInvoiceLoadSuccessAmount() {
     return invoiceLoadSuccessAmount;
   }
 
   /**
    * @param invoiceLoadSuccessAmount the invoiceLoadSuccessAmount to set
    */
-  public void setInvoiceLoadSuccessAmount(BigDecimal successAmount) {
+  public void setInvoiceLoadSuccessAmount(KualiDecimal successAmount) {
     this.invoiceLoadSuccessAmount = successAmount;
   }
 
@@ -247,11 +247,11 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
     this.vendorDunsNumber = vendorDunsNumber;
   }
 
-  public Timestamp getFileProcessDate() {
+  public Date getFileProcessDate() {
       return fileProcessDate;
   }
 
-  public void setFileProcessDate(Timestamp fileProcessDate) {
+  public void setFileProcessDate(Date fileProcessDate) {
       this.fileProcessDate = fileProcessDate;
   }
 

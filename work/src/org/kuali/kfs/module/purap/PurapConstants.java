@@ -533,6 +533,9 @@ public class PurapConstants extends JSTLConstants {
         public static final String COMMODITY_CODE = "Commodity Code";
     }
 
+    // ELECTRONIC INVOICE REJECT DOCUMENT
+    public static final String ELECTROINC_INVOICE_REJECT_ACTION_NAME = "ElectronicInvoiceReject";
+
     // CREDIT MEMO DOCUMENT
     public static final String CREDIT_MEMO_ACTION_NAME = "CreditMemo";
 

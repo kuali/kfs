@@ -3,13 +3,27 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>ElectronicInvoiceRejectDocument</name>
-      <parent>KualiPurapDocument</parent>
+      <parent>KualiBaseDocument</parent>
       <label>Electronic Invoice Reject</label>
       <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
     </documentType>
   </documentTypes>
 </data>

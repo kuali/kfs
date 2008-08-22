@@ -4,7 +4,6 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +20,7 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectItem;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * @author delyea
@@ -28,13 +28,13 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
  */
 public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactionalDocumentBase {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceRejectDocument.class);
-  private static BigDecimal zero = new BigDecimal(0);
+  private static KualiDecimal zero = new KualiDecimal(0);
   
   // NOT NULL FIELDS
   private Integer purapDocumentIdentifier;
   private Integer accountsPayablePurchasingDocumentLinkIdentifier;
   private Integer invoiceLoadSummaryIdentifier;
-  private Timestamp invoiceProcessDate;
+  private Date invoiceProcessDate;
   private Boolean invoiceFileHeaderTypeIndicator = Boolean.FALSE;
   private Boolean invoiceFileInformationOnlyIndicator = Boolean.FALSE;
   private Boolean invoiceFileTaxInLineIndicator = Boolean.FALSE;
@@ -109,17 +109,17 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   private String invoiceItemDiscountCurrencyCode;
   private String invoiceItemNetCurrencyCode;
   
-  private BigDecimal invoiceItemSubTotalAmount;
-  private BigDecimal invoiceItemSpecialHandlingAmount;
-  private BigDecimal invoiceItemShippingAmount;
-  private BigDecimal invoiceItemTaxAmount;
-  private BigDecimal invoiceItemGrossAmount;
-  private BigDecimal invoiceItemDiscountAmount;
-  private BigDecimal invoiceItemNetAmount;
+  private KualiDecimal invoiceItemSubTotalAmount;
+  private KualiDecimal invoiceItemSpecialHandlingAmount;
+  private KualiDecimal invoiceItemShippingAmount;
+  private KualiDecimal invoiceItemTaxAmount;
+  private KualiDecimal invoiceItemGrossAmount;
+  private KualiDecimal invoiceItemDiscountAmount;
+  private KualiDecimal invoiceItemNetAmount;
   
   private ElectronicInvoiceLoadSummary invoiceLoadSummary;
-  private List invoiceRejectItems = new ArrayList();
-  private List invoiceRejectReasons = new ArrayList();
+  private List<ElectronicInvoiceRejectItem> invoiceRejectItems = new ArrayList<ElectronicInvoiceRejectItem>();
+  private List<ElectronicInvoiceRejectReason> invoiceRejectReasons = new ArrayList<ElectronicInvoiceRejectReason>();
   
   /**
    * 
@@ -127,12 +127,6 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   public ElectronicInvoiceRejectDocument() {
     super();
   }
-  
-//  public ElectronicInvoiceRejectDocument(ElectronicInvoice ei, ElectronicInvoiceOrder eio) {
-//    super();
-//    this.setFileLevelData(ei);
-//    this.setInvoiceOrderLevelData(ei, eio);
-//  }
   
   public void setFileLevelData(ElectronicInvoice ei) {
     this.invoiceProcessDate = new Timestamp((new Date()).getTime());
@@ -229,14 +223,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     this.purchaseOrderDeliveryCampusCode = eio.getPurchaseOrderCampusCode();
     
     try {
-      this.invoiceItemSubTotalAmount = ei.getInvoiceSubTotalAmount(eio);
+      this.invoiceItemSubTotalAmount = new KualiDecimal(ei.getInvoiceSubTotalAmount(eio));
       this.invoiceItemSubTotalCurrencyCode = ei.getInvoiceSubTotalCurrencyIfNotValid(eio);
     } catch (Exception e) {
       this.invoiceItemSubTotalAmount = null;
       this.invoiceItemSubTotalCurrencyCode = "INVALID Amount";
     }
     try {
-      this.invoiceItemSpecialHandlingAmount = ei.getInvoiceSpecialHandlingAmount(eio);
+      this.invoiceItemSpecialHandlingAmount = new KualiDecimal(ei.getInvoiceSpecialHandlingAmount(eio));
       this.invoiceItemSpecialHandlingCurrencyCode = ei.getInvoiceSpecialHandlingCurrencyIfNotValid(eio);
     } catch (Exception e) {
       this.invoiceItemSpecialHandlingAmount = null;
@@ -244,7 +238,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
     this.invoiceItemSpecialHandlingDescription = ei.getInvoiceSpecialHandlingDescription(eio);
     try {
-      this.invoiceItemShippingAmount = ei.getInvoiceShippingAmount(eio);
+      this.invoiceItemShippingAmount = new KualiDecimal(ei.getInvoiceShippingAmount(eio));
       this.invoiceItemShippingCurrencyCode = ei.getInvoiceShippingCurrencyIfNotValid(eio);
     } catch (Exception e) {
       this.invoiceItemShippingAmount = null;
@@ -252,7 +246,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
     this.invoiceItemShippingDescription = ei.getInvoiceShippingDescription(eio);
     try {
-      this.invoiceItemTaxAmount = ei.getInvoiceTaxAmount(eio);
+      this.invoiceItemTaxAmount = new KualiDecimal(ei.getInvoiceTaxAmount(eio));
       this.invoiceItemTaxCurrencyCode = ei.getInvoiceTaxCurrencyIfNotValid(eio);
     } catch (Exception e) {
       this.invoiceItemTaxAmount = null;
@@ -260,21 +254,21 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
     this.invoiceItemTaxDescription = ei.getInvoiceTaxDescription(eio);
     try {
-      this.invoiceItemGrossAmount = ei.getInvoiceGrossAmount(eio);
+      this.invoiceItemGrossAmount = new KualiDecimal(ei.getInvoiceGrossAmount(eio));
       this.invoiceItemGrossCurrencyCode = ei.getInvoiceGrossCurrencyIfNotValid(eio);
     } catch (Exception e) {
       this.invoiceItemGrossAmount = null;
       this.invoiceItemGrossCurrencyCode = "INVALID AMOUNT";
     }
     try {
-      this.invoiceItemDiscountAmount = ei.getInvoiceDiscountAmount(eio);
+      this.invoiceItemDiscountAmount = new KualiDecimal(ei.getInvoiceDiscountAmount(eio));
       this.invoiceItemDiscountCurrencyCode = ei.getInvoiceDiscountCurrencyIfNotValid(eio);
     } catch (Exception e) {
       this.invoiceItemDiscountAmount = null;
       this.invoiceItemDiscountCurrencyCode = "INVALID AMOUNT";
     }
     try {
-      this.invoiceItemNetAmount = ei.getInvoiceNetAmount(eio);
+      this.invoiceItemNetAmount = new KualiDecimal(ei.getInvoiceNetAmount(eio));
       this.invoiceItemNetCurrencyCode = ei.getInvoiceNetCurrencyIfNotValid(eio);
     } catch (Exception e) {
       this.invoiceItemNetAmount = null;
@@ -310,23 +304,23 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     return null;
   }
   
-  public BigDecimal getTotalAmount() {
-    BigDecimal returnValue = zero;
+  public KualiDecimal getTotalAmount() {
+      KualiDecimal returnValue = zero;
     try {
       for (Iterator iter = this.invoiceRejectItems.iterator(); iter.hasNext();) {
         ElectronicInvoiceRejectItem eiri = (ElectronicInvoiceRejectItem) iter.next();
-        BigDecimal toAddAmount = zero;
+        KualiDecimal toAddAmount = zero;
         if ( (eiri.getInvoiceItemNetAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemNetAmount())) != 0) ) {
-          toAddAmount = eiri.getInvoiceItemNetAmount();
+          toAddAmount = new KualiDecimal(eiri.getInvoiceItemNetAmount());
         } else if ( (eiri.getInvoiceItemGrossAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemGrossAmount())) != 0) ) {
-          toAddAmount = eiri.getInvoiceItemGrossAmount();
+          toAddAmount = new KualiDecimal(eiri.getInvoiceItemGrossAmount());
         } else if ( (eiri.getInvoiceItemSubTotalAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemSubTotalAmount())) != 0) ) {
-          toAddAmount = eiri.getInvoiceItemSubTotalAmount();
+          toAddAmount = new KualiDecimal(eiri.getInvoiceItemSubTotalAmount());
         } else if ( (eiri.getInvoiceItemUnitPrice() != null) && ((zero.compareTo(eiri.getInvoiceItemUnitPrice())) != 0) ) {
           if (eiri.getInvoiceItemQuantity() != null) {
-            toAddAmount = eiri.getInvoiceItemUnitPrice().multiply(eiri.getInvoiceItemQuantity());
+            toAddAmount = new KualiDecimal(eiri.getInvoiceItemUnitPrice().multiply(eiri.getInvoiceItemQuantity()));
           } else {
-            toAddAmount = eiri.getInvoiceItemUnitPrice();
+            toAddAmount = new KualiDecimal(eiri.getInvoiceItemUnitPrice());
           }
         }
         LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
@@ -511,6 +505,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   public void setInvoiceRejectItems(List electronicInvoiceRejectItems) {
     this.invoiceRejectItems = electronicInvoiceRejectItems;
   }
+
+  public ElectronicInvoiceRejectItem getInvoiceRejectItem(int index) {
+      while (getInvoiceRejectItems().size() <= index) {
+          getInvoiceRejectItems().add(new ElectronicInvoiceRejectItem());
+      }
+      return (ElectronicInvoiceRejectItem) getInvoiceRejectItems().get(index);
+  }
+
   /**
    * @return Returns the invoiceRejectReasons.
    */
@@ -523,6 +525,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   public void setInvoiceRejectReasons(List electronicInvoiceRejectReasons) {
     this.invoiceRejectReasons = electronicInvoiceRejectReasons;
   }
+
+  public ElectronicInvoiceRejectReason getInvoiceRejectReason(int index) {
+      while (getInvoiceRejectReasons().size() <= index) {
+          getInvoiceRejectReasons().add(new ElectronicInvoiceRejectReason());
+      }
+      return (ElectronicInvoiceRejectReason) getInvoiceRejectReasons().get(index);
+  }
+
   /**
    * @return Returns the purchaseOrderDeliveryCampusCode.
    */
@@ -553,6 +563,9 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   public Boolean getInvoiceFileDiscountInLineIndicator() {
     return invoiceFileDiscountInLineIndicator;
   }
+  public Boolean isInvoiceFileDiscountInLineIndicator() {
+      return invoiceFileDiscountInLineIndicator;
+  }
   /**
    * @param invoiceFileDiscountInLineIndicator The invoiceFileDiscountInLineIndicator to set.
    */
@@ -565,6 +578,9 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   public Boolean getInvoiceFileHeaderTypeIndicator() {
     return invoiceFileHeaderTypeIndicator;
   }
+  public Boolean isInvoiceFileHeaderTypeIndicator() {
+      return invoiceFileHeaderTypeIndicator;
+  }
   /**
    * @param invoiceFileHeaderTypeIndicator The invoiceFileHeaderTypeIndicator to set.
    */
@@ -575,7 +591,10 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
    * @return Returns the invoiceFileInformationOnlyIndicator.
    */
   public Boolean getInvoiceFileInformationOnlyIndicator() {
-    return invoiceFileInformationOnlyIndicator;
+      return invoiceFileInformationOnlyIndicator;
+  }
+  public Boolean isInvoiceFileInformationOnlyIndicator() {
+      return invoiceFileInformationOnlyIndicator;
   }
   /**
    * @param invoiceFileInformationOnlyIndicator The invoiceFileInformationOnlyIndicator to set.
@@ -613,6 +632,9 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   public Boolean getInvoiceFileShippingInLineIndicator() {
     return invoiceFileShippingInLineIndicator;
   }
+  public Boolean isInvoiceFileShippingInLineIndicator() {
+      return invoiceFileShippingInLineIndicator;
+  }
   /**
    * @param invoiceFileShippingInLineIndicator The invoiceFileShippingInLineIndicator to set.
    */
@@ -625,6 +647,9 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   public Boolean getInvoiceFileSpecialHandlingInLineIndicator() {
     return invoiceFileSpecialHandlingInLineIndicator;
   }
+  public Boolean isInvoiceFileSpecialHandlingInLineIndicator() {
+      return invoiceFileSpecialHandlingInLineIndicator;
+  }
   /**
    * @param invoiceFileSpecialHandlingInLineIndicator The invoiceFileSpecialHandlingInLineIndicator to set.
    */
@@ -636,6 +661,9 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
    */
   public Boolean getInvoiceFileTaxInLineIndicator() {
     return invoiceFileTaxInLineIndicator;
+  }
+  public Boolean isInvoiceFileTaxInLineIndicator() {
+      return invoiceFileTaxInLineIndicator;
   }
   /**
    * @param invoiceFileTaxInLineIndicator The invoiceFileTaxInLineIndicator to set.
@@ -690,13 +718,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   /**
    * @return Returns the invoiceItemDiscountAmount.
    */
-  public BigDecimal getInvoiceItemDiscountAmount() {
+  public KualiDecimal getInvoiceItemDiscountAmount() {
     return invoiceItemDiscountAmount;
   }
   /**
    * @param invoiceItemDiscountAmount The invoiceItemDiscountAmount to set.
    */
-  public void setInvoiceItemDiscountAmount(BigDecimal invoiceDiscountAmount) {
+  public void setInvoiceItemDiscountAmount(KualiDecimal invoiceDiscountAmount) {
     this.invoiceItemDiscountAmount = invoiceDiscountAmount;
   }
   /**
@@ -726,13 +754,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   /**
    * @return Returns the invoiceItemGrossAmount.
    */
-  public BigDecimal getInvoiceItemGrossAmount() {
+  public KualiDecimal getInvoiceItemGrossAmount() {
     return invoiceItemGrossAmount;
   }
   /**
    * @param invoiceItemGrossAmount The invoiceItemGrossAmount to set.
    */
-  public void setInvoiceItemGrossAmount(BigDecimal invoiceGrossAmount) {
+  public void setInvoiceItemGrossAmount(KualiDecimal invoiceGrossAmount) {
     this.invoiceItemGrossAmount = invoiceGrossAmount;
   }
   /**
@@ -750,13 +778,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   /**
    * @return Returns the invoiceItemNetAmount.
    */
-  public BigDecimal getInvoiceItemNetAmount() {
+  public KualiDecimal getInvoiceItemNetAmount() {
     return invoiceItemNetAmount;
   }
   /**
    * @param invoiceItemNetAmount The invoiceItemNetAmount to set.
    */
-  public void setInvoiceItemNetAmount(BigDecimal invoiceNetAmount) {
+  public void setInvoiceItemNetAmount(KualiDecimal invoiceNetAmount) {
     this.invoiceItemNetAmount = invoiceNetAmount;
   }
   /**
@@ -810,13 +838,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   /**
    * @return Returns the invoiceProcessDate.
    */
-  public Timestamp getInvoiceProcessDate() {
+  public Date getInvoiceProcessDate() {
     return invoiceProcessDate;
   }
   /**
    * @param invoiceProcessDate The invoiceProcessDate to set.
    */
-  public void setInvoiceProcessDate(Timestamp invoiceProcessTimestamp) {
+  public void setInvoiceProcessDate(Date invoiceProcessTimestamp) {
     this.invoiceProcessDate = invoiceProcessTimestamp;
   }
   /**
@@ -846,13 +874,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   /**
    * @return Returns the invoiceItemShippingAmount.
    */
-  public BigDecimal getInvoiceItemShippingAmount() {
+  public KualiDecimal getInvoiceItemShippingAmount() {
     return invoiceItemShippingAmount;
   }
   /**
    * @param invoiceItemShippingAmount The invoiceItemShippingAmount to set.
    */
-  public void setInvoiceItemShippingAmount(BigDecimal invoiceShippingAmount) {
+  public void setInvoiceItemShippingAmount(KualiDecimal invoiceShippingAmount) {
     this.invoiceItemShippingAmount = invoiceShippingAmount;
   }
   /**
@@ -882,13 +910,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   /**
    * @return Returns the invoiceItemSpecialHandlingAmount.
    */
-  public BigDecimal getInvoiceItemSpecialHandlingAmount() {
+  public KualiDecimal getInvoiceItemSpecialHandlingAmount() {
     return invoiceItemSpecialHandlingAmount;
   }
   /**
    * @param invoiceItemSpecialHandlingAmount The invoiceItemSpecialHandlingAmount to set.
    */
-  public void setInvoiceItemSpecialHandlingAmount(BigDecimal invoiceSpecialHandlingAmount) {
+  public void setInvoiceItemSpecialHandlingAmount(KualiDecimal invoiceSpecialHandlingAmount) {
     this.invoiceItemSpecialHandlingAmount = invoiceSpecialHandlingAmount;
   }
   /**
@@ -918,13 +946,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   /**
    * @return Returns the invoiceItemSubTotalAmount.
    */
-  public BigDecimal getInvoiceItemSubTotalAmount() {
+  public KualiDecimal getInvoiceItemSubTotalAmount() {
     return invoiceItemSubTotalAmount;
   }
   /**
    * @param invoiceItemSubTotalAmount The invoiceItemSubTotalAmount to set.
    */
-  public void setInvoiceItemSubTotalAmount(BigDecimal invoiceSubTotalAmount) {
+  public void setInvoiceItemSubTotalAmount(KualiDecimal invoiceSubTotalAmount) {
     this.invoiceItemSubTotalAmount = invoiceSubTotalAmount;
   }
   /**
@@ -942,13 +970,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   /**
    * @return Returns the invoiceItemTaxAmount.
    */
-  public BigDecimal getInvoiceItemTaxAmount() {
+  public KualiDecimal getInvoiceItemTaxAmount() {
     return invoiceItemTaxAmount;
   }
   /**
    * @param invoiceItemTaxAmount The invoiceItemTaxAmount to set.
    */
-  public void setInvoiceItemTaxAmount(BigDecimal invoiceTaxAmount) {
+  public void setInvoiceItemTaxAmount(KualiDecimal invoiceTaxAmount) {
     this.invoiceItemTaxAmount = invoiceTaxAmount;
   }
   /**
@@ -1347,6 +1375,33 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
   public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderID) {
     this.vendorHeaderGeneratedIdentifier = vendorHeaderID;
   }
+  
+  public void addRejectItem(ElectronicInvoiceRejectItem item) {
+//      int itemLinePosition = getItemLinePosition();
+//      if (ObjectUtils.isNotNull(item.getItemLineNumber()) && (item.getItemLineNumber() > 0) && (item.getItemLineNumber() <= itemLinePosition)) {
+//          itemLinePosition = item.getItemLineNumber().intValue() - 1;
+//      }
+      
+      item.setPurapDocumentIdentifier(this.purapDocumentIdentifier);
+      item.setElectronicInvoiceRejectDocument(this);
+      
+      invoiceRejectItems.add(item);
+//      renumberItems(itemLinePosition);
+  }
+
+  public void addRejectReason(ElectronicInvoiceRejectReason reason) {
+//    int itemLinePosition = getItemLinePosition();
+//    if (ObjectUtils.isNotNull(item.getItemLineNumber()) && (item.getItemLineNumber() > 0) && (item.getItemLineNumber() <= itemLinePosition)) {
+//        itemLinePosition = item.getItemLineNumber().intValue() - 1;
+//    }
+    
+    reason.setPurapDocumentIdentifier(this.purapDocumentIdentifier);
+    reason.setElectronicInvoiceRejectDocument(this);
+    
+    invoiceRejectReasons.add(reason);
+//    renumberItems(itemLinePosition);
+}
+
 }
 /*
 Copyright (c) 2004, 2005 The National Association of College and

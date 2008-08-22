@@ -24,17 +24,10 @@
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
 
-	<kfs:hiddenDocumentFields excludePostingYear="true" isFinancialDocument="false" />
+	<kfs:hiddenDocumentFields excludePostingYear="true" isFinancialDocument="false" isTransactionalDocument="true" />
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}"
-		includePostingYear="true"
-        fiscalYearReadOnly="${not KualiForm.editingMode['allowPostingYearEntry']}"
-        postingYearAttributes="${DataDictionary.ElectronicInvoiceRejectDocument.attributes}" >
-
-    	<purap:purapDocumentDetail
-	    	documentAttributes="${DataDictionary.ElectronicInvoiceRejectDocument.attributes}"
-	    	detailSectionLabel="Requisition Detail"
-	    	editableFundingSource="true" />
+		includePostingYear="false" >
     </kfs:documentOverview>
 	
     <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
@@ -43,8 +36,8 @@
 	<kul:tab tabTitle="Caomparison Data" defaultOpen="TRUE" tabErrorKey="">
 	    <div class="tab-container" align=center>
 
-			<logic:iterate indexId="ctr" name="KualiForm" property="document.electronicInvoiceRejectReasons" id="reason">
-				<html:hidden write="true" property="document.electronicInvoiceRejectReasons[${ctr}].invoiceRejectReasonDescription" /><br />
+			<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceRejectReasons" id="reason">
+				<html:hidden write="true" property="document.invoiceRejectReasons[${ctr}].invoiceRejectReasonDescription" /><br />
 			</logic:iterate>
 			
     		<c:if test="${document.researchIndicator}">
@@ -70,31 +63,30 @@
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorAttributes.vendorName}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${vendorAttributes.vendorName}" property="document.electronicInvoiceLoadSummary.vendorName" readOnly="true" />
+	                    <kul:htmlControlAttribute attributeEntry="${vendorAttributes.vendorName}" property="document.invoiceLoadSummary.vendorName" readOnly="true" />
 	                </td>
 	                <th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceNumber}" /></div>
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoicePurchaseOrderNumber}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceNumber}" property="document.invoiceNumber" readOnly="${not fullEntryMode}" />
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceNumberOverrideIndicator}" property="document.invoiceNumberOverrideIndicator" readOnly="${not fullEntryMode}" />
-	                </td>
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoicePurchaseOrderNumber}" property="document.invoicePurchaseOrderNumber" readOnly="${not fullEntryMode}" />
+					</td>
 	            </tr>
 	
 	            <tr>
 	                <th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderId}" /></div>
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoicePurchaseOrderNumber}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderId}" property="document.purchaseOrderId" readOnly="${not fullEntryMode}" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoicePurchaseOrderNumber}" property="document.invoicePurchaseOrderNumber" readOnly="${not fullEntryMode}" />
 	                </td>
 	                <th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceDate}" /></div>
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceFileDate}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceDate}" property="document.invoiceDate" readOnly="${not fullEntryMode}" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceFileDate}" property="document.invoiceFileDate" readOnly="${not fullEntryMode}" />
 	                </td>
-	            </tr>
+	            </tr><!--
 
 	            <tr>
 	                <td colspan="4">
@@ -109,7 +101,7 @@
 								<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />				
 							</tr>
 
-							<logic:iterate indexId="ctr" name="KualiForm" property="document.electronicInvoiceRejectItems" id="itemLine">
+							<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceRejectItems" id="itemLine">
 								<tr>
 									<td>&nbsp;</td>
 									<td class="infoline">
@@ -123,14 +115,12 @@
 										    attributeEntry="${itemAttributes.invoiceItemUnitOfMeasureCode}"
 										    property="document.electronicInvoiceRejectItems[${ctr}].invoiceItemUnitOfMeasureCode"
 										    readOnly="${not fullEntryMode}" />
-					                    <kul:htmlControlAttribute attributeEntry="${itemAttributes.invoiceItemUnitOfMeasureCodeOverrideIndicator}" property="document.electronicInvoiceRejectItems[${ctr}].invoiceItemUnitOfMeasureCodeOverrideIndicator" readOnly="${not fullEntryMode}" />
 									</td>
 									<td class="infoline">
 									    <kul:htmlControlAttribute
 										    attributeEntry="${itemAttributes.invoiceCatalogNumber}"
 										    property="document.electronicInvoiceRejectItems[${ctr}].invoiceCatalogNumber"
 										    readOnly="true" />
-					                    <kul:htmlControlAttribute attributeEntry="${itemAttributes.invoiceCatalogNumberOverrideIndicator}" property="document.electronicInvoiceRejectItems[${ctr}].invoiceCatalogNumberOverrideIndicator" readOnly="${not fullEntryMode}" />
 									</td>
 									<td class="infoline">
 									    <kul:htmlControlAttribute
@@ -205,7 +195,7 @@
 					</td>
 	            </tr>
 
-	            <tr>
+	            --><tr>
 	                <td colspan="4" class="subhead">Purchase Order Data</td>
 	            </tr>
 
@@ -231,7 +221,7 @@
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorAttributes.vendorName}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${vendorAttributes.vendorName}" property="document.electronicInvoiceLoadSummary.vendorName" readOnly="true" />
+	                    <kul:htmlControlAttribute attributeEntry="${vendorAttributes.vendorName}" property="document.invoiceLoadSummary.vendorName" readOnly="true" />
 	                </td>
 	                <th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${purchaseOrderAttributes.status}" /></div>

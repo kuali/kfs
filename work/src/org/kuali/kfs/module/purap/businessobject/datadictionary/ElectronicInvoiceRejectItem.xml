@@ -273,7 +273,8 @@
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="300" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition"
@@ -385,7 +386,8 @@
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="300" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition"
@@ -480,7 +482,8 @@
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="400" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition"

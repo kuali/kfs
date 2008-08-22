@@ -29,21 +29,16 @@
  */
 package org.kuali.kfs.module.purap.service.impl;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
@@ -54,20 +49,16 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.exception.CxmlParseError;
 import org.kuali.kfs.module.purap.exception.CxmlParseException;
 import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceLoadService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceService;
-import org.kuali.kfs.sys.batch.service.BatchInputFileService;
-import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**
@@ -492,7 +483,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
                                         this.rejectSingleElectronicInvoiceOrderDetail(electronicInvoiceLoad, loadSummaryDunsNumber, electronicInvoice, eio);
                                     }
                                     else {
-                                        this.acceptedElectronicInvoiceOrderDetail(electronicInvoiceLoad, loadSummaryDunsNumber, electronicInvoice, eio, pr.getTotalDollarAmount().bigDecimalValue());
+                                        this.acceptedElectronicInvoiceOrderDetail(electronicInvoiceLoad, loadSummaryDunsNumber, electronicInvoice, eio, pr.getTotalDollarAmount());
                                     }
                                 }
                             }
@@ -516,7 +507,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
      * @param eio Electronic Invoice Order details
      * @param emailFilename filename to save reject info to
      */
-    private void acceptedElectronicInvoiceOrderDetail(ElectronicInvoiceLoad eil, String fileDunsNumber, ElectronicInvoice ei, ElectronicInvoiceOrder eio, BigDecimal totalCost) {
+    private void acceptedElectronicInvoiceOrderDetail(ElectronicInvoiceLoad eil, String fileDunsNumber, ElectronicInvoice ei, ElectronicInvoiceOrder eio, KualiDecimal totalCost) {
         LOG.info("acceptedElectronicInvoiceOrderDetail() started");
         ElectronicInvoiceLoadSummary eils;
         if (eil.getInvoiceLoadSummaries().containsKey(fileDunsNumber)) {

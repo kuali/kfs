@@ -26,7 +26,7 @@ import org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic;
 public class ElectronicInvoiceItem {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceItem.class);
   
-  private static BigDecimal zero = new BigDecimal(0.00);
+  private static final BigDecimal zero = new BigDecimal(0.00);
   
   // this class is equiped to hold InvoiceDetailItem values as well as a few rudimentary
   // InvoiceDetailServiceItem values

@@ -173,7 +173,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
      * @ShouldCommitTransactions needed for this test
      * @see ShouldCommitTransactions
      */
-    public static void testRouteDocument(AccountingDocument document, DocumentService documentService) throws Exception {
+    public static void testRouteDocument(FinancialSystemTransactionalDocument document, DocumentService documentService) throws Exception {
         document.prepareForSave();
 
         assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
@@ -267,7 +267,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
      * @ShouldCommitTransactions needed for this test
      * @see ShouldCommitTransactions
      */
-    public static void testSaveDocument(AccountingDocument document, DocumentService documentService) throws Exception {
+    public static void testSaveDocument(FinancialSystemTransactionalDocument document, DocumentService documentService) throws Exception {
         // get document parameter
         document.prepareForSave();
 
@@ -275,7 +275,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         saveDocument(document, documentService);
 
         // retrieve
-        AccountingDocument result = (AccountingDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
+        FinancialSystemTransactionalDocument result = (FinancialSystemTransactionalDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
 
         // verify
         assertMatch(document, result);
@@ -354,7 +354,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     }
 
     // helper methods
-    public static void routeDocument(AccountingDocument document, String annotation, List<AdHocRouteRecipient> adHocRoutingRecipients, DocumentService documentService) throws WorkflowException {
+    public static void routeDocument(FinancialSystemTransactionalDocument document, String annotation, List<AdHocRouteRecipient> adHocRoutingRecipients, DocumentService documentService) throws WorkflowException {
         try {
             documentService.routeDocument(document, annotation, adHocRoutingRecipients);
         }
@@ -384,7 +384,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         assertEquals(STATUS, document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
     }
 
-    public static void saveDocument(AccountingDocument document, DocumentService documentService) throws WorkflowException {
+    public static void saveDocument(FinancialSystemTransactionalDocument document, DocumentService documentService) throws WorkflowException {
         try {
             documentService.saveDocument(document);
         }

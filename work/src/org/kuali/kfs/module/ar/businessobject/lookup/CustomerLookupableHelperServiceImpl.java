@@ -15,11 +15,15 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.util.ARUtil;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -31,12 +35,48 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
     public String getActionUrls(BusinessObject businessObject) {
 
         FinancialSystemUser user = ValueFinderUtil.getCurrentFinancialSystemUser();
-        if (ARUtil.isUserInArSupervisorGroup(user)) {
-            return super.getActionUrls(businessObject);
-        }
-        else
+        if (!ARUtil.isUserInArSupervisorGroup(user))
             return "";
 
+        StringBuffer actions = new StringBuffer();
+        if (StringUtils.isNotBlank(getMaintenanceDocumentTypeName())) {
+            actions.append(getMaintenanceUrl(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL));
+        }
+    
+        if (allowsMaintenanceNewOrCopyAction()) {
+            actions.append("&nbsp;&nbsp;");
+            actions.append(getMaintenanceUrl(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL));
+        }
+        
+        actions.append("&nbsp;&nbsp;");
+        actions.append(getCustomerOpenItemReportUrl(businessObject));
+    
+        return actions.toString();
     }
+    
+    private String getCustomerOpenItemReportUrl(BusinessObject bo) {
+
+        Customer customer = (Customer) bo;
+
+        StringBuffer anchor = new StringBuffer();
+        anchor.append("<a href=\"arCustomerOpenItemReportLookupable.do?");
+        anchor.append("businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail&");
+        anchor.append("returnLocation=portal.do&");
+        anchor.append("lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable&");
+        anchor.append("methodToCall=search&");
+        anchor.append("inquiryFlag=true&");
+        anchor.append("customerNumber="); 
+        anchor.append(customer.getCustomerNumber());
+        anchor.append("&customerName=");
+        anchor.append(customer.getCustomerName());
+        anchor.append("&docFormKey=88888888");
+        anchor.append("\">");
+        anchor.append(ArConstants.CustomerConstants.ACTIONS_REPORT);
+        anchor.append("</a>");
+
+        return anchor.toString();
+    }
+
+
 
 }

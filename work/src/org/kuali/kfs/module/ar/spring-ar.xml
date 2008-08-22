@@ -465,6 +465,33 @@
 		</property>
 	</bean>
 	
+	<bean id="arCustomerOpenItemReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerOpenItemReportLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<!--property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+			</property-->
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+	
+	<bean id="arCustomerOpenItemReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="arCustomerOpenItemReportLookupableHelperService" />
+		</property>
+	</bean>
+	
 	<bean id="customerInvoiceWriteoffLookupResultLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />

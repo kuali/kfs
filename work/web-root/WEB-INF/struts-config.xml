@@ -97,7 +97,9 @@
 		<form-bean name="CustomerInvoiceWriteoffDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceWriteoffDocumentForm" />
         <form-bean name="CustomerAgingReportForm" 
-        	type="org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm" />	
+        	type="org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm" />
+        <form-bean name="CustomerOpenItemReportForm" 
+        	type="org.kuali.kfs.module.ar.web.struts.CustomerOpenItemReportForm" />	
         <form-bean name="CustomerInvoiceWriteoffLookupForm" 
         	type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceWriteoffLookupForm" />        			
 		<form-bean name="CustomerStatementForm" 
@@ -373,6 +375,15 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/modules/ar/CustomerAgingReportLookup.jsp" />
+		</action>
+		
+		<action path="/arCustomerOpenItemReportLookup"
+			name="CustomerOpenItemReportForm" scope="request" attribute="KualiForm"
+			parameter="methodToCall"
+			type="org.kuali.kfs.module.ar.web.struts.CustomerOpenItemReportAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/modules/ar/CustomerOpenItemReportLookup.jsp" />
 		</action>
 		
 		<action path="/arCustomerInvoiceWriteoffLookup"

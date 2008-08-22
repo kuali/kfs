@@ -800,6 +800,11 @@
 	<field-descriptor name="offCampusZipCode" column="AST_OFFCMP_ZIP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="interdepartmentalSalesIndicator" column="AST_INTRDPTSALE_CD" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
+	<field-descriptor name="oldOrganizationOwnerChartOfAccountsCode" column="OLD_ORG_OWNER_COA_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="oldOrganizationOwnerAccountNumber" column="OLD_ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR" />
+	<field-descriptor name="oldOrganizationCode" column="OLD_ORG_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="offCampusName" column="AST_OFFCMP_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="offCampusCountryCode" column="AST_OFFCMP_CNTRY_CD" jdbc-type="VARCHAR" />
 
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="documentNumber" />

@@ -56,6 +56,11 @@
         <ref bean="AssetTransferDocument-objectId" />
         <ref bean="AssetTransferDocument-versionNumber" />
         <ref bean="AssetTransferDocument-documentNumber" />
+        <ref bean="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode" />
+        <ref bean="AssetTransferDocument-oldOrganizationOwnerAccountNumber" />
+        <ref bean="AssetTransferDocument-oldOrganizationCode" />
+        <ref bean="AssetTransferDocument-offCampusName" />
+        <ref bean="AssetTransferDocument-offCampusCountryCode" />
       </list>
     </property>
   </bean>
@@ -386,7 +391,45 @@
 
   <bean id="AssetTransferDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
   </bean>
+  <bean id="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode" parent="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode-parentBean" />
 
+  <bean id="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="AssetTransferDocument-organizationOwnerChartOfAccountsCode">
+    <property name="name" value="oldOrganizationOwnerChartOfAccountsCode" />
+    <property name="label" value="Old Organization Owner Chart Of Accounts Code" />
+    <property name="shortLabel" value="Old Code" />
+    <property name="summary" value="oldOrganizationOwnerChartOfAccountsCode" />
+    <property name="description" value="oldOrganizationOwnerChartOfAccountsCode description..." />
+  </bean>
+  
+  <bean id="AssetTransferDocument-oldOrganizationOwnerAccountNumber" parent="AssetTransferDocument-oldOrganizationOwnerAccountNumber-parentBean" />
+
+  <bean id="AssetTransferDocument-oldOrganizationOwnerAccountNumber-parentBean" abstract="true" parent="AssetTransferDocument-organizationOwnerAccountNumber">
+    <property name="name" value="oldOrganizationOwnerAccountNumber" />
+    <property name="label" value="Old Organization Owner Account Number" />
+    <property name="shortLabel" value="Old Number" />
+    <property name="summary" value="oldOrganizationOwnerAccountNumber" />
+    <property name="description" value="oldOrganizationOwnerAccountNumber description..." />
+  </bean>
+  
+  <bean id="AssetTransferDocument-oldOrganizationCode" parent="AssetTransferDocument-oldOrganizationCode-parentBean" />
+
+  <bean id="AssetTransferDocument-oldOrganizationCode-parentBean" abstract="true" parent="AssetTransferDocument-organizationCode">
+    <property name="name" value="oldOrganizationCode" />
+    <property name="label" value="Old Organization Code" />
+    <property name="shortLabel" value="Old Code" />
+    <property name="summary" value="oldOrganizationCode" />
+    <property name="description" value="oldOrganizationCode description..." />
+  </bean>
+  
+   <bean id="AssetTransferDocument-offCampusCountryCode" parent="AssetTransferDocument-offCampusCountryCode-parentBean" />
+
+  <bean id="AssetTransferDocument-offCampusCountryCode-parentBean" abstract="true" parent="AssetGlobalDetail-offCampusCountryCode">
+  </bean>
+  <bean id="AssetTransferDocument-offCampusName" parent="AssetTransferDocument-offCampusName-parentBean" />
+
+  <bean id="AssetTransferDocument-offCampusName-parentBean" abstract="true" parent="AssetGlobalDetail-offCampusName">
+  </bean>
+  
 <!-- Exported Workflow Properties -->
 
 

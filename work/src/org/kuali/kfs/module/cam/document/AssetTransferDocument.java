@@ -65,6 +65,11 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private String offCampusCityName;
     private String offCampusStateCode;
     private String offCampusZipCode;
+    private String oldOrganizationOwnerChartOfAccountsCode;
+    private String oldOrganizationOwnerAccountNumber;
+    private String oldOrganizationCode;
+    private String offCampusName;
+    private String offCampusCountryCode;
     private boolean interdepartmentalSalesIndicator;
     private Long capitalAssetNumber;
     private UniversalUser assetRepresentative;
@@ -797,5 +802,55 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         generalLedgerPostables.addAll(this.sourceAssetGlpeSourceDetails);
         generalLedgerPostables.addAll(this.targetAssetGlpeSourceDetails);
         return generalLedgerPostables;
+    }
+
+
+    public String getOffCampusCountryCode() {
+        return offCampusCountryCode;
+    }
+
+
+    public void setOffCampusCountryCode(String offCampusCountryCode) {
+        this.offCampusCountryCode = offCampusCountryCode;
+    }
+
+
+    public String getOffCampusName() {
+        return offCampusName;
+    }
+
+
+    public void setOffCampusName(String offCampusName) {
+        this.offCampusName = offCampusName;
+    }
+
+
+    public String getOldOrganizationCode() {
+        return oldOrganizationCode;
+    }
+
+
+    public void setOldOrganizationCode(String oldOrganizationCode) {
+        this.oldOrganizationCode = oldOrganizationCode;
+    }
+
+
+    public String getOldOrganizationOwnerAccountNumber() {
+        return oldOrganizationOwnerAccountNumber;
+    }
+
+
+    public void setOldOrganizationOwnerAccountNumber(String oldOrganizationOwnerAccountNumber) {
+        this.oldOrganizationOwnerAccountNumber = oldOrganizationOwnerAccountNumber;
+    }
+
+
+    public String getOldOrganizationOwnerChartOfAccountsCode() {
+        return oldOrganizationOwnerChartOfAccountsCode;
+    }
+
+
+    public void setOldOrganizationOwnerChartOfAccountsCode(String oldOrganizationOwnerChartOfAccountsCode) {
+        this.oldOrganizationOwnerChartOfAccountsCode = oldOrganizationOwnerChartOfAccountsCode;
     }
 }

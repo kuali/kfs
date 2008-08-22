@@ -106,10 +106,10 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
 
         Map hm = new HashMap();
 
-        for (Iterator iter = getAll(type).iterator(); iter.hasNext();) {
-            /*Code element = (Code) iter.next();
-            hm.put(element.getCode(), element);*/
-        }
+        /*for (Iterator iter = getAll(type).iterator(); iter.hasNext();) {
+            Code element = (Code) iter.next();
+            hm.put(element.getCode(), element);
+        }*/
         return hm;
     }
 

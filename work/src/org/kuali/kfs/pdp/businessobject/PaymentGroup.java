@@ -30,9 +30,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class PaymentGroup extends PersistableBusinessObjectBase {
+public class PaymentGroup extends TimestampedBusinessObjectBase {
     private static BigDecimal zero = new BigDecimal(0);
 
     private Integer id; // PMT_GRP_ID
@@ -72,7 +73,6 @@ public class PaymentGroup extends PersistableBusinessObjectBase {
     private Timestamp epicPaymentCancelledExtractedDate; // PDP_EPIC_PMT_CNCL_EXTRT_TS
     private Timestamp epicPaymentPaidExtractedDate; // PDP_EPIC_PMT_PD_EXTRT_TS
     private Timestamp adviceEmailSentDate; // ADV_EMAIL_SNT_TS
-    private Timestamp lastUpdate; // LST_UPDT_TS
     private Integer version; // VER_NBR
 
     private Integer batchId;
@@ -350,9 +350,9 @@ public class PaymentGroup extends PersistableBusinessObjectBase {
      * @return
      * @hibernate.property column="LST_UPDT_TS" length="7"
      */
-    public Timestamp getLastUpdate() {
+    /*public Timestamp getLastUpdate() {
         return lastUpdate;
-    }
+    }*/
 
     /**
      * @return
@@ -710,9 +710,9 @@ public class PaymentGroup extends PersistableBusinessObjectBase {
     /**
      * @param timestamp
      */
-    public void setLastUpdate(Timestamp timestamp) {
+    /*public void setLastUpdate(Timestamp timestamp) {
         lastUpdate = timestamp;
-    }
+    }*/
 
     /**
      * @param string
@@ -869,7 +869,7 @@ public class PaymentGroup extends PersistableBusinessObjectBase {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
 
-    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
+    /*public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
         lastUpdate = new Timestamp((new Date()).getTime());
     }
 
@@ -895,7 +895,7 @@ public class PaymentGroup extends PersistableBusinessObjectBase {
 
     public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
 
-    }
+    }*/
 
     /**
      * @return Returns the achAccountType.

@@ -32,7 +32,7 @@ public interface AssetGlobalService {
      * @param assetGlobal
      * @return
      */
-    KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal);
+    public KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal);
 
     /**
      * 
@@ -42,7 +42,7 @@ public interface AssetGlobalService {
      * @param memberName
      * @return
      */
-    boolean existsInGroup(String groupName, String memberName);
+    public boolean existsInGroup(String groupName, String memberName);
 
     /**
      * 
@@ -51,12 +51,12 @@ public interface AssetGlobalService {
      * @param assetGlobal
      * @return
      */
-    KualiDecimal totalNonFederalPaymentByAsset(AssetGlobal assetGlobal);
+    public KualiDecimal totalNonFederalPaymentByAsset(AssetGlobal assetGlobal);
 
     /**
      * Creates GL Postables
      */
-    boolean createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster);
+    public void createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster);
 
 
     /**
@@ -66,7 +66,7 @@ public interface AssetGlobalService {
      * @param objectCode
      * @return
      */
-    boolean isCapitablObjectCode(ObjectCode objectCode);
+    public boolean isCapitablObjectCode(ObjectCode objectCode);
     
     /**
      * Validates if the document type matches that of Asset Separate.
@@ -74,5 +74,5 @@ public interface AssetGlobalService {
      * @param assetGlobal
      * @return boolean
      */
-    boolean isAssetSeparateDocument(AssetGlobal assetGlobal);
+    public boolean isAssetSeparateDocument(AssetGlobal assetGlobal);
 }

@@ -86,17 +86,19 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      * Creates an instance of AssetGlpeSourceDetail depending on the source flag
      * 
      * @param universityDateService University Date Service
-     * @param plantAccount Plant account for the organization
      * @param assetPayment Payment record for which postable is created
      * @param isSource Indicates if postable is for source organization
      * @return GL Postable source detail
      */
-    protected AssetGlpeSourceDetail createAssetGlpePostable(AssetGlobal document, Account plantAccount, AssetPaymentDetail assetPaymentDetail, AmountCategory amountCategory) {
-        LOG.debug("Start - createAssetGlpePostable (" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + ")");
+    protected AssetGlpeSourceDetail createAssetGlpePostable(AssetGlobal document, AssetPaymentDetail assetPaymentDetail, AmountCategory amountCategory) {
+        LOG.debug("Start - createAssetGlpePostable (" + document.getDocumentNumber() + "-" + assetPaymentDetail.getAccountNumber() + ")");
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
-        postable.setAccount(plantAccount);
+        
+        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
+        postable.setAccount(assetPaymentDetail.getAccount());
+        
         postable.setAmount(assetPaymentDetail.getAmount());
-        postable.setAccountNumber(plantAccount.getAccountNumber());
+        postable.setAccountNumber(assetPaymentDetail.getAccountNumber());
         postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_AC);
         postable.setChartOfAccountsCode(assetPaymentDetail.getChartOfAccountsCode());
         postable.setDocumentNumber(document.getDocumentNumber());
@@ -105,58 +107,33 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         postable.setProjectCode(assetPaymentDetail.getProjectCode());
         postable.setSubAccountNumber(assetPaymentDetail.getSubAccountNumber());
         postable.setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
+
+        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
         AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
+        
         OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetPaymentDetail.getChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
-        document.refreshReferenceObject("acquisitionType");
+        document.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE);
         amountCategory.setParams(postable, assetPaymentDetail, assetObjectCode, offsetDefinition, document.getAcquisitionType());
-        LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + ")");
+        
+        LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + assetPaymentDetail.getAccountNumber() + "-" + ")");
         return postable;
     }
 
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#createGLPostables(org.kuali.module.cams.document.AssetGlobal)
      */
-    public boolean createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster) {
-
-        String acquisitionTypeCode = assetGlobal.getAcquisitionTypeCode();
-        // Create GL entries only for capital assets
-        if (!CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode) && !assetGlobal.getAssetPaymentDetails().isEmpty()) {
-            List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
-            assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
-            AssetPaymentDetail firstAssetPaymentDetail = assetPaymentDetails.get(0);
-            firstAssetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
-            String finObjectSubTypeCode = firstAssetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode();
-            boolean movableAsset = getAssetService().isMovableFinancialObjectSubtypeCode(finObjectSubTypeCode);
-
-            if (isGLPostable(assetGlobal, movableAsset)) {
-                Account srcPlantAcct = null;
-                OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetGlobal.getOrganizationOwnerChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
-                firstAssetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
-                if (ObjectUtils.isNull(firstAssetPaymentDetail.getAccount())) {
-                    return false;
-                }
-                if (movableAsset) {
-                    srcPlantAcct = firstAssetPaymentDetail.getAccount().getOrganization().getOrganizationPlantAccount();
-                }
-                else {
-                    srcPlantAcct = firstAssetPaymentDetail.getAccount().getOrganization().getCampusPlantAccount();
-                }
-                for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
-                    if (isPaymentEligibleForGLPosting(assetPaymentDetail)) {
-                        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
-                        if (ObjectUtils.isNotNull(assetPaymentDetail.getFinancialObjectCode())) {
-                            KualiDecimal accountChargeAmount = assetPaymentDetail.getAmount();
-                            if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
-                                assetGlobalGlPoster.getGeneralLedgerPendingEntrySourceDetails().add(createAssetGlpePostable(assetGlobal, srcPlantAcct, assetPaymentDetail, AmountCategory.PAYMENT));
-                                assetGlobalGlPoster.getGeneralLedgerPendingEntrySourceDetails().add(createAssetGlpePostable(assetGlobal, srcPlantAcct, assetPaymentDetail, AmountCategory.PAYMENT_OFFSET));
-                            }
-
-                        }
-                    }
+    public void createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster) {
+        List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
+        
+        for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
+            if (isPaymentEligibleForGLPosting(assetPaymentDetail)) {
+                KualiDecimal accountChargeAmount = assetPaymentDetail.getAmount();
+                if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
+                    assetGlobalGlPoster.getGeneralLedgerPendingEntrySourceDetails().add(createAssetGlpePostable(assetGlobal, assetPaymentDetail, AmountCategory.PAYMENT));
+                    assetGlobalGlPoster.getGeneralLedgerPendingEntrySourceDetails().add(createAssetGlpePostable(assetGlobal, assetPaymentDetail, AmountCategory.PAYMENT_OFFSET));
                 }
             }
         }
-        return true;
     }
 
 
@@ -249,7 +226,9 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         this.universityDateService = universityDateService;
     }
 
-
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#totalPaymentByAsset(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
+     */
     public KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal) {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
@@ -267,6 +246,9 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
 
 
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#existsInGroup(java.lang.String, java.lang.String)
+     */
     public boolean existsInGroup(String groupName, String memberName) {
         if (StringUtils.isBlank(groupName) || StringUtils.isBlank(memberName)) {
             return false;
@@ -274,6 +256,9 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         return Arrays.asList(groupName.split(";")).contains(memberName);
     }
 
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#totalNonFederalPaymentByAsset(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
+     */
     public KualiDecimal totalNonFederalPaymentByAsset(AssetGlobal assetGlobal) {
         KualiDecimal totalNonFederal = KualiDecimal.ZERO;
         int numberOfAssets = assetGlobal.getAssetGlobalDetails().size();
@@ -290,14 +275,13 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         return totalNonFederal;
     }
 
-
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isCapitablObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode)
+     */
     public boolean isCapitablObjectCode(ObjectCode objectCode) {
         return ObjectUtils.isNotNull(objectCode) && StringUtils.isNotBlank(objectCode.getFinancialObjectSubTypeCode()) && Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES).split(";")).contains(objectCode.getFinancialObjectSubTypeCode());
     }
 
-    /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isPaymentEligibleForGLPosting(org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail)
-     */
     private boolean isPaymentEligibleForGLPosting(AssetPaymentDetail assetPaymentDetail) {
         boolean isEligible = true;
         // Financial object code is currently active
@@ -307,9 +291,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         return isEligible;
     }
 
-    /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isPaymentFinancialObjectActive(org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail)
-     */
     private boolean isPaymentFinancialObjectActive(AssetPaymentDetail assetPayment) {
         ObjectCode financialObjectCode = new ObjectCode();
         financialObjectCode.setUniversityFiscalYear(getUniversityDateService().getCurrentFiscalYear());
@@ -322,9 +303,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         return false;
     }
 
-    /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isPaymentFederalContribution(org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail)
-     */
     private boolean isPaymentFederalContribution(AssetPaymentDetail assetPaymentDetail) {
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
         if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode())) {

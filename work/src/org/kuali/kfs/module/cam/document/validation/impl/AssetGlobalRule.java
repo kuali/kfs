@@ -50,6 +50,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -78,7 +79,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private static AssetAcquisitionTypeService assetAcquisitionTypeService = SpringContext.getBean(AssetAcquisitionTypeService.class);
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
     private static BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-
+    private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+    
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#checkAuthorizationRestrictions(org.kuali.rice.kns.document.MaintenanceDocument)
      */
@@ -489,7 +491,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         if (!assetService.isObjectSubTypeCompatible(objectSubTypeList)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVALID_FIN_OBJECT_SUB_TYPE_CODE);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVALID_FIN_OBJECT_SUB_TYPE_CODE, dataDictionaryService.getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE), CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
+            
             valid = false;
         }
         return valid;
@@ -535,17 +538,15 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             if ((success & super.processCustomSaveDocumentBusinessRules(document))
                     && assetAcquisitionTypeService.hasIncomeAssetObjectCode(acquisitionTypeCode)
                     && this.isCapitalStatus(assetGlobal)) {
+
                 // create poster
                 AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
                 // create postables
-                if (!(success &= assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster))) {
-                    putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);
-                    return success;
-                }
+                assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster);
+                
                 if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
                     assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
-                }
-                else {
+                } else {
                     assetGlobalGlPoster.getPendingEntries().clear();
                 }
             }

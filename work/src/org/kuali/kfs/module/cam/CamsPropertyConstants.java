@@ -260,6 +260,7 @@ public class CamsPropertyConstants {
         public static final String VENDOR_NAME = "vendorName";
         public static final String MFR_NAME = "manufacturerName";
         public static final String ORGANIZATION_TEXT = "organizationText";
+        public static final String ACQUISITION_TYPE = "acquisitionType";
         public static final String ACQUISITION_TYPE_CODE = "acquisitionTypeCode";
         public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS = "organizationOwnerChartOfAccountsCode";
         public static final String ORGANIZATION_OWNER_ACCT_NUMBER = "organizationOwnerAccountNumber";

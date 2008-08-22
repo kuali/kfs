@@ -244,8 +244,8 @@ public class AssetServiceImpl implements AssetService {
 
         // Get the set for compatible object sub type code by the first financial object sub type code
         for (String subType : subTypes) {
-            validObjectSubTypes = Arrays.asList(StringUtils.split(subType, ","));
-            if (validObjectSubTypes.contains(firstObjectSubType)) {
+            if (subType.contains(firstObjectSubType)) {
+                validObjectSubTypes = Arrays.asList(StringUtils.split(subType, ","));
                 break;
             }
         }

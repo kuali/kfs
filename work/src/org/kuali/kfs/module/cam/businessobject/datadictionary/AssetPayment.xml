@@ -188,8 +188,8 @@
     <property name="description" value="accountChargeAmount description..." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
   <bean id="AssetPayment-accountNumber" parent="AssetPayment-accountNumber-parentBean" />
-
   <bean id="AssetPayment-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountNumber" />
     <property name="forceUppercase" value="true" />
@@ -264,22 +264,8 @@
   </bean>
   <bean id="AssetPayment-chartOfAccountsCode" parent="AssetPayment-chartOfAccountsCode-parentBean" />
 
-  <bean id="AssetPayment-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
-  </bean>
+  <bean id="AssetPayment-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"></bean>
+  
   <bean id="AssetPayment-documentNumber" parent="AssetPayment-documentNumber-parentBean" />
 
   <bean id="AssetPayment-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">

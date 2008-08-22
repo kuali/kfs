@@ -86,25 +86,24 @@
 						<td class="grid"><kul:htmlControlAttribute property="${object}.financialDocumentPostingYear" attributeEntry="${assetPaymentAttributes.financialDocumentPostingYear}" readOnly="true"/></td>								
 						<td class="grid"><kul:htmlControlAttribute property="${object}.financialDocumentPostingPeriodCode" attributeEntry="${assetPaymentAttributes.financialDocumentPostingPeriodCode}" readOnly="true"/></td>														
 						<td class="grid">${payment.transferPaymentIndicator}</td>
-						<td class="grid" align="right"><fmt:formatNumber value="${allocatedAmount}" maxFractionDigits="2" minFractionDigits="2"/></td>
+						<td class="grid"><div align="right"><fmt:formatNumber value="${allocatedAmount}" maxFractionDigits="2" minFractionDigits="2"/></div></td>
 					</tr>
 				</c:forEach>
 				
 				<tr>
 					<kul:htmlAttributeHeaderCell colspan="15" literalLabel="Payment(s) Total:" align="right"/>
-					<td class="grid" align="right"><fmt:formatNumber value="${totalPayments}" maxFractionDigits="2" minFractionDigits="2"/></td>
-					
+					<td class="grid"><div align="right"><fmt:formatNumber value="${totalPayments}" maxFractionDigits="2" minFractionDigits="2"/></div></td>					
 				</tr>									
 				<tr>
 					<kul:htmlAttributeHeaderCell  literalLabel="Historical Cost:" align="right" colspan="15"/></th>
-					<td class="grid" align="right">
-						<fmt:formatNumber value="${previousTotalCost}" maxFractionDigits="2" minFractionDigits="2"/>					
+					<td class="grid" align="right"><div align="right">
+						<fmt:formatNumber value="${previousTotalCost}" maxFractionDigits="2" minFractionDigits="2"/></div>					
 					</td>					
 				</tr>									
 				<tr>
 					<kul:htmlAttributeHeaderCell colspan="15" literalLabel="New Total:" align="right"/>
-					<td class="grid" align="right">
-						<fmt:formatNumber value="${totalPayments + previousTotalCost}" maxFractionDigits="2" minFractionDigits="2"/>
+					<td class="grid"><div align="right">
+						<fmt:formatNumber value="${totalPayments + previousTotalCost}" maxFractionDigits="2" minFractionDigits="2"/></div>
 					</td>
 				</tr>
 			</table>

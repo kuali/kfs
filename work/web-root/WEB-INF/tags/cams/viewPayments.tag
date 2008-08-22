@@ -77,7 +77,7 @@
 				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].financialDocumentPostingYear" attributeEntry="${assetPaymentAttributes.financialDocumentPostingYear}" readOnly="true"/></td>								
 				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].financialDocumentPostingPeriodCode" attributeEntry="${assetPaymentAttributes.financialDocumentPostingPeriodCode}" readOnly="true"/></td>								
 				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].transferPaymentCode" attributeEntry="${assetPaymentAttributes.transferPaymentCode}" readOnly="true"/></td>								
-				<td class="grid" align="right"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].accountChargeAmount" attributeEntry="${assetPaymentAttributes.accountChargeAmount}" readOnly="true"/></td>								
+				<td class="grid"><div align="right"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].accountChargeAmount" attributeEntry="${assetPaymentAttributes.accountChargeAmount}" readOnly="true"/></div></td>								
 			</tr>
 	</c:forEach>
 			<tr>

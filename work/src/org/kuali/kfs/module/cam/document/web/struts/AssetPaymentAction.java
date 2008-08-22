@@ -183,7 +183,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         if (rulePassed) {                
             newAssetPaymentAssetDetail.setPreviousTotalCostAmount(newAssetPaymentAssetDetail.getAsset().getTotalCostAmount());
             assetPaymentForm.getAssetPaymentDocument().addAssetPaymentAssetDetail(newAssetPaymentAssetDetail);
-            assetPaymentForm.setCapitalAssetNumber("");        
+            assetPaymentForm.setCapitalAssetNumber("");
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

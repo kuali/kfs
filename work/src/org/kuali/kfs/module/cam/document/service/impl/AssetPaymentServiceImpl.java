@@ -97,91 +97,73 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      */
     public void processApprovedAssetPayment(AssetPaymentDocument document, KualiDecimal totalHistoricalAmount) {        
         // Creating new asset payment records
-        createNewPayments(document);
-        
-        //Updating the asset previous cost in the asset payment document table
-        //updatePaymentAssetPreviousTotalCost(document);
-        
-        // Updating the total cost of the asset
-        updateAssetTotalCost(document,totalHistoricalAmount);        
+        processPayments(document);        
     }
 
-    /**
-     * This method updates the total cost amount of the asset by adding the total cost of the new asset payments
-     * 
-     * @param asset bo where the update will occur
-     * @param subTotal amount of the new asset payment detail records
-     */
-    private void updateAssetTotalCost(AssetPaymentDocument assetPaymentDocument, KualiDecimal totalHistoricalAmount) {
-        List<AssetPaymentAssetDetail> assetPaymentAssetDetails = assetPaymentDocument.getAssetPaymentAssetDetail(); 
-        KualiDecimal totalCost = assetPaymentDocument.getSourceTotal();
-
-        for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {
-            KualiDecimal percentage = assetPaymentAssetDetail.getPreviousTotalCostAmount().divide(totalHistoricalAmount);
-            KualiDecimal allocatedAmount=totalCost.multiply(percentage);
-            
-            totalCost = totalCost.add(assetPaymentAssetDetail.getPreviousTotalCostAmount());    
-
-            //Retrieving the asset that will have its cost updated
-            HashMap<String,Long> keys = new HashMap<String,Long>();
-            keys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER,assetPaymentAssetDetail.getCapitalAssetNumber());
-            
-            Asset asset = (Asset) getBusinessObjectService().findByPrimaryKey(Asset.class, keys);        
-            asset.setTotalCostAmount(assetPaymentAssetDetail.getPreviousTotalCostAmount().add(allocatedAmount));
-            
-            //Saving changes
-            getBusinessObjectService().save(asset);
-        }
-     }
-
-    /**
-     * 
-     * Updates asset previous cost in the asset document table
-     * @param assetPaymentDocument
-     *
-    private void updatePaymentAssetPreviousTotalCost(AssetPaymentDocument assetPaymentDocument) {
-        assetPaymentDocument.setPreviousTotalCostAmount(assetPaymentDocument.getAsset().getTotalCostAmount());
-        getBusinessObjectService().save(assetPaymentDocument);
-    }*/
      
     /**
      * Creates a new asset payment record for each new asset payment detail record and then save them
      * 
      * @param document
      */
-    //TODO FIX it
-    private void createNewPayments(AssetPaymentDocument document) {
-        //List<AssetPaymentDetail> assetPaymentDetailLines = document.getAssetPaymentDetail();
+    private void processPayments(AssetPaymentDocument document) {
         List<AssetPaymentDetail> assetPaymentDetailLines = document.getSourceAccountingLines();
+        List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
         List<PersistableBusinessObject> assetPayments = new ArrayList<PersistableBusinessObject>();
         Integer maxSequenceNo=new Integer(0);        
 
         try {
-            // Creating a new payment record for each asset payment detail.
-            for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
-                AssetPayment assetPayment = new AssetPayment(assetPaymentDetail);
-                assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_N);
-                //assetPayment.setCapitalAssetNumber(document.getAsset().getCapitalAssetNumber());
-                assetPayment.setPaymentSequenceNumber(++maxSequenceNo);
-                assetPayment.setDocumentNumber(document.getDocumentNumber());
+            Double totalHistoricalCost = new Double(document.getAssetsTotalHistoricalCost().toString());
+            // Creating a new payment record for each asset that has payments.
+            for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
+                maxSequenceNo = getMaxSequenceNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
+                
+                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());                
+                Double percentage = (previousTotalCostAmount/totalHistoricalCost);
+                
+                for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
+                    Double paymentAmount = new Double(assetPaymentDetail.getAmount().toString());
+                    KualiDecimal amount = new KualiDecimal(paymentAmount.doubleValue() * percentage.doubleValue());
 
-                KualiDecimal baseAmount = new KualiDecimal(0);
+                    //LOG.info("Asset:"+assetPaymentAssetDetail.getCapitalAssetNumber() + " - Previous Cost:"+previousTotalCostAmount+" - Allocated Amount:"+amount.toString()+" - % :"+percentage.doubleValue());
+                    
+                    AssetPayment assetPayment = new AssetPayment(assetPaymentDetail);
+                    assetPayment.setCapitalAssetNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
+                    assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_N);
+                    assetPayment.setPaymentSequenceNumber(++maxSequenceNo);
+                    assetPayment.setDocumentNumber(document.getDocumentNumber());
+                    assetPayment.setAccountChargeAmount(amount);
 
-                // If the object sub type is not in the list of federally owned object sub types, then...
-                ObjectCode objectCode = this.getObjectCodeService().getByPrimaryId(assetPaymentDetail.getFinancialDocumentPostingYear(), assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
+                    KualiDecimal baseAmount = new KualiDecimal(0);
+    
+                    // If the object sub type is not in the list of federally owned object sub types, then...
+                    ObjectCode objectCode = this.getObjectCodeService().getByPrimaryId(assetPaymentDetail.getFinancialDocumentPostingYear(), assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
+    
+                    // Depreciation Base Amount will be assigned to each payment only when the object code's sub type code is not a
+                    // federally owned one
+                    if (!this.isFederallyOwnedObjectSubType(objectCode.getFinancialObjectSubTypeCode())) {
+                        baseAmount = baseAmount.add(amount);
+                    }
+                    assetPayment.setPrimaryDepreciationBaseAmount(baseAmount);
+    
+                    // Resetting each period field its value with nulls
+                    this.adjustPaymentAmounts(assetPayment, false, true);
+    
+                    // add new payment
+                    assetPayments.add(assetPayment);
 
-                // Depreciation Base Amount will be assigned to each payment only when the object code's sub type code is not a
-                // federally owned one
-                if (!this.isFederallyOwnedObjectSubType(objectCode.getFinancialObjectSubTypeCode())) {
-                    baseAmount = assetPaymentDetail.getAmount();
+                    //*********************BEGIN - Updating Asset cost ***********************************************************
+                    //Retrieving the asset that will have its cost updated
+                    HashMap<String,Long> keys = new HashMap<String,Long>();
+                    keys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER,assetPaymentAssetDetail.getCapitalAssetNumber());
+                    
+                    Asset asset = (Asset) getBusinessObjectService().findByPrimaryKey(Asset.class, keys);        
+                    asset.setTotalCostAmount(assetPaymentAssetDetail.getPreviousTotalCostAmount().add(amount));
+                    
+                    //Saving changes
+                    getBusinessObjectService().save(asset);                    
+                    //*********************END - Updating Asset cost ***********************************************************                    
                 }
-                assetPayment.setPrimaryDepreciationBaseAmount(baseAmount);
-
-                // Resetting each period field its value with nulls
-                this.adjustPaymentAmounts(assetPayment, false, true);
-
-                // add new payment
-                assetPayments.add(assetPayment);
             }
         }
         catch (Exception e) {

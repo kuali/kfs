@@ -85,7 +85,7 @@
 						<td class="grid"><kul:htmlControlAttribute property="${object}.expenditureFinancialDocumentPostedDate" attributeEntry="${assetPaymentAttributes.expenditureFinancialDocumentPostingDate}" readOnly="true"/></td>
 						<td class="grid"><kul:htmlControlAttribute property="${object}.financialDocumentPostingYear" attributeEntry="${assetPaymentAttributes.financialDocumentPostingYear}" readOnly="true"/></td>								
 						<td class="grid"><kul:htmlControlAttribute property="${object}.financialDocumentPostingPeriodCode" attributeEntry="${assetPaymentAttributes.financialDocumentPostingPeriodCode}" readOnly="true"/></td>								
-						<td class="grid" align="right">${allocatedAmount}</td>								
+						<td class="grid"><div align="right">${allocatedAmount}</div></td>								
 					</tr>
 
 

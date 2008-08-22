@@ -59,16 +59,16 @@
 						<kul:htmlControlAttribute property="${assetObject}.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/>
 					</td>
 					   		
-			        <td class="grid" width="10%">
-			        	<kul:htmlControlAttribute property="${assetObject}.organizationOwnerAccount.organizationCode" attributeEntry="${accountAttributes.organizationCode}" readOnly="true" readOnlyBody="true"/> 
+			        <td class="grid" width="10%"><div align="center">
+			        	${KualiForm.document.assetPaymentAssetDetail[ctr].asset.organizationOwnerAccount.organizationCode}</div> 
 				    </td>
 				    
-			        <th class="grid" width="10%" align="center">
+			        <td class="grid" width="10%"><div align="right">
 				        <kul:htmlControlAttribute property="document.assetPaymentAssetDetail[${ctr}].previousTotalCostAmount" attributeEntry="${assetPaymentAssetDetailAttributes.previousTotalCostAmount}" readOnly="true"/>
-			        </th>
+			        </div></td>
 			        
-			        <th class="grid" width="10%" align="center"><fmt:formatNumber value="${totalAllocated}" maxFractionDigits="2" minFractionDigits="2"/></th>
-			        <th class="grid" width="10%" align="center">${newTotal}</th>
+			        <td class="grid" width="10%"><div align="right"><fmt:formatNumber value="${totalAllocated}" maxFractionDigits="2" minFractionDigits="2"/></div></td>
+			        <td class="grid" width="10%"><div align="right">${newTotal}</div></td>
 			               		
 					<th class="datacell" rowspan="" nowrap="nowrap" width="5%">
 						<c:if test="${!viewOnly}">			               		
@@ -150,9 +150,9 @@
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="AssetSummary" borders="1">
 		<tr>
 			<kul:htmlAttributeHeaderCell colspan="3" literalLabel="Grand Total:" align="right" width="62%"/>
-			<th class="grid" align="center" width="10%"><fmt:formatNumber value="${globalTotalHistoricalCost}" maxFractionDigits="2" minFractionDigits="2"/></th>
-			<th class="grid" align="center" width="10%"><fmt:formatNumber value="${globalTotalAllocated}" maxFractionDigits="2" minFractionDigits="2"/></th>
-			<th class="grid" align="center" width="10%"><fmt:formatNumber value="${globalTotalAllocated + globalTotalHistoricalCost}" maxFractionDigits="2" minFractionDigits="2"/></th>
+			<th class="grid" align="right" width="10%"><fmt:formatNumber value="${globalTotalHistoricalCost}" maxFractionDigits="2" minFractionDigits="2"/></th>
+			<th class="grid" align="right" width="10%"><fmt:formatNumber value="${globalTotalAllocated}" maxFractionDigits="2" minFractionDigits="2"/></th>
+			<th class="grid" align="right" width="10%"><fmt:formatNumber value="${globalTotalAllocated + globalTotalHistoricalCost}" maxFractionDigits="2" minFractionDigits="2"/></th>
 			<th class="grid" width="8%">&nbsp;</th>	
 		</tr>
 	</table>

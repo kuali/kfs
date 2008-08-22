@@ -70,7 +70,6 @@
 
 
   <bean id="AssetPaymentDetail-amount" parent="AssetPaymentDetail-amount-parentBean" />
-
   <bean id="AssetPaymentDetail-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
@@ -80,6 +79,7 @@
             p:size="21" />
     </property>
     <property name="description" value="Amount description..." />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />    
   </bean>
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentNumber" parent="AssetPaymentDetail-expenditureFinancialDocumentNumber-parentBean" />
 
@@ -384,8 +384,8 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The identifier of an Organization which has been associated with the Account Line." />
   </bean>
+    
   <bean id="AssetPaymentDetail-chartOfAccountsCode" parent="AssetPaymentDetail-chartOfAccountsCode-parentBean" />
-
   <bean id="AssetPaymentDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="control" >
       <bean parent="SelectControlDefinition"
@@ -439,13 +439,6 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
   </bean>
-  <!-- bean id="AssetPaymentDetail-amount" parent="AssetPaymentDetail-amount-parentBean" />
-
-  <bean id="AssetPaymentDetail-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amount" />
-    <property name="required" value="true" />
-    <property name="description" value="The total dollar amount of check or batch of checks." />
-  </bean-->
   <bean id="AssetPaymentDetail-subAccountNumber" parent="AssetPaymentDetail-subAccountNumber-parentBean" />
 
   <bean id="AssetPaymentDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">

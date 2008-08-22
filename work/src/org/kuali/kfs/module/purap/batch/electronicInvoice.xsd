@@ -188,7 +188,7 @@
   	<xsd:complexType>
   		<xsd:sequence>
   			<xsd:element ref="Money" />
-  			<xsd:element name="Description" />
+  			<xsd:element ref="Description" />
   			<xsd:element name="TaxDetail" minOccurs="0" maxOccurs="unbounded">
   				<xsd:complexType>
   					<xsd:sequence>
@@ -215,7 +215,7 @@
   								</xsd:simpleContent>
   							</xsd:complexType>
   						</xsd:element>
-  						<xsd:element name="Description" minOccurs="0" />
+  						<xsd:element ref="Description" minOccurs="0" />
   					</xsd:sequence>
   					<xsd:attribute name="purpose" type="xsd:string" use="optional" />
   					<xsd:attribute name="category" type="xsd:string" use="required" />
@@ -287,6 +287,260 @@
   		</xsd:simpleContent>
   	</xsd:complexType>
   </xsd:element>
+
+  <xsd:element name="InvoiceDetailShipping">
+       	<xsd:complexType>
+       		<xsd:sequence>
+       			<!-- Contact should be min=2, but changing it to 1 because fisher xml files contains only one  -->
+       			<xsd:element ref="Contact" minOccurs="1" maxOccurs="unbounded"/>
+       			<xsd:choice minOccurs="0">
+	       			<xsd:element name="CarrierIdentifier" minOccurs="0">
+	       				<xsd:complexType>
+	       					<xsd:attribute name="domain" type="xsd:string" use="required" />
+	       				</xsd:complexType>
+	       			</xsd:element>
+	       			<xsd:element name="ShipmentIdentifier" type="xsd:string" minOccurs="0"/>	
+       			</xsd:choice>
+       			<xsd:element name="DocumentReference" minOccurs="0">
+       				<xsd:complexType>
+       					<xsd:simpleContent>
+       						<xsd:extension base="xsd:string">
+       							<xsd:attribute name="payloadID" type="xsd:string" use="required" />
+       						</xsd:extension>
+       					</xsd:simpleContent>
+       				</xsd:complexType>
+       			</xsd:element>
+       		</xsd:sequence>
+       		<xsd:attribute name="shippingDate" type="xsd:string" use="optional" />
+       	</xsd:complexType>
+  </xsd:element>
+    
+  <xsd:element name="GrossAmount">
+     <xsd:complexType>
+       <xsd:sequence>
+         <xsd:element ref="Money"/>
+       </xsd:sequence>
+     </xsd:complexType>
+  </xsd:element>  
+	
+  <xsd:element name="NetAmount">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="Money"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+                                
+  <xsd:element name="InvoiceDetailDiscount">
+     <xsd:complexType>
+       <xsd:sequence>
+         <xsd:element ref="Money"/>
+       </xsd:sequence>
+       <xsd:attribute name="percentageRate" type="xsd:decimal" use="optional" default="0"/>
+     </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="InvoiceDetailItem">
+  	<xsd:complexType>
+  		<xsd:sequence>
+  			<xsd:element name="UnitOfMeasure" type="xsd:anyType" />
+  			<xsd:element ref="UnitPrice" />
+  			
+  			<xsd:element name="InvoiceDetailItemReference">
+  				<xsd:complexType>
+  					<xsd:sequence>
+  					
+  						<xsd:element name="ItemID" minOccurs="0">
+  							<xsd:complexType>
+  								<xsd:sequence>
+  									<xsd:element name="SupplierPartID" type="xsd:string" />
+  									<xsd:element name="SupplierPartAuxiliaryID" type="xsd:string" minOccurs="0"/>
+  								</xsd:sequence>
+  							</xsd:complexType>
+  						</xsd:element>
+  						
+  						<xsd:element ref="Description" minOccurs="0" />
+  						
+  						<xsd:choice minOccurs="0">
+  							<xsd:sequence>
+  								<xsd:element name="ManufacturerPartID" type="xsd:string" />
+  								<xsd:element name="ManufacturerName">
+  									<xsd:complexType>
+  										<xsd:simpleContent>
+  											<xsd:extension base="xsd:string">
+  												<xsd:attribute ref="xml:lang" use="optional" />
+  											</xsd:extension>
+  										</xsd:simpleContent>
+  									</xsd:complexType>
+  								</xsd:element>
+  							</xsd:sequence>
+  						</xsd:choice>
+  						
+  						<xsd:element name="Country" minOccurs="0">
+  							<xsd:complexType>
+  								<xsd:simpleContent>
+  									<xsd:extension base="xsd:string">
+  										<xsd:attribute name="isoCountryCode" type="xsd:string" use="required" />
+  									</xsd:extension>
+  								</xsd:simpleContent>
+  							</xsd:complexType>
+  						</xsd:element>
+  						<xsd:element name="SerialNumber" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+  					</xsd:sequence>
+  					<xsd:attribute name="lineNumber" type="xsd:unsignedByte" use="required" />
+  					<xsd:attribute name="serialNumber" type="xsd:string" use="optional" />
+  				</xsd:complexType>
+  			</xsd:element> <!-- InvoiceDetailItemReference -->
+  			
+  			<xsd:element name="SubtotalAmount" minOccurs="0">
+  				<xsd:complexType>
+  					<xsd:sequence>
+  						<xsd:element ref="Money" />
+  					</xsd:sequence>
+  				</xsd:complexType>
+  			</xsd:element>
+
+  			<!-- Added minOccurs and maxOccurs (maxOccurs should be unbound but epic parser supports only one!!!)-->
+  			<xsd:element ref="Tax" minOccurs="0" />
+
+  			<xsd:element name="InvoiceDetailLineSpecialHandling" minOccurs="0">
+  				<xsd:complexType>
+  					<xsd:sequence>
+  						<xsd:element ref="Money" />
+  					</xsd:sequence>
+  				</xsd:complexType>
+  			</xsd:element>
+  			
+  			<xsd:element name="InvoiceDetailLineShipping" minOccurs="0">
+  				<xsd:complexType>
+  					<xsd:sequence>
+  						<!-- minOccurs should be 1, but in sample data file there are no entries for it,
+  							but in dtd, it's maxOccurs/minOccurs=1. Becuase of the sample data file,
+  							i'm changing the minOccurs to ZERO-->
+  						<xsd:element ref="InvoiceDetailShipping" minOccurs="0" />
+  						<xsd:element ref="Money" />
+  					</xsd:sequence>
+  				</xsd:complexType>
+  			</xsd:element>
+  			
+  			<xsd:element ref="GrossAmount" minOccurs="0" />
+  			<xsd:element ref="InvoiceDetailDiscount" minOccurs="0" />
+  			<xsd:element ref="NetAmount" minOccurs="0" />
+  			
+  			<!-- Distribution not used in EPIC -->
+  			<!-- <xsd:element name="Distribution" minOccurs="0" maxOccurs="unbounded">
+  				<xsd:complexType>
+  					<xsd:sequence>
+  						<xsd:element name="Accounting">
+  							<xsd:complexType>
+  								<xsd:sequence>
+  									<xsd:element name="AccountingSegment">
+  										<xsd:complexType>
+  											<xsd:sequence>
+  												<xsd:element ref="Name" />
+  												<xsd:element ref="Description" />
+  											</xsd:sequence>
+  											<xsd:attribute name="id" type="xsd:string" />
+  										</xsd:complexType>
+  									</xsd:element>
+  								</xsd:sequence>
+  								<xsd:attribute name="name" type="xsd:string" />
+  							</xsd:complexType>
+  						</xsd:element>
+  						<xsd:element name="Charge">
+  							<xsd:complexType>
+  								<xsd:sequence>
+  									<xsd:element ref="Money" />
+  								</xsd:sequence>
+  							</xsd:complexType>
+  						</xsd:element>
+  					</xsd:sequence>
+  				</xsd:complexType>
+  			</xsd:element> -->
+  			
+  			<xsd:element ref="Comments" minOccurs="0" />
+  			<xsd:element ref="Extrinsic" minOccurs="0" maxOccurs="unbounded" />
+  		</xsd:sequence>
+  		<xsd:attribute name="invoiceLineNumber" type="xsd:unsignedByte" use="required" />
+  		<xsd:attribute name="quantity" type="xsd:string" use="required" />
+  	</xsd:complexType>
+  </xsd:element>   <!-- InvoiceDetailItem -->
+
+  <xsd:element name="InvoiceDetailServiceItem">
+  	<xsd:complexType>
+  		<xsd:sequence>
+  			<xsd:element name="InvoiceDetailServiceItemReference">
+  				<xsd:complexType>
+  					<xsd:sequence>
+  						<xsd:element name="Classification" minOccurs="0" maxOccurs="unbounded">
+  							<xsd:complexType>
+  								<xsd:attribute name="domain" type="xsd:string" use="required" />
+  							</xsd:complexType>
+  						</xsd:element>
+  						<xsd:element name="ItemID" minOccurs="0" maxOccurs="1">
+  							<xsd:complexType>
+  								<xsd:sequence>
+  									<xsd:element name="SupplierPartID" type="xsd:string" />
+  									<xsd:element
+  										name="SupplierPartAuxiliaryID" type="xsd:string" minOccurs="0" maxOccurs="1" />
+  								</xsd:sequence>
+  							</xsd:complexType>
+  						</xsd:element><!-- ItemID -->
+  						<xsd:element ref="Description" minOccurs="0" />
+  					</xsd:sequence>
+  					<xsd:attribute name="lineNumber" type="xsd:unsignedByte" use="optional" />
+  				</xsd:complexType>
+  			</xsd:element><!-- InvoiceDetailServiceItemReference -->
+
+  			<xsd:element name="SubtotalAmount">
+  				<xsd:complexType>
+  					<xsd:sequence>
+  						<xsd:element ref="Money" />
+  					</xsd:sequence>
+  				</xsd:complexType>
+  			</xsd:element>
+
+  			<xsd:choice minOccurs="0">
+  				<xsd:sequence>
+  					<xsd:element name="UnitRate">
+  						<xsd:complexType>
+  							<xsd:sequence>
+  								<xsd:element ref="Money" />
+  								<xsd:element name="UnitOfMeasure" type="xsd:anyType" />
+  								<xsd:element name="TermReference" minOccurs="0">
+  									<xsd:complexType>
+  										<xsd:attribute name="termName" type="xsd:string" use="required" />
+  										<xsd:attribute name="term" type="xsd:string" use="required" />
+  									</xsd:complexType>
+  								</xsd:element>
+  							</xsd:sequence>
+  						</xsd:complexType>
+  					</xsd:element><!-- UnitRate -->
+  				</xsd:sequence>
+  				<xsd:sequence>
+  					<xsd:element name="UnitOfMeasure" type="xsd:anyType" />
+  					<xsd:element ref="UnitPrice" />
+  				</xsd:sequence>
+  			</xsd:choice>
+
+  			<xsd:element ref="Tax" minOccurs="0" />
+  			<xsd:element ref="GrossAmount" minOccurs="0" />
+  			<xsd:element ref="InvoiceDetailDiscount" minOccurs="0" />
+  			<xsd:element ref="NetAmount" minOccurs="0" />
+  			<xsd:element ref="Comments" minOccurs="0" />
+  			<xsd:element ref="Extrinsic" minOccurs="0" maxOccurs="unbounded"/>
+
+  		</xsd:sequence>
+  		
+  		<xsd:attribute name="invoiceLineNumber" type="xsd:unsignedByte" use="required" />
+  		<xsd:attribute name="quantity" type="xsd:unsignedByte" use="optional" />
+  		<xsd:attribute name="referenceDate" type="xsd:date" use="optional" />
+  		<xsd:attribute name="inspectionDate" type="xsd:date" use="optional" />
+  		
+  	</xsd:complexType>
+  </xsd:element>  <!-- InvoiceDetailServiceItem -->
+  
+
 
   <xsd:element name="cXML">
     <xsd:complexType>
@@ -393,16 +647,17 @@
                               </xsd:simpleContent>
                             </xsd:complexType>
                           </xsd:element>
-                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="InvoicePartner">
+                          <xsd:element name="InvoicePartner" minOccurs="0" maxOccurs="unbounded" >
                             <xsd:complexType>
                               <xsd:sequence>
+                              	<!-- Contact should be allowed only once, but EPIC parser is supporting
+                              	more than one, that's why chaged the maxOccurs -->
                                 <xsd:element ref="Contact" maxOccurs="unbounded"/>
-                                <!-- Added maxOccurs -->
-                                <xsd:element minOccurs="0" maxOccurs="1" name="IdReference">
+                                <xsd:element minOccurs="0" name="IdReference">
                                   <xsd:complexType>
                                     <xsd:sequence>
                                       <xsd:element minOccurs="0" name="Creator" type="xsd:string" />
-                                      <xsd:element minOccurs="0" name="Description" type="xsd:string" />
+                                      <xsd:element minOccurs="0" ref="Description"/>
                                     </xsd:sequence>
                                     <xsd:attribute name="domain" type="xsd:string" use="required" />
                                     <xsd:attribute name="identifier" type="xsd:string" use="required" />
@@ -412,62 +667,30 @@
                             </xsd:complexType>
                           </xsd:element>
                           
-                          <!-- Added by venkat -->
-                          <xsd:element minOccurs="0" maxOccurs="1" name="InvoiceDetailShipping">
-							  <xsd:complexType>
-	                              <xsd:sequence>
-	                              
-	                                <xsd:element ref="Contact" maxOccurs="unbounded"/>
-                                
-
-                                
-                                <!-- <xsd:element minOccurs="1" name="CarrierIdentifier"> -->
-                                <xsd:element minOccurs="0" name="CarrierIdentifier">
-                                  <xsd:complexType>
-                                    <xsd:attribute name="domain" type="xsd:string" use="required" />
-                                  </xsd:complexType>
-                                </xsd:element>
-                                
-                                <xsd:element minOccurs="0" maxOccurs="1" name="ShipmentIdentifier" type="xsd:string" />
-                                
-                                <xsd:element minOccurs="0" maxOccurs="1" name="DocumentReference">
-                                   <xsd:complexType>
-                                     <xsd:simpleContent>
-                                       <xsd:extension base="xsd:string">
-                                         <xsd:attribute name="payloadID" type="xsd:string" use="required"/>
-                                       </xsd:extension>
-                                     </xsd:simpleContent>
-                                   </xsd:complexType>
-                                 </xsd:element>
-                                
-                              </xsd:sequence>
-                              <!-- Added by venkat -->
-                              <xsd:attribute name="shippingDate" type="xsd:string" use="optional" />
-                              <!--<xsd:attribute name="shippingDate" type="xsd:date" use="optional" />-->
-                              
-                            </xsd:complexType>
-						  
-						  
-						  </xsd:element>
-						  
-                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="InvoiceDetailPaymentTerm">
-                            <xsd:complexType>
-                              <xsd:attribute name="payInNumberOfDays" type="xsd:unsignedInt" use="required" />
-                              <xsd:attribute name="percentageRate" type="xsd:decimal" use="required" />
-                            </xsd:complexType>
-                          </xsd:element>
+                          <!-- Two elements DocumentReference and InvoiceIDInfo not used in EPIC -->
                           
-                          <!-- Newly Added -->
-                          <!-- Should have Discount, but not defined in data xml -->
-                          <xsd:element minOccurs="0" name="PaymentTerm">
-                            <xsd:complexType>
-                              <xsd:attribute name="payInNumberOfDays" type="xsd:unsignedInt" use="required" />
-                            </xsd:complexType>
-                          </xsd:element>
-                          
-                          <xsd:element minOccurs="0" name="Comments"/>
+                          <xsd:element ref="InvoiceDetailShipping" minOccurs="0"/>
 
-                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Extrinsic"/>
+                          <!-- This is not used in EPIC -->
+						  <xsd:choice minOccurs="0" maxOccurs="unbounded">
+	                          <xsd:element name="InvoiceDetailPaymentTerm">
+	                            <xsd:complexType>
+	                              <xsd:attribute name="payInNumberOfDays" type="xsd:unsignedInt" use="required" />
+	                              <xsd:attribute name="percentageRate" type="xsd:decimal" use="required" />
+	                            </xsd:complexType>
+	                          </xsd:element>
+	                          <xsd:element name="PaymentTerm">
+	                            <xsd:complexType>
+	                              <xsd:attribute name="payInNumberOfDays" type="xsd:unsignedInt" use="required" />
+	                            </xsd:complexType>
+	                          </xsd:element>
+                          </xsd:choice>
+                          
+                          <!--  InvoiceDetailPaymentTerm and PaymentTerm not used in EPIC -->
+                          
+                          <xsd:element minOccurs="0" ref="Comments"/>
+
+                          <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Extrinsic"/>
                           
                         </xsd:sequence>
                         <xsd:attribute name="purpose" use="optional" default="standard">
@@ -492,9 +715,9 @@
   							</xsd:simpleType>
   						</xsd:attribute>	
   						<!-- Changed to string from dateTime because of diff formats in the vendor xml files
-  						From vwr, it's like 2008-07-29 (Not valid)
-  						From guybrown, it's 2008-07-29T12:00:00 (valid dateTime)
-  						From fisher, it's 2008-07-25T00:00:00-08:00 (valid dateTime) -->
+  						In vwr, it's like 2008-07-29 (Not valid)
+  						In guybrown, it's 2008-07-29T12:00:00 (valid dateTime)
+  						In fisher, it's 2008-07-25T00:00:00-08:00 (valid dateTime) -->
                         <xsd:attribute name="invoiceDate" type="xsd:string" use="required" />
                         <!-- Changed to String from unsignedint -->
                         <xsd:attribute name="invoiceID" type="xsd:string" use="required" />
@@ -544,270 +767,16 @@
                             </xsd:complexType>
                           </xsd:element>
                           
-                          <xsd:element maxOccurs="unbounded" name="InvoiceDetailItem">
-                            <xsd:complexType>
-                              <xsd:sequence>
-                                <xsd:element name="UnitOfMeasure" type="xsd:anyType" />
-                                <xsd:element ref="UnitPrice"/>
-                                <xsd:element name="InvoiceDetailItemReference">
-                                  <xsd:complexType>
-                                    <xsd:sequence>
-                                      <xsd:element name="ItemID">
-                                        <xsd:complexType>
-                                          <xsd:sequence>
-                                          <!-- Changed -->
-                                            <xsd:element name="SupplierPartID" type="xsd:string" />
-                                            <xsd:element name="SupplierPartAuxiliaryID" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-                                          </xsd:sequence>
-                                        </xsd:complexType>
-                                      </xsd:element>
-                                      <xsd:element name="Description"/>
-                                    <xsd:element name="ManufacturerPartID" type="xsd:string" minOccurs="0" maxOccurs="1" />
-                                    <xsd:element name="ManufacturerName" minOccurs="0" maxOccurs="1">
-                                    	<xsd:complexType>
-                                    		<xsd:simpleContent>
-	                                            <xsd:extension base="xsd:string">
-    	                                          <xsd:attribute ref="xml:lang" use="optional" />
-        	                                    </xsd:extension>
-                                          </xsd:simpleContent>
-                                  		</xsd:complexType>
-                                    </xsd:element>
-                                    <xsd:element name="Country" minOccurs="0" maxOccurs="1" >
-                                       <xsd:complexType>
-                                         <xsd:simpleContent>
-                                           <xsd:extension base="xsd:string">
-                                             <xsd:attribute name="isoCountryCode" type="xsd:string" use="required" />
-                                           </xsd:extension>
-                                         </xsd:simpleContent>
-                                       </xsd:complexType>
-                                     </xsd:element>
-                                     <xsd:element name="SerialNumber" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
-                                     </xsd:sequence>
-                                    <xsd:attribute name="lineNumber" type="xsd:unsignedByte" use="required" />
-                                    <xsd:attribute name="serialNumber" type="xsd:string" use="optional" />
-                                  </xsd:complexType>
-                                </xsd:element>
-                                <xsd:element minOccurs="0" maxOccurs="1" name="SubtotalAmount">
-                                  <xsd:complexType>
-                                    <xsd:sequence>
-                                      <xsd:element ref="Money"/>
-                                    </xsd:sequence>
-                                  </xsd:complexType>
-                                </xsd:element>
-                                
-                                <!-- Added minOccurs and maxOccurs (maxOccurs should be unbound but epic parser supports only one!!!)-->
-                                <xsd:element ref="Tax" minOccurs="0"/>
-
-                                <!-- Added -->
-                                <xsd:element minOccurs="0" maxOccurs="1" name="InvoiceDetailLineSpecialHandling">
-                                  <xsd:complexType>
-                                    <xsd:sequence>
-                                      <xsd:element ref="Money"/>
-                                    </xsd:sequence>
-                                  </xsd:complexType>
-                                </xsd:element>
-                                <!-- Added -->
-                                <xsd:element minOccurs="0" maxOccurs="1" name="InvoiceDetailLineShipping">
-                                  <xsd:complexType>
-                                    <xsd:sequence>
-                                      <xsd:element ref="Money"/>
-                                      <!-- mixOccurs should be 1, but in sample data file there are no entries for it,
-                                      but in dtd, it's maxOccurs/minOccurs=1. Becuase of the sample data file,
-                                      i'm changing the minOccurs to ZERO-->
-                                      <xsd:element minOccurs="0" maxOccurs="1" name="InvoiceDetailShipping">
-										  <xsd:complexType>
-				                              <xsd:sequence>
-				                                  <xsd:element ref="Contact" minOccurs="0" maxOccurs="unbounded"/>
-					                              <xsd:element minOccurs="0" name="CarrierIdentifier">
-					                                  <xsd:complexType>
-					                                    <xsd:attribute name="domain" type="xsd:string" use="required" />
-					                                  </xsd:complexType>
-					                                </xsd:element>
-			                                <xsd:element minOccurs="0" maxOccurs="1" name="ShipmentIdentifier" type="xsd:string" />
-			                                <xsd:element minOccurs="0" maxOccurs="1" name="DocumentReference">
-			                                   <xsd:complexType>
-			                                     <xsd:simpleContent>
-			                                       <xsd:extension base="xsd:string">
-			                                         <xsd:attribute name="payloadID" type="xsd:string" use="required"/>
-			                                       </xsd:extension>
-			                                     </xsd:simpleContent>
-			                                   </xsd:complexType>
-			                                 </xsd:element>
-			                              </xsd:sequence>
-			                              <xsd:attribute name="shippingDate" type="xsd:string" use="optional" />
-			                            </xsd:complexType>
-						  		      </xsd:element> <!-- invoicedetailshipping -->
-                                    </xsd:sequence>
-                                  </xsd:complexType>
-                                </xsd:element>
-                                <!-- Added minOccurs & maxOccurs -->
-                                <xsd:element minOccurs="0" maxOccurs="1" name="GrossAmount">
-                                  <xsd:complexType>
-                                    <xsd:sequence>
-                                      <xsd:element ref="Money"/>
-                                    </xsd:sequence>
-                                  </xsd:complexType>
-                                </xsd:element>
-                                <!-- Added -->
-                                <xsd:element minOccurs="0" maxOccurs="1" name="InvoiceDetailDiscount">
-                                  <xsd:complexType>
-                                    <xsd:sequence>
-                                      <xsd:element ref="Money"/>
-                                    </xsd:sequence>
-                                    <xsd:attribute name="percentageRate" type="xsd:decimal" use="optional" default="0"/>
-                                  </xsd:complexType>
-                                </xsd:element>
-                                <!-- Added minOccurs & maxOccurs -->
-                                <xsd:element minOccurs="0" maxOccurs="1" name="NetAmount">
-                                  <xsd:complexType>
-                                    <xsd:sequence>
-                                      <xsd:element ref="Money"/>
-                                    </xsd:sequence>
-                                  </xsd:complexType>
-                                </xsd:element>
-                                <xsd:element minOccurs="0" maxOccurs="unbounded" name="Distribution">
-                                  <xsd:complexType>
-                                    <xsd:sequence>
-                                      <xsd:element name="Accounting">
-                                        <xsd:complexType>
-                                          <xsd:sequence>
-                                            <xsd:element name="AccountingSegment">
-                                              <xsd:complexType>
-                                                <xsd:sequence>
-                                                  <xsd:element ref="Name"/>
-                                                  <xsd:element name="Description"/>
-                                                </xsd:sequence>
-                                                <xsd:attribute name="id" type="xsd:string" />
-                                              </xsd:complexType>
-                                            </xsd:element>
-                                          </xsd:sequence>
-                                          <xsd:attribute name="name" type="xsd:string" />
-                                        </xsd:complexType>
-                                      </xsd:element>
-                                      <xsd:element name="Charge">
-                                        <xsd:complexType>
-                                          <xsd:sequence>
-                                            <xsd:element ref="Money"/>
-                                          </xsd:sequence>
-                                        </xsd:complexType>
-                                      </xsd:element>
-                                    </xsd:sequence>
-                                  </xsd:complexType>
-                                </xsd:element>
-                                <xsd:element minOccurs="0" name="Comments"/>
-                               <xsd:element minOccurs="0" maxOccurs="unbounded" name="Extrinsic"/>
-                              </xsd:sequence>
-                              <xsd:attribute name="invoiceLineNumber" type="xsd:unsignedByte" use="required" />
-                              <!-- It was xsd:unsignedByte-->
-                              <xsd:attribute name="quantity" type="xsd:string" use="required" />
-                            </xsd:complexType>
-                          </xsd:element> <!-- InvoiceDetailItem -->
-						  
-						  
-						  
-						  
-						  <!-- Added -->	
-                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="InvoiceDetailServiceItem">
-                          		
-                          		<xsd:complexType>	
-                          			<xsd:sequence>
-                          					
-                          					<xsd:element name="InvoiceDetailServiceItemReference" minOccurs="0">
-                          						<xsd:complexType>
-						                              <xsd:sequence>
-						                              		<xsd:element name="Classification" minOccurs="0" maxOccurs="unbounded">
-						                              			<xsd:complexType>	
-						                              				<xsd:attribute name="domain" type="xsd:string" use="required"/>
-						                              			</xsd:complexType>	
-						                              		</xsd:element> <!-- Classification -->
-						                              		<xsd:element name="ItemID" minOccurs="0" maxOccurs="1">
-							                                     <xsd:complexType>
-							                                          <xsd:sequence>
-								                                            <xsd:element name="SupplierPartID" type="xsd:string" />
-								                                            <xsd:element name="SupplierPartAuxiliaryID" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-							                                          </xsd:sequence>
-							                                      </xsd:complexType>
-						                              		</xsd:element> <!-- ItemID -->
-						                              		<xsd:element name="Description" minOccurs="0"/>
-                          							  </xsd:sequence>
-                          							  <xsd:attribute name="lineNumber" type="xsd:unsignedByte" use="optional" />
-                            					 </xsd:complexType>
-                          					 </xsd:element> <!-- InvoiceDetailServiceItemReference -->
-                          					
-                          					<xsd:element name="SubtotalAmount">
-                            					<xsd:complexType>
-						                              <xsd:sequence>
-                        							        <xsd:element ref="Money"/>
-                              							 </xsd:sequence>
-                            					  </xsd:complexType>
-                          					 </xsd:element>
-                          					
-                          					<xsd:choice minOccurs="0">
-	                          					<xsd:sequence>
-		                          					<xsd:element name="UnitRate">
-		                          						<xsd:complexType>
-					                                    	<xsd:sequence>
-					                                    		<xsd:element ref="Money"/>
-							                                    <xsd:element name="UnitOfMeasure" type="xsd:anyType" />
-							                                    <xsd:element name="TermReference" minOccurs="0">
-								                                     <xsd:complexType>
-										                                    <xsd:attribute name="termName" type="xsd:string" use="required" />
-										                                    <xsd:attribute name="term" type="xsd:string" use="required" />
-					                				                  </xsd:complexType>
-					                				            </xsd:element>    
-					                                    	</xsd:sequence>
-					                                    </xsd:complexType>
-		                          					</xsd:element> <!-- UnitRate -->
-                          						</xsd:sequence>
-                          						<xsd:sequence>
-													<xsd:element name="UnitOfMeasure" type="xsd:anyType"/>
-					                                <xsd:element ref="UnitPrice"/>
-												</xsd:sequence>
-											</xsd:choice>
-
-                                			<!-- Added minOccurs and maxOccurs (maxOccurs should be unbound but epic parser supports only one!!!)-->
-			                                <xsd:element ref="Tax" minOccurs="0"/>
-                          						
-                          					  <xsd:element name="GrossAmount" minOccurs="0">
-						                            <xsd:complexType>
-						                              <xsd:sequence>
-						                                <xsd:element ref="Money"/>
-						                              </xsd:sequence>
-						                            </xsd:complexType>
-						                       </xsd:element>
-						                       
-						                       <xsd:element name="InvoiceDetailDiscount" minOccurs="0">
-						                            <xsd:complexType>
-						                              <xsd:sequence>
-						                                <xsd:element ref="Money"/>
-						                              </xsd:sequence>
-						                              <xsd:attribute name="percentageRate" type="xsd:decimal" use="optional" default="0"/>
-						                            </xsd:complexType>
-						                         </xsd:element>
-						                         
-						                         <xsd:element name="NetAmount" minOccurs="0">
-						                            <xsd:complexType>
-						                              <xsd:sequence>
-						                                <xsd:element ref="Money"/>
-						                              </xsd:sequence>
-						                            </xsd:complexType>
-						                         </xsd:element>	 <!-- NetAmount -->	
-						                         
-						                         <xsd:element minOccurs="0" name="Comments"/>
-
-						                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Extrinsic"/>
+                          <xsd:choice>
+                          		<xsd:element ref="InvoiceDetailItem" minOccurs="1" maxOccurs="unbounded"/>
+                          		<xsd:element ref="InvoiceDetailServiceItem" minOccurs="1" maxOccurs="unbounded"/>
+                          </xsd:choice>
                           
-                          			</xsd:sequence>
-                              		<xsd:attribute name="invoiceLineNumber" type="xsd:unsignedByte" use="required" />
-                              		<xsd:attribute name="quantity" type="xsd:unsignedByte" use="optional" />
-                              		<xsd:attribute name="referenceDate" type="xsd:date" use="optional" />
-                              		<xsd:attribute name="inspectionDate" type="xsd:date" use="optional" />
-                           		</xsd:complexType>
-                          		
-                          </xsd:element> <!-- InvoiceDetailServiceItem -->
                         </xsd:sequence>
                       </xsd:complexType>
                     </xsd:element>
+                    
+                    <!--  The next element should be InvoiceDetailHeaderOrder, but EPIC doesnt uses this element -->
                     
                     <xsd:element name="InvoiceDetailSummary">
                       <xsd:complexType>
@@ -820,51 +789,32 @@
                             </xsd:complexType>
                           </xsd:element>
                           <xsd:element ref="Tax"/>
-                          <xsd:element minOccurs="0" maxOccurs="1" name="SpecialHandlingAmount">
+                          <xsd:element name="SpecialHandlingAmount" minOccurs="0">
                             <xsd:complexType>
                               <xsd:sequence>
                                 <xsd:element ref="Money"/>
-                                <xsd:element name="Description" minOccurs="0"/>
+                                <xsd:element ref="Description" minOccurs="0"/>
                               </xsd:sequence>
                             </xsd:complexType>
                           </xsd:element>
-                          <xsd:element minOccurs="0" maxOccurs="1" name="ShippingAmount">
-                            <xsd:complexType>
-                              <xsd:sequence>
-                                <xsd:element ref="Money"/>
-                              </xsd:sequence>
-                            </xsd:complexType>
-                          </xsd:element>
-                          <xsd:element minOccurs="0" maxOccurs="1" name="GrossAmount">
+                          <xsd:element name="ShippingAmount" minOccurs="0">
                             <xsd:complexType>
                               <xsd:sequence>
                                 <xsd:element ref="Money"/>
                               </xsd:sequence>
                             </xsd:complexType>
                           </xsd:element>
-                          <xsd:element minOccurs="0" maxOccurs="1" name="InvoiceDetailDiscount">
-                            <xsd:complexType>
-                              <xsd:sequence>
-                                <xsd:element ref="Money"/>
-                              </xsd:sequence>
-                              <xsd:attribute name="percentageRate" type="xsd:decimal" use="optional" default="0"/>
-                            </xsd:complexType>
-                          </xsd:element>
-                          <xsd:element name="NetAmount">
+                          <xsd:element ref="GrossAmount" minOccurs="0"/>
+                          <xsd:element ref="InvoiceDetailDiscount" minOccurs="0"/>
+                          <xsd:element ref="NetAmount"/>
+                          <xsd:element name="DepositAmount" minOccurs="0">
                             <xsd:complexType>
                               <xsd:sequence>
                                 <xsd:element ref="Money"/>
                               </xsd:sequence>
                             </xsd:complexType>
                           </xsd:element>
-                          <xsd:element minOccurs="0" maxOccurs="1" name="DepositAmount">
-                            <xsd:complexType>
-                              <xsd:sequence>
-                                <xsd:element ref="Money"/>
-                              </xsd:sequence>
-                            </xsd:complexType>
-                          </xsd:element>
-                          <xsd:element minOccurs="0" maxOccurs="1" name="DueAmount">
+                          <xsd:element name="DueAmount" minOccurs="0">
                             <xsd:complexType>
                               <xsd:sequence>
                                 <xsd:element ref="Money"/>

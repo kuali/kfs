@@ -350,7 +350,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                 }
             }
 
-            ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
+            ResultRow row = new ResultRow(columns, returnUrl, "", actionUrls);
             if ( element instanceof PersistableBusinessObject ) {
                 row.setObjectId(((PersistableBusinessObject)element).getObjectId());
             }

@@ -78,7 +78,22 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public  Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments() {    
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
         invoices = customerInvoiceDocumentDao.getAll();
-        return invoices;
+//        return invoices;
+        List documentHeaderIds = new ArrayList();
+        for (Iterator itr = invoices.iterator(); itr.hasNext();) {
+            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument)itr.next();
+            documentHeaderIds.add(invoice.getDocumentNumber());
+          
+        }
+        List docs = new ArrayList();
+            try {
+               docs = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+            }
+        
+    return docs;
     }
     
     /**

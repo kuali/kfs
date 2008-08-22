@@ -47,6 +47,15 @@
                 </td>                
 				            
             </tr>
+            
+             <tr>
+                <th align=right valign=middle class="grid">
+                    <div align="right">User Id:</div>
+                </th>
+                <td align=left valign=middle class="grid">
+                <html-el:text property="userId"/>
+            	</td>
+            </tr>
              <tr>
 				<th align=right valign=middle class="grid">
                     <div align="right">Print invoices for date:</div>
@@ -103,9 +112,9 @@
 	</div>
 	
 	<div>
-	  <c:if test="${!empty KualiForm.report }">
-            	 <a href="${KualiForm.report}">Report Link</a>
-            </c:if>
+	  <c:if test="${!empty KualiForm.message }">
+ 			${KualiForm.message }	
+      </c:if>
    </div>
 	
 </kul:page>

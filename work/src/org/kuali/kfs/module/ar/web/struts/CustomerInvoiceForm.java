@@ -38,7 +38,51 @@ public class CustomerInvoiceForm extends KualiForm {
     private String orgCode;
     private String orgType;
     private Date runDate;
-    private File report;
+    private String message;
+    private String userId;
+
+    /**
+     * Gets the userId attribute. 
+     * @return Returns the userId.
+     */
+    public String getUserId() {
+        return userId;
+    }
+
+
+
+
+    /**
+     * Sets the userId attribute value.
+     * @param userId The userId to set.
+     */
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+
+
+
+    /**
+     * Gets the message attribute. 
+     * @return Returns the message.
+     */
+    public String getMessage() {
+        return message;
+    }
+
+
+
+
+    /**
+     * Sets the message attribute value.
+     * @param message The message to set.
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+
 
 
     @Override
@@ -48,7 +92,7 @@ public class CustomerInvoiceForm extends KualiForm {
         // Print button
         ExtraButton printButton = new ExtraButton();
         printButton.setExtraButtonProperty("methodToCall.print");
-        printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
+        printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_genprintfile.gif");
         printButton.setExtraButtonAltText("Print");
         buttons.add(printButton);
 
@@ -72,26 +116,7 @@ public class CustomerInvoiceForm extends KualiForm {
 
 
 
-    /**
-     * Gets the report attribute. 
-     * @return Returns the report.
-     */
-    public File getReport() {
-        return report;
-    }
-
-
-
-    /**
-     * Sets the report attribute value.
-     * @param report The report to set.
-     */
-    public void setReports(File report) {
-        this.report = report;
-    }
-
-
-
+    
     /**
      * Gets the runDate attribute. 
      * @return Returns the runDate.

@@ -37,8 +37,25 @@ public class CustomerStatementForm extends KualiForm {
     private String orgCode;
     private String accountNumber;
     private String customerNumber;
-    private File report;
+    private String message;
+    //private File report = new File("");
    
+
+    /**
+     * Gets the message attribute. 
+     * @return Returns the message.
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * Sets the message attribute value.
+     * @param message The message to set.
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     @Override
     public void populate(HttpServletRequest request) {
@@ -117,27 +134,14 @@ public class CustomerStatementForm extends KualiForm {
 
     
     
-    /**
-     * Gets the report attribute. 
-     * @return Returns the report.
-     */
-    public File getReport() {
-        return report;
-    }
 
-    /**
-     * Sets the report attribute value.
-     * @param report The report to set.
-     */
-    public void setReport(File report) {
-        this.report = report;
-    }
 
     public void clear() {
         this.accountNumber = null;
         this.customerNumber = null;
         this.chartCode = null;
         this.orgCode = null;
+        this.message = null;
     }
     @Override
     public List<ExtraButton> getExtraButtons() {
@@ -147,7 +151,7 @@ public class CustomerStatementForm extends KualiForm {
         // Print button
         ExtraButton printButton = new ExtraButton();
         printButton.setExtraButtonProperty("methodToCall.print");
-        printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
+        printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_genprintfile.gif");
         printButton.setExtraButtonAltText("Print");
         buttons.add(printButton);
         

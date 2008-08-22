@@ -27,20 +27,20 @@
 	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Billing Statement">
 			<tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${invoiceAttributes.billByChartOfAccountCode}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.chartOfAccountsCode}" /></div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${invoiceAttributes.billByChartOfAccountCode}" property="chartCode"  />	
+					<kul:htmlControlAttribute attributeEntry="${orgAttributes.chartOfAccountsCode}" property="chartCode"  />	
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Chart"  fieldConversions="chartOfAccountsCode:chartCode"  />
                 </td>
 				                       
             </tr>
             <tr>
 				<th align=right valign=middle class="grid">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${invoiceAttributes.billedByOrganizationCode}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${orgAttributes.organizationCode}" /></div>
                 </th>
                 <td align=left valign=middle class="grid">
-                    <kul:htmlControlAttribute attributeEntry="${invoiceAttributes.billedByOrganizationCode}" property="orgCode"  />
+                    <kul:htmlControlAttribute attributeEntry="${orgAttributes.organizationCode}" property="orgCode"  />
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org"  fieldConversions="organizationCode:orgCode" lookupParameters="orgCode:organizationCode,chartCode:chartOfAccountsCode"/>
                 </td>                
 				            
@@ -83,8 +83,8 @@
 	</div>
 	
 	<div>
-	  <c:if test="${!empty KualiForm.report }">
-            	 <a href="${KualiForm.report}">Report Link</a>
+	  <c:if test="${!empty KualiForm.message }">
+            	 ${KualiForm.message }
             </c:if>
    </div>
 	

@@ -354,10 +354,10 @@
 						height="12"
 						key="textField-43"/>
 					<box></box>
-					<textElement textAlignment="Left">
+					<textElement textAlignment="Right">
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{invoice.ocrLine}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("ocrLine")]]></textFieldExpression>
 				</textField>
 			</band>
 		</background>

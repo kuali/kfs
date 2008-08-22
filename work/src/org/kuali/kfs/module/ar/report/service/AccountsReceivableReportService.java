@@ -36,6 +36,7 @@ public interface AccountsReceivableReportService {
    
    public List<File> generateInvoicesByProcessingOrg(String chartCode, String orgCode, Date date);
    
+   public List<File> generateInvoicesByInitiator(String initiator);
    
    
    public void generateCreditMemo(CustomerCreditMemoDocument creditMemo) throws WorkflowException;

@@ -112,6 +112,9 @@
 	
 	<bean id="customerCreditMemoDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCreditMemoDocumentServiceImpl"/>
 	
+	<bean id="ocrLineService" class="org.kuali.kfs.module.ar.report.service.impl.OCRLineServiceImpl"/>
+	
+	
 	<bean id="invoicePaidAppliedService" class="org.kuali.kfs.module.ar.document.service.impl.InvoicePaidAppliedServiceImpl">
 		<property name="universityDateService">
 			<ref bean="universityDateService" />

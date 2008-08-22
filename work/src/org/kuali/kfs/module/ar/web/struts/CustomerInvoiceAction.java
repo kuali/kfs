@@ -66,38 +66,47 @@ public class CustomerInvoiceAction extends KualiAction {
     }   
 
     public ActionForward clear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CustomerInvoiceForm csForm = (CustomerInvoiceForm)form;
-        csForm.setChartCode(null);
-        csForm.setOrgCode(null);
-        csForm.setOrgType(null); 
-        csForm.setRunDate(null);
+        CustomerInvoiceForm ciForm = (CustomerInvoiceForm)form;
+        ciForm.setChartCode(null);
+        ciForm.setOrgCode(null);
+        ciForm.setOrgType(null); 
+        ciForm.setRunDate(null);
+        ciForm.setMessage(null);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }   
 
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerInvoiceForm ciForm = (CustomerInvoiceForm)form;
 
+        String org = ciForm.getOrgCode();
+        String chart = ciForm.getChartCode();
         Date date = ciForm.getRunDate();
+        
+        StringBuilder fileName = new StringBuilder();
+        
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         List<File> reports = new ArrayList<File>();
-        if (ciForm.getOrgType() != null) {
+        if (ciForm.getOrgType() != null && chart != null && org != null) {
             if (ciForm.getOrgType().equals("B"))
-                reports = reportService.generateInvoicesByBillingOrg(ciForm.getChartCode(), ciForm.getOrgCode(), date);
+             
+                reports = reportService.generateInvoicesByBillingOrg(chart, org, date);
             else if (ciForm.getOrgType().equals("P"))
-                reports = reportService.generateInvoicesByProcessingOrg(ciForm.getChartCode(), ciForm.getOrgCode(), date);
+                reports = reportService.generateInvoicesByProcessingOrg(chart, org, date);
 
-            // System.out.println("invoiceAction");
-            //csForm.setReports(reports);
-            //  System.out.println(reports);
+            fileName.append(chart);
+            fileName.append(org);
+            if (date != null)
+                fileName.append(date);  
+        } else if (ciForm.getUserId() != null) {
+            reports = reportService.generateInvoicesByInitiator(ciForm.getUserId());
+            fileName.append(ciForm.getUserId());
         }
         if (reports.size()>0) {
-            //   String fileName = csForm.getChartCode()+csForm.getOrgCode()+date+"-ConcatedPDFs.pdf";
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
                 int pageOffset = 0;
                 ArrayList master = new ArrayList();
                 int f = 0;
-                //   File file = new File(fileName);
                 Document document = null;
                 PdfCopy  writer = null;
                 for (Iterator itr = reports.iterator(); itr.hasNext();) {
@@ -143,15 +152,15 @@ public class CustomerInvoiceAction extends KualiAction {
             catch(Exception e) {
                 e.printStackTrace();
             } 
-            String fileName;
-            if (date != null)
-                fileName = ciForm.getChartCode()+ciForm.getOrgCode()+date+"-InvoicesBatchPDFs.pdf";   
-            else 
-                fileName = ciForm.getChartCode()+ciForm.getOrgCode()+"-InvoiceBatchPDFs.pdf";
+            fileName.append("-InvoiceBatchPDFs.pdf");
+            
 
-            WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
+            WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName.toString());
+            ciForm.setMessage(reports.size()+" Reports Generated");
+            return null;
         }
-        return null;
+        ciForm.setMessage("No Reports Generated");
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
 
     }

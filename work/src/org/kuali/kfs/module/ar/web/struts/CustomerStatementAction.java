@@ -72,12 +72,20 @@ public class CustomerStatementAction extends KualiAction {
         String accountNumber = csForm.getAccountNumber();
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         List<File> reports = new ArrayList<File>();
+        
+        StringBuilder fileName = new StringBuilder();
+        
+        
         if ( chartCode != null && orgCode != null) {
             reports = reportService.generateStatementByBillingOrg(chartCode, orgCode); 
+            fileName.append(chartCode);
+            fileName.append(orgCode);
         } else if (customerNumber != null) {
             reports = reportService.generateStatementByCustomer(customerNumber);
+            fileName.append(customerNumber);
         } else if (accountNumber != null) {
             reports = reportService.generateStatementByAccount(accountNumber);
+            fileName.append(accountNumber);
         }
         if (reports.size() !=0) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -132,10 +140,13 @@ public class CustomerStatementAction extends KualiAction {
                 e.printStackTrace();
             } 
 
-            String fileName = csForm.getChartCode()+csForm.getOrgCode()+"-StatementBatchPDFs.pdf";
+            fileName.append("-StatementBatchPDFs.pdf");
 
-            WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
-        }    
-        return null;
+            WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName.toString());
+            csForm.setMessage(reports.size() + " Reports Generated");
+            return null;
+        }
+        csForm.setMessage("No Reports Generated");
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

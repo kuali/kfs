@@ -38,22 +38,8 @@
   </bean>
   <bean id="AccountsReceivableDocumentHeader-documentNumber" parent="AccountsReceivableDocumentHeader-documentNumber-parentBean" />
 
-  <bean id="AccountsReceivableDocumentHeader-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
-  </bean>
+  <bean id="AccountsReceivableDocumentHeader-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+  
   <bean id="AccountsReceivableDocumentHeader-entryDate" parent="AccountsReceivableDocumentHeader-entryDate-parentBean" />
 
   <bean id="AccountsReceivableDocumentHeader-entryDate-parentBean" abstract="true" parent="AttributeDefinition">

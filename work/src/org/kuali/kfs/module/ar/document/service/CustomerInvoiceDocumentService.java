@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -156,4 +157,6 @@ public interface CustomerInvoiceDocumentService {
      * @return
      */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);    
+    
+    
 }

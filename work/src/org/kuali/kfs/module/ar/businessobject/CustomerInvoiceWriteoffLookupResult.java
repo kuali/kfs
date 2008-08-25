@@ -29,6 +29,7 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     private String customerTypeCode;
     private String customerInvoiceNumber;
     private KualiDecimal customerTotal;
+    private List<CustomerInvoiceDocument> customerInvoiceDocuments;
     
     public KualiDecimal getCustomerTotal() {
         return customerTotal;
@@ -36,8 +37,7 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     public void setCustomerTotal(KualiDecimal customerTotal) {
         this.customerTotal = customerTotal;
     }
-    private List<CustomerInvoiceDocument> customerInvoiceDocuments;
-    
+
     public List<CustomerInvoiceDocument> getCustomerInvoiceDocuments() {
         return customerInvoiceDocuments;
     }

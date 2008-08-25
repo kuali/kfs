@@ -16,6 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="documentAttributes" value="${DataDictionary.CustomerInvoiceDocument.attributes}" />
+<%@ attribute name="subResultRows" required="true" type="java.util.List" description="The rows of fields that we'll iterate to display." %>
 
 <tr>
 	<td colspan="5">
@@ -24,23 +25,39 @@
 			<table class="datatable-80" cellspacing="0" cellpadding="0" width="100%">
 				<thead>
 					<tr>
-						<th class="sortable">Writeoff?</th>
-						<th class="sortable"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.age}" /></th>
-						<th class="sortable"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.documentHeader.documentNumber}" /></th>
-						<th class="sortable"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.documentFinalDate}" /></th>
-						<th class="sortable"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.sourceTotal}" /></th>
-						<th class="sortable"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.balance}" /></th>
+						<th>
+							Select
+						</th>
+			    		<c:forEach items="${subResultRows[0].columns}" var="column" begin="0" end="${fn:length(subResultRows[0].columns)}" varStatus="columnLoopStatus">
+							<th class="sortable">
+								${column.columnTitle}
+							</th>
+						</c:forEach>
 					</tr>
 				</thead>
 
-				<tr class="odd">
-					<td class="infocell"><input type="checkbox" /></td>
-					<td class="infocell">123</td>
-					<td class="infocell">123456</td>
-					<td class="infocell">01/01/2008</td>
-					<td class="infocell">$100.00</td>
-					<td class="infocell">$100.00</td>
-				</tr>
+				<c:forEach items="${subResultRows}" var="row" varStatus="rowLoopStatus" begin="0" end="${fn:length(subResultRows)}">
+					<tr>
+					    <td>
+							<c:set var="checked" value="${empty KualiForm.compositeObjectIdMap[objectId] ? '' : 'checked=checked'}" />							
+							<input type="checkbox" title="Select" name="${row.objectId}" value="checked" ${checked}>
+								${column.columnTitle}
+							</input>
+						</td>
+						<c:forEach items="${row.columns}" var="column" begin="0" end="${fn:length(row.columns)}">
+							<td class="infocell" title="${column.propertyValue}">
+								<c:if test="${!empty column.propertyURL}">
+									<a href="<c:out value="${column.propertyURL}"/>" target="blank">
+								</c:if>
+								
+								<c:out value="${fn:substring(column.propertyValue, 0, column.maxLength)}"/>
+								<c:if test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if>
+								
+								<c:if test="${!empty column.propertyURL}"></a></c:if>
+							</td>
+						</c:forEach>
+					</tr>
+				</c:forEach>
 			</table>
 			</center>
 		<br />

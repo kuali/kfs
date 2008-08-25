@@ -32,6 +32,7 @@
     <property name="attributes" >
       <list>
         <ref bean="CustomerInvoiceDocument-documentHeader.documentDescription" />
+        <ref bean="CustomerInvoiceDocument-documentNumber" />
         <ref bean="CustomerInvoiceDocument-invoiceHeaderText" />
         <ref bean="CustomerInvoiceDocument-invoiceAttentionLineText" />
         <ref bean="CustomerInvoiceDocument-invoiceDueDate" />
@@ -64,6 +65,7 @@
         <ref bean="CustomerInvoiceDocument-billingDateForDisplay" />
         <ref bean="CustomerInvoiceDocument-versionNumber" />
         <ref bean="CustomerInvoiceDocument-openAmount" />
+        <ref bean="CustomerInvoiceDocument-age" />
       </list>
     </property>
     <property name="validationMap" ref="CustomerInvoiceDocument-validations" />
@@ -71,7 +73,10 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="CustomerInvoiceDocument-documentNumber" parent="CustomerInvoiceDocument-documentNumber-parentBean" />
 
+  <bean id="CustomerInvoiceDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+  
   <bean id="CustomerInvoiceDocument-documentHeader.documentDescription" parent="CustomerInvoiceDocument-documentHeader.documentDescription-parentBean" />
 
   <bean id="CustomerInvoiceDocument-documentHeader.documentDescription-parentBean" abstract="true" parent="DocumentHeader-documentDescription">
@@ -93,6 +98,24 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Header Text of Invoice" />
   </bean>
+  
+  <bean id="CustomerInvoiceDocument-age" parent="CustomerInvoiceDocument-age-parentBean" />
+
+  <bean id="CustomerInvoiceDocument-age-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="age" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Age" />
+    <property name="shortLabel" value="Age" />
+    <property name="maxLength" value="5" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="" />
+    <property name="description" value="Age of Invoice" />
+  </bean>  
+  
   <bean id="CustomerInvoiceDocument-invoiceAttentionLineText" parent="CustomerInvoiceDocument-invoiceAttentionLineText-parentBean" />
 
   <bean id="CustomerInvoiceDocument-invoiceAttentionLineText-parentBean" abstract="true" parent="AttributeDefinition">

@@ -15,25 +15,32 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoiceWriteoffDocumentService {
-    
+
     private ParameterService parameterService;
     private UniversityDateService universityDateService;
     private FinancialSystemUserService financialSystemUserService;
@@ -43,32 +50,32 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument)
      */
-    public void setupDefaultValuesForNewCustomerInvoiceWriteoffDocument( CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument) {
-        
-        //update status
+    public void setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument) {
+
+        // update status
         customerInvoiceWriteoffDocument.setStatusCode(ArConstants.CustomerInvoiceWriteoffStatuses.IN_PROCESS);
-        
-        //set accounts receivable document header
+
+        // set accounts receivable document header
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(customerInvoiceWriteoffDocument.getDocumentNumber());
         accountsReceivableDocumentHeader.setCustomerNumber(customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getAccountsReceivableDocumentHeader().getCustomerNumber());
         customerInvoiceWriteoffDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-        
-        //if writeoffs are generated based on organization accounting default, populate those fields now
+
+        // if writeoffs are generated based on organization accounting default, populate those fields now
         String writeoffGenerationOption = parameterService.getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
-        boolean isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals( writeoffGenerationOption ); 
-        if( isUsingOrgAcctDefaultWriteoffFAU ){
-            
+        boolean isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffGenerationOption);
+        if (isUsingOrgAcctDefaultWriteoffFAU) {
+
             Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
             ChartOrgHolder currentUser = financialSystemUserService.getOrganizationByModuleId(KFSConstants.Modules.CHART);
-            
-            Map<String,Object> criteria = new HashMap<String,Object>();
+
+            Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put("universityFiscalYear", currentUniversityFiscalYear);
             criteria.put("chartOfAccountsCode", customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBillByChartOfAccountCode());
             criteria.put("organizationCode", customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBilledByOrganizationCode());
-            
-            OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault)businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
-            if( ObjectUtils.isNotNull( organizationAccountingDefault ) ){
+
+            OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault) businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+            if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
                 customerInvoiceWriteoffDocument.setChartOfAccountsCode(organizationAccountingDefault.getWriteoffChartOfAccountsCode());
                 customerInvoiceWriteoffDocument.setAccountNumber(organizationAccountingDefault.getWriteoffAccountNumber());
                 customerInvoiceWriteoffDocument.setSubAccountNumber(organizationAccountingDefault.getWriteoffSubAccountNumber());
@@ -77,9 +84,38 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
                 customerInvoiceWriteoffDocument.setProjectCode(organizationAccountingDefault.getWriteoffProjectCode());
                 customerInvoiceWriteoffDocument.setOrganizationReferenceIdentifier(organizationAccountingDefault.getWriteoffOrganizationReferenceIdentifier());
             }
-        } 
+        }
     }
-    
+
+    public List<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup() {
+
+        List<CustomerInvoiceWriteoffLookupResult> searchResultsCollection = new ArrayList<CustomerInvoiceWriteoffLookupResult>();
+        // TODO Use service to populate searchCollectionResults
+        for (int i = 0; i < 5; i++) {
+            CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult = new CustomerInvoiceWriteoffLookupResult();
+            customerInvoiceWriteoffLookupResult.setCustomerName("TESTING");
+            customerInvoiceWriteoffLookupResult.setCustomerNumber("ABB2");
+            customerInvoiceWriteoffLookupResult.setCustomerType("BLAH");
+            customerInvoiceWriteoffLookupResult.setCustomerTotal(new KualiDecimal(100));
+            searchResultsCollection.add(customerInvoiceWriteoffLookupResult);
+
+            FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
+            documentHeader.setDocumentFinalDate(new Date(new java.util.Date().getTime()));
+
+            List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+            for (int j = 0; j < 3; j++) {
+                CustomerInvoiceDocument customerInvoiceDocument = new CustomerInvoiceDocument();
+                customerInvoiceDocument.setAge(new Integer(100));
+                customerInvoiceDocument.setDocumentNumber("123456");
+                customerInvoiceDocument.setDocumentHeader(documentHeader);
+                customerInvoiceDocuments.add(customerInvoiceDocument);
+            }
+            customerInvoiceWriteoffLookupResult.setCustomerInvoiceDocuments(customerInvoiceDocuments);
+        }
+
+        return searchResultsCollection;
+    }
+
     public ParameterService getParameterService() {
         return parameterService;
     }
@@ -110,8 +146,8 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }    
-    
+    }
+
     public AccountsReceivableDocumentHeaderService getAccountsReceivableDocumentHeaderService() {
         return accountsReceivableDocumentHeaderService;
     }
@@ -125,6 +161,6 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         criteria.put("documentNumber", customerInvoiceWriteoffDocumentNumber);
         criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         return businessObjectService.countMatching(CustomerInvoiceWriteoffDocument.class, criteria) == 1;
-    }    
+    }
 
 }

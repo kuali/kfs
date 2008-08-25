@@ -74,9 +74,7 @@
 					</td>
 				</c:forEach>
 				</tr>
-				<%--
-				<ar:customerInvoiceResults />
-				--%>
+				<ar:customerInvoiceResults subResultRows="${row.subResultRows}"/>
 		</c:forEach>
 	</table>
 	

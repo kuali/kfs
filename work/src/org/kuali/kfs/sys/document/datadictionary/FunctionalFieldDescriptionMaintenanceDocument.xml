@@ -61,7 +61,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="namespaceCode" p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition" p:name="componentClass" />
         <bean parent="MaintainableFieldDefinition" p:name="componentLabel" p:readOnly="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="propertyName" p:lookupReadonly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="propertyName" />
         <bean parent="MaintainableFieldDefinition" p:name="propertyLabel" />
         <bean parent="MaintainableFieldDefinition" p:name="functionalFieldDescription" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />

@@ -70,6 +70,7 @@
 	<bean id="systemInformationDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.SystemInformationDaoOjb" />
 	<bean id="lockboxDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.LockboxDaoOjb" />
 	<bean id="customerInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDocumentDaoOjb" />
+	<bean id="customerInvoiceDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDetailDaoOjb" />
 	
 	<!--  AR Services  -->
 	<bean id="systemInformationService" class="org.kuali.kfs.module.ar.document.service.impl.SystemInformationServiceImpl">
@@ -99,6 +100,9 @@
 		</property>
 		<property name="invoicePaidAppliedService">
 			<ref bean="invoicePaidAppliedService"/>
+		</property>
+		<property name="customerInvoiceDetailDao">
+			<ref bean="customerInvoiceDetailDao"/>
 		</property>
 	</bean>
 	

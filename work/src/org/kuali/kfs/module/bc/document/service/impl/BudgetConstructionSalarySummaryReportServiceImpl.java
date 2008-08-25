@@ -491,8 +491,8 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             amountChange = 0;
             percentChange = BigDecimal.ZERO;
             
-            curToInt = 0;
-            curFteInt = 0;
+            curToInt = -1;
+            curFteInt = -1.00;
         }
         return returnCollection;
     }

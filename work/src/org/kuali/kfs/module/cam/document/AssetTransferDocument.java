@@ -28,6 +28,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.sys.businessobject.Building;
+import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -79,6 +80,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private Org organization;
     private TransferOfFundsDocument transferOfFundsFinancialDocument;
     private State offCampusState;
+    private Country offCampusCountry;
     private Building building;
     private Room buildingRoom;
     private transient List<AssetGlpeSourceDetail> sourceAssetGlpeSourceDetails;
@@ -277,6 +279,15 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      */
     public PostalZipCode getPostalZipCode() {
         return postalZipCode;
+    }
+
+    /**
+     * Gets the offCampusCountry attribute.
+     * 
+     * @return Returns the offCampusCountry.
+     */
+    public Country getOffCampusCountry() {
+        return offCampusCountry;
     }
 
     /**
@@ -641,6 +652,16 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
     /**
+     * Sets the offCampusCountry attribute value.
+     * 
+     * @param offCampusCountry The offCampusCountry to set.
+     * @deprecated
+     */
+    public void setOffCampusCountry(Country offCampusCountry) {
+        this.offCampusCountry = offCampusCountry;
+    }
+
+    /**
      * Sets the organization attribute.
      * 
      * @param organization The organization to set.
@@ -853,4 +874,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setOldOrganizationOwnerChartOfAccountsCode(String oldOrganizationOwnerChartOfAccountsCode) {
         this.oldOrganizationOwnerChartOfAccountsCode = oldOrganizationOwnerChartOfAccountsCode;
     }
+
+
 }

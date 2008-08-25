@@ -16,11 +16,15 @@
 package org.kuali.kfs.module.cab.document.web.struts;
 
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -32,15 +36,15 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
@@ -50,9 +54,44 @@ public class PurApLineAction extends KualiAction {
 
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApLineForm = (PurApLineForm) form;
-        purApLineService.setPurApInformation(purApLineForm);
+        if (StringUtils.isEmpty(purApLineForm.getPurchaseOrderIdentifier())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_EMPTY);
+        }
+        else {
+            purApLineService.setPurchaseOrderInfo(purApLineForm);
+            buildPurApDocList(purApLineForm);
 
+            if (!purApLineForm.getPurApDocs().isEmpty()) {
+                purApLineService.buildPurApItemAssetsList(purApLineForm);
+            }
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Build PurchasingAccountsPayableDocument list from given PO_ID.
+     * 
+     * @param purApLineForm
+     */
+    protected void buildPurApDocList(PurApLineForm purApLineForm) {
+        Map<String, Object> cols = new HashMap<String, Object>();
+        cols.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purApLineForm.getPurchaseOrderIdentifier());
+        Collection<PurchasingAccountsPayableDocument> purApDocs = SpringContext.getBean(BusinessObjectService.class).findMatching(PurchasingAccountsPayableDocument.class, cols);
+
+        if (purApDocs == null || purApDocs.isEmpty()) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_INVALID, purApLineForm.getPurchaseOrderIdentifier());
+        }
+        else {
+            for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
+                // Select active purApDoc
+                if (ObjectUtils.isNotNull(purApDoc) && purApDoc.isActive()) {
+                    purApLineForm.getPurApDocs().add(purApDoc);
+                }
+            }
+            if (purApLineForm.getPurApDocs().isEmpty()) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.MESSAGE_NO_ACTIVE_PURAP_DOC);
+            }
+        }
     }
 
     /**
@@ -61,11 +100,9 @@ public class PurApLineAction extends KualiAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApLineForm = (PurApLineForm) form;
 
-        // TODO: if yes button clicked - save the doc
-
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Purchasing/Account Payable Transactions ");
-
-        return mapping.findForward(KFSConstants.MAPPING_PORTAL);
+        GlobalVariables.getMessageList().add(CabKeyConstants.MESSAGE_CAB_CHANGES_SAVED_SUCCESS);
+        purApLineService.saveBusinessObjects(purApLineForm);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -86,6 +123,7 @@ public class PurApLineAction extends KualiAction {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 // TODO: if yes button clicked - save the doc
+                purApLineService.saveBusinessObjects(purApLineForm);
             }
             // else go to close logic below
         }
@@ -123,8 +161,8 @@ public class PurApLineAction extends KualiAction {
         String errorPath = CabPropertyConstants.PurApLineForm.PURAP_DOCS + KFSConstants.SQUARE_BRACKET_LEFT + purApLineForm.getActionPurApDocIndex() + KFSConstants.SQUARE_BRACKET_RIGHT + "." + CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS + KFSConstants.SQUARE_BRACKET_LEFT + purApLineForm.getActionItemAssetIndex() + KFSConstants.SQUARE_BRACKET_RIGHT;
         GlobalVariables.getErrorMap().addToErrorPath(errorPath);
         checkSplitQty(itemAsset, errorPath);
-        checkAdditionalChargeEmpty(purApLineForm, CabConstants.Actions.SPLIT);
-        if (GlobalVariables.getErrorMap().isEmpty()) {
+        //checkAdditionalChargeEmpty(purApLineForm, CabConstants.Actions.SPLIT);
+        if (GlobalVariables.getErrorMap().isEmpty() && itemAsset != null) {
             PurchasingAccountsPayableItemAsset newItemAsset = purApLineService.processSplit(itemAsset);
             if (newItemAsset != null) {
                 purApDoc.getPurchasingAccountsPayableItemAssets().add(newItemAsset);
@@ -141,7 +179,7 @@ public class PurApLineAction extends KualiAction {
      * @param purApLineForm
      * @param action
      */
-    private void checkAdditionalChargeEmpty(PurApLineForm purApLineForm, String action) {
+    protected void checkAdditionalChargeEmpty(PurApLineForm purApLineForm, String action) {
         if (purApLineForm.isAdditionalChargeIndicator()) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.DOCUMENT_NUMBER, CabKeyConstants.ERROR_ADDITIONAL_CHARGE_NOT_ALLOCATED, action);
         }
@@ -155,7 +193,7 @@ public class PurApLineAction extends KualiAction {
      * @param itemAsset
      * @param errorPath
      */
-    private void checkSplitQty(PurchasingAccountsPayableItemAsset itemAsset, String errorPath) {
+    protected void checkSplitQty(PurchasingAccountsPayableItemAsset itemAsset, String errorPath) {
         KualiDecimal splitQty = itemAsset.getSplitQty();
         KualiDecimal oldQty = itemAsset.getAccountsPayableItemQuantity();
         // splitQty is required and must be greater than the initial value
@@ -171,6 +209,8 @@ public class PurApLineAction extends KualiAction {
 
     // TODO:
     public ActionForward merge(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // check all merge line documents have no additional charge unallocated.
+        // ???check all merge lines have no trade-in indicator set. If set, further check if no trade-in allowance line exists.
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -186,11 +226,20 @@ public class PurApLineAction extends KualiAction {
 
     // TODO:
     public ActionForward allocate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    // TODO:
-    public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableItemAsset itemAsset = getSelectedLineItem(form);
+        
+        if (itemAsset == null) {
+            
+        }
+        else if (itemAsset.isAdditionalChargeNonTradeInIndicator()) {
+            purApLineService.processAdditionalChargeAllocate(itemAsset);
+        }else if (itemAsset.isTradeInAllowance()) {
+            // Handle allocate trade in allowance
+        }else {
+            // Handle allocate line item to line items(not trade-in allowance not additional charges). The target line items must be the same document.
+            // allocate line item with/without trade-in indicator, allow proceed after trade-in allowance allocated already.
+        }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

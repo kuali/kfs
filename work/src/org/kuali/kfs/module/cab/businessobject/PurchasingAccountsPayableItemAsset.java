@@ -37,7 +37,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     // TODO: difference from capitalAssetTypeCode? 
     private String capitalAssetTransactionTypeCode;
     private boolean additionalChargeNonTradeInIndicator;
-    private boolean tradeInIndicator;
+    private boolean tradeInAllowance;
     private boolean itemAssignedToTradeInIndicator;
     private KualiDecimal unitCost;
     private KualiDecimal totalCost;
@@ -56,12 +56,12 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         return this.purchasingAccountsPayableLineAssetAccounts.size();
     }
     
-    public boolean isTradeInIndicator() {
-        return tradeInIndicator;
+    public boolean isTradeInAllowance() {
+        return tradeInAllowance;
     }
 
-    public void setTradeInIndicator(boolean tradeInIndicator) {
-        this.tradeInIndicator = tradeInIndicator;
+    public void setTradeInAllowance(boolean tradeInIndicator) {
+        this.tradeInAllowance = tradeInIndicator;
     }
 
     public boolean isAdditionalChargeNonTradeInIndicator() {
@@ -92,6 +92,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.itemLineNumber = initialItemAsset.getItemLineNumber();
         this.firstFincialObjectCode = initialItemAsset.getFirstFincialObjectCode();
         this.active = true;
+        this.tradeInAllowance = initialItemAsset.isTradeInAllowance();
         this.purchasingAccountsPayableAssetDetails = new TypedArrayList(PurchasingAccountsPayableAssetDetail.class);
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
     }
@@ -437,8 +438,8 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     public int compareTo(PurchasingAccountsPayableItemAsset o) {
-        boolean o1ItemTypeBelowTheLine = this.isAdditionalChargeNonTradeInIndicator() | this.isTradeInIndicator();
-        boolean o2ItemTypeBelowTheLine = o.isAdditionalChargeNonTradeInIndicator() | o.isTradeInIndicator();
+        boolean o1ItemTypeBelowTheLine = this.isAdditionalChargeNonTradeInIndicator() | this.isTradeInAllowance();
+        boolean o2ItemTypeBelowTheLine = o.isAdditionalChargeNonTradeInIndicator() | o.isTradeInAllowance();
         if (o1ItemTypeBelowTheLine && !o2ItemTypeBelowTheLine) {
             return 1;
         }

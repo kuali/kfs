@@ -25,13 +25,6 @@ import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 public interface PurApLineService {
 
     /**
-     * Build the purApDocList collection which have the same po_id and set the field values for each line items.
-     * 
-     * @param purApLineForm form
-     */
-    void setPurApInformation(PurApLineForm purApLineForm);
-
-    /**
      * Changes percent quantities to a quantity of 1 for selected line item.
      * 
      * @param itemAsset Selected line item.
@@ -45,4 +38,32 @@ public interface PurApLineService {
      * @return
      */
     PurchasingAccountsPayableItemAsset processSplit(PurchasingAccountsPayableItemAsset itemAsset);
+
+    /**
+     * Save purApDoc, item assets and account lines for persistence
+     * 
+     * @param purApLineForm form
+     */
+    void saveBusinessObjects(PurApLineForm purApLineForm);
+
+    /**
+     * Set Purchasing order email address and contact phone from PurAp.
+     * 
+     * @param purApLineForm form
+     */
+    void setPurchaseOrderInfo(PurApLineForm purApLineForm);
+
+    /**
+     * Build PurAp document collection and line item collection.
+     * 
+     * @param purApLineForm form
+     */
+    void buildPurApItemAssetsList(PurApLineForm purApLineForm);
+    
+    /**
+     * 
+     * Handle additional charge allocate in the same document.
+     * @param purLineForm
+     */
+    void processAdditionalChargeAllocate(PurchasingAccountsPayableItemAsset itemAsset);
 }

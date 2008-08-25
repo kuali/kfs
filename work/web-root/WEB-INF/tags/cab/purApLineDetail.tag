@@ -29,20 +29,29 @@
 <c:set var="genericAttributes" value="${DataDictionary.GenericAttributes.attributes}" />
 
 <c:choose>
-	<c:when test="${itemLine.tradeInIndicator || itemLine.additionalChargeNonTradeInIndicator}">
-		<c:set var="color" value="blue" />
+	<c:when test="${itemLine.tradeInAllowance}">
+		<c:set var="color" value="red" />
 	</c:when>
 	<c:otherwise>
-		<c:set var="color" value="black" />
+		<c:choose>
+		<c:when test="${itemLine.additionalChargeNonTradeInIndicator}">
+			<c:set var="color" value="blue" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="color" value="black" />
+		</c:otherwise>
+		</c:choose>
 	</c:otherwise>
 </c:choose>
 <c:set var="assetItemStr" value="purApDocs[${docPos-1}].purchasingAccountsPayableItemAssets[${linePos-1}]" />
 <html:hidden property="${assetItemStr}.versionNumber" />
+<html:hidden property="${assetItemStr}.active" />
 <html:hidden property="${assetItemStr}.documentNumber" />
+<html:hidden property="${assetItemStr}.capitalAssetManagementDocumentNumber" />
 <html:hidden property="${assetItemStr}.accountsPayableLineItemIdentifier" />
 <html:hidden property="${assetItemStr}.capitalAssetBuilderLineNumber" />
 <html:hidden property="${assetItemStr}.itemAssignedToTradeInIndicator" />
-<html:hidden property="${assetItemStr}.tradeInIndicator" />
+<html:hidden property="${assetItemStr}.tradeInAllowance" />
 <html:hidden property="${assetItemStr}.additionalChargeNonTradeInIndicator" />
 <tr style="color:${color}">
 	<c:choose>
@@ -123,6 +132,7 @@
 			<c:set var="pmtStr" value="purApDocs[${docPos-1}].purchasingAccountsPayableItemAssets[${linePos-1}].purchasingAccountsPayableLineAssetAccounts[${acctId-1}]" />
 			<html:hidden property="${pmtStr}.generalLedgerAccountIdentifier" />
 			<html:hidden property="${pmtStr}.versionNumber" />
+			<html:hidden property="${pmtStr}.active" />
 			<td class="infoline">&nbsp;</td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.chartOfAccountsCode" attributeEntry="${generalLedgerAttributes.chartOfAccountsCode}" readOnly="true"/></td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.accountNumber" attributeEntry="${generalLedgerAttributes.accountNumber}" readOnly="true"/></td>

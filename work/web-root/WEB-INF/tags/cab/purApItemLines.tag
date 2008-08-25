@@ -45,6 +45,7 @@
     	<c:set var="docPos" value="${docPos+1}" />
     	<c:set var="linePos" value="0" />
     	<html:hidden property="purApDocs[${docPos-1}].versionNumber" />
+    	<html:hidden property="purApDocs[${docPos-1}].active" />
     	<c:forEach items="${purApDoc.purchasingAccountsPayableItemAssets}" var="assetLine" >
 	    	<c:set var="seq" value="${seq+1}" />
     		<c:set var="linePos" value="${linePos+1}" />

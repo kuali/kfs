@@ -15,7 +15,9 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <kul:page showDocumentInfo="false" htmlFormAction="cabPurApLine" renderMultipart="true"
-	showTabButtons="true" docTitle="Purchasing / Accounts Payable Transactions" transactionalDocument="false">
+	showTabButtons="true" docTitle="Purchasing / Accounts Payable Transactions" 
+	transactionalDocument="false" headerDispatch="true" headerTabActive="true"
+	sessionDocument="false" headerMenuBar="" feedbackKey="true" defaultMethodToCall="refresh" >
 	
 	<kul:tabTop tabTitle="Purchase Order Processing" defaultOpen="true">
 		<div class="tab-container" align=center>

@@ -89,14 +89,18 @@ public class PurApLineForm extends KualiForm {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
+
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             // populate collection index
-            int purApDocIndex = Integer.parseInt(StringUtils.substringBetween(parameterName, CabConstants.DOT_DOC, "."));
-            int itemAssetIndex = Integer.parseInt(StringUtils.substringBetween(parameterName, CabConstants.DOT_LINE, "."));
-            this.setActionPurApDocIndex(purApDocIndex);
-            this.setActionItemAssetIndex(itemAssetIndex);
+            String purApDocIndex = StringUtils.substringBetween(parameterName, CabConstants.DOT_DOC, ".");
+            if (StringUtils.isNotBlank(purApDocIndex)) {
+                this.setActionPurApDocIndex(Integer.parseInt(purApDocIndex));
+            }
+            String itemAssetIndex = StringUtils.substringBetween(parameterName, CabConstants.DOT_LINE, ".");
+            if (StringUtils.isNotBlank(itemAssetIndex)) {
+                this.setActionItemAssetIndex(Integer.parseInt(itemAssetIndex));
+            }
         }
     }
 

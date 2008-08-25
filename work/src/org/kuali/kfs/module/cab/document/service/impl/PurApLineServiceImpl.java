@@ -50,77 +50,97 @@ public class PurApLineServiceImpl implements PurApLineService {
     private PurApLineDao purApLineDao;
 
     /**
-     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#setPurApInformation(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm,
-     *      java.lang.String)
+     * 
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processAdditionalChargeAllocate(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
-    public void setPurApInformation(PurApLineForm purApLineForm) {
-        setPurchaseOrderInfo(purApLineForm);
-        buildPurApItemAssetsList(purApLineForm);
+    public void processAdditionalChargeAllocate(PurchasingAccountsPayableItemAsset itemAsset) {
+        // TODO Auto-generated method stub
+        
     }
-
+    
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processPercentPayment(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset)
      */
     public void processPercentPayment(PurchasingAccountsPayableItemAsset itemAsset) {
         KualiDecimal oldQty = itemAsset.getCapitalAssetBuilderQuantity();
         KualiDecimal newQty = new KualiDecimal(1);
+        // update quantity and unit cost.
         if (oldQty.isLessThan(newQty)) {
             itemAsset.setCapitalAssetBuilderQuantity(newQty);
-            itemAsset.setUnitCost(calculateItemAssetTotalCost(itemAsset).divide(newQty));
+            // unit cost will be the same value as total cost since quantity is updated to 1.
+            itemAsset.setUnitCost(calculateItemAssetTotalCost(itemAsset));
         }
     }
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processSplit(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset)
      */
-    public PurchasingAccountsPayableItemAsset processSplit(PurchasingAccountsPayableItemAsset oldItemAsset) {
-        if (oldItemAsset == null) {
-            return null;
-        }
-        // create a new item asset
-        PurchasingAccountsPayableItemAsset newItemAsset = new PurchasingAccountsPayableItemAsset(oldItemAsset);
-        Integer maxCabLineNbr = purApLineDao.getMaxCabLineNumber(oldItemAsset.getDocumentNumber(), oldItemAsset.getAccountsPayableLineItemIdentifier());
+    public PurchasingAccountsPayableItemAsset processSplit(PurchasingAccountsPayableItemAsset currentItemAsset) {
+        // create a new item asset from the current item asset.
+        PurchasingAccountsPayableItemAsset newItemAsset = new PurchasingAccountsPayableItemAsset(currentItemAsset);
 
+        Integer maxCabLineNbr = purApLineDao.getMaxCabLineNumber(currentItemAsset.getDocumentNumber(), currentItemAsset.getAccountsPayableLineItemIdentifier());
         newItemAsset.setCapitalAssetBuilderLineNumber(++maxCabLineNbr);
-        newItemAsset.setAccountsPayableItemQuantity(oldItemAsset.getSplitQty());
+        newItemAsset.setAccountsPayableItemQuantity(currentItemAsset.getSplitQty());
 
-        createAccountsForNewItemAsset(oldItemAsset, newItemAsset);
+        // Set account list for new item asset and update current account amount value.
+        createAccountsForNewItemAsset(currentItemAsset, newItemAsset);
+
         // Set total cost and unit cost for new item asset
         KualiDecimal totalCost = calculateItemAssetTotalCost(newItemAsset);
         newItemAsset.setTotalCost(totalCost);
         setItemAssetUnitCost(newItemAsset, totalCost);
 
         // Adjust current item asset quantity, total cost and unit cost
-        oldItemAsset.setAccountsPayableItemQuantity(oldItemAsset.getCapitalAssetBuilderQuantity().subtract(oldItemAsset.getSplitQty()));
-        totalCost = calculateItemAssetTotalCost(oldItemAsset);
-        oldItemAsset.setTotalCost(totalCost);
-        setItemAssetUnitCost(oldItemAsset, totalCost);
-        oldItemAsset.setSplitQty(null);
+        currentItemAsset.setAccountsPayableItemQuantity(currentItemAsset.getCapitalAssetBuilderQuantity().subtract(currentItemAsset.getSplitQty()));
+        totalCost = calculateItemAssetTotalCost(currentItemAsset);
+        currentItemAsset.setTotalCost(totalCost);
+        setItemAssetUnitCost(currentItemAsset, totalCost);
+        currentItemAsset.setSplitQty(null);
 
         return newItemAsset;
     }
 
     /**
-     * Create asset account list for new item asset.
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#saveBusinessObject(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
+     */
+    public void saveBusinessObjects(PurApLineForm purApLineForm) {
+        for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
+            List<PurchasingAccountsPayableItemAsset> itemAssets = purApDoc.getPurchasingAccountsPayableItemAssets();
+            if (itemAssets != null && !itemAssets.isEmpty()) {
+                businessObjectService.save(itemAssets);
+                for (PurchasingAccountsPayableItemAsset itemAsset : itemAssets) {
+                    List<PurchasingAccountsPayableLineAssetAccount> assetAccounts = itemAsset.getPurchasingAccountsPayableLineAssetAccounts();
+                    if (assetAccounts != null && !assetAccounts.isEmpty()) {
+                        businessObjectService.save(assetAccounts);
+                    }
+                }
+            }
+        }
+
+    }
+
+    /**
+     * Create asset account list for new item asset and update the current account amount.
      * 
      * @param oldItemAsset old line item.
      * @param newItemAsset new line item.
      */
-    private void createAccountsForNewItemAsset(PurchasingAccountsPayableItemAsset oldItemAsset, PurchasingAccountsPayableItemAsset newItemAsset) {
-        KualiDecimal oldQty = oldItemAsset.getCapitalAssetBuilderQuantity();
-        KualiDecimal splitQty = oldItemAsset.getSplitQty();
+    private void createAccountsForNewItemAsset(PurchasingAccountsPayableItemAsset currentItemAsset, PurchasingAccountsPayableItemAsset newItemAsset) {
+        KualiDecimal currentQty = currentItemAsset.getCapitalAssetBuilderQuantity();
+        KualiDecimal splitQty = currentItemAsset.getSplitQty();
         List<PurchasingAccountsPayableLineAssetAccount> accountsList = newItemAsset.getPurchasingAccountsPayableLineAssetAccounts();
         PurchasingAccountsPayableLineAssetAccount newAccount;
-        for (PurchasingAccountsPayableLineAssetAccount oldAccount : oldItemAsset.getPurchasingAccountsPayableLineAssetAccounts()) {
+        for (PurchasingAccountsPayableLineAssetAccount currentAccount : currentItemAsset.getPurchasingAccountsPayableLineAssetAccounts()) {
             // create accounts for new item asset.
-            newAccount = new PurchasingAccountsPayableLineAssetAccount(oldItemAsset, oldAccount.getGeneralLedgerAccountIdentifier());
-            newAccount.setItemAccountTotalAmount(oldAccount.getItemAccountTotalAmount().multiply(splitQty).divide(oldQty));
+            newAccount = new PurchasingAccountsPayableLineAssetAccount(currentItemAsset, currentAccount.getGeneralLedgerAccountIdentifier());
+            newAccount.setItemAccountTotalAmount(currentAccount.getItemAccountTotalAmount().multiply(splitQty).divide(currentQty));
             newAccount.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.GENERAL_LEDGER_ENTRY);
             newAccount.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.PURAP_ITEM_ASSET);
             accountsList.add(newAccount);
 
             // Adjust account amount for split item
-            oldAccount.setItemAccountTotalAmount(oldAccount.getItemAccountTotalAmount().subtract(newAccount.getItemAccountTotalAmount()));
+            currentAccount.setItemAccountTotalAmount(currentAccount.getItemAccountTotalAmount().subtract(newAccount.getItemAccountTotalAmount()));
         }
     }
 
@@ -140,12 +160,12 @@ public class PurApLineServiceImpl implements PurApLineService {
         item.setFirstFincialObjectCode(firstFinancialObjectCode);
     }
 
+
     /**
-     * Set Purchasing order email address and contact phone from PurAp.
      * 
-     * @param purApLineForm form
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#setPurchaseOrderInfo(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
-    private void setPurchaseOrderInfo(PurApLineForm purApLineForm) {
+    public void setPurchaseOrderInfo(PurApLineForm purApLineForm) {
         Map<String, Object> cols = new HashMap<String, Object>();
         cols.put(PurapPropertyConstants.PURAP_DOC_ID, purApLineForm.getPurchaseOrderIdentifier());
         cols.put(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, "Y");
@@ -170,19 +190,13 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
     }
 
+
     /**
-     * Build PurAp document collection and line item collection.
      * 
-     * @param purApLineForm form
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#buildPurApItemAssetsList(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
-    private void buildPurApItemAssetsList(PurApLineForm purApLineForm) {
-        Map<String, Object> cols = new HashMap<String, Object>();
-        cols.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purApLineForm.getPurchaseOrderIdentifier());
-        Collection<PurchasingAccountsPayableDocument> purApDocs = businessObjectService.findMatching(PurchasingAccountsPayableDocument.class, cols);
-
-        purApLineForm.getPurApDocs().addAll(purApDocs);
-
-        for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
+    public void buildPurApItemAssetsList(PurApLineForm purApLineForm) {
+        for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
                 // set fields from PurAp tables
                 setCabItemFieldsFromPurAp(item, purApDoc.getDocumentTypeCode());
@@ -245,16 +259,15 @@ public class PurApLineServiceImpl implements PurApLineService {
     private void setCabItemFieldsFromPurAp(PurchasingAccountsPayableItemAsset purchasingAccountsPayableItemAsset, String docTypeCode) {
         Map<String, Object> pKeys = new HashMap<String, Object>();
         pKeys.put(PurapPropertyConstants.ITEM_IDENTIFIER, purchasingAccountsPayableItemAsset.getAccountsPayableLineItemIdentifier());
-        
+
         // Access PurAp data based on item type(PREQ or CM).
         if (CabConstants.PREQ.equalsIgnoreCase(docTypeCode)) {
             PaymentRequestItem item = (PaymentRequestItem) businessObjectService.findByPrimaryKey(PaymentRequestItem.class, pKeys);
             purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
             if (item.getItemType() != null) {
                 purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
-                purchasingAccountsPayableItemAsset.setTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+                purchasingAccountsPayableItemAsset.setTradeInAllowance(item.getItemType().isItemTypeBelowTheLineIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
             }
-            purchasingAccountsPayableItemAsset.setAccountsPayableLineItemDescription(item.getItemDescription());
             purchasingAccountsPayableItemAsset.setItemAssignedToTradeInIndicator(item.getItemAssignedToTradeInIndicator());
         }
         else {
@@ -262,9 +275,8 @@ public class PurApLineServiceImpl implements PurApLineService {
             purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
             if (item.getItemType() != null) {
                 purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
-                purchasingAccountsPayableItemAsset.setTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+                purchasingAccountsPayableItemAsset.setTradeInAllowance(item.getItemType().isItemTypeBelowTheLineIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
             }
-            purchasingAccountsPayableItemAsset.setCapitalAssetDescription(item.getItemDescription());
             purchasingAccountsPayableItemAsset.setItemAssignedToTradeInIndicator(item.getItemAssignedToTradeInIndicator());
         }
         pKeys.clear();

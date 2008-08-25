@@ -76,7 +76,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         detail1.setDocumentType("INV");
         detail1.setDocumentNumber("01 BM3002707");
         detail1.setDocumentDescription("BATMOBILE");
-        detail1.setDueApprovedDate(Date.valueOf("08/06/2006"));
+        detail1.setDueApprovedDate(Date.valueOf("2006-08-06"));
         detail1.setDocumentPaymentAmount(KualiDecimal.ZERO);
         detail1.setUnpaidUnappliedAmount(KualiDecimal.ZERO);
         
@@ -84,7 +84,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         detail2.setDocumentType("INV");
         detail2.setDocumentNumber("01 BM3002708");
         detail2.setDocumentDescription("BATCAVE MORTGAGE");
-        detail2.setDueApprovedDate(Date.valueOf("08/06/2006"));
+        detail2.setDueApprovedDate(Date.valueOf("2006-08-06"));
         detail2.setDocumentPaymentAmount(KualiDecimal.ZERO);
         detail2.setUnpaidUnappliedAmount(KualiDecimal.ZERO);
         

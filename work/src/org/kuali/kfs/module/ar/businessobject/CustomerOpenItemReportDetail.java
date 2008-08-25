@@ -23,8 +23,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
     
-    private String customerNumber;
-    private String customerName;
     private String documentType;
     private String documentNumber;
     private String documentDescription;
@@ -37,27 +35,6 @@ public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         return null;
     }
-
-
-    public String getCustomerNumber() {
-        return customerNumber;
-    }
-
-
-    public void setCustomerNumber(String customerNumber) {
-        this.customerNumber = customerNumber;
-    }
-
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
 
     public String getDocumentType() {
         return documentType;

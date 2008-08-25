@@ -14,8 +14,6 @@
     <property name="objectLabel" value="Customer Open Item Report" />
     <property name="attributes" >
       <list>
-    <ref bean="CustomerOpenItemReportDetail-customerNumber" />
-	<ref bean="CustomerOpenItemReportDetail-customerName" />
 	<ref bean="CustomerOpenItemReportDetail-documentType" />          
     <ref bean="CustomerOpenItemReportDetail-documentNumber" />
 	<ref bean="CustomerOpenItemReportDetail-documentDescription" />
@@ -27,12 +25,6 @@
   </bean>
 
 <!-- Attribute Definitions -->
-<bean id="CustomerOpenItemReportDetail-customerNumber" parent="CustomerOpenItemReportDetail-customerNumber-parentBean" />
-<bean id="CustomerOpenItemReportDetail-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber"></bean>
-
-<bean id="CustomerOpenItemReportDetail-customerName" parent="CustomerOpenItemReportDetail-customerName-parentBean" />
-<bean id="CustomerOpenItemReportDetail-customerName-parentBean" abstract="true" parent="Customer-customerName"></bean>
-
 <bean id="CustomerOpenItemReportDetail-documentType" parent="CustomerOpenItemReportDetail-documentType-parentBean" />
 <bean id="CustomerOpenItemReportDetail-documentType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="forceUppercase" value="true" />
@@ -85,10 +77,6 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="customerNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerName" />
-              <bean parent="FieldDefinition"
                     p:attributeName="documentType" />
               <bean parent="FieldDefinition"
                     p:attributeName="documentNumber" />
@@ -114,18 +102,10 @@
     <property name="lookupableID" value="arCustomerOpenItemReportLookupable" />
     <property name="instructions" value="Lookup open invoices, CRM and unapplied cash for the customerNumber." />
     <property name="lookupFields" >
-      <list>
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="customerNumber" /> 	
-      </list>
+      <list/>	
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-                p:attributeName="customerNumber" />
-        <bean parent="FieldDefinition"
-                p:attributeName="customerName" />
         <bean parent="FieldDefinition"
                 p:attributeName="documentType" />
         <bean parent="FieldDefinition"

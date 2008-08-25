@@ -68,7 +68,8 @@
 										<c:when test="${column.propertyURL != \"\"}">
 											<a href="<c:out value="${column.propertyURL}"/>"
 											   title="${column.propertyValue}"
-											   target="blank"><c:out value="${column.propertyValue}" />
+											   target="blank">
+											   <c:out value="${column.propertyValue}" />
 											</a>	
 										</c:when>
 										<c:otherwise>
@@ -78,28 +79,24 @@
 								</display:column>
 							</c:when>
 							<c:otherwise>
-								<c:choose>
-									<c:when test="${column.propertyURL != \"\"}">
-										<display:column class="infocell"
-										                sortable="${column.sortable}"
-										                decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
-										                title="${column.columnTitle}"
-										                comparator="${column.comparator}">
-										<a href="<c:out value="${column.propertyURL}"/>"
-										   title="${column.propertyValue}"
-										   target="blank"><c:out value="${column.propertyValue}" />
-										</a>
-										</display:column>
-									</c:when>
-									<c:otherwise>
-										<display:column class="infocell"
-										                sortable="${column.sortable}"
-										                decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
-										                title="${column.columnTitle}"
-										                comparator="${column.comparator}">
-										</display:column>
-									</c:otherwise>
-								</c:choose>
+								<display:column class="infocell"
+										        sortable="${column.sortable}"
+										        decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
+										        title="${column.columnTitle}"
+										        comparator="${column.comparator}">
+									<c:choose>
+										<c:when test="${column.propertyURL != \"\"}">
+											<a href="<c:out value="${column.propertyURL}"/>"
+										   	   title="${column.propertyValue}"
+										       target="blank">
+										       <c:out value="${column.propertyValue}" />
+										    </a>
+										</c:when>
+										<c:otherwise>
+											<c:out value="${column.propertyValue}" />
+										</c:otherwise>
+									</c:choose>
+								</display:column>
 							</c:otherwise>
 						</c:choose>	
 					</c:forEach>

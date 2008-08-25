@@ -20,6 +20,7 @@ import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.util.ARUtil;
+import org.kuali.kfs.module.cam.document.AssetGlobalMaintainableImpl;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -27,6 +28,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLookupableHelperServiceImpl.class);
     
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
@@ -50,7 +52,7 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
         
         actions.append("&nbsp;&nbsp;");
         actions.append(getCustomerOpenItemReportUrl(businessObject));
-    
+        
         return actions.toString();
     }
     
@@ -59,7 +61,7 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
         Customer customer = (Customer) bo;
 
         StringBuffer anchor = new StringBuffer();
-        anchor.append("<a href=\"arCustomerOpenItemReportLookupable.do?");
+        anchor.append("<a href=\"arCustomerOpenItemReportLookup.do?");
         anchor.append("businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail&");
         anchor.append("returnLocation=portal.do&");
         anchor.append("lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable&");
@@ -76,7 +78,4 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
         return anchor.toString();
     }
-
-
-
 }

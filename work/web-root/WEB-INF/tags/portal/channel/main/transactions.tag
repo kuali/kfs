@@ -33,11 +33,6 @@
         <li><portal:portalLink displayTitle="true" title="Budget Construction Selection" url="budgetBudgetConstructionSelection.do?methodToCall=loadExpansionScreen" /></li>
     </ul>
 
-    <strong>Capital Asset Management</strong><br />
-    <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Asset Payment" url="camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument" /></li>
-    </ul>
-
 	<strong>Financial Processing</strong><br />
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Advance Deposit" url="financialAdvanceDeposit.do?methodToCall=docHandler&command=initiate&docTypeName=AdvanceDepositDocument" /></li>

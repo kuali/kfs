@@ -53,8 +53,10 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         actions.append("&nbsp;&nbsp;");
         actions.append(getMergeUrl(bo));
         actions.append("&nbsp;&nbsp;");
+
         actions.append(getPaymentUrl(bo));
         actions.append("&nbsp;&nbsp;");
+        
         actions.append(getSeparateUrl(bo));
         actions.append("&nbsp;&nbsp;");
         actions.append(getTransferUrl(bo));

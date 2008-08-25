@@ -397,6 +397,7 @@
     <property name="name" value="oldOrganizationOwnerChartOfAccountsCode" />
     <property name="label" value="Old Organization Owner Chart Of Accounts Code" />
     <property name="shortLabel" value="Old Code" />
+    <property name="required" value="false" />
     <property name="summary" value="oldOrganizationOwnerChartOfAccountsCode" />
     <property name="description" value="oldOrganizationOwnerChartOfAccountsCode description..." />
   </bean>
@@ -407,6 +408,7 @@
     <property name="name" value="oldOrganizationOwnerAccountNumber" />
     <property name="label" value="Old Organization Owner Account Number" />
     <property name="shortLabel" value="Old Number" />
+    <property name="required" value="false" />
     <property name="summary" value="oldOrganizationOwnerAccountNumber" />
     <property name="description" value="oldOrganizationOwnerAccountNumber description..." />
   </bean>

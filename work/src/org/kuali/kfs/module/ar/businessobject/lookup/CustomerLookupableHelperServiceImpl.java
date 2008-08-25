@@ -61,7 +61,7 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
         Customer customer = (Customer) bo;
 
         StringBuffer anchor = new StringBuffer();
-        anchor.append("<a href=\"arCustomerOpenItemReportLookup.do?");
+        anchor.append("<a href=\"../arCustomerOpenItemReportLookup.do?");
         anchor.append("businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail&");
         anchor.append("returnLocation=portal.do&");
         anchor.append("lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable&");

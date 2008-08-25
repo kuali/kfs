@@ -66,7 +66,6 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
         anchor.append("returnLocation=portal.do&");
         anchor.append("lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable&");
         anchor.append("methodToCall=search&");
-        anchor.append("inquiryFlag=true&");
         anchor.append("customerNumber="); 
         anchor.append(customer.getCustomerNumber());
         anchor.append("&customerName=");

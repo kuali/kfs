@@ -21,9 +21,18 @@
 	headerTitle="Lookup" docTitle="" transactionalDocument="false">
 
 	<div class="headerarea-small" id="headerarea-small">
-	<h1><c:out value="${KualiForm.lookupable.title}" /> <kul:help
-		resourceKey="lookupHelpText" altText="lookup help" /></h1>
+	<h1><c:out value="${KualiForm.lookupable.title}" />
+	<kul:help resourceKey="lookupHelpText" altText="lookup help" /></h1>
 	</div>
+	
+	<h3>
+		<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20" height="20" />
+		Customer Number:
+		&nbsp;
+		<c:out value="${param.customerNumber}" />
+		&nbsp;&nbsp;
+		<c:out value="${param.customerName}" />
+	</h3>
 
 	<kul:enterKey methodToCall="search" />
 
@@ -39,8 +48,6 @@
 	<table width="100%" cellspacing="0" cellpadding="0">
 		<tr>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20" height="20" />
-			</td>
-
 			<td>
 				<c:if test="${empty reqSearchResultsSize}">
 					There were no results found.

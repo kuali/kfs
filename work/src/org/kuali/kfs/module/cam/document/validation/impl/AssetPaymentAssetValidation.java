@@ -48,8 +48,6 @@ public class AssetPaymentAssetValidation extends GenericValidation {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails =assetPaymentDocument.getAssetPaymentAssetDetail(); 
 
-        //String errorPath=CamsConstants.DOCUMENT_PATH + "."+CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
-        
         String errorPath = event.getErrorPathPrefix();
         
         //Validating the asset exists in the asset table.

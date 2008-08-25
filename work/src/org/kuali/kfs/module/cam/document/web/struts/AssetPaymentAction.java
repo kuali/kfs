@@ -156,11 +156,13 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
      */
     public ActionForward insertAssetPaymentAssetDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AssetPaymentForm assetPaymentForm = (AssetPaymentForm) form;
-
         AssetPaymentDocument    assetPaymentDocument    = assetPaymentForm.getAssetPaymentDocument();
+        
+        List<AssetPaymentAssetDetail> assetPaymentDetails = assetPaymentForm.getAssetPaymentDocument().getAssetPaymentAssetDetail();
+        
         AssetPaymentAssetDetail newAssetPaymentAssetDetail = new AssetPaymentAssetDetail(); 
         String sCapitalAssetNumber = assetPaymentForm.getCapitalAssetNumber();
-
+        
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
         
         Long capitalAssetNumber=null;

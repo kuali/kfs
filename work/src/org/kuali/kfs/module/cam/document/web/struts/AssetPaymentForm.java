@@ -18,6 +18,8 @@ package org.kuali.kfs.module.cam.document.web.struts;
 import java.util.Calendar;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -189,17 +191,15 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
-     *
+     */
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-
-        //This would store the latest total cost of the asset into the asset payment document.
-        if (this.getAssetPaymentDocument().getAsset() != null) {
-            this.getAssetPaymentDocument().refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
-            this.getAssetPaymentDocument().setPreviousTotalCostAmount(this.getAssetPaymentDocument().getAsset().getTotalCostAmount());
-        }
-    }*/
+        
+        for(AssetPaymentAssetDetail assetPaymentAssetDetail:this.getAssetPaymentDocument().getAssetPaymentAssetDetail()) {
+            assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);            
+        }        
+    }
     
     /**
      * 

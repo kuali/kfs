@@ -23,7 +23,7 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
 
 
 /**
- * @author jsissom
+ * 
  */
 public class AccountingChange extends KualiCodeBase {
     public AccountingChange() {

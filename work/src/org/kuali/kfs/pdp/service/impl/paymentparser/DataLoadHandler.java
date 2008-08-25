@@ -232,6 +232,18 @@ public class DataLoadHandler implements PdpFileHandler {
 
         // Load all the accounting change codes
         acctgChngCds = referenceDao.getAllMap("AccountingChange");
+        
+        openStatus = new PaymentStatus();
+        openStatus.setCode(OPEN_CD);
+        
+        heldForEmployee = new PaymentStatus();
+        heldForEmployee.setCode(HELD_TAX_EMPLOYEE_CD);
+        
+        heldForNRA = new PaymentStatus();
+        heldForNRA.setCode(HELD_TAX_NRA_CD);
+        
+        heldForNRAEmployee = new PaymentStatus();
+        heldForNRAEmployee.setCode(HELD_TAX_NRA_EMPL_CD);
         //openStatus = (PaymentStatus) referenceDao.getCode("PaymentStatus", OPEN_CD);
         //heldForEmployee = (PaymentStatus) referenceDao.getCode("PaymentStatus", HELD_TAX_EMPLOYEE_CD);
         //heldForNRA = (PaymentStatus) referenceDao.getCode("PaymentStatus", HELD_TAX_NRA_CD);

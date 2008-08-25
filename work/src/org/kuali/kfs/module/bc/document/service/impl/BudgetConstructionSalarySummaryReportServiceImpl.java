@@ -370,24 +370,25 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
 
 
                         if (appointmentFundingEntry.getAppointmentFundingDurationCode() != null && appointmentFundingEntry.getAppointmentFundingDurationCode().equals(BCConstants.Report.NONE)) {
-                            salaryAmount += appointmentFundingEntry.getAppointmentRequestedAmount().intValue();
-                            salaryPercent = salaryPercent.add(appointmentFundingEntry.getAppointmentRequestedTimePercent());
-                            tempSalaryMonth += appointmentFundingEntry.getAppointmentFundingMonth();
+                            salaryAmount = appointmentFundingEntry.getAppointmentRequestedAmount().intValue();
+                            salaryPercent = appointmentFundingEntry.getAppointmentRequestedTimePercent();
+                            tempSalaryMonth = appointmentFundingEntry.getAppointmentFundingMonth();
                         }
                         else {
-                            salaryAmount += BudgetConstructionReportHelper.convertKualiInteger(appointmentFundingEntry.getAppointmentRequestedCsfAmount());
+                            salaryAmount = BudgetConstructionReportHelper.convertKualiInteger(appointmentFundingEntry.getAppointmentRequestedCsfAmount());
                             if (appointmentFundingEntry.getAppointmentRequestedCsfTimePercent() == null){
-                                salaryPercent = salaryPercent.add(BigDecimal.ZERO);
+                                salaryPercent = BigDecimal.ZERO;
                             } else {
-                                salaryPercent = salaryPercent.add(appointmentFundingEntry.getAppointmentRequestedCsfTimePercent());
+                                salaryPercent = appointmentFundingEntry.getAppointmentRequestedCsfTimePercent();
                             }
-                            tempSalaryMonth += budgetConstructionPosition.getIuNormalWorkMonths();
+                            tempSalaryMonth = budgetConstructionPosition.getIuNormalWorkMonths();
                         }
 
 
                         if (salaryAmount > maxSalaryAmount) {
                             maxSalaryAmount = salaryAmount;
                             salaryPayMonth = budgetConstructionPosition.getIuPayMonths();
+                            //salaryNormalMonths = appointmentFundingEntry.get;
                             salaryNormalMonths = tempSalaryMonth;
                         }
                         if (appointmentFundingEntry.getBcnCalculatedSalaryFoundationTracker().size() > 0) {
@@ -410,7 +411,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
                         positionNumber = budgetConstructionPosition.getPositionNumber();
                         fiscalYearTag = previousFiscalYear.toString() + ":";
 
-                        if (appointmentFundingEntry.isAppointmentFundingDeleteIndicator()) {
+                        if (!appointmentFundingEntry.isAppointmentFundingDeleteIndicator()) {
                             if (curToInt == -1) {
                                 curToInt = appointmentFundingEntry.getAppointmentTotalIntendedAmount().intValue();
                             }
@@ -489,6 +490,9 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             tiFlag = "";
             amountChange = 0;
             percentChange = BigDecimal.ZERO;
+            
+            curToInt = 0;
+            curFteInt = 0;
         }
         return returnCollection;
     }

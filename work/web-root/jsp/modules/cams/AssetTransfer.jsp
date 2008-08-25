@@ -125,6 +125,12 @@
 				<td class="tab-subhead"  colspan="2" width="50%">Off Campus</td><td class="tab-subhead"  colspan="2" width="50%">Off Campus</td>
 			</tr>
 			<tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusName}" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationContactName" attributeEntry="${assetTransferAttributes.offCampusName}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusName}" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusName" attributeEntry="${assetTransferAttributes.offCampusName}" /></td>						
+			</tr>
+			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusAddress}" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationStreetAddress" attributeEntry="${assetTransferAttributes.offCampusAddress}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusAddress}" /></th>
@@ -153,6 +159,15 @@
 					&nbsp;
 	                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.PostalZipCode" fieldConversions="postalZipCode:document.offCampusZipCode" lookupParameters="document.offCampusZipCode:postalZipCode,document.offCampusStateCode:postalStateCode" />
 				</td>						
+			</tr>			
+			<tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCountryCode}" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationCountryCode" attributeEntry="${assetTransferAttributes.offCampusCountryCode}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCountryCode}" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusCountryCode" attributeEntry="${assetTransferAttributes.offCampusCountryCode}" />
+					&nbsp;
+	                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Country" fieldConversions="postalCountryCode:document.offCampusCountryCode" lookupParameters="document.offCampusCountryCode:postalCountryCode" />
+				</td>										
 			</tr>			
 		</table>
 		</div>

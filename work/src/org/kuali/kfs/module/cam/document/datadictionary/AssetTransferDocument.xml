@@ -39,10 +39,12 @@
         <ref bean="AssetTransferDocument-buildingSubRoomNumber" />
         <ref bean="AssetTransferDocument-campusCode" />
         <ref bean="AssetTransferDocument-interdepartmentalSalesIndicator" />
+        <ref bean="AssetTransferDocument-offCampusName" />
         <ref bean="AssetTransferDocument-offCampusAddress" />
         <ref bean="AssetTransferDocument-offCampusCityName" />
         <ref bean="AssetTransferDocument-offCampusStateCode" />
         <ref bean="AssetTransferDocument-offCampusZipCode" />
+        <ref bean="AssetTransferDocument-offCampusCountryCode" />
         <ref bean="AssetTransferDocument-organizationCode" />
         <ref bean="AssetTransferDocument-organizationInventoryName" />
         <ref bean="AssetTransferDocument-organizationOwnerAccountNumber" />
@@ -59,8 +61,6 @@
         <ref bean="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode" />
         <ref bean="AssetTransferDocument-oldOrganizationOwnerAccountNumber" />
         <ref bean="AssetTransferDocument-oldOrganizationCode" />
-        <ref bean="AssetTransferDocument-offCampusName" />
-        <ref bean="AssetTransferDocument-offCampusCountryCode" />
       </list>
     </property>
   </bean>

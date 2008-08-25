@@ -31,6 +31,8 @@ import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDetailDao;
+import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -40,6 +42,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -54,6 +57,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private InvoicePaidAppliedService invoicePaidAppliedService;
+    private CustomerInvoiceDetailDao customerInvoiceDetailDao;
 
 
     /**
@@ -411,4 +415,14 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     public InvoicePaidAppliedService getInvoicePaidAppliedService() {
         return invoicePaidAppliedService;
     }       
+
+
+public CustomerInvoiceDetailDao getCustomerInvoiceDetailDao() {
+    return customerInvoiceDetailDao;
+}
+
+public void setCustomerInvoiceDetailDao(CustomerInvoiceDetailDao customerInvoiceDetailDao) {
+    this.customerInvoiceDetailDao = customerInvoiceDetailDao;
+}
+
 }

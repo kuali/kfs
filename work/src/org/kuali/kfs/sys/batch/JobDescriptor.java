@@ -26,6 +26,7 @@ import org.springframework.beans.factory.BeanNameAware;
 
 public class JobDescriptor implements BeanNameAware {
     private String name;
+    private String namespaceCode;
     private String group;
     private Map<String, String> dependencies;
     private List<Step> steps;
@@ -135,4 +136,21 @@ public class JobDescriptor implements BeanNameAware {
     public void setDurable(boolean durable) {
         this.durable = durable;
     }
+
+    /**
+     * Gets the namespaceCode attribute. 
+     * @return Returns the namespaceCode.
+     */
+    public String getNamespaceCode() {
+        return namespaceCode;
+    }
+
+    /**
+     * Sets the namespaceCode attribute value.
+     * @param namespaceCode The namespaceCode to set.
+     */
+    public void setNamespaceCode(String namespaceCode) {
+        this.namespaceCode = namespaceCode;
+    }
+
 }

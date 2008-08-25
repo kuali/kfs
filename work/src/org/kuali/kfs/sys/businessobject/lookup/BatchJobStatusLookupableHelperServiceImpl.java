@@ -46,6 +46,8 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         List<BatchJobStatus> allJobs = schedulerService.getJobs();
         List<BatchJobStatus> jobs = new ArrayList<BatchJobStatus>();
+
+        String namespaceCode = fieldValues.get("namespaceCode");
         String nameValue = fieldValues.get("name");
         Pattern namePattern = null;
         if (!StringUtils.isEmpty(nameValue)) {
@@ -54,6 +56,9 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         String schedulerGroup = fieldValues.get("group");
         String jobStatus = fieldValues.get("status");
         for (BatchJobStatus job : allJobs) {
+            if (!StringUtils.isEmpty(namespaceCode) && !namespaceCode.equalsIgnoreCase(job.getNamespaceCode())) {
+                continue;
+            }
             if (namePattern != null && !namePattern.matcher(job.getName()).matches()) {
                 continue; // match failed, skip this entry
             }

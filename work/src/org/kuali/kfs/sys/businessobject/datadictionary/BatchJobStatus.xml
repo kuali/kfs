@@ -15,6 +15,7 @@
     <property name="objectLabel" value="Batch Job Status" />
     <property name="attributes" >
       <list>
+        <ref bean="BatchJobStatus-namespaceCode" />
         <ref bean="BatchJobStatus-name" />
         <ref bean="BatchJobStatus-group" />
         <ref bean="BatchJobStatus-dependencyList" />
@@ -27,6 +28,9 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="BatchJobStatus-namespaceCode" parent="BatchJobStatus-namespaceCode-parentBean" />
+ 
+  <bean id="BatchJobStatus-namespaceCode-parentBean" abstract="true" parent="BusinessObjectComponent-namespaceCode" />
 
   <bean id="BatchJobStatus-name" parent="BatchJobStatus-name-parentBean" />
 
@@ -138,6 +142,8 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
+              p:attributeName="namespaceCode" />
+        <bean parent="FieldDefinition"
               p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="group" />
@@ -147,6 +153,8 @@
     </property>
     <property name="resultFields" >
       <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="namespaceCode" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
         <bean parent="FieldDefinition"

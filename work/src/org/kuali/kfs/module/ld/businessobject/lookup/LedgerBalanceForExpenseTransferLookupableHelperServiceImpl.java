@@ -111,7 +111,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
                     LOG.debug("segmented property names " + ((SegmentedBusinessObject) element).getSegmentedPropertyNames());
                     
                     Collection<Column> columns = getColumns(element);
-                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, "", getActionUrls(element));
+                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element));
 
                     for (String propertyName : ((SegmentedBusinessObject) element).getSegmentedPropertyNames()) {
                         columns.add(setupResultsColumn(element, propertyName));

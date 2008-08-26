@@ -273,7 +273,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
                 }
             }
 
-            ResultRow row = new ResultRow(columns, returnUrl, "", actionUrls);
+            ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
             if ( element instanceof PersistableBusinessObject ) {
                 row.setObjectId(((PersistableBusinessObject)element).getObjectId());
             }

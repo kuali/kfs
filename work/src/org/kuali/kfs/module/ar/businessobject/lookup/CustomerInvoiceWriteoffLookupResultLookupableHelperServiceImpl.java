@@ -91,7 +91,7 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
                     subResultColumns.add(setupResultsColumn(customerInvoiceDocument, propertyName));
                 }
                 
-                ResultRow subResultRow = new ResultRow((List<Column>) subResultColumns, "", "", "");
+                ResultRow subResultRow = new ResultRow((List<Column>) subResultColumns, "", "");
                 subResultRow.setObjectId(customerInvoiceDocument.getObjectId());
                 subResultRows.add(subResultRow);
             }

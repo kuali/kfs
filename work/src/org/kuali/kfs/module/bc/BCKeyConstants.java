@@ -21,6 +21,7 @@ package org.kuali.kfs.module.bc;
 public class BCKeyConstants {
     public static final String QUESTION_DELETE = "document.question.delete.text";
 
+    public static final String MESSAGE_BUDGET_DOCUMENT_NOT_BUDGETABLE = "message.budget.documentNotBudgetable";
     public static final String MESSAGE_BUDGET_SYSTEM_VIEW_ONLY = "message.budget.systemViewOnly";
     public static final String MESSAGE_BUDGET_VIEW_ONLY = "message.budget.viewOnly";
     public static final String MESSAGE_BUDGET_EDIT_ACCESS = "message.budget.editAccess";

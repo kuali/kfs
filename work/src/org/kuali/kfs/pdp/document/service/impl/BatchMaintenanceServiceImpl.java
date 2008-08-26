@@ -21,8 +21,10 @@ package org.kuali.kfs.pdp.document.service.impl;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.pdp.businessobject.PaymentChange;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
+import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
@@ -30,6 +32,8 @@ import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
 import org.kuali.kfs.pdp.exception.CancelPaymentException;
 import org.kuali.kfs.pdp.exception.PdpException;
 import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.sys.service.KualiCodeService;
+import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,20 +59,21 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     private PaymentGroupDao paymentGroupDao;
     private PaymentGroupHistoryDao paymentGroupHistoryDao;
     private ReferenceService referenceService;
-
+    private KualiCodeService kualiCodeService;
+    
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
-        //Code cd = referenceService.getCode("PaymentChange", changeStatus);
-        //paymentGroupHistory.setPaymentChange((PaymentChange) cd);
+        KualiCode cd = this.kualiCodeService.getByCode(PaymentChange.class, changeStatus);
+        paymentGroupHistory.setPaymentChange((PaymentChange) cd);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
         paymentGroupHistory.setChangeUser(user);
         paymentGroupHistory.setChangeNoteText(note);
         paymentGroupHistory.setPaymentGroup(paymentGroup);
         paymentGroupHistoryDao.save(paymentGroupHistory);
 
-        //Code code = referenceService.getCode("PaymentStatus", newPaymentStatus);
-        //paymentGroup.setPaymentStatus((PaymentStatus) code);
+        KualiCode code = this.kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
+        paymentGroup.setPaymentStatus((PaymentStatus) code);
         paymentGroupDao.save(paymentGroup);
         LOG.debug("changeStatus() Status has been changed; exit method.");
     }
@@ -220,5 +225,13 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      */
     public void setBatchMaintenanceDao(BatchMaintenanceDao batchMaintenanceDao) {
         this.batchMaintenanceDao = batchMaintenanceDao;
+    }
+
+    public KualiCodeService getKualiCodeService() {
+        return kualiCodeService;
+    }
+
+    public void setKualiCodeService(KualiCodeService kualiCodeService) {
+        this.kualiCodeService = kualiCodeService;
     }
 }

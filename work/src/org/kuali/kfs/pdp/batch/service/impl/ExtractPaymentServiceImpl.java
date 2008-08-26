@@ -39,6 +39,7 @@ import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -57,6 +58,8 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public String directoryName;
     public ProcessDao processDao;
 
+    private KualiCodeService kualiCodeService;
+    
     // Set this to true to run this process without updating the database. This
     // should stay false for production.
     public static boolean testMode = false;
@@ -148,7 +151,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        //PaymentStatus extractedStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.EXTRACTED);
+        PaymentStatus extractedStatus = (PaymentStatus) this.kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
 
         String filename = getOutputFile("pdp_ach", processDate);
         LOG.debug("extractAchPayments() filename = " + filename);
@@ -167,7 +170,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 if (!testMode) {
                     pg.setDisbursementDate(new Timestamp(processDate.getTime()));
                     pg.setLastUpdate(new Timestamp(processDate.getTime()));
-                    //pg.setPaymentStatus(extractedStatus);
+                    pg.setPaymentStatus(extractedStatus);
                     paymentGroupService.save(pg);
                 }
 
@@ -500,5 +503,13 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
     public void setPaymentDetailService(PaymentDetailService pds) {
         paymentDetailService = pds;
+    }
+
+    public KualiCodeService getKualiCodeService() {
+        return kualiCodeService;
+    }
+
+    public void setKualiCodeService(KualiCodeService kualiCodeService) {
+        this.kualiCodeService = kualiCodeService;
     }
 }

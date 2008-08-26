@@ -54,6 +54,7 @@ import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.pdp.web.struts.BaseAction;
 import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.KualiCodeService;
 
 
 /**
@@ -218,8 +219,8 @@ public class CustomerProfileSaveAction extends BaseAction {
                         if (!(element.getBankId().equals(new Integer(0)))) {
                             // User has stored a bankId
                             CustomerBank cb = new CustomerBank();
-                            //DisbursementType dt = (DisbursementType) referenceService.getCode("DisbursementType", element.getDisbursementTypeCode());
-                            //cb.setDisbursementType(dt);
+                            DisbursementType dt = (DisbursementType) SpringContext.getBean(KualiCodeService.class).getByCode(DisbursementType.class, element.getDisbursementTypeCode());
+                            cb.setDisbursementType(dt);
                             cb.setCustomerProfile(cp);
                             //cb.setLastUpdateUser(getUser(request));
 

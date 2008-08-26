@@ -63,6 +63,7 @@ import org.kuali.kfs.pdp.service.impl.exception.DisbursementRangeExhaustedExcept
 import org.kuali.kfs.pdp.service.impl.exception.MissingDisbursementRangeException;
 import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.Parameter;
@@ -88,7 +89,8 @@ public class FormatServiceImpl implements FormatService {
     private FormatPaymentDao formatPaymentDao;
     private SchedulerService schedulerService;
     private BusinessObjectService businessObjectService;
-
+    private KualiCodeService kualiCodeService;
+    
     public FormatServiceImpl() {
         super();
     }
@@ -397,7 +399,7 @@ public class FormatServiceImpl implements FormatService {
             LOG.debug("startFormatProcess() Customer: " + element);
         }
 
-        //PaymentStatus formatStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.FORMAT);
+        PaymentStatus formatStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.FORMAT);
 
         Date now = new Date();
         formatProcessDao.add(campus, now);
@@ -488,7 +490,7 @@ public class FormatServiceImpl implements FormatService {
 
                     range.setLastAssignedDisbNbr(new Integer(number));
                     //range.setLastUpdateUser(p.getProcessUser());
-                    range.setLastUpdate(nowTs); // This is needed so we know which ranges to save at the end of the format
+                    //range.setLastUpdate(nowTs); // This is needed so we know which ranges to save at the end of the format
 
                     // Update the summary information
                     fps.setDisbursementNumber(pg, new Integer(number));
@@ -505,7 +507,7 @@ public class FormatServiceImpl implements FormatService {
 
                 range.setLastAssignedDisbNbr(new Integer(number));
                 //range.setLastUpdateUser(p.getProcessUser());
-                range.setLastUpdate(nowTs); // This is needed so we know which ranges to save at the end of the format
+                //range.setLastUpdate(nowTs); // This is needed so we know which ranges to save at the end of the format
 
                 // Update the summary information
                 fps.setDisbursementNumber(pg, new Integer(number));
@@ -661,6 +663,14 @@ public class FormatServiceImpl implements FormatService {
 
     public void setBusinessObjectService(BusinessObjectService bos) {
         this.businessObjectService = bos;
+    }
+
+    public KualiCodeService getKualiCodeService() {
+        return kualiCodeService;
+    }
+
+    public void setKualiCodeService(KualiCodeService kualiCodeService) {
+        this.kualiCodeService = kualiCodeService;
     }
     
 }

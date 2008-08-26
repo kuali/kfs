@@ -31,13 +31,15 @@ import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.FormatPaymentDao;
 import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements FormatPaymentDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatPaymentDaoOjb.class);
 
     private ReferenceService referenceService;
-
+    private KualiCodeService kualiCodeService;
+    
     public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, boolean immediate, String paymentTypes) {
         LOG.debug("markPaymentsForFormat() started");
 
@@ -56,7 +58,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         LOG.debug("markPaymentsForFormat() entered paydate = " + paydate);
         LOG.debug("markPaymentsForFormat() actual paydate = " + paydateTs);
 
-        //PaymentStatus format = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.FORMAT);
+        PaymentStatus format = (PaymentStatus) this.kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.FORMAT);
 
         List customerIds = new ArrayList();
         for (Iterator iter = customers.iterator(); iter.hasNext();) {
@@ -104,7 +106,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         while (groupIterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) groupIterator.next();
             paymentGroup.setLastUpdate(paydateTs);
-            //paymentGroup.setPaymentStatus(format);
+            paymentGroup.setPaymentStatus(format);
             paymentGroup.setProcess(proc);
             getPersistenceBrokerTemplate().store(paymentGroup);
         }
@@ -132,5 +134,13 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
 
     public void setReferenceService(ReferenceService referenceService) {
         this.referenceService = referenceService;
+    }
+
+    public KualiCodeService getKualiCodeService() {
+        return kualiCodeService;
+    }
+
+    public void setKualiCodeService(KualiCodeService kualiCodeService) {
+        this.kualiCodeService = kualiCodeService;
     }
 }

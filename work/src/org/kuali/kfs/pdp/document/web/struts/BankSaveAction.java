@@ -33,6 +33,7 @@ import org.kuali.kfs.pdp.service.BankService;
 import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.pdp.web.struts.BaseAction;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.KualiCodeService;
 
 public class BankSaveAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankSaveAction.class);
@@ -74,7 +75,7 @@ public class BankSaveAction extends BaseAction {
             bank.setAccountNumber(bankForm.getAccountNumber());
             bank.setActive(bankForm.getActive());
             bank.setDescription(bankForm.getDescription());
-            //bank.setDisbursementType((DisbursementType) referenceService.getCode("DisbursementType", bankForm.getDisbursementTypeCode()));
+            bank.setDisbursementType((DisbursementType) SpringContext.getBean(KualiCodeService.class).getByCode(DisbursementType.class, bankForm.getDisbursementTypeCode()));
             if ((bankForm.getId() == null) || (bankForm.getId().intValue() == 0)) {
                 bank.setId(null);
             } else {

@@ -24,10 +24,12 @@ import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.PaymentChange;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
+import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 import org.kuali.kfs.pdp.dataaccess.AchAccountNumberDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
@@ -39,8 +41,10 @@ import org.kuali.kfs.pdp.exception.PdpException;
 import org.kuali.kfs.pdp.service.EnvironmentService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
@@ -83,38 +87,39 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     private EnvironmentService environmentService;
     private MailService mailService;
     private ParameterService parameterService;
-
+    private KualiCodeService kualiCodeService;
+    
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
-        //Code cd = referenceService.getCode("PaymentChange", changeStatus);
-        //paymentGroupHistory.setPaymentChange((PaymentChange) cd);
+        KualiCode cd = this.kualiCodeService.getByCode(PaymentChange.class, changeStatus);
+        paymentGroupHistory.setPaymentChange((PaymentChange) cd);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
         paymentGroupHistory.setChangeUser(user);
         paymentGroupHistory.setChangeNoteText(note);
         paymentGroupHistory.setPaymentGroup(paymentGroup);
         paymentGroupHistoryDao.save(paymentGroupHistory);
 
-        //Code code = referenceService.getCode("PaymentStatus", newPaymentStatus);
-        //paymentGroup.setPaymentStatus((PaymentStatus) code);
+        KualiCode code = this.kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
+        paymentGroup.setPaymentStatus((PaymentStatus) code);
         paymentGroupDao.save(paymentGroup);
         LOG.debug("changeStatus() Status has been changed; exit method.");
     }
 
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user, PaymentGroupHistory paymentGroupHistory) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
-        //Code cd = referenceService.getCode("PaymentChange", changeStatus);
-        //paymentGroupHistory.setPaymentChange((PaymentChange) cd);
+        KualiCode cd = this.kualiCodeService.getByCode(PaymentChange.class, changeStatus);
+        paymentGroupHistory.setPaymentChange((PaymentChange) cd);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
         paymentGroupHistory.setChangeUser(user);
         paymentGroupHistory.setChangeNoteText(note);
         paymentGroupHistory.setPaymentGroup(paymentGroup);
         paymentGroupHistoryDao.save(paymentGroupHistory);
 
-        //Code code = referenceService.getCode("PaymentStatus", newPaymentStatus);
-        /*if (paymentGroup.getPaymentStatus() != ((PaymentStatus) code)) {
+        KualiCode code = this.kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
+        if (paymentGroup.getPaymentStatus() != ((PaymentStatus) code)) {
             paymentGroup.setPaymentStatus((PaymentStatus) code);
-        }*/
+        }
         paymentGroupDao.save(paymentGroup);
 
         LOG.debug("changeStatus() Status has been changed; exit method.");
@@ -592,5 +597,13 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public KualiCodeService getKualiCodeService() {
+        return kualiCodeService;
+    }
+
+    public void setKualiCodeService(KualiCodeService kualiCodeService) {
+        this.kualiCodeService = kualiCodeService;
     }
 }

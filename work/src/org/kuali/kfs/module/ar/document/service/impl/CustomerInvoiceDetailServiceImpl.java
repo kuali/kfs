@@ -30,7 +30,6 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
-import org.kuali.kfs.module.ar.dataaccess.CustomerInvoiceDetailDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
@@ -55,7 +54,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private InvoicePaidAppliedService invoicePaidAppliedService;
-    private CustomerInvoiceDetailDao customerInvoiceDetailDao;
+   // private CustomerInvoiceDetailDao customerInvoiceDetailDao;
 
 
     /**
@@ -415,12 +414,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }       
 
 
-public CustomerInvoiceDetailDao getCustomerInvoiceDetailDao() {
-    return customerInvoiceDetailDao;
-}
 
-public void setCustomerInvoiceDetailDao(CustomerInvoiceDetailDao customerInvoiceDetailDao) {
-    this.customerInvoiceDetailDao = customerInvoiceDetailDao;
-}
 
 }

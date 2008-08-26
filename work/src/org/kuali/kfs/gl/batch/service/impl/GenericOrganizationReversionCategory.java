@@ -19,7 +19,6 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 
 /**
@@ -34,10 +33,6 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
     private boolean isExpense;
 
     private ParameterService parameterService;
-    private ParameterEvaluator consolidationRules;
-    private ParameterEvaluator levelRules;
-    private ParameterEvaluator objectTypeRules;
-    private ParameterEvaluator objectSubTypeRules;
 
     /**
      * Constructs a GenericOrganizationReversionCategory
@@ -82,38 +77,10 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
         String objType = oc.getFinancialObjectTypeCode();
         String objSubType = oc.getFinancialObjectSubType().getCode();
 
-        if (consolidationRules == null) {
-            consolidationRules = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_CONSOL_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_CONSOL_PARAM_SUFFIX, categoryCode, cons);
-        }
-        else {
-            consolidationRules.setConstrainedValue(cons);
-        }
-
-        if (levelRules == null) {
-            levelRules = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_LEVEL_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_LEVEL_PARAM_SUFFIX, categoryCode, level);
-        }
-        else {
-            levelRules.setConstrainedValue(level);
-        }
-
-        if (objectTypeRules == null) {
-            objectTypeRules = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_TYPE_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_TYPE_PARAM_SUFFIX, categoryCode, objType);
-        }
-        else {
-            objectTypeRules.setConstrainedValue(objType);
-        }
-
-        if (objectSubTypeRules == null) {
-            objectSubTypeRules = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_SUB_TYPE_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_SUB_TYPE_PARAM_SUFFIX, categoryCode, objSubType);
-        }
-        else {
-            objectSubTypeRules.setConstrainedValue(objSubType);
-        }
-
-        boolean consolidationRulesPassed = consolidationRules.evaluationSucceeds();
-        boolean levelRulesPassed = levelRules.evaluationSucceeds();
-        boolean objectTypeRulesPassed = objectTypeRules.evaluationSucceeds();
-        boolean objectSubTypeRulesPassed = objectSubTypeRules.evaluationSucceeds();
+        boolean consolidationRulesPassed = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_CONSOL_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_CONSOL_PARAM_SUFFIX, categoryCode, cons).evaluationSucceeds();
+        boolean levelRulesPassed = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_LEVEL_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_LEVEL_PARAM_SUFFIX, categoryCode, level).evaluationSucceeds();
+        boolean objectTypeRulesPassed = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_TYPE_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_TYPE_PARAM_SUFFIX, categoryCode, objType).evaluationSucceeds();
+        boolean objectSubTypeRulesPassed = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_SUB_TYPE_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_SUB_TYPE_PARAM_SUFFIX, categoryCode, objSubType).evaluationSucceeds();
 
         return consolidationRulesPassed && levelRulesPassed && objectTypeRulesPassed && objectSubTypeRulesPassed;
     }

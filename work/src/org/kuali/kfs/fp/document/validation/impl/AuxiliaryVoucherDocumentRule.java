@@ -456,19 +456,13 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @return return true if line contains a valid combination of object sub type and object level
      */
     private boolean isValidDocWithSubAndLevel(AccountingDocument document, AccountingLine accountingLine) {
-        boolean retval = true;
-
         StringBuffer combinedCodes = new StringBuffer(accountingLine.getObjectType().getCode()).append(',').append(accountingLine.getObjectCode().getFinancialObjectSubType().getCode()).append(',').append(accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode());
-        ParameterEvaluator evalutator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, RESTRICTED_COMBINED_CODES);
-
-        retval = !evalutator.equals(combinedCodes.toString());
-
-        if (!retval) {
+        if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, RESTRICTED_COMBINED_CODES, combinedCodes.toString()).evaluationSucceeds()) {
             String errorObjects[] = { accountingLine.getObjectCode().getFinancialObjectCode(), accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode(), accountingLine.getObjectCode().getFinancialObjectSubType().getCode(), accountingLine.getObjectType().getCode() };
             reportError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE, errorObjects);
+            return false;
         }
-
-        return retval;
+        return true;
     }
 
     /**

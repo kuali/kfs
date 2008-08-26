@@ -26,8 +26,7 @@ public class ActiveStaffFacultyAffiliateModuleAuthorizer extends FinancialSystem
     /** check that the user is an active staff/faculty/affiliate of the institution */
     @Override
     public boolean canAccessModule(FinancialSystemUser user) {
-        ParameterEvaluator pe = parameterService.getParameterEvaluator(UniversalUser.class, KNSConstants.ALLOWED_EMPLOYEE_STATUS_RULE);
-        pe.setConstrainedValue(user.getEmployeeStatusCode());
+        ParameterEvaluator pe = parameterService.getParameterEvaluator(UniversalUser.class, KNSConstants.ALLOWED_EMPLOYEE_STATUS_RULE, user.getEmployeeStatusCode());
         return pe.evaluationSucceeds() && (user.isStaff() || user.isFaculty() || user.isAffiliate());
     }
 

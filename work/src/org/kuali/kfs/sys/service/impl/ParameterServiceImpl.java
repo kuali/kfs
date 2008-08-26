@@ -205,30 +205,6 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String
-     *      constrainedValue)
-     */
-    public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainedValue) {
-        List<ParameterEvaluator> parameterEvaluators = new ArrayList<ParameterEvaluator>();
-        for (Parameter parameter : getParameters(componentClass)) {
-            parameterEvaluators.add(getParameterEvaluator(parameter, constrainedValue));
-        }
-        return parameterEvaluators;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String
-     *      constrainingValue, java.lang.String constrainedValue)
-     */
-    public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainingValue, String constrainedValue) {
-        List<ParameterEvaluator> parameterEvaluators = new ArrayList<ParameterEvaluator>();
-        for (Parameter parameter : getParameters(componentClass)) {
-            parameterEvaluators.add(getParameterEvaluator(parameter, constrainingValue, constrainedValue));
-        }
-        return parameterEvaluators;
-    }
-
-    /**
      * This method derived ParameterDetailedTypes from the DataDictionary for all BusinessObjects and Documents and from Spring for
      * all batch Steps.
      * 
@@ -409,13 +385,6 @@ public class ParameterServiceImpl implements ParameterService {
             return Collections.EMPTY_LIST;
         }
         return Arrays.asList(parameter.getParameterValue().split(";"));
-    }
-
-    private List<Parameter> getParameters(Class componentClass) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("parameterNamespaceCode", getNamespace(componentClass));
-        fieldValues.put("parameterDetailTypeCode", getDetailType(componentClass));
-        return new ArrayList<Parameter>(businessObjectService.findMatching(Parameter.class, fieldValues));
     }
 
     private Parameter getParameter(String namespaceCode, String detailTypeCode, String parameterName) {

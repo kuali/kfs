@@ -126,28 +126,6 @@ public interface ParameterService {
     public ParameterEvaluator getParameterEvaluator(Class componentClass, String allowParameterName, String denyParameterName, String constrainingValue, String constrainedValue);
 
     /**
-     * This method returns ParameterEvaluators initialized per public ParameterEvaluator getParameterEvaluator(Class componentClass,
-     * String parameterName, String constrainedValue)
-     * 
-     * @param componentClass
-     * @param constrainedValue
-     * @return List<ParameterEvaluator> initialized per public ParameterEvaluator getParameterEvaluator(Class componentClass,
-     *         String parameterName, String constrainedValue)
-     */
-    public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainedValue);
-
-    /**
-     * This method returns ParameterEvaluators initialized per public ParameterEvaluator getParameterEvaluator(Class componentClass,
-     * String parameterName, String constrainingValue, String constrainedValue)
-     * 
-     * @param componentClass
-     * @param constrainedValue
-     * @return List<ParameterEvaluator> initialized per public ParameterEvaluator getParameterEvaluator(Class componentClass,
-     *         String parameterName, String constrainingValue, String constrainedValue)
-     */
-    public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainingValue, String constrainedValue);
-
-    /**
      * This method can be used to supplement the list of ParameterDetailTypes defined in the database from other sources.
      * 
      * @return List<ParameterDetailedType> containing the detailed types configured in non-database sources

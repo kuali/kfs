@@ -84,6 +84,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jboss-common-core-2.0.4.GA.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/persistence-api-1.0.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-api-0.9.4-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-impl-0.9.4-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-impl-0.9.4-SNAPSHOT.jar" sourcepath="C:/java/projects/kfs-dependencies/rice-impl-0.9.4-SNAPSHOT-sources.zip"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

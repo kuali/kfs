@@ -34,6 +34,7 @@ import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -52,7 +53,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     private static KualiConfigurationService configService;
     private static ChartService chartService;
     private Map reportsTo;
-    private static List illegalValues;
 
     /**
      * 
@@ -63,9 +63,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         if (objectConsService == null) {
             configService = SpringContext.getBean(KualiConfigurationService.class);
-
-            illegalValues = retrieveParameterSet(KFSConstants.ChartApcParms.OBJECT_CODE_ILLEGAL_VALUES);
-
             objectLevelService = SpringContext.getBean(ObjectLevelService.class);
             objectCodeService = SpringContext.getBean(ObjectCodeService.class);
             chartService = SpringContext.getBean(ChartService.class);
@@ -135,9 +132,9 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         String objCode = objectCode.getFinancialObjectCode();
 
-        if (!isLegalObjectCode(objCode)) {
+        if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(ObjectCode.class, KFSConstants.ChartApcParms.OBJECT_CODE_ILLEGAL_VALUES, objCode).evaluationSucceeds()) {
             this.putFieldError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_ILLEGAL, objCode);
-            result = false;
+            result = false;            
         }
 
         Integer year = objectCode.getUniversityFiscalYear();
@@ -319,17 +316,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
-
-    /**
-     * Object code (fin_obj_code) must not have an institutionally specified illegal value
-     * 
-     * @return
-     */
-    protected boolean isLegalObjectCode(String objectCode) {
-        boolean result = denied(illegalValues, objectCode);
-        return result;
-    }
-
     /**
      * Budget Aggregation Code (fobj_bdgt_aggr_cd) must have an institutionally specified value
      * 
@@ -388,15 +374,4 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         // otherwise, check if the object is valid
         return verifyObjectCode(year, reportsToChartCode, reportsToObjectCode);
     }
-
-    /**
-     * 
-     * This method retrieves the list of {@link org.kuali.rice.kns.bo.Parameter} for the {@link ObjectCode} and specific parameterName
-     * @param parameterName
-     * @return List of parameters
-     */
-    private List<String> retrieveParameterSet(String parameterName) {
-        return SpringContext.getBean(ParameterService.class).getParameterValues(ObjectCode.class, parameterName);
-    }
-
 }

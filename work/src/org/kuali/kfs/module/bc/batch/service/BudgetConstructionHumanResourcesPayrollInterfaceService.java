@@ -33,5 +33,5 @@ public interface BudgetConstructionHumanResourcesPayrollInterfaceService {
      * @param PositionSynchOK control flag which indicates whether position data in budget construction is updateable or frozen
      * @param CSFUpdateOK control flag which indicates whether current payroll information can flow into budget construction
      */
-    public void refreshBudgetConstructionIntendedIncumbent (Integer BaseYear, boolean PositionSynchOK, boolean CSFUpdateOK);
+    public void refreshBudgetConstructionIntendedIncumbent (Integer BaseYear, boolean PositionSynchOK, boolean CSFUpdateOK, boolean BCUpdatesAllowed);
 }

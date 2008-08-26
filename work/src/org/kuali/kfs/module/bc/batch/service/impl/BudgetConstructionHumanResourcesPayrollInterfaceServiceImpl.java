@@ -53,20 +53,32 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl impleme
      * 
      * @see org.kuali.kfs.module.bc.batch.service.BudgetConstructionHumanResourcesPayrollInterfaceService#refreshBudgetConstructionIntendedIncumbent(java.lang.Integer, boolean, boolean)
      */
-    public void refreshBudgetConstructionIntendedIncumbent(Integer baseYear, boolean positionSynchOK, boolean CSFUpdateOK) {
+    public void refreshBudgetConstructionIntendedIncumbent(Integer baseYear, boolean positionSynchOK, boolean CSFUpdateOK, boolean BCUpdatesAllowed) {
         Integer requestYear = baseYear+1;
         /**
-         *  the intended incumbent table is updates when human resources information is still flowing into budget construction
+         *  the intended incumbent table is updated when human resources information is still flowing into budget construction.
+         *  when this is no longer the case, only the names are updated (unless all of budget construction is no longer in update mode).
          */
         if (positionSynchOK)
         {
-            budgetConstructionHumanResourcesPayrollInterfaceDao.buildBudgetConstructionIntendedIncumbent(requestYear);
+            if (CSFUpdateOK)
+            {
+                // we update the faculty level (full, associate, assistant, etc.) only if base payroll information is still flowing into budget construction.
+                // otherwise, we assume that the base payroll is "frozen" as a base-line for salary setting, and we stop allowing people to move between faculty levels.
+                // this version builds intended incumbent without adding anyone to the faculty levels.
+                budgetConstructionHumanResourcesPayrollInterfaceDao.buildBudgetConstructionIntendedIncumbentWithFacultyAttributes(requestYear);
+            }
+            else
+            {
+                // this version builds intended incumbent and updates faculty ranks.
+                budgetConstructionHumanResourcesPayrollInterfaceDao.buildBudgetConstructionIntendedIncumbent(requestYear);
+            }
         }
-        if (positionSynchOK && CSFUpdateOK)
+       // the name is always updated if the budget is in update mode
+        if (BCUpdatesAllowed)
         {
-            budgetConstructionHumanResourcesPayrollInterfaceDao.updateBudgetConstructionIntendedIncumbentAttributes(requestYear);
+            budgetConstructionHumanResourcesPayrollInterfaceDao.updateNamesInBudgetConstructionIntendedIncumbent();
         }
-
     }
 
     public void setBudgetConstructionHumanResourcesPayrollInterfaceDao (BudgetConstructionHumanResourcesPayrollInterfaceDao budgetConstructionHumanResourcesPayrollInterfaceDao)

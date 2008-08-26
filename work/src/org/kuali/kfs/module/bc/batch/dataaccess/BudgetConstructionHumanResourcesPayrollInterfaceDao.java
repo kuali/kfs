@@ -37,6 +37,15 @@ public interface BudgetConstructionHumanResourcesPayrollInterfaceDao {
     public void buildBudgetConstructionIntendedIncumbent (Integer requestFiscalYear);
     /**
      * 
+     *  use this method to fill in the "IU_CLASSIF_LEVEL" (an attribute which indicates the principal type of academic title) when you build your intended incumbent table.
+     *  this attribute is only for display, so this method can be implemented to do the same thing as the standard build.
+     *  At IU, the attribute is used for reporting, to see whether salary guidelines for faculty have been met, but that happens outside the application itself.
+     *  Alternatively, if you add fields to your intended incumbent table, this method can be called to add values for those fields to the default intended incumbent build.
+     * @param requestFiscalYear
+     */
+    public void buildBudgetConstructionIntendedIncumbentWithFacultyAttributes (Integer requestFiscalYear);
+    /**
+     * 
      * use this method to import the most recent version of positions in the current fiscal year which occur in CSF, the current year salary table
      * @param baseFiscalYear
      */
@@ -48,15 +57,10 @@ public interface BudgetConstructionHumanResourcesPayrollInterfaceDao {
      * @param requestFiscalYear
      */
     public void buildBudgetConstructionPositonRequestYear (Integer requestFiscalYear);
-    
     /**
      * 
-     *  use this method to update the "IU_CLASSIF_LEVEL" (an attribute which indicates the principal type of academic title)
-     *  this attribute is only for display, so this method can be implemented (as we do here) to do nothing at all.
-     *  Alternatively, if you add fields to your intended incumbent table, this method can be called to update those
-     *  attributes on the existing rows in intended incumbent.
-     * @param requestFiscalYear
+     * updates the names in the intended incumbent table
      */
-    public void updateBudgetConstructionIntendedIncumbentAttributes (Integer requestFiscalYear);
+    public void updateNamesInBudgetConstructionIntendedIncumbent();
     
 }

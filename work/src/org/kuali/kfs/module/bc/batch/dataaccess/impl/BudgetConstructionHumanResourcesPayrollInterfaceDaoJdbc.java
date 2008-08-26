@@ -129,6 +129,16 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
          getSimpleJdbcTemplate().update(sqlString,sqlArgumentList);
 //         getSimpleJdbcTemplate().getJdbcOperations().update(sqlString,sqlArgumentList,sqlArgumentTypes);
     }
+/**
+ * 
+ * @see org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionIntendedIncumbentWithFacultyAttributes(java.lang.Integer)
+ */    
+    public void buildBudgetConstructionIntendedIncumbentWithFacultyAttributes (Integer requestFiscalYear)
+    {
+         // this method is the same as buildBudgetConstructionIntendedIncumbent in the default interface.
+         // to update faculty ranks, one would modify buildBudgetConstructionIntendedIncumbent so the defaultClassifictaionId for faculty incumbents corresponded to the appropriate faculty level.
+         this.buildBudgetConstructionIntendedIncumbent(requestFiscalYear);
+    }
 
     /**
      * 
@@ -347,12 +357,10 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
     
     /**
      * 
-     * @see org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao#updateBudgetConstructionIntenededIncumbentAttributes(java.lang.Integer)
+     * @see org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao#updateNamesInBudgetConstructionIntendedIncumbent()
      */
-    
-    public void updateBudgetConstructionIntendedIncumbentAttributes (Integer requestFiscalYear)
+    public void updateNamesInBudgetConstructionIntendedIncumbent()
     {
-         // this method does nothing in the default interface.  use it if you want to update attributes on existing 
-         // intended incumbent rows
+        // do nothing in the default: the names are added in the build routines
     }
 }

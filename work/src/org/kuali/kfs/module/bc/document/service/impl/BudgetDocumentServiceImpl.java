@@ -524,7 +524,27 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         Integer budgetYear = bcHeader.getUniversityFiscalYear();
         Account account = bcHeader.getAccount();
-        boolean isBudgetableAccount = this.isBudgetableAccount(budgetYear, account);
+        boolean isBudgetableAccount = this.isBudgetableAccount(budgetYear, account, true);
+
+        if (isBudgetableAccount) {
+            SubAccount subAccount = bcHeader.getSubAccount();
+            String subAccountNumber = bcHeader.getSubAccountNumber();
+
+            return this.isBudgetableSubAccount(subAccount, subAccountNumber);
+        }
+
+        return false;
+    }
+    
+    @NonTransactional
+    public boolean isBudgetableDocumentNoWagesCheck(BudgetConstructionHeader bcHeader) {
+        if (bcHeader == null) {
+            return false;
+        }
+
+        Integer budgetYear = bcHeader.getUniversityFiscalYear();
+        Account account = bcHeader.getAccount();
+        boolean isBudgetableAccount = this.isBudgetableAccount(budgetYear, account, false);
 
         if (isBudgetableAccount) {
             SubAccount subAccount = bcHeader.getSubAccount();
@@ -547,7 +567,30 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         Integer budgetYear = document.getUniversityFiscalYear();
         Account account = document.getAccount();
-        boolean isBudgetableAccount = this.isBudgetableAccount(budgetYear, account);
+        boolean isBudgetableAccount = this.isBudgetableAccount(budgetYear, account, true);
+
+        if (isBudgetableAccount) {
+            SubAccount subAccount = document.getSubAccount();
+            String subAccountNumber = document.getSubAccountNumber();
+
+            return this.isBudgetableSubAccount(subAccount, subAccountNumber);
+        }
+
+        return false;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isBudgetableDocumentNoWagesCheck(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
+     */
+    @NonTransactional
+    public boolean isBudgetableDocumentNoWagesCheck(BudgetConstructionDocument document) {
+        if (document == null) {
+            return false;
+        }
+
+        Integer budgetYear = document.getUniversityFiscalYear();
+        Account account = document.getAccount();
+        boolean isBudgetableAccount = this.isBudgetableAccount(budgetYear, account, false);
 
         if (isBudgetableAccount) {
             SubAccount subAccount = document.getSubAccount();
@@ -573,7 +616,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      *      org.kuali.kfs.coa.businessobject.Account)
      */
     @NonTransactional
-    public boolean isBudgetableAccount(Integer budgetYear, Account account) {
+    public boolean isBudgetableAccount(Integer budgetYear, Account account, boolean isWagesCheck) {
         if (budgetYear == null || account == null) {
             return false;
         }
@@ -594,10 +637,14 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             return false;
         }
 
-        // account must be flagged as wages allowed
-        SubFundGroup subFundGroup = account.getSubFundGroup();
-        if (subFundGroup == null || !subFundGroup.isSubFundGroupWagesIndicator()) {
-            return false;
+        // this check is needed for salary setting
+        if (isWagesCheck){
+
+            // account must be flagged as wages allowed
+            SubFundGroup subFundGroup = account.getSubFundGroup();
+            if (subFundGroup == null || !subFundGroup.isSubFundGroupWagesIndicator()) {
+                return false;
+            }
         }
 
         return true;

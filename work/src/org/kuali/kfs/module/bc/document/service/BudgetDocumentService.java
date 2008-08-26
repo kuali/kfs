@@ -196,12 +196,30 @@ public interface BudgetDocumentService {
     public boolean isBudgetableDocument(BudgetConstructionHeader bcHeader);
     
     /**
+     * determine whether the given document is budgetable skipping the
+     * wages allowed check
+     * 
+     * @param bcHeader the given budget document
+     * @return true if the given document is budgetable; otherwise, false
+     */
+    public boolean isBudgetableDocumentNoWagesCheck(BudgetConstructionHeader bcHeader);
+    
+    /**
      * determine whether the given document is budgetable
      * 
      * @param document the given budget document
      * @return true if the given document is budgetable; otherwise, false
      */
     public boolean isBudgetableDocument(BudgetConstructionDocument document);
+
+    /**
+     * determine whether the given document is budgetable skipping the
+     * wages allowed check
+     * 
+     * @param document the given budget document
+     * @return true if the given document is budgetable; otherwise, false
+     */
+    public boolean isBudgetableDocumentNoWagesCheck(BudgetConstructionDocument document);
 
     /**
      * determine whether the given appointment funding is associated with a budgetable document
@@ -216,16 +234,17 @@ public interface BudgetDocumentService {
      * 
      * @param budgetYear the specified budget year
      * @param account the given account
+     * @param isWagesCheck whether or not to include the no wages check
      * @return true if the given account is budgetable for the specified budget year; otherwise, false
      */
-    public boolean isBudgetableAccount(Integer budgetYear, Account account);
+    public boolean isBudgetableAccount(Integer budgetYear, Account account, boolean isWagesCheck);
 
     /**
      * determine whether the given subaccount is budgetable
      * 
      * @param subAccount the given subaccount
      * @param subAccountNumber the sub account number associated with the given sub account. If sub account is null, the number can
-     *        be empty or the defualt.
+     *        be empty or the default.
      * @return true if the given subaccount is budgetable; otherwise, false
      */
     public boolean isBudgetableSubAccount(SubAccount subAccount, String subAccountNumber);

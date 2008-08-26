@@ -227,8 +227,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
 
         if (!activeVendor) {
-            this.setVendorHeaderGeneratedIdentifier(null);
-            this.setVendorDetailAssignedIdentifier(null);
             this.setVendorContractGeneratedIdentifier(null);
         }
         if (!activeContract) {

@@ -101,9 +101,6 @@
 		<property name="invoicePaidAppliedService">
 			<ref bean="invoicePaidAppliedService"/>
 		</property>
-		<property name="customerInvoiceDetailDao">
-			<ref bean="customerInvoiceDetailDao"/>
-		</property>
 	</bean>
 	
 	<bean id="nonAppliedHoldingService" class="org.kuali.kfs.module.ar.document.service.impl.NonAppliedHoldingServiceImpl">

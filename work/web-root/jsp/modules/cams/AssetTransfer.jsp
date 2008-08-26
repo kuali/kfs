@@ -35,11 +35,11 @@
 				<td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">Old</div></td><td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">New</div></td>
 			</tr>
 			<tr>
-				<td class="tab-subhead"  colspan="2" width="50%">Transfer to Receiving Organization</td><td class="tab-subhead"  colspan="2" width="50%">Transfer to Receiving Organization</td>
+				<td class="tab-subhead"  colspan="2" width="50%">Transfer from Originating Organization</td><td class="tab-subhead"  colspan="2" width="50%">Transfer to Receiving Organization</td>
 			</tr>			
 			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationOwnerChartOfAccountsCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.organizationOwnerChartOfAccountsCode" attributeEntry="${assetTransferAttributes.organizationOwnerChartOfAccountsCode}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.oldOrganizationOwnerChartOfAccountsCode}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.oldOrganizationOwnerChartOfAccountsCode" attributeEntry="${assetTransferAttributes.organizationOwnerChartOfAccountsCode}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationOwnerChartOfAccountsCode}" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationOwnerChartOfAccountsCode" attributeEntry="${assetTransferAttributes.organizationOwnerChartOfAccountsCode}" />
 					&nbsp;
@@ -47,8 +47,8 @@
 				</td>						
 			</tr>
 			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationOwnerAccountNumber}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.organizationOwnerAccountNumber" attributeEntry="${assetTransferAttributes.organizationOwnerAccountNumber}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.oldOrganizationOwnerAccountNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.oldOrganizationOwnerAccountNumber" attributeEntry="${assetTransferAttributes.organizationOwnerAccountNumber}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationOwnerAccountNumber}" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationOwnerAccountNumber" attributeEntry="${assetTransferAttributes.organizationOwnerAccountNumber}" />
 				&nbsp;
@@ -56,8 +56,8 @@
 				</td>				
 			</tr>
 			<tr>				
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.organizationOwnerAccount.organizationCode" attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.oldOrganizationCode}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.oldOrganizationCode" attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationCode}" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationOwnerAccount.organizationCode" attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true" /></td>
 			</tr>
@@ -75,109 +75,66 @@
 		</table>
 		</div>
 	 </kul:tab>
-	 <kul:tab tabTitle="Asset Location" defaultOpen="true" tabErrorKey="document.locationTabKey,document.campusCode,document.buildingCode,document.buildingRoomNumber,document.offCampus*"> 
+	 
+    <kul:tab tabTitle="Asset Location" defaultOpen="true" tabErrorKey="document.locationTabKey,document.campusCode,document.buildingCode,document.buildingRoomNumber,document.offCampus*"> 
 		<div class="tab-container" align="center">
-		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-			
+		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
 			<tr>
-				<td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">Old</div></td><td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">New</div></td>
-			</tr>
-			<!-- On campus information -->
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.campusCode}"  readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.campusCode" attributeEntry="${assetTransferAttributes.campusCode}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.campusCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.campusCode" attributeEntry="${assetTransferAttributes.campusCode}" />
-				&nbsp;
-                <kul:lookup boClassName="org.kuali.rice.kns.bo.Campus" fieldConversions="campusCode:document.campusCode" lookupParameters="document.campusCode:campusCode" />
-				</td>						
-			</tr>
-			<tr>
-				<td class="tab-subhead"  colspan="2" width="50%">On Campus</td><td class="tab-subhead"  colspan="2" width="50%">On Campus</td>
+				<td class="tab-subhead"  colspan="2" width="50%">On Campus</td><td class="tab-subhead"  colspan="2" width="50%">Off Campus</td>
 			</tr>			
 			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.buildingCode" attributeEntry="${assetTransferAttributes.buildingCode}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.buildingCode" attributeEntry="${assetTransferAttributes.buildingCode}" />
-				&nbsp;
-                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building" fieldConversions="buildingCode:document.buildingCode,campusCode:document.campusCode" lookupParameters="document.buildingCode:buildingCode,document.campusCode:campusCode" />
-				</td>						
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.campusCode}" /></th>  
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.campusCode" attributeEntry="${assetTransferAttributes.campusCode}" /></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusName}" /></th>  
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusName" attributeEntry="${assetTransferAttributes.offCampusName}" /></td>
 			</tr>
 			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingRoomNumber}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.buildingRoomNumber" attributeEntry="${assetTransferAttributes.buildingRoomNumber}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingRoomNumber}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.buildingRoomNumber" attributeEntry="${assetTransferAttributes.buildingRoomNumber}" />
-				&nbsp;
-                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" fieldConversions="buildingRoomNumber:document.buildingRoomNumber,buildingCode:document.buildingCode,campusCode:document.campusCode" lookupParameters="document.buildingRoomNumber:buildingRoomNumber,document.buildingCode:buildingCode,document.campusCode:campusCode" />
-				</td>						
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingCode}" /></th>  
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.buildingCode" attributeEntry="${assetTransferAttributes.buildingCode}" /></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusAddress}" /></th>  
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusAddress" attributeEntry="${assetTransferAttributes.offCampusAddress}" /></td>
+			</tr>
+			<tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingRoomNumber}" /></th>  
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.buildingRoomNumber" attributeEntry="${assetTransferAttributes.buildingRoomNumber}" /></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCityName}" /></th>  
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusCityName" attributeEntry="${assetTransferAttributes.offCampusCityName}" /></td>
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingSubRoomNumber}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.buildingSubRoomNumber" attributeEntry="${assetTransferAttributes.buildingSubRoomNumber}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingSubRoomNumber}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.buildingSubRoomNumber" attributeEntry="${assetTransferAttributes.buildingSubRoomNumber}" />
-				</td>						
-			</tr>
-			<!-- Off campus information -->
-			<tr>
-				<td class="tab-subhead"  colspan="2" width="50%">Off Campus</td><td class="tab-subhead"  colspan="2" width="50%">Off Campus</td>
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusName}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationContactName" attributeEntry="${assetTransferAttributes.offCampusName}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusName}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusName" attributeEntry="${assetTransferAttributes.offCampusName}" /></td>						
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusAddress}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationStreetAddress" attributeEntry="${assetTransferAttributes.offCampusAddress}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusAddress}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusAddress" attributeEntry="${assetTransferAttributes.offCampusAddress}" /></td>						
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCityName}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationCityName" attributeEntry="${assetTransferAttributes.offCampusCityName}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCityName}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusCityName" attributeEntry="${assetTransferAttributes.offCampusCityName}" /></td>						
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusStateCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationStateCode" attributeEntry="${assetTransferAttributes.offCampusStateCode}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusStateCode}" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.buildingSubRoomNumber" attributeEntry="${assetTransferAttributes.buildingSubRoomNumber}" /></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusStateCode}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusStateCode" attributeEntry="${assetTransferAttributes.offCampusStateCode}" />						
 					&nbsp;
 	                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.State" fieldConversions="postalStateCode:document.offCampusStateCode" lookupParameters="document.offCampusStateCode:postalStateCode," />
-                </td>
+				</td>						
 			</tr>
 			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusZipCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationZipCode" attributeEntry="${assetTransferAttributes.offCampusZipCode}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusZipCode}" /></th>
+				<th class="grid" width="25%" align="right" colspan="2"></th>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusZipCode}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusZipCode" attributeEntry="${assetTransferAttributes.offCampusZipCode}" />
 					&nbsp;
 	                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.PostalZipCode" fieldConversions="postalZipCode:document.offCampusZipCode" lookupParameters="document.offCampusZipCode:postalZipCode,document.offCampusStateCode:postalStateCode" />
-				</td>						
-			</tr>			
+				</td>
+			</tr>
 			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCountryCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationCountryCode" attributeEntry="${assetTransferAttributes.offCampusCountryCode}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCountryCode}" /></th>
+				<th class="grid" width="25%" align="right" colspan="2"></th>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCountryCode}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusCountryCode" attributeEntry="${assetTransferAttributes.offCampusCountryCode}" />
 					&nbsp;
 	                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Country" fieldConversions="postalCountryCode:document.offCampusCountryCode" lookupParameters="document.offCampusCountryCode:postalCountryCode" />
-				</td>										
-			</tr>			
+				</td>
+			</tr>
 		</table>
 		</div>
 	</kul:tab>
+
 	<!-- Organization Information -->
 	<kul:tab tabTitle="Organization Information" defaultOpen="true" tabErrorKey="document.assetRepresentative.personUserIdentifier" > 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">			
 			<tr>
-				<td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">Old</div></td><td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">New</div></td>
+				<td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">Current</div></td><td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">New</div></td>
 			</tr>					
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationInventoryName}" /></th>

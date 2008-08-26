@@ -20,6 +20,7 @@ import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.CAPITAL_ASSET
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -31,6 +32,7 @@ import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
@@ -47,6 +49,8 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward docHandlerForward = super.docHandler(mapping, form, request, response);
+        
+        // refresh asset information
         AssetTransferForm assetTransferForm = (AssetTransferForm) form;
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) assetTransferForm.getDocument();
         handleRequestFromLookup(request, assetTransferForm, assetTransferDocument);
@@ -56,6 +60,15 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
         SpringContext.getBean(AssetLocationService.class).setOffCampusLocation(asset);
         SpringContext.getBean(PaymentSummaryService.class).calculateAndSetPaymentSummary(asset);
+        
+        // populate old asset fields for historic retaining on document
+        String command = assetTransferForm.getCommand();
+        if (KEWConstants.INITIATE_COMMAND.equals(command)) {
+            assetTransferDocument.setOldOrganizationOwnerChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
+            assetTransferDocument.setOldOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
+            assetTransferDocument.setOldOrganizationCode(asset.getOrganizationOwnerAccount().getOrganizationCode());
+        }
+        
         return docHandlerForward;
     }
 

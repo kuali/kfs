@@ -20,6 +20,8 @@
         <ref bean="FunctionalFieldDescription-namespaceName" />
         <ref bean="FunctionalFieldDescription-componentClass" />
         <ref bean="FunctionalFieldDescription-componentLabel" />
+        <ref bean="FunctionalFieldDescription-propertyNameReadOnly" />
+        <ref bean="FunctionalFieldDescription-propertyLabelReadOnly" />
         <ref bean="FunctionalFieldDescription-propertyName" />
         <ref bean="FunctionalFieldDescription-propertyLabel" />
         <ref bean="FunctionalFieldDescription-functionalFieldDescription" />
@@ -65,6 +67,9 @@
                  <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="propertyLabel"
                     p:targetName="propertyLabel" />
+                 <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="propertyLabelReadOnly"
+                    p:targetName="propertyLabelReadOnly" />
                </list>
             </property>
           	 <property name="supportAttributes" >
@@ -78,6 +83,9 @@
                  <bean parent="SupportAttributeDefinition"
                     p:sourceName="propertyName"
                     p:targetName="propertyName" />
+                 <bean parent="SupportAttributeDefinition"
+                    p:sourceName="propertyNameReadOnly"
+                    p:targetName="propertyNameReadOnly" />
                </list>
             </property>
           </bean>
@@ -118,6 +126,18 @@
  
   <bean id="FunctionalFieldDescription-propertyLabel-parentBean" abstract="true" parent="BusinessObjectProperty-propertyLabel" />
 
+  <bean id="FunctionalFieldDescription-propertyNameReadOnly" parent="FunctionalFieldDescription-propertyNameReadOnly-parentBean" />
+ 
+  <bean id="FunctionalFieldDescription-propertyNameReadOnly-parentBean" abstract="true" parent="BusinessObjectProperty-propertyNameReadOnly">
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>  
+
+  <bean id="FunctionalFieldDescription-propertyLabelReadOnly" parent="FunctionalFieldDescription-propertyLabelReadOnly-parentBean" />
+ 
+  <bean id="FunctionalFieldDescription-propertyLabelReadOnly-parentBean" abstract="true" parent="BusinessObjectProperty-propertyLabelReadOnly" />
+  
   <bean id="FunctionalFieldDescription-functionalFieldDescription" parent="FunctionalFieldDescription-functionalFieldDescription-parentBean" />
   
   <bean id="FunctionalFieldDescription-functionalFieldDescription-parentBean" abstract="true" parent="GenericAttributes-genericBigText">

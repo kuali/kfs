@@ -27,9 +27,12 @@ public class BusinessObjectProperty extends PersistableBusinessObjectBase {
     private String componentLabel;
     private String propertyName;
     private String propertyLabel;
-
+    private String propertyNameReadOnly;
+    private String propertyLabelReadOnly;
+    
     private BusinessObjectComponent businessObjectComponent;
     
+
     public BusinessObjectProperty() {
     }
     
@@ -99,6 +102,22 @@ public class BusinessObjectProperty extends PersistableBusinessObjectBase {
         this.businessObjectComponent = businessObjectComponent;
     }
 
+    public String getPropertyNameReadOnly() {
+        return propertyName;
+    }
+
+    public void setPropertyNameReadOnly(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
+    public String getPropertyLabelReadOnly() {
+        return propertyLabel;
+    }
+
+    public void setPropertyLabelReadOnly(String propertyLabel) {
+        this.propertyLabel = propertyLabel;
+    }
+
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, String> toString = new LinkedHashMap<String, String>();
@@ -107,4 +126,5 @@ public class BusinessObjectProperty extends PersistableBusinessObjectBase {
         toString.put("propertyName", getPropertyName());
         return toString;
     }
-}
+
+ }

@@ -28,6 +28,8 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
     private String componentClass;
     private String componentLabel;
     private String propertyName;
+    private String propertyNameReadOnly;
+    private String propertyLabelReadOnly;
     private String propertyLabel;
     private String functionalFieldDescription;
     private boolean active;
@@ -147,4 +149,22 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
         }
         return new LinkedHashMap<String,String>();
     }
+
+    public String getPropertyNameReadOnly() {
+        return propertyName;
+    }
+
+    public void setPropertyNameReadOnly(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
+    public String getPropertyLabelReadOnly() {
+        return propertyLabel;
+    }
+
+    public void setPropertyLabelReadOnly(String propertyLabel) {
+        this.propertyLabel = propertyLabel;
+    }
+
+ 
 }

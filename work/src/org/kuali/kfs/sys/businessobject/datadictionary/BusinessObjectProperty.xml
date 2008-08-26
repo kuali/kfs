@@ -22,6 +22,8 @@
         <ref bean="BusinessObjectProperty-componentLabel" />
         <ref bean="BusinessObjectProperty-propertyName" />
         <ref bean="BusinessObjectProperty-propertyLabel" />
+        <ref bean="BusinessObjectProperty-propertyNameReadOnly" />
+        <ref bean="BusinessObjectProperty-propertyLabelReadOnly" />
       </list>
     </property>
     <property name="relationships" >
@@ -73,7 +75,17 @@
             p:size="40" />
     </property>
   </bean>
+  
+  <bean id="BusinessObjectProperty-propertyNameReadOnly" parent="BusinessObjectProperty-propertyNameReadOnly-parentBean" />
 
+  <bean id="BusinessObjectProperty-propertyNameReadOnly-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="propertyNameReadOnly" />
+    <property name="label" value="Property" />
+    <property name="control" >
+      <bean parent="LookupReadonlyControlDefinition" />
+    </property>
+  </bean>
+  
   <bean id="BusinessObjectProperty-propertyLabel" parent="BusinessObjectProperty-propertyLabel-parentBean" />
 
   <bean id="BusinessObjectProperty-propertyLabel-parentBean" abstract="true" parent="AttributeDefinition">
@@ -87,6 +99,16 @@
     </property>
   </bean>
 
+  <bean id="BusinessObjectProperty-propertyLabelReadOnly" parent="BusinessObjectProperty-propertyLabelReadOnly-parentBean" />
+
+  <bean id="BusinessObjectProperty-propertyLabelReadOnly-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="propertyLabelReadOnly" />
+    <property name="label" value="Property" />
+    <property name="control" >
+      <bean parent="LookupReadonlyControlDefinition" />
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
   <bean id="BusinessObjectProperty-lookupDefinition" parent="BusinessObjectProperty-lookupDefinition-parentBean" />

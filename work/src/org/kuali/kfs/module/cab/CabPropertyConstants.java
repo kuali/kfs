@@ -55,7 +55,6 @@ public class CabPropertyConstants {
         public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS = "purchasingAccountsPayableItemAssets";
-        
     }
 
     public static class PurchasingAccountsPayableItemAsset {
@@ -74,14 +73,14 @@ public class CabPropertyConstants {
         public static final String GENERAL_LEDGER_ENTRY = "generalLedgerEntry";
         public static final String PURAP_ITEM_ASSET = "purchasingAccountsPayableItemAsset";
     }
-    
+
     public static class Pretag {
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";
     }
 
     public static final String DOCUMENT_NUMBER = "documentNumber";
-    
+
     public static class PurApLineForm {
         public static final String PURAP_DOCS = "purApDocs";
     }
@@ -94,5 +93,24 @@ public class CabPropertyConstants {
         public static final String ACCOUNT_SUB_FUND_GROUP_CODE = "account.subFundGroupCode";
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String TRANSACTION_ENTRY_PROCESSED_TS = "transactionEntryProcessedTs";
+    }
+
+    public static class CreditMemoAccountHistory {
+        public static final Object ACCOUNT_HISTORY_TIMESTAMP = "accountHistoryTimestamp";
+        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+        public static final String ACCOUNT_SUB_FUND_GROUP_CODE = "account.subFundGroupCode";
+        public static final String FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE = "objectCode.financialObjectSubTypeCode";
+    }
+
+    public static class PaymentRequestAccountHistory {
+        public static final Object ACCOUNT_HISTORY_TIMESTAMP = "accountHistoryTimestamp";
+        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+        public static final String ACCOUNT_SUB_FUND_GROUP_CODE = "account.subFundGroupCode";
+        public static final String FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE = "objectCode.financialObjectSubTypeCode";
+    }
+
+    public static class Account {
+        public static final String ACCOUNT_NUMBER = "accountNumber";
+        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     }
 }

@@ -56,14 +56,16 @@ public class ExtractStep extends AbstractStep {
             Collection<Entry> elgibleGLEntries = batchExtractService.findElgibleGLEntries();
 
             if (elgibleGLEntries != null && !elgibleGLEntries.isEmpty()) {
-                processLog.setTotalGlCount(elgibleGLEntries.size());
                 List<Entry> fpLines = new ArrayList<Entry>();
                 List<Entry> purapLines = new ArrayList<Entry>();
-                // separate PO and non-PO lines
+                // Separate PO lines
                 batchExtractService.separatePOLines(fpLines, purapLines, elgibleGLEntries);
-                // process non-PO lines
+                // Save the Non-PO lines
                 batchExtractService.saveFPLines(fpLines, processLog);
+                // Save the PO lines
                 batchExtractService.savePOLines(purapLines, processLog);
+                // Set the log values
+                processLog.setTotalGlCount(elgibleGLEntries.size());
                 processLog.setNonPurApGlCount(fpLines.size());
                 processLog.setPurApGlCount(purapLines.size());
             }
@@ -82,6 +84,7 @@ public class ExtractStep extends AbstractStep {
         }
         finally {
             batchExtractService.sendStatusEmail(processLog);
+            LOG.info("Batch status email is sent successfully.");
         }
         return true;
     }

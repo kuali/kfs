@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.cab.batch.dataaccess;
 
-import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
-
-public interface GeneralLedgerEntryDao {
-    GeneralLedgerEntry findGeneralLedgerEntry(Entry entry);
+public interface PurchasingAccountsPayableItemAssetDao {
+    Integer findMaxCabLineNumber(String documentNumber, Integer accountsPayableLineItemIdentifier);
 }

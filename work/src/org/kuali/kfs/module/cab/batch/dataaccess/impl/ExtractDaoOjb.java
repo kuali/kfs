@@ -25,6 +25,8 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
@@ -62,5 +64,36 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         QueryByCriteria query = new QueryByCriteria(GeneralLedgerPendingEntry.class, criteria);
         Collection<GeneralLedgerPendingEntry> glPendingList = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return glPendingList;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findCreditMemoAccountHistory(org.kuali.kfs.module.cab.businessobject.BatchParameters)
+     */
+    public Collection<CreditMemoAccountHistory> findCreditMemoAccountHistory(BatchParameters batchParameters) {
+        // TODO - Check if we need to include university fiscal year and period code
+        Criteria criteria = new Criteria();
+        criteria.addGreaterThan(CabPropertyConstants.CreditMemoAccountHistory.ACCOUNT_HISTORY_TIMESTAMP, batchParameters.getLastRunTime());
+        criteria.addNotIn(CabPropertyConstants.CreditMemoAccountHistory.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
+        criteria.addNotIn(CabPropertyConstants.CreditMemoAccountHistory.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
+        criteria.addIn(CabPropertyConstants.CreditMemoAccountHistory.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
+        QueryByCriteria query = new QueryByCriteria(CreditMemoAccountHistory.class, criteria);
+        Collection<CreditMemoAccountHistory> historyRecs = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return historyRecs;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findPaymentRequestAccountHistory(org.kuali.kfs.module.cab.businessobject.BatchParameters)
+     */
+    public Collection<PaymentRequestAccountHistory> findPaymentRequestAccountHistory(BatchParameters batchParameters) {
+        // TODO - Check if we need to include university fiscal year and period code
+        Criteria criteria = new Criteria();
+        criteria.addGreaterThan(CabPropertyConstants.PaymentRequestAccountHistory.ACCOUNT_HISTORY_TIMESTAMP, batchParameters.getLastRunTime());
+        criteria.addNotIn(CabPropertyConstants.PaymentRequestAccountHistory.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
+        criteria.addNotIn(CabPropertyConstants.PaymentRequestAccountHistory.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
+        criteria.addIn(CabPropertyConstants.PaymentRequestAccountHistory.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
+        QueryByCriteria query = new QueryByCriteria(PaymentRequestAccountHistory.class, criteria);
+        Collection<PaymentRequestAccountHistory> historyRecs = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return historyRecs;
     }
 }

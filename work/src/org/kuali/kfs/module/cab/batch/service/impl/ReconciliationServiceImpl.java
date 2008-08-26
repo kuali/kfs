@@ -22,7 +22,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Entry;
@@ -33,6 +32,7 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PendingGlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PurApAccountLineGroup;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -44,8 +44,8 @@ public class ReconciliationServiceImpl implements ReconciliationService {
     protected BusinessObjectService businessObjectService;
     protected List<Entry> ignoredEntries = new ArrayList<Entry>();
     protected List<Entry> duplicateEntries = new ArrayList<Entry>();
-    protected Set<GlAccountLineGroup> matchedGroups = new HashSet<GlAccountLineGroup>();
-    protected Set<GlAccountLineGroup> misMatchedGroups = new HashSet<GlAccountLineGroup>();
+    protected Collection<GlAccountLineGroup> matchedGroups = new HashSet<GlAccountLineGroup>();
+    protected Collection<GlAccountLineGroup> misMatchedGroups = new HashSet<GlAccountLineGroup>();
     protected HashMap<GlAccountLineGroup, GlAccountLineGroup> glEntryGroupMap = new HashMap<GlAccountLineGroup, GlAccountLineGroup>();
     protected HashMap<PendingGlAccountLineGroup, PendingGlAccountLineGroup> pendingGlEntryGroupMap = new HashMap<PendingGlAccountLineGroup, PendingGlAccountLineGroup>();
     protected HashMap<PurApAccountLineGroup, PurApAccountLineGroup> purapAcctGroupMap = new HashMap<PurApAccountLineGroup, PurApAccountLineGroup>();
@@ -54,19 +54,17 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      * @see org.kuali.kfs.module.cab.batch.service.ReconciliationService#reconcile(java.util.Collection, java.util.Collection,
      *      java.util.Collection)
      */
-    public void reconcile(Collection<Entry> glEntries, Collection<GeneralLedgerPendingEntry> pendingGlEntries, Collection<?> purapAcctEntries) {
+    public void reconcile(Collection<Entry> glEntries, Collection<GeneralLedgerPendingEntry> pendingGlEntries, Collection<PurApAccountingLineBase> purapAcctEntries) {
         /**
          * FORMULA is amount value (GL_ENTRY_T + GL_PEND_ENTRY_T = AP_ACCT_LINE_HIST)
          */
         groupGLEntries(glEntries);
         groupPendingGLEntries(pendingGlEntries);
         groupPurapAccountEntries(purapAcctEntries);
+        reconcileGroups(glEntryGroupMap.values());
 
-        // identify the group matches
-        reconcileGroups(glEntryGroupMap.keySet());
-
+        // check for continuation account numbers
         if (!misMatchedGroups.isEmpty()) {
-            // check for continuation account
             checkGroupByContinuationAccount();
             reconcileGroups(misMatchedGroups);
         }
@@ -79,7 +77,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      */
     protected void checkGroupByContinuationAccount() {
         for (PurApAccountLineGroup purapAcctLineGroup : purapAcctGroupMap.keySet()) {
-            // if not matched
+            // if not matched already, check and replace with continuation account
             if (!matchedGroups.contains(purapAcctLineGroup)) {
                 Account account = findAccount(purapAcctLineGroup);
                 // find the account and check expiration date and continuation
@@ -92,7 +90,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
             }
         }
         for (PendingGlAccountLineGroup pendingGlEntryGroup : pendingGlEntryGroupMap.keySet()) {
-            // if not matched
+            // if not matched already, check and replace with continuation account
             if (!matchedGroups.contains(pendingGlEntryGroup)) {
                 Account account = findAccount(pendingGlEntryGroup);
                 // find the account and check expiration date and continuation
@@ -114,18 +112,18 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      */
     protected Account findAccount(AccountLineGroup acctLineGroup) {
         Map<String, String> keys = new HashMap<String, String>();
-        keys.put("chartOfAccountsCode", acctLineGroup.getChartOfAccountsCode());
-        keys.put("accountNumber", acctLineGroup.getAccountNumber());
+        keys.put(CabPropertyConstants.Account.CHART_OF_ACCOUNTS_CODE, acctLineGroup.getChartOfAccountsCode());
+        keys.put(CabPropertyConstants.Account.ACCOUNT_NUMBER, acctLineGroup.getAccountNumber());
         Account account = (Account) businessObjectService.findByPrimaryKey(Account.class, keys);
         return account;
     }
 
     /**
-     * Identify and separate the matching groups and mismatched ones
+     * Identify and separate the matching and mismatching account line groups
      * 
      * @param glKeySet GL Account Line groups
      */
-    protected void reconcileGroups(Set<GlAccountLineGroup> glKeySet) {
+    protected void reconcileGroups(Collection<GlAccountLineGroup> glKeySet) {
         for (GlAccountLineGroup glAccountLineGroup : glKeySet) {
             PendingGlAccountLineGroup pendingGlAccountLineGroup = this.pendingGlEntryGroupMap.get(glAccountLineGroup);
             PurApAccountLineGroup purapAccountLineGroup = purapAcctGroupMap.get(glAccountLineGroup);
@@ -197,7 +195,6 @@ public class ReconciliationServiceImpl implements ReconciliationService {
                     targetAccountLineGroup.combineEntry(glEntry);
                 }
             }
-
         }
     }
 
@@ -207,8 +204,22 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      * 
      * @param purapAcctEntries Purap account entries
      */
-    protected void groupPurapAccountEntries(Collection<?> purapAcctEntries) {
-
+    protected void groupPurapAccountEntries(Collection<PurApAccountingLineBase> purapAcctEntries) {
+        for (PurApAccountingLineBase entry : purapAcctEntries) {
+            if (entry.getAmount() != null && !entry.getAmount().isZero()) {
+                // Step-2 Group by univ_fiscal_yr, fin_coa_cd, account_nbr, sub_acct_nbr, fin_object_cd, fin_sub_obj_cd,
+                // univ_fiscal_prd_cd, fdoc_nbr, fdoc_ref_nbr
+                PurApAccountLineGroup accountLineGroup = new PurApAccountLineGroup(entry);
+                PurApAccountLineGroup targetAccountLineGroup = purapAcctGroupMap.get(accountLineGroup);
+                if (targetAccountLineGroup == null) {
+                    purapAcctGroupMap.put(accountLineGroup, accountLineGroup);
+                }
+                else {
+                    // group GL entries
+                    targetAccountLineGroup.combineEntry(entry);
+                }
+            }
+        }
     }
 
     /**
@@ -298,44 +309,12 @@ public class ReconciliationServiceImpl implements ReconciliationService {
         this.duplicateEntries = duplicateEntries;
     }
 
-    /**
-     * Gets the matchedGroups attribute.
-     * 
-     * @return Returns the matchedGroups
-     */
-
-    public Set<GlAccountLineGroup> getMatchedGroups() {
-        return matchedGroups;
+    public Collection<GlAccountLineGroup> getMatchedGroups() {
+        return this.matchedGroups;
     }
 
-    /**
-     * Sets the matchedGroups attribute.
-     * 
-     * @param matchedGroups The matchedGroups to set.
-     */
-
-    public void setMatchedGroups(Set<GlAccountLineGroup> matchedGroups) {
-        this.matchedGroups = matchedGroups;
-    }
-
-    /**
-     * Gets the misMatchedGroups attribute.
-     * 
-     * @return Returns the misMatchedGroups
-     */
-
-    public Set<GlAccountLineGroup> getMisMatchedGroups() {
-        return misMatchedGroups;
-    }
-
-    /**
-     * Sets the misMatchedGroups attribute.
-     * 
-     * @param misMatchedGroups The misMatchedGroups to set.
-     */
-
-    public void setMisMatchedGroups(Set<GlAccountLineGroup> misMatchedGroups) {
-        this.misMatchedGroups = misMatchedGroups;
+    public Collection<GlAccountLineGroup> getMisMatchedGroups() {
+        return this.misMatchedGroups;
     }
 
 

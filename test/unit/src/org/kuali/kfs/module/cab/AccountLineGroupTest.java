@@ -15,12 +15,13 @@
  */
 package org.kuali.kfs.module.cab;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PendingGlAccountLineGroup;
+import org.kuali.kfs.module.cab.businessobject.PurApAccountLineGroup;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AccountLineGroupTest extends KualiTestBase {
 
@@ -70,7 +71,7 @@ public class AccountLineGroupTest extends KualiTestBase {
     public void testHashcode() throws Exception {
         GlAccountLineGroup first = createAccountLineGroup(new Integer(2008), new String("BL"), "BL002323", "--", "7000", "12121", "01", "1001", "A", "C");
         GlAccountLineGroup second = createAccountLineGroup(2008, "BL", "BL002323", "--", new String("7000"), "12121", "01", "1001", "A", "C");
-        GlAccountLineGroup third = createAccountLineGroup(2008, "BL", new String("BL002323"), "--", "7000", "12121", "01", "1001", "A", "D");
+        PendingGlAccountLineGroup third = createPendingAccountLineGroup(2008, "BL", new String("BL002323"), "", "7000", "12121", "01", "1001", "A", "D");
         assertEquals(first.hashCode(), second.hashCode());
         assertEquals(second.hashCode(), third.hashCode());
         assertEquals(first.hashCode(), third.hashCode());
@@ -92,6 +93,7 @@ public class AccountLineGroupTest extends KualiTestBase {
         GlAccountLineGroup first = new GlAccountLineGroup(entry);
         return first;
     }
+
 
     private PendingGlAccountLineGroup createPendingAccountLineGroup(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, String dbtCrdtCode) {
         GeneralLedgerPendingEntry entry = new GeneralLedgerPendingEntry();

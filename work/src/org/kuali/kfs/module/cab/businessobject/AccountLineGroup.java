@@ -215,15 +215,25 @@ public abstract class AccountLineGroup {
         boolean equal = true;
         AccountLineGroup test = (AccountLineGroup) obj;
         equal = universityFiscalYear != null ? universityFiscalYear.equals(test.getUniversityFiscalYear()) : null == test.getUniversityFiscalYear();
-        equal &= chartOfAccountsCode != null ? chartOfAccountsCode.equals(test.getChartOfAccountsCode()) : null == test.getChartOfAccountsCode();
-        equal &= accountNumber != null ? accountNumber.equals(test.getAccountNumber()) : null == test.getAccountNumber();
-        equal &= subAccountNumber != null ? subAccountNumber.equals(test.getSubAccountNumber()) : null == test.getSubAccountNumber();
-        equal &= financialObjectCode != null ? financialObjectCode.equals(test.getFinancialObjectCode()) : null == test.getFinancialObjectCode();
-        equal &= financialSubObjectCode != null ? financialSubObjectCode.equals(test.getFinancialSubObjectCode()) : null == test.getFinancialSubObjectCode();
-        equal &= universityFiscalPeriodCode != null ? universityFiscalPeriodCode.equals(test.getUniversityFiscalPeriodCode()) : null == test.getUniversityFiscalPeriodCode();
-        equal &= documentNumber != null ? documentNumber.equals(test.getDocumentNumber()) : null == test.getDocumentNumber();
-        equal &= referenceFinancialDocumentNumber != null ? referenceFinancialDocumentNumber.equals(test.getReferenceFinancialDocumentNumber()) : null == test.getReferenceFinancialDocumentNumber();
+        equal &= equalsIgnoreFiller(chartOfAccountsCode, test.getChartOfAccountsCode());
+        equal &= equalsIgnoreFiller(accountNumber, test.getAccountNumber());
+        equal &= equalsIgnoreFiller(subAccountNumber, test.getSubAccountNumber());
+        equal &= equalsIgnoreFiller(financialObjectCode, test.getFinancialObjectCode());
+        equal &= equalsIgnoreFiller(financialSubObjectCode, test.getFinancialSubObjectCode());
+        equal &= equalsIgnoreFiller(universityFiscalPeriodCode, test.getUniversityFiscalPeriodCode());
+        equal &= equalsIgnoreFiller(documentNumber, test.getDocumentNumber());
+        equal &= equalsIgnoreFiller(referenceFinancialDocumentNumber, test.getReferenceFinancialDocumentNumber());
         return equal;
+    }
+
+    private String replaceFiller(String val) {
+        return val == null ? "" : val.trim().replaceAll("-", "");
+    }
+
+    private boolean equalsIgnoreFiller(String val, String test) {
+        String valStr = val == null ? "" : val.trim().replaceAll("-", "");
+        String testStr = test == null ? "" : test.trim().replaceAll("-", "");
+        return valStr.equals(testStr);
     }
 
     /**
@@ -234,16 +244,16 @@ public abstract class AccountLineGroup {
      */
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + (null == universityFiscalYear ? 0 : universityFiscalYear.intValue());
-        hash = 17 * hash + (null == chartOfAccountsCode ? 0 : chartOfAccountsCode.hashCode());
-        hash = 17 * hash + (null == accountNumber ? 0 : accountNumber.hashCode());
-        hash = 17 * hash + (null == subAccountNumber ? 0 : subAccountNumber.hashCode());
-        hash = 17 * hash + (null == financialObjectCode ? 0 : financialObjectCode.hashCode());
-        hash = 17 * hash + (null == financialSubObjectCode ? 0 : financialSubObjectCode.hashCode());
-        hash = 17 * hash + (null == universityFiscalPeriodCode ? 0 : universityFiscalPeriodCode.hashCode());
-        hash = 17 * hash + (null == documentNumber ? 0 : documentNumber.hashCode());
-        hash = 17 * hash + (null == referenceFinancialDocumentNumber ? 0 : referenceFinancialDocumentNumber.hashCode());
+        int hash = 7;
+        hash = 31 * hash + (null == universityFiscalYear ? 0 : universityFiscalYear.intValue());
+        hash = 31 * hash + (null == chartOfAccountsCode ? 0 : replaceFiller(chartOfAccountsCode).hashCode());
+        hash = 31 * hash + (null == accountNumber ? 0 : replaceFiller(accountNumber).hashCode());
+        hash = 31 * hash + (null == subAccountNumber ? 0 : replaceFiller(subAccountNumber).hashCode());
+        hash = 31 * hash + (null == financialObjectCode ? 0 : replaceFiller(financialObjectCode).hashCode());
+        hash = 31 * hash + (null == financialSubObjectCode ? 0 : replaceFiller(financialSubObjectCode).hashCode());
+        hash = 31 * hash + (null == universityFiscalPeriodCode ? 0 : replaceFiller(universityFiscalPeriodCode).hashCode());
+        hash = 31 * hash + (null == documentNumber ? 0 : replaceFiller(documentNumber).hashCode());
+        hash = 31 * hash + (null == referenceFinancialDocumentNumber ? 0 : replaceFiller(referenceFinancialDocumentNumber).hashCode());
         return hash;
     }
 
@@ -265,5 +275,11 @@ public abstract class AccountLineGroup {
 
     public void setAmount(KualiDecimal absAmount) {
         this.amount = absAmount;
+    }
+
+    // TODO remove this later
+    @Override
+    public String toString() {
+        return this.hashCode() + "-" + universityFiscalYear + "-" + chartOfAccountsCode + "-" + accountNumber + "-" + replaceFiller(subAccountNumber) + "-" + financialObjectCode + "-" + replaceFiller(financialSubObjectCode) + "-" + universityFiscalPeriodCode + "-" + documentNumber + "-" + referenceFinancialDocumentNumber;
     }
 }

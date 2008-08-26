@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.batch.ExtractProcessLog;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
@@ -81,4 +82,11 @@ public interface BatchExtractService {
      * @param extractProcessLog ExtractProcessLog
      */
     void sendStatusEmail(ExtractProcessLog extractProcessLog);
+
+    /**
+     * This method collects account line history using batch parameters
+     * 
+     * @return Collection Purchasing Accounts Payable Account Line History
+     */
+    Collection<PurApAccountingLineBase> findPurapAccountHistory();
 }

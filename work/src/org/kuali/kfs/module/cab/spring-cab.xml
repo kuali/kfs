@@ -107,8 +107,10 @@
 <!-- *********  End of pre-asset tagging batch beans ********** -->	
 <!-- Begin - CAB Batch Beans -->
 	<bean id="extractDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.ExtractDaoOjb" />
+	<bean id="purchasingAccountsPayableItemAssetDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.PurchasingAccountsPayableItemAssetDaoOjb" />
 	<bean id="batchExtractService" class="org.kuali.kfs.module.cab.batch.service.impl.BatchExtractServiceImpl">
 		<property name="extractDao" ref="extractDao" />
+		<property name="purchasingAccountsPayableItemAssetDao" ref="purchasingAccountsPayableItemAssetDao" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="businessObjectService" ref="businessObjectService" />

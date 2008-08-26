@@ -13,11 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cab.batch.dataaccess;
+package org.kuali.kfs.module.cab.batch.dataaccess.impl;
 
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.module.cab.batch.dataaccess.GeneralLedgerEntryDao;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
-public interface GeneralLedgerEntryDao {
-    GeneralLedgerEntry findGeneralLedgerEntry(Entry entry);
+public class GeneralLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements GeneralLedgerEntryDao {
+
+    public GeneralLedgerEntry findGeneralLedgerEntry(Entry entry) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

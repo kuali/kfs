@@ -19,6 +19,8 @@ import java.util.Collection;
 
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 public interface ExtractDao {
@@ -37,4 +39,20 @@ public interface ExtractDao {
      * @return Pending GL Entries
      */
     Collection<GeneralLedgerPendingEntry> findPurapPendingGLEntries(BatchParameters batchParameters);
+
+    /**
+     * This method implementation should find valid Credit Memo account line changes as per the batch parameters
+     * 
+     * @param batchParameters Batch Parameters
+     * @return List of Credit memo account history records
+     */
+    Collection<CreditMemoAccountHistory> findCreditMemoAccountHistory(BatchParameters batchParameters);
+
+    /**
+     * This method implementation should find valid Payment Request account line changes as per the batch parameters
+     * 
+     * @param batchParameters Batch Parameters
+     * @return List of Payment Request account history records
+     */
+    Collection<PaymentRequestAccountHistory> findPaymentRequestAccountHistory(BatchParameters batchParameters);
 }

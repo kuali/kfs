@@ -24,13 +24,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants.BudgetConstructionEditMode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.authorization.AuthorizationType;
@@ -68,6 +72,23 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         // SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
         BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
         monthlyBudgetForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
+
+
+        // set the readOnly status on initial load of the form 
+        if (monthlyBudgetForm.getMethodToCall().equals(BCConstants.MONTHLY_BUDGET_METHOD)){
+
+            BudgetConstructionMonthly bcMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
+            PendingBudgetConstructionGeneralLedger pbgl = bcMonthly.getPendingBudgetConstructionGeneralLedger(); 
+            Map editMode = monthlyBudgetForm.getEditingMode();
+
+            boolean tmpReadOnly = (editMode.containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) || !editMode.containsKey(BudgetConstructionEditMode.FULL_ENTRY));
+            tmpReadOnly |= bcMonthly.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG);
+            tmpReadOnly |= (!monthlyBudgetForm.isBenefitsCalculationDisabled() && ((pbgl.getLaborObject() != null) && pbgl.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
+            tmpReadOnly |= !SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(pbgl.getBudgetConstructionHeader());
+            monthlyBudgetForm.setMonthlyReadOnly(tmpReadOnly);
+            
+        }
+        
         /*
          * // TODO from KualiDocumentActionBase remove when ready // populates authorization-related fields in KualiDocumentFormBase
          * instances, which are derived from // information which is contained in the form but which may be unavailable until this
@@ -206,7 +227,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
         BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
 
-        if (!monthlyBudgetForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) && monthlyBudgetForm.getEditingMode().containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) {
+        if (!monthlyBudgetForm.isMonthlyReadOnly()) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 

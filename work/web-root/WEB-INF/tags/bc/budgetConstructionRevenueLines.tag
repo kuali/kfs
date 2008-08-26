@@ -226,16 +226,16 @@
                  <div align="center">
 				   <c:choose>
 					 <c:when test="${empty item.budgetConstructionMonthly[0]}" > 
-                       <c:if test="${lineIsEditable}">
+                       <c:if test="${lineIsEditable && KualiForm.budgetableDocument}">
 						 <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-createmonth.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
                        </c:if>
-                       <c:if test="${!lineIsEditable}">
+                       <c:if test="${!(lineIsEditable && KualiForm.budgetableDocument)}">
 						 <html:img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" styleClass="tinybutton" alt="" width="80" height="15"/>
                        </c:if>
 					 </c:when> 
 					 <c:otherwise> 
                        <c:choose>
-                         <c:when test="${lineIsEditable}">
+                         <c:when test="${lineIsEditable && KualiForm.budgetableDocument}">
                            <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-editmonth.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
                          </c:when> 
                          <c:otherwise> 
@@ -300,7 +300,7 @@
 				<td class="infoline">&nbsp;</td>
 			</tr>
 
-            <c:if test="${!readOnly}">
+            <c:if test="${!readOnly && KualiForm.budgetableDocument}">
 	    	<tr>
 			    <td colspan="7" class="subhead">
 					<span class="subhead-left">Global Revenue Actions</span>

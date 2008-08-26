@@ -28,13 +28,15 @@
     <c:forEach items="${KualiForm.editingMode}" var="mode">
       <html:hidden property="editingMode(${mode.key})"/>
     </c:forEach>
+    <html:hidden property="monthlyReadOnly" />
 
-    <bc:monthlyBudget />
+    <c:set var="readOnly" value="${KualiForm.monthlyReadOnly}" />
+
+    <bc:monthlyBudget readOnly="${readOnly}" />
 	<kul:panelFooter />
 
-<%--TODO need to create save and close(and prompt to save) actions that calls returnToCaller --%>
     <div id="globalbuttons" class="globalbuttons">
-        <c:if test="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}">
+        <c:if test="${!readOnly}">
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.save" title="save" alt="save"/>
 	    </c:if>
         <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>

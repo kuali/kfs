@@ -20,6 +20,9 @@ import java.util.Map;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.AuthorizationException;
@@ -30,6 +33,7 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
 
     private BudgetConstructionMonthly budgetConstructionMonthly;
     private boolean monthlyPersisted;
+    private boolean monthlyReadOnly = true;
 
     // TODO remove - was here originally for kul:page tag use
     // private String docTypeName;
@@ -249,6 +253,40 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
      */
     public void setMonthlyPersisted(boolean monthlyPersisted) {
         this.monthlyPersisted = monthlyPersisted;
+    }
+
+    /**
+     * Gets the readOnly attribute. 
+     * @return Returns the readOnly.
+     */
+    public boolean isMonthlyReadOnly() {
+        return monthlyReadOnly;
+    }
+
+    /**
+     * Sets the readOnly attribute value.
+     * @param readOnly The readOnly to set.
+     */
+    public void setMonthlyReadOnly(boolean readOnly) {
+        this.monthlyReadOnly = readOnly;
+    }
+
+    /**
+     * Gets the benefitsCalculationDisabled attribute.
+     * 
+     * @return Returns the benefitsCalculationDisabled.
+     */
+    public boolean isBenefitsCalculationDisabled() {
+        return SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled();
+    }
+
+    /**
+     * Gets the salarySettingDisabled attribute.
+     * 
+     * @return Returns the salarySettingDisabled.
+     */
+    public boolean isSalarySettingDisabled() {
+        return SpringContext.getBean(SalarySettingService.class).isSalarySettingDisabled();
     }
 
     /**

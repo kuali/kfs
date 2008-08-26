@@ -15,11 +15,12 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<%@ attribute name="readOnly" required="true" %>
+
 <c:set var="monthlyBudgetAttributes" value="${DataDictionary['BudgetConstructionMonthly'].attributes}" />
 <c:set var="monthlyBudget" value="${KualiForm.budgetConstructionMonthly}" />
 <c:set var="pbglAttributes" value="${DataDictionary['PendingBudgetConstructionGeneralLedger'].attributes}" />
 <c:set var="pbgl" value="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger}" />
-<c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 
 <kul:tabTop tabTitle="Monthly Budget Construction" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS}">
 <div class="tab-container" align=center>
@@ -159,7 +160,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth1LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount"
                 anchor="monthlyBudgetLineLineAnchor" />
         </tr>
@@ -171,7 +172,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth2LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
         <tr>
@@ -182,7 +183,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth3LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
         <tr>
@@ -193,7 +194,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth4LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
         <tr>
@@ -204,7 +205,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth5LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
         <tr>
@@ -215,7 +216,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth6LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
         <tr>
@@ -226,7 +227,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth7LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
         <tr>
@@ -237,7 +238,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth8LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
         <tr>
@@ -248,7 +249,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth9LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
         <tr>
@@ -259,7 +260,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth10LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
         <tr>
@@ -270,7 +271,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth11LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
         <tr>
@@ -281,7 +282,7 @@
                 attributes="${monthlyBudgetAttributes}"
                 field="financialDocumentMonth12LineAmount"
                 fieldAlign="left"
-                readOnly="false"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
 

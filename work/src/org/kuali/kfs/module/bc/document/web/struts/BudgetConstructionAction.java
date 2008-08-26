@@ -105,6 +105,13 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_VIEW_ONLY);
                 }
                 else {
+
+                    // tell the user if the document is in not budgetable mode
+                    budgetConstructionForm.setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(budgetConstructionForm.getBudgetConstructionDocument()));
+                    if (!budgetConstructionForm.isBudgetableDocument()){
+                        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_DOCUMENT_NOT_BUDGETABLE);
+                    }
+
                     GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
                 }
 

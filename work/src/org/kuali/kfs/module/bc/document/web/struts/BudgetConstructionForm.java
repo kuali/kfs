@@ -55,6 +55,9 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     private PendingBudgetConstructionGeneralLedger newRevenueLine;
     private PendingBudgetConstructionGeneralLedger newExpenditureLine;
 
+    // used to contain budgetable status
+    private boolean budgetableDocument = false;
+
     private boolean hideDetails = false;
     private boolean pickListClose = false;
     private boolean hideAdjustmentMeasurement = true;
@@ -461,6 +464,22 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
             line.setFinancialObjectTypeCode(optionsService.getOptions(tdoc.getUniversityFiscalYear()).getFinObjTypeExpenditureexpCd());
         }
 
+    }
+
+    /**
+     * Gets the budgetableDocument attribute. 
+     * @return Returns the budgetableDocument.
+     */
+    public boolean isBudgetableDocument() {
+        return budgetableDocument;
+    }
+
+    /**
+     * Sets the budgetableDocument attribute value.
+     * @param budgetableDocument The budgetableDocument to set.
+     */
+    public void setBudgetableDocument(boolean budgetableDocument) {
+        this.budgetableDocument = budgetableDocument;
     }
 
     /**

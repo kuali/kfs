@@ -80,4 +80,21 @@ public interface AccountingLineRenderingContext {
      * @return the accounting document that this line to render is part of (or will be, once it is successfully added)
      */
     public abstract AccountingDocument getAccountingDocument();
+    
+    /**
+     * Returns the tab state for the given tab key on the current form
+     * @param tabKey the tab key to get the state of
+     * @return the state (either "OPEN" or "CLOSED")
+     */
+    public abstract String getTabState(String tabKey);
+    
+    /**
+     * Increments the tab index on the form this rendering is associated with
+     */
+    public abstract void incrementTabIndex();
+    
+    /**
+     * @return the label of the group this accounting line is part of
+     */
+    public abstract String getGroupLabel();
 }

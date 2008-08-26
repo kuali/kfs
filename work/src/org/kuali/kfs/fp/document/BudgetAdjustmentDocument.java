@@ -102,25 +102,6 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         return pendingLedgerEntries;
     }
 
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLineClass()
-     */
-    @Override
-    public Class getSourceAccountingLineClass() {
-        return BudgetAdjustmentSourceAccountingLine.class;
-    }
-
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTargetAccountingLineClass()
-     */
-    @Override
-    public Class getTargetAccountingLineClass() {
-        return BudgetAdjustmentTargetAccountingLine.class;
-    }
-
-
     /**
      * generic, shared logic used to iniate a ba document
      */

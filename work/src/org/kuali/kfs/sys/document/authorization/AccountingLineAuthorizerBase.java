@@ -43,19 +43,19 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     
     /**
      * Returns the basic actions - add for new lines, delete and balance inquiry for existing lines
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getActions(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getActions(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean, java.lang.String)
      */
-    public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine line, String accountingLineProperty, Integer accountingLineIndex, FinancialSystemUser currentUser, Map editModesForDocument) {
+    public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine line, String accountingLineProperty, Integer accountingLineIndex, FinancialSystemUser currentUser, Map editModesForDocument, String groupTitle) {
         List<AccountingLineViewAction> actions = new ArrayList<AccountingLineViewAction>();
         if (isAccountLineEditable(accountingDocument, line, currentUser, this.editModeForAccountingLine(accountingDocument, line, (accountingLineIndex == null), currentUser, editModesForDocument))) {
             String riceImagesPath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url");
             String kfsImagesPath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url");
             if (accountingLineIndex == null || accountingLineIndex.intValue() < 0) {
-                actions.add(new AccountingLineViewAction(getAddMethod(line, accountingLineProperty), getAddLabel(line, accountingLineProperty), riceImagesPath+"tinybutton-add1.gif"));
+                actions.add(new AccountingLineViewAction(getAddMethod(line, accountingLineProperty), getAddLabel(groupTitle), riceImagesPath+"tinybutton-add1.gif"));
             } else {
                 String groupName = getActionInfixForExtantAccountingLine(line, accountingLineProperty);
-                actions.add(new AccountingLineViewAction(getDeleteLineMethod(line, accountingLineProperty, accountingLineIndex), getDeleteLineLabel(line, accountingLineProperty, accountingLineIndex), riceImagesPath+"tinybutton-delete1.gif"));
-                actions.add(new AccountingLineViewAction(getBalanceInquiryMethod(line, accountingLineProperty, accountingLineIndex), getBalanceInquiryLabel(line, accountingLineProperty, accountingLineIndex), kfsImagesPath+"tinybutton-balinquiry.gif"));
+                actions.add(new AccountingLineViewAction(getDeleteLineMethod(line, accountingLineProperty, accountingLineIndex), getDeleteLineLabel(accountingLineIndex, groupTitle), riceImagesPath+"tinybutton-delete1.gif"));
+                actions.add(new AccountingLineViewAction(getBalanceInquiryMethod(line, accountingLineProperty, accountingLineIndex), getBalanceInquiryLabel(accountingLineIndex, groupTitle), kfsImagesPath+"tinybutton-balinquiry.gif"));
             }
         }
         return actions;
@@ -74,12 +74,11 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     
     /**
      * Builds the label for the button that adds accounting lines to this group
-     * @param accountingLine the accounting line an action is being checked for
-     * @param accountingLinePropertyName the property name of the accounting line
+     * @param groupTitle title of the group from the data dictionary
      * @return the label for the button that adds accounting lines to this group
      */
-    protected String getAddLabel(AccountingLine accountingLine, String accountingLineProperty) {
-        return "Add "+getActionInfixForNewAccountingLine(accountingLine, accountingLineProperty)+" Accounting Line";
+    protected String getAddLabel(String groupTitle) {
+        return "Add "+groupTitle+" Accounting Line";
     }
     
     /**
@@ -96,13 +95,12 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     
     /**
      * Builds the label for the buttons that delete accounting lines in this group
-     * @param accountingLine the accounting line an action is being checked for
-     * @param accountingLinePropertyName the property name of the accounting line
      * @param accountingLineIndex the index of the given accounting line within the the group being rendered
+     * @param groupTitle title of the group from the data dictionary
      * @return the label for the button that deletes accounting lines in this group
      */
-    protected String getDeleteLineLabel(AccountingLine accountingLine, String accountingLineProperty, Integer accountingLineIndex) {
-        return "Delete "+getActionInfixForNewAccountingLine(accountingLine, accountingLineProperty)+" Accounting Line "+(accountingLineIndex.intValue()+1);
+    protected String getDeleteLineLabel(Integer accountingLineIndex, String groupTitle) {
+        return "Delete "+groupTitle+" Accounting Line "+(accountingLineIndex.intValue()+1);
     }
     
     /**
@@ -119,13 +117,12 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     
     /**
      * Builds the label for the buttons that perform balance inquiries accounting lines in this group
-     * @param accountingLine the accounting line an action is being checked for
-     * @param accountingLinePropertyName the property name of the accounting line
      * @param accountingLineIndex the index of the given accounting line within the the group being rendered
+     * @param groupTitle title of the group from the data dictionary
      * @return the label for the buttons that perform balance inquiries accounting lines in this group
      */
-    protected String getBalanceInquiryLabel(AccountingLine accountingLine, String accountingLineProperty, Integer accountingLineIndex) {
-        return "Perform Balance Inquiry for "+getActionInfixForNewAccountingLine(accountingLine, accountingLineProperty)+" Accounting Line "+(accountingLineIndex.intValue()+1);
+    protected String getBalanceInquiryLabel(Integer accountingLineIndex, String groupTitle) {
+        return "Perform Balance Inquiry for "+groupTitle+" Accounting Line "+(accountingLineIndex.intValue()+1);
     }
     
     /**

@@ -971,5 +971,11 @@ public class KFSKeyConstants {
     public static final String SUB_OBJECT_TRICKLE_DOWN_INACTIVATION_ERROR_DURING_PERSISTENCE = "note.trickleDownInactivation.inactivatedSubObjects.errorDuringPersistence";
     public static final String SUB_OBJECT_TRICKLE_DOWN_INACTIVATION_RECORD_ALREADY_MAINTENANCE_LOCKED = "note.trickleDownInactivation.inactivatedSubObjects.recordAlreadyMaintenanceLocked";
     
-    public static final String ACCOUNTING_LINE_ACTIONS_LABEL = "accounting.line.actions.header.label";
+    public static final class AccountingLineViewRendering {
+        public static final String ACCOUNTING_LINE_ACTIONS_LABEL = "accounting.line.actions.header.label";
+        public static final String CURRENT_BASE_AMOUNT_OVERVIEW_LABEL = "accounting.line.current.base.amount.overview.label";
+        public static final String DEBIT_CREDIT_AMOUNT_OVERVIEW_LABEL = "accounting.line.debit.credit.amount.overview.label";
+        public static final String DEBIT_CREDIT_AMOUNT_DEBIT_AMOUNT_LABEL = "accounting.line.debit.credit.amount.debit.amount.label";
+        public static final String DEBIT_CREDIT_AMOUNT_CREDIT_AMOUNT_LABEL = "accounting.line.debit.credit.amount.credit.amount.label";
+    }
 }

@@ -262,19 +262,12 @@ public class AccountingLineGroupTag extends TagSupport {
      * @return the container created
      */
     protected RenderableAccountingLineContainer buildContainerForLine(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, FinancialSystemUser currentUser, Integer count) {
-        RenderableAccountingLineContainer container = new RenderableAccountingLineContainer();
-        container.setAccountingLine(accountingLine);
         String accountingLinePropertyName = count == null ? newLinePropertyName : collectionItemPropertyName+"["+count.toString()+"]";
-        container.setAccountingLineProperty(accountingLinePropertyName);
-        container.setActions(groupDefinition.getAccountingLineAuthorizer().getActions(accountingDocument, accountingLine, accountingLinePropertyName, (count == null ? -1 : count.intValue()), currentUser, getEditModes()));
-        container.setNewLine(count == null);
-        container.setRows(getRenderableElementsForLine(groupDefinition, accountingLine, (count == null)));
-        KualiAccountingDocumentFormBase form = (KualiAccountingDocumentFormBase)getForm();
-        container.setRenderHelp(form.isFieldLevelHelpEnabled());
-        container.setShowDetails(!form.isHideDetails());
-        container.setUnconvertedValues(form.getUnconvertedValues());
-        container.setAccountingDocument(getDocument());
-        return container;
+        boolean newLine = (count == null);
+        List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine);
+        List<AccountingLineViewAction> actions = groupDefinition.getAccountingLineAuthorizer().getActions(accountingDocument, accountingLine, accountingLinePropertyName, (newLine ? -1 : count.intValue()), currentUser, getEditModes(), groupDefinition.getGroupLabel());
+
+        return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, actions, newLine, groupDefinition.getGroupLabel());
     }
 
     /**

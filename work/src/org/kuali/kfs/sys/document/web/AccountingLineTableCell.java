@@ -37,6 +37,7 @@ public class AccountingLineTableCell implements RenderableElement {
     private AccountingLineRenderingContext renderingContext;
     private boolean neverEmpty;
     private String extraStyle;
+    private String styleClassOverride;
     
     /**
      * Gets the colSpan attribute. 
@@ -50,7 +51,9 @@ public class AccountingLineTableCell implements RenderableElement {
      * @param colSpan The colSpan to set.
      */
     public void setColSpan(int colSpan) {
-        this.colSpan = colSpan;
+        if (colSpan > 1) {
+            this.colSpan = colSpan;
+        }
     }
 
     /**
@@ -65,7 +68,9 @@ public class AccountingLineTableCell implements RenderableElement {
      * @param rowSpan The rowSpan to set.
      */
     public void setRowSpan(int rowSpan) {
-        this.rowSpan = rowSpan;
+        if (rowSpan > 1) {
+            this.rowSpan = rowSpan;
+        }
     }
     
     /**
@@ -168,6 +173,21 @@ public class AccountingLineTableCell implements RenderableElement {
      */
     public void setNeverEmpty(boolean neverEmpty) {
         this.neverEmpty = neverEmpty;
+    }
+    
+    /**
+     * Gets the styleClassOverride attribute. 
+     * @return Returns the styleClassOverride.
+     */
+    public String getStyleClassOverride() {
+        return styleClassOverride;
+    }
+    /**
+     * Sets the styleClassOverride attribute value.
+     * @param styleClassOverride The styleClassOverride to set.
+     */
+    public void setStyleClassOverride(String styleClassOverride) {
+        this.styleClassOverride = styleClassOverride;
     }
     /**
      * @see org.kuali.kfs.sys.document.web.RenderableElement#renderElement(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)

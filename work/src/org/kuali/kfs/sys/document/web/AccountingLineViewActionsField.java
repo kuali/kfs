@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.document.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
@@ -66,10 +67,9 @@ public class AccountingLineViewActionsField extends FieldTableJoiningWithHeader 
     @Override
     public void joinTable(List<AccountingLineTableRow> rows) {
         // 1. add header cell
-        if (!isHidden()) {
-            AccountingLineTableCell headerCell = createHeaderLabelTableCell();
-            rows.get(0).addCell(headerCell);
-        }
+        AccountingLineTableCell headerCell = createHeaderLabelTableCell();
+        rows.get(0).addCell(headerCell);
+
         // 2. add blank cell to make sure this cell shows up on the bottom line
         final int blankCellRowSpan = rows.size() - 2;
         if (blankCellRowSpan > 0) {
@@ -110,7 +110,7 @@ public class AccountingLineViewActionsField extends FieldTableJoiningWithHeader 
      * @see org.kuali.kfs.sys.document.web.TableJoiningWithHeader#createHeaderLabel()
      */
     public HeaderLabel createHeaderLabel() {
-        return new LiteralHeaderLabel(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.ACCOUNTING_LINE_ACTIONS_LABEL));
+        return new LiteralHeaderLabel(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.AccountingLineViewRendering.ACCOUNTING_LINE_ACTIONS_LABEL));
     }
 
     /**

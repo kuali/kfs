@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.document.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
@@ -124,4 +125,14 @@ public class AccountingLineTable implements RenderableElement {
         }
     }
     
+    /**
+     * Adds a row to the bottom of this table's list of rows
+     * @param row the row to add
+     */
+    public void addRow(AccountingLineTableRow row) {
+        if (rows == null) {
+            rows = new ArrayList<AccountingLineTableRow>();
+        }
+        rows.add(row);
+    }
 }

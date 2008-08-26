@@ -23,15 +23,6 @@ import java.util.List;
 public abstract class FieldTableJoiningWithHeader extends FieldTableJoining implements TableJoiningWithHeader {
 
     /**
-     * Always returns 2 - one row for the cell and one for the header
-     * @see org.kuali.kfs.sys.document.web.FieldTableJoining#getRequestedRowCount()
-     */
-    @Override
-    public int getRequestedRowCount() {
-        return 2;
-    }
-
-    /**
      * @see org.kuali.kfs.sys.document.web.FieldTableJoining#joinTable(java.util.List)
      */
     @Override
@@ -43,7 +34,7 @@ public abstract class FieldTableJoiningWithHeader extends FieldTableJoining impl
         }
         // 2. add field cell
         AccountingLineTableCell cell = createTableCell();
-        cell.setRowSpan(rows.size()-1);
+        cell.setRowSpan(rows.size() - 1);
         rows.get(1).addCell(cell);
     }
     
@@ -67,6 +58,15 @@ public abstract class FieldTableJoiningWithHeader extends FieldTableJoining impl
             headerLabelRow.addCell(createHeaderLabelTableCell());
         }
         row.addCell(createTableCell());
+    }
+
+    /**
+     * Always returns 2 - one row for the header, one for the row
+     * @see org.kuali.kfs.sys.document.web.FieldTableJoining#getRequestedRowCount()
+     */
+    @Override
+    public int getRequestedRowCount() {
+        return 2;
     }
 
 }

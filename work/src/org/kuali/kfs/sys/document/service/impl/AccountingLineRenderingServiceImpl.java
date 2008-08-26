@@ -35,6 +35,7 @@ import org.kuali.kfs.sys.document.service.AccountingLineRenderingTransformation;
 import org.kuali.kfs.sys.document.service.AccountingLineTableTransformation;
 import org.kuali.kfs.sys.document.web.AccountingLineTableRow;
 import org.kuali.kfs.sys.document.web.TableJoining;
+import org.kuali.kfs.sys.document.web.TableJoiningWithHeader;
 import org.kuali.kfs.sys.document.web.renderers.CheckboxRenderer;
 import org.kuali.kfs.sys.document.web.renderers.CurrencyRenderer;
 import org.kuali.kfs.sys.document.web.renderers.DateRenderer;
@@ -161,13 +162,14 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      * @return the maximum number of rows requested
      */
     protected int getMaxRowCount(List<TableJoining> elements) {
-        int maxCount = 0;
+        int maxRowCount = 0;
         for (TableJoining element : elements) {
-            if (element.getRequestedRowCount() > maxCount) {
-                maxCount = element.getRequestedRowCount();
+            int rowCount = element.getRequestedRowCount();
+            if (rowCount > maxRowCount) {
+                maxRowCount = rowCount;
             }
         }
-        return maxCount;
+        return maxRowCount;
     }
     
     /**

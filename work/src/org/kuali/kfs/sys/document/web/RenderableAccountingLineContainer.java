@@ -26,6 +26,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
@@ -41,12 +42,30 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     private boolean newLine;
     private AccountingLine accountingLine;
     private String accountingLineProperty;
-    private boolean renderHelp = false;
-    private boolean showDetails = true;
     private List<Field> fields;
     private List<String> fieldNames;
-    private Map unconvertedValues;
-    private AccountingDocument accountingDocument;
+    private KualiAccountingDocumentFormBase form;
+    private String groupLabel;
+    
+    /**
+     * Constructs a RenderableAccountingLineContainer
+     * @param form the form being rendered
+     * @param accountingLine the accounting line this container will render
+     * @param accountingLineProperty the property to that accounting line
+     * @param rows the rows to render
+     * @param actions the actions associated with this accounting line
+     * @param newLine whether this is a new accounting line or not
+     * @param groupLabel the label for the group this accounting line is being rendered part of
+     */
+    public RenderableAccountingLineContainer(KualiAccountingDocumentFormBase form, AccountingLine accountingLine, String accountingLineProperty, List<AccountingLineTableRow> rows, List<AccountingLineViewAction> actions, boolean newLine, String groupLabel) {
+        this.form = form;
+        this.accountingLine = accountingLine;
+        this.accountingLineProperty = accountingLineProperty;
+        this.rows = rows;
+        this.actions = actions;
+        this.newLine = newLine;
+        this.groupLabel = groupLabel;
+    }
     
     /**
      * Gets the accountingLine attribute. 
@@ -55,13 +74,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     public AccountingLine getAccountingLine() {
         return accountingLine;
     }
-    /**
-     * Sets the accountingLine attribute value.
-     * @param accountingLine The accountingLine to set.
-     */
-    public void setAccountingLine(AccountingLine accountingLine) {
-        this.accountingLine = accountingLine;
-    }
+
     /**
      * Gets the accountingLineProperty attribute. 
      * @return Returns the accountingLineProperty.
@@ -69,13 +82,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     public String getAccountingLineProperty() {
         return accountingLineProperty;
     }
-    /**
-     * Sets the accountingLineProperty attribute value.
-     * @param accountingLineProperty The accountingLineProperty to set.
-     */
-    public void setAccountingLineProperty(String accountingLineProperty) {
-        this.accountingLineProperty = accountingLineProperty;
-    }
+
     /**
      * Gets the actions attribute. 
      * @return Returns the actions.
@@ -83,13 +90,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     public List<AccountingLineViewAction> getActions() {
         return actions;
     }
-    /**
-     * Sets the actions attribute value.
-     * @param actions The actions to set.
-     */
-    public void setActions(List<AccountingLineViewAction> actions) {
-        this.actions = actions;
-    }
+
     /**
      * Gets the newLine attribute. 
      * @return Returns the newLine.
@@ -97,26 +98,13 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     public boolean isNewLine() {
         return newLine;
     }
-    /**
-     * Sets the newLine attribute value.
-     * @param newLine The newLine to set.
-     */
-    public void setNewLine(boolean newLine) {
-        this.newLine = newLine;
-    }
+
     /**
      * Gets the rows attribute. 
      * @return Returns the rows.
      */
     public List<AccountingLineTableRow> getRows() {
         return rows;
-    }
-    /**
-     * Sets the rows attribute value.
-     * @param rows The rows to set.
-     */
-    public void setRows(List<AccountingLineTableRow> rows) {
-        this.rows = rows;
     }
     
     /**
@@ -193,48 +181,6 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     }
     
     /**
-     * Gets the renderHelp attribute. 
-     * @return Returns the renderHelp.
-     */
-    public boolean isRenderHelp() {
-        return renderHelp;
-    }
-    /**
-     * Sets the renderHelp attribute value.
-     * @param renderHelp The renderHelp to set.
-     */
-    public void setRenderHelp(boolean renderHelp) {
-        this.renderHelp = renderHelp;
-    }
-    /**
-     * Gets the showDetails attribute. 
-     * @return Returns the showDetails.
-     */
-    public boolean isShowDetails() {
-        return showDetails;
-    }
-    /**
-     * Sets the showDetails attribute value.
-     * @param showDetails The showDetails to set.
-     */
-    public void setShowDetails(boolean showDetails) {
-        this.showDetails = showDetails;
-    }
-    /**
-     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#fieldsShouldRenderHelp()
-     */
-    public boolean fieldsShouldRenderHelp() {
-        return renderHelp;
-    }
-    
-    /**
-     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#fieldsCanRenderDynamicLabels()
-     */
-    public boolean fieldsCanRenderDynamicLabels() {
-        return showDetails;
-    }
-    
-    /**
      * Appends all fields from rows that this contains
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
      */
@@ -279,19 +225,11 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     }
     
     /**
-     * Gets the unconvertedValues attribute. 
-     * @return Returns the unconvertedValues.
+     * Returns the unconvertedValues for the current form
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getUnconvertedValues()
      */
     public Map getUnconvertedValues() {
-        return unconvertedValues;
-    }
-    
-    /**
-     * Sets the unconvertedValues attribute value.
-     * @param unconvertedValues The unconvertedValues to set.
-     */
-    public void setUnconvertedValues(Map unconvertedValues) {
-        this.unconvertedValues = unconvertedValues;
+        return form.getUnconvertedValues();
     }
     
     /**
@@ -315,8 +253,8 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      */
     protected void setUnconvertedValueIfNecessary(Field field) {
         String propertyName = accountingLineProperty+"."+field.getPropertyName();
-        if (unconvertedValues.get(propertyName) != null) {
-            field.setPropertyValue((String)unconvertedValues.get(propertyName));
+        if (getUnconvertedValues().get(propertyName) != null) {
+            field.setPropertyValue((String)getUnconvertedValues().get(propertyName));
         }
     }
     
@@ -338,14 +276,38 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getAccountingDocument()
      */
     public AccountingDocument getAccountingDocument() {
-        return accountingDocument;
+        return form.getFinancialDocument();
     }
     
     /**
-     * Sets the accounting document for this accounting line container
-     * @param accountingDocument the accounting document to set
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#fieldsCanRenderDynamicLabels()
      */
-    public void setAccountingDocument(AccountingDocument accountingDocument) {
-        this.accountingDocument = accountingDocument;
+    public boolean fieldsCanRenderDynamicLabels() {
+        return !form.isHideDetails();
+    }
+    /**
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#fieldsShouldRenderHelp()
+     */
+    public boolean fieldsShouldRenderHelp() {
+        return form.isFieldLevelHelpEnabled();
+    }
+    /**
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getTabState(java.lang.String)
+     */
+    public String getTabState(String tabKey) {
+        return form.getTabState(tabKey);
+    }
+    /**
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#incrementTabIndex()
+     */
+    public void incrementTabIndex() {
+        form.incrementTabIndex();
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getGroupLabel()
+     */
+    public String getGroupLabel() {
+       return this.groupLabel; 
     }
 }

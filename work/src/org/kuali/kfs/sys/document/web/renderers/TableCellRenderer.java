@@ -85,10 +85,18 @@ public class TableCellRenderer implements Renderer {
             builder.append(cell.getExtraStyle());
             builder.append("\"");
         } else {
-            builder.append(" class=\"infoline\"");
+            builder.append(" class=\""+getStyleClass()+"\"");
         }
         builder.append(">\n");
         return builder.toString();
+    }
+    
+    /**
+     * Returns what style class to use - using the styleClassOverride of the cell if possible
+     * @return the styleClassOverride if it exists, otherwise "infoline"
+     */
+    protected String getStyleClass() {
+        return !StringUtils.isBlank(cell.getStyleClassOverride()) ? cell.getStyleClassOverride() : "infoline";
     }
     
     /**

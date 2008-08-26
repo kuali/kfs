@@ -49,6 +49,7 @@
 	    	</entry>
     	</map>
     </property>
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
   </bean>
 
 <!-- Exported Workflow Properties -->

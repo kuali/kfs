@@ -20,32 +20,35 @@ import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewLine;
+import org.kuali.kfs.sys.document.web.AccountingLineViewLineFillingElement;
 import org.kuali.kfs.sys.document.web.AccountingLineViewLines;
 import org.kuali.kfs.sys.document.web.TableJoining;
 import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
 
 /**
  * Data dictionary definition for a group of multiple lines to render.  This also renders blocks - though each block will be rendered as a line with an embedded table
  */
 public class AccountingLineViewLinesDefinition extends DataDictionaryDefinitionBase implements AccountingLineViewRenderableElementDefinition {
-    private List<AccountingLineViewLineDefinition> lines;
+    private List<AccountingLineViewLineFillingDefinition> lines;
     private String elementName;
 
     /**
      * Validates that:
      * 1) there is at least one child line
-     * 2) all child lines are either blocks or line elements.
      * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
-        
+        if (lines == null || lines.size() == 0) {
+            throw new AttributeValidationException("Please specify at least one child line for the lines definition");
+        }
     }
 
     /**
      * Gets the lines attribute. 
      * @return Returns the lines.
      */
-    public List<AccountingLineViewLineDefinition> getLines() {
+    public List<AccountingLineViewLineFillingDefinition> getLines() {
         return lines;
     }
 
@@ -53,7 +56,7 @@ public class AccountingLineViewLinesDefinition extends DataDictionaryDefinitionB
      * Sets the lines attribute value.
      * @param lines The lines to set.
      */
-    public void setLines(List<AccountingLineViewLineDefinition> lines) {
+    public void setLines(List<AccountingLineViewLineFillingDefinition> lines) {
         this.lines = lines;
     }
 
@@ -87,10 +90,10 @@ public class AccountingLineViewLinesDefinition extends DataDictionaryDefinitionB
      * Generates layout elements for all the child lines of this lines definition
      * @return a List with the line elements for all child lines of this element definition 
      */
-    protected List<AccountingLineViewLine> getLayoutElementsForLines(Class<? extends AccountingLine> accountingLineClass) {
-        List<AccountingLineViewLine> elements = new ArrayList<AccountingLineViewLine>();
-        for (AccountingLineViewLineDefinition line : lines) {
-            elements.add((AccountingLineViewLine)line.createLayoutElement(accountingLineClass));
+    protected List<AccountingLineViewLineFillingElement> getLayoutElementsForLines(Class<? extends AccountingLine> accountingLineClass) {
+        List<AccountingLineViewLineFillingElement> elements = new ArrayList<AccountingLineViewLineFillingElement>();
+        for (AccountingLineViewLineFillingDefinition line : lines) {
+            elements.add(line.createLineFillingLayoutElement(accountingLineClass));
         }
         return elements;
     }

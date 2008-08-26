@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.document.web;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -306,7 +307,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     protected String getDynamicNameLabelDisplayedValue(AccountingLine accountingLine) {
         String dynamicLabelProperty = definition.getDynamicLabelProperty();
         Object value = accountingLine;
-        while (dynamicLabelProperty.indexOf('.') > -1) {
+        while (!ObjectUtils.isNull(value) && dynamicLabelProperty.indexOf('.') > -1) {
             String currentProperty = StringUtils.substringBefore(dynamicLabelProperty, ".");
             dynamicLabelProperty = StringUtils.substringAfter(dynamicLabelProperty, ".");
             if (value instanceof PersistableBusinessObject) {
@@ -314,8 +315,10 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
             }
             value = ObjectUtils.getPropertyValue(value, currentProperty);
         }
-        value = ObjectUtils.getPropertyValue(value, dynamicLabelProperty);
-        if (value != null) return value.toString();
+        if (!ObjectUtils.isNull(value)) {
+            value = ObjectUtils.getPropertyValue(value, dynamicLabelProperty);
+            if (value != null) return value.toString();
+        }
         return null;
     }
     

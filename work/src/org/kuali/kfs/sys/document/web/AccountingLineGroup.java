@@ -76,7 +76,9 @@ public class AccountingLineGroup {
     public void renderEverything(PageContext pageContext, Tag parentTag) throws JspException {
         renderGroupHeader(pageContext, parentTag);
         renderAccountingLineContainers(pageContext, parentTag);
-        renderTotals(pageContext, parentTag);
+        if (groupDefinition.getTotals() != null && groupDefinition.getTotals().size() > 0) {
+            renderTotals(pageContext, parentTag);
+        }
     }
     
     /**

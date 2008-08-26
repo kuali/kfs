@@ -97,13 +97,23 @@ public abstract class FieldTableJoining implements TableJoining, RenderableEleme
     }
 
     /**
-     * This method really doesn't do much
+     * This method really doesn't do much - it assumes there are no child fields to remove
      * @see org.kuali.kfs.sys.document.web.TableJoining#removeUnviewableBlocks()
      */
     public void removeUnviewableBlocks(Set<String> unviewableBlocks) {
         // take a nap
     }
     
+    /**
+     * Sets this to read only if possible
+     * @see org.kuali.kfs.sys.document.web.TableJoining#readOnlyizeReadOnlyBlocks(java.util.Set)
+     */
+    public void readOnlyizeReadOnlyBlocks(Set<String> readOnlyBlocks) {
+        if (this instanceof ReadOnlyable && readOnlyBlocks.contains(getName())) {
+            ((ReadOnlyable)this).readOnlyize();
+        }
+    }
+
     /**
      * @see org.kuali.kfs.sys.document.web.TableJoining#performFieldTransformation(org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation, org.kuali.kfs.sys.businessobject.AccountingLine, java.util.Map, java.util.Map)
      */

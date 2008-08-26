@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransforma
 /**
  * Represents a single table row to be rendered as part of an accounting line view.
  */
-public class AccountingLineViewLine implements TableJoining, ReadOnlyable {
+public class AccountingLineViewLine implements ReadOnlyable, AccountingLineViewLineFillingElement {
     private List<RenderableElement> elements;
     private AccountingLineViewLineDefinition definition;
  
@@ -68,24 +68,24 @@ public class AccountingLineViewLine implements TableJoining, ReadOnlyable {
     }
     
     /**
-     * By definition, exists within one table row
+     * Gets the number of actual rows requested (1)
      * @see org.kuali.kfs.sys.document.web.AccountingLineViewRenderableElement#getRequestedRowCount()
      */
     public int getRequestedRowCount() {
-        return (hasAnyHeaderedElements() ? 2 : 1);
+        return getMaxRequestedRowCount();
     }
     
     /**
-     * Determines if this line has any renderable elements that are going to want to render headers 
-     * @return true if this line has any headered elements
+     * Determines the max requested row count in the line. 
+     * @return the number of rows to create for this line
      */
-    protected boolean hasAnyHeaderedElements() {
+    protected int getMaxRequestedRowCount() {
         for (RenderableElement element : elements) {
-            if (element instanceof TableJoiningWithHeader) {
-                return true;
+            if (element instanceof TableJoiningWithHeader && !element.isHidden()) {
+                return 2;
             }
         }
-        return false;
+        return 1;
     }
     
     /**
@@ -109,7 +109,7 @@ public class AccountingLineViewLine implements TableJoining, ReadOnlyable {
     protected AccountingLineTableCell createTableCellForNonTableJoining(RenderableElement element) {
         AccountingLineTableCell cell = new AccountingLineTableCell();
         cell.addRenderableElement(element);
-        cell.setRowSpan(2);
+        cell.setRowSpan(getRequestedRowCount());
         return cell;
     }
     
@@ -121,6 +121,13 @@ public class AccountingLineViewLine implements TableJoining, ReadOnlyable {
         throw new IllegalStateException("Line elements may not join a table directly; the specified rendering is incorrect");
     }
     
+    /**
+     * This element should be padded out
+     * @see org.kuali.kfs.sys.document.web.AccountingLineViewLineFillingElement#stretchToFillLine()
+     */
+    public boolean shouldStretchToFillLine() {
+        return false;
+    }
     /**
      * @see org.kuali.kfs.sys.document.web.TableJoining#readOnlyize()
      */
@@ -172,6 +179,18 @@ public class AccountingLineViewLine implements TableJoining, ReadOnlyable {
             }
         }
         elements.removeAll(elementsToRemove);
+    }
+    
+    /**
+     * Shuffles responsibility on to any TableJoining children
+     * @see org.kuali.kfs.sys.document.web.TableJoining#readOnlyizeReadOnlyBlocks(java.util.Set)
+     */
+    public void readOnlyizeReadOnlyBlocks(Set<String> readOnlyBlocks) {
+        for (RenderableElement element : elements) {
+            if (element instanceof TableJoining) {
+                ((TableJoining)element).readOnlyizeReadOnlyBlocks(readOnlyBlocks);
+            }
+        }
     }
     
     /**

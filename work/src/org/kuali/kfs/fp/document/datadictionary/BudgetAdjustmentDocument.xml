@@ -48,6 +48,18 @@
       </list>
     </property>
     <property name="validationMap" ref="BudgetAdjustmentDocument-validations" />
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="BudgetAdjustment-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+	    	<entry>
+	    		<key><value>target</value></key>
+	    		<ref bean="BudgetAdjustment-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -168,4 +180,103 @@
     	</map>
     </property>
   </bean>
+  
+  <!-- accounting line groups -->
+  <bean id="BudgetAdjustment-sourceAccountingLineGroup" parent="BudgetAdjustment-sourceAccountingLineGroup-parentBean" />
+  
+  <bean id="BudgetAdjustment-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="BudgetAdjustment-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine" />
+	  <property name="groupLabel" value="From/Decrease" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	</bean>
+	
+	<bean id="BudgetAdjustment-targetAccountingLineGroup" parent="BudgetAdjustment-targetAccountingLineGroup-parentBean" />
+	
+	<bean id="BudgetAdjustment-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="BudgetAdjustment-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine" />
+	  <property name="groupLabel" value="To/Increase" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="target" />
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
+	</bean>
+	
+	<bean id="BudgetAdjustment-accountingLineView" parent="BudgetAdjustment-accountingLineView-parent" />
+	
+	<bean id="BudgetAdjustment-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+	  <property name="elements">
+	    <list>
+	      <bean parent="AccountingLineView-sequenceNumber" />
+	      <bean parent="AccountingLineView-lines">
+	        <property name="lines">
+	          <list>
+	            <bean parent="AccountingLineView-line">
+	              <property name="elementName" value="accountingInformation" />
+	              <property name="fields">
+	                <list>
+	                  <bean parent="AccountingLineView-field" p:name="postingYear" p:hidden="true" />
+	                  <bean parent="AccountingLineView-field" p:name="overrideCode" p:hidden="true" />
+	                  <bean parent="AccountingLineView-field" p:name="versionNumber" p:hidden="true" />
+	                  <bean parent="AccountingLineView-field" p:name="objectId" p:hidden="true" />
+	                  <bean parent="AccountingLineView-field" p:name="documentNumber" p:hidden="true" />
+	                  <bean parent="AccountingLineView-field" p:name="budgetAdjustmentPeriodCode" p:hidden="true" />
+	                  <bean parent="AccountingLineView-field" p:name="fringeBenefitIndicator" p:hidden="true" />
+	                  <bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
+	                  <bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName">
+	                  	<property name="overrideFields">
+	                  		<list>
+	                  			<bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride" />
+	                  			<bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride" />
+	                  		</list>
+	                  	</property>
+	                  </bean>
+	                  <bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName" />
+	                  <bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
+	                  	<property name="overrideFields">
+	                  		<list>
+	                  			<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride" />
+	                  		</list>
+	                  	</property>
+	                  </bean>
+	                  <bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
+	                  <bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription" />
+	                  <bean parent="AccountingLineView-field" p:name="organizationReferenceId" />
+	                </list>
+	              </property>
+	            </bean>
+	            <bean parent="AccountingLineView-showHideLines" p:label="Monthly Lines" p:name="monthlyLinesHideShow">
+	            	<property name="lines">
+	            		<list>
+	            			<bean parent="AccountingLineView-columns" p:columnCount="2" p:name="monthlyLines">
+	            				<property name="fields">
+	            					<list>
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth1LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth2LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth3LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth4LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth5LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth6LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth7LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth8LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth9LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth10LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth11LineAmount" />
+	            						<bean parent="AccountingLineView-field" p:name="financialDocumentMonth12LineAmount" />
+	            					</list>
+	            				</property>
+	            			</bean>
+	            		</list>
+	            	</property>
+	            </bean>
+	          </list>
+	        </property>
+	      </bean>
+	      <bean parent="AccountingLineView-currentBaseAmountField" p:useShortLabels="true" />
+	      <bean parent="AccountingLineView-actions" />
+	    </list>
+	  </property>
+	</bean>
 </beans>

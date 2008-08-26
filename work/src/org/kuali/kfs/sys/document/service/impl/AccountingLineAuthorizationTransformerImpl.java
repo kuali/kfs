@@ -80,9 +80,7 @@ public class AccountingLineAuthorizationTransformerImpl implements AccountingLin
     protected void readOnlyizeReadOnlyBlocks(List<TableJoining> elements, Set<String> readOnlyBlocks) {
         if (readOnlyBlocks.size() > 0) {
             for (TableJoining element : elements) {
-                if (readOnlyBlocks.contains(element.getName()) && element instanceof ReadOnlyable) {
-                    ((ReadOnlyable)element).readOnlyize();
-                }
+                element.readOnlyizeReadOnlyBlocks(readOnlyBlocks);
             }
         }
     }

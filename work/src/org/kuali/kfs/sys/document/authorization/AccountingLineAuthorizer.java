@@ -54,9 +54,10 @@ public interface AccountingLineAuthorizer {
      * @param the name of the property that represents the accounting line
      * @param lineIndex value, as Integer, of the index of the given accounting line within the group's collection of accounting lines; if null, then it is assumed that this is a new line
      * @param editModesForDocument the edit modes on the whole document
+     * @param groupTitle title of the group from the data dictionary
      * @return a List of the Actions that are available for this line
      */
-    public abstract List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineProperty, Integer lineIndex, FinancialSystemUser currentUser, Map editModesForDocument);
+    public abstract List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineProperty, Integer lineIndex, FinancialSystemUser currentUser, Map editModesForDocument, String groupTitle);
     
     /**
      * Determines if new lines should be rendered for the given accounting line group (identified by its property name)

@@ -30,12 +30,14 @@ public interface TableJoining {
     /**
      * Requests that this layout element property join a number of rows which will make up a table 
      * @param rows the rows to join
+     * @param headerRowCount the number of header rows
      */
     public abstract void joinTable(List<AccountingLineTableRow> rows);
     
     /**
      * Requests that this element join a table row
-     * @param row the row to join
+     * @param headerLabelRow the header row which can be joined
+     * @param row the row which can be joined
      */
     public abstract void joinRow(AccountingLineTableRow headerLabelRow, AccountingLineTableRow row);
     
@@ -46,8 +48,8 @@ public interface TableJoining {
     public abstract int getRequestedRowCount();
     
     /**
-     * Returns the name of this table joining element
-     * @return the name of this table joining element
+     * Returns the name(s) of this table joining element; some table joining elements are compound
+     * @return the names of this table joining element
      */
     public abstract String getName();
     
@@ -61,6 +63,12 @@ public interface TableJoining {
      * @param unviewableBlocks a Set of the names of blocks that should not be rendered
      */
     public abstract void removeUnviewableBlocks(Set<String> unviewableBlocks);
+    
+    /**
+     * Instructs the element to make any child readOnlyizable blocks named within the given Set to read only
+     * @param readOnlyBlocks the names of blocks to make read only
+     */
+    public abstract void readOnlyizeReadOnlyBlocks(Set<String> readOnlyBlocks);
 
     /**
      * Performs a transformations on any fields this TableJoining layout element knows about

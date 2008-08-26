@@ -26,7 +26,9 @@ import org.kuali.kfs.sys.document.service.DynamicNameLabelGenerator;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.document.web.AccountingLineViewOverrideField;
 import org.kuali.kfs.sys.document.web.TableJoining;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.FieldBridge;
@@ -156,12 +158,10 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
         if (isHidden()) {
             realField.setFieldType(Field.HIDDEN);
         }
-        /*if (!StringUtils.isBlank(getWebUILeaveFieldFunction())) {
-            realField.setWebOnBlurHandler(getWebUILeaveFieldFunction());
+        if (shouldUseShortLabel()) {
+            BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(accountingLineClass.getName());
+            realField.setFieldLabel(boEntry.getAttributeDefinition(getName()).getShortLabel());
         }
-        if (!StringUtils.isBlank(getWebUILeaveFieldCallbackFunction())) {
-            realField.setWebOnBlurHandlerCallback(getWebUILeaveFieldCallbackFunction());
-        }*/
         return realField;
     }
     

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.document.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,7 +63,7 @@ public class PlaceHoldingLayoutElement implements TableJoiningWithHeader {
     }
 
     /**
-     * This only requests one row, not that it really matters..
+     * This only requests one row, not that it really matters.
      * @see org.kuali.kfs.sys.document.web.TableJoining#getRequestedRowCount()
      */
     public int getRequestedRowCount() {
@@ -87,18 +88,19 @@ public class PlaceHoldingLayoutElement implements TableJoiningWithHeader {
      * @see org.kuali.kfs.sys.document.web.TableJoining#joinTable(java.util.List)
      */
     public void joinTable(List<AccountingLineTableRow> rows) {
+        AccountingLineTableCell cell = getPlaceHoldingCell();
+        cell.setRowSpan(rows.size());
         rows.get(0).addCell(getPlaceHoldingCell());
     }
     
     /**
      * Creates a place holding label cell
+     * @param rowSpan the row span the cell should be
      * @return a table cell holding a place holding label cell
      */
     protected AccountingLineTableCell getLabelCell() {
         AccountingLineTableCell cell = new AccountingLineTableCell();
-        if (colSpan > 1) {
-            cell.setColSpan(colSpan);
-        }
+        cell.setColSpan(colSpan);
         cell.setRendersAsHeader(true);
         cell.addRenderableElement(createHeaderLabel());
         return cell;
@@ -106,13 +108,12 @@ public class PlaceHoldingLayoutElement implements TableJoiningWithHeader {
     
     /**
      * Returns an empty table cell, colspan cells wide
+     * @param rowSpan the number of rows this cell should span
      * @return an empty accounting line table cell that will fill up the space
      */
     protected AccountingLineTableCell getPlaceHoldingCell() {
         AccountingLineTableCell cell = new AccountingLineTableCell();
-        if (colSpan > 1) {
-            cell.setColSpan(colSpan);
-        }
+        cell.setColSpan(colSpan);
         cell.addRenderableElement(createHeaderLabel());
         return cell;
     }
@@ -134,6 +135,12 @@ public class PlaceHoldingLayoutElement implements TableJoiningWithHeader {
      * @see org.kuali.kfs.sys.document.web.TableJoining#removeUnviewableBlocks(java.util.Set)
      */
     public void removeUnviewableBlocks(Set<String> unviewableBlocks) {}
+
+    /**
+     * This will never read onlyize anything
+     * @see org.kuali.kfs.sys.document.web.TableJoining#readOnlyizeReadOnlyBlocks(java.util.Set)
+     */
+    public void readOnlyizeReadOnlyBlocks(Set<String> readOnlyBlocks) {}
 
     /**
      * Gets the colSpan attribute. 

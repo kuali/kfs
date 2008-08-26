@@ -9,9 +9,7 @@
     />
     <bean id="TransactionalDocumentEntry" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry" />
     
-    <bean id="AccountingDocumentEntry" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry">
-    	<property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
-    </bean>
+    <bean id="AccountingDocumentEntry" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry" />
     
     <bean id="HelpDefinition" class="org.kuali.kfs.dictionary.HelpDefinition" abstract="true" />
     
@@ -34,4 +32,13 @@
     </bean>
     
     <bean id="AccountingLineView-groupTotal" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupTotalDefinition" />
+    
+    <bean id="AccountingLineView-currentBaseAmountField" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewCurrentBaseAmountFieldDefinition">
+    	<property name="currentAmountPropertyName" value="currentBudgetAdjustmentAmount" />
+    	<property name="baseAmountPropertyName" value="baseBudgetAdjustmentAmount" />
+    </bean>
+    
+    <bean id="AccountingLineView-showHideLines" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewHideShowLinesDefinition" />
+    
+    <bean id="AccountingLineView-columns" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewColumnsDefinition" />
 </beans>

@@ -28,6 +28,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.pdp.dataaccess.ReferenceDao;
 import org.kuali.kfs.pdp.exception.ConfigurationError;
+import org.kuali.rice.kns.bo.KualiCodeBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.UniversalUserService;
@@ -106,10 +107,10 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
 
         Map hm = new HashMap();
 
-        /*for (Iterator iter = getAll(type).iterator(); iter.hasNext();) {
-            Code element = (Code) iter.next();
+        for (Iterator iter = getAll(type).iterator(); iter.hasNext();) {
+            KualiCodeBase element = (KualiCodeBase) iter.next();
             hm.put(element.getCode(), element);
-        }*/
+        }
         return hm;
     }
 

@@ -93,7 +93,17 @@ public class PostFormatProcessSummary extends TransientBusinessObjectBase {
             ProcessSummary ps = (ProcessSummary) iter.next();
 
             DisbursementType dt = pg.getDisbursementType();
-
+            System.out.println("!!!!!ps null = " + (ps == null));
+            System.out.println("ps.getCustomer() null = " + (ps.getCustomer() == null));
+            System.out.println("pg null = " + (pg == null));
+            System.out.println("pg.getBatch() null = " + (pg.getBatch() == null));
+            System.out.println("pg.getBatch().getCustomerProfile() null = " + (pg.getBatch().getCustomerProfile() == null));
+            System.out.println("ps.getDisbursementType() null = " + (ps.getDisbursementType() == null));
+            System.out.println("dt null = " + (dt == null));
+            System.out.println("ps.getSortGroupId() null = " + (ps.getSortGroupId() == null));
+            System.out.println("pg.getSortGroupId() null = " + (pg.getSortGroupId() == null));
+            System.out.println("ps.getProcess() null = " + (ps.getProcess() == null));
+            System.out.println("pg.getProcess() null = " + (pg.getProcess() == null));
             if (ps.getCustomer().equals(pg.getBatch().getCustomerProfile()) && ps.getDisbursementType().equals(dt) && ps.getSortGroupId().equals(pg.getSortGroupId()) && ps.getProcess().equals(pg.getProcess())) {
                 return ps;
             }

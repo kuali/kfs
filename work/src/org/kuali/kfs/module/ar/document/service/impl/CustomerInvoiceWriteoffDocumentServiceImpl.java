@@ -17,17 +17,21 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -46,6 +50,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     private FinancialSystemUserService financialSystemUserService;
     private BusinessObjectService businessObjectService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument)
@@ -86,34 +91,72 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             }
         }
     }
+    
 
-    public List<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup() {
+    public boolean isCustomerInvoiceWriteoffDocumentApproved(String customerInvoiceWriteoffDocumentNumber) {
+        Map criteria = new HashMap();
+        criteria.put("documentNumber", customerInvoiceWriteoffDocumentNumber);
+        criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        return businessObjectService.countMatching(CustomerInvoiceWriteoffDocument.class, criteria) == 1;
+    }    
 
-        List<CustomerInvoiceWriteoffLookupResult> searchResultsCollection = new ArrayList<CustomerInvoiceWriteoffLookupResult>();
-        // TODO Use service to populate searchCollectionResults
-        for (int i = 0; i < 5; i++) {
-            CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult = new CustomerInvoiceWriteoffLookupResult();
-            customerInvoiceWriteoffLookupResult.setCustomerName("TESTING");
-            customerInvoiceWriteoffLookupResult.setCustomerNumber("ABB2");
-            customerInvoiceWriteoffLookupResult.setCustomerType("BLAH");
-            customerInvoiceWriteoffLookupResult.setCustomerTotal(new KualiDecimal(100));
-            searchResultsCollection.add(customerInvoiceWriteoffLookupResult);
-
-            FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
-            documentHeader.setDocumentFinalDate(new Date(new java.util.Date().getTime()));
-
-            List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
-            for (int j = 0; j < 3; j++) {
-                CustomerInvoiceDocument customerInvoiceDocument = new CustomerInvoiceDocument();
-                customerInvoiceDocument.setAge(new Integer(100));
-                customerInvoiceDocument.setDocumentNumber("123456");
-                customerInvoiceDocument.setDocumentHeader(documentHeader);
-                customerInvoiceDocuments.add(customerInvoiceDocument);
-            }
-            customerInvoiceWriteoffLookupResult.setCustomerInvoiceDocuments(customerInvoiceDocuments);
+    public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup() {
+        // change this service call to a service method that actually takes in the lookup parameters
+        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = customerInvoiceDocumentService.getAllCustomerInvoiceDocumentsWithoutWorkflowInfo(); 
+        return getPopulatedCustomerInvoiceWriteoffLookupResults(customerInvoiceDocuments);
+    }
+    
+    /**
+     * This helper method returns a list of customer invoice writeoff lookup result BO's based off a collection of customer invoice documents
+     * @param customerInvoiceDocuments
+     * @return
+     */
+    protected Collection<CustomerInvoiceWriteoffLookupResult> getPopulatedCustomerInvoiceWriteoffLookupResults(Collection<CustomerInvoiceDocument> customerInvoiceDocuments){
+        Collection<CustomerInvoiceWriteoffLookupResult> populatedCustomerInvoiceWriteoffLookupResults = new ArrayList<CustomerInvoiceWriteoffLookupResult>();
+        
+        Iterator iter = getCustomerInvoiceDocumentsByCustomerNumberMap(customerInvoiceDocuments).entrySet().iterator();
+        CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult = null;
+        while(iter.hasNext()) {
+            
+            Map.Entry entry = (Map.Entry)iter.next();
+            String customerNumber = (String)entry.getKey();
+            List<CustomerInvoiceDocument> list = (List<CustomerInvoiceDocument>)entry.getValue();
+            
+            //just get data from first invoice for customer data
+            Customer customer = ((CustomerInvoiceDocument)list.get(0)).getCustomer();
+            customerInvoiceWriteoffLookupResult = new CustomerInvoiceWriteoffLookupResult();
+            customerInvoiceWriteoffLookupResult.setCustomerName(customer.getCustomerName());
+            customerInvoiceWriteoffLookupResult.setCustomerNumber(customer.getCustomerNumber());
+            customerInvoiceWriteoffLookupResult.setCustomerType(customer.getCustomerType() != null ? customer.getCustomerType().getCustomerTypeDescription() : "");
+            customerInvoiceWriteoffLookupResult.setCustomerTotal(new KualiDecimal(100.00));
+            customerInvoiceWriteoffLookupResult.setCustomerInvoiceDocuments(list);
+            
+            populatedCustomerInvoiceWriteoffLookupResults.add(customerInvoiceWriteoffLookupResult);
         }
-
-        return searchResultsCollection;
+  
+        return populatedCustomerInvoiceWriteoffLookupResults;
+    }
+    
+    /**
+     * This helper method returns a map of a list of invoices by customer number
+     * @param customerInvoiceDocuments
+     * @return
+     */
+    protected Map<String, List<CustomerInvoiceDocument>> getCustomerInvoiceDocumentsByCustomerNumberMap(Collection<CustomerInvoiceDocument> customerInvoiceDocuments){
+        //use a map to sort invoices by customer number
+        Map<String, List<CustomerInvoiceDocument>> customerInvoiceDocumentsByCustomerNumberMap = new HashMap<String, List<CustomerInvoiceDocument>>();
+        for( CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceDocuments){
+            String customerNumber = customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber();
+            if( customerInvoiceDocumentsByCustomerNumberMap.containsKey(customerNumber) ){
+                ((List<CustomerInvoiceDocument>)customerInvoiceDocumentsByCustomerNumberMap.get(customerNumber)).add(customerInvoiceDocument);
+            } else {
+                List<CustomerInvoiceDocument> customerInvoiceDocumentsForCustomerNumber = new ArrayList<CustomerInvoiceDocument>();
+                customerInvoiceDocumentsForCustomerNumber.add(customerInvoiceDocument);
+                customerInvoiceDocumentsByCustomerNumberMap.put(customerNumber, customerInvoiceDocumentsForCustomerNumber);
+            }
+        }
+        
+        return customerInvoiceDocumentsByCustomerNumberMap;
     }
 
     public ParameterService getParameterService() {
@@ -148,6 +191,14 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         this.businessObjectService = businessObjectService;
     }
 
+    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
+        return customerInvoiceDocumentService;
+    }
+
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    }
+
     public AccountsReceivableDocumentHeaderService getAccountsReceivableDocumentHeaderService() {
         return accountsReceivableDocumentHeaderService;
     }
@@ -156,11 +207,5 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
     }
 
-    public boolean isCustomerInvoiceWriteoffDocumentApproved(String customerInvoiceWriteoffDocumentNumber) {
-        Map criteria = new HashMap();
-        criteria.put("documentNumber", customerInvoiceWriteoffDocumentNumber);
-        criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
-        return businessObjectService.countMatching(CustomerInvoiceWriteoffDocument.class, criteria) == 1;
-    }
 
 }

@@ -15,7 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import java.util.List;
+
+import java.util.Collection;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
@@ -26,6 +27,6 @@ public interface CustomerInvoiceWriteoffDocumentService {
     
     public boolean isCustomerInvoiceWriteoffDocumentApproved(String customerInvoiceWriteoffDocumentNumber);
     
-    public List<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup();
+    public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup();
 
 }

@@ -112,8 +112,6 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        
-        // TODO Use service to populate searchCollectionResults
         Collection searchResultsCollection = customerInvoiceWriteoffDocumentService.getCustomerInvoiceDocumentsForInvoiceWriteoffLookup();
 
         return this.buildSearchResultList(searchResultsCollection, new Long(searchResultsCollection.size()));

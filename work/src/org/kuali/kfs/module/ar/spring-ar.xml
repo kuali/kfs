@@ -196,6 +196,9 @@
 		<property name="financialSystemUserService">
 			<ref bean="financialSystemUserService" />
 		</property>
+		<property name="customerInvoiceDocumentService">
+			<ref bean="customerInvoiceDocumentService" />
+		</property>		
 	</bean>		
 	
 	<bean id="customerInvoiceGLPEService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceGLPEServiceImpl">

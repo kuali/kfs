@@ -73,30 +73,35 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     private InvoicePaidAppliedService invoicePaidAppliedService;
     private NonInvoicedDistributionService nonInvoicedDistributionService;
     private CustomerInvoiceDetailService customerInvoiceDetailService;
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
 
-    public  Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments() {    
+    public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments() {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
         invoices = customerInvoiceDocumentDao.getAll();
-//        return invoices;
+        // return invoices;
         List documentHeaderIds = new ArrayList();
         for (Iterator itr = invoices.iterator(); itr.hasNext();) {
-            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument)itr.next();
+            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) itr.next();
             documentHeaderIds.add(invoice.getDocumentNumber());
-          
+
         }
         List docs = new ArrayList();
-            try {
-               docs = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
-            }
-            catch (WorkflowException e) {
-                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
-            }
-        
-    return docs;
+        try {
+            docs = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+        }
+        catch (WorkflowException e) {
+            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+        }
+
+        return docs;
     }
     
+
+    public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocumentsWithoutWorkflowInfo() {
+        return customerInvoiceDocumentDao.getAll();
+    }
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDetailsForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
@@ -110,35 +115,37 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
         return customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(customerInvoiceDocumentNumber);
     }
-    
-    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber){
-        if(null == customerInvoiceDocumentNumber) { return null; }
+
+    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
+        if (null == customerInvoiceDocumentNumber) {
+            return null;
+        }
         return getOpenAmountForCustomerInvoiceDocument(getInvoiceByInvoiceDocumentNumber(customerInvoiceDocumentNumber));
     }
-    
-    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument){
+
+    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         Collection<CustomerInvoiceDetail> customerInvoiceDetails = customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts();
         KualiDecimal total = new KualiDecimal(0);
-        for(CustomerInvoiceDetail detail : customerInvoiceDetails) {
-            total = total.add(customerInvoiceDetailService.getOpenAmount( detail));
+        for (CustomerInvoiceDetail detail : customerInvoiceDetails) {
+            total = total.add(customerInvoiceDetailService.getOpenAmount(detail));
         }
         return total;
-    }    
+    }
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getInvoicesByCustomerNumber(java.lang.String)
      */
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByCustomerNumber(String customerNumber) {
-        
+
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
-        
+
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("customerNumber", customerNumber);
-        
+
         Collection<AccountsReceivableDocumentHeader> documentHeaders = businessObjectService.findMatching(AccountsReceivableDocumentHeader.class, fieldValues);
-        
+
         List<String> documentHeaderIds = new ArrayList<String>();
-        for(AccountsReceivableDocumentHeader header : documentHeaders) {
+        for (AccountsReceivableDocumentHeader header : documentHeaders) {
             String documentNumber = null;
             try {
                 Long.parseLong(header.getDocumentHeader().getDocumentNumber());
@@ -146,15 +153,15 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
                 documentHeaderIds.add(documentNumber);
             }
             catch (NumberFormatException nfe) {
+            }
         }
-        }
-        
-        if(0 < documentHeaderIds.size()) {
+
+        if (0 < documentHeaderIds.size()) {
             invoices = documentDao.findByDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
         }
         return invoices;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerByOrganizationInvoiceNumber(java.lang.String)
      */
@@ -162,7 +169,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         CustomerInvoiceDocument invoice = getInvoiceByOrganizationInvoiceNumber(organizationInvoiceNumber);
         return invoice.getAccountsReceivableDocumentHeader().getCustomer();
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getInvoiceByOrganizationInvoiceNumber(java.lang.String)
      */
@@ -186,75 +193,77 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return customerInvoiceDocumentDao.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
     }
 
-    
+
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode, Date date) {
         Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
-       
+
         Map fieldValues = new HashMap();
         fieldValues.put("billByChartOfAccountCode", chartOfAccountsCode);
         fieldValues.put("billedByOrganizationCode", organizationCode);
-   
-        
+
+
         customerInvoiceDocuments = businessObjectService.findMatching(CustomerInvoiceDocument.class, fieldValues);
-                
+
         List docNumbers = new ArrayList();
         for (Iterator itr = customerInvoiceDocuments.iterator(); itr.hasNext();) {
-            CustomerInvoiceDocument doc = (CustomerInvoiceDocument)itr.next();
+            CustomerInvoiceDocument doc = (CustomerInvoiceDocument) itr.next();
             docNumbers.add(doc.getDocumentNumber());
         }
         customerInvoiceDocuments.clear();
-        if (docNumbers.size() !=0) {
+        if (docNumbers.size() != 0) {
             try {
                 customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers);
-            } catch (WorkflowException e) {
+            }
+            catch (WorkflowException e) {
                 throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
-            }      
+            }
         }
         return customerInvoiceDocuments;
     }
-    
+
     /**
      * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getCustomerInvoiceDocumentsByCustomerNumber(java.lang.String)
      */
     public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
-        
+
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
-        
+
         Map fieldValues = new HashMap();
         fieldValues.put("processingChartOfAccountCode", chartOfAccountsCode);
         fieldValues.put("processingOrganizationCode", organizationCode);
-        
+
         Collection<AccountsReceivableDocumentHeader> arDocHeaders = businessObjectService.findMatchingOrderBy(AccountsReceivableDocumentHeader.class, fieldValues, "customerNumber", true);
-        
+
         List<String> documentHeaderIds = new ArrayList<String>();
-        for (AccountsReceivableDocumentHeader arDocHeader : arDocHeaders ) {
+        for (AccountsReceivableDocumentHeader arDocHeader : arDocHeaders) {
             documentHeaderIds.add(arDocHeader.getDocumentNumber());
         }
-        if (documentHeaderIds.size() !=0) {
-        try {
-            customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
-        }
-        catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
-        }        
+        if (documentHeaderIds.size() != 0) {
+            try {
+                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+            }
         }
         return customerInvoiceDocuments;
     }
-    
+
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByAccountNumber(String accountNumber) {
-        
+
         List<String> docNumbers = customerInvoiceDetailService.getCustomerInvoiceDocumentNumbersByAccountNumber(accountNumber);
 
-        Collection<CustomerInvoiceDocument> customerInvoiceDocuments  = new ArrayList<CustomerInvoiceDocument>();       
-        
-        if (docNumbers.size() !=0) {
-        System.out.println(docNumbers);
-    //    customerInvoiceDocuments.clear();
-        try {
-            customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers);
-        } catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
-        }       
+        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+
+        if (docNumbers.size() != 0) {
+            System.out.println(docNumbers);
+            // customerInvoiceDocuments.clear();
+            try {
+                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+            }
         }
         return customerInvoiceDocuments;
     }
@@ -326,18 +335,17 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
         accountsReceivableDocumentHeader.setCustomerNumber(customerNumber);
         document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-        
-        //make open invoice indicator to true
+
+        // make open invoice indicator to true
         document.setOpenInvoiceIndicator(true);
     }
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getInvoicePaidAppliedsForCustomerInvoiceDocument(java.lang.String)
      */
-//    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String documentNumber) {
-//        return invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(documentNumber);
-//    }
-
+    // public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String documentNumber) {
+    // return invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(documentNumber);
+    // }
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getNonInvoicedDistributionsForInvoice(java.lang.String)
      */
@@ -351,7 +359,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public KualiDecimal getNonInvoicedTotalForInvoice(CustomerInvoiceDocument invoice) {
         Collection<NonInvoicedDistribution> payments = this.nonInvoicedDistributionService.getNonInvoicedDistributionsForInvoice(invoice);
         KualiDecimal total = new KualiDecimal(0);
-        for(NonInvoicedDistribution payment : payments) {
+        for (NonInvoicedDistribution payment : payments) {
             total = total.add(payment.getFinancialDocumentLineAmount());
         }
         return total;
@@ -370,7 +378,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public KualiDecimal getPaidAppliedTotalForInvoice(CustomerInvoiceDocument invoice) {
         Collection<InvoicePaidApplied> payments = invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(invoice);
         KualiDecimal total = new KualiDecimal(0);
-        for(InvoicePaidApplied payment : payments) {
+        for (InvoicePaidApplied payment : payments) {
             total = total.add(payment.getInvoiceItemAppliedAmount());
         }
         return total;
@@ -419,12 +427,12 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#updateOpenInvoiceIndicator(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public void closeCustomerInvoiceDocumentIfFullyPaidOff(CustomerInvoiceDocument customerInvoiceDocument, KualiDecimal totalAmountAppliedByDocument) {
-        if( customerInvoiceDocument.isPaidOff(totalAmountAppliedByDocument)){
+        if (customerInvoiceDocument.isPaidOff(totalAmountAppliedByDocument)) {
             closeCustomerInvoiceDocument(customerInvoiceDocument);
         }
     }
-    
-    public void closeCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument){
+
+    public void closeCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         customerInvoiceDocument.setOpenInvoiceIndicator(false);
         businessObjectService.save(customerInvoiceDocument);
     }
@@ -440,12 +448,12 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public DocumentService getDocumentService() {
         return documentService;
     }
-    
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 
-        public BusinessObjectService getBusinessObjectService() {
+    public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
@@ -500,6 +508,4 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
         this.customerInvoiceDetailService = customerInvoiceDetailService;
     }
-
-
 }

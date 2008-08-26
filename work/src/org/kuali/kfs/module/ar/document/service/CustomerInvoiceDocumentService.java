@@ -28,7 +28,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface CustomerInvoiceDocumentService {
     
-    public  Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments(); 
+    public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments(); 
+    
+    public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocumentsWithoutWorkflowInfo();
     
     /**
      * This method sets up default values for customer invoice document on initiation.

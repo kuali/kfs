@@ -72,6 +72,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        // MJM check what fieldValues returns; what is the propertyName for Account Number?
 
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         Date reportDate = today;

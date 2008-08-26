@@ -45,6 +45,7 @@
               <html:hidden property="financialBalanceTypeCode" />
               <html:hidden property="financialObjectTypeCode" />
               <html:hidden property="monthlyPersisted" />
+              <html:hidden property="budgetableDocument" />
           </kul:htmlAttributeHeaderCell>
           <kul:htmlAttributeHeaderCell attributeEntry="${pbglAttributes.chartOfAccountsCode}" />
           <kul:htmlAttributeHeaderCell attributeEntry="${pbglAttributes.accountNumber}" />
@@ -291,13 +292,13 @@
             <td colspan="2" class="datacell" nowrap>
               <div align="center"><span>
               <c:if test="${!readOnly}">
-                <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_monthspread.gif" styleClass="tinybutton" property="methodToCall.performMonthlySpread.anchormonthlyBudgetLineLineAnchor" title="Spread Evenly To Months" alt="Spread Evenly To Months"/>
-                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton" property="methodToCall.performMonthlyZero.anchormonthlyBudgetLineLineAnchor" title="Set Months To Zero" alt="Set Months To Zero"/>
-                
+                <c:if test="${KualiForm.budgetableDocument}">
+                  <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_monthspread.gif" styleClass="tinybutton" property="methodToCall.performMonthlySpread.anchormonthlyBudgetLineLineAnchor" title="Spread Evenly To Months" alt="Spread Evenly To Months"/>
+                  <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton" property="methodToCall.performMonthlyZero.anchormonthlyBudgetLineLineAnchor" title="Set Months To Zero" alt="Set Months To Zero"/>
+                </c:if>
                 <c:if test="${KualiForm.monthlyPersisted}">
                   <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_monthdel.gif" styleClass="tinybutton" property="methodToCall.performMonthlyDelete.anchormonthlyBudgetLineLineAnchor" title="Delete Monthly" alt="Delete Monthly"/>
                 </c:if>
-
               </c:if>
               &nbsp;
               </div>

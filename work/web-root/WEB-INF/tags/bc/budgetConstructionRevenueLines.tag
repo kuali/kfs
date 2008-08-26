@@ -235,7 +235,7 @@
 					 </c:when> 
 					 <c:otherwise> 
                        <c:choose>
-                         <c:when test="${lineIsEditable && KualiForm.budgetableDocument}">
+                         <c:when test="${lineIsEditable}">
                            <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-editmonth.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
                          </c:when> 
                          <c:otherwise> 
@@ -247,11 +247,6 @@
 				   </c:choose>
 
                    <html:image property="methodToCall.performBalanceInquiryForRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry For Revenue Line ${status.index}" alt="Balance Inquiry For Revenue Line ${status.index}" styleClass="tinybutton" />
-<%-- FIXME: move this to new location with toolset
-                   <c:if test="${lineIsEditable && !empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
-                     <html:image property="methodToCall.performPercentAdjustmentRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-percentincdec.gif" title="Percent Adjustment Revenue Line ${status.index}" alt="Percent Adjustment Revenue Line ${status.index}" styleClass="tinybutton"/>
-                   </c:if>
---%>
 
 				   <c:choose>
                      <c:when test="${lineIsEditable && (empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0)}">
@@ -300,7 +295,7 @@
 				<td class="infoline">&nbsp;</td>
 			</tr>
 
-            <c:if test="${!readOnly && KualiForm.budgetableDocument}">
+            <c:if test="${!readOnly}">
 	    	<tr>
 			    <td colspan="7" class="subhead">
 					<span class="subhead-left">Global Revenue Actions</span>
@@ -308,6 +303,7 @@
 			</tr>
 
             <tr>
+            <c:if test="${KualiForm.budgetableDocument}">
               <th colspan="3" nowrap>&nbsp;
 		    	<a name="anchorrevenueControlsAnchor"></a>
               </th>
@@ -320,13 +316,20 @@
               </td>
               <td colspan="1" class="datacell" nowrap>
                 <div align="center">
-<%--
-                  <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_percentincdec.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>
---%>
-                  <html:image property="methodToCall.performRevMonthSpread.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />
-                  <html:image property="methodToCall.performRevMonthDelete.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-monthdelete.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>
+                  <html:image property="methodToCall.performRevMonthSpread.anchorrevenueControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />
+                  <html:image property="methodToCall.performRevMonthDelete.anchorrevenueControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-monthdelete.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>
                 </div>
               </td>
+	        </c:if>
+            <c:if test="${!KualiForm.budgetableDocument}">
+              <td colspan="6" class="datacell" nowrap>&nbsp;
+              </td>
+              <td colspan="1" class="datacell" nowrap>
+                <div align="center">
+                  <html:image property="methodToCall.performRevMonthDelete.anchorrevenueControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-monthdelete.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>
+                </div>
+              </td>
+	        </c:if>
 	        </tr>
 	        </c:if>
 

@@ -63,10 +63,6 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
 
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
 
-        // TODO should not need to handle optimistic lock exception here (like KualiDocumentActionBase)
-        // since BC sets locks up front, but need to verify this
-
-
         // TODO should probably use service locator and call
         // DocumentAuthorizer documentAuthorizer =
         // SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
@@ -84,20 +80,14 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
             boolean tmpReadOnly = (editMode.containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY) || !editMode.containsKey(BudgetConstructionEditMode.FULL_ENTRY));
             tmpReadOnly |= bcMonthly.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG);
             tmpReadOnly |= (!monthlyBudgetForm.isBenefitsCalculationDisabled() && ((pbgl.getLaborObject() != null) && pbgl.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
-            tmpReadOnly |= !SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(pbgl.getBudgetConstructionHeader());
+
+            monthlyBudgetForm.setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(pbgl.getBudgetConstructionHeader()));
+//            tmpReadOnly |= !monthlyBudgetForm.isBudgetableDocument();
+// TODO handle not budgetable in rules like the BC document so we can display the delete monthly button only when we are not readonly
             monthlyBudgetForm.setMonthlyReadOnly(tmpReadOnly);
             
         }
         
-        /*
-         * // TODO from KualiDocumentActionBase remove when ready // populates authorization-related fields in KualiDocumentFormBase
-         * instances, which are derived from // information which is contained in the form but which may be unavailable until this
-         * point if (form instanceof KualiDocumentFormBase) { KualiDocumentFormBase formBase = (KualiDocumentFormBase) form;
-         * Document document = formBase.getDocument(); DocumentAuthorizer documentAuthorizer =
-         * SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(document);
-         * formBase.populateAuthorizationFields(documentAuthorizer); // set returnToActionList flag, if needed if
-         * ("displayActionListView".equals(formBase.getCommand())) { formBase.setReturnToActionList(true); }
-         */
         return forward;
     }
 
@@ -112,22 +102,6 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
             LOG.error("User not authorized to use this action: " + this.getClass().getName());
             throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModuleService(this.getClass()));
         }
-        /*
-         * //TODO from KualiAction - remove when ready AuthorizationType defaultAuthorizationType = new
-         * AuthorizationType.Default(this.getClass()); if ( !SpringContext.getBean(KualiModuleService.class).isAuthorized(
-         * GlobalVariables.getUserSession().getKfsUser(), defaultAuthorizationType ) ) { LOG.error("User not authorized to use
-         * this action: " + this.getClass().getName() ); throw new ModuleAuthorizationException(
-         * GlobalVariables.getUserSession().getKfsUser().getPersonUserIdentifier(), defaultAuthorizationType,
-         * getKualiModuleService().getResponsibleModule(((KualiDocumentFormBase)form).getDocument().getClass()) ); } //TODO from
-         * KualiDocumentActionBase - remove when ready AuthorizationType documentAuthorizationType = new
-         * AuthorizationType.Document(((KualiDocumentFormBase)form).getDocument().getClass(),
-         * ((KualiDocumentFormBase)form).getDocument()); if ( !SpringContext.getBean(KualiModuleService.class).isAuthorized(
-         * GlobalVariables.getUserSession().getKfsUser(), documentAuthorizationType ) ) { LOG.error("User not authorized to
-         * use this action: " + ((KualiDocumentFormBase)form).getDocument().getClass().getName() ); throw new
-         * ModuleAuthorizationException( GlobalVariables.getUserSession().getKfsUser().getPersonUserIdentifier(),
-         * documentAuthorizationType,
-         * getKualiModuleService().getResponsibleModule(((KualiDocumentFormBase)form).getDocument().getClass()) ); }
-         */
     }
 
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -188,23 +162,9 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionMonthly);
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
         monthlyBudgetForm.setMonthlyPersisted(true);
-        
-        
-        // TODO set the calling form's bcDoc.setBenefitsCalcNeeded(true)
-        // this is proof of concept code for now. this should check for a change in any of the monthly fields and
-        // eventually store should calc benefits immediately, and replace the benefits accounting lines in session
-        // to keep the DB consistent and to keep session in sync with the DB
-        
+
         // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save
         this.callForBenefitsCalcIfNeeded(monthlyBudgetForm, budgetConstructionMonthly);
-//        if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()){
-//            if (budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit() != null && !budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit().isEmpty()){
-//
-//                BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
-//                budgetConstructionForm.getBudgetConstructionDocument().setMonthlyBenefitsCalcNeeded(true);
-//                
-//            }
-//        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

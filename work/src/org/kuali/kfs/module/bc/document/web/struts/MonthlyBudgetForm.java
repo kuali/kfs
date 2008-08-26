@@ -34,6 +34,7 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
     private BudgetConstructionMonthly budgetConstructionMonthly;
     private boolean monthlyPersisted;
     private boolean monthlyReadOnly = true;
+    private boolean budgetableDocument = false;
 
     // TODO remove - was here originally for kul:page tag use
     // private String docTypeName;
@@ -269,6 +270,22 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
      */
     public void setMonthlyReadOnly(boolean readOnly) {
         this.monthlyReadOnly = readOnly;
+    }
+
+    /**
+     * Gets the budgetableDocument attribute. 
+     * @return Returns the budgetableDocument.
+     */
+    public boolean isBudgetableDocument() {
+        return budgetableDocument;
+    }
+
+    /**
+     * Sets the budgetableDocument attribute value.
+     * @param budgetableDocument The budgetableDocument to set.
+     */
+    public void setBudgetableDocument(boolean budgetableDocument) {
+        this.budgetableDocument = budgetableDocument;
     }
 
     /**

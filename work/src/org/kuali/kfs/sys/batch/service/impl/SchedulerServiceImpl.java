@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,7 @@ import org.kuali.kfs.sys.batch.SimpleTriggerDescriptor;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.BatchModuleService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -65,6 +67,10 @@ public class SchedulerServiceImpl implements SchedulerService {
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
     private MailService mailService;
+    /**
+     * Holds a list of job name to job descriptor mappings for those jobs that are externalized (i.e. the module service is responsible for reporting their status)
+     */
+    protected Map<String, JobDescriptor> externalizedJobDescriptors;
 
     protected static final List<String> jobStatuses = new ArrayList<String>();
 
@@ -76,6 +82,10 @@ public class SchedulerServiceImpl implements SchedulerService {
         jobStatuses.add(FAILED_JOB_STATUS_CODE);
     }
 
+    public SchedulerServiceImpl() {
+        externalizedJobDescriptors = new HashMap<String, JobDescriptor>();
+    }
+    
     /**
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#initialize()
      */
@@ -93,7 +103,16 @@ public class SchedulerServiceImpl implements SchedulerService {
             LOG.info("Loading scheduled jobs for: " + moduleService.getModuleConfiguration().getNamespaceCode());
             for (String jobName : moduleService.getModuleConfiguration().getJobNames()) {
                 try {
-                    jobDescriptor = BatchSpringContext.getJobDescriptor(jobName);
+                    if (moduleService instanceof BatchModuleService && ((BatchModuleService) moduleService).hasJobStatus(jobName)) {
+                        jobDescriptor = new JobDescriptor();
+                        jobDescriptor.setBeanName(jobName);
+                        jobDescriptor.setGroup(SCHEDULED_GROUP);
+                        jobDescriptor.setDurable(false);
+                        externalizedJobDescriptors.put(jobName, jobDescriptor);
+                    }
+                    else {
+                        jobDescriptor = BatchSpringContext.getJobDescriptor(jobName);
+                    }
                     jobDescriptor.setNamespaceCode(moduleService.getModuleConfiguration().getNamespaceCode());
                     loadJob(jobDescriptor);
                 }
@@ -525,7 +544,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             for (String jobGroup : scheduler.getJobGroupNames()) {
                 for (String jobName : scheduler.getJobNames(jobGroup)) {
                     try {
-                        JobDescriptor jobDescriptor = BatchSpringContext.getJobDescriptor(jobName);
+                        JobDescriptor jobDescriptor = retrieveJobDescriptor(jobName);
                         JobDetail jobDetail = scheduler.getJobDetail(jobName, jobGroup);
                         jobs.add(new BatchJobStatus(jobDescriptor, jobDetail));
                     }
@@ -556,7 +575,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         try {
             for (String jobName : scheduler.getJobNames(groupName)) {
                 try {
-                    JobDescriptor jobDescriptor = BatchSpringContext.getJobDescriptor(jobName);
+                    JobDescriptor jobDescriptor = retrieveJobDescriptor(jobName);
                     JobDetail jobDetail = scheduler.getJobDetail(jobName, groupName);
                     jobs.add(new BatchJobStatus(jobDescriptor, jobDetail));
                 }
@@ -680,5 +699,12 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
+    }
+    
+    protected JobDescriptor retrieveJobDescriptor(String jobName) {
+        if (externalizedJobDescriptors.containsKey(jobName)) {
+            return externalizedJobDescriptors.get(jobName);
+        }
+        return BatchSpringContext.getJobDescriptor(jobName);
     }
 }

@@ -24,11 +24,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.UrlFactory;
 
@@ -56,7 +59,8 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         String schedulerGroup = fieldValues.get("group");
         String jobStatus = fieldValues.get("status");
         for (BatchJobStatus job : allJobs) {
-            if (!StringUtils.isEmpty(namespaceCode) && !namespaceCode.equalsIgnoreCase(job.getNamespaceCode())) {
+            if (!StringUtils.isEmpty(namespaceCode) && 
+                    (!namespaceCode.equalsIgnoreCase(job.getNamespaceCode()) && job.getNamespaceCode()!=null)) {
                 continue;
             }
             if (namePattern != null && !namePattern.matcher(job.getName()).matches()) {
@@ -74,10 +78,21 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         return jobs;
     }
 
+    public boolean doesModuleServiceHaveJobStatus(BatchJobStatus job){
+        KfsModuleServiceImpl moduleService;
+        if(job!=null){
+            moduleService = (KfsModuleServiceImpl)
+            SpringContext.getBean(KualiModuleService.class).getResponsibleModuleServiceForJob(job.getName());
+            //This means this job is externalized and we do not want to show any action urls for it.
+            return (moduleService!=null && moduleService.hasJobStatus(job.getName()));
+        }
+        return false;
+    }
     @Override
     public String getActionUrls(BusinessObject businessObject) {
         if (businessObject instanceof BatchJobStatus) {
             BatchJobStatus job = (BatchJobStatus) businessObject;
+            if(doesModuleServiceHaveJobStatus(job)) return "&nbsp;";
             String linkText = "Modify";
             StringBuffer sb = new StringBuffer();
             if (parameterService.parameterExists(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP)) {

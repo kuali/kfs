@@ -64,14 +64,17 @@ public class BatchJobStatus extends TransientBusinessObjectBase {
     }
 
     public String getNamespaceCode() {
+        if(jobDescriptor == null) return null;
         return jobDescriptor.getNamespaceCode();
     }
 
     public Map<String, String> getDependencies() {
+        if(jobDescriptor == null) return null;
         return jobDescriptor.getDependencies();
     }
 
     public List<Step> getSteps() {
+        if(jobDescriptor == null) return null;
         return jobDescriptor.getSteps();
     }
 

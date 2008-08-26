@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -40,9 +41,9 @@ public class PurApAccountLineGroup extends AccountLineGroup {
      */
     public PurApAccountLineGroup(PurApAccountingLineBase entry) {
         // TODO validate this
-        if (ObjectUtils.isNotNull(entry.getPurapItem()) && ObjectUtils.isNotNull(entry.getPurapItem().getPurapDocument())) {
+        if (ObjectUtils.isNotNull((PurApItem)entry.getPurapItem()) && ObjectUtils.isNotNull(((PurApItem)entry.getPurapItem()).getPurapDocument())) {
             UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
-            AccountsPayableDocumentBase document = entry.getPurapItem().getPurapDocument();
+            AccountsPayableDocumentBase document = ((PurApItem)entry.getPurapItem()).getPurapDocument();
             setUniversityFiscalYear(currentUniversityDate.getUniversityFiscalYear());
             // TODO - Remove hard coding when local testing is over
             // setUniversityFiscalPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());

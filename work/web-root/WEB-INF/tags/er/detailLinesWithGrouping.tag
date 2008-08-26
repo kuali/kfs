@@ -47,14 +47,14 @@
 <%@ attribute name="extraEditableFieldNames" required="false"
     description="The names of the fields that can be editable. The attribute can hold multiple filed names, which are separated by commas." %> 
                    
-<%@ attribute name="onblurForEditableFieldNames" required="false"
+<%@ attribute name="onchangeForEditableFieldNames" required="false"
     description="The function names that retrives the information of the given editable fields. The attribute can hold multiple filed names, which are separated by commas." %> 
-<%@ attribute name="onblurForExtraEditableFieldNames" required="false"
+<%@ attribute name="onchangeForExtraEditableFieldNames" required="false"
     description="The function names that retrives the information of the given extra editable fields. The attribute can hold multiple filed names, which are separated by commas." %>  
                 
-<%@ attribute name="onblurableInfoFieldNames" required="false"
+<%@ attribute name="onchangeableInfoFieldNames" required="false"
     description="The names of the fields that can be used to hold the descriptive information of the editable fields. The attribute can hold multiple filed names, which are separated by commas." %> 
-<%@ attribute name="onblurableExtraInfoFieldNames" required="false"
+<%@ attribute name="onchangeableExtraInfoFieldNames" required="false"
     description="The names of the fields that can be used to hold the descriptive information of the extra editable fields. The attribute can hold multiple filed names, which are separated by commas." %> 
     
 <%@ attribute name="sortableFieldNames" required="false"
@@ -86,8 +86,8 @@
 <c:set var="colspanOfTotalLabel" value="${countOfColumns - countOfTotalColumns + 1}"/>
 
 <c:set var="completeEditableFieldNames" value="${extraEditableFieldNames}${commaDeliminator}${editableFieldNames}"/>
-<c:set var="completeOnblurForEditableFieldNames" value="${onblurForExtraEditableFieldNames}${commaDeliminator}${onblurForEditableFieldNames}" />
-<c:set var="completeOnblurableInfoFieldNames" value="${onblurableExtraInfoFieldNames}${commaDeliminator}${onblurableInfoFieldNames}" />
+<c:set var="completeOnchangeForEditableFieldNames" value="${onchangeForExtraEditableFieldNames}${commaDeliminator}${onchangeForEditableFieldNames}" />
+<c:set var="completeOnchangeableInfoFieldNames" value="${onchangeableExtraInfoFieldNames}${commaDeliminator}${onchangeableInfoFieldNames}" />
 
 <c:set var="actionForExistingLine" value="recalculate${actionSuffix},revert${actionSuffix}" />
 <c:set var="actionForExistingLineImageFileName" value="tinybutton-recalculate.gif,tinybutton-revert1.gif" />
@@ -153,16 +153,16 @@
 				<c:if test="${editable}">		
 					<c:set var="existing" value="${!detailLine.newLineIndicator}" />
 					<c:set var="actualEditableFieldNames" value="${existing ? editableFieldNames : completeEditableFieldNames}" />
-					<c:set var="actualOnblurForEditableFieldNames" value="${existing ? onblurForEditableFieldNames : completeOnblurForEditableFieldNames}" />
-					<c:set var="actualOnblurableInfoFieldNames" value="${existing ? onblurableInfoFieldNames : completeOnblurableInfoFieldNames}" />
+					<c:set var="actualOnchangeForEditableFieldNames" value="${existing ? onchangeForEditableFieldNames : completeOnchangeForEditableFieldNames}" />
+					<c:set var="actualOnchangeableInfoFieldNames" value="${existing ? onchangeableInfoFieldNames : completeOnchangeableInfoFieldNames}" />
 					<c:set var="actions" value="${existing ? actionForExistingLine : actionForNewLine}" />
 					<c:set var="actionImageFileNames" value="${existing ? actionForExistingLineImageFileName : actionForNewLineImageFileName}" />
 				</c:if>
 				
 				<c:if test="${!editable}">		
 					<c:set var="actualEditableFieldNames" value="" />
-					<c:set var="actualOnblurForEditableFieldNames" value="" />
-					<c:set var="actualOnblurableInfoFieldNames" value="" />
+					<c:set var="actualOnchangeForEditableFieldNames" value="" />
+					<c:set var="actualOnchangebleInfoFieldNames" value="" />
 					<c:set var="actions" value=""/>
 					<c:set var="actionImageFileNames" value=""/>
 				</c:if>			
@@ -174,8 +174,8 @@
 					detailFieldNamesWithHiddenFormWhenReadonly="${detailFieldNamesWithHiddenFormWhenReadonly}"
 					editableFieldNames="${actualEditableFieldNames}"
 					hiddenFieldNames="${hiddenFieldNames}"
-					onblurForEditableFieldNames="${actualOnblurForEditableFieldNames}"
-					onblurableInfoFieldNames="${actualOnblurableInfoFieldNames}"
+					onchangeForEditableFieldNames="${actualOnchangeForEditableFieldNames}"
+					onchangeableInfoFieldNames="${actualOnchangeableInfoFieldNames}"
 					inquirableUrl="${inquirableUrl[status.index]}"
 					fieldInfo="${fieldInfo[status.index]}"
 					relationshipMetadata ="${relationshipMetadata}" readOnlySection="${readOnlySection}"

@@ -32,10 +32,10 @@
 	description="The names of the fields that will be rendered as hidden inputs. The attribute can hold multiple filed names, which are separated by commas."%>
 <%@ attribute name="editableFieldNames" required="false"
 	description="The names of the fields that can be editable. The attribute can hold multiple filed names, which are separated by commas. If the value of the attribute is empty, all fields specified in the detailFieldNames attribute will be readonly."%>
-<%@ attribute name="onblurForEditableFieldNames" required="false"
-	description="The JavaScript function names associated with the editable fields. The functions will be executed to retrieve the information of the given editable fields when  onBlur events happen. The order of the functions must match the names in the attribute editableFieldNames."%>
-<%@ attribute name="onblurableInfoFieldNames" required="false"
-	description="The names of the fields will display the descriptive information retrieved by onBlur events."%>
+<%@ attribute name="onchangeForEditableFieldNames" required="false"
+	description="The JavaScript function names associated with the editable fields. The functions will be executed to retrieve the information of the given editable fields when  onChange events happen. The order of the functions must match the names in the attribute editableFieldNames."%>
+<%@ attribute name="onchangeableInfoFieldNames" required="false"
+	description="The names of the fields will display the descriptive information retrieved by onChange events."%>
 
 <%@ attribute name="fieldInfo" required="false" type="java.util.Map"
 	description="The descriptive information of the readonly fields. The information is stored in a Map and prepared in Action Form class."%>
@@ -61,31 +61,31 @@
 	<html:hidden property="${detailLineFormName}.${fieldName}" />
 </c:forTokens>
 
-<c:set var="onblurForEditableFieldNamesArray" value="${fn:split(onblurForEditableFieldNames, commaDeliminator)}" />
-<c:set var="onblurableInfoFieldNamesArray" value="${fn:split(onblurableInfoFieldNames, commaDeliminator)}" />
+<c:set var="onchangeForEditableFieldNamesArray" value="${fn:split(onchangeForEditableFieldNames, commaDeliminator)}" />
+<c:set var="onchangeableInfoFieldNamesArray" value="${fn:split(onchangeableInfoFieldNames, commaDeliminator)}" />
 					
 <!-- populate the table with the given deatil lines -->
 <c:forTokens var="fieldName" items="${detailFieldNames}" delims=","	varStatus="status">
 	<c:set var="editable" value="${not empty fieldName && fn:contains(editableFieldNames, fieldName)}" />
 	<c:set var="withHiddenFormWhenReadonly"	value="${!editable && fn:contains(detailFieldNamesWithHiddenFormWhenReadonly, fieldName)}"/>
 	
-	<c:set var="onblurableInfoFieldName" value="" />
-	<c:set var="onblur"	value="" />
+	<c:set var="onchangeableInfoFieldName" value="" />
+	<c:set var="onchange"	value="" />
 	
-	<c:set var="onblurIndex" value="-1" />
+	<c:set var="onchangeIndex" value="-1" />
 	<c:if test="${editable}">
 		<c:forTokens var="editableFieldName" items="${editableFieldNames}" delims="," varStatus="editableStatus">
 			<c:if test="${editableFieldName == fieldName}">
-				<c:set var="onblurIndex" value="${editableStatus.index}" />
+				<c:set var="onchangeIndex" value="${editableStatus.index}" />
 			</c:if>
 		</c:forTokens>
 	</c:if>
 	
-	<c:if test="${editable && onblurIndex >=0}">
-		<c:set var="tempInfoFieldName" value="${onblurableInfoFieldNamesArray[onblurIndex]}" />
-		<c:set var="onblurableInfoFieldName" value="${detailLineFormName}.${tempInfoFieldName}" />
-		<c:set var="onblurableInfoFieldName" value="${fn:length(tempInfoFieldName) > 0 ? onblurableInfoFieldName : ''}" />
-		<c:set var="onblur" value="${onblurForEditableFieldNamesArray[onblurIndex]}(this.name, '${onblurableInfoFieldName}');" />
+	<c:if test="${editable && onchangeIndex >=0}">
+		<c:set var="tempInfoFieldName" value="${onchangeableInfoFieldNamesArray[onchangeIndex]}" />
+		<c:set var="onchangeableInfoFieldName" value="${detailLineFormName}.${tempInfoFieldName}" />
+		<c:set var="onchangeableInfoFieldName" value="${fn:length(tempInfoFieldName) > 0 ? onchangeableInfoFieldName : ''}" />
+		<c:set var="onchange" value="${onchangeForEditableFieldNamesArray[onchangeIndex]}(this.name, '${onchangeableInfoFieldName}');" />
 	</c:if>
 	
 	<td class="datacell-nowrap">	
@@ -93,12 +93,12 @@
 			fieldFormName="${detailLineFormName}.${fieldName}"
 			withHiddenForm="${withHiddenFormWhenReadonly}"
 			fieldFormNamePrefix="${detailLineFormName}"
-			infoFieldFormName="${onblurableInfoFieldName}"
+			infoFieldFormName="${onchangeableInfoFieldName}"
 			attributeEntry="${attributes[fieldName]}"
 			inquirableUrl="${inquirableUrl[fieldName]}"
 			fieldInfo="${fieldInfo[fieldName]}"
 			relationshipMetadata = "${relationshipMetadata[fieldName]}"
-			onblur="${onblur}" readOnly="${not editable}" readOnlySection="${readOnlySection}"/>			
+			onchange="${onchange}" readOnly="${not editable}" readOnlySection="${readOnlySection}"/>			
 		
 		<c:if test="${fn:contains(fieldName, 'accountNumber') && detailLine.accountExpiredOverrideNeeded && detailLine.newLineIndicator}">
 			<er:expiredAccountOverride detailLineFormName="${detailLineFormName}" attributes="${attributes}" readOnly="${not editable}" />

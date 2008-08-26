@@ -40,9 +40,9 @@
 <%@ attribute name="relationshipMetadata" required="false" type="java.util.Map"
 	description="This is a Map that holds a property name list of the primary key of the referenced class for each eligible field. The value of the attribute is used to build quick finder for the eligible fields."%>				                 
               
-<%@ attribute name="onblurForEditableFieldNames" required="false"
+<%@ attribute name="onchangeForEditableFieldNames" required="false"
     description="The funation names that retrives the information of the given editable fields" %> 
-<%@ attribute name="onblurableInfoFieldNames" required="false"
+<%@ attribute name="onchangeableInfoFieldNames" required="false"
     description="The names of the fields that hold the descriptive information of editable fields" %> 
               
 <%@ attribute name="hasActions" required="false"
@@ -71,8 +71,8 @@
 				detailFieldNamesWithHiddenFormWhenReadonly="${detailFieldNamesWithHiddenFormWhenReadonly}"
 				editableFieldNames="${editableFieldNames}"
 				hiddenFieldNames="${hiddenFieldNames}"
-				onblurForEditableFieldNames="${onblurForEditableFieldNames}"
-				onblurableInfoFieldNames="${onblurableInfoFieldNames}"
+				onchangeForEditableFieldNames="${onchangeForEditableFieldNames}"
+				onchangeableInfoFieldNames="${onchangeableInfoFieldNames}"
 				inquirableUrl="${inquirableUrl[status.index]}"
 				fieldInfo="${fieldInfo[status.index]}"
 				relationshipMetadata ="${relationshipMetadata}" 

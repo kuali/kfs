@@ -25,7 +25,7 @@
         <ref bean="InvoiceRecurrence-documentRecurrenceEndDate" />
         <ref bean="InvoiceRecurrence-documentTotalRecurrenceNumber" />
         <ref bean="InvoiceRecurrence-documentRecurrenceIntervalCode" />
-        <ref bean="InvoiceRecurrence-workgroupIdentifier" />
+        <ref bean="InvoiceRecurrence-workgroupName" />
         <ref bean="InvoiceRecurrence-documentInitiatorUserIdentifier" />
         <ref bean="InvoiceRecurrence-documentInitiatorUserPersonUserIdentifier" />
         <ref bean="InvoiceRecurrence-documentInitiatorUser.personUserIdentifier" />
@@ -224,10 +224,10 @@
     <property name="summary" value="documentRecurrenceIntervalCode" />
     <property name="description" value="The document recurrence interval code defines the frequency of the recurrence." />
   </bean>
-  <bean id="InvoiceRecurrence-workgroupIdentifier" parent="InvoiceRecurrence-workgroupIdentifier-parentBean" />
+  <bean id="InvoiceRecurrence-workgroupName" parent="InvoiceRecurrence-workgroupName-parentBean" />
 
-  <bean id="InvoiceRecurrence-workgroupIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="workgroupIdentifier" />
+  <bean id="InvoiceRecurrence-workgroupName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="workgroupName" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Workgroup Identifier" />
     <property name="shortLabel" value="Wrkgrp" />
@@ -240,7 +240,7 @@
     <property name="control" >
       <bean parent="WorkflowWorkgroupControlDefinition" />
     </property>
-    <property name="summary" value="workgroupIdentifier" />
+    <property name="summary" value="workgroupName" />
     <property name="description" value="The document recurrences will route to this workgroup" />
   </bean>
   <bean id="InvoiceRecurrence-documentInitiatorUserIdentifier" parent="InvoiceRecurrence-documentInitiatorUserIdentifier-parentBean" />
@@ -348,7 +348,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="documentRecurrenceIntervalCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="workgroupIdentifier" />
+                    p:attributeName="workgroupName" />
 <!--
               <bean parent="FieldDefinition"
                     p:attributeName="documentInitiatorUserIdentifier" />
@@ -399,7 +399,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="documentRecurrenceIntervalCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="workgroupIdentifier" />
+              p:attributeName="workgroupName" />
 <!--
         <bean parent="FieldDefinition"
               p:attributeName="documentInitiatorUserIdentifier" />
@@ -429,7 +429,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="documentRecurrenceIntervalCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="workgroupIdentifier" />
+              p:attributeName="workgroupName" />
 <!--
         <bean parent="FieldDefinition"
               p:attributeName="documentInitiatorUserIdentifier" />

@@ -22,7 +22,7 @@ public class InvoiceRecurrence extends PersistableBusinessObjectBase implements 
 	private Date documentRecurrenceEndDate;
 	private Integer documentTotalRecurrenceNumber;
 	private String documentRecurrenceIntervalCode;
-	private Long workgroupIdentifier;
+	private String workgroupName;
 	private String documentInitiatorUserIdentifier;
 	private Date documentLastCreateDate;
 	private boolean active;
@@ -169,25 +169,21 @@ public class InvoiceRecurrence extends PersistableBusinessObjectBase implements 
 	}
 
 
-	/**
-	 * Gets the workgroupIdentifier attribute.
-	 * 
-	 * @return Returns the workgroupIdentifier
-	 * 
-	 */
-	public Long getWorkgroupIdentifier() { 
-		return workgroupIdentifier;
+	
+
+
+	public String getWorkgroupName() {
+		return workgroupName;
 	}
 
-	/**
-	 * Sets the workgroupIdentifier attribute.
-	 * 
-	 * @param workgroupIdentifier The workgroupIdentifier to set.
-	 * 
-	 */
-	public void setWorkgroupIdentifier(Long workgroupIdentifier) {
-		this.workgroupIdentifier = workgroupIdentifier;
+
+
+
+	public void setWorkgroupName(String workgroupName) {
+		this.workgroupName = workgroupName;
 	}
+
+
 
 
 	/**

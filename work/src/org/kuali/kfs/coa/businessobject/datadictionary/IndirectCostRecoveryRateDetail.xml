@@ -55,20 +55,8 @@
   </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-financialIcrSeriesIdentifier" parent="IndirectCostRecoveryRateDetail-financialIcrSeriesIdentifier-parentBean" />
-  <bean id="IndirectCostRecoveryRateDetail-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="IndirectCostRecoveryRateDetail-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="IndirectCostRecoveryRate-financialIcrSeriesIdentifier">
     <property name="name" value="financialIcrSeriesIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Series Id" />
-    <property name="shortLabel" value="Series Id" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
   </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-awardIndrCostRcvyEntryNbr" parent="IndirectCostRecoveryRateDetail-awardIndrCostRcvyEntryNbr-parentBean" />

@@ -17,9 +17,10 @@ package org.kuali.kfs.module.cg.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -37,6 +38,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.user.AuthenticationUserId;
@@ -53,7 +58,7 @@ import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 /**
  * Budget
  */
-public class BudgetDocument extends ResearchDocumentBase {
+public class BudgetDocument extends ResearchDocumentBase implements GenericRoutingInfo {
     private static final Logger LOG = Logger.getLogger(BudgetDocument.class);
 
     private static final long serialVersionUID = -3561859858801995441L;
@@ -69,6 +74,8 @@ public class BudgetDocument extends ResearchDocumentBase {
     private String taskToDelete;
 
     private Budget budget;
+
+    public Set<RoutingData> routingInfo;
 
     /**
      * Default no-arg constructor.
@@ -336,6 +343,24 @@ public class BudgetDocument extends ResearchDocumentBase {
         this.taskToDelete = taskToDelete;
     }
 
+    /**
+     * Gets the routingInfo attribute.
+     * 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
+
+    /**
+     * Sets the routingInfo attribute value.
+     * 
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
     @Override
     public List buildListOfDeletionAwareLists() {
         List list = new ArrayList();
@@ -380,25 +405,6 @@ public class BudgetDocument extends ResearchDocumentBase {
         return list;
     }
 
-    @Override
-    public void populateDocumentForRouting() {
-        KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
-        DocumentInitiator initiator = new DocumentInitiator();
-        String initiatorNetworkId = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
-        try {
-            UniversalUser initiatorUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
-            initiator.setUniversalUser(initiatorUser);
-        }
-        catch (UserNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        transInfo.setDocumentInitiator(initiator);
-        KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer();
-        xmlWrapper.setDocument(this);
-        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
-        documentHeader.getWorkflowDocument().setApplicationContent(generateDocumentContent());
-    }
-
     public String generateDocumentContent() {
         List referenceObjects = new ArrayList();
         referenceObjects.add("personnel");
@@ -429,8 +435,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         }
         BudgetUser projectDirector = null;
 
-        for (Iterator iter = this.getBudget().getPersonnel().iterator(); iter.hasNext();) {
-            BudgetUser person = (BudgetUser) iter.next();
+        for (BudgetUser person : this.getBudget().getPersonnel()) {
             if (person.isPersonProjectDirectorIndicator()) {
                 projectDirector = person;
                 break;
@@ -478,9 +483,7 @@ public class BudgetDocument extends ResearchDocumentBase {
             xml.append("<documentContent>");
         }
 
-        List costShareItems = this.getBudget().getInstitutionCostShareItems();
-        for (Iterator iter = costShareItems.iterator(); iter.hasNext();) {
-            BudgetInstitutionCostShare costShare = (BudgetInstitutionCostShare) iter.next();
+        for (BudgetInstitutionCostShare costShare : this.getBudget().getInstitutionCostShareItems()) {
             if (costShare.isPermissionIndicator() || costSharePermissionCode.equals(CGConstants.COST_SHARE_PERMISSION_CODE_TRUE)) {
                 xml.append("<chartOrg><chartOfAccountsCode>");
                 if (costShare.getChartOfAccountsCode() != null) {
@@ -525,4 +528,49 @@ public class BudgetDocument extends ResearchDocumentBase {
         }
         return xml.toString();
     }
+
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        routingInfo = new HashSet<RoutingData>();
+        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
+
+        // Populate chart and org values related to the project director
+        for (BudgetUser person : this.getBudget().getPersonnel()) {
+            if (person.isPersonProjectDirectorIndicator()) {
+                String chartOfAccountsCode = person.getFiscalCampusCode();
+                String organizationCode;
+                if (StringUtils.isBlank(person.getPrimaryDepartmentCode())) {
+                    organizationCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(person.getUser(),KFSConstants.Modules.CHART).getOrganizationCode();
+                }
+                else {
+                    organizationCode = person.getPrimaryDepartmentCode();
+                }
+                organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationCode));
+            }
+        }
+
+        // Populate any chart and org values associated with the cost share
+        String costSharePermissionCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
+        for (BudgetInstitutionCostShare costShare : this.getBudget().getInstitutionCostShareItems()) {
+            if (costShare.isPermissionIndicator() || costSharePermissionCode.equals(CGConstants.COST_SHARE_PERMISSION_CODE_TRUE)) {
+                if (costShare.getChartOfAccountsCode() != null && costShare.getOrganizationCode() != null) {
+                    organizationRoutingSet.add(new OrgReviewRoutingData(costShare.getChartOfAccountsCode(), costShare.getOrganizationCode()));
+                }
+            }
+        }
+        
+        // Populate any ad hoc orgs as well
+        for (AdhocOrg org : this.getAdhocOrgs()) {
+            organizationRoutingSet.add(new OrgReviewRoutingData(org.getFiscalCampusCode(), org.getPrimaryDepartmentCode()));
+        }
+
+        RoutingData organizationRoutingData = new RoutingData();
+        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
+        organizationRoutingData.setRoutingSet(organizationRoutingSet);
+        routingInfo.add(organizationRoutingData);
+    }
+
 }

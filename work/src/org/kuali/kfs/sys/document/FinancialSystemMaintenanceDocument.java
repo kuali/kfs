@@ -20,6 +20,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -128,5 +129,24 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         }
         super.handleRouteStatusChange();
     }
+    
+    /**
+     * An override of populateDocumentForRouting, which makes sure that processCustomPopulateDocumentForRouting
+     * is called in a way that allows workflow properties to populate correctly.  It will also automatically
+     * call populateRoutingInfo if the document implement GenericRoutingInfo.
+     * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
+     */
+    @Override
+    public void populateDocumentForRouting() {
+        if (this instanceof GenericRoutingInfo) {
+            ((GenericRoutingInfo)this).populateRoutingInfo();
+        }
+        processCustomPopulateDocumentForRouting();
+        super.populateDocumentForRouting();
+    }
 
+    /**
+     * A hook to allow population of workflow properties for routing
+     */
+    protected void processCustomPopulateDocumentForRouting() {}
 }

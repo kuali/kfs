@@ -139,5 +139,31 @@
         </bean>
       </list>
     </property>
+    <property name="workflowProperties" >
+      <ref bean="KualiBudgetDocument-workflowProperties" />
+    </property>
+  </bean>
+  
+  <bean id="KualiBudgetDocument-workflowProperties" parent="KualiBudgetDocument-workflowProperties-parentBean" />
+
+  <bean id="KualiBudgetDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+              		p:path="budget" />
+              <bean parent="WorkflowProperty"
+                    p:path="routingInfo.routingTypes" />
+              <bean parent="WorkflowProperty"
+                    p:path="routingInfo.routingSet" />    
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
   </bean>
 </beans>

@@ -36,10 +36,12 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Default implementation of {@link ReconciliationService}
  */
+@Transactional
 public class ReconciliationServiceImpl implements ReconciliationService {
     protected BusinessObjectService businessObjectService;
     protected List<Entry> ignoredEntries = new ArrayList<Entry>();

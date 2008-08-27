@@ -119,14 +119,14 @@
 	<bean id="reconciliationService" class="org.kuali.kfs.module.cab.batch.service.impl.ReconciliationServiceImpl" singleton="false">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
-	 <bean id="extractStep" class="org.kuali.kfs.module.cab.batch.ExtractStep" parent="step">
+	 <bean id="cabExtractStep" class="org.kuali.kfs.module.cab.batch.ExtractStep" parent="step">
 	 	<property name="batchExtractService" ref="batchExtractService" />
 	 	<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 	<bean id="cabExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="extractStep"/>
+				<ref bean="cabExtractStep"/>
 			</list>
 		</property>
 	</bean>

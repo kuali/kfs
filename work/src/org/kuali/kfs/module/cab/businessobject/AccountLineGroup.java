@@ -246,14 +246,14 @@ public abstract class AccountLineGroup {
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + (null == universityFiscalYear ? 0 : universityFiscalYear.intValue());
-        hash = 31 * hash + (null == chartOfAccountsCode ? 0 : replaceFiller(chartOfAccountsCode).hashCode());
-        hash = 31 * hash + (null == accountNumber ? 0 : replaceFiller(accountNumber).hashCode());
-        hash = 31 * hash + (null == subAccountNumber ? 0 : replaceFiller(subAccountNumber).hashCode());
-        hash = 31 * hash + (null == financialObjectCode ? 0 : replaceFiller(financialObjectCode).hashCode());
-        hash = 31 * hash + (null == financialSubObjectCode ? 0 : replaceFiller(financialSubObjectCode).hashCode());
-        hash = 31 * hash + (null == universityFiscalPeriodCode ? 0 : replaceFiller(universityFiscalPeriodCode).hashCode());
-        hash = 31 * hash + (null == documentNumber ? 0 : replaceFiller(documentNumber).hashCode());
-        hash = 31 * hash + (null == referenceFinancialDocumentNumber ? 0 : replaceFiller(referenceFinancialDocumentNumber).hashCode());
+        hash = 31 * hash + replaceFiller(chartOfAccountsCode).hashCode();
+        hash = 31 * hash + replaceFiller(accountNumber).hashCode();
+        hash = 31 * hash + replaceFiller(subAccountNumber).hashCode();
+        hash = 31 * hash + replaceFiller(financialObjectCode).hashCode();
+        hash = 31 * hash + replaceFiller(financialSubObjectCode).hashCode();
+        hash = 31 * hash + replaceFiller(universityFiscalPeriodCode).hashCode();
+        hash = 31 * hash + replaceFiller(documentNumber).hashCode();
+        hash = 31 * hash + replaceFiller(referenceFinancialDocumentNumber).hashCode();
         return hash;
     }
 
@@ -277,7 +277,6 @@ public abstract class AccountLineGroup {
         this.amount = absAmount;
     }
 
-    // TODO remove this later
     @Override
     public String toString() {
         return this.hashCode() + "-" + universityFiscalYear + "-" + chartOfAccountsCode + "-" + accountNumber + "-" + replaceFiller(subAccountNumber) + "-" + financialObjectCode + "-" + replaceFiller(financialSubObjectCode) + "-" + universityFiscalPeriodCode + "-" + documentNumber + "-" + referenceFinancialDocumentNumber;

@@ -31,10 +31,10 @@ public interface BatchExtractService {
 
     /**
      * Returns the list of CAB eligible GL entries, filter parameters are pre-configured
-     * 
+     * @param process log
      * @return Eligible GL Entries meeting batch parameters configured under parameter group KFS-CAB:Batch
      */
-    Collection<Entry> findElgibleGLEntries();
+    Collection<Entry> findElgibleGLEntries(ExtractProcessLog processLog);
 
     /**
      * Returns the list of Purchasing GL transactions that occurred after last GL process

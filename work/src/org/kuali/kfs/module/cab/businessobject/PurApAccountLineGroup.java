@@ -18,10 +18,12 @@ package org.kuali.kfs.module.cab.businessobject;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -31,6 +33,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Accounting line grouped data for GL Line
  */
 public class PurApAccountLineGroup extends AccountLineGroup {
+    private Logger LOG = Logger.getLogger(PurApAccountLineGroup.class);
     private PurApAccountingLineBase targetEntry;
     private List<PurApAccountingLineBase> sourceEntries = new ArrayList<PurApAccountingLineBase>();
 
@@ -41,9 +44,9 @@ public class PurApAccountLineGroup extends AccountLineGroup {
      */
     public PurApAccountLineGroup(PurApAccountingLineBase entry) {
         // TODO validate this
-        if (ObjectUtils.isNotNull((PurApItem)entry.getPurapItem()) && ObjectUtils.isNotNull(((PurApItem)entry.getPurapItem()).getPurapDocument())) {
+        if (ObjectUtils.isNotNull((AccountsPayableItem) entry.getPurapItem()) && ObjectUtils.isNotNull(((AccountsPayableItem) entry.getPurapItem()).getPurapDocument())) {
             UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
-            AccountsPayableDocumentBase document = ((PurApItem)entry.getPurapItem()).getPurapDocument();
+            AccountsPayableDocumentBase document = ((AccountsPayableItem) entry.getPurapItem()).getPurapDocument();
             setUniversityFiscalYear(currentUniversityDate.getUniversityFiscalYear());
             // TODO - Remove hard coding when local testing is over
             // setUniversityFiscalPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());
@@ -52,7 +55,7 @@ public class PurApAccountLineGroup extends AccountLineGroup {
             setDocumentNumber(document.getDocumentNumber());
         }
         else {
-            throw new RuntimeException("Document is unknown");
+            LOG.error("Could not load PurAP document details for " + entry.toString());
         }
         setChartOfAccountsCode(entry.getChartOfAccountsCode());
         setAccountNumber(entry.getAccountNumber());
@@ -82,21 +85,19 @@ public class PurApAccountLineGroup extends AccountLineGroup {
     }
 
     /**
-     * This method will combine multiple GL entries for the same account line group, so that m:n association is prevented in the
-     * database. This could be a rare case that we need to address. First GL is used as the final target and rest of the GL entries
-     * are adjusted.
+     * This method will combine multiple Purap account entries for the same account line group.
      * 
      * @param entry PurApAccountingLineBase
      */
     public void combineEntry(PurApAccountingLineBase srcEntry) {
         this.sourceEntries.add(srcEntry);
         if (CreditMemoAccountHistory.class.isAssignableFrom(srcEntry.getClass())) {
-            this.amount = targetEntry.getAmount().add(srcEntry.getAmount().multiply(NEGATIVE_ONE));
+            this.amount = this.amount.add(srcEntry.getAmount().multiply(NEGATIVE_ONE));
         }
         else {
-            this.amount = targetEntry.getAmount().add(srcEntry.getAmount());
+            this.amount = this.amount.add(srcEntry.getAmount());
         }
-        this.targetEntry.setAmount(this.amount);
+        this.targetEntry.setAmount(this.targetEntry.getAmount().add(srcEntry.getAmount()));
     }
 
     /**

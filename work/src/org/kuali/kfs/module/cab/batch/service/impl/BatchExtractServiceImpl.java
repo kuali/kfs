@@ -116,8 +116,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findElgibleGLEntries()
      */
-    public Collection<Entry> findElgibleGLEntries() {
+    public Collection<Entry> findElgibleGLEntries(ExtractProcessLog processLog) {
         BatchParameters parameters = createBatchParameters();
+        processLog.setLastExtractTime(parameters.getLastRunTime());
         return getExtractDao().findMatchingGLEntries(parameters);
     }
 
@@ -219,20 +220,37 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 cabPurapDoc = createPurchasingAccountsPayableDocument(entry);
             }
             if (cabPurapDoc != null) {
+                // Keep track of unique item lines
                 HashMap<String, PurchasingAccountsPayableItemAsset> assetItems = new HashMap<String, PurchasingAccountsPayableItemAsset>();
+
+                // Keep track of unique account lines
+                HashMap<String, PurchasingAccountsPayableLineAssetAccount> assetAcctLines = new HashMap<String, PurchasingAccountsPayableLineAssetAccount>();
+
                 List<PurApAccountingLineBase> matchedPurApAcctLines = group.getMatchedPurApAcctLines();
 
                 for (PurApAccountingLineBase purApAccountingLine : matchedPurApAcctLines) {
                     PurApItem purapItem = purApAccountingLine.getPurapItem();
                     PurchasingAccountsPayableItemAsset itemAsset = findMatchingPurapAssetItem(cabPurapDoc, purapItem);
                     String itemAssetKey = cabPurapDoc.getDocumentNumber() + "-" + purapItem.getItemIdentifier();
+
                     if (itemAsset == null && (itemAsset = assetItems.get(itemAssetKey)) == null) {
                         itemAsset = createPurchasingAccountsPayableItemAsset(cabPurapDoc, purapItem);
                         cabPurapDoc.getPurchasingAccountsPayableItemAssets().add(itemAsset);
                         assetItems.put(itemAssetKey, itemAsset);
                     }
                     PurchasingAccountsPayableLineAssetAccount assetAccount = createPurchasingAccountsPayableLineAssetAccount(generalLedgerEntry, cabPurapDoc, purApAccountingLine, itemAsset);
-                    itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
+                    String acctLineKey = cabPurapDoc.getDocumentNumber() + "-" + itemAsset.getAccountsPayableLineItemIdentifier() + "-" + itemAsset.getCapitalAssetBuilderLineNumber() + "-" + generalLedgerEntry.getGeneralLedgerAccountIdentifier();
+
+                    if ((assetAccount = assetAcctLines.get(acctLineKey)) == null) {
+                        // if new unique account line within GL, then create a new account line
+                        assetAccount = createPurchasingAccountsPayableLineAssetAccount(generalLedgerEntry, cabPurapDoc, purApAccountingLine, itemAsset);
+                        assetAcctLines.put(acctLineKey, assetAccount);
+                        itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
+                    }
+                    else {
+                        // if account line key matches within same GL Entry, combine the amount
+                        assetAccount.getItemAccountTotalAmount().add(purApAccountingLine.getAmount());
+                    }
                 }
                 businessObjectService.save(cabPurapDoc);
             }

@@ -301,13 +301,13 @@ public class ElectronicInvoiceOrder {
   /**
    * @return Returns the invoiceItems.
    */
-  public List getInvoiceItems() {
+  public List<ElectronicInvoiceItem> getInvoiceItems() {
     return invoiceItems;
   }
   /**
    * @param invoiceItems The invoiceItems to set.
    */
-  public void setInvoiceItems(List invoiceItems) {
+  public void setInvoiceItems(List<ElectronicInvoiceItem> invoiceItems) {
     this.invoiceItems = invoiceItems;
   }
   /**
@@ -433,13 +433,13 @@ public class ElectronicInvoiceOrder {
   /**
    * @return Returns the orderRejectReasons.
    */
-  public List getOrderRejectReasons() {
+  public List<ElectronicInvoiceRejectReason> getOrderRejectReasons() {
     return orderRejectReasons;
   }
   /**
    * @param orderRejectReasons The orderRejectReasons to set.
    */
-  public void setOrderRejectReasons(List orderRejectReasons) {
+  public void setOrderRejectReasons(List<ElectronicInvoiceRejectReason> orderRejectReasons) {
     this.orderRejectReasons = orderRejectReasons;
   }
   /**

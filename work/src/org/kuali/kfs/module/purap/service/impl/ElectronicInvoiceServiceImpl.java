@@ -15,10 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -38,13 +34,11 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.exception.CxmlParseError;
 import org.kuali.kfs.module.purap.exception.CxmlParseException;
 import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceService;
-import org.kuali.kfs.module.purap.util.cxml.ElectronicInvoiceParser;
 import org.kuali.kfs.pdp.service.EnvironmentService;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.XMLParseException;
@@ -52,9 +46,6 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 /**
  * @author delyea

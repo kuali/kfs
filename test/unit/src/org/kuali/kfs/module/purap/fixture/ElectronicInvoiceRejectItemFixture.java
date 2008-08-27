@@ -52,7 +52,7 @@ public enum ElectronicInvoiceRejectItemFixture {
             null, // invoiceReferenceItemSerialNumber;
             null, // invoiceReferenceItemSupplierPartIdentifier;
             null, // invoiceReferenceItemSupplierPartAuxiliaryIdentifier;
-            null, // invoiceReferenceItemDescription;
+            "Test Description", // invoiceReferenceItemDescription;
             null, // invoiceReferenceItemManufacturerPartIdentifier;
             null, // invoiceReferenceItemManufacturerName;
             null, // invoiceReferenceItemCountryCode;

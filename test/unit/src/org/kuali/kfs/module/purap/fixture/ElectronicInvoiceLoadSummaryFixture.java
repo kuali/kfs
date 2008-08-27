@@ -23,10 +23,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public enum ElectronicInvoiceLoadSummaryFixture {
 
     EILS_BASIC(
-            null, // invoiceLoadSummaryIdentifier;
-            "150982189", // vendorDunsNumber
-            null, // vendorHeaderGeneratedIdentifier
-            null, // vendorDetailAssignedIdentifier
+            "123456789", // vendorDunsNumber
+            3005, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
             "Test Vendor", //vendorName
             new Integer(1), // invoiceLoadSuccessCount
             new KualiDecimal(10.00), // invoiceLoadSuccessAmount
@@ -48,11 +47,10 @@ public enum ElectronicInvoiceLoadSummaryFixture {
     private Boolean isEmpty = Boolean.TRUE;
     private Timestamp fileProcessDate;
 
-    private ElectronicInvoiceLoadSummaryFixture(Integer invoiceLoadSummaryIdentifier, String vendorDunsNumber,
+    private ElectronicInvoiceLoadSummaryFixture(String vendorDunsNumber,
         Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, String vendorName, Integer invoiceLoadSuccessCount,
         KualiDecimal invoiceLoadSuccessAmount, Integer invoiceLoadFailCount, KualiDecimal invoiceLoadFailAmount, Boolean isEmpty, Timestamp fileProcessDate) {
 
-        this.invoiceLoadSummaryIdentifier = invoiceLoadSummaryIdentifier;
         this.vendorDunsNumber = vendorDunsNumber;
         this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
         this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;

@@ -50,6 +50,8 @@
         <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartAuxiliaryIdentifier" />
         <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartIdentifier" />
         <ref bean="ElectronicInvoiceRejectItem-versionNumber" />
+        <ref bean="ElectronicInvoiceRejectItem-unitOfMeasureAcceptIndicator" />
+        <ref bean="ElectronicInvoiceRejectItem-catalogNumberAcceptIndicator" />
       </list>
     </property>
   </bean>
@@ -63,7 +65,7 @@
     <property name="name" value="invoiceItemCatalogNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Catalog Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Catalog Number" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -95,14 +97,14 @@
     <property name="name" value="invoiceItemDiscountAmount" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Discount Amount" />
-    <property name="shortLabel" value="Amount" />
+    <property name="shortLabel" value="Discount Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="21" />
+            p:size="10" />
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemDiscountCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemDiscountCurrencyCode-parentBean" />
@@ -134,7 +136,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="21" />
+            p:size="10" />
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemGrossCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemGrossCurrencyCode-parentBean" />
@@ -175,7 +177,7 @@
     <property name="name" value="invoiceItemLineNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Line Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Line Number" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -198,7 +200,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="21" />
+            p:size="10" />
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemNetCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemNetCurrencyCode-parentBean" />
@@ -239,14 +241,14 @@
     <property name="name" value="invoiceItemShippingAmount" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Shipping Amount" />
-    <property name="shortLabel" value="Amount" />
+    <property name="shortLabel" value="Shipping Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="21" />
+            p:size="10" />
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemShippingCurrencyCode-parentBean" />
@@ -287,15 +289,15 @@
   <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceItemSpecialHandlingAmount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Special Handling Amount" />
-    <property name="shortLabel" value="Amount" />
+    <property name="label" value="Special Handling Amount" />
+    <property name="shortLabel" value="Handling Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="21" />
+            p:size="10" />
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingCurrencyCode-parentBean" />
@@ -327,7 +329,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="21" />
+            p:size="10" />
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemSubTotalCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemSubTotalCurrencyCode-parentBean" />
@@ -352,14 +354,14 @@
     <property name="name" value="invoiceItemTaxAmount" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Tax Amount" />
-    <property name="shortLabel" value="Amount" />
+    <property name="shortLabel" value="Tax Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="21" />
+            p:size="10" />
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemTaxCurrencyCode-parentBean" />
@@ -401,7 +403,7 @@
     <property name="name" value="invoiceItemUnitOfMeasureCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Unit Of Measure Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="UOM Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -417,14 +419,14 @@
     <property name="name" value="invoiceItemUnitPrice" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Unit Price" />
-    <property name="shortLabel" value="Price" />
+    <property name="shortLabel" value="Unit Price" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="21" />
+            p:size="10" />
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemUnitPriceCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemUnitPriceCurrencyCode-parentBean" />
@@ -600,6 +602,32 @@
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="10" />
+    </property>
+  </bean>
+
+  <bean id="ElectronicInvoiceRejectItem-unitOfMeasureAcceptIndicator" parent="ElectronicInvoiceRejectItem-unitOfMeasureAcceptIndicator-parentBean" />
+
+  <bean id="ElectronicInvoiceRejectItem-unitOfMeasureAcceptIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="unitOfMeasureAcceptIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Accept Value" />
+    <property name="shortLabel" value="Accept Value" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+
+  <bean id="ElectronicInvoiceRejectItem-catalogNumberAcceptIndicator" parent="ElectronicInvoiceRejectItem-catalogNumberAcceptIndicator-parentBean" />
+
+  <bean id="ElectronicInvoiceRejectItem-catalogNumberAcceptIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="catalogNumberAcceptIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Accept Value" />
+    <property name="shortLabel" value="Accept Value" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
 

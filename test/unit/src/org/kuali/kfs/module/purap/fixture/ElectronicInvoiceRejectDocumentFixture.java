@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
@@ -35,12 +36,12 @@ public enum ElectronicInvoiceRejectDocumentFixture {
             Boolean.FALSE, // fileSpecHandlingInLineIndicator
             Boolean.FALSE, // fileShippingInLineIndicator
             Boolean.FALSE, // fileDiscountInLineIndicator
-            null, // invoiceFileName
-            "150982189", // vendorDunsNumber
-            null, // vendorHeaderID
-            null, // vendorDetailID
-            "2008-07-11", // invoiceDate
-            "35106833", // invoiceNumber
+            "nullfile.xml", // invoiceFileName
+            "123456789", // vendorDunsNumber
+            3005, // vendorHeaderID
+            0, // vendorDetailID
+            "2008-07-11", // invoiceFileDate
+            "35106833", // invoiceFileNumber
             "standard", // filePurposeId
             "new", // fileOperationId
             null, // deploymentMode
@@ -99,13 +100,13 @@ public enum ElectronicInvoiceRejectDocumentFixture {
             "USD", // invoiceGrossAmountCurrency
             "USD", // invoiceDiscountAmountCurrency
             "USD", // invoiceNetAmountCurrency
-            new KualiDecimal("1821.00"), // invoiceSubTotalAmount
+            new BigDecimal("1821.00"), // invoiceSubTotalAmount
             null, // invoiceSpecialHandlingAmount
             null, // invoiceShippingAmount
-            new KualiDecimal("0"), // invoiceTaxAmount
-            new KualiDecimal("1821.00"), // invoiceGrossAmount
+            new BigDecimal("0"), // invoiceTaxAmount
+            new BigDecimal("1821.00"), // invoiceGrossAmount
             null, // invoiceDiscountAmount
-            new KualiDecimal("1821.00"), // invoiceNetAmount
+            new BigDecimal("1821.00"), // invoiceNetAmount
             new ElectronicInvoiceRejectItemFixture[] {ElectronicInvoiceRejectItemFixture.EIRI_BASIC},
             new ElectronicInvoiceRejectReasonFixture[] {ElectronicInvoiceRejectReasonFixture.EIRR_BASIC}            
     ), ;
@@ -188,13 +189,13 @@ public enum ElectronicInvoiceRejectDocumentFixture {
     public String invoiceItemDiscountCurrencyCode;
     public String invoiceItemNetCurrencyCode;
     
-    public KualiDecimal invoiceItemSubTotalAmount;
-    public KualiDecimal invoiceItemSpecialHandlingAmount;
-    public KualiDecimal invoiceItemShippingAmount;
-    public KualiDecimal invoiceItemTaxAmount;
-    public KualiDecimal invoiceItemGrossAmount;
-    public KualiDecimal invoiceItemDiscountAmount;
-    public KualiDecimal invoiceItemNetAmount;
+    public BigDecimal invoiceItemSubTotalAmount;
+    public BigDecimal invoiceItemSpecialHandlingAmount;
+    public BigDecimal invoiceItemShippingAmount;
+    public BigDecimal invoiceItemTaxAmount;
+    public BigDecimal invoiceItemGrossAmount;
+    public BigDecimal invoiceItemDiscountAmount;
+    public BigDecimal invoiceItemNetAmount;
     
     public ElectronicInvoiceRejectItemFixture[] invoiceRejectItemFixtures;
     public ElectronicInvoiceRejectReasonFixture[] invoiceRejectReasonFixtures;
@@ -207,7 +208,7 @@ public enum ElectronicInvoiceRejectDocumentFixture {
             String invoiceRemitToAddressName, String invoiceRemitToAddressType, String invoiceRemitToAddressLine1, String invoiceRemitToAddressLine2, String invoiceRemitToAddressLine3, String invoiceRemitToAddressCityName, String invoiceRemitToAddressStateCode, String invoiceRemitToAddressPostalCode, String invoiceRemitToAddressCountryCode, String invoiceRemitToAddressCountryName,
             String invoiceCustomerNumber, String invoicePurchaseOrderNumber, Integer purchaseOrderIdentifier, String purchaseOrderDeliveryCampusCode, String invoiceItemSubTotalCurrencyCode, String invoiceItemSpecialHandlingCurrencyCode,
             String invoiceItemSpecialHandlingDescription, String invoiceItemShippingCurrencyCode, String invoiceItemShippingDescription, String invoiceItemTaxCurrencyCode, String invoiceItemTaxDescription, String invoiceItemGrossCurrencyCode, String invoiceItemDiscountCurrencyCode, String invoiceItemNetCurrencyCode,
-            KualiDecimal invoiceItemSubTotalAmount, KualiDecimal invoiceItemSpecialHandlingAmount, KualiDecimal invoiceItemShippingAmount, KualiDecimal invoiceItemTaxAmount, KualiDecimal invoiceItemGrossAmount, KualiDecimal invoiceItemDiscountAmount, KualiDecimal invoiceItemNetAmount,
+            BigDecimal invoiceItemSubTotalAmount, BigDecimal invoiceItemSpecialHandlingAmount, BigDecimal invoiceItemShippingAmount, BigDecimal invoiceItemTaxAmount, BigDecimal invoiceItemGrossAmount, BigDecimal invoiceItemDiscountAmount, BigDecimal invoiceItemNetAmount,
             ElectronicInvoiceRejectItemFixture[] invoiceRejectItemFixtures,
             ElectronicInvoiceRejectReasonFixture[] invoiceRejectReasonFixtures) {
 
@@ -316,6 +317,7 @@ public enum ElectronicInvoiceRejectDocumentFixture {
         doc.setInvoiceFileDiscountInLineIndicator(invoiceFileDiscountInLineIndicator);
         
         doc.setInvoiceFileName(invoiceFileName);
+        doc.setInvoiceFileNumber(invoiceFileNumber);
         doc.setVendorDunsNumber(vendorDunsNumber);
         doc.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedIdentifier);
         doc.setVendorDetailAssignedIdentifier(vendorDetailAssignedIdentifier);

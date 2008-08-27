@@ -72,6 +72,9 @@
         <ref bean="ElectronicInvoiceRejectDocument-invoiceItemTaxCurrencyCode" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceItemTaxDescription" />
 
+        <ref bean="ElectronicInvoiceRejectDocument-totalAmount" />
+        <ref bean="ElectronicInvoiceRejectDocument-grandTotalAmount" />
+
         <ref bean="ElectronicInvoiceRejectDocument-invoiceOrderMasterAgreementInformationDate" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceOrderMasterAgreementInformationIdentifier" />
         <ref bean="ElectronicInvoiceRejectDocument-invoiceOrderMasterAgreementReferenceDate" />
@@ -127,6 +130,7 @@
         <ref bean="ElectronicInvoiceRejectDocument-vendorDunsNumber" />
         <ref bean="ElectronicInvoiceRejectDocument-vendorHeaderGeneratedIdentifier" />
         <ref bean="ElectronicInvoiceRejectDocument-versionNumber" />
+        <ref bean="ElectronicInvoiceRejectDocument-invoiceNumberAcceptIndicator" />
       </list>
     </property>
   </bean>
@@ -200,20 +204,21 @@
   </bean>
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileDate" parent="ElectronicInvoiceRejectDocument-invoiceFileDate-parentBean" />
 
-  <bean id="ElectronicInvoiceRejectDocument-invoiceFileDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ElectronicInvoiceRejectDocument-invoiceFileDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="invoiceFileDate" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice File Date" />
+    <property name="label" value="Invoice Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="100" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
-    </property>
+    </property><!--
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="102" />
     </property>
-  </bean>
+  --></bean>
+
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileDeploymentModeValue" parent="ElectronicInvoiceRejectDocument-invoiceFileDeploymentModeValue-parentBean" />
 
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileDeploymentModeValue-parentBean" abstract="true" parent="AttributeDefinition">
@@ -287,7 +292,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceFileNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice File Number" />
+    <property name="label" value="Invoice Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="100" />
     <property name="validationPattern" >
@@ -295,7 +300,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="102" />
+            p:size="20" />
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileOperationIdentifier" parent="ElectronicInvoiceRejectDocument-invoiceFileOperationIdentifier-parentBean" />
@@ -405,7 +410,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceItemDiscountAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceItemDiscountAmount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Discount Amount" />
+    <property name="label" value="Discount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -501,7 +506,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceItemShippingAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceItemShippingAmount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Shipping Amount" />
+    <property name="label" value="Shipping" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -550,7 +555,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceItemSpecialHandlingAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceItemSpecialHandlingAmount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Special Handling Amount" />
+    <property name="label" value="Special Handling" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -614,7 +619,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceItemTaxAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceItemTaxAmount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Tax Amount" />
+    <property name="label" value="Tax" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -658,6 +663,39 @@
             p:cols="80" />
     </property>
   </bean>
+    <bean id="ElectronicInvoiceRejectDocument-totalAmount" parent="ElectronicInvoiceRejectDocument-totalAmount-parentBean" />
+
+  <bean id="ElectronicInvoiceRejectDocument-totalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="totalAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sub Total" />
+    <property name="shortLabel" value="Sub Total" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+    <bean id="ElectronicInvoiceRejectDocument-grandTotalAmount" parent="ElectronicInvoiceRejectDocument-grandTotalAmount-parentBean" />
+
+  <bean id="ElectronicInvoiceRejectDocument-grandTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="grandTotalAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Total" />
+    <property name="shortLabel" value="Total" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="21" />
+    </property>
+  </bean>
+  
   <bean id="ElectronicInvoiceRejectDocument-invoiceOrderMasterAgreementInformationDate" parent="ElectronicInvoiceRejectDocument-invoiceOrderMasterAgreementInformationDate-parentBean" />
 
   <bean id="ElectronicInvoiceRejectDocument-invoiceOrderMasterAgreementInformationDate-parentBean" abstract="true" parent="AttributeDefinition">
@@ -743,7 +781,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceOrderPurchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceOrderPurchaseOrderIdentifier" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Order Purchase Order Identifier" />
+    <property name="label" value="Purchase Order Number" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="100" />
     <property name="validationPattern" >
@@ -751,7 +789,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="102" />
+            p:size="20" />
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectDocument-invoiceOrderReferenceDocumentReferencePayloadIdentifier" parent="ElectronicInvoiceRejectDocument-invoiceOrderReferenceDocumentReferencePayloadIdentifier-parentBean" />
@@ -906,7 +944,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceShipToAddressCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceShipToAddressCityName" />
     <property name="label" value="Invoice Ship To City Name" />
-    <property name="shortLabel" value="Name" />
+    <property name="shortLabel" value="City" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -989,7 +1027,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceShipToAddressPostalCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceShipToAddressPostalCode" />
     <property name="label" value="Invoice Ship To Postal Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Postal Code" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -1005,7 +1043,7 @@
     <property name="name" value="invoiceShipToAddressStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Ship To State Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="State" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -1022,7 +1060,7 @@
     <property name="name" value="invoiceShipToAddressCountryName" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Ship To Country Name" />
-    <property name="shortLabel" value="Name" />
+    <property name="shortLabel" value="Country" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -1072,7 +1110,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceBillToAddressCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceBillToAddressCityName" />
     <property name="label" value="Invoice Bill To City Name" />
-    <property name="shortLabel" value="Name" />
+    <property name="shortLabel" value="City" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -1155,7 +1193,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceBillToAddressPostalCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceBillToAddressPostalCode" />
     <property name="label" value="Invoice Ship To Postal Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Postal Code" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -1171,7 +1209,7 @@
     <property name="name" value="invoiceBillToAddressStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Ship To State Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="State" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -1188,7 +1226,7 @@
     <property name="name" value="invoiceBillToAddressCountryName" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Remit To Country Name" />
-    <property name="shortLabel" value="Name" />
+    <property name="shortLabel" value="Country" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -1222,7 +1260,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceRemitToAddressCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceRemitToAddressCityName" />
     <property name="label" value="Invoice Ship To City Name" />
-    <property name="shortLabel" value="Name" />
+    <property name="shortLabel" value="City" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -1305,7 +1343,7 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceRemitToAddressPostalCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceRemitToAddressPostalCode" />
     <property name="label" value="Invoice Ship To Postal Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Postal Code" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -1321,7 +1359,7 @@
     <property name="name" value="invoiceRemitToAddressStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Ship To State Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="State" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -1338,7 +1376,7 @@
     <property name="name" value="invoiceRemitToAddressCountryName" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Remit To Country Name" />
-    <property name="shortLabel" value="Name" />
+    <property name="shortLabel" value="Country" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -1414,7 +1452,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="52" />
+            p:size="20" />
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectDocument-vendorHeaderGeneratedIdentifier" parent="ElectronicInvoiceRejectDocument-vendorHeaderGeneratedIdentifier-parentBean" />
@@ -1447,6 +1485,19 @@
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="10" />
+    </property>
+  </bean>
+
+  <bean id="ElectronicInvoiceRejectDocument-invoiceNumberAcceptIndicator" parent="ElectronicInvoiceRejectDocument-invoiceNumberAcceptIndicator-parentBean" />
+
+  <bean id="ElectronicInvoiceRejectDocument-invoiceNumberAcceptIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceNumberAcceptIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Accept Value" />
+    <property name="shortLabel" value="Accept Value" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
 

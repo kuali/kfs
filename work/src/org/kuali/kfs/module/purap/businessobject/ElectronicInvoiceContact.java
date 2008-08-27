@@ -126,13 +126,13 @@ public class ElectronicInvoiceContact {
   /**
    * @return Returns the postalAddresses.
    */
-  public List getPostalAddresses() {
+  public List<ElectronicInvoicePostalAddress> getPostalAddresses() {
     return postalAddresses;
   }
   /**
    * @param postalAddresses The postalAddresses to set.
    */
-  public void setPostalAddresses(List postalAddresses) {
+  public void setPostalAddresses(List<ElectronicInvoicePostalAddress> postalAddresses) {
     this.postalAddresses = postalAddresses;
   }
   /**

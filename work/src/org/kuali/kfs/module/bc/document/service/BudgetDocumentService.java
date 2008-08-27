@@ -27,9 +27,11 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetForm;
 
 import org.kuali.rice.kew.exception.WorkflowException;
 
@@ -71,7 +73,7 @@ public interface BudgetDocumentService {
 
     /**
      * Performs all actions needed to validate and save a Budget Construction document to the database only. Whether or not the
-     * monthly RI check is performed during validation is controled using doMonthRICheck. Passing in false is a case used by the
+     * monthly RI check is performed during validation is controlled using doMonthRICheck. Passing in false is a case used by the
      * monthlySpread deletion functionality. No need to perform monthly RI check if the action is to remove all the records
      * 
      * @param bcDoc
@@ -81,6 +83,22 @@ public interface BudgetDocumentService {
      */
     public Document saveDocumentNoWorkFlow(BudgetConstructionDocument bcDoc, MonthSpreadDeleteType monthSpreadDeleteType, boolean doMonthRICheck) throws ValidationException;
 
+    /**
+     * Saves a single BudgetConstructionMonthly row
+     * 
+     * @param budgetConstructionMonthly
+     */
+    public void saveMonthlyBudget(MonthlyBudgetForm monthlyBudgetForm, BudgetConstructionMonthly budgetConstructionMonthly);
+    
+    /**
+     * Sets benefits calculation flags in Budget Construction Document associated with the monthly screen
+     * 
+     * @param bcDoc
+     * @param budgetConstructionMonthly
+     * @param pbglChangeAmount
+     */
+    public void callForBenefitsCalcIfNeeded(BudgetConstructionDocument bcDoc, BudgetConstructionMonthly budgetConstructionMonthly, KualiInteger pbglChangeAmount);
+    
     /**
      * Checks if annual and/or monthly benefits need calculated and calls the associated calculation method
      * 

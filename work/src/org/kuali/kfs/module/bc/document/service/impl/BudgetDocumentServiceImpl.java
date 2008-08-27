@@ -34,6 +34,7 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
+import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
@@ -41,6 +42,7 @@ import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
@@ -51,10 +53,14 @@ import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.validation.event.DeleteMonthlySpreadEvent;
 import org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionRuleUtil;
+import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionForm;
+import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetForm;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -165,6 +171,54 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             validateAndPersistDocument(bcDoc, new DeleteMonthlySpreadEvent(bcDoc, monthSpreadDeleteType));
         }
         return bcDoc;
+    }
+
+    @Transactional
+    public void saveMonthlyBudget(MonthlyBudgetForm monthlyBudgetForm, BudgetConstructionMonthly budgetConstructionMonthly){
+        
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
+        BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
+
+        // handle any override situation
+        // getting here assumes that the line is not a salary detail line and that overrides are allowed
+        KualiInteger changeAmount = KualiInteger.ZERO;
+        KualiInteger monthTotalAmount = budgetConstructionMonthly.getFinancialDocumentMonthTotalLineAmount();
+        KualiInteger pbglRequestAmount = budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getAccountLineAnnualBalanceAmount();
+        if (!monthTotalAmount.equals(pbglRequestAmount)){
+            
+            changeAmount = monthTotalAmount.subtract(pbglRequestAmount);
+
+            // change the pbgl request amount store it and sync the object in session
+            budgetConstructionMonthly.refreshReferenceObject("pendingBudgetConstructionGeneralLedger");
+
+            PendingBudgetConstructionGeneralLedger sourceRow = (PendingBudgetConstructionGeneralLedger) businessObjectService.retrieve(budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger());
+            sourceRow.setAccountLineAnnualBalanceAmount(monthTotalAmount);
+            businessObjectService.save(sourceRow);
+
+            this.addOrUpdatePBGLRow(bcDoc, sourceRow);
+            bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(changeAmount));
+
+        }
+
+        businessObjectService.save(budgetConstructionMonthly);
+        this.callForBenefitsCalcIfNeeded(bcDoc, budgetConstructionMonthly, changeAmount);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#callForBenefitsCalcIfNeeded(org.kuali.kfs.module.bc.document.BudgetConstructionDocument, org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly, org.kuali.rice.kns.util.KualiInteger)
+     */
+    @Transactional
+    public void callForBenefitsCalcIfNeeded(BudgetConstructionDocument bcDoc, BudgetConstructionMonthly budgetConstructionMonthly, KualiInteger pbglChangeAmount){
+        
+        if (!benefitsCalculationService.isBenefitsCalculationDisabled()){
+            if (budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit() != null && !budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit().isEmpty()){
+
+                bcDoc.setMonthlyBenefitsCalcNeeded(true);
+                if (pbglChangeAmount.isNonZero()){
+                    bcDoc.setBenefitsCalcNeeded(true);
+                }
+            }
+        }
     }
 
     /**

@@ -28,6 +28,7 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
@@ -158,30 +159,18 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
         BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
 
-        // TODO validate and store monthly changes, for now save using BOService
-        SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionMonthly);
-        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
-        monthlyBudgetForm.setMonthlyPersisted(true);
+        // TODO validate monthly changes
+        boolean rulePassed = true;
 
-        // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save
-        this.callForBenefitsCalcIfNeeded(monthlyBudgetForm, budgetConstructionMonthly);
+        if (rulePassed){
+            SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);
+            GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+            monthlyBudgetForm.setMonthlyPersisted(true);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    private void callForBenefitsCalcIfNeeded(MonthlyBudgetForm monthlyBudgetForm,BudgetConstructionMonthly budgetConstructionMonthly){
-        
-        // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save 
-        if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()){
-            if (budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit() != null && !budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit().isEmpty()){
-
-                BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
-                budgetConstructionForm.getBudgetConstructionDocument().setMonthlyBenefitsCalcNeeded(true);
-                
-            }
-        }
-    }
-
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
@@ -200,13 +189,19 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
             else {
                 Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
                 if ((KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                    // if yes button clicked - save the doc
 
-                    // SpringContext.getBean(DocumentService.class).saveDocument(docForm.getDocument());
-                    // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
-                    SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionMonthly);
+                    // yes button clicked - save the row
+                    // TODO need to add validation check
+                    boolean rulePassed = true;
 
-                    this.callForBenefitsCalcIfNeeded(monthlyBudgetForm, budgetConstructionMonthly);
+                    if (rulePassed){
+                        SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);
+
+                        // drop to close logic below
+                    }
+                    else {
+                        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                    }
                 }
                 // else go to close logic below
             }
@@ -290,7 +285,9 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
                     SpringContext.getBean(BusinessObjectService.class).delete(budgetConstructionMonthly);
 
                     // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save
-                    this.callForBenefitsCalcIfNeeded(monthlyBudgetForm, budgetConstructionMonthly);
+                    BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
+                    BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
+                    SpringContext.getBean(BudgetDocumentService.class).callForBenefitsCalcIfNeeded(bcDoc, budgetConstructionMonthly, KualiInteger.ZERO);
 
                     return returnToCaller(mapping, form, request, response);
                 }

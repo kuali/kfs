@@ -35,13 +35,14 @@ public class IndirectCostRecoveryRateDetailDaoOjb extends PlatformAwareDaoBaseOj
      * @see org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryRateDetailDao#getEntriesBySeries(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
-    public Collection<IndirectCostRecoveryRateDetail> getEntriesBySeries(Integer universityFiscalYear, String financialIcrSeriesIdentifier) {
+    public Collection<IndirectCostRecoveryRateDetail> getActiveRateDetailsByRate(Integer universityFiscalYear, String financialIcrSeriesIdentifier) {
         LOG.debug("getEntriesBySeries() started");
 
         Criteria crit = new Criteria();
         crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         crit.addEqualTo(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, financialIcrSeriesIdentifier);
-
+        crit.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        
         QueryByCriteria qbc = QueryFactory.newQuery(IndirectCostRecoveryRateDetail.class, crit);
         qbc.addOrderByAscending(KFSPropertyConstants.AWARD_INDR_COST_RCVY_ENTRY_NBR);
 

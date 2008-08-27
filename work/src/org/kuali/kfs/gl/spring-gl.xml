@@ -739,6 +739,18 @@
 		<property name="runDateService">
 			<ref bean="glRunDateService"/>
 		</property>
+		<property name="subAccountService">
+			<ref bean="subAccountService"/>
+		</property>
+		<property name="offsetDefinitionService">
+			<ref bean="offsetDefinitionService"/>
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService"/>
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
 	</bean>
 
 	<bean id="glEntryService" class="org.kuali.kfs.gl.service.impl.EntryServiceImpl">

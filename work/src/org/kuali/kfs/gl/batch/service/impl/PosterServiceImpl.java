@@ -18,6 +18,7 @@ package org.kuali.kfs.gl.batch.service.impl;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,9 +33,12 @@ import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRate;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryRateDetailDao;
@@ -42,6 +46,8 @@ import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryTypeDao;
 import org.kuali.kfs.coa.dataaccess.SubAccountDao;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
+import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.PosterIndirectCostRecoveryEntriesStep;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
@@ -49,6 +55,7 @@ import org.kuali.kfs.gl.batch.service.PosterService;
 import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.VerifyTransaction;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
@@ -62,13 +69,17 @@ import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -97,11 +108,15 @@ public class PosterServiceImpl implements PosterService {
     private ExpenditureTransactionDao expenditureTransactionDao;
     private IndirectCostRecoveryRateDetailDao indirectCostRecoveryRateDetailDao;
     private ObjectCodeService objectCodeService;
+    private SubAccountService subAccountService;
+    private OffsetDefinitionService offsetDefinitionService;
     private ReportService reportService;
     private ParameterService parameterService;
     private KualiConfigurationService configurationService;
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
     private RunDateService runDateService;
+    private DataDictionaryService dataDictionaryService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * Post scrubbed GL entries to GL tables.
@@ -398,47 +413,46 @@ public class PosterServiceImpl implements PosterService {
             KualiDecimal transactionAmount = et.getAccountObjectDirectCostAmount();
             KualiDecimal distributionAmount = KualiDecimal.ZERO;
 
-            String financialIcrSeriesIdentifier = "";
-            if(subAccountValid(et)) {
-                A21SubAccount subAcct = SpringContext.getBean(SubAccountDao.class).getByPrimaryId(et.getChartOfAccountsCode(), et.getAccountNumber(), et.getSubAccountNumber()).getA21SubAccount();
-                financialIcrSeriesIdentifier = subAcct.getFinancialIcrSeriesIdentifier();
-            } else {
-                financialIcrSeriesIdentifier = et.getAccount().getFinancialIcrSeriesIdentifier();
+            if (shouldIgnoreExpenditureTransaction(et)) {
+                continue;
             }
-            Collection icrRateDetails = indirectCostRecoveryRateDetailDao.getEntriesBySeries(et.getUniversityFiscalYear(), financialIcrSeriesIdentifier);
             
-            int rateDetailsCount = icrRateDetails.size();
-            if (rateDetailsCount > 0) {
-                for (Iterator icrIter = icrRateDetails.iterator(); icrIter.hasNext();) {
-                    IndirectCostRecoveryRateDetail icrRateDetail = (IndirectCostRecoveryRateDetail) icrIter.next();
+            IndirectCostRecoveryGenerationMetadata icrGenerationMetadata = retrieveSubAccountIndirectCostRecoveryMetadata(et, reportErrors);
+            if (icrGenerationMetadata == null) {
+                // ICR information was not set up properly for sub-account, default to using ICR information from the account
+                icrGenerationMetadata = retrieveAccountIndirectCostRecoveryMetadata(et);
+            }
+            
+            Collection<IndirectCostRecoveryRateDetail> automatedEntries = indirectCostRecoveryRateDetailDao.getActiveRateDetailsByRate(et.getUniversityFiscalYear(), icrGenerationMetadata.getFinancialIcrSeriesIdentifier());
+            int automatedEntriesCount = automatedEntries.size();
+
+            if (automatedEntriesCount > 0) {
+                for (Iterator icrIter = automatedEntries.iterator(); icrIter.hasNext();) {
+                    IndirectCostRecoveryRateDetail icrEntry = (IndirectCostRecoveryRateDetail) icrIter.next();
                     KualiDecimal generatedTransactionAmount = null;
 
                     if (!icrIter.hasNext()) {
                         generatedTransactionAmount = distributionAmount;
 
                         // Log differences that are over WARNING_MAX_DIFFERENCE
-                        if (getPercentage(transactionAmount, icrRateDetail.getAwardIndrCostRcvyRatePct()).subtract(distributionAmount).abs().isGreaterThan(WARNING_MAX_DIFFERENCE)) {
-                            List warnings = new ArrayList();
-                            warnings.add("ADJUSTMENT GREATER THAN " + WARNING_MAX_DIFFERENCE);
-                            reportErrors.put(et, warnings);
+                        if (getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct()).subtract(distributionAmount).abs().isGreaterThan(WARNING_MAX_DIFFERENCE)) {
+                            addIndirectCostRecoveryReportError(et, Message.TYPE_WARNING, "ADJUSTMENT GREATER THAN " + WARNING_MAX_DIFFERENCE, reportErrors);
                         }
                     }
-                    else if (icrRateDetail.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
-                        generatedTransactionAmount = getPercentage(transactionAmount, icrRateDetail.getAwardIndrCostRcvyRatePct());
+                    else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
+                        generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
                         distributionAmount = distributionAmount.add(generatedTransactionAmount);
                     }
-                    else if (icrRateDetail.getTransactionDebitIndicator().equals(KFSConstants.GL_CREDIT_CODE)) {
-                        generatedTransactionAmount = getPercentage(transactionAmount, icrRateDetail.getAwardIndrCostRcvyRatePct());
+                    else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_CREDIT_CODE)) {
+                        generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
                         distributionAmount = distributionAmount.subtract(generatedTransactionAmount);
                     }
                     else {
                         // Log if D / C code not found
-                        List warnings = new ArrayList();
-                        warnings.add("DEBIT OR CREDIT CODE NOT FOUND");
-                        reportErrors.put(et, warnings);
+                        addIndirectCostRecoveryReportError(et, Message.TYPE_WARNING, "DEBIT OR CREDIT CODE NOT FOUND", reportErrors);
                     }
 
-                    generateTransactions(et, icrRateDetail, generatedTransactionAmount, runDate, group, reportErrors);
+                    generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, group, reportErrors, icrGenerationMetadata);
                     reportOriginEntryGenerated = reportOriginEntryGenerated + 2;
                 }
             }
@@ -450,52 +464,6 @@ public class PosterServiceImpl implements PosterService {
 
         reportService.generatePosterIcrStatisticsReport(executionDate, runDate, reportErrors, reportExpendTranRetrieved, reportExpendTranDeleted, reportExpendTranKept, reportOriginEntryGenerated);
     }
-    
-    public boolean subAccountValid(ExpenditureTransaction et) {
-        boolean success = false;
-        
-        A21SubAccount subAcct = SpringContext.getBean(SubAccountDao.class).getByPrimaryId(et.getChartOfAccountsCode(), et.getAccountNumber(), et.getSubAccountNumber()).getA21SubAccount();
-        if(ObjectUtils.isNotNull(subAcct) && subAccountFieldsPopulated(subAcct) && subAccountObjectsExist(subAcct)) {
-            success = true;
-        }
-        
-        return success;
-    }
-    
-    public boolean subAccountFieldsPopulated(A21SubAccount subAcct) {
-        boolean success = true;
-        if(StringUtils.isBlank(subAcct.getFinancialIcrSeriesIdentifier())) {
-            success =  false;
-        } else if(StringUtils.isBlank(subAcct.getIndirectCostRecoveryTypeCode())) {
-            success =  false;
-        } else if(StringUtils.isBlank(subAcct.getChartOfAccountsCode())) {
-            success =  false;
-        } else if(StringUtils.isBlank(subAcct.getAccountNumber())) {
-            success =  false;
-        }
-        return success;
-    }
-    
-    public boolean subAccountObjectsExist(A21SubAccount subAccount) {
-        boolean success = true;
-
-        Chart chart = SpringContext.getBean(ChartDao.class).getByPrimaryId(subAccount.getChartOfAccountsCode());
-        if(ObjectUtils.isNotNull(chart)) {
-            Account account = SpringContext.getBean(AccountDao.class).getByPrimaryId(subAccount.getChartOfAccountsCode(), subAccount.getAccountNumber());
-            if(ObjectUtils.isNull(account)) {
-                success = false;
-            }
-        } else {
-            success = false;
-        }
-        
-        IndirectCostRecoveryType icrType = SpringContext.getBean(IndirectCostRecoveryTypeDao.class).getByPrimaryKey(subAccount.getFinancialIcrSeriesIdentifier());
-        if(ObjectUtils.isNull(icrType)) {
-            success = false;
-        }
-
-        return success;
-    }
 
     /**
      * Generate a transfer transaction and an offset transaction
@@ -505,9 +473,12 @@ public class PosterServiceImpl implements PosterService {
      * @param generatedTransactionAmount the amount of the transaction
      * @param runDate the transaction date for the newly created origin entry
      * @param group the group to save the origin entry to
+     * @param icrGenerationMetadata metadata used to generate ICR entries, based on information coming from either the sub-account or the account associated
+     * with the expenditure transaction
      */
-    private void generateTransactions(ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrEntry, KualiDecimal generatedTransactionAmount, Date runDate, OriginEntryGroup group, Map reportErrors) {
-        BigDecimal pct = new BigDecimal(icrEntry.getAwardIndrCostRcvyRatePct().toString());
+    private void generateTransactions(ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrRateDetail, KualiDecimal generatedTransactionAmount, Date runDate,
+            OriginEntryGroup group, Map<ExpenditureTransaction, List<Message>> reportErrors, IndirectCostRecoveryGenerationMetadata icrGenerationMetadata) {
+        BigDecimal pct = new BigDecimal(icrRateDetail.getAwardIndrCostRcvyRatePct().toString());
         pct = pct.divide(BDONEHUNDRED);
 
         OriginEntryFull e = new OriginEntryFull();
@@ -515,34 +486,34 @@ public class PosterServiceImpl implements PosterService {
 
         // SYMBOL_USE_EXPENDITURE_ENTRY means we use the field from the expenditure entry, SYMBOL_USE_IRC_FROM_ACCOUNT
         // means we use the ICR field from the account record, otherwise, use the field in the icrEntry
-        if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrEntry.getFinancialObjectCode()) || GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(icrEntry.getFinancialObjectCode())) {
+        if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrRateDetail.getFinancialObjectCode()) || GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(icrRateDetail.getFinancialObjectCode())) {
             e.setFinancialObjectCode(et.getObjectCode());
             e.setFinancialSubObjectCode(et.getSubObjectCode());
         }
         else {
-            e.setFinancialObjectCode(icrEntry.getFinancialObjectCode());
-            if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrEntry.getFinancialSubObjectCode())) {
+            e.setFinancialObjectCode(icrRateDetail.getFinancialObjectCode());
+            if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrRateDetail.getFinancialSubObjectCode())) {
                 e.setFinancialSubObjectCode(et.getSubObjectCode());
             }
             else {
-                e.setFinancialSubObjectCode(icrEntry.getFinancialSubObjectCode());
+                e.setFinancialSubObjectCode(icrRateDetail.getFinancialSubObjectCode());
             }
         }
 
-        if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrEntry.getAccountNumber())) {
+        if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrRateDetail.getAccountNumber())) {
             e.setAccountNumber(et.getAccountNumber());
             e.setChartOfAccountsCode(et.getChartOfAccountsCode());
             e.setSubAccountNumber(et.getSubAccountNumber());
         }
-        else if (GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(icrEntry.getAccountNumber())) {
-            e.setAccountNumber(et.getAccount().getIndirectCostRecoveryAcctNbr());
-            e.setChartOfAccountsCode(et.getAccount().getIndirectCostRcvyFinCoaCode());
+        else if (GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(icrRateDetail.getAccountNumber())) {
+            e.setAccountNumber(icrGenerationMetadata.getIndirectCostRecoveryAccountNumber());
+            e.setChartOfAccountsCode(icrGenerationMetadata.getIndirectCostRecoveryChartOfAccountsCode());
             e.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
         else {
-            e.setAccountNumber(icrEntry.getAccountNumber());
-            e.setSubAccountNumber(icrEntry.getSubAccountNumber());
-            e.setChartOfAccountsCode(icrEntry.getChartOfAccountsCode());
+            e.setAccountNumber(icrRateDetail.getAccountNumber());
+            e.setSubAccountNumber(icrRateDetail.getSubAccountNumber());
+            e.setChartOfAccountsCode(icrRateDetail.getChartOfAccountsCode());
             // TODO Reporting thing line 1946
         }
 
@@ -550,14 +521,14 @@ public class PosterServiceImpl implements PosterService {
         e.setFinancialSystemOriginationCode(parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
         e.setDocumentNumber(sdf.format(runDate));
-        if (KFSConstants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
-            e.setTransactionLedgerEntryDescription(getChargeDescription(pct, et.getObjectCode(), et.getAccount().getAcctIndirectCostRcvyTypeCd(), et.getAccountObjectDirectCostAmount().abs()));
+        if (KFSConstants.GL_DEBIT_CODE.equals(icrRateDetail.getTransactionDebitIndicator())) {
+            e.setTransactionLedgerEntryDescription(getChargeDescription(pct, et.getObjectCode(), icrGenerationMetadata.getIndirectCostRecoveryTypeCode(), et.getAccountObjectDirectCostAmount().abs()));
         }
         else {
             e.setTransactionLedgerEntryDescription(getOffsetDescription(pct, et.getAccountObjectDirectCostAmount().abs(), et.getChartOfAccountsCode(), et.getAccountNumber()));
         }
         e.setTransactionDate(new java.sql.Date(runDate.getTime()));
-        e.setTransactionDebitCreditCode(icrEntry.getTransactionDebitIndicator());
+        e.setTransactionDebitCreditCode(icrRateDetail.getTransactionDebitIndicator());
         e.setFinancialBalanceTypeCode(et.getBalanceTypeCode());
         e.setUniversityFiscalYear(et.getUniversityFiscalYear());
         e.setUniversityFiscalPeriodCode(et.getUniversityFiscalAccountingPeriod());
@@ -570,7 +541,7 @@ public class PosterServiceImpl implements PosterService {
         e.setFinancialObjectTypeCode(oc.getFinancialObjectTypeCode());
 
         if (generatedTransactionAmount.isNegative()) {
-            if (KFSConstants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
+            if (KFSConstants.GL_DEBIT_CODE.equals(icrRateDetail.getTransactionDebitIndicator())) {
                 e.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             }
             else {
@@ -605,19 +576,21 @@ public class PosterServiceImpl implements PosterService {
             e.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
         }
         e.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        
+        String offsetBalanceSheetObjectCodeNumber = determineIcrOffsetBalanceSheetObjectCodeNumber(e, et, icrRateDetail);
+        e.setFinancialObjectCode(offsetBalanceSheetObjectCodeNumber);
 
-        ObjectCode balSheetObjectCode = objectCodeService.getByPrimaryId(icrEntry.getUniversityFiscalYear(), e.getChartOfAccountsCode(), icrEntry.getFinancialObjectCode());
+        ObjectCode balSheetObjectCode = objectCodeService.getByPrimaryId(icrRateDetail.getUniversityFiscalYear(), e.getChartOfAccountsCode(), offsetBalanceSheetObjectCodeNumber);
         if (balSheetObjectCode == null) {
-            List warnings = new ArrayList();
-            warnings.add(configurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_OFFSET_OBJECT_CODE) + icrEntry.getUniversityFiscalYear() + "-" + e.getChartOfAccountsCode());
-            reportErrors.put(e, warnings);
+            String messageText = configurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_OFFSET_OBJECT_CODE) + icrRateDetail.getUniversityFiscalYear() + "-" + e.getChartOfAccountsCode() + "-" + offsetBalanceSheetObjectCodeNumber;
+            addIndirectCostRecoveryReportError(et, Message.TYPE_WARNING, messageText, reportErrors);
         }
         else {
             e.setFinancialObjectTypeCode(balSheetObjectCode.getFinancialObjectTypeCode());
         }
 
-        if (KFSConstants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
-            e.setTransactionLedgerEntryDescription(getChargeDescription(pct, et.getObjectCode(), et.getAccount().getAcctIndirectCostRcvyTypeCd(), et.getAccountObjectDirectCostAmount().abs()));
+        if (KFSConstants.GL_DEBIT_CODE.equals(icrRateDetail.getTransactionDebitIndicator())) {
+            e.setTransactionLedgerEntryDescription(getChargeDescription(pct, et.getObjectCode(), icrGenerationMetadata.getIndirectCostRecoveryTypeCode(), et.getAccountObjectDirectCostAmount().abs()));
         }
         else {
             e.setTransactionLedgerEntryDescription(getOffsetDescription(pct, et.getAccountObjectDirectCostAmount().abs(), et.getChartOfAccountsCode(), et.getAccountNumber()));
@@ -627,9 +600,8 @@ public class PosterServiceImpl implements PosterService {
             flexibleOffsetAccountService.updateOffset(e);
         }
         catch (InvalidFlexibleOffsetException ex) {
-            List warnings = new ArrayList();
-            warnings.add("FAILED TO GENERATE FLEXIBLE OFFSETS " + ex.getMessage());
-            reportErrors.put(e, warnings);
+            addIndirectCostRecoveryReportError(et, Message.TYPE_WARNING, "FAILED TO GENERATE FLEXIBLE OFFSETS " + ex.getMessage(), reportErrors);
+            LOG.warn("FAILED TO GENERATE FLEXIBLE OFFSETS FOR EXPENDITURE TRANSACTION " + et.toString(), ex);
         }
 
         originEntryService.createEntry(e, group);
@@ -640,6 +612,110 @@ public class PosterServiceImpl implements PosterService {
     private static DecimalFormat DFAMT = new DecimalFormat("##########.00");
     private static BigDecimal BDONEHUNDRED = new BigDecimal("100");
 
+    /**
+     * Returns ICR Generation Metadata based on SubAccount information if the SubAccount on the expenditure transaction is properly set up for ICR 
+     * 
+     * @param et
+     * @param reportErrors
+     * @return null if the ET does not have a SubAccount properly set up for ICR
+     */
+    protected IndirectCostRecoveryGenerationMetadata retrieveSubAccountIndirectCostRecoveryMetadata(ExpenditureTransaction et, Map<ExpenditureTransaction, List<Message>> reportErrors) {
+        SubAccount subAccount = subAccountService.getByPrimaryId(et.getChartOfAccountsCode(), et.getAccountNumber(), et.getSubAccountNumber());
+        if (ObjectUtils.isNotNull(subAccount) && ObjectUtils.isNotNull(subAccount.getA21SubAccount())) {
+            A21SubAccount a21SubAccount = subAccount.getA21SubAccount();
+            if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryTypeCode()) && 
+                    StringUtils.isBlank(a21SubAccount.getFinancialIcrSeriesIdentifier()) &&
+                    StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryChartOfAccountsCode()) && 
+                    StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryAccountNumber())) {
+                // all ICR fields were blank, therefore, this sub account was not set up for ICR
+                return null;
+            }
+
+            // these fields will be used to construct warning messages
+            String warningMessagePattern = configurationService.getPropertyString(KFSKeyConstants.WARNING_ICR_GENERATION_PROBLEM_WITH_A21SUBACCOUNT_FIELD_BLANK_INVALID);
+            String subAccountBOLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubAccount.class.getName()).getObjectLabel();
+            String subAccountValue = subAccount.getChartOfAccountsCode() + "-" + subAccount.getAccountNumber() + "-" + subAccount.getSubAccountNumber();
+            String accountBOLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Account.class.getName()).getObjectLabel();
+            String accountValue = et.getChartOfAccountsCode() + "-" + et.getAccountNumber();
+            
+            boolean subAccountOK = true;
+            
+            // there were some ICR fields that were filled in, make sure they're all filled in and are valid values
+            if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryTypeCode()) || 
+                    ObjectUtils.isNull(a21SubAccount.getIndirectCostRecoveryType())) {
+                String errorFieldName = dataDictionaryService.getAttributeShortLabel(A21SubAccount.class, KFSPropertyConstants.INDIRECT_COST_RECOVERY_TYPE_CODE);
+                String warningMessage = MessageFormat.format(warningMessagePattern, errorFieldName, subAccountBOLabel, subAccountValue, accountBOLabel, accountValue);
+                addIndirectCostRecoveryReportError(et, Message.TYPE_WARNING, warningMessage, reportErrors);
+                subAccountOK = false;
+            }
+            
+            if (StringUtils.isBlank(a21SubAccount.getFinancialIcrSeriesIdentifier())) {
+                Map<String, Object> icrRatePkMap = new HashMap<String, Object>();
+                icrRatePkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, et.getUniversityFiscalYear());
+                icrRatePkMap.put(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, a21SubAccount.getFinancialIcrSeriesIdentifier());
+                IndirectCostRecoveryRate indirectCostRecoveryRate = (IndirectCostRecoveryRate) businessObjectService.findByPrimaryKey(IndirectCostRecoveryRate.class, icrRatePkMap);
+                if (indirectCostRecoveryRate == null) {
+                    String errorFieldName = dataDictionaryService.getAttributeShortLabel(A21SubAccount.class, KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER);
+                    String warningMessage = MessageFormat.format(warningMessagePattern, errorFieldName, subAccountBOLabel, subAccountValue, accountBOLabel, accountValue);
+                    addIndirectCostRecoveryReportError(et, Message.TYPE_WARNING, warningMessage, reportErrors);
+                    subAccountOK = false;
+                }
+            }
+            
+            if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryChartOfAccountsCode()) ||
+                    StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryAccountNumber()) ||
+                    ObjectUtils.isNull(a21SubAccount.getIndirectCostRecoveryAccount())) {
+                String errorFieldName = dataDictionaryService.getAttributeShortLabel(A21SubAccount.class, KFSPropertyConstants.INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE) + "/" +
+                        dataDictionaryService.getAttributeShortLabel(A21SubAccount.class, KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNT_NUMBER);
+                String warningMessage = MessageFormat.format(warningMessagePattern, errorFieldName, subAccountBOLabel, subAccountValue, accountBOLabel, accountValue);
+                addIndirectCostRecoveryReportError(et, Message.TYPE_WARNING, warningMessage, reportErrors);
+                subAccountOK = false;
+            }
+            
+            if (subAccountOK) {
+                IndirectCostRecoveryGenerationMetadata metadata = new IndirectCostRecoveryGenerationMetadata();
+                metadata.setFinancialIcrSeriesIdentifier(a21SubAccount.getFinancialIcrSeriesIdentifier());
+                metadata.setIndirectCostRecoveryTypeCode(a21SubAccount.getIndirectCostRecoveryTypeCode());
+                metadata.setIndirectCostRecoveryChartOfAccountsCode(a21SubAccount.getIndirectCostRecoveryChartOfAccountsCode());
+                metadata.setIndirectCostRecoveryAccountNumber(a21SubAccount.getIndirectCostRecoveryAccountNumber());
+                metadata.setIndirectCostRecoveryAccount(a21SubAccount.getIndirectCostRecoveryAccount());
+                return metadata;
+            }
+        }
+        return null;
+    }
+    
+    
+    protected IndirectCostRecoveryGenerationMetadata retrieveAccountIndirectCostRecoveryMetadata(ExpenditureTransaction et) {
+        Account account = et.getAccount();
+        
+        IndirectCostRecoveryGenerationMetadata metadata = new IndirectCostRecoveryGenerationMetadata();
+        metadata.setFinancialIcrSeriesIdentifier(account.getFinancialIcrSeriesIdentifier());
+        metadata.setIndirectCostRecoveryTypeCode(account.getAcctIndirectCostRcvyTypeCd());
+        metadata.setIndirectCostRecoveryChartOfAccountsCode(account.getIndirectCostRcvyFinCoaCode());
+        metadata.setIndirectCostRecoveryAccountNumber(account.getIndirectCostRecoveryAcctNbr());
+        metadata.setIndirectCostRecoveryAccount(account.getIndirectCostRecoveryAcct());
+        return metadata;
+    }
+
+    /**
+     * Registers an error or warning message to an {@link ExpenditureTransaction}, and does not overwrite any other error messages associated
+     * with it.
+     * 
+     * @param et the {@link ExpenditureTransaction} being processed that needs to be associated with a message
+     * @param messageType one of {@link Message#TYPE_FATAL} or {@link Message#TYPE_WARNING}, probably the latter
+     * @param messageText the message text
+     * @param reportErrors the mappings of {@link ExpenditureTransaction}s to messages
+     */
+    protected void addIndirectCostRecoveryReportError(ExpenditureTransaction et, int messageType, String messageText, Map<ExpenditureTransaction, List<Message>> reportErrors) {
+        List<Message> messages = reportErrors.get(et);
+        if (messages == null) {
+            messages = new ArrayList<Message>();
+            reportErrors.put(et, messages);
+        }
+        messages.add(new Message(messageText, messageType));
+    }
+    
     /**
      * Generates a percent of a KualiDecimal amount (great for finding out how much of an origin entry should be recouped by indirect cost recovery)
      * 
@@ -729,6 +805,12 @@ public class PosterServiceImpl implements PosterService {
             reporting.put(key, new Integer(1));
         }
     }
+    
+    protected String determineIcrOffsetBalanceSheetObjectCodeNumber(OriginEntry offsetEntry, ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrRateDetail) {
+        String icrEntryDocumentType = parameterService.getParameterValue(PosterIndirectCostRecoveryEntriesStep.class, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY);
+        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(offsetEntry.getUniversityFiscalYear(), offsetEntry.getChartOfAccountsCode(), icrEntryDocumentType, et.getBalanceTypeCode());
+        return offsetDefinition.getFinancialObjectCode();
+    }
 
     public void setVerifyTransaction(VerifyTransaction vt) {
         verifyTransaction = vt;
@@ -796,5 +878,38 @@ public class PosterServiceImpl implements PosterService {
 
     public void setRunDateService(RunDateService runDateService) {
         this.runDateService = runDateService;
+    }
+
+    public void setSubAccountService(SubAccountService subAccountService) {
+        this.subAccountService = subAccountService;
+    }
+
+    public void setOffsetDefinitionService(OffsetDefinitionService offsetDefinitionService) {
+        this.offsetDefinitionService = offsetDefinitionService;
+    }
+
+    protected DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
+    protected BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    protected boolean shouldIgnoreExpenditureTransaction(ExpenditureTransaction et) {
+        if (ObjectUtils.isNotNull(et.getOption())) {
+            Options options = et.getOption();
+            return StringUtils.isNotBlank(options.getActualFinancialBalanceTypeCd()) && 
+                    !options.getActualFinancialBalanceTypeCd().equals(et.getBalanceTypeCode());
+        }
+        return true;
     }
 }

@@ -629,7 +629,8 @@ public class KFSKeyConstants {
     public static final String ERROR_NO_ORIGIN_ENTRY_GROUPS = "error.gl.NoOriginEntryGroups";
     public static final String ERROR_EMPLID_NOT_BE_NULL = "error.labor.NullEmplId";
 
-
+    public static final String WARNING_ICR_GENERATION_PROBLEM_WITH_A21SUBACCOUNT_FIELD_BLANK_INVALID = "warning.gl.IndirectCostRecoveryGeneration.A21SubAccount.icrField.blankInvalid";
+    
     public static final String MSG_DEDIT_CREDIT_CODE_MUST_BE = "message.gl.DebitCreditCodeMustBe";
     public static final String MSG_FOR_BALANCE_TYPE = "message.gl.ForBalanceType";
     public static final String MSG_GENERATED_CAPITALIZATION = "message.gl.GeneratedCapitalization";

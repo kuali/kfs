@@ -88,14 +88,47 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
      */
     public boolean isIcrTransaction(ObjectType objectType, Account account, String subAccountNumber, ObjectCode objectCode, String universityFiscalPeriodCode) {
         LOG.debug("isIcrTransaction() started");
-
-        // Is the ICR indicator set and the ICR Series identifier set?
+        
+        // Is the ICR indicator set?
         // Is the period code a non-balance period? If so, continue, if not, we aren't posting this transaction
-        if (objectType.isFinObjectTypeIcrSelectionIndicator() && StringUtils.hasText(account.getFinancialIcrSeriesIdentifier()) && (!KFSConstants.PERIOD_CODE_ANNUAL_BALANCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_BEGINNING_BALANCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE.equals(universityFiscalPeriodCode))) {
+        if (objectType.isFinObjectTypeIcrSelectionIndicator() && (!KFSConstants.PERIOD_CODE_ANNUAL_BALANCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_BEGINNING_BALANCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE.equals(universityFiscalPeriodCode))) {
             // Continue on the posting process
 
             // Check the sub account type code. A21 subaccounts with the type of CS don't get posted
             A21SubAccount a21SubAccount = a21SubAccountDao.getByPrimaryKey(account.getChartOfAccountsCode(), account.getAccountNumber(), subAccountNumber);
+            
+            String financialIcrSeriesIdentifier;
+            String indirectCostRecoveryTypeCode;
+            
+            // first, do a check to ensure that if the sub-account is set up for ICR, that the account is also set up for ICR
+            if (a21SubAccount != null) {
+                if (StringUtils.hasText(a21SubAccount.getFinancialIcrSeriesIdentifier()) && StringUtils.hasText(a21SubAccount.getIndirectCostRecoveryTypeCode())) {
+                    // the sub account is set up for ICR, make sure that the corresponding account is as well, just for validation purposes
+                    if (!StringUtils.hasText(account.getFinancialIcrSeriesIdentifier()) || !StringUtils.hasText(account.getAcctIndirectCostRcvyTypeCd())) {
+                        throw new IncorrectIndirectCostRecoveryMetadataException();
+                    }
+                    // A21SubAccount info set up correctly
+                    financialIcrSeriesIdentifier = a21SubAccount.getFinancialIcrSeriesIdentifier();
+                    indirectCostRecoveryTypeCode = a21SubAccount.getIndirectCostRecoveryTypeCode();
+                }
+                else {
+                    // we had an A21SubAccount, but it was not set up for ICR, use account values instead
+                    financialIcrSeriesIdentifier = account.getFinancialIcrSeriesIdentifier();
+                    indirectCostRecoveryTypeCode = account.getAcctIndirectCostRcvyTypeCd();
+                }
+            }
+            else {
+                // no A21SubAccount found, default to using Account
+                financialIcrSeriesIdentifier = account.getFinancialIcrSeriesIdentifier();
+                indirectCostRecoveryTypeCode = account.getAcctIndirectCostRcvyTypeCd();
+            }
+            
+            // the ICR Series identifier set?
+            if (!StringUtils.hasText(financialIcrSeriesIdentifier)) {
+                LOG.debug("isIcrTransaction() Not ICR Account");
+                return false;
+            }
+            
             if ((a21SubAccount != null) && KFSConstants.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode())) {
                 // No need to post this
                 LOG.debug("isIcrTransaction() A21 subaccounts with type of CS - not posted");
@@ -118,7 +151,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
                 // If the ICR type code is empty or 10, don't post
 
                 // TODO: use type 10 constant
-                if ((!StringUtils.hasText(account.getAcctIndirectCostRcvyTypeCd())) || KFSConstants.MONTH10.equals(account.getAcctIndirectCostRcvyTypeCd())) {
+                if ((!StringUtils.hasText(indirectCostRecoveryTypeCode)) || KFSConstants.MONTH10.equals(indirectCostRecoveryTypeCode)) {
                     // No need to post this
                     LOG.debug("isIcrTransaction() ICR type is null or 10 - not posted");
                     return false;
@@ -141,7 +174,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
                     }
                 }
                 // second step checks if the top level object code is to be excluded...
-                IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(account.getAcctIndirectCostRcvyTypeCd(), currentObjectCode.getChartOfAccountsCode(), currentObjectCode.getFinancialObjectCode());
+                IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(indirectCostRecoveryTypeCode, currentObjectCode.getChartOfAccountsCode(), currentObjectCode.getFinancialObjectCode());
                 
                 if(excType != null && excType.isActive()) {
                 	if(ObjectUtils.isNotNull(excType.getIndirectCostRecoveryType())) {
@@ -161,7 +194,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
         }
         else {
             // Don't need to post anything
-            LOG.debug("isIcrTransaction() Not ICR account or invalid period code - not posted");
+            LOG.debug("isIcrTransaction() invalid period code - not posted");
             return false;
         }
     }
@@ -178,8 +211,14 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
 
-        if (isIcrTransaction(t.getObjectType(), t.getAccount(), t.getSubAccountNumber(), t.getFinancialObject(), t.getUniversityFiscalPeriodCode())) {
-            return postTransaction(t, mode);
+        try {
+            if (isIcrTransaction(t.getObjectType(), t.getAccount(), t.getSubAccountNumber(), t.getFinancialObject(), t.getUniversityFiscalPeriodCode())) {
+                return postTransaction(t, mode);
+            }
+        }
+        catch (IncorrectIndirectCostRecoveryMetadataException e) {
+            // HACK ALERT: the code that calls this method requires that an error message begin with GeneralLedgerConstants.ERROR_CODE, which is "E"
+            return GeneralLedgerConstants.ERROR_CODE + "rror - excluding transaction from Indirect Cost Recovery because Sub-Account is set up for ICR, but Account is not.";
         }
         return GeneralLedgerConstants.EMPTY_CODE;
     }
@@ -224,5 +263,8 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
      */
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(ExpenditureTransaction.class).getFullTableName();
+    }
+    
+    protected class IncorrectIndirectCostRecoveryMetadataException extends RuntimeException {
     }
 }

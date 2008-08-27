@@ -276,7 +276,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         KualiDecimal taxPercentage = new KualiDecimal(6.85);
         invoiceMap.put("taxPercentage", "*** "+taxPercentage.toString()+"%");
         invoiceMap.put("invoiceAmountDue", invoice.getSourceTotal().toString());
-        
+
         OCRLineService ocrService = SpringContext.getBean(OCRLineService.class);
         String ocrLine = ocrService.generateOCRLine(invoice.getSourceTotal(), custID, invoice.getDocumentNumber());
         invoiceMap.put("ocrLine", ocrLine);
@@ -308,7 +308,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         criteria.put("universityFiscalYear", fiscalYear);
         criteria.put("processingChartOfAccountCode", processingOrg.getChartOfAccountsCode());
         criteria.put("processingOrganizationCode", processingOrg.getOrganizationCode());
-       // System.out.println(fiscalYear+"/"+processingOrg.getChartOfAccountsCode()+"/"+processingOrg.getOrganizationCode());
+        // System.out.println(fiscalYear+"/"+processingOrg.getChartOfAccountsCode()+"/"+processingOrg.getOrganizationCode());
         SystemInformation sysinfo = (SystemInformation)businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         sysinfoMap.put("univName", finder.getValue());
@@ -385,7 +385,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         OrganizationService orgService = SpringContext.getBean(OrganizationService.class);
         Org billingOrg = orgService.getByPrimaryId(billingChartCode, billingOrgCode);
         invoiceMap.put("billingOrgName", billingOrg.getOrganizationName());
-       // invoiceMap.put("ocrLine", "");
+        // invoiceMap.put("ocrLine", "");
         KualiDecimal amountDue = new KualiDecimal(0);
         for (Iterator itr = details.iterator(); itr.hasNext();) {
             CustomerStatementDetailReportDataHolder data = (CustomerStatementDetailReportDataHolder)itr.next();
@@ -491,31 +491,22 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     }
 
     public List<File> generateInvoicesByInitiator(String initiator) {
-//      DocumentSearchService searchService = SpringContext.getBean(DocumentSearchService.class);
-//      DocSearchCriteriaDTO criteria = new DocSearchCriteriaDTO();
-//      criteria.setInitiator(initiator);
-//      GlobalVariables.getUserSession().getWorkflowUser().
-//      
-//      DocumentSearchResultComponents results = searchService.getList(GlobalVariables.getUserSession().getWorkflowUser(), criteria)
-//      List<DocumentSearchResult> result = results.getSearchResults();
-//      for (Iterator itr = result.iterator(); itr.hasNext();) {
-//          DocumentSearchResult dsr = (DocumentSearchResult)itr.next();
-//          dsr.
-//      }
 
         List<File> reports = new ArrayList<File>();
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getAllCustomerInvoiceDocuments();
         for (Iterator itr = invoices.iterator(); itr.hasNext();) {
             CustomerInvoiceDocument invoice = (CustomerInvoiceDocument)itr.next();
-            if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equals(initiator)) {
-               reports.add(generateInvoice(invoice));
+            if (invoice.getPrintInvoiceOption().getPrintInvoiceIndicator().equals("U")) {
+                if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equals(initiator)) {
+                    reports.add(generateInvoice(invoice));
+                }
             }
         }
         return reports;
     }
-    
-    
+
+
     public List<File> generateStatementByBillingOrg(String chartCode, String orgCode) {
 
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);

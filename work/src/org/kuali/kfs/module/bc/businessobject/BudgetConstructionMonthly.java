@@ -462,6 +462,29 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Gets the total of all the month line amounts
+     * 
+     * @return Returns the financialDocumentMonth9LineAmount.
+     */
+    public KualiInteger getFinancialDocumentMonthTotalLineAmount() {
+
+        KualiInteger financialDocumentMonthTotalLineAmount = this.financialDocumentMonth1LineAmount;
+        financialDocumentMonthTotalLineAmount = financialDocumentMonthTotalLineAmount.add(this.financialDocumentMonth2LineAmount);
+        financialDocumentMonthTotalLineAmount = financialDocumentMonthTotalLineAmount.add(this.financialDocumentMonth3LineAmount);
+        financialDocumentMonthTotalLineAmount = financialDocumentMonthTotalLineAmount.add(this.financialDocumentMonth4LineAmount);
+        financialDocumentMonthTotalLineAmount = financialDocumentMonthTotalLineAmount.add(this.financialDocumentMonth5LineAmount);
+        financialDocumentMonthTotalLineAmount = financialDocumentMonthTotalLineAmount.add(this.financialDocumentMonth6LineAmount);
+        financialDocumentMonthTotalLineAmount = financialDocumentMonthTotalLineAmount.add(this.financialDocumentMonth7LineAmount);
+        financialDocumentMonthTotalLineAmount = financialDocumentMonthTotalLineAmount.add(this.financialDocumentMonth8LineAmount);
+        financialDocumentMonthTotalLineAmount = financialDocumentMonthTotalLineAmount.add(this.financialDocumentMonth9LineAmount);
+        financialDocumentMonthTotalLineAmount = financialDocumentMonthTotalLineAmount.add(this.financialDocumentMonth10LineAmount);
+        financialDocumentMonthTotalLineAmount = financialDocumentMonthTotalLineAmount.add(this.financialDocumentMonth11LineAmount);
+        financialDocumentMonthTotalLineAmount = financialDocumentMonthTotalLineAmount.add(this.financialDocumentMonth12LineAmount);
+            
+        return financialDocumentMonthTotalLineAmount;
+    }
+
+    /**
      * Gets the pendingBudgetConstructionGeneralLedger attribute.
      * 
      * @return Returns the pendingBudgetConstructionGeneralLedger

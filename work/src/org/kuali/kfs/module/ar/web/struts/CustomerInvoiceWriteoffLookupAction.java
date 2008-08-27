@@ -58,7 +58,7 @@ public class CustomerInvoiceWriteoffLookupAction extends KualiMultipleValueLooku
             //actual object ids are on sub result rows, not on parent rows
             if( row instanceof CustomerInvoiceWriteoffLookupResultRow ){
                 for(ResultRow subResultRow : ((CustomerInvoiceWriteoffLookupResultRow)row).getSubResultRows() ){
-                    String objId = row.getObjectId();
+                    String objId = subResultRow.getObjectId();
                     selectedObjectIds.put(objId, objId); 
                 }
             } else {

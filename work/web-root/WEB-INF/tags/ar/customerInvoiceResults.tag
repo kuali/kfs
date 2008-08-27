@@ -39,10 +39,8 @@
 				<c:forEach items="${subResultRows}" var="row" varStatus="rowLoopStatus" begin="0" end="${fn:length(subResultRows)}">
 					<tr>
 					    <td>
-							<c:set var="checked" value="${empty KualiForm.compositeObjectIdMap[objectId] ? '' : 'checked=checked'}" />							
-							<input type="checkbox" title="Select" name="${row.objectId}" value="checked" ${checked}>
-								${column.columnTitle}
-							</input>
+							<c:set var="checked" value="${empty KualiForm.compositeObjectIdMap[row.objectId] ? '' : 'checked=checked'}" />							
+							<input type="checkbox" title="Select" name="${row.objectId}" value="checked" ${checked} />
 						</td>
 						<c:forEach items="${row.columns}" var="column" begin="0" end="${fn:length(row.columns)}">
 							<td class="infocell" title="${column.propertyValue}">

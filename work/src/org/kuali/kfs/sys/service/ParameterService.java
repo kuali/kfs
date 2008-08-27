@@ -16,7 +16,9 @@
 package org.kuali.kfs.sys.service;
 
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.bo.ParameterDetailType;
 
 /**
@@ -160,4 +162,13 @@ public interface ParameterService {
      * @param documentOrStepClass
      */
     public String getDetailType(Class documentOrStepClass);
+    
+    /**
+     * This method can be used to set of parameters for a given component with the specified prefix.
+     * 
+     * @param componentClass
+     * @param parameterName
+     * @return  List of Parameters that match the criteria.
+     */
+    public List<ParameterEvaluator> getPrefixedParameterEvalulators(Class documentOrStepClass, String parameterPrefix);
 }

@@ -74,6 +74,4 @@ public interface ParameterEvaluator extends Serializable {
      * @return String value of underlying Parameter
      */
     public String getValue();
-
-    public void setConstrainedValue(String constrainedValue);
 }

@@ -68,7 +68,7 @@ public class ParameterServiceImpl implements ParameterService {
      * @see org.kuali.kfs.sys.service.ParameterService#parameterExists(java.lang.Class componentClass, java.lang.String parameterName)
      */
     public boolean parameterExists(Class componentClass, String parameterName) {
-        return getParameterWithoutExceptions(getNamespace(componentClass), getDetailType(componentClass), parameterName) != null;
+        return !getParametersWithoutExceptions(getNamespace(componentClass), getDetailType(componentClass), parameterName).isEmpty();
     }
 
     /**
@@ -203,6 +203,17 @@ public class ParameterServiceImpl implements ParameterService {
         }
         return getParameterEvaluator(getParameterValues(denyParameter, constrainingValue).isEmpty() ? allowParameter : denyParameter, constrainingValue, constrainedValue);
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.service.ParameterService#getPrefixedParameterEvalulators(java.lang.Class, java.lang.String)
+     */
+    public List<ParameterEvaluator> getPrefixedParameterEvalulators(Class documentOrStepClass, String parameterPrefix) {
+        List<ParameterEvaluator> parameterEvaluators = new ArrayList<ParameterEvaluator>();
+        for (Parameter parameter : getParametersWithoutExceptions(getNamespace(documentOrStepClass), getDetailType(documentOrStepClass), parameterPrefix + '*')) {
+            parameterEvaluators.add(getParameterEvaluator(parameter));
+        }
+        return parameterEvaluators;
+    }
 
     /**
      * This method derived ParameterDetailedTypes from the DataDictionary for all BusinessObjects and Documents and from Spring for
@@ -322,7 +333,7 @@ public class ParameterServiceImpl implements ParameterService {
         throw new IllegalArgumentException("The getDetailTypeName method of ParameterServiceImpl requires TransactionalDocument, BusinessObject, or Step class");
     }
 
-    private ParameterEvaluator getParameterEvaluator(Parameter parameter) {
+    private ParameterEvaluatorImpl getParameterEvaluator(Parameter parameter) {
         ParameterEvaluatorImpl parameterEvaluator = new ParameterEvaluatorImpl();
         parameterEvaluator.setParameter(parameter);
         parameterEvaluator.setConstraintIsAllow(constraintIsAllow(parameter));
@@ -330,15 +341,15 @@ public class ParameterServiceImpl implements ParameterService {
         return parameterEvaluator;
     }
 
-    private ParameterEvaluator getParameterEvaluator(Parameter parameter, String constrainedValue) {
-        ParameterEvaluator parameterEvaluator = getParameterEvaluator(parameter);
+    private ParameterEvaluatorImpl getParameterEvaluator(Parameter parameter, String constrainedValue) {
+        ParameterEvaluatorImpl parameterEvaluator = getParameterEvaluator(parameter);
         parameterEvaluator.setConstrainedValue(constrainedValue);
         return parameterEvaluator;
     }
 
-    private ParameterEvaluator getParameterEvaluator(Parameter parameter, String constrainingValue, String constrainedValue) {
-        ParameterEvaluator parameterEvaluator = getParameterEvaluator(parameter, constrainedValue);
-        ((ParameterEvaluatorImpl) parameterEvaluator).setValues(getParameterValues(parameter, constrainingValue));
+    private ParameterEvaluatorImpl getParameterEvaluator(Parameter parameter, String constrainingValue, String constrainedValue) {
+        ParameterEvaluatorImpl parameterEvaluator = getParameterEvaluator(parameter, constrainedValue);
+        parameterEvaluator.setValues(getParameterValues(parameter, constrainingValue));
         return parameterEvaluator;
     }
 
@@ -391,27 +402,25 @@ public class ParameterServiceImpl implements ParameterService {
         if (StringUtils.isBlank(namespaceCode) || StringUtils.isBlank(detailTypeCode) || StringUtils.isBlank(parameterName)) {
             throw new IllegalArgumentException("The getParameter method of KualiConfigurationServiceImpl requires a non-blank namespaceCode, parameterDetailTypeCode, and parameterName");
         }
-        Parameter param = getParameterWithoutExceptions(namespaceCode, detailTypeCode, parameterName);
+        Parameter param = getParametersWithoutExceptions(namespaceCode, detailTypeCode, parameterName).iterator().next();
         if (param == null) {
             throw new IllegalArgumentException("The getParameter method of KualiConfigurationServiceImpl was unable to find parameter: " + namespaceCode + " / " + detailTypeCode + " / " + parameterName);
         }
         return param;
     }
 
-    private Parameter getParameterWithoutExceptions(String namespaceCode, String detailTypeCode, String parameterName) {
+    private List<Parameter> getParametersWithoutExceptions(String namespaceCode, String detailTypeCode, String parameterName) {
         HashMap<String, String> crit = new HashMap<String, String>(3);
         crit.put("parameterNamespaceCode", namespaceCode);
         crit.put("parameterDetailTypeCode", detailTypeCode);
         crit.put("parameterName", parameterName);
-        Parameter param = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, crit);
-        return param;
+        return new ArrayList<Parameter>(businessObjectService.findMatching(Parameter.class, crit));
     }
 
     private boolean constraintIsAllow(Parameter parameter) {
         return KNSConstants.APC_ALLOWED_OPERATOR.equals(parameter.getParameterConstraintCode());
     }
-
-
+    
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }

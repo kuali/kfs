@@ -95,12 +95,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#processApprovedAssetPayment(org.kuali.kfs.module.cam.document.AssetPaymentDocument)
      */
-    public void processApprovedAssetPayment(AssetPaymentDocument document, KualiDecimal totalHistoricalAmount) {        
+    public void processApprovedAssetPayment(AssetPaymentDocument document, KualiDecimal totalHistoricalAmount) {
         // Creating new asset payment records
-        processPayments(document);        
+        processPayments(document);
     }
 
-     
+
     /**
      * Creates a new asset payment record for each new asset payment detail record and then save them
      * 
@@ -110,23 +110,23 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         List<AssetPaymentDetail> assetPaymentDetailLines = document.getSourceAccountingLines();
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
         List<PersistableBusinessObject> assetPayments = new ArrayList<PersistableBusinessObject>();
-        Integer maxSequenceNo=new Integer(0);        
+        Integer maxSequenceNo = new Integer(0);
 
         try {
             Double totalHistoricalCost = new Double(document.getAssetsTotalHistoricalCost().toString());
             // Creating a new payment record for each asset that has payments.
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
                 maxSequenceNo = getMaxSequenceNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
-                
-                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());                
-                Double percentage = (previousTotalCostAmount/totalHistoricalCost);
-                
+
+                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());
+                Double percentage = (previousTotalCostAmount / totalHistoricalCost);
+
                 for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
                     Double paymentAmount = new Double(assetPaymentDetail.getAmount().toString());
                     KualiDecimal amount = new KualiDecimal(paymentAmount.doubleValue() * percentage.doubleValue());
 
                     //LOG.info("Asset:"+assetPaymentAssetDetail.getCapitalAssetNumber() + " - Previous Cost:"+previousTotalCostAmount+" - Allocated Amount:"+amount.toString()+" - % :"+percentage.doubleValue());
-                    
+
                     AssetPayment assetPayment = new AssetPayment(assetPaymentDetail);
                     assetPayment.setCapitalAssetNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
                     assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_N);
@@ -135,34 +135,34 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                     assetPayment.setAccountChargeAmount(amount);
 
                     KualiDecimal baseAmount = new KualiDecimal(0);
-    
+
                     // If the object sub type is not in the list of federally owned object sub types, then...
                     ObjectCode objectCode = this.getObjectCodeService().getByPrimaryId(assetPaymentDetail.getFinancialDocumentPostingYear(), assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
-    
+
                     // Depreciation Base Amount will be assigned to each payment only when the object code's sub type code is not a
                     // federally owned one
                     if (!this.isFederallyOwnedObjectSubType(objectCode.getFinancialObjectSubTypeCode())) {
                         baseAmount = baseAmount.add(amount);
                     }
                     assetPayment.setPrimaryDepreciationBaseAmount(baseAmount);
-    
+
                     // Resetting each period field its value with nulls
                     this.adjustPaymentAmounts(assetPayment, false, true);
-    
+
                     // add new payment
                     assetPayments.add(assetPayment);
 
-                    //*********************BEGIN - Updating Asset cost ***********************************************************
-                    //Retrieving the asset that will have its cost updated
-                    HashMap<String,Long> keys = new HashMap<String,Long>();
-                    keys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER,assetPaymentAssetDetail.getCapitalAssetNumber());
-                    
-                    Asset asset = (Asset) getBusinessObjectService().findByPrimaryKey(Asset.class, keys);        
+                    // *********************BEGIN - Updating Asset cost ***********************************************************
+                    // Retrieving the asset that will have its cost updated
+                    HashMap<String, Long> keys = new HashMap<String, Long>();
+                    keys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetPaymentAssetDetail.getCapitalAssetNumber());
+
+                    Asset asset = (Asset) getBusinessObjectService().findByPrimaryKey(Asset.class, keys);
                     asset.setTotalCostAmount(assetPaymentAssetDetail.getPreviousTotalCostAmount().add(amount));
-                    
-                    //Saving changes
-                    getBusinessObjectService().save(asset);                    
-                    //*********************END - Updating Asset cost ***********************************************************                    
+
+                    // Saving changes
+                    getBusinessObjectService().save(asset);
+                    // *********************END - Updating Asset cost ***********************************************************
                 }
             }
         }
@@ -288,4 +288,15 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         isEligible &= !isPaymentFederalContribution(assetPayment);
         return isEligible;
     }
+
+    /**
+     * Checks if object sub type is a non-depreciable federally owned object sub type
+     * 
+     * @param string objectSubType2
+     * @return true if is NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES
+     */
+    public boolean isNonDepreciableFederallyOwnedObjSubType(String objectSubType) {
+        return isFederallyOwnedObjectSubType(objectSubType);
+    }
+
 }

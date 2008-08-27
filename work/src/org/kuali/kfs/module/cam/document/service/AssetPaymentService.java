@@ -80,4 +80,13 @@ public interface AssetPaymentService {
      * @return true if elgible for GL posting
      */
     public boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment);
+    
+    
+    /**
+     * Checks if object sub type is non depreciable federally owned 
+     * 
+     * @param string objectSubType
+     * @return true if is NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES
+     */
+    public boolean isNonDepreciableFederallyOwnedObjSubType(String objectSubType);
 }

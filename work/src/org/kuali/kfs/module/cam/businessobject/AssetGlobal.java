@@ -10,6 +10,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -709,8 +710,11 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
+        KualiDecimal accumulatedDepreciationAmount = new KualiDecimal(0);
         String financialObjectSubTypeCode = null;
+        boolean isDepreciablePayment = false;
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+        AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
 
         if (!assetPaymentDetails.isEmpty() && ObjectUtils.isNotNull(assetPaymentDetails.get(0).getObjectCode())) {
             financialObjectSubTypeCode = assetPaymentDetails.get(0).getObjectCode().getFinancialObjectSubTypeCode();
@@ -761,6 +765,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         }
 
         for (AssetPaymentDetail payment : assetPaymentDetails) {
+
+            financialObjectSubTypeCode = payment.getObjectCode().getFinancialObjectSubTypeCode();
+            isDepreciablePayment = !assetPaymentService.isNonDepreciableFederallyOwnedObjSubType(financialObjectSubTypeCode);
+
             for (AssetGlobalDetail location : assetGlobalDetails) {
                 // Distribute Asset Payments from AssetPaymentDetails to AssetPayment
                 // Divide each payment to records in Asset AssetGlobalDetails
@@ -791,9 +799,22 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                     assetPayment.setFinancialDocumentPostingPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());
                 }
                 assetPayment.setAccountChargeAmount(payment.getAmount().divide(new KualiDecimal(assetGlobalDetails.size())));
-                assetPayment.setPrimaryDepreciationBaseAmount(primaryDepreciationBaseAmount);
+
+                if (isDepreciablePayment) {
+                    assetPayment.setPrimaryDepreciationBaseAmount(assetPayment.getAccountChargeAmount());
+                    accumulatedDepreciationAmount = accumulatedDepreciationAmount.add(assetPayment.getAccountChargeAmount());
+                }
+                else {
+                    assetPayment.setPrimaryDepreciationBaseAmount(new KualiDecimal(0));
+                }
+
                 persistables.add(assetPayment);
             }
+        }
+
+        if (isDepreciablePayment) {
+            setPrimaryDepreciationBaseAmount(accumulatedDepreciationAmount);
+            persistables.add(this);
         }
 
         return persistables;

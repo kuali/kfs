@@ -3055,7 +3055,8 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument" table="AP_ELCTRNC_INV_RJT_DOC_T">
-	<field-descriptor name="purapDocumentIdentifier" column="INV_RJT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="INV_RJT_ID"/>
+
+	<field-descriptor name="purapDocumentIdentifier" column="INV_RJT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="AP_INV_RJT_ID_SEQ"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     

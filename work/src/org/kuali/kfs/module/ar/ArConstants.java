@@ -189,6 +189,9 @@ public class ArConstants {
         public static final String CUSTOMER_NUMBER = "accountsReceivableDocumentHeader.customerNumber";
 
         public static final String INVOICE_DUE_DATE = "invoiceDueDate";
+        public static final String BILLING_DATE = "billingDate";
+        public static final String SOURCE_TOTAL = "sourceTotal";
+        public static final String AGE = "age";
         public static final String BILLED_BY_ORGANIZATION = "billedByOrganization";
         public static final String BILLED_BY_ORGANIZATION_CODE = "billedByOrganizationCode";
 
@@ -202,6 +205,7 @@ public class ArConstants {
 
         public static final String SHIP_TO_ADDRESS_IDENTIFIER = "customerShipToAddressIdentifier";
         public static final String BILL_TO_ADDRESS_IDENTIFIER = "customerBillToAddressIdentifier";
+        public static final String OPEN_AMOUNT = "openAmount";
     }
     
     public static class CustomerInvoiceWriteoffDocumentFields {
@@ -265,6 +269,7 @@ public class ArConstants {
     public static final String UNIT_OF_MEASURE_PROPERTY = "itemUnitOfMeasureCode";
     public static final String DISCOUNT_PREFIX = "DISCOUNT - ";
     public static final String GLPE_WRITEOFF_OBJECT_CODE_BY_CHART = "GLPE_WRITEOFF_OBJECT_CODE_BY_CHART";
+    public static final String NO_COLLECTION_STATUS_STRING = "No Collection Status";
 
     public static class CustomerFields {
         public static final String CUSTOMER_TAB_ADDRESSES = "customerAddresses";

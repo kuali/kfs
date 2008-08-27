@@ -88,15 +88,17 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         // iterate through result list and wrap rows with return url and action urls
         for (BusinessObject element : displayList) {
             LOG.debug("Doing lookup for " + element.getClass());
-            String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
 
+            CustomerInvoiceWriteoffLookupResult result = ((CustomerInvoiceWriteoffLookupResult) element);
+            List<String> customerInvoiceDocumentAttributesForDisplay = result.getCustomerInvoiceDocumentAttributesForDisplay();
+            
             //add list of customer invoice document sub rows
             List<ResultRow> subResultRows = new ArrayList<ResultRow>();
-            for (CustomerInvoiceDocument customerInvoiceDocument : ((CustomerInvoiceWriteoffLookupResult) element).getCustomerInvoiceDocuments()) {
+            for (CustomerInvoiceDocument customerInvoiceDocument : result.getCustomerInvoiceDocuments()) {
 
                 List<Column> subResultColumns = new ArrayList<Column>();
                 
-                for (String propertyName : new String[] { "documentNumber", "age" }) {
+                for (String propertyName : customerInvoiceDocumentAttributesForDisplay) {
                     subResultColumns.add(setupResultsColumn(customerInvoiceDocument, propertyName));
                 }
                 
@@ -105,7 +107,9 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
                 subResultRows.add(subResultRow);
             }
             
+            //create main customer header row
             Collection<Column> columns = getColumns(element);
+            String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
             CustomerInvoiceWriteoffLookupResultRow row = new CustomerInvoiceWriteoffLookupResultRow((List<Column>) columns, subResultRows, returnUrl, getActionUrls(element), "");
             resultTable.add(row);
         }

@@ -127,14 +127,22 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             customerInvoiceWriteoffLookupResult = new CustomerInvoiceWriteoffLookupResult();
             customerInvoiceWriteoffLookupResult.setCustomerName(customer.getCustomerName());
             customerInvoiceWriteoffLookupResult.setCustomerNumber(customer.getCustomerNumber());
-            customerInvoiceWriteoffLookupResult.setCustomerType(customer.getCustomerType() != null ? customer.getCustomerType().getCustomerTypeDescription() : "");
-            customerInvoiceWriteoffLookupResult.setCustomerTotal(new KualiDecimal(100.00));
+            customerInvoiceWriteoffLookupResult.setCollectionStatus(ArConstants.NO_COLLECTION_STATUS_STRING);
+            customerInvoiceWriteoffLookupResult.setCustomerTotal(getCustomerTotal(list));
             customerInvoiceWriteoffLookupResult.setCustomerInvoiceDocuments(list);
             
             populatedCustomerInvoiceWriteoffLookupResults.add(customerInvoiceWriteoffLookupResult);
         }
   
         return populatedCustomerInvoiceWriteoffLookupResults;
+    }
+    
+    protected KualiDecimal getCustomerTotal(List<CustomerInvoiceDocument> customerInvoiceDocuments){
+        KualiDecimal customerTotal = KualiDecimal.ZERO;
+        for( CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceDocuments ){
+            customerTotal = customerTotal.add(customerInvoiceDocument.getOpenAmount());
+        }
+        return customerTotal;
     }
     
     /**

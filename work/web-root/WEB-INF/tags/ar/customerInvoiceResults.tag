@@ -26,7 +26,7 @@
 				<thead>
 					<tr>
 						<th>
-							Select
+							Write Off
 						</th>
 			    		<c:forEach items="${subResultRows[0].columns}" var="column" begin="0" end="${fn:length(subResultRows[0].columns)}" varStatus="columnLoopStatus">
 							<th class="sortable">

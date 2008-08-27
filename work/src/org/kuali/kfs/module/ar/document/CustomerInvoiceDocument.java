@@ -1,6 +1,7 @@
 package org.kuali.kfs.module.ar.document;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -40,6 +41,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -215,8 +217,16 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 		return billingDate;
 	}
 
+	/**
+	 * This method returns the age of an invoice (i.e. current date - billing date)
+	 * @return
+	 */
 	public Integer getAge() {
-        return age;
+        if(ObjectUtils.isNotNull(billingDate)){ 
+            return (int)DateUtils.getDifferenceInDays(new Timestamp(billingDate.getTime()), SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+        }
+        //TODO should I be throwing an exception or throwing a null?
+        return null;
     }
 
     public void setAge(Integer age) {

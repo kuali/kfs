@@ -8,9 +8,6 @@
 
   <bean id="CustomerInvoiceWriteoffLookupResult-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult" />
-    <property name="inquiryDefinition" >
-      <ref bean="CustomerInvoiceWriteoffLookupResult-inquiryDefinition" />
-    </property>
     <property name="lookupDefinition" >
       <ref bean="CustomerInvoiceWriteoffLookupResult-lookupDefinition" />
     </property>
@@ -21,6 +18,7 @@
         <ref bean="CustomerInvoiceWriteoffLookupResult-customerTypeCode" />
         <ref bean="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber" />
         <ref bean="CustomerInvoiceWriteoffLookupResult-customerTotal" />
+        <ref bean="CustomerInvoiceWriteoffLookupResult-collectionStatus" />
       </list>
     </property>
   </bean>
@@ -38,68 +36,38 @@
   
   <bean id="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber" parent="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber-parentBean" />
 
-  <bean id="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber-parentBean" abstract="true" parent="CustomerInvoiceDocument-documentNumber">
     <property name="name" value="customerInvoiceNumber" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Invoice Number" />
     <property name="shortLabel" value="Invoice Number" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Invoice Number" />
   </bean>
   
   <bean id="CustomerInvoiceWriteoffLookupResult-customerTotal" parent="CustomerInvoiceWriteoffLookupResult-customerTotal-parentBean" />
   
-  <bean id="CustomerInvoiceWriteoffLookupResult-customerTotal-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerInvoiceWriteoffLookupResult-customerTotal-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="customerTotal" />
     <property name="label" value="Customer Total" />
     <property name="shortLabel" value="Customer Total" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Customer Total" />
   </bean>  
+  
+  <bean id="CustomerInvoiceWriteoffLookupResult-collectionStatus" parent="CustomerInvoiceWriteoffLookupResult-collectionStatus-parentBean" />
 
-<!-- Business Object Inquiry Definition -->
-
-
-  <bean id="CustomerInvoiceWriteoffLookupResult-inquiryDefinition" parent="CustomerInvoiceWriteoffLookupResult-inquiryDefinition-parentBean" />
-
-  <bean id="CustomerInvoiceWriteoffLookupResult-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Customer Invoice Writeoff Lookup Result" />
-    <property name="inquirySections" >
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
-            <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerInvoiceNumber" />
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+  <bean id="CustomerInvoiceWriteoffLookupResult-collectionStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="collectionStatus" />
+    <property name="label" value="Collection Status" />
+    <property name="shortLabel" value="Collection Status" />
+    <property name="maxLength" value="25" />
+    <property name="description" value="Status of Customer" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>    
+  </bean>    
 
 <!-- Business Object Lookup Definition -->
-
 
   <bean id="CustomerInvoiceWriteoffLookupResult-lookupDefinition" parent="CustomerInvoiceWriteoffLookupResult-lookupDefinition-parentBean" />
 
@@ -140,7 +108,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="customerName" />
         <bean parent="FieldDefinition"
-              p:attributeName="customerTypeCode" />
+              p:attributeName="collectionStatus" />
 		<bean parent="FieldDefinition"
               p:attributeName="customerTotal" />   
       </list>

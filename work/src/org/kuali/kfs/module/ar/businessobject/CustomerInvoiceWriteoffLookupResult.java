@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -27,10 +29,18 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     private String customerName;
     private String customerNumber;
     private String customerTypeCode;
+    private String collectionStatus;
     private String customerInvoiceNumber;
     private KualiDecimal customerTotal;
-    private List<CustomerInvoiceDocument> customerInvoiceDocuments;
+    private List<CustomerInvoiceDocument> customerInvoiceDocuments;    
     
+    public String getCollectionStatus() {
+        return collectionStatus;
+    }
+    public void setCollectionStatus(String collectionStatus) {
+        this.collectionStatus = collectionStatus;
+    }
+
     public KualiDecimal getCustomerTotal() {
         return customerTotal;
     }
@@ -72,6 +82,18 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     public void setCustomerInvoiceNumber(String customerInvoiceNumber) {
         this.customerInvoiceNumber = customerInvoiceNumber;
     }
+    
+    public List<String> getCustomerInvoiceDocumentAttributesForDisplay(){
+        List<String> customerInvoiceDocumentAttributesForDisplay = new ArrayList<String>();
+        customerInvoiceDocumentAttributesForDisplay.add(ArConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER);
+        customerInvoiceDocumentAttributesForDisplay.add(ArConstants.CustomerInvoiceDocumentFields.AGE);
+        customerInvoiceDocumentAttributesForDisplay.add(ArConstants.CustomerInvoiceDocumentFields.BILLING_DATE);
+        customerInvoiceDocumentAttributesForDisplay.add(ArConstants.CustomerInvoiceDocumentFields.SOURCE_TOTAL);
+        customerInvoiceDocumentAttributesForDisplay.add(ArConstants.CustomerInvoiceDocumentFields.OPEN_AMOUNT);
+        
+        return customerInvoiceDocumentAttributesForDisplay;
+    }
+    
     @Override
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub

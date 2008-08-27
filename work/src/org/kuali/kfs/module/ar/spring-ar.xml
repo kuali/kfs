@@ -442,6 +442,9 @@
 
 
 	<bean id="arCustomerAgingReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerAgingReportLookupableHelperServiceImpl" singleton="false">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>

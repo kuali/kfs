@@ -40,7 +40,7 @@ public class CustomerAddressDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
     public Integer getMaxSquenceNumber(String customerNumber) {
         Criteria criteria = new Criteria();
 
-        criteria.addEqualTo(ArConstants.CustomerFields.CUSTOMER_ADDRESS_NUMBER, customerNumber);
+        criteria.addEqualTo(ArConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
         ReportQueryByCriteria query = QueryFactory.newReportQuery(CustomerAddress.class, criteria);
         query.setAttributes(new String[] { "max(" + ArConstants.CustomerFields.CUSTOMER_ADDRESS_IDENTIFIER + ")" });
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);

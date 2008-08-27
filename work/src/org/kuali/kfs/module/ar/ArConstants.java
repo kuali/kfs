@@ -166,6 +166,7 @@ public class ArConstants {
     }
 
     public static class CustomerInvoiceDocumentFields {
+        public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String PAYMENT_CHART_OF_ACCOUNTS_CODE = "paymentChartOfAccountsCode";
         public static final String PAYMENT_FINANCIAL_OBJECT_CODE = "paymentFinancialObjectCode";
         public static final String PAYMENT_FINANCIAL_SUB_OBJECT_CODE = "paymentFinancialSubObjectCode";
@@ -183,7 +184,6 @@ public class ArConstants {
         public static final String CUSTOMER_INVOICE_DETAILS = "accountingLines";
         public static final String INVOICE_ITEM_CODE = "invoiceItemCode";
         public static final String UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
-
 
         public static final String CUSTOMER = "customer";
         public static final String CUSTOMER_NUMBER = "accountsReceivableDocumentHeader.customerNumber";
@@ -270,7 +270,7 @@ public class ArConstants {
         public static final String CUSTOMER_TAB_ADDRESSES = "customerAddresses";
         public static final String CUSTOMER_ADDRESS_TYPE_CODE = "customerAddressTypeCode";
         public static final String CUSTOMER_ADDRESS_IDENTIFIER = "customerAddressIdentifier";
-        public static final String CUSTOMER_ADDRESS_NUMBER = "customerNumber";
+        public static final String CUSTOMER_NUMBER = "customerNumber";
         public static final String CUSTOMER_ADDRESS_STATE_CODE = "customerStateCode";
         public static final String CUSTOMER_ADDRESS_ZIP_CODE = "customerZipCode";
         public static final String CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME = "customerAddressInternationalProvinceName";

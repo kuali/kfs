@@ -50,7 +50,7 @@ public class RequisitionForm extends PurchasingFormBase {
         setDocument(requisitionDocument);
     }
     
-    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
             getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));

@@ -614,7 +614,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
     }
 
     @Override
-    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         if (this.getBudgetDocument().getBudget().isProjectDirectorToBeNamedIndicator()) {
             getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", TO_BE_NAMED_LABEL));

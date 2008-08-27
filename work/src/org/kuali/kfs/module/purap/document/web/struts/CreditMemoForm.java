@@ -54,7 +54,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
     }
 
     @Override
-    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         if (ObjectUtils.isNotNull(((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier())) {
             getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", ((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier().toString()));

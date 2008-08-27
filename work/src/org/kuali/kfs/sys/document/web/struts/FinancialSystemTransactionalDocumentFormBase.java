@@ -43,7 +43,7 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
      */
     @Override
-    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         if (getDocument().getDocumentHeader() instanceof FinancialSystemDocumentHeader) {
             FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader)getDocument().getDocumentHeader();

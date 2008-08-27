@@ -795,6 +795,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         super.copy(mapping, form, request, response);
 
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
+        
 
         // KULEDOCS-1440: need to reset base accounting lines since when doc number changes on copy base lines would still reference
         // old doc number causing revert button to show up

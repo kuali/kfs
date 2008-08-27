@@ -173,7 +173,7 @@
                       Payment Status:
                     </th>
                     <td align=left class="datacell">            
-                      <c:out value="${PaymentDetail.paymentGroup.paymentStatus.description}"/>
+                      <c:out value="${PaymentDetail.paymentGroup.paymentStatus.name}"/>
                       &nbsp;
                     </td>  
                     <th align=right valign=top nowrap>
@@ -487,7 +487,7 @@
             </td>
             <td>&nbsp;</td>
           </tr>
-            </td>
+            <td>na</td>
             <td>&nbsp;</td>
           </tr>
         </tbody>

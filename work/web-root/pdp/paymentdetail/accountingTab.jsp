@@ -64,7 +64,7 @@
                               <tbody>
                                 <c:forEach items="${item.accountHistory}" var="subItem" >
                                   <tr>
-                                    <td class="datacell"><c:out value="${subItem.accountingChange.description}"/>&nbsp;</td>
+                                    <td class="datacell"><c:out value="${subItem.accountingChange.name}"/>&nbsp;</td>
                                     <td class="datacell"><c:out value="${subItem.acctAttributeName}"/>&nbsp;</td>
                                     <td class="datacell"><c:out value="${subItem.acctAttributeOrigValue}"/>&nbsp;</td>
                                     <td class="datacell"><c:out value="${subItem.acctAttributeNewValue}"/>&nbsp;</td>

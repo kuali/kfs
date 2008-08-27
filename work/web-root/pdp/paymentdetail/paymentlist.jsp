@@ -206,7 +206,7 @@
 				            	Payment Status:
 				            </th>
 				            <td colspan="3" align=left class="datacell">						
-											<c:out value="${PaymentDetail.paymentGroup.paymentStatus.description}"/>
+											<c:out value="${PaymentDetail.paymentGroup.paymentStatus.name}"/>
 				            	&nbsp;
 										</td>	
 				          </tr>

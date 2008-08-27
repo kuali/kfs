@@ -278,10 +278,10 @@
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentChange" table="PDP_PMT_CHG_CD_T">
     <field-descriptor name="code" column="PMT_CHG_CD" jdbc-type="VARCHAR" primarykey="true"/>
-    <field-descriptor name="description" column="PMT_CHG_CD_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="name" column="PMT_CHG_CD_DESC" jdbc-type="VARCHAR"/>
+    <!--field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
+    <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/-->
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentGroup" table="PDP_PMT_GRP_T">

@@ -42,7 +42,7 @@
   <tr>
     <td>AccountingChange</td>
     <td><c:out value="${item.code}"/></td>
-    <td><c:out value="${item.description}"/></td>
+    <td><c:out value="${item.name}"/></td>
     <td><fmt:formatDate value="${item.lastUpdate}" dateStyle="full" /></td>
     <td><c:out value="${item.lastUpdateUser.fullName}"/></td>
   </tr>
@@ -51,7 +51,7 @@
   <tr>
     <td>DisbursementType</td>
     <td><c:out value="${item.code}"/></td>
-    <td><c:out value="${item.description}"/></td>
+    <td><c:out value="${item.name}"/></td>
     <td><fmt:formatDate value="${item.lastUpdate}" dateStyle="full" /></td>
     <td><c:out value="${item.lastUpdateUser.fullName}"/></td>
   </tr>
@@ -60,7 +60,7 @@
   <tr>
     <td>PaymentChange</td>
     <td><c:out value="${item.code}"/></td>
-    <td><c:out value="${item.description}"/></td>
+    <td><c:out value="${item.name}"/></td>
     <td><fmt:formatDate value="${item.lastUpdate}" dateStyle="full" /></td>
     <td><c:out value="${item.lastUpdateUser.fullName}"/></td>
   </tr>
@@ -69,7 +69,7 @@
   <tr>
     <td>PaymentStatus</td>
     <td><c:out value="${item.code}"/></td>
-    <td><c:out value="${item.description}"/></td>
+    <td><c:out value="${item.name}"/></td>
     <td><fmt:formatDate value="${item.lastUpdate}" dateStyle="full" /></td>
     <td><c:out value="${item.lastUpdateUser.fullName}"/></td>
   </tr>
@@ -87,7 +87,7 @@
   <tr>
     <td>TransactionType</td>
     <td><c:out value="${item.code}"/></td>
-    <td><c:out value="${item.description}"/></td>
+    <td><c:out value="${item.name}"/></td>
     <td><fmt:formatDate value="${item.lastUpdate}" dateStyle="full" /></td>
     <td><c:out value="${item.lastUpdateUser.fullName}"/></td>
   </tr>

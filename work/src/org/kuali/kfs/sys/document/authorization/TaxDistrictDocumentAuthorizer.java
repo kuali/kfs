@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.document.authorization;
 import java.util.Date;
 
 import org.kuali.kfs.sys.businessobject.TaxDistrict;
-import org.kuali.kfs.sys.businessobject.TaxDistrictRate;
+import org.kuali.kfs.sys.businessobject.TaxRegionRate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -46,8 +46,8 @@ public class TaxDistrictDocumentAuthorizer extends MaintenanceDocumentAuthorizer
             Date currentDate = dateTimeService.getCurrentDate();
             int index = 0;
             int comparison = 0;
-            for(TaxDistrictRate taxDistrictRate: taxDistrict.getTaxDistrictRates()){
-                comparison = taxDistrictRate.getEffectiveDate().compareTo(currentDate);
+            for(TaxRegionRate taxRegionRate: taxDistrict.getTaxRegionRates()){
+                comparison = taxRegionRate.getEffectiveDate().compareTo(currentDate);
                 if(comparison==0 || comparison<0)
                     auths.addReadonlyAuthField("taxDistrictRates[" + index + "].taxRate");
                 index++;

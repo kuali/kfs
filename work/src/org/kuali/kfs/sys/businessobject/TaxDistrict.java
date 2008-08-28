@@ -37,14 +37,14 @@ public class TaxDistrict extends PersistableBusinessObjectBase {
     private Account account;
     private ObjectCodeCurrent objectCode;
     
-    private List<TaxDistrictRate> taxDistrictRates = new TypedArrayList(TaxDistrictRate.class);
+    private List<TaxRegionRate> taxRegionRates = new TypedArrayList(TaxRegionRate.class);
     
-    public List<TaxDistrictRate> getTaxDistrictRates() {
-        return taxDistrictRates;
+    public List<TaxRegionRate> getTaxRegionRates() {
+        return taxRegionRates;
     }
 
-    public void setTaxDistrictRates(List<TaxDistrictRate> taxDistrictRates) {
-        this.taxDistrictRates = taxDistrictRates;
+    public void setTaxRegionRates(List<TaxRegionRate> taxRegionRates) {
+        this.taxRegionRates = taxRegionRates;
     }
 
     public String getAccountNumber() {

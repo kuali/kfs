@@ -95,8 +95,8 @@
       <list>
         <bean parent="MaintainableCollectionDefinition"
         	p:id="TaxDistrictRatesSection"
-        	p:name="taxDistrictRates"
-        	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxDistrictRate"
+        	p:name="taxRegionRates"
+        	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionRate"
 
         	p:includeMultipleLookupLine="false"
         	p:summaryTitle="Effective Date/Rate">

@@ -669,17 +669,17 @@
 	        <foreignkey field-ref="financialObjectCode" />
 	    </reference-descriptor>
 
-        <collection-descriptor name="taxDistrictRates"
-            element-class-ref="org.kuali.kfs.sys.businessobject.TaxDistrictRate"
+        <collection-descriptor name="taxRegionRates"
+            element-class-ref="org.kuali.kfs.sys.businessobject.TaxRegionRate"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
             auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
             <orderby name="effectiveDate" sort="ASC" />
-            <inverse-foreignkey field-ref="taxDistrictCode" />
+            <inverse-foreignkey field-ref="taxRegionCode" />
         </collection-descriptor>
 	</class-descriptor>
 
-    <class-descriptor class="org.kuali.kfs.sys.businessobject.TaxDistrictRate" table="FS_TAX_DISTRICT_RATE_T">
-	    <field-descriptor name="taxDistrictCode" column="TAX_DISTRICT_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegionRate" table="FS_TAX_REGION_RATE_T">
+	    <field-descriptor name="taxRegionCode" column="TAX_REGION_CD" jdbc-type="VARCHAR" primarykey="true" />
 	    <field-descriptor name="effectiveDate" column="TAX_RATE_EFFECTIVE_DT" jdbc-type="DATE" />
 	    <field-descriptor name="taxRate" column="TAX_RATE" jdbc-type="DECIMAL" />
 	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />

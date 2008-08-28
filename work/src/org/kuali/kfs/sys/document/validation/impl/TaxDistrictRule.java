@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.document.validation.impl;
 import java.util.Date;
 
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.TaxDistrictRate;
+import org.kuali.kfs.sys.businessobject.TaxRegionRate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -39,15 +39,15 @@ public class TaxDistrictRule extends KfsMaintenanceDocumentRuleBase {
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(
             MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
-        TaxDistrictRate taxDistrictRate = (TaxDistrictRate)bo;
+        TaxRegionRate taxRegionRate = (TaxRegionRate)bo;
         boolean success = true;
-        if(taxDistrictRate!=null)
+        if(taxRegionRate!=null)
         {
-            if(taxDistrictRate.getEffectiveDate()!=null)
+            if(taxRegionRate.getEffectiveDate()!=null)
             {
                 DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
                 Date currentDate = dateTimeService.getCurrentDate();
-                int comparison = taxDistrictRate.getEffectiveDate().compareTo(currentDate);
+                int comparison = taxRegionRate.getEffectiveDate().compareTo(currentDate);
                 if(comparison==0 || comparison<0)
                 {
                     GlobalVariables.getErrorMap().putError("effectiveDate", 
@@ -55,9 +55,9 @@ public class TaxDistrictRule extends KfsMaintenanceDocumentRuleBase {
                     success = false;
                 }
             }    
-            if(taxDistrictRate.getTaxRate()!=null)
+            if(taxRegionRate.getTaxRate()!=null)
             {
-                if(taxDistrictRate.getTaxRate().intValue()>1 || taxDistrictRate.getTaxRate().intValue()<0)
+                if(taxRegionRate.getTaxRate().intValue()>1 || taxRegionRate.getTaxRate().intValue()<0)
                 {
                     GlobalVariables.getErrorMap().putError("taxRate", 
                             KFSKeyConstants.ERROR_DOCUMENT_TAX_DISTRICT_TAX_RATE_BETWEEN0AND1);

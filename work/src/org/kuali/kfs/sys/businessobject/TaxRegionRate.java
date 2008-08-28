@@ -24,9 +24,9 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * Tax District Rate business object.
  */
-public class TaxDistrictRate extends PersistableBusinessObjectBase {
+public class TaxRegionRate extends PersistableBusinessObjectBase {
 
-    private String taxDistrictCode;
+    private String taxRegionCode;
     private Date effectiveDate;
     private BigDecimal taxRate;
 
@@ -38,12 +38,12 @@ public class TaxDistrictRate extends PersistableBusinessObjectBase {
         this.effectiveDate = effectiveDate;
     }
 
-    public String getTaxDistrictCode() {
-        return taxDistrictCode;
+    public String getTaxRegionCode() {
+        return taxRegionCode;
     }
 
-    public void setTaxDistrictCode(String taxDistrictCode) {
-        this.taxDistrictCode = taxDistrictCode;
+    public void setTaxRegionCode(String taxDistrictCode) {
+        this.taxRegionCode = taxDistrictCode;
     }
 
     public BigDecimal getTaxRate() {

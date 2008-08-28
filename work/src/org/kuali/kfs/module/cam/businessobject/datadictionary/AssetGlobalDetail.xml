@@ -214,7 +214,7 @@
   <bean id="AssetGlobalDetail-offCampusAddress" parent="AssetGlobalDetail-offCampusAddress-parentBean" />
   <bean id="AssetGlobalDetail-offCampusAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="offCampusAddress" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Off Campus Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="30" />
@@ -233,7 +233,7 @@
   <bean id="AssetGlobalDetail-offCampusCityName" parent="AssetGlobalDetail-offCampusCityName-parentBean" />
   <bean id="AssetGlobalDetail-offCampusCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="offCampusCityName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Off Campus City Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />
@@ -270,7 +270,7 @@
   <bean id="AssetGlobalDetail-offCampusName" parent="AssetGlobalDetail-offCampusName-parentBean" />
   <bean id="AssetGlobalDetail-offCampusName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="offCampusName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Off Campus Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="30" />
@@ -308,7 +308,7 @@
   <bean id="AssetGlobalDetail-organizationAssetTypeIdentifier" parent="AssetGlobalDetail-organizationAssetTypeIdentifier-parentBean" />
   <bean id="AssetGlobalDetail-organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationAssetTypeIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Asset Type Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="20" />
@@ -326,7 +326,7 @@
   <bean id="AssetGlobalDetail-organizationInventoryName" parent="AssetGlobalDetail-organizationInventoryName-parentBean" />
   <bean id="AssetGlobalDetail-organizationInventoryName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationInventoryName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Inventory Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -387,7 +387,7 @@
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier" parent="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" />
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="representativeUniversalIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Asset Representative" />
     <property name="shortLabel" value="representative" />
     <property name="maxLength" value="10" />

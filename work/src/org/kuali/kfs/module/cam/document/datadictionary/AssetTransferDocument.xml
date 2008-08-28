@@ -236,7 +236,7 @@
 
   <bean id="AssetTransferDocument-organizationInventoryName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationInventoryName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Inventory Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -312,7 +312,7 @@
 
   <bean id="AssetTransferDocument-organizationText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationText" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Text" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="255" />

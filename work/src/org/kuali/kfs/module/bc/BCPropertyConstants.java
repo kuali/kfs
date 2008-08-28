@@ -73,4 +73,18 @@ public class BCPropertyConstants {
     public static final String NEW_BCAF_LINE = "newBCAFLine";
     public static final String SALARY_SETTING_EXPANSION = "salarySettingExpansion";
     public static final String ADJUSTMENT_MEASUREMENT = "adjustmentMeasurement";
+    
+    public static final String FINANCIAL_DOCUMENT_MONTH1_LINE_AMOUNT = "financialDocumentMonth1LineAmount";
+    public static final String FINANCIAL_DOCUMENT_MONTH2_LINE_AMOUNT = "financialDocumentMonth2LineAmount";
+    public static final String FINANCIAL_DOCUMENT_MONTH3_LINE_AMOUNT = "financialDocumentMonth3LineAmount";
+    public static final String FINANCIAL_DOCUMENT_MONTH4_LINE_AMOUNT = "financialDocumentMonth4LineAmount";
+    public static final String FINANCIAL_DOCUMENT_MONTH5_LINE_AMOUNT = "financialDocumentMonth5LineAmount";
+    public static final String FINANCIAL_DOCUMENT_MONTH6_LINE_AMOUNT = "financialDocumentMonth6LineAmount";
+    public static final String FINANCIAL_DOCUMENT_MONTH7_LINE_AMOUNT = "financialDocumentMonth7LineAmount";
+    public static final String FINANCIAL_DOCUMENT_MONTH8_LINE_AMOUNT = "financialDocumentMonth8LineAmount";
+    public static final String FINANCIAL_DOCUMENT_MONTH9_LINE_AMOUNT = "financialDocumentMonth9LineAmount";
+    public static final String FINANCIAL_DOCUMENT_MONTH10_LINE_AMOUNT = "financialDocumentMont101LineAmount";
+    public static final String FINANCIAL_DOCUMENT_MONTH11_LINE_AMOUNT = "financialDocumentMonth11LineAmount";
+    public static final String FINANCIAL_DOCUMENT_MONTH12_LINE_AMOUNT = "financialDocumentMonth12LineAmount";
+
 }

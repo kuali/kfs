@@ -38,7 +38,7 @@ public class BCConstants extends JSTLConstants {
     public static final String BUDGET_CONSTRUCTION_SALARY_SETTING_TAB_ERRORS = "document.budgetConstructionSalarySetting*";
     public static final String BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS = "document.pendingBudgetConstructionGeneralLedgerRevenueLines*,newRevenueLine*";
     public static final String BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS = "document.pendingBudgetConstructionGeneralLedgerExpenditureLines*,newExpenditureLine*";
-    public static final String BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS = "document.budgetConstructionMonthlyBudget*";
+    public static final String BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS = "budgetConstructionMonthly*";
     public static final String BUDGET_CONSTRUCTION_REPORTDUMP_TAB_ERRORS = "document.budgetConstructionDocumentReportModes*";
     public static final String BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS = "accountOrgHierLevels*";
 

@@ -66,12 +66,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentFederalContribution(org.kuali.kfs.module.cam.businessobject.AssetPayment)
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentFederalOwned(org.kuali.kfs.module.cam.businessobject.AssetPayment)
      */
-    public boolean isPaymentFederalContribution(AssetPayment assetPayment) {
+    public boolean isPaymentFederalOwned(AssetPayment assetPayment) {
         assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
         if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
-            return this.getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).contains(assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+            return this.getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_OWNED_OBJECT_SUB_TYPES).contains(assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
         }
         return false;
     }
@@ -285,7 +285,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         // Financial object code is currently active
         isEligible &= isPaymentFinancialObjectActive(assetPayment);
         // Payment is not federally funded
-        isEligible &= !isPaymentFederalContribution(assetPayment);
+        isEligible &= !isPaymentFederalOwned(assetPayment);
         return isEligible;
     }
 

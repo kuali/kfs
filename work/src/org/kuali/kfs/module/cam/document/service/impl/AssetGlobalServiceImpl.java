@@ -126,7 +126,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
         
         for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
-            if (isPaymentEligibleForGLPosting(assetPaymentDetail)) {
+            if (isPaymentFinancialObjectActive(assetPaymentDetail)) {
                 KualiDecimal accountChargeAmount = assetPaymentDetail.getAmount();
                 if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
                     assetGlobalGlPoster.getGeneralLedgerPendingEntrySourceDetails().add(createAssetGlpePostable(assetGlobal, assetPaymentDetail, AmountCategory.PAYMENT));
@@ -264,7 +264,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         int numberOfAssets = assetGlobal.getAssetGlobalDetails().size();
 
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
-            if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).split(";")).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
+            if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(Asset.class, CamsConstants.Parameters.FEDERAL_OWNED_OBJECT_SUB_TYPES).split(";")).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
                 totalNonFederal = totalNonFederal.add(assetPaymentDetail.getAmount());
             }
         }
@@ -282,15 +282,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         return ObjectUtils.isNotNull(objectCode) && StringUtils.isNotBlank(objectCode.getFinancialObjectSubTypeCode()) && Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES).split(";")).contains(objectCode.getFinancialObjectSubTypeCode());
     }
 
-    private boolean isPaymentEligibleForGLPosting(AssetPaymentDetail assetPaymentDetail) {
-        boolean isEligible = true;
-        // Financial object code is currently active
-        isEligible &= isPaymentFinancialObjectActive(assetPaymentDetail);
-        // Payment is not federally funded
-        isEligible &= !isPaymentFederalContribution(assetPaymentDetail);
-        return isEligible;
-    }
-
     private boolean isPaymentFinancialObjectActive(AssetPaymentDetail assetPayment) {
         ObjectCode financialObjectCode = new ObjectCode();
         financialObjectCode.setUniversityFiscalYear(getUniversityDateService().getCurrentFiscalYear());
@@ -299,14 +290,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         financialObjectCode = (ObjectCode) getBusinessObjectService().retrieve(financialObjectCode);
         if (ObjectUtils.isNotNull(financialObjectCode)) {
             return financialObjectCode.isActive();
-        }
-        return false;
-    }
-
-    private boolean isPaymentFederalContribution(AssetPaymentDetail assetPaymentDetail) {
-        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
-        if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode())) {
-            return this.getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
         }
         return false;
     }
@@ -327,32 +310,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      */
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;
-    }
-
-    /**
-     * Checks if it is ready for GL Posting by validating the accounts and plant account numbers
-     * 
-     * @return true if all accounts are valid
-     */
-    protected boolean isGLPostable(AssetGlobal assetGlobal, boolean movableAsset) {
-        boolean isGLPostable = true;
-
-        Account plantAcct = null;
-
-        if (ObjectUtils.isNotNull(assetGlobal.getOrganizationOwnerAccount())) {
-            if (movableAsset) {
-                plantAcct = assetGlobal.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
-            }
-            else {
-                plantAcct = assetGlobal.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
-            }
-        }
-
-        if (ObjectUtils.isNull(plantAcct)) {
-            isGLPostable &= false;
-        }
-
-        return isGLPostable;
     }
 
     /**

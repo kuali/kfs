@@ -39,7 +39,7 @@ public interface AssetPaymentService {
      * @param assetPayment Payment record
      * @return True if financial object sub type code indicates federal contribution
      */
-    boolean isPaymentFederalContribution(AssetPayment assetPayment);
+    boolean isPaymentFederalOwned(AssetPayment assetPayment);
 
     /**
      * Checks active status of financial object of the payment

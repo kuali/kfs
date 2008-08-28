@@ -142,7 +142,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     
                     // Depreciation Base Amount will be assigned to each payment only when the object code's sub type code is not a
                     // federally owned one
-                    if (!this.isFederallyOwnedObjectSubType(objectCode.getFinancialObjectSubTypeCode())) {
+                    if (!this.isNonDepreciableFederallyOwnedObjSubType(objectCode.getFinancialObjectSubTypeCode())) {
                         baseAmount = baseAmount.add(amount);
                     }
                     assetPayment.setPrimaryDepreciationBaseAmount(baseAmount);
@@ -172,20 +172,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         }
         // Finally, saving all the asset payment records.
         this.getBusinessObjectService().save(assetPayments);
-    }
-
-    /**
-     * This method checks that a given object sub type exists in a list of federally owned object sub types
-     * 
-     * @param objectSubType
-     * @return boolean
-     */
-    private boolean isFederallyOwnedObjectSubType(String objectSubType) {
-        List<String> federallyOwnedObjectSubTypes = new ArrayList<String>();
-        if (this.getParameterService().parameterExists(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES)) {
-            federallyOwnedObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES);
-        }
-        return federallyOwnedObjectSubTypes.contains(objectSubType);
     }
 
     /**
@@ -297,7 +283,11 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      * @return true if is NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES
      */
     public boolean isNonDepreciableFederallyOwnedObjSubType(String objectSubType) {
-        return isFederallyOwnedObjectSubType(objectSubType);
+        List<String> federallyOwnedObjectSubTypes = new ArrayList<String>();
+        if (this.getParameterService().parameterExists(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES)) {
+            federallyOwnedObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES);
+        }
+        return federallyOwnedObjectSubTypes.contains(objectSubType);
     }
-
+    
 }

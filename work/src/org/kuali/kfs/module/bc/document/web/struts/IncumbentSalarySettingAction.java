@@ -40,6 +40,7 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IncumbentSalarySettingAction.class);
 
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    private BudgetConstructionIntendedIncumbentService budgetConstructionIntendedIncumbentService = SpringContext.getBean(BudgetConstructionIntendedIncumbentService.class);
 
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#loadExpansionScreen(org.apache.struts.action.ActionMapping,
@@ -48,6 +49,11 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
     @Override
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
+
+        // update incumbent record if required
+        if (incumbentSalarySettingForm.isRefreshIncumbentBeforeSalarySetting()) {
+            budgetConstructionIntendedIncumbentService.refreshIncumbentFromExternal(incumbentSalarySettingForm.getEmplid());
+        }
 
         // use the passed url parms to get the record from DB
         Map<String, Object> fieldValues = incumbentSalarySettingForm.getKeyMapOfSalarySettingItem();
@@ -60,21 +66,16 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
             return this.returnToCaller(mapping, form, request, response);
         }
 
-        if (incumbentSalarySettingForm.isRefreshIncumbentBeforeSalarySetting()) {
-            SpringContext.getBean(BudgetConstructionIntendedIncumbentService.class).refreshIncumbentFromExternal(incumbentSalarySettingForm.getEmplid());
-            budgetConstructionIntendedIncumbent.refresh();
-        }
-
         incumbentSalarySettingForm.setBudgetConstructionIntendedIncumbent(budgetConstructionIntendedIncumbent);
         if (incumbentSalarySettingForm.isSingleAccountMode()) {
             incumbentSalarySettingForm.pickAppointmentFundingsForSingleAccount();
         }
-        
-        //acquire position and funding locks for the associated funding lines
-        if(!incumbentSalarySettingForm.isViewOnlyEntry()) {
+
+        // acquire position and funding locks for the associated funding lines
+        if (!incumbentSalarySettingForm.isViewOnlyEntry()) {
             incumbentSalarySettingForm.postProcessBCAFLines();
             incumbentSalarySettingForm.setNewBCAFLine(incumbentSalarySettingForm.createNewAppointmentFundingLine());
-            
+
             boolean gotLocks = incumbentSalarySettingForm.acquirePositionAndFundingLocks();
             if (!gotLocks) {
                 return this.returnToCaller(mapping, form, request, response);

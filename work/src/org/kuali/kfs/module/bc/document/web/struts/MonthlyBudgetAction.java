@@ -26,12 +26,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.validation.event.SaveMonthlyBudgetEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
@@ -45,6 +47,7 @@ import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -159,9 +162,10 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
         BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
 
-        // TODO validate monthly changes
-        boolean rulePassed = true;
-
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
+        BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new SaveMonthlyBudgetEvent(BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY, bcDoc, budgetConstructionMonthly));
+        
         if (rulePassed){
             SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);
             GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
@@ -190,9 +194,10 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
                 Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
                 if ((KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
 
-                    // yes button clicked - save the row
-                    // TODO need to add validation check
-                    boolean rulePassed = true;
+                    // yes button clicked - validate and save the row
+                    BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
+                    BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
+                    boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new SaveMonthlyBudgetEvent(BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY, bcDoc, budgetConstructionMonthly));
 
                     if (rulePassed){
                         SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);

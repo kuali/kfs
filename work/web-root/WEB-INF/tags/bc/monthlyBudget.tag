@@ -22,7 +22,7 @@
 <c:set var="pbglAttributes" value="${DataDictionary['PendingBudgetConstructionGeneralLedger'].attributes}" />
 <c:set var="pbgl" value="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger}" />
 
-<kul:tabTop tabTitle="Monthly Budget Construction" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS}">
+<kul:tabTop tabTitle="Monthly Budget Construction" defaultOpen="true" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS}">
 <div class="tab-container" align=center>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
 

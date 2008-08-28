@@ -1047,13 +1047,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 }
 
                 if (diffFound) {
-                    // TODO: remove next two lines once the calls to addOrUpdatePBGLRow are used
-                    // BudgetConstructionDocument freshBCDoc = (BudgetConstructionDocument)
-                    // SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(currentBCDoc.getDocumentNumber());
-                    // budgetConstructionForm.getBudgetConstructionDocument().setPendingBudgetConstructionGeneralLedgerExpenditureLines(freshBCDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines());
-//TODO: is the next two lines needed? since the updates all populate and reset persisted amounts - verify this 
-                    budgetConstructionForm.populatePBGLLines();
-                    budgetConstructionForm.initializePersistedRequestAmounts();
                     this.adjustForSalarySettingChanges(budgetConstructionForm);
 
                 }

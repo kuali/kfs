@@ -24,8 +24,8 @@ import net.sf.jasperreports.engine.JRParameter;
 import org.kuali.kfs.module.ar.report.service.CustomerCreditMemoReportService;
 import org.kuali.kfs.module.ar.report.util.CustomerCreditMemoReportDataHolder;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
-import org.kuali.kfs.sys.batch.service.ReportGenerationService;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.batch.service;
+package org.kuali.kfs.sys.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.AccountFixture;
 import org.kuali.kfs.sys.fixture.SubAccountFixture;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.kfs.sys.service.ReportGenerationService;
 
 @ConfigureContext
 public class ReportGenerationServiceTest extends KualiTestBase {

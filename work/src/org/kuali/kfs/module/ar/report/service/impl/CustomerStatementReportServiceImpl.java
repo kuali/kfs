@@ -25,8 +25,8 @@ import net.sf.jasperreports.engine.JRParameter;
 import org.kuali.kfs.module.ar.report.service.CustomerStatementReportService;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementReportDataHolder;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
-import org.kuali.kfs.sys.batch.service.ReportGenerationService;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

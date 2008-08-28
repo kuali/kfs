@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.batch.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
-import org.kuali.kfs.sys.batch.service.ReportGenerationService;
+import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.ui.jasperreports.JasperReportsUtils;
 

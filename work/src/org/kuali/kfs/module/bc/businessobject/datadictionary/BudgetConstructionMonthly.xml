@@ -109,7 +109,8 @@
     <property name="shortLabel" value="Month 10" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -128,7 +129,8 @@
     <property name="shortLabel" value="Month 11" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -147,7 +149,8 @@
     <property name="shortLabel" value="Month 12" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -166,7 +169,8 @@
     <property name="shortLabel" value="Month 1" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -185,7 +189,8 @@
     <property name="shortLabel" value="Month 2" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -204,7 +209,8 @@
     <property name="shortLabel" value="Month 3" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -223,7 +229,8 @@
     <property name="shortLabel" value="Month 4" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -242,7 +249,8 @@
     <property name="shortLabel" value="Month 5" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -261,7 +269,8 @@
     <property name="shortLabel" value="Month 6" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -280,7 +289,8 @@
     <property name="shortLabel" value="Month 7" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -299,7 +309,8 @@
     <property name="shortLabel" value="Month 8" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -318,7 +329,8 @@
     <property name="shortLabel" value="Month 9" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >

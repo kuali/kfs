@@ -46,7 +46,7 @@
                     	onchange="submitForm()"
                     	readOnly="true"/>&nbsp;
                      <!-- TODO: figure out how to add fullEntryMode to this (initial try wasn't working) -->
-                    <c:if test="${(notOtherDeliveryBuilding && fullEntryMode) && not(deliveryReadOnly)}">
+                    <c:if test="${(notOtherDeliveryBuilding && (fullEntryMode or amendmentEntry)) && not(deliveryReadOnly)}">
                     	<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
                     		lookupParameters="document.deliveryCampusCode:campusCode"
                     		fieldConversions="buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode"/>

@@ -7,6 +7,7 @@
   <bean id="PurchaseOrderQuoteListVendor" parent="PurchaseOrderQuoteListVendor-parentBean" />
 
   <bean id="PurchaseOrderQuoteListVendor-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="objectLabel" value="Purchase Order Quote List Vendor" />
     <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor" />
     <property name="inquiryDefinition" >
       <ref bean="PurchaseOrderQuoteListVendor-inquiryDefinition" />

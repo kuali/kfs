@@ -7,8 +7,8 @@
   <bean id="AccountsPayableSummaryAccountItem" parent="AccountsPayableSummaryAccountItem-parentBean" />
 
   <bean id="AccountsPayableSummaryAccountItem-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccountItem" />
-    
+  	<property name="objectLabel" value="Accounts Payable Summary Account Item" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccountItem" />   
     <property name="attributes" >
       <list>
         <ref bean="AccountsPayableSummaryAccountItem-accountIdentifier" />

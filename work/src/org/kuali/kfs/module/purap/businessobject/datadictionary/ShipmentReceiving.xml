@@ -7,6 +7,7 @@
   <bean id="ShipmentReceiving" parent="ShipmentReceiving-parentBean" />
 
   <bean id="ShipmentReceiving-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="objectLabel" value="Shipment Receiving" />
     <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ShipmentReceiving" />
     <property name="inquiryDefinition" >
       <ref bean="ShipmentReceiving-inquiryDefinition" />

@@ -7,6 +7,7 @@
   <bean id="ElectronicInvoiceRejectReason" parent="ElectronicInvoiceRejectReason-parentBean" />
 
   <bean id="ElectronicInvoiceRejectReason-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="objectLabel" value="Electronic Invoice Reject Reason" />
     <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason" />
     <property name="inquiryDefinition" >
       <ref bean="ElectronicInvoiceRejectReason-inquiryDefinition" />

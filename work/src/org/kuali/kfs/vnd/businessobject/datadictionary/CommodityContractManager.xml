@@ -7,6 +7,7 @@
   <bean id="CommodityContractManager" parent="CommodityContractManager-parentBean" />
 
   <bean id="CommodityContractManager-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="objectLabel" value="Commodity Contract Manager" />
     <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.CommodityContractManager" />
     <property name="inquiryDefinition" >
       <ref bean="CommodityContractManager-inquiryDefinition" />

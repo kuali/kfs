@@ -7,6 +7,7 @@
   <bean id="ItemReasonAdded" parent="ItemReasonAdded-parentBean" />
 
   <bean id="ItemReasonAdded-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="objectLabel" value="Item Reason Added" />
     <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ItemReasonAdded" />
     <property name="inquiryDefinition" >
       <ref bean="ItemReasonAdded-inquiryDefinition" />

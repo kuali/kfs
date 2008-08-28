@@ -19,6 +19,7 @@
         <ref bean="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber" />
         <ref bean="CustomerInvoiceWriteoffLookupResult-customerTotal" />
         <ref bean="CustomerInvoiceWriteoffLookupResult-collectionStatus" />
+        <ref bean="CustomerInvoiceWriteoffLookupResult-age" />
       </list>
     </property>
   </bean>
@@ -66,6 +67,22 @@
             p:size="25" />
     </property>    
   </bean>    
+  
+  <bean id="CustomerInvoiceWriteoffLookupResult-age" parent="CustomerInvoiceWriteoffLookupResult-age-parentBean" />
+
+  <bean id="CustomerInvoiceWriteoffLookupResult-age-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="age" />
+    <property name="label" value="Age" />
+    <property name="shortLabel" value="Age" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>  
+  </bean>   
 
 <!-- Business Object Lookup Definition -->
 
@@ -99,6 +116,9 @@
         <bean parent="FieldDefinition"
               p:required="false"
               p:attributeName="customerInvoiceNumber" />
+        <bean parent="FieldDefinition"
+              p:required="false"
+              p:attributeName="age" />              
       </list>
     </property>
     <property name="resultFields" >

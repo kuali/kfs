@@ -1538,7 +1538,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         LOG.info("autoCloseRecurringOrders() started");
         boolean shouldSendEmail = true;
         MailMessage message = new MailMessage();
-        String parameterEmail = parameterService.getParameterValue(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_EMAIL_ADDRESSES);
+        String parameterEmail = parameterService.getParameterValue(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_TO_EMAIL_ADDRESSES);
         
         if (StringUtils.isEmpty(parameterEmail)) {
             // Don't stop the show if the email address is wrong, log it and continue.

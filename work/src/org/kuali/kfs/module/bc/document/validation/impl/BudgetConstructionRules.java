@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
@@ -28,6 +29,7 @@ import org.kuali.kfs.module.bc.document.validation.BudgetExpansionRule;
 import org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule;
 import org.kuali.kfs.module.bc.document.validation.DeletePendingBudgetGeneralLedgerLineRule;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
+import org.kuali.kfs.module.bc.document.validation.SaveMonthlyBudgetRule;
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
@@ -36,7 +38,7 @@ import org.kuali.rice.kns.rule.SaveDocumentRule;
 /**
  * Base rule class for Budget Construction. Handles calling other expansion rule classes and the core budget document rules.
  */
-public class BudgetConstructionRules implements BudgetExpansionRule, SalarySettingRule, SaveDocumentRule, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument> {
+public class BudgetConstructionRules implements BudgetExpansionRule, SalarySettingRule, SaveDocumentRule, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument>, SaveMonthlyBudgetRule<BudgetConstructionDocument, BudgetConstructionMonthly> {
     private Collection<BusinessRule> expansionRules;
     private BudgetConstructionDocumentRules budgetConstructionDocumentRules;
     private SalarySettingRule salarySettingRules;
@@ -109,6 +111,9 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SalarySetti
         return ((DeleteMonthlySpreadRule<BudgetConstructionDocument>) budgetConstructionDocumentRules).processDeleteMonthlySpreadRules(budgetConstructionDocument, monthSpreadDeleteType);
     }
 
+    public boolean processSaveMonthlyBudgetRules(BudgetConstructionDocument budgetConstructionDocument, BudgetConstructionMonthly budgetConstructionMonthly){
+        return ((SaveMonthlyBudgetRule<BudgetConstructionDocument, BudgetConstructionMonthly>) budgetConstructionDocumentRules).processSaveMonthlyBudgetRules(budgetConstructionDocument, budgetConstructionMonthly);
+    }
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAddAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */

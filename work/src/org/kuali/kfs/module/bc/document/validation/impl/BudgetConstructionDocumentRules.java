@@ -44,6 +44,7 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.document.validation.AddPendingBudgetGeneralLedgerLineRule;
 import org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule;
 import org.kuali.kfs.module.bc.document.validation.DeletePendingBudgetGeneralLedgerLineRule;
+import org.kuali.kfs.module.bc.document.validation.SaveMonthlyBudgetRule;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -63,7 +64,7 @@ import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypeUtils;
 
-public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument> {
+public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument>, SaveMonthlyBudgetRule<BudgetConstructionDocument, BudgetConstructionMonthly> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDocumentRules.class);
 
     // some services used here - other service refs are from parent classes
@@ -71,6 +72,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     private static BudgetParameterService budgetParameterService = SpringContext.getBean(BudgetParameterService.class);
     private static AccountingLineRuleHelperService accountingLineRuleHelper = SpringContext.getBean(AccountingLineRuleHelperService.class);
     private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+    private static SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
 
     private List<String> revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
     private List<String> expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
@@ -200,7 +202,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         int originalErrorCount = errors.getErrorCount();
 
-        // validate primatives for required field and formatting checks
+        // validate primitives for required field and formatting checks
         getDictionaryValidationService().validateBusinessObject(pendingBudgetConstructionGeneralLedger);
 
         // check to see if any errors were reported
@@ -296,6 +298,47 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.validation.SaveMonthlyBudgetRule#processSaveMonthlyBudgetRules(org.kuali.kfs.module.bc.document.BudgetConstructionDocument, org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly)
+     */
+    public boolean processSaveMonthlyBudgetRules(BudgetConstructionDocument budgetConstructionDocument, BudgetConstructionMonthly budgetConstructionMonthly) {
+        LOG.debug("processSaveMonthlyBudgetRules() start");
+
+        budgetConstructionMonthly.refreshReferenceObject("pendingBudgetConstructionGeneralLedger");
+        PendingBudgetConstructionGeneralLedger pbgl = budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger();
+        ErrorMap errors = GlobalVariables.getErrorMap();
+        boolean isValid = true;
+
+        int originalErrorCount = errors.getErrorCount();
+        
+        // validate primitives for required field and formatting checks
+        getDictionaryValidationService().validateBusinessObject(budgetConstructionMonthly);
+
+        // check to see if any errors were reported
+        int currentErrorCount = errors.getErrorCount();
+        isValid &= (currentErrorCount == originalErrorCount);
+        
+        if (isValid){
+            if (!salarySettingService.isSalarySettingDisabled()){
+                if (pbgl.getLaborObject() != null && pbgl.getLaborObject().isDetailPositionRequiredIndicator()){
+                    
+                    // no request amount overrides allowed for salary setting detail lines
+                    KualiInteger monthlyTotal = budgetConstructionMonthly.getFinancialDocumentMonthTotalLineAmount();
+                    if (!monthlyTotal.equals(pbgl.getAccountLineAnnualBalanceAmount())){
+                        isValid &= false;
+                        errors.putError(BCPropertyConstants.FINANCIAL_DOCUMENT_MONTH1_LINE_AMOUNT, BCKeyConstants.ERROR_MONTHLY_DETAIL_SALARY_OVERIDE, budgetConstructionMonthly.getFinancialObjectCode(), monthlyTotal.toString(), pbgl.getAccountLineAnnualBalanceAmount().toString());
+                    }
+                }
+            }
+        }
+        else {
+            LOG.info("business rule checks failed in processSaveMonthlyBudgetRules in BudgetConstructionDocumentRules");
+        }
+
+        LOG.debug("processSaveMonthlyBudgetRules() end");
+        return isValid;
+    }
+
+    /**
      * Iterates existing revenue or expenditure lines. Checks if request amount is non-zero and runs business rules on the line.
      * TODO In addition to using the non-zero request test add a previous request var to the PBGL BO and as a hidden in the JSP and
      * test for differences as an indicator it was touched. update method comments when done here.
@@ -337,7 +380,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             // TODO may not need this since required/format check is done as part of form populate??
             validatePrimitiveFromDescriptor(element, TARGET_ERROR_PROPERTY_NAME, "", true);
 
-            // TODO can validateDocumentAttribute be used on non primative instead of local validatePrimitiveFromDescriptor?? -
+            // TODO can validateDocumentAttribute be used on non primitive instead of local validatePrimitiveFromDescriptor?? -
             // remove when tested
             // getDictionaryValidationService().validateDocumentAttribute(budgetConstructionDocument, TARGET_ERROR_PROPERTY_NAME,
             // "");

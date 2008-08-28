@@ -272,6 +272,21 @@ financialObjectCode and financialSubObjectCode??
 				excludedParams="*"
 				requestURI="budgetTempListLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}&backLocation=${KualiForm.backLocation}&businessObjectClassName=${KualiForm.businessObjectClassName}&hideReturnLink=${KualiForm.hideReturnLink}&tempListLookupMode=${KualiForm.tempListLookupMode}&docFormKey=${KualiForm.formKey}&suppressActions=${KualiForm.suppressActions}">
 
+				<c:if test="${param['d-16544-e'] == null}">
+			  	  <logic:present name="KualiForm" property="formKey">
+					  <c:if
+						test="${KualiForm.formKey!='' && KualiForm.hideReturnLink!=true && !KualiForm.multipleValues}">
+						<display:column class="infocell" title="Return value">
+							<a href='<c:out value="${row.returnUrl}"/>&anchor=${KualiForm.lookupAnchor}' title="return value">return value</a>
+						</display:column>
+					  </c:if>
+					  <c:if test="${row.actionUrls!='' && KualiForm.suppressActions!=true}">
+						<display:column class="infocell" property="actionUrls"
+							title="Actions" media="html" />
+					  </c:if>
+				  </logic:present>
+				</c:if>
+				
 				<c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
           <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
 					<c:choose>
@@ -303,18 +318,6 @@ financialObjectCode and financialSubObjectCode??
 					</c:choose>
 				</c:forEach>
 
-				<logic:present name="KualiForm" property="formKey">
-					<c:if
-						test="${KualiForm.formKey!='' && KualiForm.hideReturnLink!=true && !KualiForm.multipleValues}">
-						<display:column class="infocell" title="Return value">
-							<a href='<c:out value="${row.returnUrl}"/>&anchor=${KualiForm.lookupAnchor}' title="return value">return value</a>
-						</display:column>
-					</c:if>
-					<c:if test="${row.actionUrls!='' && KualiForm.suppressActions!=true}">
-						<display:column class="infocell" property="actionUrls"
-							title="Actions" media="html" />
-					</c:if>
-				</logic:present>
 			</display:table>
 			</c:if></td>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"

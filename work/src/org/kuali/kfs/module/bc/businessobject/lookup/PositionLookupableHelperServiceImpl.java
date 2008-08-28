@@ -175,14 +175,18 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
         }
         url += "title=\"Posn Salset\">Posn Salset</a>  ";
 
-        // now add refresh url
-        parameters.put(BCConstants.REFRESH_POSITION_BEFORE_SALARY_SETTING, "true");
-        String url2 = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
-        url2 = "<a href=\"" + url2 + "\"";
-        if (linkToNewWindow) {
-            url2 += "target=\"blank\" ";
+        // now add refresh url if feed from payroll is on
+        boolean payrollPositionFeed = BudgetParameterFinder.getPayrollPositionFeedIndicator();
+        String url2 = "";
+        if (payrollPositionFeed) {
+            parameters.put(BCConstants.REFRESH_POSITION_BEFORE_SALARY_SETTING, "true");
+            url2 = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
+            url2 = "<a href=\"" + url2 + "\"";
+            if (linkToNewWindow) {
+                url2 += "target=\"blank\" ";
+            }
+            url2 += "title=\"Posn Salset w/sync\">Posn Salset w/sync</a>  ";
         }
-        url2 += "title=\"Posn Salset w/sync\">Posn Salset w/sync</a>  ";
 
         return url + "<br/>" + url2;
     }

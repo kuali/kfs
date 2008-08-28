@@ -17,7 +17,7 @@
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.AccountingChange" table="PDP_ACCTG_CHG_CD_T">
     <field-descriptor name="code" column="ACCTG_CHG_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="name" column="ACCTG_CHG_CD_DESC" jdbc-type="VARCHAR"/>
-    <!--field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="INTEGER" locking="true"/-->
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.AchAccountNumber" table="PDP_ACH_ACCT_NBR_T">
@@ -166,7 +166,7 @@
     <field-descriptor name="name" column="DISB_TYP_DESC" jdbc-type="VARCHAR"/>
   	<!--field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/-->
     <!--field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/-->
-    <!--field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="INTEGER" locking="true"/-->
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.DocumentType" table="PDP_DOC_TYP_CD_T">
@@ -280,8 +280,8 @@
     <field-descriptor name="code" column="PMT_CHG_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="name" column="PMT_CHG_CD_DESC" jdbc-type="VARCHAR"/>
     <!--field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/-->
+    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/-->
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentGroup" table="PDP_PMT_GRP_T">
@@ -468,7 +468,7 @@
     <field-descriptor name="name" column="PMT_STAT_CD_DESC" jdbc-type="VARCHAR"/>
     <!--field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/-->
     <!--field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/-->
-    <!--field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/-->
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentProcess" table="PDP_PROC_T">

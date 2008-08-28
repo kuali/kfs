@@ -74,7 +74,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public List getSearchResults(Map fieldValues) {
-        LOG.debug("\n\n\n\n ***********************    getSearchResults() started\n");
+         LOG.debug("\n\n\n\n ***********************    getSearchResults() started\n");
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
@@ -102,8 +102,17 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         for (CustomerInvoiceDetail cid : invoiceDetails) {
 
             Date approvalDate = today;//cid.getCustomerPurchaseOrderDate();
-            String customerNumber = cid.getCustomerInvoiceDocument().getCustomer().getCustomerNumber();
-            String customerName = cid.getCustomerInvoiceDocument().getCustomer().getCustomerName();
+            CustomerInvoiceDocument custdocobj = cid.getCustomerInvoiceDocument();
+            
+         if(custdocobj!=null) {   
+            
+            Customer customerobj = custdocobj.getCustomer();
+            
+            
+            String customerNumber = customerobj.getCustomerNumber();    //
+            String customerName = customerobj.getCustomerName();
+            
+            String customerNumber2 = (cid.getCustomerInvoiceDocument().getCustomer()).getCustomerNumber();
 
             if (knownCustomers.containsKey(customerNumber) && approvalDate.before(reportDate) && (customerInvoiceDetailService.getOpenAmount(cid).isNonZero())) {
                 // not a new customer id and invoice approvalDate is valid
@@ -118,7 +127,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                 custDetail.setUnpaidBalance0to30(cid.getAmount());
                 knownCustomers.put(customerNumber, custDetail);
             }
-
+         }
 
             if (LOG.isInfoEnabled()) {
                 LOG.info("\t\tcustDetail=\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());

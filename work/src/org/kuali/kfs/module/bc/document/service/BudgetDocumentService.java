@@ -113,19 +113,19 @@ public interface BudgetDocumentService {
      */
     public void calculateBenefits(BudgetConstructionDocument bcDoc);
 
-    /**
-     * Calculates annual benefits for a budget construction document using the persisted data currently stored in the database.
-     * 
-     * @param bcDoc
-     */
-    public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc);
-
-    /**
-     * Calculates the monthly benefits for a budget construction document using the persisted data currently stored in the database.
-     * 
-     * @param bcDoc
-     */
-    public void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc);
+//    /**
+//     * Calculates annual benefits for a budget construction document using the persisted data currently stored in the database.
+//     * 
+//     * @param bcDoc
+//     */
+//    public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc);
+//
+//    /**
+//     * Calculates the monthly benefits for a budget construction document using the persisted data currently stored in the database.
+//     * 
+//     * @param bcDoc
+//     */
+//    public void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc);
 
     /**
      * Gets the salary detail lines request sum for a budget document expenditure accounting line

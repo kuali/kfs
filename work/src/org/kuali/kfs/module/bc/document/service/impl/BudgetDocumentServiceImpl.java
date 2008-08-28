@@ -236,6 +236,9 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             if (bcDoc.isMonthlyBenefitsCalcNeeded()) {
                 this.calculateMonthlyBenefits(bcDoc);
             }
+
+            // reload from the DB and refresh refs
+            this.reloadBenefitsLines(bcDoc);
         }
     }
 
@@ -247,13 +250,16 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         this.calculateAnnualBenefits(bcDoc);
         this.calculateMonthlyBenefits(bcDoc);
+
+        // reload from the DB and refresh refs
+        this.reloadBenefitsLines(bcDoc);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#calculateAnnualBenefits(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
     @Transactional
-    public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc) {
+    private void calculateAnnualBenefits(BudgetConstructionDocument bcDoc) {
 
         // allow benefits calculation if document's account is not salary setting only lines
         bcDoc.setBenefitsCalcNeeded(false);
@@ -261,9 +267,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
             // pbgl lines are saved at this point, calc benefits
             benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
-
-            // gets the current set of fringe lines from the DB and adds/updates lines in the doc as apropos
-            this.reloadBenefitsLines(bcDoc);
 
             // write global message on calc success
             GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BENEFITS_CALCULATED);
@@ -274,7 +277,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#calculateMonthlyBenefits(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
     @Transactional
-    public void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc) {
+    private void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc) {
 
         // allow benefits calculation if document's account is not salary setting only lines
         bcDoc.setMonthlyBenefitsCalcNeeded(false);
@@ -388,12 +391,14 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             if (expRowKey.compareToIgnoreCase(sourceRowKey) == 0) {
                 // update
                 expRow.setAccountLineAnnualBalanceAmount(sourceRow.getAccountLineAnnualBalanceAmount());
+                expRow.setPersistedAccountLineAnnualBalanceAmount(sourceRow.getAccountLineAnnualBalanceAmount());
                 expRow.setVersionNumber(sourceRow.getVersionNumber());
                 break;
             }
             else {
                 if (expRowKey.compareToIgnoreCase(sourceRowKey) > 0) {
                     // insert
+                    sourceRow.setPersistedAccountLineAnnualBalanceAmount(sourceRow.getAccountLineAnnualBalanceAmount());
                     expenditureRows.add(index, sourceRow);
                     break;
                 }

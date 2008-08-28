@@ -28,6 +28,13 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
+
+	<bean id="AssetPayment-postingDateValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentPostingDateValidation" abstract="true">
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="universityDateService" ref="universityDateService" />
+	</bean>	
 	
 	<bean id="AssetPayment-fiscalPeriodValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentFiscalPeriodValidation" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -39,12 +46,6 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>	
 	
-	<bean id="AssetPayment-postingDateValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentPostingDateValidation" abstract="true">
-		<property name="dateTimeService" ref="dateTimeService" />
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="dataDictionaryService" ref="dataDictionaryService" />
-		<property name="universityDateService" ref="universityDateService" />
-	</bean>	
 	
 	<bean id="AssetPayment-zeroAmountValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentZeroAmountValidation" abstract="true"/>
 	

@@ -78,6 +78,18 @@
 	<bean id="AssetPayment-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
+				<bean parent="AssetPayment-postingDateValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+
 				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -89,18 +101,7 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>							
-				<bean parent="AssetPayment-documentTypeValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
-				<bean parent="AssetPayment-fiscalPeriodValidation" scope="prototype">
+				<bean parent="AssetPayment-zeroAmountValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
@@ -121,8 +122,8 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
-				</bean>
-				<bean parent="AssetPayment-postingDateValidation" scope="prototype">
+				</bean>				
+				<bean parent="AssetPayment-documentTypeValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
@@ -133,7 +134,7 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="AssetPayment-zeroAmountValidation" scope="prototype">
+				<bean parent="AssetPayment-fiscalPeriodValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">

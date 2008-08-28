@@ -210,8 +210,8 @@ public class AssetPaymentServiceTest extends KualiTestBase {
                     assertEquals(assetPaymentDetail.getChartOfAccountsCode(), assetPayment.getChartOfAccountsCode());
                     assertEquals(assetPaymentDetail.getFinancialObjectCode(), assetPayment.getFinancialObjectCode());
                     assertEquals(amount, assetPayment.getAccountChargeAmount());
-                    assertEquals(assetPaymentDetail.getFinancialDocumentPostingYear(), assetPayment.getFinancialDocumentPostingYear());
-                    assertEquals(assetPaymentDetail.getFinancialDocumentPostingPeriodCode(), assetPayment.getFinancialDocumentPostingPeriodCode());
+                    assertEquals(assetPaymentDetail.getPostingYear(), assetPayment.getFinancialDocumentPostingYear());
+                    assertEquals(assetPaymentDetail.getPostingPeriodCode(), assetPayment.getFinancialDocumentPostingPeriodCode());
                     assertEquals(assetPaymentDetail.getPaymentApplicationDate(), assetPayment.getFinancialDocumentPostingDate());
                 //}
             }

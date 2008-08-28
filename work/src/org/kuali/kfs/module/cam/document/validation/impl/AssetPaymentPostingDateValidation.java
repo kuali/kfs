@@ -67,14 +67,19 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }
-
+            //Forcing a required field!!!
+            
             // Validating the posted document date is not greater than the current fiscal year.
             Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
             if (documentPostedDate.get(Calendar.YEAR) > currentFiscalYear.intValue()) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
                 result = false;
             }
-        }
+        } else {
+            String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_REQUIRED,label);
+            result = false;
+        }            
         return result;
     }
 

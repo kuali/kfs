@@ -6,7 +6,14 @@ import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -22,7 +29,7 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     private String expenditureFinancialSystemOriginationCode;
     private Date expenditureFinancialDocumentPostedDate;
-    private String financialDocumentOverrideCode;
+    //private String financialDocumentOverrideCode;
     private KualiDecimal primaryDepreciationPaymentAmount;
     private KualiDecimal secondaryDepreciationPaymentAmount;
     private boolean transferPaymentIndicator;
@@ -30,12 +37,12 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private String expenditureFinancialDocumentNumber;
     private String expenditureFinancialDocumentTypeCode;
     private Date paymentApplicationDate;
-    private Integer financialDocumentPostingYear;
-    private String financialDocumentPostingPeriodCode;
+//    private Integer postingYear;
+    private String postingPeriodCode;
     private String purchaseOrderNumber;
     private String requisitionNumber;
     private KualiDecimal amount;
-    private String financialObjectCode;
+//    private String financialObjectCode;
 
     // bo references    
     private AccountingPeriod financialDocumentPostingPeriod;
@@ -43,8 +50,8 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private DocumentHeader expenditureFinancialDocument;
     private DocumentType expenditureFinancialDocumentType;
     private OriginationCode expenditureFinancialSystemOrigination;
-    private Account account;
-    private ObjectCode objectCode;
+    //private Account account;
+    //private ObjectCode objectCode;
 
 
 
@@ -85,14 +92,14 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     }
 
 
-    public String getFinancialDocumentOverrideCode() {
-        return financialDocumentOverrideCode;
-    }
-
-
-    public void setFinancialDocumentOverrideCode(String financialDocumentOverrideCode) {
-        this.financialDocumentOverrideCode = financialDocumentOverrideCode;
-    }
+//    public String getFinancialDocumentOverrideCode() {
+//        return financialDocumentOverrideCode;
+//    }
+//
+//
+//    public void setFinancialDocumentOverrideCode(String financialDocumentOverrideCode) {
+//        this.financialDocumentOverrideCode = financialDocumentOverrideCode;
+//    }
 
 
     public KualiDecimal getPrimaryDepreciationPaymentAmount() {
@@ -155,23 +162,23 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     }
 
 
-    public Integer getFinancialDocumentPostingYear() {
-        return financialDocumentPostingYear;
+//    public Integer getpostingYear() {
+//        return postingYear;
+//    }
+//
+//
+//    public void setPostingYear(Integer postingYear) {
+//        this.postingYear = postingYear;
+//    }
+
+
+    public String getPostingPeriodCode() {
+        return postingPeriodCode;
     }
 
 
-    public void setFinancialDocumentPostingYear(Integer financialDocumentPostingYear) {
-        this.financialDocumentPostingYear = financialDocumentPostingYear;
-    }
-
-
-    public String getFinancialDocumentPostingPeriodCode() {
-        return financialDocumentPostingPeriodCode;
-    }
-
-
-    public void setFinancialDocumentPostingPeriodCode(String financialDocumentPostingPeriodCode) {
-        this.financialDocumentPostingPeriodCode = financialDocumentPostingPeriodCode;
+    public void setPostingPeriodCode(String postingPeriodCode) {
+        this.postingPeriodCode = postingPeriodCode;
     }
 
 
@@ -244,24 +251,24 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         this.expenditureFinancialSystemOrigination = expenditureFinancialSystemOrigination;
     }
     
-    public Account getAccount() {
-        return account;
-    }
-
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-    
-
-    public ObjectCode getObjectCode() {
-        return objectCode;
-    }
-
-
-    public void setObjectCode(ObjectCode objectCode) {
-        this.objectCode = objectCode;
-    }
+//    public Account getAccount() {
+//        return account;
+//    }
+//
+//
+//    public void setAccount(Account account) {
+//        this.account = account;
+//    }
+//    
+//
+//    public ObjectCode getObjectCode() {
+//        return objectCode;
+//    }
+//
+//
+//    public void setObjectCode(ObjectCode objectCode) {
+//        this.objectCode = objectCode;
+//    }
 
 
     public KualiDecimal getAmount() {
@@ -274,12 +281,12 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     }
 
 
-    public String getFinancialObjectCode() {
-        return financialObjectCode;
-    }
-
-
-    public void setFinancialObjectCode(String financialObjectCode) {
-        this.financialObjectCode = financialObjectCode;
-    }
+//    public String getFinancialObjectCode() {
+//        return financialObjectCode;
+//    }
+//
+//    
+//    public void setFinancialObjectCode(String financialObjectCode) {
+//        this.financialObjectCode = financialObjectCode;
+//    }
 }

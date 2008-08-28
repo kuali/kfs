@@ -171,8 +171,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             assetPaymentDetail.setExpenditureFinancialDocumentNumber(assetPayment.getDocumentNumber());
             assetPaymentDetail.setRequisitionNumber(assetPayment.getRequisitionNumber());
             assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(assetPayment.getFinancialDocumentPostingDate());
-            assetPaymentDetail.setFinancialDocumentPostingYear(assetPayment.getFinancialDocumentPostingYear());
-            assetPaymentDetail.setFinancialDocumentPostingPeriodCode(assetPayment.getFinancialDocumentPostingPeriodCode());
+            assetPaymentDetail.setPostingYear(assetPayment.getFinancialDocumentPostingYear());
+            assetPaymentDetail.setPostingPeriodCode(assetPayment.getFinancialDocumentPostingPeriodCode());
             assetPaymentDetail.setAmount(assetPayment.getAccountChargeAmount());
             
             // add assetPaymentDetail to AssetPaymentDetail list
@@ -360,7 +360,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         if (assetPaymentDetails != null && !assetPaymentDetails.isEmpty()) {
             LOG.debug("Compute depreciation date based on asset type, depreciation convention and in-service date");
             AssetPaymentDetail firstAssetPaymentDetail = assetPaymentDetails.get(0);
-            ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(firstAssetPaymentDetail.getFinancialDocumentPostingYear(), firstAssetPaymentDetail.getChartOfAccountsCode(), firstAssetPaymentDetail.getFinancialObjectCode());
+            ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(firstAssetPaymentDetail.getPostingYear(), firstAssetPaymentDetail.getChartOfAccountsCode(), firstAssetPaymentDetail.getFinancialObjectCode());
             if (ObjectUtils.isNotNull(objectCode)) {
                 assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE);
                 Map<String, String> primaryKeys = new HashMap<String, String>();

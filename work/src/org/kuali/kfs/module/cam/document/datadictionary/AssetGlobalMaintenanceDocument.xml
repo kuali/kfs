@@ -423,11 +423,11 @@
                     p:required="false" 
                     p:readOnlyAfterAdd="true" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="financialDocumentPostingYear"
+                    p:name="postingYear"
                     p:readOnlyAfterAdd="true"
                     p:readOnly="false" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="financialDocumentPostingPeriodCode"
+                    p:name="postingPeriodCode"
                     p:readOnlyAfterAdd="true"
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"

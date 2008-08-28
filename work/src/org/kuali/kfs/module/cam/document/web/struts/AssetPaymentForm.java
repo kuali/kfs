@@ -183,8 +183,8 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         
         if (newSourceLine.getExpenditureFinancialDocumentPostedDate() != null) {
             Calendar postedDate = dateTimeService.getCalendar(newSourceLine.getExpenditureFinancialDocumentPostedDate());        
-            newSourceLine.setFinancialDocumentPostingYear(postedDate.get(Calendar.YEAR));
-            newSourceLine.setFinancialDocumentPostingPeriodCode(StringUtils.leftPad(Integer.toString(postedDate.get(Calendar.MONTH)),2,"0"));
+            newSourceLine.setPostingYear(postedDate.get(Calendar.YEAR));
+            newSourceLine.setPostingPeriodCode(StringUtils.leftPad(Integer.toString(postedDate.get(Calendar.MONTH)),2,"0"));
         }                
         return (SourceAccountingLine) newSourceLine;
     }

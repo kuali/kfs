@@ -138,7 +138,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                     KualiDecimal baseAmount = new KualiDecimal(0);
     
                     // If the object sub type is not in the list of federally owned object sub types, then...
-                    ObjectCode objectCode = this.getObjectCodeService().getByPrimaryId(assetPaymentDetail.getFinancialDocumentPostingYear(), assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
+                    ObjectCode objectCode = this.getObjectCodeService().getByPrimaryId(assetPaymentDetail.getPostingYear(), assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
     
                     // Depreciation Base Amount will be assigned to each payment only when the object code's sub type code is not a
                     // federally owned one
@@ -289,5 +289,5 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         }
         return federallyOwnedObjectSubTypes.contains(objectSubType);
     }
-    
+
 }

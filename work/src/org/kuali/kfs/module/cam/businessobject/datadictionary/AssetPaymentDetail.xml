@@ -16,9 +16,9 @@
         <ref bean="AssetPaymentDetail-expenditureFinancialDocumentTypeCode" />
         <ref bean="AssetPaymentDetail-expenditureFinancialSystemOriginationCode" />
         <ref bean="AssetPaymentDetail-sequenceNumber" />
-        <ref bean="AssetPaymentDetail-financialDocumentOverrideCode" />
-        <ref bean="AssetPaymentDetail-financialDocumentPostingPeriodCode" />
-        <ref bean="AssetPaymentDetail-financialDocumentPostingYear" />
+        <ref bean="AssetPaymentDetail-overrideCode" />
+        <ref bean="AssetPaymentDetail-postingPeriodCode" />
+        <ref bean="AssetPaymentDetail-postingYear" />
         <ref bean="AssetPaymentDetail-paymentApplicationDate" />
         <ref bean="AssetPaymentDetail-primaryDepreciationPaymentAmount" />
         <ref bean="AssetPaymentDetail-purchaseOrderNumber" />
@@ -38,9 +38,7 @@
         <ref bean="AssetPaymentDetail-objectId" />
         <ref bean="AssetPaymentDetail-organizationReferenceId" />
         <ref bean="AssetPaymentDetail-chartOfAccountsCode" />
-        <ref bean="AssetPaymentDetail-postingYear" />
         <ref bean="AssetPaymentDetail-referenceOriginCode" />
-        <ref bean="AssetPaymentDetail-overrideCode" />
         <ref bean="AssetPaymentDetail-amount" />
         <ref bean="AssetPaymentDetail-subAccountNumber" />
         <ref bean="AssetPaymentDetail-referenceTypeCode" />
@@ -136,10 +134,9 @@
     <property name="description" value="expenditureFinancialSystemOriginationCode description..." />
   </bean>
 
-  <bean id="AssetPaymentDetail-financialDocumentOverrideCode" parent="AssetPaymentDetail-financialDocumentOverrideCode-parentBean" />
-
-  <bean id="AssetPaymentDetail-financialDocumentOverrideCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentOverrideCode" />
+  <bean id="AssetPaymentDetail-overrideCode" parent="AssetPaymentDetail-overrideCode-parentBean" />
+  <bean id="AssetPaymentDetail-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="overrideCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Financial Document Override Code" />
     <property name="shortLabel" value="Override CD" />
@@ -151,13 +148,13 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="financialDocumentOverrideCode" />
-    <property name="description" value="financialDocumentOverrideCode description..." />
+    <property name="summary" value="overrideCode" />
+    <property name="description" value="overrideCode description..." />
   </bean>
-  <bean id="AssetPaymentDetail-financialDocumentPostingPeriodCode" parent="AssetPaymentDetail-financialDocumentPostingPeriodCode-parentBean" />
-
-  <bean id="AssetPaymentDetail-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentPostingPeriodCode" />
+  
+  <bean id="AssetPaymentDetail-postingPeriodCode" parent="AssetPaymentDetail-postingPeriodCode-parentBean" />
+  <bean id="AssetPaymentDetail-postingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="postingPeriodCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Fiscal Period" />
     <property name="shortLabel" value="Fiscal Period" />
@@ -170,28 +167,17 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="financialDocumentPostingPeriodCode" />
-    <property name="description" value="financialDocumentPostingPeriodCode description..." />
+    <property name="summary" value="postingPeriodCode" />
+    <property name="description" value="postingPeriodCode description..." />
   </bean>
-  <bean id="AssetPaymentDetail-financialDocumentPostingYear" parent="AssetPaymentDetail-financialDocumentPostingYear-parentBean" />
 
-  <bean id="AssetPaymentDetail-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentPostingYear" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="Fiscal Year" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />    
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
-    <property name="summary" value="financialDocumentPostingYear" />
-    <property name="description" value="financialDocumentPostingYear description..." />
+  <bean id="AssetPaymentDetail-postingYear" parent="AssetPaymentDetail-postingYear-parentBean"/>
+  
+  <bean id="AssetPaymentDetail-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+    <property name="name" value="postingYear" />
+    <property name="required" value="false" />
   </bean>
+  
   <bean id="AssetPaymentDetail-paymentApplicationDate" parent="AssetPaymentDetail-paymentApplicationDate-parentBean" />
 
   <bean id="AssetPaymentDetail-paymentApplicationDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
@@ -394,12 +380,6 @@
     </property>
     <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
   </bean>
-  <bean id="AssetPaymentDetail-postingYear" parent="AssetPaymentDetail-postingYear-parentBean" />
-
-  <bean id="AssetPaymentDetail-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="postingYear" />
-    <property name="required" value="true" />
-  </bean>
   <bean id="AssetPaymentDetail-referenceOriginCode" parent="AssetPaymentDetail-referenceOriginCode-parentBean" />
 
   <bean id="AssetPaymentDetail-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -419,7 +399,7 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The system code for that identifies the system from which the original encumbering transaction came, selected from a pulldown list." />
   </bean>
-  <bean id="AssetPaymentDetail-overrideCode" parent="AssetPaymentDetail-overrideCode-parentBean" />
+  <!-- bean id="AssetPaymentDetail-overrideCode" parent="AssetPaymentDetail-overrideCode-parentBean" />
 
   <bean id="AssetPaymentDetail-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="overrideCode" />
@@ -438,7 +418,7 @@
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
-  </bean>
+  </bean-->
   <bean id="AssetPaymentDetail-subAccountNumber" parent="AssetPaymentDetail-subAccountNumber-parentBean" />
 
   <bean id="AssetPaymentDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">

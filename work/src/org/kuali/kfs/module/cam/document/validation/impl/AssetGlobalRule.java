@@ -121,7 +121,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         // Check for ObjectCode
         if (StringUtils.isNotBlank(assetPaymentDetail.getFinancialObjectCode())) {
-            if (assetPaymentDetail.getFinancialDocumentPostingYear() == null) {
+            if (assetPaymentDetail.getPostingYear() == null) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_FINANCIAL_DOCUMENT_POSTING_YEAR_REQUIRED);
                 valid = false;
             }
@@ -364,8 +364,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE, new String[] { assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().toString() });
            valid = false;          
         } else {
-            assetPaymentDetail.setFinancialDocumentPostingYear(universityDate.getUniversityFiscalYear());
-            assetPaymentDetail.setFinancialDocumentPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
+            assetPaymentDetail.setPostingYear(universityDate.getUniversityFiscalYear());
+            assetPaymentDetail.setPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
         }
         return valid;
     }

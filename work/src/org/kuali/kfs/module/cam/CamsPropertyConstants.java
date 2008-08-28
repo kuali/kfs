@@ -146,8 +146,8 @@ public class CamsPropertyConstants {
         public static final String DOCUMENT_TYPE = "expenditureFinancialDocumentTypeCode";
         public static final String ORIGINATION_CODE = "expenditureFinancialSystemOriginationCode";
         public static final String DOCUMENT_POSTING_DATE = "expenditureFinancialDocumentPostedDate";
-        public static final String DOCUMENT_POSTING_FISCAL_YEAR = "financialDocumentPostingYear";
-        public static final String DOCUMENT_POSTING_FISCAL_MONTH = "financialDocumentPostingPeriodCode";
+        public static final String DOCUMENT_POSTING_FISCAL_YEAR = "postingYear";
+        public static final String DOCUMENT_POSTING_FISCAL_MONTH = "postingPeriodCode";
         public static final String ACCOUNT = "account";
         public static final String VERSION_NUMBER = "versionNumber";
     }

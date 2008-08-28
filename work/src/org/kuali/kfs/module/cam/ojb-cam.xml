@@ -509,8 +509,8 @@
 	<field-descriptor name="objectId" 					  column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" 		  		  column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="paymentApplicationDate" 	  column="CPTLAST_PMTAPPL_DT" jdbc-type="DATE"/>
-	<field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
-	<field-descriptor name="financialDocumentPostingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
+	<field-descriptor name="postingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="chartOfAccountsCode" 				column="FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="accountNumber" 						column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="subAccountNumber" 					column="SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
@@ -531,12 +531,12 @@
 	<field-descriptor name="transferPaymentIndicator" 					column="AST_TRNFR_PMT_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 
 	<reference-descriptor name="objectCode" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="financialDocumentPostingYear" />
+		<foreignkey field-ref="postingYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="financialObjectCode" />
 	</reference-descriptor>
 	<reference-descriptor name="subObjectCode" class-ref="org.kuali.kfs.coa.businessobject.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="financialDocumentPostingYear" />
+		<foreignkey field-ref="postingYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="financialObjectCode" />
@@ -558,8 +558,8 @@
 		<foreignkey field-ref="projectCode" />
 	</reference-descriptor>
 	<reference-descriptor name="financialDocumentPostingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="financialDocumentPostingYear" />
-		<foreignkey field-ref="financialDocumentPostingPeriodCode" />
+		<foreignkey field-ref="postingYear" />
+		<foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="documentNumber" />

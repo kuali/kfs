@@ -789,8 +789,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 assetPayment.setPurchaseOrderNumber(payment.getPurchaseOrderNumber());
                 if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, acquisitionTypeCode)) {
                     assetPayment.setFinancialDocumentPostingDate(payment.getExpenditureFinancialDocumentPostedDate());
-                    assetPayment.setFinancialDocumentPostingYear(payment.getFinancialDocumentPostingYear());
-                    assetPayment.setFinancialDocumentPostingPeriodCode(payment.getFinancialDocumentPostingPeriodCode());
+                    assetPayment.setFinancialDocumentPostingYear(payment.getPostingYear());
+                    assetPayment.setFinancialDocumentPostingPeriodCode(payment.getPostingPeriodCode());
                 }
                 else {
                     UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();

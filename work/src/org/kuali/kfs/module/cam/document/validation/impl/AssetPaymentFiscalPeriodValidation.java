@@ -57,21 +57,25 @@ public class AssetPaymentFiscalPeriodValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
+
         Map<String, Object> keyToFind = new HashMap<String, Object>();
-        keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, assetPaymentDetail.getFinancialDocumentPostingYear());
-        keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD, assetPaymentDetail.getFinancialDocumentPostingPeriodCode());
+        keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, assetPaymentDetail.getPostingYear());
+        keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD, assetPaymentDetail.getPostingPeriodCode());
 
         if (businessObjectService.countMatching(UniversityDate.class, keyToFind) == 0) {
             String labelFiscalYear = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR).getLabel();
             String labelFiscalMonth = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH).getLabel();
 
+            String[] errorParameters = new String[1];            
+            errorParameters[0]=labelFiscalYear + " and/or "+labelFiscalMonth;
+
             //Since these two fields are now read-only I've commented out these two lines
-            //GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalYear);
-            //GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalMonth);
+//            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalYear);
+//            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalMonth);
             
-            String[] errorParameters = new String[1];
-            errorParameters[0]=labelFiscalYear + " and "+labelFiscalMonth;
-            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_EXISTENCE, errorParameters);            
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, KFSKeyConstants.ERROR_EXISTENCE, errorParameters);            
+
+            //GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_EXISTENCE, errorParameters);            
             result = false;
         }
         return result;

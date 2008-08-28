@@ -97,7 +97,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) accountingLine;
 
         // Validating the fiscal year and month because, the object code validation needs to have this a valid fiscal year
-        result &= this.validateFiscalPeriod(assetPaymentDetail.getFinancialDocumentPostingYear(), assetPaymentDetail.getFinancialDocumentPostingPeriodCode());
+        result &= this.validateFiscalPeriod(assetPaymentDetail.getPostingYear(), assetPaymentDetail.getPostingPeriodCode());
 
         // Validating document type code
         result &= this.validateDocumentType(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());

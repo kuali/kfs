@@ -54,7 +54,7 @@ public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends Fina
             epcs = diDoc.getElectronicPaymentClaims();
         }
 
-        if (epcs != null && epcs.size() > 0 && accountingLine.isSourceAccountingLine()) {
+        if (epcs != null && epcs.size() > 0) {
             return false;
         }
 

@@ -8,6 +8,7 @@
 
   <bean id="CustomerInvoiceWriteoffLookupResult-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult" />
+    <property name="objectLabel" value="Customer Invoice Writeoff Lookup Result" />
     <property name="lookupDefinition" >
       <ref bean="CustomerInvoiceWriteoffLookupResult-lookupDefinition" />
     </property>

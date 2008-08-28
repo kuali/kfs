@@ -475,12 +475,12 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                     if (KualiWorkflowUtils.isMaintenanceDocument(docType)) {
                         xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("kualiUser").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                     }
+                    else if (isGeneric){
+                        xpathExp = new StringBuffer(KFSConstants.WorkflowConstants.GET_GENERIC_ORGS_PREFIX + this.getClass().getSimpleName() + KFSConstants.WorkflowConstants.GET_GENERIC_ORGS_SUFFIX).toString();
+                    }
                     else if (KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE.equalsIgnoreCase(docType.getName()) || KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
                         xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("chartOrg").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                     }
-                    else if (isGeneric){
-                        xpathExp = new StringBuffer(KFSConstants.WorkflowConstants.GET_GENERIC_ORGS_PREFIX + this.getClass().getSimpleName() + KFSConstants.WorkflowConstants.GET_GENERIC_ORGS_SUFFIX).toString();
-                        }
                     else if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
                         xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                     }
@@ -501,7 +501,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                         }
                         if (isGeneric){
                             overrideCd = xpath.evaluate(KFSConstants.WorkflowConstants.GET_GENERIC_OVERRIDE_CD, lineNode);
-                            finCoaCd = xpath.evaluate(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNT_CHART, lineNode);
+                            finCoaCd = xpath.evaluate(KFSConstants.WorkflowConstants.GET_GENERIC_CHART, lineNode);
                             orgCd = xpath.evaluate(KFSConstants.WorkflowConstants.GET_GENERIC_ORG, lineNode);
                         }else{
                             /**Because the override code is an attribute of the accounting line and the chart and org are attributes of the

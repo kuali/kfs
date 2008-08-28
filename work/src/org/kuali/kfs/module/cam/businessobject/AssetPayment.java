@@ -94,7 +94,23 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     public AssetPayment() {
 
     }
+    
+    /**
+     * Constructs a AssetPayment.  Used with the Asset Separate document.
+     * @see org.kuali.kfs.module.cam.businessobject.AssetGlobal#generateGlobalChangesToPersist()
+     * 
+     * @param assetPayment
+     */
+    public AssetPayment (AssetPayment assetPayment) {
+        setAccountChargeAmount(assetPayment.getAccountChargeAmount());
+        setFinancialDocumentTypeCode(assetPayment.getFinancialDocumentTypeCode());
+    }
 
+    /**
+     * Constructs a AssetPayment for use with Asset Separate
+     * 
+     * @param assetPaymentDetail
+     */
     public AssetPayment(AssetPaymentDetail assetPaymentDetail) {
         setChartOfAccountsCode(assetPaymentDetail.getChartOfAccountsCode());
         setAccountNumber(assetPaymentDetail.getAccountNumber());

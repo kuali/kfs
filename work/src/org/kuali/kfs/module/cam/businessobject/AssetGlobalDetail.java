@@ -10,6 +10,8 @@ import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -52,11 +54,19 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     private String manufacturerName;
     private String organizationText;
     private String manufacturerModelNumber;
-    private Long separateSourceAmount; 
+    private KualiDecimal separateSourceAmount; 
 
     // Non persistent
     private List<AssetGlobalDetail> assetGlobalUniqueDetails;
+    private UniversalUser assetRepresentative;
 
+    public UniversalUser getAssetRepresentative() {
+        return assetRepresentative;
+    }
+
+    public void setAssetRepresentative(UniversalUser assetRepresentative) {
+        this.assetRepresentative = assetRepresentative;
+    }
 
     /**
      * Gets the locationQuantity attribute.
@@ -619,6 +629,14 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
         return organizationText;
     }
 
+    public KualiDecimal getSeparateSourceAmount() {
+        return separateSourceAmount;
+    }
+
+    public void setSeparateSourceAmount(KualiDecimal separateSourceAmount) {
+        this.separateSourceAmount = separateSourceAmount;
+    }
+
     public void setOrganizationText(String organizationText) {
         this.organizationText = organizationText;
     }
@@ -629,14 +647,6 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
         this.representativeUniversalIdentifier = representativeUniversalIdentifier;
-    }
-
-    public Long getSeparateSourceAmount() {
-        return separateSourceAmount;
-    }
-
-    public void setSeparateSourceAmount(Long separateSourceAmount) {
-        this.separateSourceAmount = separateSourceAmount;
     }
 
 }

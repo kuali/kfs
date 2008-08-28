@@ -32,18 +32,17 @@
         <ref bean="AssetGlobalDetail-locationQuantity" />
         <ref bean="AssetGlobalDetail-versionNumber" />
         <ref bean="AssetGlobalDetail-newCollectionRecord" />
-        <!-- AS START -->
+        <!-- Asset Separate - START -->
         <ref bean="AssetGlobalDetail-representativeUniversalIdentifier" />
-        <!-- 
-        <ref bean="AssetGlobalDetail-assetGlobal.assetRepresentative.personUserIdentifier" />
-        <ref bean="AssetGlobalDetail-assetGlobal.assetRepresentative.personName" />
-        -->
+        <ref bean="AssetGlobalDetail-assetRepresentative.personUserIdentifier" />
+        <ref bean="AssetGlobalDetail-assetRepresentative.personName" />
 		<ref bean="AssetGlobalDetail-capitalAssetTypeCode" />
 		<ref bean="AssetGlobalDetail-capitalAssetDescription" />
 		<ref bean="AssetGlobalDetail-manufacturerName" />
 		<ref bean="AssetGlobalDetail-organizationText" />
 		<ref bean="AssetGlobalDetail-manufacturerModelNumber" />
 		<ref bean="AssetGlobalDetail-separateSourceAmount" />
+		<!-- Asset Separate - END -->
       </list>
     </property>
   </bean>
@@ -383,12 +382,13 @@
   <bean id="AssetGlobalDetail-newCollectionRecord" parent="AssetGlobalDetail-newCollectionRecord-parentBean" />
   <bean id="AssetGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord" />
   
-  <!-- AS START -->
+  <!-- Asset Separate - START -->
+  <!-- show numeric ID or just alpha ID?
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier" parent="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" />
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="representativeUniversalIdentifier" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Asset Representative" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Representative ID" />
     <property name="shortLabel" value="representative" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
@@ -401,8 +401,8 @@
     <property name="summary" value="representativeUniversalIdentifier" />
     <property name="description" value="representativeUniversalIdentifier description..." />
   </bean>
-  
-  <!-- user ID validation needed?  
+  -->
+
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier" parent="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" />
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
     <property name="name" value="representativeUniversalIdentifier" />
@@ -411,29 +411,16 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="displayLabelAttribute" value="assetGlobal.assetRepresentative.personUserIdentifier" />
+    <property name="displayLabelAttribute" value="assetRepresentative.personUserIdentifier" />
+  </bean>
+
+  <bean id="AssetGlobalDetail-assetRepresentative.personUserIdentifier" parent="AssetGlobalDetail-assetRepresentative.personUserIdentifier-parentBean" />
+  <bean id="AssetGlobalDetail-assetRepresentative.personUserIdentifier-parentBean" abstract="true" parent="AssetGlobal-assetRepresentative.personUserIdentifier-parentBean">
   </bean>
   
-  <bean id="AssetGlobalDetail-assetGlobal.assetRepresentative.personUserIdentifier" parent="AssetGlobalDetail-assetGlobal.assetRepresentative.personUserIdentifier-parentBean" />
-  <bean id="AssetGlobalDetail-assetGlobal.assetRepresentative.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="assetGlobal.assetRepresentative.personUserIdentifier" />
-    <property name="label" value="Asset Representative" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="assetGlobal.assetRepresentative.personName"
-            p:universalIdAttributeName="representativeUniversalIdentifier"
-            p:userIdAttributeName="assetGlobal.assetRepresentative.personUserIdentifier" />
-    </property>
+  <bean id="AssetGlobalDetail-assetRepresentative.personName" parent="AssetGlobalDetail-assetRepresentative.personName-parentBean" />
+  <bean id="AssetGlobalDetail-assetRepresentative.personName-parentBean" abstract="true" parent="AssetGlobal-assetRepresentative.personName-parentBean">
   </bean>
-  
-  <bean id="AssetGlobalDetail-assetGlobal.assetRepresentative.personName" parent="AssetGlobalDetail-assetGlobal.assetRepresentative.personName-parentBean" />
-  <bean id="AssetGlobalDetail-assetGlobal.assetRepresentative.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="assetGlobal.assetRepresentative.personName" />
-    <property name="label" value="Asset Representative" />
-    <property name="required" value="false" />
-  </bean>  
-  -->
   
   <bean id="AssetGlobalDetail-capitalAssetTypeCode" parent="AssetGlobalDetail-capitalAssetTypeCode-parentBean" />
   <bean id="AssetGlobalDetail-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetGlobal-capitalAssetTypeCode" />
@@ -452,10 +439,11 @@
 
   <bean id="AssetGlobalDetail-separateSourceAmount" parent="AssetGlobalDetail-separateSourceAmount-parentBean" />
   <bean id="AssetGlobalDetail-separateSourceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-  	<property name="name" value="separateSourceAmount" />
-    <property name="forceUppercase" value="false" />
+    <property name="name" value="separateSourceAmount" />
     <property name="label" value="Separate Source Amount" />
-    <property name="shortLabel" value="Separate Source Amount" />
+    <property name="shortLabel" value="Amount" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  <!-- Asset Separate - END -->
+  
 </beans>

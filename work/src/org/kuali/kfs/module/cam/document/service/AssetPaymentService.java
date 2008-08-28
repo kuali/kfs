@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.document.service;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
@@ -81,12 +82,20 @@ public interface AssetPaymentService {
      */
     public boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment);
     
-    
-    /**
+     /**
      * Checks if object sub type is non depreciable federally owned 
      * 
      * @param string objectSubType
      * @return true if is NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES
      */
     public boolean isNonDepreciableFederallyOwnedObjSubType(String objectSubType);
+    
+    /**
+     * 
+     * 
+     * @param assetGlobal
+     * @param assetPayment
+     * @return
+     */
+    public KualiDecimal getProratedAssetPayment(AssetGlobal assetGlobal, AssetPayment assetPayment);
 }

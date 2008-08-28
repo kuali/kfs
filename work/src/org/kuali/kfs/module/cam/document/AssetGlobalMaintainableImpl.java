@@ -70,6 +70,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         setSeparateSourceCapitalAssetNumber(assetGlobal, parameters);
         setFinancialDocumentTypeCode(assetGlobal, parameters);
         
+        // populate required fields for "Asset Separate" doc
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             Asset asset = getAsset(assetGlobal);
             AssetOrganization assetOrganization = getAssetOrganization(assetGlobal);
@@ -185,7 +186,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     
     
     /**
-     * Get capital asset number from URL.
+     * Set capital asset number from URL.
      * @see org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
      * 
      * @param assetGlobal
@@ -199,7 +200,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     }
     
     /**
-     * Get document type code from URL.
+     * Set document type code from URL.
      * @see org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
      * 
      * @param assetGlobal
@@ -222,7 +223,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         List<Section> sections = super.getCoreSections(oldMaintainable);
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         
-        // hide "Asset Information" section if doc is not "Asset Separate"
+        // hide "Asset Information" tab from "Asset Separate" doc
         if (!assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             for (Section section : sections) {
                 if (CamsConstants.AssetGlobal.SECTION_ID_ASSET_INFORMATION.equals(section.getSectionId())) {
@@ -247,7 +248,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             handAssetPaymentsCollection(collectionName, assetGlobal);
         }
         if (CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS.equalsIgnoreCase(collectionName)) {
-            handleAssetSharedDetailsCollection(collectionName);
+            handleAssetSharedDetailsCollection(collectionName, assetGlobal);
         }
         int sharedDetailsIndex = assetGlobal.getAssetSharedDetails().size() - 1;
         if (sharedDetailsIndex > -1 && (CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + sharedDetailsIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS).equalsIgnoreCase(collectionName)) {
@@ -263,12 +264,19 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         }
     }
 
-    private void handleAssetSharedDetailsCollection(String collectionName) {
+    private void handleAssetSharedDetailsCollection(String collectionName, AssetGlobal assetGlobal) {
         AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) newCollectionLines.get(collectionName);
         Integer locationQuantity = assetGlobalDetail.getLocationQuantity();
         while (locationQuantity != null && locationQuantity > 0) {
             AssetGlobalDetail newAssetUnique = new AssetGlobalDetail();
             newAssetUnique.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+            
+            // populate fields for "Asset Separate" doc (location tab)
+            if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+                newAssetUnique.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
+                newAssetUnique.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
+                newAssetUnique.setManufacturerName(assetGlobal.getManufacturerName());
+            }
             assetGlobalDetail.getAssetGlobalUniqueDetails().add(newAssetUnique);
             newAssetUnique.setNewCollectionRecord(true);
             locationQuantity--;
@@ -341,8 +349,10 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
                     detail.setOffCampusZipCode(locationDetail.getOffCampusZipCode());
                     newDetails.add(detail);
                 }
+                
             }
         }
+        
         computeDepreciationDate(assetGlobal);
         assetGlobal.getAssetGlobalDetails().clear();
         assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);

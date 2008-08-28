@@ -60,6 +60,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalRule.class);
+    
     private static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
     static {
         LOCATION_FIELD_MAP.put(LocationField.CAMPUS_CODE, CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE);
@@ -80,7 +82,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
     private static BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
     private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-    
+
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#checkAuthorizationRestrictions(org.kuali.rice.kns.document.MaintenanceDocument)
      */
@@ -419,20 +421,21 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         boolean success = super.processCustomRouteDocumentBusinessRules(document);
+        
+        // need at least one asset location
         if (assetSharedDetails.isEmpty() || assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
-            // at least one asset should be added
             putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetGlobal.MIN_ONE_ASSET_REQUIRED);
             success &= false;
         }
-
+        
         // Capital Asset must have payment zone.
         if (isCapitalStatus(assetGlobal) && assetGlobal.getAssetPaymentDetails().isEmpty()) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS, CamsKeyConstants.AssetGlobal.MIN_ONE_PAYMENT_REQUIRED);
             success &= false;
         }
-
-        KualiDecimal totalPaymentByAsset = assetGlobalService.totalPaymentByAsset(assetGlobal);
+        
         // check if amount is above threshold for capital assets for normal user
+        KualiDecimal totalPaymentByAsset = assetGlobalService.totalPaymentByAsset(assetGlobal);
         UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
         String capitalizationThresholdAmount = parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
         if (isCapitalStatus(assetGlobal) && totalPaymentByAsset.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ADMINISTRATORS)) {
@@ -445,8 +448,31 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX);
             success = false;
         }
+        
+        // for Asset Separate doc - new source payments must be greater than the capital asset cost amount
+        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+            
+            // new source payments must be greater than the capital asset cost amount
+            KualiDecimal totalSeparateSourceAmount = assetGlobalService.totalSeparateSourceAmount(assetGlobal);
+            if (totalSeparateSourceAmount.isGreaterThan(assetGlobal.getTotalCostAmount())) {
+                putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT, new String[] { assetGlobal.getSeparateSourceCapitalAssetNumber().toString() });
+                success = false;
+            }
+
+            // only active capital assets can be separated
+            assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET);
+            if (ObjectUtils.isNotNull(assetGlobal.getSeparateSourceCapitalAsset())) {
+                if (!assetService.isCapitalAsset(assetGlobal.getSeparateSourceCapitalAsset())) {
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetSeparate.ERROR_NON_CAPITAL_ASSET_SEPARATE, assetGlobal.getSeparateSourceCapitalAssetNumber().toString());
+                    success = false;
+                }
+            }
+
+        } 
+        
         success = validateLocationCollection(assetGlobal, assetSharedDetails);
         success = validateTagDuplication(assetSharedDetails);
+        
         return success;
     }
 
@@ -509,7 +535,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         String acquisitionTypeCode = assetGlobal.getAcquisitionTypeCode();
         String statusCode = assetGlobal.getInventoryStatusCode();
 
-        // no need to validate non-editable fields or generate GLPEs if document is Asset Separate
+        // no need to validate non-editable fields for "Asset Separate" doc
         if (!assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
                 UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
@@ -532,23 +558,23 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
 
             success &= validatePaymentCollection(assetGlobal);
+        }
         
-            // System shall only GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode
-            // is for capital assets
-            if ((success & super.processCustomSaveDocumentBusinessRules(document))
-                    && assetAcquisitionTypeService.hasIncomeAssetObjectCode(acquisitionTypeCode)
-                    && this.isCapitalStatus(assetGlobal)) {
+        // System shall only GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode
+        // is for capital assets
+        if ((success & super.processCustomSaveDocumentBusinessRules(document))
+                && assetAcquisitionTypeService.hasIncomeAssetObjectCode(acquisitionTypeCode)
+                && this.isCapitalStatus(assetGlobal)) {
 
-                // create poster
-                AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
-                // create postables
+            // create poster
+            AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
+            // create postables
                 assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster);
                 
-                if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
-                    assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
-                } else {
-                    assetGlobalGlPoster.getPendingEntries().clear();
-                }
+            if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
+                assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
+            } else {
+                assetGlobalGlPoster.getPendingEntries().clear();
             }
         }
         
@@ -613,8 +639,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (success) {
             boolean isCapitalAsset = isCapitalStatus(assetGlobal);
             success = SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetGlobalDetail, isCapitalAsset, assetGlobal.getCapitalAssetType());
-        }
-        else {
+        } else {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.VERSION_NUM, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
         }
         return success;
@@ -629,6 +654,5 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
-
 
 }

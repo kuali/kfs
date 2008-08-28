@@ -202,4 +202,9 @@ public class CamsKeyConstants {
         public static final String ERROR_FINANCIAL_DOCUMENT_POSTING_YEAR_REQUIRED = "error.financial.document.posting.year.required";
         public static final String ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE = "error.university.not.defined.for.date";
     }
+    
+    public static class AssetSeparate {
+        public static final String ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT = "error.total.separate.source.amount";
+        public static final String ERROR_NON_CAPITAL_ASSET_SEPARATE = "error.non.capital.asset.separate";
+    }
 }

@@ -29,11 +29,13 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.dataaccess.AssetPaymentDao;
+import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -57,6 +59,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     private ObjectCodeService objectCodeService;
     private AssetRetirementService assetRetirementService;
     private AssetService assetService;
+    private AssetGlobalService assetGlobalService;
 
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getMaxSequenceNumber(org.kuali.kfs.module.cam.businessobject.AssetPayment)
@@ -289,5 +292,24 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         }
         return federallyOwnedObjectSubTypes.contains(objectSubType);
     }
-
+    
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getProratedAssetPayment(org.kuali.kfs.module.cam.businessobject.AssetGlobal, org.kuali.kfs.module.cam.businessobject.AssetPayment)
+     */
+    public KualiDecimal getProratedAssetPayment(AssetGlobal assetGlobal, AssetPayment assetPayment) {
+        LOG.info("LEO - SERVICE PRORATE - STARTED....");
+        
+        KualiDecimal separateSourceTotal = assetGlobalService.totalSeparateSourceAmount(assetGlobal);
+        LOG.info("LEO - SERVICE PRORATE - separateSourceTotal: '" + separateSourceTotal + "'");
+        KualiDecimal assetPaymentAmount = assetPayment.getAccountChargeAmount();
+        LOG.info("LEO - SERVICE PRORATE - assetPaymentAmount: '" + assetPaymentAmount + "'");
+        Integer locationQuantity = assetGlobal.getAssetSharedDetails().get(0).getAssetGlobalUniqueDetails().size();
+        LOG.info("LEO - SERVICE PRORATE - locationQuantity: '" + locationQuantity + "'");
+        //KualiDecimal separateSourceAdjustedAmount = separateSourceTotal.divide(new KualiDecimal(assetGlobalService.getAssetGlobalDetailLocationQuantity(assetGlobal)));
+        KualiDecimal separateSourceAdjustedAmount = separateSourceTotal.divide(new KualiDecimal(locationQuantity));
+        LOG.info("LEO - SERVICE PRORATE - separateSourceAdjustedAmount: '" + separateSourceAdjustedAmount + "'");
+        
+        LOG.info("LEO - SERVICE PRORATE - FINISHED");
+        return (assetPaymentAmount.multiply(separateSourceAdjustedAmount)).divide(separateSourceTotal);
+    }
 }

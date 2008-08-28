@@ -314,21 +314,18 @@
 					<bean parent="MaintainableFieldDefinition"
                     	  p:name="newCollectionRecord"
                     	  p:defaultValue="true" />	  
-                   	<!-- AS START -->        	                   	
-                   	<bean parent="MaintainableFieldDefinition"
-                    	  p:name="representativeUniversalIdentifier"
-                          p:readOnlyAfterAdd="true" />
-                    <!-- user validation needed?
+                   	<!-- Asset Separate - START -->
 			       	<bean parent="MaintainableFieldDefinition"
-			              p:name="representativeUniversalIdentifier" /> 
+			              p:name="representativeUniversalIdentifier" 
+			              p:readOnlyAfterAdd="true" /> 
 			        <bean parent="MaintainableFieldDefinition"
-			              p:name="assetGlobal.assetRepresentative.personUserIdentifier" />
+			              p:name="assetRepresentative.personUserIdentifier" />
 			        <bean parent="MaintainableFieldDefinition"
-			              p:name="assetGlobal.assetRepresentative.personName"
+			              p:name="assetRepresentative.personName"
 			              p:readOnly="true" />
-			        -->
                     <bean parent="MaintainableFieldDefinition"
                     	  p:name="capitalAssetTypeCode"
+                    	  p:required="true"
                           p:readOnlyAfterAdd="true" /> 
                    	<bean parent="MaintainableFieldDefinition"
                     	  p:name="capitalAssetDescription"
@@ -344,7 +341,9 @@
                           p:readOnlyAfterAdd="true" />
                    	<bean parent="MaintainableFieldDefinition"
                     	  p:name="separateSourceAmount"
-                          p:readOnlyAfterAdd="true" />                    
+                    	  p:required="true"
+                          p:readOnlyAfterAdd="true" /> 
+                    <!-- Asset Separate - END -->                   
                   </list>
                 </property>
               </bean>
@@ -364,7 +363,6 @@
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="assetPaymentDetails" />
           <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" />
-          <!-- <property name="includeAddLine" value="false" /> -->
           <property name="summaryTitle" value="Asset Payment" />
           <property name="summaryFields" >
             <list>

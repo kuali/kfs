@@ -26,7 +26,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public interface AssetGlobalService {
     /**
-     * 
      * To calculate the total payment amounts for each asset.
      * 
      * @param assetGlobal
@@ -35,7 +34,6 @@ public interface AssetGlobalService {
     public KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal);
 
     /**
-     * 
      * This method checks if member exists in the given group.
      * 
      * @param groupName
@@ -45,7 +43,6 @@ public interface AssetGlobalService {
     public boolean existsInGroup(String groupName, String memberName);
 
     /**
-     * 
      * To calculate the total non federal contribution payment amounts for each asset.
      * 
      * @param assetGlobal
@@ -56,11 +53,10 @@ public interface AssetGlobalService {
     /**
      * Creates GL Postables
      */
-    public void createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster);
+    public boolean createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster);
 
 
     /**
-     * 
      * To check if the objectCode can derive a capital asset by its object sub type code.
      * 
      * @param objectCode
@@ -75,4 +71,21 @@ public interface AssetGlobalService {
      * @return boolean
      */
     public boolean isAssetSeparateDocument(AssetGlobal assetGlobal);
+    
+    /**
+     * Add and return the total amount for separate source amount
+     * 
+     * @param assetGlobal
+     * @return KualiDecimal
+     */
+    public KualiDecimal totalSeparateSourceAmount (AssetGlobal assetGlobal);
+    
+    /**
+     * NEEDED?
+     * Returns the quantity of new assets to be created.
+     * 
+     * @param assetGlobal
+     * @return
+     */
+    public Integer getAssetGlobalDetailLocationQuantity (AssetGlobal assetGlobal);
 }

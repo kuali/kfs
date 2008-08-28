@@ -8,7 +8,9 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cg.businessobject.Agency;
@@ -710,9 +712,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
-        KualiDecimal accumulatedDepreciationAmount = new KualiDecimal(0);
         String financialObjectSubTypeCode = null;
-        boolean isDepreciablePayment = false;
+        AssetGlobal assetGlobal = SpringContext.getBean(AssetGlobal.class);
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
 
@@ -765,10 +766,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         }
 
         for (AssetPaymentDetail payment : assetPaymentDetails) {
-
-            financialObjectSubTypeCode = payment.getObjectCode().getFinancialObjectSubTypeCode();
-            isDepreciablePayment = !assetPaymentService.isNonDepreciableFederallyOwnedObjSubType(financialObjectSubTypeCode);
-
             for (AssetGlobalDetail location : assetGlobalDetails) {
                 // Distribute Asset Payments from AssetPaymentDetails to AssetPayment
                 // Divide each payment to records in Asset AssetGlobalDetails
@@ -784,6 +781,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 assetPayment.setOrganizationReferenceId(payment.getOrganizationReferenceId());
                 assetPayment.setFinancialSystemOriginationCode(payment.getExpenditureFinancialSystemOriginationCode());
                 assetPayment.setDocumentNumber(payment.getExpenditureFinancialDocumentNumber());
+                // type code over written below for Asset Separate document
                 assetPayment.setFinancialDocumentTypeCode(payment.getExpenditureFinancialDocumentTypeCode());
                 assetPayment.setRequisitionNumber(payment.getRequisitionNumber());
                 assetPayment.setPurchaseOrderNumber(payment.getPurchaseOrderNumber());
@@ -798,25 +796,31 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                     assetPayment.setFinancialDocumentPostingYear(currentUniversityDate.getUniversityFiscalYear());
                     assetPayment.setFinancialDocumentPostingPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());
                 }
-                assetPayment.setAccountChargeAmount(payment.getAmount().divide(new KualiDecimal(assetGlobalDetails.size())));
-
-                if (isDepreciablePayment) {
-                    assetPayment.setPrimaryDepreciationBaseAmount(assetPayment.getAccountChargeAmount());
-                    accumulatedDepreciationAmount = accumulatedDepreciationAmount.add(assetPayment.getAccountChargeAmount());
+                
+                // set values for source asset within Asset Separate doc
+                if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+                    assetPayment.setAccountChargeAmount(location.getSeparateSourceAmount());
+                    assetPayment.setFinancialDocumentTypeCode(CamsConstants.DocumentTypeCodes.ASSET_SEPARATE);
+                } else {
+                    assetPayment.setAccountChargeAmount(payment.getAmount().divide(new KualiDecimal(assetGlobalDetails.size()))); 
                 }
-                else {
-                    assetPayment.setPrimaryDepreciationBaseAmount(new KualiDecimal(0));
-                }
-
+                
+                assetPayment.setPrimaryDepreciationBaseAmount(primaryDepreciationBaseAmount);
                 persistables.add(assetPayment);
             }
         }
-
-        if (isDepreciablePayment) {
-            setPrimaryDepreciationBaseAmount(accumulatedDepreciationAmount);
-            persistables.add(this);
+        
+        // reduce source asset payment for Asset Separate document
+        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+            Asset separateSourceCapitalAsset = assetGlobal.getSeparateSourceCapitalAsset();
+            
+            for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
+                AssetPayment offsetAssetPayment = new AssetPayment(assetPayment);
+                assetPayment.setAccountChargeAmount(assetPaymentService.getProratedAssetPayment(assetGlobal, assetPayment));
+                assetPayment.setFinancialDocumentTypeCode(CamsConstants.DocumentTypeCodes.ASSET_SEPARATE);
+                persistables.add(offsetAssetPayment);
+            }
         }
-
         return persistables;
     }
 

@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 
@@ -54,11 +55,21 @@ public enum AssetPaymentServiceFixture {
         AssetPayment assetPayment = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPayment.class, properties, propertyKey, fieldNames, deliminator);
         return assetPayment;
     }
+
+    @SuppressWarnings("deprecation")
+    public AssetPaymentAssetDetail newAssetPaymentAssetDetail() {
+        String propertyKey = "assetPaymentAssetDetail.testData" + testDataPos;
+        String deliminator = properties.getProperty("deliminator");
+        String fieldNames = properties.getProperty("assetPaymentAssetDetail.fieldNames");
+        AssetPaymentAssetDetail assetPaymentAssetDetail = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPaymentAssetDetail.class, properties, propertyKey, fieldNames, deliminator);
+        return assetPaymentAssetDetail;
+    }
     
     @SuppressWarnings("deprecation")
     public AssetPaymentDocument newAssetPaymentDocument() {
         AssetPaymentDocument assetPaymentDocument = new AssetPaymentDocument();        
         List<AssetPaymentDetail> assetPaymentDetails = new ArrayList<AssetPaymentDetail>();        
+        List<AssetPaymentAssetDetail> assetPaymentAssetDetails = new ArrayList<AssetPaymentAssetDetail>();
         
         String fieldNames   = properties.getProperty("assetPaymentDetail.fieldNames");        
         String deliminator  = properties.getProperty("deliminator");
@@ -70,12 +81,20 @@ public enum AssetPaymentServiceFixture {
             AssetPaymentDetail assetPaymentDetail = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPaymentDetail.class, properties, propertyKey, fieldNames, deliminator);
             assetPaymentDetails.add(assetPaymentDetail);
         }
-        // Getting asset data
-        propertyKey = "asset.testData";        
-        fieldNames  = properties.getProperty("asset.fieldNames");
-        Asset asset = CamsFixture.DATA_POPULATOR.buildTestDataObject(Asset.class, properties, propertyKey, fieldNames, deliminator); 
 
+        fieldNames   = properties.getProperty("assetPaymentAssetDetail.fieldNames");        
+        deliminator  = properties.getProperty("deliminator");
+        dataRows    = new Integer(properties.getProperty("assetPaymentAssetDetail.numOfData"));                
+        propertyKey="";
+        
+        for(int i=1;i<=dataRows.intValue();i++) {
+            propertyKey = "assetPaymentAssetDetail.testData" + i;
+            AssetPaymentAssetDetail assetPaymentAssetDetail = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPaymentAssetDetail.class, properties, propertyKey, fieldNames, deliminator);
+            assetPaymentAssetDetails.add(assetPaymentAssetDetail);
+        }
+        
         assetPaymentDocument.setSourceAccountingLines(assetPaymentDetails);
+        assetPaymentDocument.setAssetPaymentAssetDetail(assetPaymentAssetDetails);
         return assetPaymentDocument;
     }
 }

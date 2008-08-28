@@ -708,5 +708,13 @@
 	    <field-descriptor name="functionalFieldDescription" column="FNCTNL_FIELD_DESCR" jdbc-type="VARCHAR"/>
         <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />        
  	</class-descriptor>
+ 	
+ 	<class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegionType" table="FP_TAX_REGION_TYPE_T">
+ 		<field-descriptor name="taxRegionTypeCode" column="TAX_REGION_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+ 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="TaxRegionTypeName" column="TAX_REGION_TYP_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" />
+	</class-descriptor>
 	    
 </descriptor-repository>

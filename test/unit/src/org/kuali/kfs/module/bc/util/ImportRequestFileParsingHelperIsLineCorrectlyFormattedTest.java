@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.bc.service;
+package org.kuali.kfs.module.bc.util;
 
 import org.kuali.kfs.module.bc.fixture.ImportRequestFilelLineFixture;
+import org.kuali.kfs.module.bc.util.ImportRequestFileParsingHelper;
 import org.kuali.kfs.sys.context.KualiTestBase;
 
 public class ImportRequestFileParsingHelperIsLineCorrectlyFormattedTest extends KualiTestBase {

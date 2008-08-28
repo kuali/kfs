@@ -27,7 +27,7 @@
 			</tr>
 			<c:if test="${!viewOnly}">
 			    <tr>
-				    <th width="10%">Asset Number:</th>
+				    <th width="10%"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" /></th>
 					<td class="infoline" valign="top" width="84%">															   
 						<kul:htmlControlAttribute attributeEntry="${assetAttributes.capitalAssetNumber}" property="capitalAssetNumber"/>				
 						<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" fieldConversions="capitalAssetNumber:capitalAssetNumber"

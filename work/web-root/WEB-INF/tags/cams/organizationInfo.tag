@@ -17,6 +17,7 @@
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 <c:set var="assetOrganizationAttributes" value="${DataDictionary.AssetOrganization.attributes}" />
+<c:set var="assetGlobalDetailAttributes" value="${DataDictionary.AssetGlobalDetail.attributes}" />
 
 	<kul:tab tabTitle="Organization" defaultOpen="${!defaultTabHide}" > 
 		<div class="tab-container" align="center">
@@ -27,7 +28,7 @@
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.organizationInventoryName}" /></th> 
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.organizationInventoryName" attributeEntry="${assetAttributes.organizationInventoryName}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right">Asset Representative:</th> 
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetGlobalDetailAttributes.representativeUniversalIdentifier}" /></th> 
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.assetRepresentative.personName" attributeEntry="${assetAttributes.representativeUniversalIdentifier}" readOnly="true"/></td>
 			</tr>
 
@@ -38,7 +39,7 @@
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.assetOrganization.organizationTagNumber" attributeEntry="${assetOrganizationAttributes.organizationTagNumber}" readOnly="true"/></td>
 			</tr>		
 			<tr>
-				<th class="grid" width="25%" align="right">Organization Asset Type Identifier:</th> 
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetGlobalDetailAttributes.organizationAssetTypeIdentifier}" /></th> 
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.assetOrganization.organizationAssetTypeIdentifier" attributeEntry="${assetOrganizationAttributes.organizationAssetTypeIdentifier}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right" colspan="2"></th>
             </tr>

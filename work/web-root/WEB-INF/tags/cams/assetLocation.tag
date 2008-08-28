@@ -17,8 +17,9 @@
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 <c:set var="assetLocationAttributes" value="${DataDictionary.AssetLocation.attributes}" />
+<c:set var="assetTransferAttributes" value="${DataDictionary.AssetTransferDocument.attributes}" />
 
-<kul:tab tabTitle="Asset Location" defaultOpen="${!defaultTabHide}"> 
+<kul:tab tabTitle="Asset Location" defaultOpen="${!defaultTabHide}">    
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
 			<tr>
@@ -27,36 +28,36 @@
 			<tr>
 				<th class="grid" width="25%" align="right">Campus:</th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.campusCode" attributeEntry="${assetAttributes.campusCode}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right">Name:</th>  
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusName}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationContactName" attributeEntry="${assetLocationAttributes.assetLocationContactName}" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<th class="grid" width="25%" align="right">Building Code:</th>  
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingCode}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.buildingCode" attributeEntry="${assetAttributes.buildingCode}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right">Address:</th>  
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusAddress}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationStreetAddress" attributeEntry="${assetLocationAttributes.assetLocationStreetAddress}" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<th class="grid" width="25%" align="right">Building Room Number:</th>  
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingRoomNumber}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.buildingRoomNumber" attributeEntry="${assetAttributes.buildingRoomNumber}" readOnly="true"/></td><%--				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetLocationAttributes.assetLocationCityName}" /></th> --%>
-				<th class="grid" width="25%" align="right">City:</th>  
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCityName}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationCityName" attributeEntry="${assetLocationAttributes.assetLocationCityName}" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.buildingSubRoomNumber}" /></th>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingSubRoomNumber}" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.buildingSubRoomNumber" attributeEntry="${assetAttributes.buildingRoomNumber}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right">State:</th>  
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusStateCode}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationStateCode" attributeEntry="${assetLocationAttributes.assetLocationStateCode}" readOnly="true"/></td>
 				</td>						
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right" colspan="2"></th>
-				<th class="grid" width="25%" align="right">Zip Code:</th>  
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusZipCode}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationZipCode" attributeEntry="${assetLocationAttributes.assetLocationZipCode}" readOnly="true"/></td>
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right" colspan="2"></th>
-				<th class="grid" width="25%" align="right">Country:</th>  
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCountryCode}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationCountryCode" attributeEntry="${assetLocationCountryCode}" readOnly="true"/></td>
 				</td>						
 			</tr>

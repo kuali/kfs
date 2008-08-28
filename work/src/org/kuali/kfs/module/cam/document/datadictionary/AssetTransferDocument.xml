@@ -180,7 +180,7 @@
   <bean id="AssetTransferDocument-offCampusCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="offCampusCityName" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="City Name" />
+    <property name="label" value="City" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />
     <property name="validationPattern" >
@@ -426,10 +426,18 @@
    <bean id="AssetTransferDocument-offCampusCountryCode" parent="AssetTransferDocument-offCampusCountryCode-parentBean" />
 
   <bean id="AssetTransferDocument-offCampusCountryCode-parentBean" abstract="true" parent="AssetGlobalDetail-offCampusCountryCode">
+    <property name="name" value="offCampusCountryCode" />
+    <property name="label" value="Country" />
+    <property name="summary" value="Off Campus Country" />
+    <property name="description" value="Off Campus Country description..." />
   </bean>
   <bean id="AssetTransferDocument-offCampusName" parent="AssetTransferDocument-offCampusName-parentBean" />
 
   <bean id="AssetTransferDocument-offCampusName-parentBean" abstract="true" parent="AssetGlobalDetail-offCampusName">
+    <property name="name" value="offCampusName" />
+    <property name="label" value="Name" />
+    <property name="summary" value="Off Campus Name" />
+    <property name="description" value="Off Campus Name description..." />
   </bean>
   
 <!-- Exported Workflow Properties -->

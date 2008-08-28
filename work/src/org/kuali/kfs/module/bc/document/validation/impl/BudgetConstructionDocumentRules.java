@@ -318,15 +318,36 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         isValid &= (currentErrorCount == originalErrorCount);
         
         if (isValid){
+            KualiInteger monthlyTotal = budgetConstructionMonthly.getFinancialDocumentMonthTotalLineAmount();
             if (!salarySettingService.isSalarySettingDisabled()){
                 if (pbgl.getLaborObject() != null && pbgl.getLaborObject().isDetailPositionRequiredIndicator()){
                     
                     // no request amount overrides allowed for salary setting detail lines
-                    KualiInteger monthlyTotal = budgetConstructionMonthly.getFinancialDocumentMonthTotalLineAmount();
                     if (!monthlyTotal.equals(pbgl.getAccountLineAnnualBalanceAmount())){
                         isValid &= false;
                         errors.putError(BCPropertyConstants.FINANCIAL_DOCUMENT_MONTH1_LINE_AMOUNT, BCKeyConstants.ERROR_MONTHLY_DETAIL_SALARY_OVERIDE, budgetConstructionMonthly.getFinancialObjectCode(), monthlyTotal.toString(), pbgl.getAccountLineAnnualBalanceAmount().toString());
                     }
+                }
+            }
+            
+            //TODO check for monthly total adding to zero (makes no sense)
+            if (monthlyTotal.isZero()){
+                boolean nonZeroMonthlyExists = false;
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth1LineAmount().isNonZero();
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth2LineAmount().isNonZero();
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth3LineAmount().isNonZero();
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth4LineAmount().isNonZero();
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth5LineAmount().isNonZero();
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth6LineAmount().isNonZero();
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth7LineAmount().isNonZero();
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth8LineAmount().isNonZero();
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth9LineAmount().isNonZero();
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth10LineAmount().isNonZero();
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth11LineAmount().isNonZero();
+                nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth12LineAmount().isNonZero();
+                if (nonZeroMonthlyExists){
+                    isValid &= false;
+                    errors.putError(BCPropertyConstants.FINANCIAL_DOCUMENT_MONTH1_LINE_AMOUNT, BCKeyConstants.ERROR_MONTHLY_TOTAL_ZERO);
                 }
             }
         }

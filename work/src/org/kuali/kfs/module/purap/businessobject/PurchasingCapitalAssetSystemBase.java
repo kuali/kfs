@@ -37,10 +37,13 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
     private List<ItemCapitalAsset> purchasingItemCapitalAssets;
     private List<CapitalAssetLocation> purchasingCapitalAssetLocations;
 
+    private CapitalAssetLocation newPurchasingCapitalAssetLocationLine;
+
     public PurchasingCapitalAssetSystemBase() {
         super();
         purchasingItemCapitalAssets = new TypedArrayList(getItemCapitalAssetClass());
         purchasingCapitalAssetLocations = new TypedArrayList(getCapitalAssetLocationClass());
+        this.setNewPurchasingCapitalAssetLocationLine(this.setupNewPurchasingCapitalAssetLocationLine());
     }
 
     public String getCapitalAssetSystemDescription() {
@@ -118,7 +121,40 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
     public abstract Class getItemCapitalAssetClass();
     
     public abstract Class getCapitalAssetLocationClass();
-    
+ 
+    //CAMS LOCATION   
+    public CapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
+        CapitalAssetLocation location = null; 
+        try{
+            location = (CapitalAssetLocation)getCapitalAssetLocationClass().newInstance();
+        }
+        catch (InstantiationException e) {
+            throw new RuntimeException("Unable to get class");
+        }
+        catch (IllegalAccessException e) {
+            throw new RuntimeException("Unable to get class");
+        }
+        catch (NullPointerException e) {
+            throw new RuntimeException("Can't instantiate Purchasing Account from base");
+        }
+
+        return location;
+    }
+
+    public void setNewPurchasingCapitalAssetLocationLine(CapitalAssetLocation newCapitalAssetLocationLine) {
+        this.newPurchasingCapitalAssetLocationLine = newCapitalAssetLocationLine;
+    }
+
+    public CapitalAssetLocation getNewPurchasingCapitalAssetLocationLine() {
+        return newPurchasingCapitalAssetLocationLine;
+    }
+
+    public CapitalAssetLocation getAndResetNewPurchasingCapitalAssetLocationLine() {
+        CapitalAssetLocation asset = getNewPurchasingCapitalAssetLocationLine();
+        setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
+        return asset;
+    }
+
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();	            
         if (this.capitalAssetSystemIdentifier != null) {

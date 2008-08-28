@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
@@ -39,6 +40,8 @@ public class CapitalAssetSystemTypeValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection types = boService.findAll(CapitalAssetSystemType.class);
         List labels = new ArrayList();
+        KeyLabelPair blank = new KeyLabelPair(KFSConstants.EMPTY_STRING, "None");
+        labels.add(blank);        
         for (Object type : types) {
             CapitalAssetSystemType camsType = (CapitalAssetSystemType)type;           
             labels.add(new KeyLabelPair(camsType.getCapitalAssetSystemTypeCode(), camsType.getCapitalAssetSystemTypeDescription()));

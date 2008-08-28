@@ -107,6 +107,14 @@
 		    <purap:puritems itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
 		        accountingLineAttributes="${DataDictionary.PurchaseOrderAccount.attributes}"
 		        extraHiddenItemFields="documentNumber"/> 
+
+			<purap:purCams documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
+				itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}" 
+				camsItemAttributes="${DataDictionary.PurchaseOrderCapitalAssetItem.attributes}" 
+				camsSystemAttributes="${DataDictionary.PurchaseOrderCapitalAssetSystem.attributes}"
+				camsAssetAttributes="${DataDictionary.PurchaseOrderItemCapitalAsset.attributes}"
+				camsLocationAttributes="${DataDictionary.PurchaseOrderCapitalAssetLocation.attributes}" 
+				isPurchaseOrder="true" />
 		     
 		    <purap:paymentinfo
 		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 

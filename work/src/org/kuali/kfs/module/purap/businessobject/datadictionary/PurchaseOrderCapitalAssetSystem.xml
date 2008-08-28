@@ -62,8 +62,8 @@
     </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="40" />
+            p:rows="4"
+            p:cols="60" />
     </property>
     <property name="summary" value="capitalAssetModelDescription" />
     <property name="description" value="capitalAssetModelDescription description..." />
@@ -94,8 +94,8 @@
     </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
+            p:rows="4"
+            p:cols="60" />
     </property>
     <property name="summary" value="capitalAssetSystemDescription" />
     <property name="description" value="capitalAssetSystemDescription description..." />

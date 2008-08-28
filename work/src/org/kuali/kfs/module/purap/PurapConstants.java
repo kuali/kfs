@@ -781,5 +781,21 @@ public class PurapConstants extends JSTLConstants {
     public static String PRODUCTION_ENVIRONMENT = "PRD";
 
     public static final String ELECTRONIC_INVOICE_FILE_TYPE_INDENTIFIER = "electronicInvoiceInputFileType";
+
+    public static class CapitalAssetAvailability {
+        public static final String NONE = "NONE";
+        public static final String ONCE = "ONCE";
+        public static final String EACH = "EACH";
+    }
     
+    public static class CapitalAssetSystemTypes{
+        public static final String ONE_SYSTEM = "ONE";
+        public static final String INDIVIDUAL = "IND";
+        public static final String MULIPLE = "MUL";
+    }
+    
+    public static class CapitalAssetSystemStates{
+        public static final String NEW = "NEW";
+        public static final String MODIFY = "MOD";
+    }
 }

@@ -14,61 +14,75 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<%@ attribute name="camsItemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="camsSystemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="camsAssetAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="camsLocationAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="ctr" required="true" description="item count"%>
 <%@ attribute name="ctr2" required="true" description="item count"%>
+<%@ attribute name="camsAssetLocationProperty" required="true" description="String that represents the prefix of the property name to store into the document on the form."%>
+<%@ attribute name="isEditable" required="true" description="Determines if a cams location is editable"%>
+<%@ attribute name="availability" required="true" description="Determines if this is a capture once tag or for each"%>
+
+<c:if test="${empty isEditable}">
+	<c:set var="isEditable" value="false"/>
+</c:if>
+
+<c:if test="${empty availability}">
+	<c:set var="availability" value="${PurapConstants.CapitalAssetAvailability.EACH}"/>
+</c:if>
 
 <table class="datatable" summary="" border="0" cellpadding="0" cellspacing="0" style="width:100%">
 <tr>
 	<td colspan="4" class="subhead">
-		<span class="left">Locations</span>
-		<span class="right"><html:image property="methodToCall.deleteCapitalAssetLocation.(((${ctr}))).((#${ctr2}#))" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete a Asset Location" title="Delete a Asset Location" styleClass="tinybutton" /></span>
+		<span class="left">Location</span>
+		<c:if test="${!isEditable}">
+		<span class="right">
+			<html:image property="methodToCall.deleteCapitalAssetLocation.(((${ctr}))).((#${ctr2}#))" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete a Asset Location" title="Delete a Asset Location" styleClass="tinybutton" />
+		</span>
+		</c:if>
 	</td>
 </tr>
 <tr>
 	<kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.itemQuantity}" align="right" />
 	<td class="datacell">
-		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.itemQuantity}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].itemQuantity" readOnly="true"/>
+		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.itemQuantity}" property="${camsAssetLocationProperty}.itemQuantity" readOnly="${!isEditable}"/>
 	</td>
     <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" align="right" />
     <td class="datacell">
-		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].capitalAssetLine1Address" readOnly="true"/>
+		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" property="${camsAssetLocationProperty}.capitalAssetLine1Address" readOnly="${!isEditable}"/>
 	</td>
     </tr>
     <tr>
     	<kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.buildingCode}" align="right" />
     <td class="datacell">
-		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingCode}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].buildingCode" readOnly="true"/>
+		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingCode}" property="${camsAssetLocationProperty}.buildingCode" readOnly="${!isEditable}"/>
+		<c:if test="${isEditable}">
         <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
-        	lookupParameters="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].campusCode:campusCode"
-        	fieldConversions="buildingCode:document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].buildingCode,campusCode:document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].campusCode,buildingStreetAddress:document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].capitalAssetLine1Address,buildingAddressCityName:document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].capitalAssetCityName,buildingAddressStateCode:document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].capitalAssetStateCode,buildingAddressZipCode:document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].capitalAssetPostalCode"/>
+        	lookupParameters="${camsAssetLocationProperty}.campusCode:campusCode"
+        	fieldConversions="buildingCode:${camsAssetLocationProperty}.buildingCode,campusCode:${camsAssetLocationProperty}.campusCode,buildingStreetAddress:${camsAssetLocationProperty}.capitalAssetLine1Address,buildingAddressCityName:${camsAssetLocationProperty}.capitalAssetCityName,buildingAddressStateCode:${camsAssetLocationProperty}.capitalAssetStateCode,buildingAddressZipCode:${camsAssetLocationProperty}.capitalAssetPostalCode" />
+		</c:if>
 	</td>
     <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetCityName}" align="right" />
     <td class="datacell">
-		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetCityName}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].capitalAssetCityName" readOnly="true"/>
+		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetCityName}" property="${camsAssetLocationProperty}.capitalAssetCityName" readOnly="${!isEditable}"/>
 	</td>
 </tr>
 <tr>
 	<kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.campusCode}" align="right" />
     <td class="datacell">
-		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.campusCode}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].campusCode" readOnly="true"/>
+		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.campusCode}" property="${camsAssetLocationProperty}.campusCode" readOnly="${!isEditable}"/>
 	</td>
     <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetStateCode}" align="right" />
 	<td class="datacell">
-    	<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetStateCode}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].capitalAssetStateCode" readOnly="true"/>
+    	<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetStateCode}" property="${camsAssetLocationProperty}.capitalAssetStateCode" readOnly="${!isEditable}"/>
 	</td>
 </tr>
 <tr>
 	<kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.buildingRoomNumber}" align="right" />
     <td class="datacell">
-		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingRoomNumber}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].buildingRoomNumber" readOnly="true"/>
+		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingRoomNumber}" property="${camsAssetLocationProperty}.buildingRoomNumber" readOnly="${!isEditable}"/>
 	</td>
     <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetPostalCode}" align="right" />
     <td class="datacell">
-		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetPostalCode}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem.purchasingCapitalAssetLocations[${ctr2}].capitalAssetPostalCode" readOnly="true"/>
+		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetPostalCode}" property="${camsAssetLocationProperty}.capitalAssetPostalCode" readOnly="${!isEditable}"/>
 	</td>
 </tr>
 </table>

@@ -56,4 +56,12 @@ public interface CapitalAssetSystem {
 
     public void setCapitalAssetNoteText(String capitalAssetNoteText);
 
+    public CapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine();
+
+    public void setNewPurchasingCapitalAssetLocationLine(CapitalAssetLocation newCapitalAssetLocationLine);
+
+    public CapitalAssetLocation getNewPurchasingCapitalAssetLocationLine();
+
+    public CapitalAssetLocation getAndResetNewPurchasingCapitalAssetLocationLine();
+
 }

@@ -65,7 +65,17 @@ public class RequisitionForm extends PurchasingFormBase {
             getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.statusCode", "Not Available"));
         }
     }
-    
+
+    @Override
+    public Class getCapitalAssetLocationClass() {
+        return RequisitionCapitalAssetLocation.class;
+    }
+
+    @Override
+    public Class getItemCapitalAssetClass() {
+        return RequisitionItemCapitalAsset.class;
+    }
+
     /**
      * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase#setupNewPurchasingItemLine()
      */

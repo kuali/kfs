@@ -22,9 +22,11 @@ import java.util.List;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
 import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -219,6 +221,14 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         this.distributePurchasingCommodityDescription = distributePurchasingCommodityDescription;
     }
 
+    public Class getItemCapitalAssetClass(){
+        return null;
+    }
+    
+    public Class getCapitalAssetLocationClass(){
+        return null;
+    }
+
     //CAMS ASSET
     //Must be overridden
     public ItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
@@ -243,7 +253,20 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     //CAMS LOCATION
     //Must be overridden
     public CapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
-        CapitalAssetLocation location = null;
+        CapitalAssetLocation location = null; 
+        try{
+            location = (CapitalAssetLocation)getCapitalAssetLocationClass().newInstance();
+        }
+        catch (InstantiationException e) {
+            throw new RuntimeException("Unable to get class");
+        }
+        catch (IllegalAccessException e) {
+            throw new RuntimeException("Unable to get class");
+        }
+        catch (NullPointerException e) {
+            throw new RuntimeException("Can't instantiate Purchasing Account from base");
+        }
+
         return location;
     }
 
@@ -260,8 +283,92 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
         return asset;
     }
+
+    //Availability once
+    public String getPurchasingItemCapitalAssetAvailability(){
+        String availability = PurapConstants.CapitalAssetAvailability.NONE;
+        PurchasingDocument pd = (PurchasingDocument)this.getDocument();
+        
+        if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.MODIFY.equals(pd.getCapitalAssetSystemStateCode())) ||
+            (PurapConstants.CapitalAssetSystemTypes.MULIPLE.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.MODIFY.equals(pd.getCapitalAssetSystemStateCode())) ){
+            
+            availability = PurapConstants.CapitalAssetAvailability.ONCE;
+            
+        }else if((PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.MODIFY.equals(pd.getCapitalAssetSystemStateCode()))){
+            
+            availability = PurapConstants.CapitalAssetAvailability.EACH;
+            
+        }
+        
+        return availability;
+    }
     
-        @Override
+    public String getPurchasingCapitalAssetSystemAvailability(){
+        String availability = PurapConstants.CapitalAssetAvailability.NONE;
+        PurchasingDocument pd = (PurchasingDocument)this.getDocument();
+
+        if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode())) ){
+                
+            availability = PurapConstants.CapitalAssetAvailability.ONCE;
+                
+        }else if((PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode()))){
+            
+            availability = PurapConstants.CapitalAssetAvailability.EACH;
+            
+        }
+        
+        return availability;        
+    }
+    
+    public String getPurchasingCapitalAssetSystemCommentsAvailability(){
+        String availability = PurapConstants.CapitalAssetAvailability.NONE;
+        PurchasingDocument pd = (PurchasingDocument)this.getDocument();
+
+        if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) || PurapConstants.CapitalAssetSystemTypes.MULIPLE.equals(pd.getCapitalAssetSystemTypeCode())) ){
+            
+            availability = PurapConstants.CapitalAssetAvailability.ONCE;
+            
+        }else if(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(pd.getCapitalAssetSystemTypeCode()) ){
+            
+            availability = PurapConstants.CapitalAssetAvailability.EACH;
+            
+        }
+
+        return availability;                
+    }
+    
+    public String getPurchasingCapitalAssetSystemDescriptionAvailability(){
+        String availability = PurapConstants.CapitalAssetAvailability.NONE;
+        PurchasingDocument pd = (PurchasingDocument)this.getDocument();
+
+        if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode())) ||
+            (PurapConstants.CapitalAssetSystemTypes.MULIPLE.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode())) ){
+            
+            availability = PurapConstants.CapitalAssetAvailability.ONCE;
+            
+        }
+
+        return availability;                
+    }
+    
+    public String getPurchasingCapitalAssetLocationAvailability(){
+        String availability = PurapConstants.CapitalAssetAvailability.NONE;
+        PurchasingDocument pd = (PurchasingDocument)this.getDocument();
+
+        if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode())) ){
+            
+            availability = PurapConstants.CapitalAssetAvailability.ONCE;
+            
+        }else if((PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode()))){
+            
+            availability = PurapConstants.CapitalAssetAvailability.EACH;
+            
+        }
+
+        return availability;        
+    }
+    
+    @Override
     public List<ExtraButton> getExtraButtons() {
         extraButtons.clear();    
         String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);

@@ -26,7 +26,9 @@ import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
 import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
@@ -417,7 +419,17 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void setSplitNoteText(String splitNoteText) {
         this.splitNoteText = splitNoteText;
     }
-    
+
+    @Override
+    public Class getCapitalAssetLocationClass() {
+        return PurchaseOrderCapitalAssetLocation.class;
+    }
+
+    @Override
+    public Class getItemCapitalAssetClass() {
+        return PurchaseOrderItemCapitalAsset.class;
+    }
+
     @Override
     public ItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
         ItemCapitalAsset asset = new RequisitionItemCapitalAsset();

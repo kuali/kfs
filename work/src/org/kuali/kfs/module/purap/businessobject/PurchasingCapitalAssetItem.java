@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
 import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
@@ -50,5 +51,5 @@ public interface PurchasingCapitalAssetItem {
     public void setPurchasingDocument(PurchasingDocument pd);
        
     public PurchasingItem getPurchasingItem();                  
-    
+ 
 }

@@ -19,10 +19,12 @@
 <%@ attribute name="camsSystemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="camsAssetAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="camsLocationAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="isRequisition" required="false" description="Determines if this is a requisition document"%>
+<%@ attribute name="isPurchaseOrder" required="false" description="Determines if this is a requisition document"%>
 
 <c:set var="lockCamsEntry" value="${(not empty KualiForm.editingMode['lockCamsEntry'])}" />
 
-    <table cellpadding="0" cellspacing="0" class="datatable" summary="CAMS Items">	
+<table cellpadding="0" cellspacing="0" class="datatable" summary="CAMS Items">
 	<tr>
 		<td colspan="12" class="subhead">CAMS Items</td>
 	</tr>
@@ -36,53 +38,24 @@
 		<kul:htmlAttributeHeaderCell><kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}"/></kul:htmlAttributeHeaderCell>
 		<kul:htmlAttributeHeaderCell nowrap="true"><kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}"/></kul:htmlAttributeHeaderCell>				
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" nowrap="true" />
+		<c:if test="${isRequisition}">
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" nowrap="true" />
+		</c:if>
 	</tr>
 
 <logic:iterate indexId="ctr" name="KualiForm" property="document.purchasingCapitalAssetItems" id="itemLine">
 
-
-	<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
-	<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
-	
-	<c:choose>
-		    <c:when test="${itemLine.objectId == null}">
-		        <c:set var="newObjectId" value="<%= (new org.kuali.rice.kns.util.Guid()).toString()%>" />
-                     <c:set var="tabKey" value="Item-${newObjectId}" />
-                     <html:hidden property="document.item[${ctr}].objectId" value="${newObjectId}" />
-	    </c:when>
-	    <c:when test="${itemLine.objectId != null}">
-	        <c:set var="tabKey" value="Item-${itemLine.objectId}" />
-	        <html:hidden property="document.item[${ctr}].objectId" /> 
-	    </c:when>
-	</c:choose>
-	
-             <!--  hit form method to increment tab index -->
-             <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
-
-             <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
-
-	<%-- default to closed --%>
-	<c:choose>
-		<c:when test="${empty currentTab}">
-			<c:set var="isOpen" value="true" />
-		</c:when>
-		<c:when test="${!empty currentTab}">
-			<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
-		</c:when>
-	</c:choose>
-
-	<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
-
-	<tr>
-		<td colspan="12" class="tab-subhead" style="border-right: none;">
-		    Item ${ctr+1}
-		</td>
-	</tr>
-
-	<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-		<tbody style="display: none;" id="tab-${tabKey}-div">
+	<c:if test="${isRequisition}">
+	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].purapDocumentIdentifier" />
 	</c:if>
+	<c:if test="${isPurchaseOrder}">
+	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].documentNumber" />
+	</c:if>
+	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetItemIdentifier" />
+	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetSystemIdentifier" />
+	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].itemIdentifier" />
+	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].versionNumber" />
+	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].objectId" />
 
 	<tr>
         <td class="infoline" rowspan="2" valign="middle">
@@ -121,18 +94,19 @@
 			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.extendedPrice}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.extendedPrice" readOnly="true"/>
 			</div>
 		</td>
+		<c:if test="${isRequisition}">
 		<td class="infoline">
 			<div align="center">
 				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemRestrictedIndicator" readOnly="${true}"/>
 			</div>
-		</td>		
+		</td>
+		</c:if>		
 	</tr>
-
 
 	<!-- Cams Tab -->
     <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
     <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
-    <c:set var="tabTitle" value="AccountingLines-${currentTabIndex}" />
+    <c:set var="tabTitle" value="CamsLines-${currentTabIndex}" />
     <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
     <!--  hit form method to increment tab index -->
     <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
@@ -155,25 +129,32 @@
 		<table border="0" cellspacing="0" cellpadding="0" width="100%">
 		<tr>
 			<th colspan="10" style="padding: 0px; border-right: none;">
-			    <div align=left>
-			  	    <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+		    <div align=left>
+		  	    <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 			         <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
-			     </c:if>
-			     <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+				</c:if>
+			    <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			         <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
-			     </c:if>
-			    	CAMs
-			    </div>
+			    </c:if>
+			    CAMs
+			</div>
 			</th>
-		</tr>
+	    </tr>
 	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-		    <tr style="display: none;"  id="tab-${tabKey}-div">
+		<tr style="display: none;"  id="tab-${tabKey}-div">
 		</c:if>   
 	        <th colspan="10" style="padding:0;">
-				<purap:camsDetail camsItemAttributes="${camsItemAttributes}" ctr="${ctr}" camsSystemAttributes="${camsSystemAttributes}" camsAssetAttributes="${camsAssetAttributes}" camsLocationAttributes="${camsLocationAttributes}" />
-	        </th>
-	    
+				<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+				<tr>
+			    <kul:htmlAttributeHeaderCell attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" align="right" width="250px"/>
+			    <td class="datacell">
+					<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${false}"/>		
+				</td>
+				</tr>
+				</table>
+				<purap:camsDetail ctr="${ctr}" camsSystemAttributes="${camsSystemAttributes}" camsAssetAttributes="${camsAssetAttributes}" camsLocationAttributes="${camsLocationAttributes}" camsAssetSystemProperty="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem" availability="${PurapConstants.CapitalAssetAvailability.EACH}" isRequisition="${isRequisition}" isPurchaseOrder="${isPurchaseOrder}" />
+	        </th>	    
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 		    </tr>
 		</c:if>
@@ -181,6 +162,5 @@
 		</table>
 	</td>
 	</tr>
-
 </logic:iterate>
-	</table>
+</table>

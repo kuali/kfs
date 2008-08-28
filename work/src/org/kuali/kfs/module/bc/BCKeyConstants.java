@@ -175,5 +175,7 @@ public class BCKeyConstants {
     public static final String ERROR_CANNOT_ADJUST_FUNDING_WITHOUT_EFFECTIVE_CSF_TRACKER = "error.budget.cannotAdjustFundingWithoutEffectiveCSFTracker";
     public static final String ERROR_CANNOT_ADJUST_FUNDING_MARKED_AS_DELETE = "error.budget.cannotAdjustFundingMarkedAsDelete";
     public static final String WARNING_AUTHORIZATION_DISABLED = "warning.budget.authorizationDisabled";
+
+    public static final String ERROR_NO_SALARY_SETTING_PERMISSION = "error.budget.noSalarySettingPermission";
 }
 

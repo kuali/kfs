@@ -139,6 +139,8 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
                 errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_FTE_QUANTITY, BCKeyConstants.ERROR_REQUEST_FTE_NOT_ZERO_WHEN_FULL_YEAR_LEAVE);
                 return false;
             }
+            
+            return true;
         }
 
         return true;
@@ -152,7 +154,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
     public boolean hasNoExistingLine(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         boolean hasNoExistingLine = salarySettingService.findAppointmentFunding(appointmentFundings, appointmentFunding) == null;
         if (!hasNoExistingLine) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_DUPLICATE_FUNDING_LINE);
+            errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_DUPLICATE_FUNDING_LINE);
             return false;
         }
 
@@ -189,6 +191,8 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
                 errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_AMOUNT, BCKeyConstants.ERROR_FTE_GREATER_THAN_ZERO_REQUIRED);
                 return false;
             }
+            
+            return true;
         }
 
         return true;
@@ -209,6 +213,8 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
                 errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_TIME_PERCENT, BCKeyConstants.ERROR_LEAVE_TIME_PERCENT_NOT_IN_RANGE, BigDecimal.ZERO.toPlainString(), BCConstants.ONE_HUNDRED.toPlainString());
                 return false;
             }
+            
+            return true;
         }
 
         return true;
@@ -249,6 +255,8 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
                 errorMap.putError(BCPropertyConstants.APPOINTMENT_FUNDING_MONTH, BCKeyConstants.ERROR_FUNDIN_MONTH_NOT_IN_RANGE, ObjectUtils.toString(fundingMonths), "0", ObjectUtils.toString(normalWorkMonths));
                 return false;
             }
+            
+            return true;
         }
 
         // Requested funding months must equal to position normal work months if no leave

@@ -199,7 +199,13 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         if (!gotLocks) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-
+        
+        // have no permission to do salary setting on the new line
+        if(workingAppointmentFunding.isDisplayOnlyMode()) {
+            GlobalVariables.getErrorMap().putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_NO_SALARY_SETTING_PERMISSION, workingAppointmentFunding.getAppointmentFundingString());
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
         appointmentFundings.add(workingAppointmentFunding);
         salarySettingForm.setNewBCAFLine(salarySettingForm.createNewAppointmentFundingLine());
 

@@ -124,7 +124,8 @@
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
-                field="appointmentFundingMonth"
+                field="appointmentFundingMonth" detailFunction="budgetObjectInfoUpdator.recalculateFTE"
+				detailFunctionExtraParam="'${postionFieldPrefix}budgetConstructionPosition.iuPayMonths','${fundingLineName}.appointmentFundingMonth', '${fundingLineName}.appointmentRequestedFteQuantity','${fundingLineName}.appointmentRequestedTimePercent',"
                 fieldAlign="right"
                 readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />

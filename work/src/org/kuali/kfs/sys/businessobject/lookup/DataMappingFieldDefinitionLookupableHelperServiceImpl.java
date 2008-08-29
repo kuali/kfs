@@ -16,25 +16,25 @@
 package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.metadata.ClassDescriptor;
-import org.apache.ojb.broker.metadata.DescriptorRepository;
-import org.apache.ojb.broker.metadata.FieldDescriptor;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition;
 import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 import org.kuali.kfs.sys.service.impl.KfsBusinessObjectMetaDataServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.util.UrlFactory;
 
 public class DataMappingFieldDefinitionLookupableHelperServiceImpl extends FunctionalFieldDescriptionLookupableHelperServiceImpl {
     private Logger LOG = Logger.getLogger(KfsBusinessObjectMetaDataServiceImpl.class);
-    private DescriptorRepository ojbRepository;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
@@ -56,7 +56,7 @@ public class DataMappingFieldDefinitionLookupableHelperServiceImpl extends Funct
         
         List<DataMappingFieldDefinition> dataMappingFieldDefinitions = new ArrayList<DataMappingFieldDefinition>();
         for (FunctionalFieldDescription functionalFieldDescription : functionalFieldDescriptions) {
-            ClassDescriptor classDescriptor = getOjbRepository().getDescriptorFor(functionalFieldDescription.getComponentClass());
+            ClassDescriptor classDescriptor = org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(functionalFieldDescription.getComponentClass());
             Pattern tableNameRegex = null;
             if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.TABLE_NAME))) {
                 String patternStr = fieldValues.get(KFSPropertyConstants.TABLE_NAME).replace("*", ".*").toUpperCase();
@@ -85,11 +85,13 @@ public class DataMappingFieldDefinitionLookupableHelperServiceImpl extends Funct
         }
         return dataMappingFieldDefinitions;
     }
-
-    private DescriptorRepository getOjbRepository() {
-        if (ojbRepository == null) {
-            ojbRepository = org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository();
+    
+    @Override
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        String baseUrl = super.getInquiryUrl(bo, propertyName);
+        if (StringUtils.isNotBlank(baseUrl)) {
+            return new StringBuffer(baseUrl).append("&").append(KFSPropertyConstants.COMPONENT_CLASS).append("=").append(((DataMappingFieldDefinition)bo).getComponentClass()).append("&").append(KFSPropertyConstants.PROPERTY_NAME).append("=").append(((DataMappingFieldDefinition)bo).getPropertyName()).toString();
         }
-        return ojbRepository;
+        else return baseUrl;
     }
 }

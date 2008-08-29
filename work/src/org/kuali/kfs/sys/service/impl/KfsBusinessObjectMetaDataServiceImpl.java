@@ -24,18 +24,23 @@ import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.BusinessObjectComponent;
 import org.kuali.kfs.sys.businessobject.BusinessObjectProperty;
+import org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition;
+import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMetaDataService {
     private Logger LOG = Logger.getLogger(KfsBusinessObjectMetaDataServiceImpl.class);
     private DataDictionaryService dataDictionaryService;
     private ParameterService parameterService;
+    private BusinessObjectService businessObjectService;
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
@@ -52,6 +57,14 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
 
     public BusinessObjectProperty getBusinessObjectProperty(String componentClass, String propertyName) {
         return new BusinessObjectProperty(getBusinessObjectComponent(componentClass), dataDictionaryService.getDataDictionary().getBusinessObjectEntry(componentClass).getAttributeDefinition(propertyName));
+    }
+
+    public DataMappingFieldDefinition getDataMappingFieldDefinition(String componentClass, String propertyName) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put(KFSPropertyConstants.COMPONENT_CLASS, componentClass);
+        primaryKeys.put(KFSPropertyConstants.PROPERTY_NAME, propertyName);
+        FunctionalFieldDescription functionalFieldDescription = (FunctionalFieldDescription) businessObjectService.findByPrimaryKey(FunctionalFieldDescription.class, primaryKeys);
+        return new DataMappingFieldDefinition(functionalFieldDescription, dataDictionaryService.getDataDictionary().getBusinessObjectEntry(functionalFieldDescription.getComponentClass()), org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(functionalFieldDescription.getComponentClass()), dataDictionaryService.getDataDictionary().getBusinessObjectEntry(functionalFieldDescription.getComponentClass()).getAttributeDefinition(functionalFieldDescription.getPropertyName()));
     }
 
     public List<BusinessObjectComponent> findBusinessObjectComponents(String namespaceCode, String componentLabel) {
@@ -103,5 +116,9 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

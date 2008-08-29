@@ -19,11 +19,14 @@ import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.BusinessObjectComponent;
 import org.kuali.kfs.sys.businessobject.BusinessObjectProperty;
+import org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition;
 
 public interface KfsBusinessObjectMetaDataService {
     public BusinessObjectComponent getBusinessObjectComponent(String componentClass);
 
     public BusinessObjectProperty getBusinessObjectProperty(String componentClass, String propertyName);
+
+    public DataMappingFieldDefinition getDataMappingFieldDefinition(String componentClass, String propertyName);
 
     public List<BusinessObjectComponent> findBusinessObjectComponents(String namespaceCode, String componentLabel);
 

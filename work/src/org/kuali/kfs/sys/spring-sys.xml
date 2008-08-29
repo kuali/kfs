@@ -386,6 +386,7 @@
     <bean id="kfsBusinessObjectMetaDataService" class="org.kuali.kfs.sys.service.impl.KfsBusinessObjectMetaDataServiceImpl">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="parameterService" ref="parameterService" />
+		<property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
     <bean id="businessObjectComponentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">

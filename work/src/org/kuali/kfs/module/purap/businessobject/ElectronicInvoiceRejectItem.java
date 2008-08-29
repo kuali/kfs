@@ -279,7 +279,36 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
      * @return Returns the invoiceItemNetAmount.
      */
     public BigDecimal getInvoiceItemNetAmount() {
-        return invoiceItemNetAmount;
+        BigDecimal returnValue = this.getInvoiceItemSubTotalAmount();
+
+        if (returnValue != null) {
+            if (this.getInvoiceItemShippingAmount() != null) {
+                returnValue = returnValue.add(this.getInvoiceItemShippingAmount());
+            }
+
+            if (this.getInvoiceItemSpecialHandlingAmount() != null) {
+                returnValue = returnValue.add(this.getInvoiceItemSpecialHandlingAmount());
+            }
+
+            if (this.getInvoiceItemTaxAmount() != null) {
+                returnValue = returnValue.add(this.getInvoiceItemTaxAmount());
+            }
+
+            this.invoiceItemGrossAmount = returnValue;
+
+            if (this.getInvoiceItemDiscountAmount() != null) {
+                returnValue = returnValue.subtract(this.getInvoiceItemDiscountAmount());
+            }
+            returnValue = returnValue.setScale(4, BigDecimal.ROUND_HALF_UP);
+
+        }
+        else {
+            returnValue = null;
+        }
+
+        this.invoiceItemNetAmount = returnValue;
+
+        return this.invoiceItemNetAmount;
     }
 
     /**
@@ -377,6 +406,27 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
      * @return Returns the invoiceItemSubTotalAmount.
      */
     public BigDecimal getInvoiceItemSubTotalAmount() {
+        // this needs to be calculated when read
+        BigDecimal returnValue;
+        if (((this.invoiceItemQuantity != null) && ((zero.compareTo(this.invoiceItemQuantity)) != 0)) && ((this.invoiceItemUnitPrice != null) && ((zero.compareTo(this.invoiceItemUnitPrice)) != 0))) {
+            // unit price and quantity are valid... calculate subtotal
+            returnValue = this.invoiceItemQuantity.multiply(this.invoiceItemUnitPrice);
+        }
+        else if (((this.invoiceItemQuantity == null) || ("".equals(this.invoiceItemQuantity))) && ((this.invoiceItemUnitPrice != null) && ((zero.compareTo(this.invoiceItemUnitPrice)) != 0))) {
+            // quantity is empty but unit cost exists... use it
+            returnValue = this.invoiceItemUnitPrice;
+        }
+        else {
+            returnValue = null;
+        }
+
+        if (returnValue != null) {
+            invoiceItemSubTotalAmount = returnValue.setScale(4, BigDecimal.ROUND_HALF_UP);
+        }
+        else {
+            invoiceItemSubTotalAmount = null;
+        }
+
         return invoiceItemSubTotalAmount;
     }
 

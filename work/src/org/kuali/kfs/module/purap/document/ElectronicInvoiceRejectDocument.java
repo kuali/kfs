@@ -125,7 +125,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
 
     private transient PurApRelatedViews relatedViews;
     private PurchaseOrderDocument currentPurchaseOrderDocument;
-    
+
     private VendorDetail vendorDetail;
     private ElectronicInvoiceLoadSummary invoiceLoadSummary;
     private List<ElectronicInvoiceRejectItem> invoiceRejectItems = new ArrayList<ElectronicInvoiceRejectItem>();
@@ -293,7 +293,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             this.invoiceItemNetAmount = null;
             this.invoiceItemNetCurrencyCode = "INVALID AMOUNT";
         }
-        
+
         for (ElectronicInvoiceItem eii : eio.getInvoiceItems()) {
             ElectronicInvoiceRejectItem eiri = new ElectronicInvoiceRejectItem(this, eii);
             this.invoiceRejectItems.add(eiri);
@@ -325,44 +325,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         KualiDecimal returnValue = new KualiDecimal(zero);
         try {
             for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
-                KualiDecimal toAddAmount = new KualiDecimal(zero);
-                if (eiri.getInvoiceItemQuantity() != null) {
-                    toAddAmount = new KualiDecimal(eiri.getInvoiceItemUnitPrice().multiply(eiri.getInvoiceItemQuantity()));
-                }
-                else {
-                    toAddAmount = new KualiDecimal(eiri.getInvoiceItemUnitPrice());
-                }
-                if (eiri.getInvoiceItemSpecialHandlingAmount() != null && zero.compareTo(eiri.getInvoiceItemSpecialHandlingAmount()) != 0) {
-                    toAddAmount = toAddAmount.add(new KualiDecimal(eiri.getInvoiceItemSpecialHandlingAmount()));
-                }
-                if (eiri.getInvoiceItemShippingAmount() != null && zero.compareTo(eiri.getInvoiceItemShippingAmount()) != 0) {
-                    toAddAmount = toAddAmount.add(new KualiDecimal(eiri.getInvoiceItemShippingAmount()));
-                }
-                if (eiri.getInvoiceItemTaxAmount() != null && zero.compareTo(eiri.getInvoiceItemTaxAmount()) != 0) {
-                    toAddAmount = toAddAmount.add(new KualiDecimal(eiri.getInvoiceItemTaxAmount()));
-                }
-                if (eiri.getInvoiceItemDiscountAmount() != null && zero.compareTo(eiri.getInvoiceItemDiscountAmount()) != 0) {
-                    toAddAmount = toAddAmount.subtract(new KualiDecimal(eiri.getInvoiceItemDiscountAmount()));
-                }
-
-                
-//                if ((eiri.getInvoiceItemNetAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemNetAmount())) != 0)) {
-//                    toAddAmount = new KualiDecimal(eiri.getInvoiceItemNetAmount());
-//                }
-//                else if ((eiri.getInvoiceItemGrossAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemGrossAmount())) != 0)) {
-//                    toAddAmount = new KualiDecimal(eiri.getInvoiceItemGrossAmount());
-//                }
-//                else if ((eiri.getInvoiceItemSubTotalAmount() != null) && ((zero.compareTo(eiri.getInvoiceItemSubTotalAmount())) != 0)) {
-//                    toAddAmount = new KualiDecimal(eiri.getInvoiceItemSubTotalAmount());
-//                }
-//                else if ((eiri.getInvoiceItemUnitPrice() != null) && ((zero.compareTo(eiri.getInvoiceItemUnitPrice())) != 0)) {
-//                    if (eiri.getInvoiceItemQuantity() != null) {
-//                        toAddAmount = new KualiDecimal(eiri.getInvoiceItemUnitPrice().multiply(eiri.getInvoiceItemQuantity()));
-//                    }
-//                    else {
-//                        toAddAmount = new KualiDecimal(eiri.getInvoiceItemUnitPrice());
-//                    }
-//                }
+                KualiDecimal toAddAmount = new KualiDecimal(eiri.getInvoiceItemSubTotalAmount());
                 LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
                 returnValue = returnValue.add(toAddAmount);
             }
@@ -383,16 +346,22 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public KualiDecimal getGrandTotalAmount() {
         KualiDecimal returnValue = new KualiDecimal(zero);
         try {
-            returnValue = getTotalAmount();
+            for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
+                KualiDecimal toAddAmount = new KualiDecimal(eiri.getInvoiceItemNetAmount());
+                LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                returnValue = returnValue.add(toAddAmount);
+            }
+            LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+
             if (this.getInvoiceItemSpecialHandlingAmount() != null && zero.compareTo(this.getInvoiceItemSpecialHandlingAmount()) != 0) {
                 returnValue = returnValue.add(new KualiDecimal(this.getInvoiceItemSpecialHandlingAmount()));
             }
             if (this.getInvoiceItemShippingAmount() != null && zero.compareTo(this.getInvoiceItemShippingAmount()) != 0) {
                 returnValue = returnValue.add(new KualiDecimal(this.getInvoiceItemShippingAmount()));
             }
-            if (this.getInvoiceItemTaxAmount() != null && zero.compareTo(this.getInvoiceItemTaxAmount()) != 0) {
-                returnValue = returnValue.add(new KualiDecimal(this.getInvoiceItemTaxAmount()));
-            }
+            // if (this.getInvoiceItemTaxAmount() != null && zero.compareTo(this.getInvoiceItemTaxAmount()) != 0) {
+            // returnValue = returnValue.add(new KualiDecimal(this.getInvoiceItemTaxAmount()));
+            // }
             if (this.getInvoiceItemDiscountAmount() != null && zero.compareTo(this.getInvoiceItemDiscountAmount()) != 0) {
                 returnValue = returnValue.subtract(new KualiDecimal(this.getInvoiceItemDiscountAmount()));
             }
@@ -868,7 +837,26 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
      * @return Returns the invoiceItemDiscountAmount.
      */
     public BigDecimal getInvoiceItemDiscountAmount() {
-        return invoiceItemDiscountAmount;
+        if (this.isInvoiceFileDiscountInLineIndicator()) {
+            BigDecimal returnValue = zero;
+            try {
+                for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
+                    BigDecimal toAddAmount = eiri.getInvoiceItemDiscountAmount();
+                    LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    returnValue = returnValue.add(toAddAmount);
+                }
+                LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+                return returnValue;
+            }
+            catch (NumberFormatException n) {
+                // do nothing this is already rejected
+                LOG.error("getTotalAmount() Error attempting to calculate total amount for invoice with filename " + this.invoiceFileName);
+                return zero;
+            }
+        }
+        else {
+            return invoiceItemDiscountAmount;
+        }
     }
 
     /**
@@ -1058,7 +1046,26 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
      * @return Returns the invoiceItemShippingAmount.
      */
     public BigDecimal getInvoiceItemShippingAmount() {
-        return invoiceItemShippingAmount;
+        if (this.isInvoiceFileShippingInLineIndicator()) {
+            BigDecimal returnValue = zero;
+            try {
+                for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
+                    BigDecimal toAddAmount = eiri.getInvoiceItemShippingAmount();
+                    LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    returnValue = returnValue.add(toAddAmount);
+                }
+                LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+                return returnValue;
+            }
+            catch (NumberFormatException n) {
+                // do nothing this is already rejected
+                LOG.error("getTotalAmount() Error attempting to calculate total amount for invoice with filename " + this.invoiceFileName);
+                return zero;
+            }
+        }
+        else {
+            return invoiceItemShippingAmount;
+        }
     }
 
     /**
@@ -1100,7 +1107,26 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
      * @return Returns the invoiceItemSpecialHandlingAmount.
      */
     public BigDecimal getInvoiceItemSpecialHandlingAmount() {
-        return invoiceItemSpecialHandlingAmount;
+        if (this.isInvoiceFileSpecialHandlingInLineIndicator()) {
+            BigDecimal returnValue = zero;
+            try {
+                for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
+                    BigDecimal toAddAmount = eiri.getInvoiceItemSpecialHandlingAmount();
+                    LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    returnValue = returnValue.add(toAddAmount);
+                }
+                LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+                return returnValue;
+            }
+            catch (NumberFormatException n) {
+                // do nothing this is already rejected
+                LOG.error("getTotalAmount() Error attempting to calculate total amount for invoice with filename " + this.invoiceFileName);
+                return zero;
+            }
+        }
+        else {
+            return invoiceItemSpecialHandlingAmount;
+        }
     }
 
     /**
@@ -1142,6 +1168,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
      * @return Returns the invoiceItemSubTotalAmount.
      */
     public BigDecimal getInvoiceItemSubTotalAmount() {
+
         return invoiceItemSubTotalAmount;
     }
 
@@ -1149,8 +1176,6 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
      * @param invoiceItemSubTotalAmount The invoiceItemSubTotalAmount to set.
      */
     public void setInvoiceItemSubTotalAmount(BigDecimal invoiceSubTotalAmount) {
-        // this needs to be calculated!
-        // go through each item, qty * unit price
         this.invoiceItemSubTotalAmount = invoiceSubTotalAmount;
     }
 
@@ -1172,7 +1197,22 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
      * @return Returns the invoiceItemTaxAmount.
      */
     public BigDecimal getInvoiceItemTaxAmount() {
-        return invoiceItemTaxAmount;
+        BigDecimal returnValue = zero;
+        try {
+            for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
+                BigDecimal toAddAmount = eiri.getInvoiceItemTaxAmount();
+                LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                returnValue = returnValue.add(toAddAmount);
+            }
+            LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+            return returnValue;
+        }
+        catch (NumberFormatException n) {
+            // do nothing this is already rejected
+            LOG.error("getTotalAmount() Error attempting to calculate total amount for invoice with filename " + this.invoiceFileName);
+            return zero;
+        }
+        // return invoiceItemTaxAmount;
     }
 
     /**

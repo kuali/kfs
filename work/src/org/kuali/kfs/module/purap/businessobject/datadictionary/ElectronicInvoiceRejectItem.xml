@@ -94,19 +94,10 @@
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemDiscountAmount" parent="ElectronicInvoiceRejectItem-invoiceItemDiscountAmount-parentBean" />
 
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemDiscountAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemDiscountAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="invoiceItemDiscountAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Discount Amount" />
-    <property name="shortLabel" value="Discount Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
+    <property name="shortLabel" value="Discount" />
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemDiscountCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemDiscountCurrencyCode-parentBean" />
 
@@ -126,19 +117,10 @@
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemGrossAmount" parent="ElectronicInvoiceRejectItem-invoiceItemGrossAmount-parentBean" />
 
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemGrossAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemGrossAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="invoiceItemGrossAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Gross Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
+    <property name="shortLabel" value="Gross Amount" />
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemGrossCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemGrossCurrencyCode-parentBean" />
 
@@ -190,19 +172,10 @@
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemNetAmount" parent="ElectronicInvoiceRejectItem-invoiceItemNetAmount-parentBean" />
 
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemNetAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemNetAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="invoiceItemNetAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Net Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
+    <property name="shortLabel" value="Net Amount" />
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemNetCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemNetCurrencyCode-parentBean" />
 
@@ -238,19 +211,10 @@
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingAmount" parent="ElectronicInvoiceRejectItem-invoiceItemShippingAmount-parentBean" />
 
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="invoiceItemShippingAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Shipping Amount" />
-    <property name="shortLabel" value="Shipping Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
+    <property name="shortLabel" value="Shipping" />
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemShippingCurrencyCode-parentBean" />
 
@@ -287,19 +251,10 @@
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount" parent="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount-parentBean" />
 
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="invoiceItemSpecialHandlingAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Special Handling Amount" />
-    <property name="shortLabel" value="Handling Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
+    <property name="shortLabel" value="Handling" />
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingCurrencyCode-parentBean" />
 
@@ -319,19 +274,10 @@
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemSubTotalAmount" parent="ElectronicInvoiceRejectItem-invoiceItemSubTotalAmount-parentBean" />
 
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemSubTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemSubTotalAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="invoiceItemSubTotalAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Sub Total Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
+    <property name="shortLabel" value="Sub Total" />
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemSubTotalCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemSubTotalCurrencyCode-parentBean" />
 
@@ -351,17 +297,13 @@
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxAmount" parent="ElectronicInvoiceRejectItem-invoiceItemTaxAmount-parentBean" />
 
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
     <property name="name" value="invoiceItemTaxAmount" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Tax Amount" />
-    <property name="shortLabel" value="Tax Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
+    <property name="shortLabel" value="Tax" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
             p:size="10" />
     </property>
   </bean>

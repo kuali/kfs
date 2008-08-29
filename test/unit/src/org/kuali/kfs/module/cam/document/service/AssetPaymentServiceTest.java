@@ -17,6 +17,11 @@ package org.kuali.kfs.module.cam.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +29,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -40,6 +46,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 @ConfigureContext(session = KHUNTLEY)
@@ -47,6 +54,8 @@ import org.kuali.rice.kns.util.KNSPropertyConstants;
 public class AssetPaymentServiceTest extends KualiTestBase {
     private static Logger LOG = Logger.getLogger(AssetPaymentServiceTest.class);
 
+    private DateTimeService dateTimeService;
+    private UniversityDateService universityDateService;
     private AssetPaymentService assetPaymentService;
     private BusinessObjectService businessObjectService;
     private WorkflowDocumentService workflowDocumentService;
@@ -58,6 +67,8 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
+        universityDateService   = SpringContext.getBean(UniversityDateService.class);
+        dateTimeService  = SpringContext.getBean(DateTimeService.class);
     }
 
     public void testAdjustPaymentAmounts_params_false_false() throws Exception {
@@ -112,6 +123,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         KualiDecimal totalDocument = new KualiDecimal(0); 
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
         List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
+        
         
         for(AssetPaymentDetail assetPaymentDetail:assetPaymentDetails){
             detailRows++;
@@ -197,10 +209,6 @@ public class AssetPaymentServiceTest extends KualiTestBase {
                 LOG.info("***Calculated new cost:"+calculatedAssetNewCost);
                 LOG.info("*****************************************************************************");
                 
-//                KualiDecimal newCost = (assetsNewCost.get(capitalAssetNumber) != null ? assetsNewCost.get(capitalAssetNumber) : new KualiDecimal(0));
-//                newCost = newCost.add(amount);
-//                assetsNewCost.put(capitalAssetNumber, newCost);
-                
 
                 // Checking fields were saved in the asset payment table
                 //for (int p = 0; p < assetPayments.size(); p++) {
@@ -227,13 +235,6 @@ public class AssetPaymentServiceTest extends KualiTestBase {
             //assetOldCost            = new KualiDecimal(assets.get(capitalAssetNumber));
             assertEquals(calculatedAssetNewCost, assetPaymentAssetDetail.getAsset().getTotalCostAmount());            
         }        
-        
-        
-        
-        
-        
-        
-        
     }
     
     public DocumentHeader getDocumentHeader() throws Exception {
@@ -246,5 +247,33 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         documentHeader.setDocumentDescription("New asset payment");
         documentHeader.setFinancialDocumentTotalAmount(new KualiDecimal(0));
         return documentHeader;
+    }
+    
+    
+    public void testExtractPostedDatePeriod() throws Exception {
+        Calendar currentDate = Calendar.getInstance();
+
+        java.sql.Date jsqlD;
+        
+        List<AssetPaymentDetail> assetPaymentDetails = new ArrayList<AssetPaymentDetail>();
+        AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        int currentYear = universityDateService.getCurrentFiscalYear();
+        int testYear = universityDateService.getCurrentFiscalYear() + 1000;
+
+        currentDate.setTime(dateFormat.parse(currentYear+"-01-01"));        
+        jsqlD = new java.sql.Date(currentDate.getTime().getTime());
+        
+        assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(jsqlD);
+        assertEquals(assetPaymentService.extractPostedDatePeriod(assetPaymentDetail),true);
+
+        
+        
+        currentDate.setTime(dateFormat.parse(testYear+"-01-01"));
+        jsqlD = new java.sql.Date(currentDate.getTime().getTime());
+        
+        assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(jsqlD);
+        assertEquals(assetPaymentService.extractPostedDatePeriod(assetPaymentDetail),false);        
     }
 }

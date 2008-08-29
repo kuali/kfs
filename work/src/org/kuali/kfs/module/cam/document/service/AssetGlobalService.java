@@ -53,7 +53,7 @@ public interface AssetGlobalService {
     /**
      * Creates GL Postables
      */
-    public boolean createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster);
+    public void createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster);
 
 
     /**
@@ -71,7 +71,7 @@ public interface AssetGlobalService {
      * @return boolean
      */
     public boolean isAssetSeparateDocument(AssetGlobal assetGlobal);
-    
+
     /**
      * Add and return the total amount for separate source amount
      * 
@@ -80,12 +80,4 @@ public interface AssetGlobalService {
      */
     public KualiDecimal totalSeparateSourceAmount (AssetGlobal assetGlobal);
     
-    /**
-     * NEEDED?
-     * Returns the quantity of new assets to be created.
-     * 
-     * @param assetGlobal
-     * @return
-     */
-    public Integer getAssetGlobalDetailLocationQuantity (AssetGlobal assetGlobal);
 }

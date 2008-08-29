@@ -101,7 +101,9 @@
         <form-bean name="CustomerOpenItemReportForm" 
         	type="org.kuali.kfs.module.ar.web.struts.CustomerOpenItemReportForm" />	
         <form-bean name="CustomerInvoiceWriteoffLookupForm" 
-        	type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceWriteoffLookupForm" />        			
+        	type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceWriteoffLookupForm" />   
+        <form-bean name="CustomerInvoiceWriteoffLookupSummaryForm" 
+        	type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceWriteoffLookupSummaryForm" />        	     			
 		<form-bean name="CustomerStatementForm" 
         	type="org.kuali.kfs.module.ar.web.struts.CustomerStatementForm" />	
         <form-bean name="CustomerInvoiceForm" 
@@ -393,7 +395,16 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/modules/ar/CustomerInvoiceWriteoffLookup.jsp" />
-		</action>		
+		</action>
+		
+		<action path="/arCustomerInvoiceWriteoffLookupSummary"
+			name="CustomerInvoiceWriteoffLookupSummaryForm" scope="request" attribute="KualiForm"
+			parameter="methodToCall"
+			type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceWriteoffLookupSummaryAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/modules/ar/CustomerInvoiceWriteoffLookupSummary.jsp" />
+		</action>	
 		
 		<action path="/arCustomerStatement"
 			name="CustomerStatementForm" scope="request" attribute="KualiForm"

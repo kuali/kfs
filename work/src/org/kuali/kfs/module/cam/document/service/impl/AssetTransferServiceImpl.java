@@ -388,7 +388,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
         if (getAssetService().isCapitalAsset(saveAsset)) {
             // for capital assets, create new asset payment records and offset payment records
-            if (saveAsset.getAssetPayments() == null) {
+            if (ObjectUtils.isNull(saveAsset.getAssetPayments())) {
                 saveAsset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
             }
             List<AssetPayment> originalPayments = saveAsset.getAssetPayments();
@@ -437,7 +437,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 break;
             }
         }
-        if (offCampusLocation == null) {
+        if (ObjectUtils.isNull(offCampusLocation)) {
             offCampusLocation = new AssetLocation();
             offCampusLocation.setCapitalAssetNumber(saveAsset.getCapitalAssetNumber());
             offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
@@ -458,16 +458,16 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param saveAsset Asset
      */
     protected void saveOrganizationChanges(AssetTransferDocument document, Asset saveAsset) {
-        AssetOrganization assetOrganization = null;
-        if ((assetOrganization = saveAsset.getAssetOrganization()) == null) {
-            assetOrganization = new AssetOrganization();
+        if (ObjectUtils.isNull(saveAsset.getAssetOrganization())) {
+            AssetOrganization assetOrganization = new AssetOrganization();
             assetOrganization.setCapitalAssetNumber(saveAsset.getCapitalAssetNumber());
             saveAsset.setAssetOrganization(assetOrganization);
         }
+
         saveAsset.setOrganizationInventoryName(document.getOrganizationInventoryName());
         saveAsset.setRepresentativeUniversalIdentifier(document.getRepresentativeUniversalIdentifier());
-        assetOrganization.setOrganizationTagNumber(document.getOrganizationTagNumber());
-        assetOrganization.setOrganizationText(document.getOrganizationText());
+        saveAsset.getAssetOrganization().setOrganizationTagNumber(document.getOrganizationTagNumber());
+        saveAsset.getAssetOrganization().setOrganizationText(document.getOrganizationText());
     }
 
     public void setAssetPaymentService(AssetPaymentService assetPaymentService) {

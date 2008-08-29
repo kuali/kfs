@@ -84,19 +84,28 @@
 			</tr>			
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.campusCode}" /></th>  
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.campusCode" attributeEntry="${assetTransferAttributes.campusCode}" /></td>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.campusCode" attributeEntry="${assetTransferAttributes.campusCode}" />
+				     &nbsp;
+	                <kul:lookup boClassName="org.kuali.rice.kns.bo.Campus" fieldConversions="campusCode:document.campusCode" lookupParameters="document.campusCode:campusCode" />
+				</td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusName}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusName" attributeEntry="${assetTransferAttributes.offCampusName}" /></td>
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingCode}" /></th>  
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.buildingCode" attributeEntry="${assetTransferAttributes.buildingCode}" /></td>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.buildingCode" attributeEntry="${assetTransferAttributes.buildingCode}" />
+				     &nbsp;
+	                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building" fieldConversions="buildingCode:document.buildingCode,campusCode:document.campusCode" lookupParameters="document.buildingCode:buildingCode,document.campusCode:campusCode" />
+				</td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusAddress}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusAddress" attributeEntry="${assetTransferAttributes.offCampusAddress}" /></td>
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.buildingRoomNumber}" /></th>  
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.buildingRoomNumber" attributeEntry="${assetTransferAttributes.buildingRoomNumber}" /></td>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.buildingRoomNumber" attributeEntry="${assetTransferAttributes.buildingRoomNumber}" />
+				     &nbsp;
+	                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" fieldConversions="buildingRoomNumber:document.buildingRoomNumber,buildingCode:document.buildingCode,campusCode:document.campusCode" lookupParameters="document.buildingRoomNumber:buildingRoomNumber,document.buildingCode:buildingCode,document.campusCode:campusCode" />
+				</td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusCityName}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusCityName" attributeEntry="${assetTransferAttributes.offCampusCityName}" /></td>
 			</tr>

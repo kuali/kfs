@@ -11,11 +11,9 @@
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition" />
-
-		<property name="lookupDefinition">
-			<ref bean="DataMappingFieldDefinition-lookupDefinition" />
-		</property>
-		<property name="titleAttribute" value="fieldName" />
+		<property name="lookupDefinition" ref="DataMappingFieldDefinition-lookupDefinition" />
+		<property name="inquiryDefinition" ref="DataMappingFieldDefinition-inquiryDefinition" />
+		<property name="titleAttribute" value="functionalFieldDescription.businessObjectProperty.propertyLabel" />
 		<property name="objectLabel"
 			value="Data Mapping Field Definition" />
 		<property name="attributes">

@@ -274,6 +274,7 @@ public class CamsPropertyConstants {
     }
 
     public static class AssetGlobalDetail {
+        public static String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
         public static final String VERSION_NUM = "versionNumber";
         public static final String CAMPUS = "campus";
         public static final String BUILDING = "building";
@@ -299,7 +300,7 @@ public class CamsPropertyConstants {
         public static String MANUFACTURER_NAME = "manufacturerName";
         public static String ORGANIZATION_TEXT = "organizationText";
         public static String MANUFACTURER_MODEL_NUMBER = "manufacturerModelNumber";
-        public static String SEPARATE_SOURCE_AMOUNT = "separateSourceAmount"; // Long
+        public static String SEPARATE_SOURCE_AMOUNT = "separateSourceAmount";
     }
 
     public static class AssetDepreciationConvention {

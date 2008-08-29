@@ -325,7 +325,6 @@
 			              p:readOnly="true" />
                     <bean parent="MaintainableFieldDefinition"
                     	  p:name="capitalAssetTypeCode"
-                    	  p:required="true"
                           p:readOnlyAfterAdd="true" /> 
                    	<bean parent="MaintainableFieldDefinition"
                     	  p:name="capitalAssetDescription"
@@ -341,7 +340,6 @@
                           p:readOnlyAfterAdd="true" />
                    	<bean parent="MaintainableFieldDefinition"
                     	  p:name="separateSourceAmount"
-                    	  p:required="true"
                           p:readOnlyAfterAdd="true" /> 
                     <!-- Asset Separate - END -->                   
                   </list>

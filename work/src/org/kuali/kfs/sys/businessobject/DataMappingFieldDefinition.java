@@ -19,11 +19,11 @@ import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.FieldDescriptor;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 
-public class DataMappingFieldDefinition extends TransientBusinessObjectBase {
+public class DataMappingFieldDefinition extends PersistableBusinessObjectBase {
     private String namespaceCode;
     private String componentClass;
     private String propertyName;

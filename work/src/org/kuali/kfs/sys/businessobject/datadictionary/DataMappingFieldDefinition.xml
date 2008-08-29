@@ -11,8 +11,8 @@
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition" />
-		<property name="lookupDefinition" ref="DataMappingFieldDefinition-lookupDefinition" />
-		<property name="inquiryDefinition" ref="DataMappingFieldDefinition-inquiryDefinition" />
+	    <property name="inquiryDefinition" ref="DataMappingFieldDefinition-inquiryDefinition" />
+	    <property name="lookupDefinition" ref="DataMappingFieldDefinition-lookupDefinition" />
 		<property name="titleAttribute" value="functionalFieldDescription.businessObjectProperty.propertyLabel" />
 		<property name="objectLabel"
 			value="Data Mapping Field Definition" />
@@ -184,7 +184,6 @@
 	</bean>		
 
 	<!-- Business Object Lookup Definition -->
-
 	<bean id="DataMappingFieldDefinition-lookupDefinition"
 		parent="DataMappingFieldDefinition-lookupDefinition-parentBean" />
 
@@ -228,6 +227,39 @@
 					p:attributeName="tableName" />
 				<bean parent="FieldDefinition"
 					p:attributeName="fieldName" />
+			</list>
+		</property>
+	</bean>
+	
+		<!-- Business Object Inquiry Definition -->
+	<bean id="DataMappingFieldDefinition-inquiryDefinition"
+		parent="DataMappingFieldDefinition-inquiryDefinition-parentBean" />
+
+	<bean id="DataMappingFieldDefinition-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title"
+			value="Data Mapping Field Definition Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="2" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="namespaceCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" />
+							<bean parent="FieldDefinition"
+								p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel" />
+							<bean parent="FieldDefinition"
+								p:attributeName="functionalFieldDescription.functionalFieldDescription" />
+							<bean parent="FieldDefinition"
+								p:attributeName="tableName" />
+							<bean parent="FieldDefinition"
+								p:attributeName="fieldName" />
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>

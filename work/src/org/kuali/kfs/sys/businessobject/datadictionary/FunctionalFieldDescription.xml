@@ -199,35 +199,4 @@
 			</list>
 		</property>
 	</bean>
-
-	<!-- Business Object Inquiry Definition -->
-	<bean id="FunctionalFieldDescription-inquiryDefinition"
-		parent="FunctionalFieldDescription-inquiryDefinition-parentBean" />
-
-	<bean id="FunctionalFieldDescription-inquiryDefinition-parentBean"
-		abstract="true" parent="InquiryDefinition">
-		<property name="title"
-			value="Functional Field Description Inquiry" />
-		<property name="inquirySections">
-			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="numberOfColumns" value="2" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="namespaceCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="businessObjectProperty.businessObjectComponent.componentLabel" />
-							<bean parent="FieldDefinition"
-								p:attributeName="businessObjectProperty.propertyLabel" />
-							<bean parent="FieldDefinition"
-								p:attributeName="functionalFieldDescription" />
-							<bean parent="FieldDefinition"
-								p:attributeName="active" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
 </beans>

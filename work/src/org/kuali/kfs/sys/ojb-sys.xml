@@ -686,19 +686,6 @@
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 	
-	<!--  this is fake, cause the framework won't handle if this class isn't "persistable"  -->
-	<class-descriptor class="org.kuali.kfs.sys.businessobject.BusinessObjectComponent" table="NOTHING">
-	    <field-descriptor name="namespaceCode" column="NMSPC_CD" jdbc-type="VARCHAR" primarykey="true" />
-	    <field-descriptor name="componentClass" column="CMPNT_CLSS" jdbc-type="VARCHAR" primarykey="true" />
-	</class-descriptor>
-
-	<!--  this is fake, cause the framework won't handle if this class isn't "persistable"  -->
-	<class-descriptor class="org.kuali.kfs.sys.businessobject.BusinessObjectProperty" table="NOTHING">
-	    <field-descriptor name="namespaceCode" column="NMSPC_CD" jdbc-type="VARCHAR" primarykey="true" />
-	    <field-descriptor name="componentClass" column="CMPNT_CLSS" jdbc-type="VARCHAR" primarykey="true" />
-	    <field-descriptor name="propertyName" column="PRPRTY_NM" jdbc-type="VARCHAR" primarykey="true" />
-	</class-descriptor>
-
 	<class-descriptor class="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" table="SH_FNCTNL_FIELD_DESCR_T">
 	    <field-descriptor name="namespaceCode" column="NMSPC_CD" jdbc-type="VARCHAR" primarykey="true" />
 	    <field-descriptor name="componentClass" column="CMPNT_CLSS" jdbc-type="VARCHAR" primarykey="true" />
@@ -708,7 +695,7 @@
 	    <field-descriptor name="functionalFieldDescription" column="FNCTNL_FIELD_DESCR" jdbc-type="VARCHAR"/>
         <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />        
  	</class-descriptor>
- 	
+	    
  	<class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegionType" table="FP_TAX_REGION_TYPE_T">
  		<field-descriptor name="taxRegionTypeCode" column="TAX_REGION_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
  		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />

@@ -21,18 +21,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.BusinessObjectProperty;
 import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
+import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 
-public class FunctionalFieldDescriptionLookupableHelperServiceImpl extends BusinessObjectPropertyLookupableHelperServiceImpl {
+public class FunctionalFieldDescriptionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ParameterDetailTypeLookupableHelperServiceImpl.class);
-    
+    protected KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService;
+
     @Override
     public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
-        List<BusinessObjectProperty> businessObjectProperties = (List<BusinessObjectProperty>)super.getSearchResults(fieldValues);
+        super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+        super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        List<BusinessObjectProperty> businessObjectProperties = kfsBusinessObjectMetaDataService.findBusinessObjectProperties(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL));
         Set<String> namespaceCodes = new HashSet<String>();
         Set<String> componentClasses = new HashSet<String>();
         Set<String> propertyNames = new HashSet<String>();
@@ -41,33 +47,23 @@ public class FunctionalFieldDescriptionLookupableHelperServiceImpl extends Busin
             componentClasses.add(businessObjectProperty.getComponentClass());
             propertyNames.add(businessObjectProperty.getPropertyName());
         }
-        fieldValues.put("namespaceCode", buildOrCriteria(namespaceCodes));
-        fieldValues.put("componentClass", buildOrCriteria(componentClasses));
-        fieldValues.put("propertyName", buildOrCriteria(propertyNames));
-        fieldValues.remove("componentLabel");
-        fieldValues.remove("propertyLabel");
-
-        List<FunctionalFieldDescription> searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, false);
-        
-        List defaultSortColumns = getDefaultSortColumns();
-        if (defaultSortColumns.size() > 0) {
-            Collections.sort(searchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
-        }
+        fieldValues.put(KFSPropertyConstants.NAMESPACE_CODE, buildOrCriteria(namespaceCodes));
+        fieldValues.put(KFSPropertyConstants.COMPONENT_CLASS, buildOrCriteria(componentClasses));
+        fieldValues.put(KFSPropertyConstants.PROPERTY_NAME, buildOrCriteria(propertyNames));
+        fieldValues.remove(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL);
+        fieldValues.remove(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL);
+        List<FunctionalFieldDescription> searchResults = (List) getLookupService().findCollectionBySearchHelper(FunctionalFieldDescription.class, fieldValues, false);
+        for (FunctionalFieldDescription functionalFieldDescription : searchResults) {
+            functionalFieldDescription.refreshNonUpdateableReferences();
+        }        
+        List<String> sortProperties = new ArrayList<String>();
+        sortProperties.add(KFSPropertyConstants.NAMESPACE_CODE);
+        sortProperties.add(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL);
+        sortProperties.add(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL);
+        Collections.sort(searchResults, new BeanPropertyComparator(sortProperties, true));
         return searchResults;
     }
 
-    @Override
-    public List getReturnKeys() {
-        List<String> returnKeys = new ArrayList();
-        returnKeys.add("namespaceCode");
-        returnKeys.add("namespaceName");
-        returnKeys.add("componentClass");
-        returnKeys.add("componentLabel");
-        returnKeys.add("propertyName");
-        returnKeys.add("propertyLabel");
-        return returnKeys;
-    }
-    
     private String buildOrCriteria(Set<String> values) {
         StringBuffer orCriteria = new StringBuffer();
         List<String> valueList = new ArrayList<String>(values);
@@ -78,5 +74,9 @@ public class FunctionalFieldDescriptionLookupableHelperServiceImpl extends Busin
             }
         }
         return orCriteria.toString();
+    }
+
+    public void setKfsBusinessObjectMetaDataService(KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService) {
+        this.kfsBusinessObjectMetaDataService = kfsBusinessObjectMetaDataService;
     }
 }

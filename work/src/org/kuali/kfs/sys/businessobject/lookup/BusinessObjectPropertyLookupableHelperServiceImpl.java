@@ -18,62 +18,33 @@ package org.kuali.kfs.sys.businessobject.lookup;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.BusinessObjectComponent;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.BusinessObjectProperty;
+import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 
-public class BusinessObjectPropertyLookupableHelperServiceImpl extends BusinessObjectComponentLookupableHelperServiceImpl {
+public class BusinessObjectPropertyLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ParameterDetailTypeLookupableHelperServiceImpl.class);
-    
+    private KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService;
+
     @Override
     public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
-        List<BusinessObjectComponent> businessObjectComponents = (List<BusinessObjectComponent>)super.getSearchResults(fieldValues);
-
-        Pattern propertyLabelRegex = null;
-        if (StringUtils.isNotBlank(fieldValues.get("propertyLabel"))) {
-            String patternStr = fieldValues.get("propertyLabel").replace("*", ".*").toUpperCase();
-            try {
-                propertyLabelRegex = Pattern.compile(patternStr);
-            }
-            catch (PatternSyntaxException ex) {
-                LOG.error("Unable to parse propertyLabel pattern, ignoring.", ex);
-            }
-        }
-
-        List<BusinessObjectProperty> matchingBusinessObjectProperties = new ArrayList<BusinessObjectProperty>();
-        for (BusinessObjectComponent businessObjectComponent : businessObjectComponents) {
-            for (AttributeDefinition attributeDefinition : getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(businessObjectComponent.getComponentClass().toString()).getAttributes()) {
-                if ((propertyLabelRegex == null) || propertyLabelRegex.matcher(businessObjectComponent.getComponentLabel().toUpperCase()).matches()) {
-                    matchingBusinessObjectProperties.add(new BusinessObjectProperty(businessObjectComponent, attributeDefinition));
-                }
-            }
-        }
-        
-        List defaultSortColumns = getDefaultSortColumns();
-        if (defaultSortColumns.size() > 0) {
-            Collections.sort(matchingBusinessObjectProperties, new BeanPropertyComparator(getDefaultSortColumns(), true));
-        }
+        super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+        super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        List<BusinessObjectProperty> matchingBusinessObjectProperties = kfsBusinessObjectMetaDataService.findBusinessObjectProperties(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL), fieldValues.get(KFSPropertyConstants.PROPERTY_LABEL));
+        List<String> sortProperties = new ArrayList<String>();
+        sortProperties.add(KFSPropertyConstants.NAMESPACE_CODE);
+        sortProperties.add(KFSPropertyConstants.BUSINESS_OBJECT_COMPONENT_LABEL);
+        sortProperties.add(KFSPropertyConstants.PROPERTY_LABEL);
+        Collections.sort(matchingBusinessObjectProperties, new BeanPropertyComparator(sortProperties, true));
         return matchingBusinessObjectProperties;
     }
 
-    @Override
-    public List getReturnKeys() {
-        List<String> returnKeys = new ArrayList();
-        returnKeys.add("namespaceCode");
-        returnKeys.add("namespaceName");
-        returnKeys.add("componentClass");
-        returnKeys.add("componentLabel");
-        returnKeys.add("propertyName");
-        returnKeys.add("propertyLabel");
-        return returnKeys;
+    public void setKfsBusinessObjectMetaDataService(KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService) {
+        this.kfsBusinessObjectMetaDataService = kfsBusinessObjectMetaDataService;
     }
 }

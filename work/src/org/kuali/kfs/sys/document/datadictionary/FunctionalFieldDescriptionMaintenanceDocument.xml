@@ -1,75 +1,91 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="FunctionalFieldDescriptionMaintenanceDocument" parent="FunctionalFieldDescriptionMaintenanceDocument-parentBean" />
+	<bean id="FunctionalFieldDescriptionMaintenanceDocument"
+		parent="FunctionalFieldDescriptionMaintenanceDocument-parentBean" />
 
-  <bean id="FunctionalFieldDescriptionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" />
-    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FunctionalFieldDescriptionMaintainable" />
-	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FunctionalFieldDescriptionMaintenanceDocumentAuthorizer" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+	<bean id="FunctionalFieldDescriptionMaintenanceDocument-parentBean"
+		abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" />
+		<property name="maintainableClass"
+			value="org.kuali.kfs.sys.document.FunctionalFieldDescriptionMaintainable" />
+		<property name="documentAuthorizerClass"
+			value="org.kuali.kfs.sys.document.authorization.FunctionalFieldDescriptionMaintenanceDocumentAuthorizer" />
+		<property name="businessRulesClass"
+			value="org.kuali.kfs.sys.document.validation.impl.FunctionalFieldDescriptionRule" />
+		<property name="authorizations">
+			<list>
+				<bean parent="AuthorizationDefinition">
+					<property name="action" value="initiate" />
+					<property name="authorizedGroups">
+						<set>
+							<value>SY_MAINTENANCE_USERS</value>
+						</set>
+					</property>
+				</bean>
+			</list>
+		</property>
 
-    <property name="maintainableSections" >
-      <list>
-        <ref bean="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields" />
-      </list>
-    </property>
-    <property name="label" value="Functional Field Description" />
-    <property name="shortLabel" value="Functional Field Description" />
-    <property name="summary" value="Functional Field Description maintenance document" />
-    <property name="description" value="Document used to create Functional Field Description objects" />
-    
-    <property name="lockingKeys" >
-      <list>
-        <value>namespaceCode</value>
-        <value>componentClass</value>
-        <value>propertyName</value>
-      </list>
-    </property>
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" p:parameterName="FUNCTIONAL_FIELD_DESCRIPTION" />
-    </property>
-    <property name="documentTypeName" value="FunctionalFieldDescriptionMaintenanceDocument" />
-    <property name="documentTypeCode" value="FFD" />
-     
-  </bean>
+		<property name="maintainableSections">
+			<list>
+				<ref
+					bean="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields" />
+			</list>
+		</property>
+		<property name="label" value="Functional Field Description" />
 
-<!-- Maintenance Section Definitions -->
+		<property name="lockingKeys">
+			<list>
+				<value>namespaceCode</value>
+				<value>componentClass</value>
+				<value>propertyName</value>
+			</list>
+		</property>
+		<property name="helpDefinition">
+			<bean parent="HelpDefinition"
+				p:parameterClass="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription"
+				p:parameterName="FUNCTIONAL_FIELD_DESCRIPTION" />
+		</property>
+		<property name="documentTypeName"
+			value="FunctionalFieldDescriptionMaintenanceDocument" />
+		<property name="documentTypeCode" value="FFD" />
+
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
 
 
-  <bean id="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields" parent="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields-parentBean" />
+	<bean
+		id="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields"
+		parent="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields-parentBean" />
 
-  <bean id="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="FunctionalFieldDescription" />
-    <property name="title" value="Functional Field Description" />
-    <property name="maintainableItems" >
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="namespaceCode" p:readOnly="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="componentClass" />
-        <bean parent="MaintainableFieldDefinition" p:name="componentLabel" p:readOnly="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="propertyNameReadOnly" />
-        <bean parent="MaintainableFieldDefinition" p:name="propertyLabelReadOnly" />
-        <bean parent="MaintainableFieldDefinition" p:name="propertyName" />
-        <bean parent="MaintainableFieldDefinition" p:name="propertyLabel" />
-        <bean parent="MaintainableFieldDefinition" p:name="functionalFieldDescription" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
-      </list>
-    </property>
-  </bean>
- 
+	<bean
+		id="FunctionalFieldDescriptionMaintenanceDocument-FunctionalFieldDescriptionFields-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="FunctionalFieldDescription" />
+		<property name="title" value="Functional Field Description" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition"
+					p:name="namespaceCode" p:readOnly="true" />
+				<bean parent="MaintainableFieldDefinition"
+					p:name="componentClass" />
+				<bean parent="MaintainableFieldDefinition"
+					p:name="businessObjectProperty.businessObjectComponent.componentLabel" p:readOnly="true" />
+				<bean parent="MaintainableFieldDefinition"
+					p:name="propertyName" />
+				<bean parent="MaintainableFieldDefinition"
+					p:name="businessObjectProperty.propertyLabel" />
+				<bean parent="MaintainableFieldDefinition"
+					p:name="active" p:defaultValue="true" />
+				<bean parent="MaintainableFieldDefinition"
+					p:name="versionNumber" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

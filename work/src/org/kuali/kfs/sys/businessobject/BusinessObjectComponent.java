@@ -17,25 +17,19 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.KFSUtils;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.lookup.keyvalues.ParameterNamespaceValuesFinder;
 
-public class BusinessObjectComponent extends PersistableBusinessObjectBase {
+public class BusinessObjectComponent extends TransientBusinessObjectBase {
     private String namespaceCode;
-    private String namespaceName;
     private String componentClass;
     private String componentLabel;
     
     public BusinessObjectComponent() {
     }
     
-    public BusinessObjectComponent(BusinessObjectEntry businessObjectEntry) {
-        setNamespaceCode(SpringContext.getBean(ParameterService.class).getNamespace(businessObjectEntry.getBusinessObjectClass()));
-        setNamespaceName(new ParameterNamespaceValuesFinder().getKeyLabel(getNamespaceCode()));
+    public BusinessObjectComponent(String namespaceCode, BusinessObjectEntry businessObjectEntry) {
+        setNamespaceCode(namespaceCode);
         setComponentClass(businessObjectEntry.getBusinessObjectClass().getName());
         setComponentLabel(businessObjectEntry.getObjectLabel());
     }
@@ -46,14 +40,6 @@ public class BusinessObjectComponent extends PersistableBusinessObjectBase {
 
     public void setNamespaceCode(String namespaceCode) {
         this.namespaceCode = namespaceCode;
-    }
-
-    public String getNamespaceName() {
-        return namespaceName;
-    }
-
-    public void setNamespaceName(String namespaceName) {
-        this.namespaceName = namespaceName;
     }
 
     public String getComponentClass() {

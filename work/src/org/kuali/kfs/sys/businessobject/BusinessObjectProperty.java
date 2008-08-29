@@ -17,31 +17,24 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 
-public class BusinessObjectProperty extends PersistableBusinessObjectBase {
+public class BusinessObjectProperty extends TransientBusinessObjectBase {
     private String namespaceCode;
-    private String namespaceName;
     private String componentClass;
-    private String componentLabel;
     private String propertyName;
     private String propertyLabel;
-    private String propertyNameReadOnly;
-    private String propertyLabelReadOnly;
-    
+
     private BusinessObjectComponent businessObjectComponent;
     
-
     public BusinessObjectProperty() {
     }
     
     public BusinessObjectProperty(BusinessObjectComponent businessObjectComponent, AttributeDefinition attributeDefinition) {
         setBusinessObjectComponent(businessObjectComponent);
         setNamespaceCode(businessObjectComponent.getNamespaceCode());
-        setNamespaceName(businessObjectComponent.getNamespaceName());
         setComponentClass(businessObjectComponent.getComponentClass());
-        setComponentLabel(businessObjectComponent.getComponentLabel());
         setPropertyName(attributeDefinition.getName());
         setPropertyLabel(attributeDefinition.getLabel());
     }
@@ -54,28 +47,12 @@ public class BusinessObjectProperty extends PersistableBusinessObjectBase {
         this.namespaceCode = namespaceCode;
     }
 
-    public String getNamespaceName() {
-        return namespaceName;
-    }
-
-    public void setNamespaceName(String namespaceName) {
-        this.namespaceName = namespaceName;
-    }
-
     public String getComponentClass() {
         return componentClass;
     }
 
     public void setComponentClass(String componentClass) {
         this.componentClass = componentClass;
-    }
-
-    public String getComponentLabel() {
-        return componentLabel;
-    }
-
-    public void setComponentLabel(String componentLabel) {
-        this.componentLabel = componentLabel;
     }
 
     public String getPropertyName() {
@@ -102,22 +79,6 @@ public class BusinessObjectProperty extends PersistableBusinessObjectBase {
         this.businessObjectComponent = businessObjectComponent;
     }
 
-    public String getPropertyNameReadOnly() {
-        return propertyName;
-    }
-
-    public void setPropertyNameReadOnly(String propertyName) {
-        this.propertyName = propertyName;
-    }
-
-    public String getPropertyLabelReadOnly() {
-        return propertyLabel;
-    }
-
-    public void setPropertyLabelReadOnly(String propertyLabel) {
-        this.propertyLabel = propertyLabel;
-    }
-
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, String> toString = new LinkedHashMap<String, String>();
@@ -126,5 +87,4 @@ public class BusinessObjectProperty extends PersistableBusinessObjectBase {
         toString.put("propertyName", getPropertyName());
         return toString;
     }
-
- }
+}

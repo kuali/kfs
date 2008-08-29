@@ -291,6 +291,11 @@ public class KFSPropertyConstants {
     public static final String CODE = "code";
     public static final String CODE_RETRIEVED = "codeRetrieved";
     public static final String COMPLETE = "complete";
+    public static final String COMPONENT_CLASS = "componentClass";
+    public static final String COMPONENT_LABEL = "componentLabel";
+    public static final String BUSINESS_OBJECT_COMPONENT_LABEL = "businessObjectComponent." + COMPONENT_LABEL;
+    public static final String BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL = "businessObjectProperty." + BUSINESS_OBJECT_COMPONENT_LABEL;
+    public static final String FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL = "functionalFieldDescription." + BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL;
     public static final String CONSOLIDATED_OBJECT_CODE = "consolidatedObjectCode";
     public static final String CONSOLIDATION_OPTION = "consolidationOption";
     public static final String CONTINUATION_ACCOUNT = "continuationAccount";
@@ -784,6 +789,7 @@ public class KFSPropertyConstants {
     public static final String MONTH8_AMOUNT = "month8Amount";
     public static final String MONTH9_AMOUNT = "month9Amount";
     public static final String NAME = KNSPropertyConstants.NAME;
+    public static final String NAMESPACE_CODE = "namespaceCode";
     public static final String NEW = "new";
     public static final String NEW_ADVANCE_DEPOSIT = "newAdvanceDeposit";
     public static final String NEW_COLLECTION_RECORD = KNSPropertyConstants.NEW_COLLECTION_RECORD;
@@ -984,6 +990,10 @@ public class KFSPropertyConstants {
     public static final String PROJECT_DIRECTORY_TO_BE_NAMED_INDICATOR = "projectDirectoryToBeNamedIndicator";
     public static final String PROJECT_MANAGER_UNIVERSAL = "projectManagerUniversal";
     public static final String PROJECT_MANAGER_UNIVERSAL_ID = "projectManagerUniversalId";
+    public static final String PROPERTY_NAME = "propertyName";
+    public static final String PROPERTY_LABEL = "propertyLabel";
+    public static final String BUSINESS_OBJECT_PROPERTY_LABEL = "businessObjectProperty." + KFSPropertyConstants.PROPERTY_LABEL;
+    public static final String FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_LABEL = "functionalFieldDescription." + BUSINESS_OBJECT_PROPERTY_LABEL;
     public static final String PROPOSAL = "proposal";
     public static final String PROPOSAL_ENDING_DATE = "proposalEndingDate";
     public static final String PROPOSAL_FEDERAL_PASS_THROUGH_INDICATOR = "proposalFederalPassThroughIndicator";

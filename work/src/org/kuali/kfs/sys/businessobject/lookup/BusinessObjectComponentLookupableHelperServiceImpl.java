@@ -15,86 +15,33 @@
  */
 package org.kuali.kfs.sys.businessobject.lookup;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.BusinessObjectComponent;
-import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
+import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 public class BusinessObjectComponentLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ParameterDetailTypeLookupableHelperServiceImpl.class);
+    private KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
         super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-
-        Map<Class,BusinessObjectEntry> uniqueBusinessObjectEntries = new HashMap<Class,BusinessObjectEntry>();
-        for (BusinessObjectEntry businessObjectEntry : getDataDictionaryService().getDataDictionary().getBusinessObjectEntries().values()) {
-            try {
-            uniqueBusinessObjectEntries.put(businessObjectEntry.getBusinessObjectClass(), businessObjectEntry);
-            }
-            catch (Exception e) {
-                LOG.error("The getDataDictionaryAndSpringComponents method of ParameterUtils encountered an exception while trying to create the detail type for business object class: " + businessObjectEntry.getBusinessObjectClass(), e);
-            }
-        }
-        List<BusinessObjectComponent> businessObjectComponents = new ArrayList<BusinessObjectComponent>();
-        for (BusinessObjectEntry businessObjectEntry : uniqueBusinessObjectEntries.values()) {
-            businessObjectComponents.add(new BusinessObjectComponent(businessObjectEntry));
-        }
-        List<BusinessObjectComponent> matchingBusinessObjectComponents = new ArrayList<BusinessObjectComponent>();
-
-        Pattern componentLabelRegex = null;
-        if (StringUtils.isNotBlank(fieldValues.get("componentLabel"))) {
-            String patternStr = fieldValues.get("componentLabel").replace("*", ".*").toUpperCase();
-            try {
-                componentLabelRegex = Pattern.compile(patternStr);
-            }
-            catch (PatternSyntaxException ex) {
-                LOG.error("Unable to parse componentLabel pattern, ignoring.", ex);
-            }
-        }
-        for (BusinessObjectComponent businessObjectComponent : businessObjectComponents) {
-            if ((StringUtils.isBlank(fieldValues.get("namespaceCode")) || businessObjectComponent.getNamespaceCode().equals(fieldValues.get("namespaceCode")))
-                    && ((componentLabelRegex == null) || componentLabelRegex.matcher(businessObjectComponent.getComponentLabel().toUpperCase()).matches())) {
-                matchingBusinessObjectComponents.add(businessObjectComponent);
-            }
-        }
-        
-        List defaultSortColumns = getDefaultSortColumns();
-        if (defaultSortColumns.size() > 0) {
+        List<BusinessObjectComponent> matchingBusinessObjectComponents = kfsBusinessObjectMetaDataService.findBusinessObjectComponents(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.COMPONENT_LABEL));
+        if (getDefaultSortColumns().size() > 0) {
             Collections.sort(matchingBusinessObjectComponents, new BeanPropertyComparator(getDefaultSortColumns(), true));
         }
         return matchingBusinessObjectComponents;
     }
 
-    @Override
-    public List getReturnKeys() {
-        List<String> returnKeys = new ArrayList();
-        returnKeys.add("namespaceCode");
-        returnKeys.add("namespaceName");
-        returnKeys.add("componentClass");
-        returnKeys.add("componentLabel");
-        return returnKeys;
-    }
-
-    @Override
-    public String getActionUrls(BusinessObject businessObject) {
-        if  (businessObject instanceof FunctionalFieldDescription) {
-            return super.getActionUrls(businessObject);
-        }
-        return "";
+    public void setKfsBusinessObjectMetaDataService(KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService) {
+        this.kfsBusinessObjectMetaDataService = kfsBusinessObjectMetaDataService;
     }
 }

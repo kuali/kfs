@@ -19,43 +19,23 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
     private String namespaceCode;
-    private String namespaceName;
     private String componentClass;
-    private String componentLabel;
     private String propertyName;
-    private String propertyNameReadOnly;
-    private String propertyLabelReadOnly;
-    private String propertyLabel;
     private String functionalFieldDescription;
     private boolean active;
-    
-    private BusinessObjectComponent businessObjectComponent;
+
     private BusinessObjectProperty businessObjectProperty;
-    
+
     @Override
     public void refreshNonUpdateableReferences() {
-        if (((businessObjectComponent == null)
-                || !businessObjectComponent.getNamespaceCode().equals(getNamespaceCode())
-                || !businessObjectComponent.getComponentClass().equals(getComponentClass())
-                || !businessObjectProperty.getPropertyName().equals(getPropertyName()))
-              && (StringUtils.isNotBlank(getComponentClass()) && StringUtils.isNotBlank(getPropertyName()))) {
-            setBusinessObjectComponent(new BusinessObjectComponent(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getComponentClass())));
-            setNamespaceCode(businessObjectComponent.getNamespaceCode());
-            setNamespaceName(businessObjectComponent.getNamespaceName());
-            setComponentLabel(businessObjectComponent.getComponentLabel());
-            if (((businessObjectProperty == null)
-                    || !businessObjectProperty.getNamespaceCode().equals(getNamespaceCode())
-                    || !businessObjectProperty.getComponentClass().equals(getComponentClass())
-                    || !businessObjectProperty.getPropertyName().equals(getPropertyName()))
-                  && (StringUtils.isNotBlank(getComponentClass()) && StringUtils.isNotBlank(getPropertyName()))) {
-                setBusinessObjectProperty(new BusinessObjectProperty(businessObjectComponent, SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getComponentClass()).getAttributeDefinition(getPropertyName())));
-                setPropertyLabel(businessObjectProperty.getPropertyLabel());
-            }
+        if (StringUtils.isNotBlank(getComponentClass()) && StringUtils.isNotBlank(getPropertyName()) && ((businessObjectProperty == null) || !getComponentClass().equals(businessObjectProperty.getBusinessObjectComponent().getComponentClass()) || !getPropertyName().equals(businessObjectProperty.getPropertyName()))) {
+            setBusinessObjectProperty(SpringContext.getBean(KfsBusinessObjectMetaDataService.class).getBusinessObjectProperty(getComponentClass(), getPropertyName()));
+            setNamespaceCode(businessObjectProperty.getNamespaceCode());
         }
     }
 
@@ -67,15 +47,6 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
         this.namespaceCode = namespaceCode;
     }
 
-    public String getNamespaceName() {
-        refreshNonUpdateableReferences();
-        return namespaceName;
-    }
-
-    public void setNamespaceName(String namespaceName) {
-        this.namespaceName = namespaceName;
-    }
-
     public String getComponentClass() {
         return componentClass;
     }
@@ -84,30 +55,12 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
         this.componentClass = componentClass;
     }
 
-    public String getComponentLabel() {
-        refreshNonUpdateableReferences();
-        return componentLabel;
-    }
-
-    public void setComponentLabel(String componentLabel) {
-        this.componentLabel = componentLabel;
-    }
-
     public String getPropertyName() {
         return propertyName;
     }
 
     public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
-    }
-
-    public String getPropertyLabel() {
-        refreshNonUpdateableReferences();
-        return propertyLabel;
-    }
-
-    public void setPropertyLabel(String propertyLabel) {
-        this.propertyLabel = propertyLabel;
     }
 
     public String getFunctionalFieldDescription() {
@@ -126,14 +79,6 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
         this.active = active;
     }
 
-    public BusinessObjectComponent getBusinessObjectComponent() {
-        return businessObjectComponent;
-    }
-
-    public void setBusinessObjectComponent(BusinessObjectComponent businessObjectComponent) {
-        this.businessObjectComponent = businessObjectComponent;
-    }
-
     public BusinessObjectProperty getBusinessObjectProperty() {
         return businessObjectProperty;
     }
@@ -147,24 +92,6 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
         if (businessObjectProperty != null) {
             return businessObjectProperty.toStringMapper();
         }
-        return new LinkedHashMap<String,String>();
+        return new LinkedHashMap<String, String>();
     }
-
-    public String getPropertyNameReadOnly() {
-        return propertyName;
-    }
-
-    public void setPropertyNameReadOnly(String propertyName) {
-        this.propertyName = propertyName;
-    }
-
-    public String getPropertyLabelReadOnly() {
-        return propertyLabel;
-    }
-
-    public void setPropertyLabelReadOnly(String propertyLabel) {
-        this.propertyLabel = propertyLabel;
-    }
-
- 
 }

@@ -33,17 +33,8 @@ public class FunctionalFieldDescriptionMaintenanceDocumentAuthorizer extends Mai
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
         MaintenanceDocumentAuthorizations maintenanceDocumentAuthorizations = super.getFieldAuthorizations(document, user);
         if (KFSConstants.MAINTENANCE_EDIT_ACTION.equals(((MaintenanceDocument)document).getNewMaintainableObject().getMaintenanceAction())) {
-            maintenanceDocumentAuthorizations.addReadonlyAuthField("propertyLabel");
-            maintenanceDocumentAuthorizations.addHiddenAuthField("propertyLabelReadOnly");
+            maintenanceDocumentAuthorizations.addReadonlyAuthField("businessObjectProperty.propertyLabel");
         }
-        if (KFSConstants.MAINTENANCE_NEW_ACTION.equals(((MaintenanceDocument)document).getNewMaintainableObject().getMaintenanceAction())) {
-            maintenanceDocumentAuthorizations.addHiddenAuthField("propertyLabel");
-        }
-        
-        if (KFSConstants.MAINTENANCE_COPY_ACTION.equals(((MaintenanceDocument)document).getNewMaintainableObject().getMaintenanceAction())) {
-            maintenanceDocumentAuthorizations.addHiddenAuthField("propertyLabel");
-        }
-
         return maintenanceDocumentAuthorizations;
     }
 }

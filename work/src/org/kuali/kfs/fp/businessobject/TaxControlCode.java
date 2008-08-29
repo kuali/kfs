@@ -16,12 +16,13 @@
 
 package org.kuali.kfs.fp.businessobject;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * This class is used to represent a tax control code business object.
  */
-public class TaxControlCode extends KualiCodeBase {
+public class TaxControlCode extends KualiCodeBase implements Inactivateable {
 
     /**
      * Default no-arg constructor.

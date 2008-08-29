@@ -29,6 +29,12 @@
         <ref bean="LaborObject-versionNumber" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="financialObject"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

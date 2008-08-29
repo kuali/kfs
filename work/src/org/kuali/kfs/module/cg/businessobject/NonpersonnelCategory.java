@@ -20,12 +20,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * This is KRAs NonpersonnelCategory business object.
  */
-public class NonpersonnelCategory extends PersistableBusinessObjectBase {
+public class NonpersonnelCategory extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = -908290558174256616L;
     private String code;
@@ -59,55 +60,64 @@ public class NonpersonnelCategory extends PersistableBusinessObjectBase {
         this.sortNumber = sortNumber;
     }
 
+    /**
+     * 
+     * Constructs a NonpersonnelCategory.java.
+     * @param nonpersonnelCategoryCode
+     */
     public NonpersonnelCategory(String nonpersonnelCategoryCode) {
         this.setCode(nonpersonnelCategoryCode);
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.KualiCodeBase#getCode()
+     * 
+     * This method...
+     * @return
      */
     public String getCode() {
-        // TODO Auto-generated method stub
         return code;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.KualiCodeBase#getName()
+     * 
+     * This method...
+     * @return
      */
     public String getName() {
-        // TODO Auto-generated method stub
         return name;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.KualiCodeBase#isActive()
+     * 
+     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
      */
     public boolean isActive() {
-        // TODO Auto-generated method stub
         return active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.KualiCodeBase#setActive(boolean)
+     * 
+     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
      */
-    public void setActive(boolean a) {
-        // TODO Auto-generated method stub
-        active = a;
+    public void setActive(boolean active) {
+        active = active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.KualiCodeBase#setCode(java.lang.String)
+     * 
+     * This method...
+     * @param code
      */
     public void setCode(String code) {
-        // TODO Auto-generated method stub
         this.code = code;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.KualiCodeBase#setName(java.lang.String)
+     * 
+     * This method...
+     * @param name
      */
     public void setName(String name) {
-        // TODO Auto-generated method stub
         this.name = name;
     }
 

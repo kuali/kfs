@@ -121,10 +121,10 @@ diff -N work/src/edu/sample/kuali/module/chart/datadictionary/docs/AccountMainte
 +            <reference attributeName="postalZipCode" attributeToHighlightOnFail="accountZipCode" />
 +            <reference attributeName="accountType" attributeToHighlightOnFail="accountTypeCode" />
 +            <reference attributeName="financialHigherEdFunction" attributeToHighlightOnFail="financialHigherEdFunctionCd" />
-+            <reference attributeName="reportsToAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="reportsToAccountNumber" />
-+            <reference attributeName="continuationAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="continuationAccountNumber" />
-+            <reference attributeName="endowmentIncomeAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="endowmentIncomeAccountNumber" />
-+            <reference attributeName="indirectCostRecoveryAcct" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" />
++            <reference attributeName="reportsToAccount" activeIndicatorAttributeName="active" activeIndicatorReversed="true" attributeToHighlightOnFail="reportsToAccountNumber" />
++            <reference attributeName="continuationAccount" activeIndicatorAttributeName="active" activeIndicatorReversed="true" attributeToHighlightOnFail="continuationAccountNumber" />
++            <reference attributeName="endowmentIncomeAccount" activeIndicatorAttributeName="active" activeIndicatorReversed="true" attributeToHighlightOnFail="endowmentIncomeAccountNumber" />
++            <reference attributeName="indirectCostRecoveryAcct" activeIndicatorAttributeName="active" activeIndicatorReversed="true" attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" />
 +            <reference attributeName="sufficientFundsCode" attributeToHighlightOnFail="accountSufficientFundsCode" />
 +            <reference attributeName="accountFiscalOfficerUser" attributeToHighlightOnFail="accountFiscalOfficerUser.personUserIdentifier" />
 +            <reference attributeName="accountSupervisoryUser" attributeToHighlightOnFail="accountSupervisoryUser.personUserIdentifier" />

@@ -17,12 +17,13 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class PersonRole extends PersistableBusinessObjectBase {
+public class PersonRole extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String personRoleCode;
-    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private boolean active;
     private String personRoleDescription;
     private Integer personRoleSortNumber;
 
@@ -52,21 +53,21 @@ public class PersonRole extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the dataObjectMaintenanceCodeActiveIndicator.
+     * @return Returns the active.
      */
-    public boolean isDataObjectMaintenanceCodeActiveIndicator() {
-        return dataObjectMaintenanceCodeActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the dataObjectMaintenanceCodeActiveIndicator attribute value.
+     * Sets the active attribute value.
      * 
-     * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

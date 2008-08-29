@@ -23,7 +23,7 @@
               p:displayFieldName="Chart Of Accounts Code" />
         <bean parent="ReferenceDefinition"
               p:attributeName="account"
-              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorAttributeName="active"
               p:activeIndicatorReversed="true"
               p:attributeToHighlightOnFail="accountNumber"
               p:displayFieldName="Account Number" />

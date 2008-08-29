@@ -19,12 +19,13 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kew.workgroup.Workgroup;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Class representing a ResearchRiskType.
  */
-public class ResearchRiskType extends PersistableBusinessObjectBase {
+public class ResearchRiskType extends PersistableBusinessObjectBase implements Inactivateable {
 
     /**
      * Constant values for research risk type notification values
@@ -35,7 +36,7 @@ public class ResearchRiskType extends PersistableBusinessObjectBase {
     public static final String NEVER = "X";
 
     private String researchRiskTypeCode;
-    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private boolean active;
     private String researchRiskTypeDescription;
     private String controlAttributeTypeCode;
     private Integer researchRiskTypeSortNumber;
@@ -72,21 +73,21 @@ public class ResearchRiskType extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the dataObjectMaintenanceCodeActiveIndicator
+     * @return Returns the active
      */
-    public boolean isDataObjectMaintenanceCodeActiveIndicator() {
-        return dataObjectMaintenanceCodeActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 

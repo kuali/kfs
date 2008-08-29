@@ -20,6 +20,7 @@
         <ref bean="DisbursementVoucherDocumentationLocation-disbursementVoucherDocumentationLocationCode" />
         <ref bean="DisbursementVoucherDocumentationLocation-disbursementVoucherDocumentationLocationName" />
         <ref bean="DisbursementVoucherDocumentationLocation-disbursementVoucherDocumentationLocationAddress" />
+        <ref bean="DisbursementVoucherDocumentationLocation-active" />
         <ref bean="DisbursementVoucherDocumentationLocation-versionNumber" />
       </list>
     </property>
@@ -71,6 +72,12 @@
             p:cols="60" />
     </property>
   </bean>
+  <bean id="DisbursementVoucherDocumentationLocation-active" parent="DisbursementVoucherDocumentationLocation-active-parentBean" />
+
+  <bean id="DisbursementVoucherDocumentationLocation-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+
   <bean id="DisbursementVoucherDocumentationLocation-versionNumber" parent="DisbursementVoucherDocumentationLocation-versionNumber-parentBean" />
 
   <bean id="DisbursementVoucherDocumentationLocation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -96,6 +103,8 @@
                     p:attributeName="disbursementVoucherDocumentationLocationName" />
               <bean parent="FieldDefinition"
                     p:attributeName="disbursementVoucherDocumentationLocationAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -128,6 +137,8 @@
               p:attributeName="disbursementVoucherDocumentationLocationName" />
         <bean parent="FieldDefinition"
               p:attributeName="disbursementVoucherDocumentationLocationAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -138,6 +149,8 @@
               p:attributeName="disbursementVoucherDocumentationLocationName" />
         <bean parent="FieldDefinition"
               p:attributeName="disbursementVoucherDocumentationLocationAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

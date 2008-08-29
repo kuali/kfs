@@ -118,7 +118,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
                 else
 
                 // check the Sub-Account is active
-                if (!existenceSubAccount.isSubAccountActiveIndicator()) {
+                if (!existenceSubAccount.isActive()) {
                     putFieldError("incomeSubAccountNumber", KFSKeyConstants.ERROR_INACTIVE, "Income Sub-Account");
                 }
             }
@@ -137,7 +137,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
                 else
 
                 // check the Sub-Account is active
-                if (!existenceSubAccount.isSubAccountActiveIndicator()) {
+                if (!existenceSubAccount.isActive()) {
                     putFieldError("expenseSubAccountNumber", KFSKeyConstants.ERROR_INACTIVE, "Expense Sub-Account");
                 }
             }
@@ -154,7 +154,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
                 }
                 else
                 // check the Sub-Object is active
-                if (!existenceSubObj.isFinancialSubObjectActiveIndicator()) {
+                if (!existenceSubObj.isActive()) {
                     putFieldError("incomeFinancialSubObjectCode", KFSKeyConstants.ERROR_INACTIVE, "Income Sub-Object");
                 }
 
@@ -172,7 +172,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
                 }
                 else
                 // check the Sub-Object is active
-                if (!existenceSubObj.isFinancialSubObjectActiveIndicator()) {
+                if (!existenceSubObj.isActive()) {
                     putFieldError("expenseFinancialSubObjectCode", KFSKeyConstants.ERROR_INACTIVE, "Expense Sub-Object");
                 }
             }
@@ -237,7 +237,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
         }
 
         // check whether closed or not
-        if (account.isAccountClosedIndicator()) {
+        if (account.isActive()) {
             putFieldError(fieldName, KFSKeyConstants.ERROR_CLOSED, errorMessage);
             return result;
         }

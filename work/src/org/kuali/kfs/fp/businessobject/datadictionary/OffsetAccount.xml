@@ -23,6 +23,7 @@
         <ref bean="OffsetAccount-financialOffsetChartOfAccountCode" />
         <ref bean="OffsetAccount-financialOffsetAccountNumber" />
         <ref bean="OffsetAccount-financialOffsetObjectCode" />
+        <ref bean="OffsetAccount-active" />
         <ref bean="OffsetAccount-versionNumber" />
       </list>
     </property>
@@ -61,6 +62,12 @@
     <property name="shortLabel" value="Obj Cd" />
     <property name="required" value="false" />
   </bean>
+  <bean id="OffsetAccount-active" parent="OffsetAccount-active-parentBean" />
+
+  <bean id="OffsetAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="OffsetAccount-versionNumber" parent="OffsetAccount-versionNumber-parentBean" />
 
   <bean id="OffsetAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -90,6 +97,8 @@
                     p:attributeName="financialOffsetChartOfAccountCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialOffsetAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -126,6 +135,8 @@
               p:attributeName="financialOffsetChartOfAccountCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialOffsetAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -140,6 +151,8 @@
               p:attributeName="financialOffsetChartOfAccountCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialOffsetAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

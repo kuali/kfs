@@ -72,7 +72,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="researchRiskTypeNotificationValue" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="dataObjectMaintenanceCodeActiveIndicator"
+              p:name="active"
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />

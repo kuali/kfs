@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -35,7 +36,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * See functional documentation.
  */
-public class Proposal extends PersistableBusinessObjectBase implements AlternateOrgReviewRouting {
+public class Proposal extends PersistableBusinessObjectBase implements AlternateOrgReviewRouting, Inactivateable {
 
     public static final String PROPOSAL_CODE = "P";
     public static final String AWARD_CODE = "A";

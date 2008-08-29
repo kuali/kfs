@@ -36,13 +36,13 @@ public class StateValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(State.class);
-        List labels = new ArrayList();
+        Collection<State> codes = SpringContext.getBean(KeyValuesService.class).findAll(State.class);
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
-        for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            State State = (State) iter.next();
-            labels.add(new KeyLabelPair(State.getPostalStateCode(), State.getPostalStateName()));
+        for (State state : codes) {
+            if(state.isActive()) {
+                labels.add(new KeyLabelPair(state.getPostalStateCode(), state.getPostalStateName()));
+            }
         }
 
         return labels;

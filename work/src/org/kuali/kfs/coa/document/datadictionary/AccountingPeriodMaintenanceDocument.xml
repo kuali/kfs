@@ -68,7 +68,7 @@
               p:name="universityFiscalPeriodName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="universityFiscalPeriodStatusCode"
+              p:name="active"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="budgetRolloverIndicator" />

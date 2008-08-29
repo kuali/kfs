@@ -175,6 +175,14 @@
         </bean>
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="building"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="buildingRoom"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->    

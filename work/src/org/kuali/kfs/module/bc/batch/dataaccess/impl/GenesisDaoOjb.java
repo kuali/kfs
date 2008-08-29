@@ -154,7 +154,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     public final static String BUDGET_CZAR_ORG = "BUDU";
     public final static String ORG_CODE_PROPERTY = "organizationCode";
     public final static String FISCAL_OFFICER_ID_PROPERTY = "accountFiscalOfficerSystemIdentifier";
-    public final static String ACCOUNT_CLOSED_INDICATOR_PROPERTY = "accountClosedIndicator";
+    public final static String ACCOUNT_CLOSED_INDICATOR_PROPERTY = "active";
 
     private DocumentService documentService;
     private WorkflowDocumentService workflowDocumentService;

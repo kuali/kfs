@@ -34,7 +34,7 @@
               p:attributeToHighlightOnFail="budgetReversionChartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="budgetReversionAccount"
-              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorAttributeName="active"
               p:activeIndicatorReversed="true"
               p:attributeToHighlightOnFail="budgetReversionAccountNumber" />
         <bean parent="ReferenceDefinition"
@@ -43,7 +43,7 @@
               p:attributeToHighlightOnFail="cashReversionFinancialChartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cashReversionAccount"
-              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorAttributeName="active"
               p:activeIndicatorReversed="true"
               p:attributeToHighlightOnFail="cashReversionAccountNumber" />
       </list>
@@ -123,6 +123,9 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="carryForwardByObjectCodeIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:defaultValue="true"
+              p:name="active" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
       </list>

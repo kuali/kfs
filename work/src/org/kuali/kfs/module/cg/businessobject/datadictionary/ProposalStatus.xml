@@ -19,7 +19,7 @@
       <list>
         <ref bean="ProposalStatus-proposalStatusCode" />
         <ref bean="ProposalStatus-proposalStatusDescription" />
-        <ref bean="ProposalStatus-rowActiveIndicator" />
+        <ref bean="ProposalStatus-active" />
         <ref bean="ProposalStatus-versionNumber" />
       </list>
     </property>
@@ -61,13 +61,13 @@
             p:size="17" />
     </property>
   </bean>
-  <bean id="ProposalStatus-rowActiveIndicator" parent="ProposalStatus-rowActiveIndicator-parentBean" />
+  <bean id="ProposalStatus-active" parent="ProposalStatus-active-parentBean" />
 
-  <bean id="ProposalStatus-rowActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="rowActiveIndicator" />
+  <bean id="ProposalStatus-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Active Indicator" />
-    <property name="shortLabel" value="Active Indicator" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
@@ -97,7 +97,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="proposalStatusDescription" />
               <bean parent="FieldDefinition"
-                    p:attributeName="rowActiveIndicator" />
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -124,7 +124,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="proposalStatusDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="rowActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -134,7 +134,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="proposalStatusDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="rowActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

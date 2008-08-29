@@ -23,12 +23,13 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCdCurrent;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class CreditCardVendor extends PersistableBusinessObjectBase {
+public class CreditCardVendor extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String financialDocumentCreditCardVendorNumber;
     private String financialDocumentCreditCardVendorName;
@@ -43,6 +44,7 @@ public class CreditCardVendor extends PersistableBusinessObjectBase {
     private String expenseFinancialObjectCode;
     private String expenseFinancialSubObjectCode;
     private String expenseSubAccountNumber;
+    private boolean active;
 
     private Chart incomeFinancialChartOfAccounts;
     private ObjectCodeCurrent incomeFinancialObject;
@@ -519,6 +521,22 @@ public class CreditCardVendor extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentCreditCardVendorNumber", this.financialDocumentCreditCardVendorNumber);
         return m;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 

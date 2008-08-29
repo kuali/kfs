@@ -27,7 +27,7 @@ public class GrantDescription extends PersistableBusinessObjectBase {
 
     private String grantDescriptionCode;
     private String grantDescription;
-    private boolean grantDescriptionActiveCode;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -74,21 +74,12 @@ public class GrantDescription extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the grantDescriptionActiveCode attribute.
+     * Sets the active attribute.
      * 
-     * @return Returns the grantDescriptionActiveCode
+     * @param active The active to set.
      */
-    public boolean getGrantDescriptionActiveCode() {
-        return grantDescriptionActiveCode;
-    }
-
-    /**
-     * Sets the grantDescriptionActiveCode attribute.
-     * 
-     * @param grantDescriptionActiveCode The grantDescriptionActiveCode to set.
-     */
-    public void setGrantDescriptionActiveCode(boolean grantDescriptionActiveCode) {
-        this.grantDescriptionActiveCode = grantDescriptionActiveCode;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**
@@ -96,8 +87,8 @@ public class GrantDescription extends PersistableBusinessObjectBase {
      * 
      * @return True if the grant description is active, false if its inactive.
      */
-    public boolean isRowActiveIndicator() {
-        return grantDescriptionActiveCode;
+    public boolean isActive() {
+        return active;
     }
 
     /**

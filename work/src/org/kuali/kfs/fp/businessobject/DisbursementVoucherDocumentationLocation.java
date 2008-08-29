@@ -18,16 +18,18 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * This class is used to represent the documentation location for a disbursement voucher.
  */
-public class DisbursementVoucherDocumentationLocation extends PersistableBusinessObjectBase {
+public class DisbursementVoucherDocumentationLocation extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String disbursementVoucherDocumentationLocationCode;
     private String disbursementVoucherDocumentationLocationName;
     private String disbursementVoucherDocumentationLocationAddress;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -100,5 +102,21 @@ public class DisbursementVoucherDocumentationLocation extends PersistableBusines
         LinkedHashMap m = new LinkedHashMap();
         m.put("disbursementVoucherDocumentationLocationCode", this.disbursementVoucherDocumentationLocationCode);
         return m;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

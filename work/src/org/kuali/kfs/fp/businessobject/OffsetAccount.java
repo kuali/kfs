@@ -21,18 +21,20 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents an offset account business object.
  */
-public class OffsetAccount extends PersistableBusinessObjectBase {
+public class OffsetAccount extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String chartOfAccountsCode;
     private String accountNumber;
     private String financialOffsetObjectCode;
     private String financialOffsetChartOfAccountCode;
     private String financialOffsetAccountNumber;
+    private boolean active;
 
     private Chart chart;
     private Account account;
@@ -238,6 +240,22 @@ public class OffsetAccount extends PersistableBusinessObjectBase {
         m.put("accountNumber", this.accountNumber);
         m.put("financialOffsetObjectCode", this.financialOffsetObjectCode);
         return m;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

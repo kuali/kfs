@@ -45,22 +45,19 @@ public class OrgTypeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         // get a list of all OrgTypes
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        List orgTypes = (List) boService.findAll(OrgType.class);
-
-        // calling comparator.
-        OrgTypeComparator orgTypeComparator = new OrgTypeComparator();
+        List<OrgType> orgTypes = (List<OrgType>) SpringContext.getBean(KeyValuesService.class).findAll(OrgType.class);
 
         // sort using comparator.
-        Collections.sort(orgTypes, orgTypeComparator);
+        Collections.sort(orgTypes, new OrgTypeComparator());
 
         // create a new list (code, descriptive-name)
-        List labels = new ArrayList();
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", "")); // blank first entry
 
-        for (Iterator iter = orgTypes.iterator(); iter.hasNext();) {
-            OrgType orgType = (OrgType) iter.next();
-            labels.add(new KeyLabelPair(orgType.getOrganizationTypeCode(), orgType.getOrganizationTypeCode() + " - " + orgType.getOrganizationTypeName()));
+        for (OrgType orgType : orgTypes) {
+            if(orgType.isActive()) {
+                labels.add(new KeyLabelPair(orgType.getOrganizationTypeCode(), orgType.getOrganizationTypeCode() + " - " + orgType.getOrganizationTypeName()));
+            }
         }
 
         return labels;

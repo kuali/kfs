@@ -263,7 +263,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
             Account newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
 
             // do the test
-            if (oldAccount.isAccountClosedIndicator() && !user.isSupervisorUser()) {
+            if (oldAccount.isActive() && !user.isSupervisorUser()) {
                 result = true;
             }
         }
@@ -335,10 +335,10 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         }
 
         // only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
-        // we need to get the old maintainable doc here
+        // we need to get the old maintanable doc here
         if (isNonSystemSupervisorEditingAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getFinancialSystemUser())) {
             success &= false;
-            putFieldError("accountClosedIndicator", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_EDIT);
+            putFieldError("active", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_EDIT);
         }
 
         // when a restricted status code of 'T' (temporarily restricted) is selected, a restricted status
@@ -459,7 +459,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         }
 
         // fringe benefit account must be active
-        if (fringeBenefitAccount.isAccountClosedIndicator()) {
+        if (fringeBenefitAccount.isActive()) {
             putFieldError("reportsToAccountNumber", KFSKeyConstants.ERROR_INACTIVE, getFieldLabel(Account.class, "reportsToAccountNumber"));
             result &= false;
         }
@@ -566,7 +566,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
         // if the account isnt being closed, then dont bother processing the rest of
         // the method
-        if (!oldAccount.isAccountClosedIndicator() && newAccount.isAccountClosedIndicator()) {
+        if (!oldAccount.isActive() && newAccount.isActive()) {
             isBeingClosed = true;
         }
 

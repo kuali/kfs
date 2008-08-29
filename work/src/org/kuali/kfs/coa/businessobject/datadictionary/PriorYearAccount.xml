@@ -18,7 +18,7 @@
     <property name="attributes" >
       <list>
         <ref bean="PriorYearAccount-accountCityName" />
-        <ref bean="PriorYearAccount-accountClosedIndicator" />
+        <ref bean="PriorYearAccount-active" />
         <ref bean="PriorYearAccount-accountCreateDate" />
         <ref bean="PriorYearAccount-accountEffectiveDate" />
         <ref bean="PriorYearAccount-accountExpirationDate" />
@@ -174,17 +174,11 @@
             p:size="27" />
     </property>
   </bean>
-  <bean id="PriorYearAccount-accountClosedIndicator" parent="PriorYearAccount-accountClosedIndicator-parentBean" />
+  <bean id="PriorYearAccount-active" parent="PriorYearAccount-active-parentBean" />
 
-  <bean id="PriorYearAccount-accountClosedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountClosedIndicator" />
-    <property name="forceUppercase" value="true" />
+  <bean id="PriorYearAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
     <property name="label" value="Account Closed Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
   </bean>
   <bean id="PriorYearAccount-accountCreateDate" parent="PriorYearAccount-accountCreateDate-parentBean" />
 
@@ -975,7 +969,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="accountCityName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="accountClosedIndicator" />
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="accountCreateDate" />
               <bean parent="FieldDefinition"
@@ -1108,7 +1102,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="accountCityName" />
         <bean parent="FieldDefinition"
-              p:attributeName="accountClosedIndicator" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="accountCreateDate" />
         <bean parent="FieldDefinition"
@@ -1224,7 +1218,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="accountCityName" />
         <bean parent="FieldDefinition"
-              p:attributeName="accountClosedIndicator" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="accountCreateDate" />
         <bean parent="FieldDefinition"

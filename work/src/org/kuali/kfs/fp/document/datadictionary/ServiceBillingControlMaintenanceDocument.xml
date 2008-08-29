@@ -18,7 +18,7 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="account"
-              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorAttributeName="active"
               p:activeIndicatorReversed="true"
               p:attributeToHighlightOnFail="accountNumber"
               p:displayFieldName="Account" />
@@ -77,6 +77,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="workgroupName"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
       </list>

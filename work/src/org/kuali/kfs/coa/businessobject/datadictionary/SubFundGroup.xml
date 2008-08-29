@@ -20,7 +20,7 @@
       <list>
         <ref bean="SubFundGroup-subFundGroupCode" />
         <ref bean="SubFundGroup-codeAndDescription" />
-        <ref bean="SubFundGroup-subfundgrpActivityIndicator" />
+        <ref bean="SubFundGroup-active" />
         <ref bean="SubFundGroup-subFundGroupWagesIndicator" />
         <ref bean="SubFundGroup-objectId" />
         <ref bean="SubFundGroup-fundGroupCode" />
@@ -30,6 +30,14 @@
         <ref bean="SubFundGroup-financialReportingSortCode" />
         <ref bean="SubFundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode" />
         <ref bean="SubFundGroup-versionNumber" />
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="fundGroup"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="subFundGroupType"/>
       </list>
     </property>
   </bean>
@@ -68,10 +76,10 @@
             p:size="47" />
     </property>
   </bean>
-  <bean id="SubFundGroup-subfundgrpActivityIndicator" parent="SubFundGroup-subfundgrpActivityIndicator-parentBean" />
+  <bean id="SubFundGroup-active" parent="SubFundGroup-active-parentBean" />
 
-  <bean id="SubFundGroup-subfundgrpActivityIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="subfundgrpActivityIndicator" />
+  <bean id="SubFundGroup-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="SubFundGroup-subFundGroupWagesIndicator" parent="SubFundGroup-subFundGroupWagesIndicator-parentBean" />
 
@@ -192,7 +200,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="financialReportingSortCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="subfundgrpActivityIndicator" />
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
               <bean parent="FieldDefinition"
@@ -237,8 +245,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialReportingSortCode" />
         <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="subfundgrpActivityIndicator" />
+              p:defaultValue="true"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -256,7 +264,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialReportingSortCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="subfundgrpActivityIndicator" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
       </list>

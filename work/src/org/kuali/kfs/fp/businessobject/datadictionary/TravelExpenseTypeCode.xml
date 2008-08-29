@@ -21,6 +21,7 @@
         <ref bean="TravelExpenseTypeCode-code" />
         <ref bean="TravelExpenseTypeCode-prepaidExpense" />
         <ref bean="TravelExpenseTypeCode-name" />
+        <ref bean="TravelExpenseTypeCode-active" />
         <ref bean="TravelExpenseTypeCode-versionNumber" />
       </list>
     </property>
@@ -70,6 +71,12 @@
             p:size="25" />
     </property>
   </bean>
+  <bean id="TravelExpenseTypeCode-active" parent="TravelExpenseTypeCode-active-parentBean" />
+
+  <bean id="TravelExpenseTypeCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+
   <bean id="TravelExpenseTypeCode-versionNumber" parent="TravelExpenseTypeCode-versionNumber-parentBean" />
 
   <bean id="TravelExpenseTypeCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -93,6 +100,8 @@
                     p:attributeName="code" />
               <bean parent="FieldDefinition"
                     p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -123,6 +132,8 @@
               p:attributeName="code" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -133,6 +144,8 @@
               p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="prepaidExpense" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

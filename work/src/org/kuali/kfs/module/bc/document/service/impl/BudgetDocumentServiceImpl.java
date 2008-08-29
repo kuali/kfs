@@ -681,7 +681,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
 
         // account cannot be closed.
-        if (account.isAccountClosedIndicator()) {
+        if (account.isActive()) {
             return false;
         }
 
@@ -720,7 +720,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
 
         // sub account must exist and be active.
-        if (subAccount == null || !subAccount.isSubAccountActiveIndicator()) {
+        if (subAccount == null || !subAccount.isActive()) {
             return false;
         }
 

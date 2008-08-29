@@ -21,12 +21,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class PriorYearOrganization extends PersistableBusinessObjectBase {
+public class PriorYearOrganization extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String chartOfAccountsCode;
     private String organizationCode;
@@ -43,7 +44,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
     private Date organizationEndDate;
     private String reportsToChartOfAccountsCode;
     private String reportsToOrganizationCode;
-    private boolean organizationActiveIndicator;
+    private boolean active;
     private boolean organizationInFinancialProcessingIndicator;
     private String organizationPlantAccountNumber;
     private String campusPlantAccountNumber;
@@ -357,22 +358,22 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the organizationActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the organizationActiveIndicator
+     * @return Returns the active
      */
-    public boolean isOrganizationActiveIndicator() {
-        return organizationActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
 
     /**
-     * Sets the organizationActiveIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param organizationActiveIndicator The organizationActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setOrganizationActiveIndicator(boolean organizationActiveIndicator) {
-        this.organizationActiveIndicator = organizationActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 

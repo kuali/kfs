@@ -37,12 +37,13 @@ public class UnitOfMeasureValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection<UnitOfMeasure> results = boService.findAllOrderBy(UnitOfMeasure.class, PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_DESCRIPTION, true);
-        List labels = new ArrayList();
+        Collection<UnitOfMeasure> results = SpringContext.getBean(KeyValuesService.class).findAllOrderBy(UnitOfMeasure.class, PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_DESCRIPTION, true);
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
         for (UnitOfMeasure uom : results) {
-            labels.add(new KeyLabelPair(uom.getItemUnitOfMeasureCode(), uom.getItemUnitOfMeasureDescription()));
+            if(uom.isActive()) {
+                labels.add(new KeyLabelPair(uom.getItemUnitOfMeasureCode(), uom.getItemUnitOfMeasureDescription()));
+            }
         }
         return labels;
     }

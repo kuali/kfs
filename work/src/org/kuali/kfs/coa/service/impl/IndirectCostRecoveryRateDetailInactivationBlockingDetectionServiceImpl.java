@@ -41,7 +41,7 @@ public class IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceI
         // this code assumes that the PK field names in the BO are identical to the field names in the ICR Rate Detail BO
         Map<String, Object> fieldValues = persistenceService.getPrimaryKeyFieldValues(blockedBo);
         if (Account.class.isAssignableFrom(boClass)) {
-            fieldValues.put(KFSPropertyConstants.ACCOUNT_CLOSED_INDICATOR, KFSConstants.ParameterValues.NO);
+            fieldValues.put(KFSPropertyConstants.ACCOUNT_ACTIVE_INDICATOR, KFSConstants.ParameterValues.NO);
         }
         else {
             fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ParameterValues.YES);

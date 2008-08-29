@@ -17,16 +17,17 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Represents a relationship between a {@link Proposal} and a {@link ResearchRisk}.
  */
-public class ProposalResearchRisk extends PersistableBusinessObjectBase {
+public class ProposalResearchRisk extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String researchRiskTypeCode;
     private Long proposalNumber;
-    private boolean researchRiskTypeIndicator;
+    private boolean active;
 
     private Proposal proposal;
     private ResearchRiskType researchRiskType;
@@ -44,7 +45,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("proposalNumber", proposalNumber);
         m.put("researchRiskTypeCode", researchRiskTypeCode);
-        m.put("researchRiskTypeIndicator", Boolean.toString(researchRiskTypeIndicator));
+        m.put("active", Boolean.toString(active));
 
         return m;
     }
@@ -86,21 +87,21 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Not sure what this is.
+     * Returns whether or not this object is active.
      * 
      * @return true or false
      */
-    public boolean isResearchRiskTypeIndicator() {
-        return researchRiskTypeIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Not sure what this is.
+     * Sets the active indicator for this object.
      * 
-     * @param researchRiskTypeIndicator
+     * @param active
      */
-    public void setResearchRiskTypeIndicator(boolean researchRiskTypeIndicator) {
-        this.researchRiskTypeIndicator = researchRiskTypeIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

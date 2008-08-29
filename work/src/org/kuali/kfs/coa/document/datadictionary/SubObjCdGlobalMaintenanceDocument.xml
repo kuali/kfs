@@ -86,7 +86,7 @@
               p:name="financialSubObjectCodeShortName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="financialSubObjectActiveIndicator"
+              p:name="active"
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />

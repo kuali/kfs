@@ -16,7 +16,7 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
-import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
+import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD;
 import static org.kuali.kfs.sys.KFSKeyConstants.AuxiliaryVoucher.ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -46,7 +46,7 @@ public class AuxiliaryVoucherAccountingPeriodAllowedByParameterValidation extend
 
         valid = getParameterService().getParameterEvaluator(AuxiliaryVoucherDocument.class, RESTRICTED_PERIOD_CODES, auxiliaryVoucherDocumentForValidation.getPostingPeriodCode()).evaluationSucceeds();
         if (!valid) {
-            GlobalVariables.getErrorMap().putError(ACCOUNTING_PERIOD_STATUS_CODE_FIELD, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
+            GlobalVariables.getErrorMap().putError(ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
         }
         
         return valid;

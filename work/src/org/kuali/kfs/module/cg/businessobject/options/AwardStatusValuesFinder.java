@@ -41,7 +41,7 @@ public class AwardStatusValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair("", ""));
 
         for (AwardStatus awardStatus : codes) {
-            if (awardStatus.isRowActiveIndicator()) {
+            if (awardStatus.isActive()) {
                 labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), awardStatus.getAwardStatusCode() + "-" + awardStatus.getAwardStatusDescription()));
             }
         }

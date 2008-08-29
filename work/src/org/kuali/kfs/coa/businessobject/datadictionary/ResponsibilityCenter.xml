@@ -21,7 +21,7 @@
         <ref bean="ResponsibilityCenter-responsibilityCenterCode" />
         <ref bean="ResponsibilityCenter-responsibilityCenterName" />
         <ref bean="ResponsibilityCenter-responsibilityCenterShortName" />
-        <ref bean="ResponsibilityCenter-responsibilityCenterActiveIndicator" />
+        <ref bean="ResponsibilityCenter-active" />
         <ref bean="ResponsibilityCenter-versionNumber" />
       </list>
     </property>
@@ -75,13 +75,10 @@
             p:size="12" />
     </property>
   </bean>
-  <bean id="ResponsibilityCenter-responsibilityCenterActiveIndicator" parent="ResponsibilityCenter-responsibilityCenterActiveIndicator-parentBean" />
+  <bean id="ResponsibilityCenter-active" parent="ResponsibilityCenter-active-parentBean" />
 
-  <bean id="ResponsibilityCenter-responsibilityCenterActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="responsibilityCenterActiveIndicator" />
-    <property name="label" value="Responsibility Center Active Indicator" />
-    <property name="shortLabel" value="Respons Center Active" />
-    <property name="required" value="false" />
+  <bean id="ResponsibilityCenter-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="ResponsibilityCenter-versionNumber" parent="ResponsibilityCenter-versionNumber-parentBean" />
 
@@ -109,7 +106,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="responsibilityCenterShortName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="responsibilityCenterActiveIndicator" />
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -142,6 +139,8 @@
               p:attributeName="responsibilityCenterName" />
         <bean parent="FieldDefinition"
               p:attributeName="responsibilityCenterShortName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -154,7 +153,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="responsibilityCenterShortName" />
         <bean parent="FieldDefinition"
-              p:attributeName="responsibilityCenterActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

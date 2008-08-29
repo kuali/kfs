@@ -18,13 +18,14 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class TaxDistrict extends PersistableBusinessObjectBase {
+public class TaxDistrict extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String taxDistrictCode; //(e.g., state code or district code)
     private String taxDistrictName; //(e.g., state name or tax district name)

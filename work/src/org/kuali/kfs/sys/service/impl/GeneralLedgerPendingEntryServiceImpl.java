@@ -470,7 +470,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NO_ACCOUNT, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber() });
             return false;
         }
-        if (cashOffsetAccount.isAccountClosedIndicator()) {
+        if (cashOffsetAccount.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_ACCOUNT_CLOSED, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber() });
             return false;
         }
@@ -515,7 +515,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
                 GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NONEXISTENT_SUB_ACCOUNT, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), bankAccount.getCashOffsetSubAccountNumber() });
                 return false;
             }
-            if (!cashOffsetSubAccount.isSubAccountActiveIndicator()) {
+            if (!cashOffsetSubAccount.isActive()) {
                 GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_SUB_ACCOUNT, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), bankAccount.getCashOffsetSubAccountNumber() });
                 return false;
             }
@@ -530,7 +530,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
                 GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NONEXISTENT_SUB_OBJ, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), cashOffsetObject.getFinancialObjectCode(), bankAccount.getCashOffsetSubObjectCode() });
                 return false;
             }
-            if (!cashOffsetSubObject.isFinancialSubObjectActiveIndicator()) {
+            if (!cashOffsetSubObject.isActive()) {
                 GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_SUB_OBJ, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), cashOffsetObject.getFinancialObjectCode(), bankAccount.getCashOffsetSubObjectCode() });
                 return false;
             }

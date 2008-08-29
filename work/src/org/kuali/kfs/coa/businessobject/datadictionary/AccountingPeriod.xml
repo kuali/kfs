@@ -19,7 +19,7 @@
       <list>
         <ref bean="AccountingPeriod-budgetRolloverIndicator" />
         <ref bean="AccountingPeriod-universityFiscalPeriodName" />
-        <ref bean="AccountingPeriod-universityFiscalPeriodStatusCode" />
+        <ref bean="AccountingPeriod-active" />
         <ref bean="AccountingPeriod-universityFiscalPeriodCode" />
         <ref bean="AccountingPeriod-universityFiscalPeriodEndDate" />
         <ref bean="AccountingPeriod-universityFiscalYear" />
@@ -66,24 +66,10 @@
             p:size="10" />
     </property>
   </bean>
-  <bean id="AccountingPeriod-universityFiscalPeriodStatusCode" parent="AccountingPeriod-universityFiscalPeriodStatusCode-parentBean" />
+  <bean id="AccountingPeriod-active" parent="AccountingPeriod-active-parentBean" />
 
-  <bean id="AccountingPeriod-universityFiscalPeriodStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalPeriodStatusCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="University Fiscal Period Status Code" />
-    <property name="shortLabel" value="Status" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="CharsetValidationPattern"
-            p:validChars="CO" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.OpenCloseValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
+  <bean id="AccountingPeriod-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="AccountingPeriod-universityFiscalPeriodCode" parent="AccountingPeriod-universityFiscalPeriodCode-parentBean" />
 
@@ -159,7 +145,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="universityFiscalPeriodName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalPeriodStatusCode" />
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="universityFiscalPeriodEndDate" />
               <bean parent="FieldDefinition"
@@ -195,7 +181,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="universityFiscalPeriodEndDate" />
         <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalPeriodStatusCode" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="budgetRolloverIndicator" />
       </list>
@@ -211,7 +197,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="universityFiscalPeriodEndDate" />
         <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalPeriodStatusCode" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="budgetRolloverIndicator" />
       </list>

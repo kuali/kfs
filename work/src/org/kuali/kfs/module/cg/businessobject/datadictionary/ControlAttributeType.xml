@@ -19,7 +19,7 @@
       <list>
         <ref bean="ControlAttributeType-controlAttributeTypeCode" />
         <ref bean="ControlAttributeType-controlAttributeTypeDescription" />
-        <ref bean="ControlAttributeType-dataObjectMaintenanceCodeActiveIndicator" />
+        <ref bean="ControlAttributeType-active" />
         <ref bean="ControlAttributeType-requiredIndicator" />
         <ref bean="ControlAttributeType-versionNumber" />
       </list>
@@ -66,19 +66,10 @@
     <property name="summary" value="controlAttributeTypeDescription" />
     <property name="description" value="controlAttributeTypeDescription description..." />
   </bean>
-  <bean id="ControlAttributeType-dataObjectMaintenanceCodeActiveIndicator" parent="ControlAttributeType-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
+  <bean id="ControlAttributeType-active" parent="ControlAttributeType-active-parentBean" />
 
-  <bean id="ControlAttributeType-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Data Object Maintenance Code Active Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
-    <property name="summary" value="dataObjectMaintenanceCodeActiveIndicator" />
-    <property name="description" value="dataObjectMaintenanceCodeActiveIndicator description..." />
+  <bean id="ControlAttributeType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="ControlAttributeType-requiredIndicator" parent="ControlAttributeType-requiredIndicator-parentBean" />
 
@@ -118,7 +109,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="controlAttributeTypeDescription" />
               <bean parent="FieldDefinition"
-                    p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="requiredIndicator" />
             </list>
@@ -147,8 +138,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="controlAttributeTypeDescription" />
         <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:defaultValue="true"
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="requiredIndicator" />
       </list>
@@ -160,7 +151,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="controlAttributeTypeDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="requiredIndicator" />
       </list>

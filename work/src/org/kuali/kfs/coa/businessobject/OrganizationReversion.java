@@ -21,13 +21,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
  */
-public class OrganizationReversion extends PersistableBusinessObjectBase {
+public class OrganizationReversion extends PersistableBusinessObjectBase implements Inactivateable {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -46,6 +47,7 @@ public class OrganizationReversion extends PersistableBusinessObjectBase {
     private Org organization;
     private List<Org> organizations; // This is only used by the "global" document
     private List<OrganizationReversionDetail> organizationReversionDetail;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -392,5 +394,21 @@ public class OrganizationReversion extends PersistableBusinessObjectBase {
      */
     public String getOrganizationReversionViewer() {
         return "View Organization Reversion";
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

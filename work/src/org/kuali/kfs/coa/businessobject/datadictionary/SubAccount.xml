@@ -25,7 +25,7 @@
         <ref bean="SubAccount-financialReportChartCode" />
         <ref bean="SubAccount-finReportOrganizationCode" />
         <ref bean="SubAccount-financialReportingCode" />
-        <ref bean="SubAccount-subAccountActiveIndicator" />
+        <ref bean="SubAccount-active" />
         <ref bean="SubAccount-a21SubAccount.subAccountTypeCode" />
         <ref bean="SubAccount-a21SubAccount.costShareChartOfAccountCode" />
         <ref bean="SubAccount-a21SubAccount.costShareSourceAccountNumber" />
@@ -40,6 +40,12 @@
         <ref bean="SubAccount-financialReportingCodeSection" />
         <ref bean="SubAccount-cgCostSharingSection" />
         <ref bean="SubAccount-cgICRSection" />
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="reportingCode"/>
       </list>
     </property>
   </bean>
@@ -112,10 +118,10 @@
     <property name="shortLabel" value="Fin. Rpt. Code" />
     <property name="required" value="false" />
   </bean>
-  <bean id="SubAccount-subAccountActiveIndicator" parent="SubAccount-subAccountActiveIndicator-parentBean" />
+  <bean id="SubAccount-active" parent="SubAccount-active-parentBean" />
 
-  <bean id="SubAccount-subAccountActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="subAccountActiveIndicator" />
+  <bean id="SubAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="SubAccount-a21SubAccount.subAccountTypeCode" parent="SubAccount-a21SubAccount.subAccountTypeCode-parentBean" />
 
@@ -275,7 +281,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="subAccountName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="subAccountActiveIndicator" />
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="a21SubAccount.subAccountTypeCode" />
               <bean parent="FieldDefinition"
@@ -347,7 +353,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="subAccountName" />
         <bean parent="FieldDefinition"
-              p:attributeName="subAccountActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -361,7 +367,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="subAccountName" />
         <bean parent="FieldDefinition"
-              p:attributeName="subAccountActiveIndicator" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="a21SubAccount.subAccountTypeCode" />
       </list>

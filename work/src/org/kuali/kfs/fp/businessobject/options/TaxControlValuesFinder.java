@@ -34,12 +34,13 @@ public class TaxControlValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(TaxControlCode.class);
-        List keyValues = new ArrayList();
+        List<TaxControlCode> boList = (List<TaxControlCode>) SpringContext.getBean(KeyValuesService.class).findAll(TaxControlCode.class);
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", ""));
-        for (Iterator iter = boList.iterator(); iter.hasNext();) {
-            TaxControlCode element = (TaxControlCode) iter.next();
-            keyValues.add(new KeyLabelPair(element.getCode(), element.getName()));
+        for (TaxControlCode element : boList) {
+            if(element.isActive()) {
+                keyValues.add(new KeyLabelPair(element.getCode(), element.getName()));
+            }
         }
 
         return keyValues;

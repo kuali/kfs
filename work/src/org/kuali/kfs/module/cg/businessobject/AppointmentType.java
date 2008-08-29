@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -29,7 +30,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Account Business Object
  */
-public class AppointmentType extends PersistableBusinessObjectBase {
+public class AppointmentType extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = 5817907435877665832L;
     private String appointmentTypeCode;

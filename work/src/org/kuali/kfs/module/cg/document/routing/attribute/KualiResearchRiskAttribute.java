@@ -39,7 +39,7 @@ public class KualiResearchRiskAttribute implements WorkflowAttribute {
          * class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom"> <list> <default> <size>6</size>
          * </default> <int>10</int> <org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk> <researchRiskTypeCode>H</researchRiskTypeCode>
          * <proposalNumber>81159</proposalNumber> <isActive>false</isActive> <proposal reference="../../../.."/>
-         * <researchRiskType> <researchRiskTypeCode>H</researchRiskTypeCode> <dataObjectMaintenanceCodeActiveIndicator>true</dataObjectMaintenanceCodeActiveIndicator>
+         * <researchRiskType> <researchRiskTypeCode>H</researchRiskTypeCode> <active>true</active>
          * <researchRiskTypeDescription>Human Subjects</researchRiskTypeDescription>
          */
         return null;

@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -39,7 +40,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * Defines a financial award object.
  */
-public class Award extends PersistableBusinessObjectBase implements AlternateOrgReviewRouting {
+public class Award extends PersistableBusinessObjectBase implements AlternateOrgReviewRouting, Inactivateable {
 
     private Long proposalNumber;
     private Date awardBeginningDate;

@@ -18,13 +18,14 @@ package org.kuali.kfs.coa.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
 
 /**
  * 
  */
-public class SubObjCd extends PersistableBusinessObjectBase {
+public class SubObjCd extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = -5292158248714650271L;
 
@@ -54,7 +55,7 @@ public class SubObjCd extends PersistableBusinessObjectBase {
         this.accountNumber = accountNumber;
         this.financialObjectCode = financialObjectCode;
         this.financialSubObjectCode = financialSubObjectCode;
-        this.financialSubObjectActiveIndicator = true;
+        this.active = true;
     }
 
     private String chartOfAccountsCode;
@@ -63,7 +64,7 @@ public class SubObjCd extends PersistableBusinessObjectBase {
     private String financialSubObjectCode;
     private String financialSubObjectCodeName;
     private String financialSubObjectCdshortNm;
-    private boolean financialSubObjectActiveIndicator;
+    private boolean active;
     private Integer universityFiscalYear;
 
     private Chart chartOfAccounts;
@@ -146,21 +147,21 @@ public class SubObjCd extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialSubObjectActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the financialSubObjectActiveIndicator
+     * @return Returns the active
      */
-    public boolean isFinancialSubObjectActiveIndicator() {
-        return financialSubObjectActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the financialSubObjectActiveIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param financialSubObjectActiveIndicator The financialSubObjectActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setFinancialSubObjectActiveIndicator(boolean financialSubObjectActiveIndicator) {
-        this.financialSubObjectActiveIndicator = financialSubObjectActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

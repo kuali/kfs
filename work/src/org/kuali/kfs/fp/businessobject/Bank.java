@@ -18,13 +18,14 @@ package org.kuali.kfs.fp.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents a bank
  */
 
-public class Bank extends PersistableBusinessObjectBase {
+public class Bank extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = 6091563911993138998L;
     private String financialDocumentBankCode;
@@ -32,6 +33,7 @@ public class Bank extends PersistableBusinessObjectBase {
     private String financialDocumentBankShortNm;
     private String bankRoutingNumber;
     private List bankAccounts;
+    private boolean active;
 
     /**
      * Default no-arg constructor.
@@ -140,6 +142,22 @@ public class Bank extends PersistableBusinessObjectBase {
         m.put("bankCode", getFinancialDocumentBankCode());
 
         return m;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

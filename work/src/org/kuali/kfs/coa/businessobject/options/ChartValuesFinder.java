@@ -37,13 +37,13 @@ public class ChartValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection chartCodes = boService.findAll(Chart.class);
-        List chartKeyLabels = new ArrayList();
+        Collection<Chart> chartCodes = SpringContext.getBean(KeyValuesService.class).findAll(Chart.class);
+        List<KeyLabelPair> chartKeyLabels = new ArrayList<KeyLabelPair>();
         chartKeyLabels.add(new KeyLabelPair("", ""));
-        for (Iterator iter = chartCodes.iterator(); iter.hasNext();) {
-            Chart element = (Chart) iter.next();
-            chartKeyLabels.add(new KeyLabelPair(element.getChartOfAccountsCode(), element.getChartOfAccountsCode() + " - " + element.getFinChartOfAccountDescription()));
+        for (Chart element : chartCodes) {
+            if(element.isActive()) {
+                chartKeyLabels.add(new KeyLabelPair(element.getChartOfAccountsCode(), element.getCodeAndDescription()));
+            }
         }
 
         return chartKeyLabels;

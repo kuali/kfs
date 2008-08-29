@@ -131,7 +131,7 @@
   </bean>
   <bean id="ProjectDirector-active" parent="ProjectDirector-active-parentBean" />
 
-  <bean id="ProjectDirector-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="ProjectDirector-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
       <property name="name" value="active" />
   </bean>
   <bean id="ProjectDirector-versionNumber" parent="ProjectDirector-versionNumber-parentBean" />
@@ -211,7 +211,8 @@
               p:attributeName="universalUser.employeeStatusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="universalUser.employeeTypeCode" />
-         <bean parent="FieldDefinition"
+        <bean parent="FieldDefinition"
+              p:defaultValue="true"
               p:attributeName="active" />
       </list>
     </property>

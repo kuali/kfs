@@ -34,12 +34,13 @@ public class TaxIncomeClassValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List boList = (List) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(TaxIncomeClassCode.class, "name", true);
-        List keyValues = new ArrayList();
+        List<TaxIncomeClassCode> boList = (List<TaxIncomeClassCode>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(TaxIncomeClassCode.class, "name", true);
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", ""));
-        for (Iterator iter = boList.iterator(); iter.hasNext();) {
-            TaxIncomeClassCode element = (TaxIncomeClassCode) iter.next();
-            keyValues.add(new KeyLabelPair(element.getCode(), element.getCode() + " - " + element.getName()));
+        for (TaxIncomeClassCode element : boList) {
+            if(element.isActive()) {
+                keyValues.add(new KeyLabelPair(element.getCode(), element.getCodeAndDescription()));
+            }
         }
 
         return keyValues;

@@ -50,7 +50,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
     private DictionaryValidationService dictionaryValidationService;
     private LaborModuleService laborModuleService;
     private BudgetDocumentService budgetDocumentService;
-
+    
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasDetailPositionRequiredObjectCode(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
@@ -131,7 +131,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
         SubAccount subAccount = appointmentFunding.getSubAccount();
 
         return this.isValidSubAccount(subAccount, subAccountNumber, errorMap, KFSPropertyConstants.SUB_ACCOUNT_NAME);
-    }
+        }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidSubObjectCode(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
@@ -193,7 +193,6 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
             errorMap.putError(errorPropertyName, BCKeyConstants.ERROR_DETAIL_POSITION_NOT_REQUIRED, currentValue);
             return false;
         }
-
         return true;
     }
 
@@ -218,7 +217,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
             return false;
         }
 
-        if (account.isAccountClosedIndicator()) {
+        if (account.isActive()) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(Account.class, KFSPropertyConstants.ACCOUNT_NAME, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, errorMessage);
             return false;
@@ -243,6 +242,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, errorMessage);
             return false;
         }
+
         return true;
     }
 
@@ -329,7 +329,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
             return false;
         }
 
-        if (!subAccount.isSubAccountActiveIndicator()) {
+        if (!subAccount.isActive()) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE, errorMessage);
             return false;
@@ -352,9 +352,9 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
             return false;
-        }
+    }
 
-        if (!subObjectCode.isFinancialSubObjectActiveIndicator()) {
+        if (!subObjectCode.isActive()) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, errorMessage);
             return false;

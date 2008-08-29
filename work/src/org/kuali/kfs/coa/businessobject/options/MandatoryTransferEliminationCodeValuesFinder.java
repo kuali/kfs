@@ -40,21 +40,18 @@ public class MandatoryTransferEliminationCodeValuesFinder extends KeyValuesBase 
     public List getKeyValues() {
 
         // get a list of all Mandatory Transfer Elimination Codes
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        List mteCodes = (List) boService.findAll(MandatoryTransferEliminationCode.class);
-
-        // calling comparator.
-        MandatoryTransferEliminationCodeComparator mteCodeComparator = new MandatoryTransferEliminationCodeComparator();
+        List<MandatoryTransferEliminationCode> mteCodes = (List<MandatoryTransferEliminationCode>) SpringContext.getBean(KeyValuesService.class).findAll(MandatoryTransferEliminationCode.class);
 
         // sort using comparator.
-        Collections.sort(mteCodes, mteCodeComparator);
+        Collections.sort(mteCodes, new MandatoryTransferEliminationCodeComparator());
 
         // create a new list (code, descriptive-name)
-        List labels = new ArrayList();
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
 
-        for (Iterator iter = mteCodes.iterator(); iter.hasNext();) {
-            MandatoryTransferEliminationCode mteCode = (MandatoryTransferEliminationCode) iter.next();
-            labels.add(new KeyLabelPair(mteCode.getCode(), mteCode.getCode() + " - " + mteCode.getName()));
+        for (MandatoryTransferEliminationCode mteCode : mteCodes) {
+            if(mteCode.isActive()) {
+                labels.add(new KeyLabelPair(mteCode.getCode(), mteCode.getCodeAndDescription()));
+            }
         }
 
         return labels;

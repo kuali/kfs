@@ -150,11 +150,8 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
     }
 
 
-    /* 
-     * TODO
-     * Create a new system parameter with component "BarcodeInventoryError", parameter name of "UPLOAD_GROUP", and value of "CM_BARCODE_USERS" 
+    /** 
      * 
-     * see BatchInputFileSetServiceImpl.isUserAuthorizedForBatchType()
      */    
     public Class getUploadWorkgroupParameterComponent() {
         return BarcodeInventoryErrorDocument.class;

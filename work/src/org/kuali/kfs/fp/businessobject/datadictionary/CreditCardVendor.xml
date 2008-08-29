@@ -31,7 +31,14 @@
         <ref bean="CreditCardVendor-expenseSubAccountNumber" />
         <ref bean="CreditCardVendor-expenseFinancialObjectCode" />
         <ref bean="CreditCardVendor-expenseFinancialSubObjectCode" />
+        <ref bean="CreditCardVendor-active" />
         <ref bean="CreditCardVendor-versionNumber" />
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="financialDocumentCreditCardType"/>
       </list>
     </property>
   </bean>
@@ -165,6 +172,12 @@
     <property name="shortLabel" value="Exp Sub-Object" />
     <property name="required" value="false" />
   </bean>
+  <bean id="CreditCardVendor-active" parent="CreditCardVendor-active-parentBean" />
+
+  <bean id="CreditCardVendor-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="CreditCardVendor-versionNumber" parent="CreditCardVendor-versionNumber-parentBean" />
 
   <bean id="CreditCardVendor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -210,6 +223,8 @@
                     p:attributeName="expenseFinancialSubObjectCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="expenseSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -242,6 +257,8 @@
               p:attributeName="financialDocumentCreditCardVendorName" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentCreditCardTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -272,6 +289,8 @@
               p:attributeName="expenseFinancialSubObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="expenseSubAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

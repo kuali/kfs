@@ -17,7 +17,7 @@
     <property name="objectLabel" value="Research Risk Type" />
     <property name="attributes" >
       <list>
-        <ref bean="ResearchRiskType-dataObjectMaintenanceCodeActiveIndicator" />
+        <ref bean="ResearchRiskType-active" />
         <ref bean="ResearchRiskType-researchRiskTypeCode" />
         <ref bean="ResearchRiskType-controlAttributeTypeCode" />
         <ref bean="ResearchRiskType-researchRiskTypeDescription" />
@@ -32,10 +32,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ResearchRiskType-dataObjectMaintenanceCodeActiveIndicator" parent="ResearchRiskType-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
+  <bean id="ResearchRiskType-active" parent="ResearchRiskType-active-parentBean" />
 
-  <bean id="ResearchRiskType-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
+  <bean id="ResearchRiskType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="ResearchRiskType-researchRiskTypeCode" parent="ResearchRiskType-researchRiskTypeCode-parentBean" />
 
@@ -171,7 +171,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="researchRiskTypeNotificationValue" />
               <bean parent="FieldDefinition"
-                    p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -206,8 +206,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="researchRiskTypeNotificationValue" />
         <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:defaultValue="true"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -225,7 +225,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="researchRiskTypeNotificationValue" />
         <bean parent="FieldDefinition"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

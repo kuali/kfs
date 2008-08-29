@@ -41,7 +41,7 @@ public class ProposalStatusValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair("", ""));
 
         for (ProposalStatus proposalStatus : codes) {
-            if (proposalStatus.isRowActiveIndicator()) {
+            if (proposalStatus.isActive()) {
                 labels.add(new KeyLabelPair(proposalStatus.getProposalStatusCode(), proposalStatus.getProposalStatusCode() + "-" + proposalStatus.getProposalStatusDescription()));
             }
         }

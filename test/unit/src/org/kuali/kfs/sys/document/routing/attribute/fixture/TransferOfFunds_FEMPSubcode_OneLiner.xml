@@ -295,7 +295,7 @@
                                 <responsibilityCenterCode>94</responsibilityCenterCode>
                                 <responsibilityCenterName>VP FOR INFORMATION TECHNOLOGY</responsibilityCenterName>
                                 <responsibilityCenterShortName>VPIT</responsibilityCenterShortName>
-                                <responsibilityCenterActiveIndicator>true</responsibilityCenterActiveIndicator>
+                                <active>true</active>
                                 <objectId>014A17B043CE9D5EE043814FD8819D5E</objectId>
                                 <versionNumber>1</versionNumber>
                             </responsibilityCenter>
@@ -645,7 +645,7 @@
                     <universityFiscalYear>2004</universityFiscalYear>
                     <universityFiscalPeriodCode>12</universityFiscalPeriodCode>
                     <universityFiscalPeriodName>JUNE 2006</universityFiscalPeriodName>
-                    <universityFiscalPeriodStatusCode>O</universityFiscalPeriodStatusCode>
+                    <active>O</active>
                     <budgetRolloverIndicator>false</budgetRolloverIndicator>
                     <universityFiscalPeriodEndDate>2006-06-30</universityFiscalPeriodEndDate>
                     <options class="org.kuali.kfs.sys.businessobject.Options--EnhancerByCGLIB--24f9e54b">
@@ -841,7 +841,7 @@
                     <universityFiscalYear>2004</universityFiscalYear>
                     <universityFiscalPeriodCode>12</universityFiscalPeriodCode>
                     <universityFiscalPeriodName>JUNE 2004</universityFiscalPeriodName>
-                    <universityFiscalPeriodStatusCode>O</universityFiscalPeriodStatusCode>
+                    <active>O</active>
                     <budgetRolloverIndicator>false</budgetRolloverIndicator>
                     <universityFiscalPeriodEndDate>2004-07-06</universityFiscalPeriodEndDate>
                     <options class="org.kuali.kfs.sys.businessobject.Options--EnhancerByCGLIB--24f9e54b">

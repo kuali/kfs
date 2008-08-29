@@ -17,9 +17,10 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class BasicAccountingCategory extends PersistableBusinessObjectBase {
+public class BasicAccountingCategory extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String code;
     private String description;

@@ -135,6 +135,18 @@
         </bean>
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="postalZip"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="organizationType"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="organizationCountry"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="responsibilityCenter"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -482,7 +494,7 @@
   </bean>
   <bean id="Org-active" parent="Org-active-parentBean" />
 
-  <bean id="Org-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="Org-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   <bean id="Org-versionNumber" parent="Org-versionNumber-parentBean" />
@@ -802,7 +814,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="reportsToOrganizationCode" />
         <bean parent="FieldDefinition"
-              p:defaultValue="Y"
+              p:defaultValue="true"
               p:attributeName="active" />
       </list>
     </property>

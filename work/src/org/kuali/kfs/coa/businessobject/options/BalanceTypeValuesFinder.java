@@ -37,16 +37,14 @@ public class BalanceTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        Collection balanceTypeCodeCollection = SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps();
-        List balanceTypeCodes = new ArrayList();
+        Collection<BalanceTyp> balanceTypeCodeCollection = SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps();
+        List<KeyLabelPair> balanceTypeCodes = new ArrayList<KeyLabelPair>();
         balanceTypeCodes.add(new KeyLabelPair("", ""));
 
-        Iterator iterator = balanceTypeCodeCollection.iterator();
-        while (iterator.hasNext()) {
-            BalanceTyp balanceType = (BalanceTyp) iterator.next();
-            String element = balanceType.getCode();
-
-            balanceTypeCodes.add(new KeyLabelPair(element, element));
+        for (BalanceTyp balanceType : balanceTypeCodeCollection) {
+            if(balanceType.isActive()) {
+                balanceTypeCodes.add(new KeyLabelPair(balanceType.getCode(), balanceType.getCode()));
+            }
         }
         return balanceTypeCodes;
     }

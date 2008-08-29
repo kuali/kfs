@@ -24,6 +24,12 @@
         <ref bean="IndirectCostRecoveryExclusionAccount-versionNumber" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="objectCodeCurrent"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

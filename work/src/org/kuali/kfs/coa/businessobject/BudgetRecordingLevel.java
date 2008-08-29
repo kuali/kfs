@@ -15,8 +15,9 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 
-public class BudgetRecordingLevel extends KualiCodeBase {
+public class BudgetRecordingLevel extends KualiCodeBase implements Inactivateable {
 
 }

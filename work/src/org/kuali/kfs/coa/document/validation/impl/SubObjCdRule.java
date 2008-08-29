@@ -122,7 +122,7 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
             Account account = newSubObjectCode.getAccount();
 
             // if the account is closed
-            if (account.isAccountClosedIndicator()) {
+            if (account.isActive()) {
                 putFieldError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_SUBOBJECTMAINT_ACCOUNT_MAY_NOT_BE_CLOSED);
                 success &= false;
             }

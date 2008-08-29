@@ -20,7 +20,7 @@
         <ref bean="Purpose-purposeCode" />
         <ref bean="Purpose-purposeDescription" />
         <ref bean="Purpose-userSortNumber" />
-        <ref bean="Purpose-dataObjectMaintenanceCodeActiveIndicator" />
+        <ref bean="Purpose-active" />
         <ref bean="Purpose-versionNumber" />
       </list>
     </property>
@@ -84,10 +84,10 @@
     <property name="summary" value="userSortNumber" />
     <property name="description" value="userSortNumber description..." />
   </bean>
-  <bean id="Purpose-dataObjectMaintenanceCodeActiveIndicator" parent="Purpose-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
+  <bean id="Purpose-active" parent="Purpose-active-parentBean" />
 
-  <bean id="Purpose-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
+  <bean id="Purpose-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="Purpose-versionNumber" parent="Purpose-versionNumber-parentBean" />
 
@@ -115,7 +115,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="userSortNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -144,7 +144,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="userSortNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:defaultValue="true"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -156,7 +157,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="userSortNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

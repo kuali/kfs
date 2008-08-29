@@ -110,7 +110,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
             Maintainable subObjectMaintainable = getSubObjectMaintainable(documentNumber);
             for (Iterator<SubObjCd> i = subObjects.iterator(); i.hasNext(); ) {
                 SubObjCd subObjCd = i.next();
-                if (subObjCd.isFinancialSubObjectActiveIndicator()) {
+                if (subObjCd.isActive()) {
                     subObjectMaintainable.setBusinessObject(subObjCd);
                     List<MaintenanceLock> subAccountLocks = subObjectMaintainable.generateMaintenanceLocks();
                     
@@ -121,7 +121,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
                     }
                     else {
                         // no locks other than our own (but there may have been no locks at all), just go ahead and try to update
-                        subObjCd.setFinancialSubObjectActiveIndicator(false);
+                        subObjCd.setActive(false);
                         
                         try {
                             subObjectMaintainable.saveBusinessObject();

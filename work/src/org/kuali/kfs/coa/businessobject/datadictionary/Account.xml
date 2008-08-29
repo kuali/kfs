@@ -69,7 +69,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="Account-financialObjectivePrsctrlIndicator" />
         <ref bean="Account-accountCfdaNumber" />
         <ref bean="Account-accountOffCampusIndicator" />
-        <ref bean="Account-accountClosedIndicator" />
+        <ref bean="Account-active" />
         <ref bean="Account-accountFiscalOfficerSystemIdentifier" />
         <ref bean="Account-accountFiscalOfficerUserPersonUserIdentifier" />
         <ref bean="Account-accountFiscalOfficerUser.personUserIdentifier" />
@@ -141,6 +141,22 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <bean parent="InactivationBlockingDefinition"
           p:blockedReferencePropertyName="accountType"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="acctIndirectCostRcvyType"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="budgetRecordingLevel"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="financialHigherEdFunction"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="postalZipCode"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="accountRestrictedStatus"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="subFundGroup"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="sufficientFundsCode"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="accountState"/>
       </list>
     </property>
   </bean>
@@ -679,18 +695,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="OffCmpsInd" />
     <property name="required" value="true" />
   </bean>
-  <bean id="Account-accountClosedIndicator" parent="Account-accountClosedIndicator-parentBean" />
+  <bean id="Account-active" parent="Account-active-parentBean" />
 
-  <bean id="Account-accountClosedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountClosedIndicator" />
-    <property name="forceUppercase" value="false" />
+  <bean id="Account-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
     <property name="label" value="Closed?" />
-    <property name="shortLabel" value="AcctClosed" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="Account-accountFiscalOfficerSystemIdentifier" parent="Account-accountFiscalOfficerSystemIdentifier-parentBean" />
 
@@ -905,7 +914,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <dd:field attributeName="accountState.codeAndDescription" />
               <dd:field attributeName="accountStreetAddress" />
               <dd:field attributeName="accountOffCampusIndicator" />
-              <dd:field attributeName="accountClosedIndicator" />
+              <dd:field attributeName="active" />
               <dd:field attributeName="accountTypeCode" />
               <dd:field attributeName="subFundGroup.codeAndDescription" />
               <dd:field attributeName="accountsFringesBnftIndicator" />
@@ -1029,7 +1038,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:field attributeName="accountFiscalOfficerSystemIdentifier"  />
         <dd:field attributeName="accountFiscalOfficerUser.personUserIdentifier"  />
         <dd:field attributeName="accountFiscalOfficerUser.personName"  />
-        <dd:field attributeName="accountClosedIndicator" defaultValue="N" />
+        <dd:field attributeName="active" defaultValue="N" />
       </list>
     </property>
     <property name="resultFields" >
@@ -1042,7 +1051,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:field attributeName="subFundGroupCode"  />
         <dd:field attributeName="accountFiscalOfficerUser.personUserIdentifier"  />
         <dd:field attributeName="accountFiscalOfficerUser.personName" inquiry="force" />
-        <dd:field attributeName="accountClosedIndicator"  />
+        <dd:field attributeName="active"  />
         <dd:field attributeName="accountManagerUser.personName" inquiry="force" />
         <dd:field attributeName="accountCreateDate" />
         <dd:field attributeName="accountExpirationDate" />

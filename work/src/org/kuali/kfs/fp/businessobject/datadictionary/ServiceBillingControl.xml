@@ -20,6 +20,7 @@
         <ref bean="ServiceBillingControl-chartOfAccountsCode" />
         <ref bean="ServiceBillingControl-accountNumber" />
         <ref bean="ServiceBillingControl-workgroupName" />
+        <ref bean="ServiceBillingControl-active" />
         <ref bean="ServiceBillingControl-versionNumber" />
         <ref bean="ServiceBillingControl-objectId" />
       </list>
@@ -50,6 +51,11 @@
       <bean parent="WorkflowWorkgroupControlDefinition" />
     </property>
   </bean>
+  <bean id="ServiceBillingControl-active" parent="ServiceBillingControl-active-parentBean" />
+
+  <bean id="ServiceBillingControl-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
   <bean id="ServiceBillingControl-versionNumber" parent="ServiceBillingControl-versionNumber-parentBean" />
 
   <bean id="ServiceBillingControl-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -79,6 +85,8 @@
                     p:attributeName="accountNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="workgroupName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -111,6 +119,8 @@
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="workgroupName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -121,6 +131,8 @@
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="workgroupName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

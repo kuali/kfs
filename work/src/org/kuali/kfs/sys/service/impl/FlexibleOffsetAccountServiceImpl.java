@@ -120,7 +120,7 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
         }
 
         // Can't be closed and can't be expired
-        if (offsetAccount.isAccountClosedIndicator()) {
+        if (offsetAccount.isActive()) {
             throw new InvalidFlexibleOffsetException("Closed Flexible Offset Account " + offsetChartOfAccountsCode + "-" + offsetAccountNumber);
         }
         if ((offsetAccount.getAccountExpirationDate() != null) && isExpired(offsetAccount, dateTimeService.getCurrentCalendar())) {

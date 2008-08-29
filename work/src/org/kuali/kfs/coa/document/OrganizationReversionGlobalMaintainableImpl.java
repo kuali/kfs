@@ -130,7 +130,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
 
             Collection<OrganizationReversionCategory> categories = organizationReversionService.getCategoryList();
             for (OrganizationReversionCategory category : categories) {
-                if (category.isOrganizationReversionCategoryActiveIndicator()) {
+                if (category.isActive()) {
                     OrganizationReversionGlobalDetail detail = new OrganizationReversionGlobalDetail();
                     detail.setOrganizationReversionCategoryCode(category.getOrganizationReversionCategoryCode());
                     detail.setOrganizationReversionCategory(category);

@@ -16,12 +16,13 @@
 package org.kuali.kfs.module.cg.businessobject;
 
 // import com.sun.rsasign.s;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * This class...
  */
-public class NonpersonnelSubCategory extends KualiCodeBase implements Comparable {
+public class NonpersonnelSubCategory extends KualiCodeBase implements Comparable, Inactivateable {
 
     private static final long serialVersionUID = 992811943219411565L;
 

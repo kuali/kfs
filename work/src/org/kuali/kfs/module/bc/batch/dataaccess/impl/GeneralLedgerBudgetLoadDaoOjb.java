@@ -447,13 +447,13 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
     private void openAllAccountingPeriods(Integer requestYear) {
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, requestYear);
-        criteriaID.addNotEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_STATUS_CODE, KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN);
+        criteriaID.addNotEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_STATUS_CODE, "Y");
         QueryByCriteria queryID = new QueryByCriteria(AccountingPeriod.class, criteriaID);
         Iterator<AccountingPeriod> unopenPeriods = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
         int periodsOpened = 0;
         while (unopenPeriods.hasNext()) {
             AccountingPeriod periodToOpen = unopenPeriods.next();
-            periodToOpen.setUniversityFiscalPeriodStatusCode(KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN);
+            periodToOpen.setActive(true);
             getPersistenceBrokerTemplate().store(periodToOpen);
             periodsOpened = periodsOpened + 1;
         }

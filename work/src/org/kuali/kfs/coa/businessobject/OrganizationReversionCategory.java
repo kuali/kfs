@@ -18,17 +18,18 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class OrganizationReversionCategory extends PersistableBusinessObjectBase {
+public class OrganizationReversionCategory extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String organizationReversionCategoryCode;
     private String organizationReversionCategoryName;
     private String organizationReversionSortCode;
-    private boolean organizationReversionCategoryActiveIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -94,21 +95,21 @@ public class OrganizationReversionCategory extends PersistableBusinessObjectBase
     }
 
     /**
-     * Gets the organizationReversionCategoryActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the organizationReversionCategoryActiveIndicator.
+     * @return Returns the active.
      */
-    public boolean isOrganizationReversionCategoryActiveIndicator() {
-        return organizationReversionCategoryActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the organizationReversionCategoryActiveIndicator attribute value.
+     * Sets the active attribute value.
      * 
-     * @param organizationReversionCategoryActiveIndicator The organizationReversionCategoryActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setOrganizationReversionCategoryActiveIndicator(boolean organizationReversionCategoryActiveIndicator) {
-        this.organizationReversionCategoryActiveIndicator = organizationReversionCategoryActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

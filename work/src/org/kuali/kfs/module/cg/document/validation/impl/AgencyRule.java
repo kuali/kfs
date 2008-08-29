@@ -104,7 +104,7 @@ public class AgencyRule extends MaintenanceDocumentRuleBase {
                 success = false;
 
             }
-            else if (!newAgency.getReportsToAgency().isHistoricalIndicator()) { // Agency must be active. See KULCG-263
+            else if (!newAgency.getReportsToAgency().isActive()) { // Agency must be active. See KULCG-263
 
                 putFieldError("reportsToAgencyNumber", KFSKeyConstants.ERROR_AGENCY_INACTIVE, newAgency.getReportsToAgencyNumber());
                 success = false;

@@ -20,6 +20,7 @@
       <list>
         <ref bean="OwnershipTypeCode-code" />
         <ref bean="OwnershipTypeCode-name" />
+        <ref bean="OwnershipTypeCode-active" />
         <ref bean="OwnershipTypeCode-versionNumber" />
       </list>
     </property>
@@ -57,6 +58,12 @@
             p:size="25" />
     </property>
   </bean>
+  <bean id="OwnershipTypeCode-active" parent="OwnershipTypeCode-active-parentBean" />
+
+  <bean id="OwnershipTypeCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="OwnershipTypeCode-versionNumber" parent="OwnershipTypeCode-versionNumber-parentBean" />
 
   <bean id="OwnershipTypeCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -80,6 +87,8 @@
                     p:attributeName="code" />
               <bean parent="FieldDefinition"
                     p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -110,6 +119,8 @@
               p:attributeName="code" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -118,6 +129,8 @@
               p:attributeName="code" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

@@ -18,16 +18,17 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Instances of this class represent the various statuses an Award can be in.
  */
-public class AwardStatus extends PersistableBusinessObjectBase {
+public class AwardStatus extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String awardStatusCode;
     private String awardStatusDescription;
-    private boolean rowActiveIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -94,25 +95,25 @@ public class AwardStatus extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the rowActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the rowActiveIndicator.
+     * @return Returns the active.
      */
-    public boolean isRowActiveIndicator() {
-        return rowActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the rowActiveIndicator attribute value.
+     * Sets the active attribute value.
      * 
-     * @param rowActiveIndicator The rowActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setRowActiveIndicator(boolean rowActiveIndicator) {
-        this.rowActiveIndicator = rowActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
     @Override

@@ -22,12 +22,13 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents a bank account
  */
-public class BankAccount extends PersistableBusinessObjectBase {
+public class BankAccount extends PersistableBusinessObjectBase implements Inactivateable {
     private String finDocumentBankAccountDesc;
     private String finDocumentBankAccountNumber;
     private String financialDocumentBankCode;
@@ -36,6 +37,7 @@ public class BankAccount extends PersistableBusinessObjectBase {
     private String cashOffsetSubAccountNumber;
     private String cashOffsetObjectCode;
     private String cashOffsetSubObjectCode;
+    private boolean active;
 
     private Bank bank;
     private Chart cashOffsetFinancialChartOfAccount;
@@ -301,6 +303,22 @@ public class BankAccount extends PersistableBusinessObjectBase {
         m.put("bankCode", getFinancialDocumentBankCode());
         m.put("bankAccountNumber", getFinDocumentBankAccountNumber());
         return m;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

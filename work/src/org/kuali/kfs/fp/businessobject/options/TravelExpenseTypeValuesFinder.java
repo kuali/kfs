@@ -34,13 +34,14 @@ public class TravelExpenseTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List boList = (List) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(TravelExpenseTypeCode.class, "name", true);
-        List keyValues = new ArrayList();
+        List<TravelExpenseTypeCode> boList = (List<TravelExpenseTypeCode>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(TravelExpenseTypeCode.class, "name", true);
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", ""));
-        for (Iterator iter = boList.iterator(); iter.hasNext();) {
-            TravelExpenseTypeCode element = (TravelExpenseTypeCode) iter.next();
+        for (TravelExpenseTypeCode element : boList) {
             if (!element.isPrepaidExpense()) {
-                keyValues.add(new KeyLabelPair(element.getCode(), element.getCode() + " - " + element.getName()));
+                if(element.isActive()) {
+                    keyValues.add(new KeyLabelPair(element.getCode(), element.getCodeAndDescription()));
+                }
             }
         }
 

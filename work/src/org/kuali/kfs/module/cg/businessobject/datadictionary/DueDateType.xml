@@ -17,7 +17,7 @@
     <property name="objectLabel" value="Due Date Type" />
     <property name="attributes" >
       <list>
-        <ref bean="DueDateType-dataObjectMaintenanceCodeActiveIndicator" />
+        <ref bean="DueDateType-active" />
         <ref bean="DueDateType-approvalLeadTime" />
         <ref bean="DueDateType-dueDateDescription" />
         <ref bean="DueDateType-dueDateTypeCode" />
@@ -29,10 +29,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="DueDateType-dataObjectMaintenanceCodeActiveIndicator" parent="DueDateType-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
+  <bean id="DueDateType-active" parent="DueDateType-active-parentBean" />
 
-  <bean id="DueDateType-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
+  <bean id="DueDateType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="DueDateType-approvalLeadTime" parent="DueDateType-approvalLeadTime-parentBean" />
 
@@ -113,7 +113,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="dueDateTypeCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -140,8 +140,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="dueDateTypeCode" />
         <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:defaultValue="true"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -151,7 +151,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="dueDateTypeCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

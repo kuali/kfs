@@ -22,27 +22,27 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="proposalStatus"
-              p:activeIndicatorAttributeName="rowActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="proposalStatusCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="agency"
-              p:activeIndicatorAttributeName="historicalIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="agencyNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="proposalAwardType"
-              p:activeIndicatorAttributeName="rowActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="proposalAwardTypeCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="proposalPurpose"
-              p:activeIndicatorAttributeName="rowActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="proposalPurposeCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="federalPassThroughAgency"
-              p:activeIndicatorAttributeName="historicalIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cfda"
-              p:activeIndicatorAttributeName="cfdaStatusCode"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="cfdaNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="organization"
@@ -177,6 +177,9 @@
               p:name="proposalDueDate" />
         <bean parent="MaintainableFieldDefinition"
               p:name="proposalRejectedDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
       </list>
@@ -338,7 +341,7 @@
                     p:name="researchRiskType.researchRiskTypeDescription"
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="researchRiskTypeIndicator" />
+                    p:name="active" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
               <bean parent="MaintainableFieldDefinition"

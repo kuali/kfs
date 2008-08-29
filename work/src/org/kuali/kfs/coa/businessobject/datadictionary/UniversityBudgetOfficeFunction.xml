@@ -20,6 +20,7 @@
       <list>
         <ref bean="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode" />
         <ref bean="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName" />
+        <ref bean="UniversityBudgetOfficeFunction-active" />
         <ref bean="UniversityBudgetOfficeFunction-versionNumber" />
       </list>
     </property>
@@ -59,6 +60,12 @@
             p:size="40" />
     </property>
   </bean>
+  <bean id="UniversityBudgetOfficeFunction-active" parent="UniversityBudgetOfficeFunction-active-parentBean" />
+
+  <bean id="UniversityBudgetOfficeFunction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="UniversityBudgetOfficeFunction-versionNumber" parent="UniversityBudgetOfficeFunction-versionNumber-parentBean" />
 
   <bean id="UniversityBudgetOfficeFunction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -82,6 +89,8 @@
                     p:attributeName="financialUniversityBudgetOfficeFunctionCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialUniversityBudgetOfficeFunctionName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -112,6 +121,8 @@
               p:attributeName="financialUniversityBudgetOfficeFunctionCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialUniversityBudgetOfficeFunctionName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -120,6 +131,8 @@
               p:attributeName="financialUniversityBudgetOfficeFunctionCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialUniversityBudgetOfficeFunctionName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

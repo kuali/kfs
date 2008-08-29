@@ -13,7 +13,7 @@
       <list>
         <ref bean="ProposalResearchRisk-researchRiskTypeCode" />
         <ref bean="ProposalResearchRisk-proposalNumber" />
-        <ref bean="ProposalResearchRisk-researchRiskTypeIndicator" />
+        <ref bean="ProposalResearchRisk-active" />
         <ref bean="ProposalResearchRisk-newCollectionRecord" />
         <ref bean="ProposalResearchRisk-versionNumber" />
         <ref bean="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription" />
@@ -35,12 +35,10 @@
 
   <bean id="ProposalResearchRisk-proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
   </bean>
-  <bean id="ProposalResearchRisk-researchRiskTypeIndicator" parent="ProposalResearchRisk-researchRiskTypeIndicator-parentBean" />
+  <bean id="ProposalResearchRisk-active" parent="ProposalResearchRisk-active-parentBean" />
 
-  <bean id="ProposalResearchRisk-researchRiskTypeIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="researchRiskTypeIndicator" />
-    <property name="label" value="Required" />
-    <property name="shortLabel" value="Required" />
+  <bean id="ProposalResearchRisk-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="ProposalResearchRisk-newCollectionRecord" parent="ProposalResearchRisk-newCollectionRecord-parentBean" />
 

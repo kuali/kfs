@@ -35,21 +35,23 @@ public class CountryValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List boList = (List) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(Country.class, "postalCountryName", true);
-        List keyValues = new ArrayList();
+        List<Country> boList = (List<Country>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(Country.class, "postalCountryName", true);
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
 
         Country usCountry = null;
-        for (Iterator iter = boList.iterator(); iter.hasNext();) {
-            Country element = (Country) iter.next();
+        for (Country element : boList) {
+            // Find US country code and pull it out so we can set it first in the results list later.
             if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(element.getPostalCountryCode())) {
                 usCountry = element;
             }
             else {
-                keyValues.add(new KeyLabelPair(element.getPostalCountryCode(), element.getPostalCountryName()));
+                if(element.isActive()) {
+                    keyValues.add(new KeyLabelPair(element.getPostalCountryCode(), element.getPostalCountryName()));
+                }
             }
         }
 
-        List keyValueUSFirst = new ArrayList();
+        List<KeyLabelPair> keyValueUSFirst = new ArrayList<KeyLabelPair>();
         keyValueUSFirst.add(new KeyLabelPair("", ""));
         keyValueUSFirst.add(new KeyLabelPair(usCountry.getPostalCountryCode(), usCountry.getPostalCountryName()));
         keyValueUSFirst.addAll(keyValues);

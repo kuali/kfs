@@ -31,6 +31,7 @@
         <ref bean="OriginationCode-nextFdocAttachmentIdentifier" />
         <ref bean="OriginationCode-acctRcvbNextCustomerNumber" />
         <ref bean="OriginationCode-financialDocumentNextItemIdentifier" />
+        <ref bean="OriginationCode-active" />
         <ref bean="OriginationCode-versionNumber" />
       </list>
     </property>
@@ -278,6 +279,12 @@
     <property name="summary" value="Next Item Identifier" />
     <property name="description" value="Next Item Identifier..." />
   </bean>
+  <bean id="OriginationCode-active" parent="OriginationCode-active-parentBean" />
+
+  <bean id="OriginationCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="OriginationCode-versionNumber" parent="OriginationCode-versionNumber-parentBean" />
 
   <bean id="OriginationCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -323,6 +330,8 @@
                     p:attributeName="acctRcvbNextCustomerNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialDocumentNextItemIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -375,6 +384,8 @@
               p:attributeName="acctRcvbNextCustomerNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentNextItemIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -405,6 +416,8 @@
               p:attributeName="acctRcvbNextCustomerNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentNextItemIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

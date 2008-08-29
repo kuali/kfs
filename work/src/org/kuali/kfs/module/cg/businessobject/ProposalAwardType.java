@@ -27,7 +27,7 @@ public class ProposalAwardType extends PersistableBusinessObjectBase {
 
     private String proposalAwardTypeCode;
     private String proposalAwardTypeDescription;
-    private boolean rowActiveIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -73,21 +73,21 @@ public class ProposalAwardType extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the rowActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the rowActiveIndicator.
+     * @return Returns the active.
      */
-    public boolean isRowActiveIndicator() {
-        return rowActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the rowActiveIndicator attribute value.
+     * Sets the active attribute value.
      * 
-     * @param rowActiveIndicator The rowActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setRowActiveIndicator(boolean rowActiveIndicator) {
-        this.rowActiveIndicator = rowActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

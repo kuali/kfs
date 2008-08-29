@@ -151,4 +151,5 @@ public class ProjectCode extends KualiCodeBase {
     public void setProjectManagerUniversalId(String projectManagerUniversalId) {
         this.projectManagerUniversalId = projectManagerUniversalId;
     }
+
 }

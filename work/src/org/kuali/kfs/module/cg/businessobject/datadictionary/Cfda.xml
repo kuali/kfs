@@ -22,6 +22,7 @@
         <ref bean="Cfda-cfdaProgramTitleName" />
         <ref bean="Cfda-cfdaStatusCode" />
         <ref bean="Cfda-versionNumber" />
+        <ref bean="Cfda-active" />
       </list>
     </property>
   </bean>
@@ -92,6 +93,12 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
+  <bean id="Cfda-active" parent="Cfda-active-parentBean" />
+
+  <bean id="Cfda-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+	<property name="name" value="active" />
+  </bean>
+
   <bean id="Cfda-versionNumber" parent="Cfda-versionNumber-parentBean" />
 
   <bean id="Cfda-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -119,6 +126,8 @@
                     p:attributeName="cfdaProgramTitleName" />
               <bean parent="FieldDefinition"
                     p:attributeName="cfdaStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -148,6 +157,8 @@
               p:attributeName="cfdaProgramTitleName" />
         <bean parent="FieldDefinition"
               p:attributeName="cfdaStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -160,6 +171,8 @@
               p:attributeName="cfdaProgramTitleName" />
         <bean parent="FieldDefinition"
               p:attributeName="cfdaStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

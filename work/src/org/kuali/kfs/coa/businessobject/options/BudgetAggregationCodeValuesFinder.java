@@ -40,21 +40,18 @@ public class BudgetAggregationCodeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         // get a list of all budget aggregations codes
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        List budgetAggregationCodes = (List) boService.findAll(BudgetAggregationCode.class);
-
-        // calling comparator.
-        BudgetAggregationCodeComparator budgetAggregationCodeComparator = new BudgetAggregationCodeComparator();
+        List<BudgetAggregationCode> budgetAggregationCodes = (List<BudgetAggregationCode>) SpringContext.getBean(KeyValuesService.class).findAll(BudgetAggregationCode.class);
 
         // sort using comparator.
-        Collections.sort(budgetAggregationCodes, budgetAggregationCodeComparator);
+        Collections.sort(budgetAggregationCodes, new BudgetAggregationCodeComparator());
 
         // create a new list (code, descriptive-name)
-        List labels = new ArrayList();
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
 
-        for (Iterator iter = budgetAggregationCodes.iterator(); iter.hasNext();) {
-            BudgetAggregationCode budgetAggregationCode = (BudgetAggregationCode) iter.next();
-            labels.add(new KeyLabelPair(budgetAggregationCode.getCode(), budgetAggregationCode.getCode() + " - " + budgetAggregationCode.getName()));
+        for (BudgetAggregationCode budgetAggregationCode : budgetAggregationCodes) {
+            if(budgetAggregationCode.isActive()) {
+                labels.add(new KeyLabelPair(budgetAggregationCode.getCode(), budgetAggregationCode.getCodeAndDescription()));
+            }
         }
 
         return labels;

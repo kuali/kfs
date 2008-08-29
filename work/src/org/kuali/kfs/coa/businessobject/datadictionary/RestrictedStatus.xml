@@ -21,6 +21,7 @@
         <ref bean="RestrictedStatus-accountRestrictedStatusCode" />
         <ref bean="RestrictedStatus-accountRestrictedStatusName" />
         <ref bean="RestrictedStatus-codeAndDescription" />
+        <ref bean="RestrictedStatus-active" />
         <ref bean="RestrictedStatus-versionNumber" />
       </list>
     </property>
@@ -78,6 +79,12 @@
             p:size="47" />
     </property>
   </bean>
+  <bean id="RestrictedStatus-active" parent="RestrictedStatus-active-parentBean" />
+
+  <bean id="RestrictedStatus-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="RestrictedStatus-versionNumber" parent="RestrictedStatus-versionNumber-parentBean" />
 
   <bean id="RestrictedStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -101,6 +108,8 @@
                     p:attributeName="accountRestrictedStatusCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="accountRestrictedStatusName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -131,6 +140,8 @@
               p:attributeName="accountRestrictedStatusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="accountRestrictedStatusName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -139,6 +150,8 @@
               p:attributeName="accountRestrictedStatusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="accountRestrictedStatusName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

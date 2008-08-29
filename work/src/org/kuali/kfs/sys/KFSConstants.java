@@ -99,9 +99,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String MODULE_ID_PROPERTY_NAME = "moduleId";
     public static final String MODULE_CODE_PROPERTY_NAME = "moduleCode";
     public static final String ACCOUNT_STATUS_CLOSED = "Y";
-    public static final String ACCOUNTING_PERIOD_STATUS_CODE_FIELD = "universityFiscalPeriodStatusCode";
-    public static final String ACCOUNTING_PERIOD_STATUS_CLOSED = "C";
-    public static final String ACCOUNTING_PERIOD_STATUS_OPEN = "O";
+    public static final String ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD = "active";
     public static final String ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER = "~";
     public static final String ADD_LINE_METHOD = "addLine";
     public static final String ADD_PREFIX = "add";
@@ -694,6 +692,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ADJUSTMENT_RESTRICTION_LEVEL_ACCOUNT = "A";
         public static final String ADJUSTMENT_RESTRICTION_LEVEL_SUBFUND = "S";
         public static final String ADJUSTMENT_RESTRICTION_LEVEL_NONE = "N";
+        public static final String GENERAL_FUND_FUND_GROUP = "GF";
+        public static final String MEDICAL_PRACTICE_SUB_FUND_GROUP = "MPRACT";
         public static final String CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS = "CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS";
         public static final String CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS = "CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS";
     }

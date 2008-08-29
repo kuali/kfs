@@ -691,6 +691,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="disbursementVoucherDocumentationLocationName" column="DV_DOC_LOC_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="disbursementVoucherDocumentationLocationAddress" column="DV_DOC_LOC_ADDR" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode" table="FP_DV_EXP_TYP_T">
@@ -699,6 +700,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="name" column="DV_EXP_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="prepaidExpense" column="DV_EXP_PRPY_IND" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" jdbc-type="CHAR" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" table="FP_INC_CLS_T">
@@ -706,6 +708,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="name" column="INC_CLS_NM" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.OwnershipTypeCode" table="FP_DV_OWNR_TYP_T">
@@ -713,6 +716,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="name" column="DV_PAYEE_OWNTYP_NM" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.TravelMileageRate" table="FP_DV_MLG_T">
@@ -813,6 +817,7 @@
     <field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 
     <collection-descriptor name="bankAccounts" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.BankAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="finDocumentBankAccountNumber" sort="ASC" />
@@ -831,6 +836,7 @@
     <field-descriptor name="cashOffsetSubAccountNumber" column="CSH_OFST_SUB_ACCT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="cashOffsetObjectCode" column="CSH_OFST_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="cashOffsetSubObjectCode" column="CSH_OFST_SUB_OBJ_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 
     <reference-descriptor name="bank" class-ref="org.kuali.kfs.fp.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="financialDocumentBankCode" />
@@ -1153,6 +1159,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -1348,6 +1355,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="name" column="DV_TAX_CTRL_NM" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent" table="FP_NRA_TAX_PCT_T">
@@ -1355,6 +1363,7 @@
     <field-descriptor name="incomeTaxTypeCode" column="INC_TAX_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="incomeTaxPercent" column="INC_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <reference-descriptor name="incomeClass" class-ref="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="incomeClassCode" />
@@ -1382,6 +1391,7 @@
     <field-descriptor name="name" column="DV_EXP_CO_NM" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	
     <reference-descriptor name="travelExpenseTypeCode" class-ref="org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="code" />
@@ -1883,6 +1893,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="financialOffsetChartOfAccountCode" column="FIN_OFST_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialOffsetAccountNumber" column="FIN_OFST_ACCT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
@@ -1929,6 +1940,7 @@
     <field-descriptor name="expenseFinancialObjectCode" column="EXP_FIN_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="expenseFinancialSubObjectCode" column="EXP_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="expenseSubAccountNumber" column="EXP_SUB_ACCT_NBR" jdbc-type="VARCHAR" />
+  	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <reference-descriptor name="incomeFinancialChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="incomeFinancialChartOfAccountsCode" />
     </reference-descriptor>
@@ -1983,6 +1995,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="financialDocumentCreditCardCompanyName" column="FDOC_CCRD_CMPNY_NM" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.document.YearEndBudgetAdjustmentDocument" table="FP_BDGT_ADJ_DOC_T">

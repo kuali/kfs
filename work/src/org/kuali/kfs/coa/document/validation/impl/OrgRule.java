@@ -229,10 +229,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             success &= checkEmptyBOField("campusPlantAccountNumber", newOrg.getCampusPlantAccountNumber(), "Campus Plant Account Number");
 
             // validate Org Plant Account
-            success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "organizationPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "organizationPlantAccountNumber", "Organization Plant Account");
+            success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "organizationPlantAccount", "active", true, true, MAINTAINABLE_ERROR_PREFIX + "organizationPlantAccountNumber", "Organization Plant Account");
 
             // validate Campus Plant Account
-            success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "campusPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "campusPlantAccountNumber", "Campus Plant Account");
+            success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "campusPlantAccount", "active", true, true, MAINTAINABLE_ERROR_PREFIX + "campusPlantAccountNumber", "Campus Plant Account");
         }
 
         return success;

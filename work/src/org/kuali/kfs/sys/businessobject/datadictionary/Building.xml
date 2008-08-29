@@ -26,6 +26,7 @@
         <ref bean="Building-buildingAddressStateCode" />
         <ref bean="Building-buildingAddressZipCode" />
         <ref bean="Building-alternateBuildingCode" />
+        <ref bean="Building-active" />
         <ref bean="Building-versionNumber" />
       </list>
     </property>
@@ -178,6 +179,12 @@
     <property name="summary" value="alternateBuildingCode" />
     <property name="description" value="alternateBuildingCode description..." />
   </bean>
+  <bean id="Building-active" parent="Building-active-parentBean" />
+
+  <bean id="Building-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+      <property name="name" value="active" />
+  </bean>
+
   <bean id="Building-versionNumber" parent="Building-versionNumber-parentBean" />
 
   <bean id="Building-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -213,6 +220,8 @@
                     p:attributeName="buildingAddressZipCode" />  
               <bean parent="FieldDefinition"
                     p:attributeName="alternateBuildingCode" />                                                                                                     
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />                                                                                                     
             </list>
           </property>
         </bean>
@@ -245,6 +254,8 @@
               p:attributeName="buildingCode" />
         <bean parent="FieldDefinition"
               p:attributeName="buildingName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -256,6 +267,8 @@
               p:attributeName="buildingCode" />
         <bean parent="FieldDefinition"
               p:attributeName="buildingName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

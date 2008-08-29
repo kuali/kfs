@@ -237,7 +237,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + BCConstants.RequestImportErrorCode.DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE.getMessage());
             }
             
-            else if (record.getAccount().isAccountClosedIndicator()) {
+            else if (record.getAccount().isActive()) {
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_ACCOUNT_CLOSED_ERROR_CODE.getErrorCode());
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + BCConstants.RequestImportErrorCode.DATA_VALIDATION_ACCOUNT_CLOSED_ERROR_CODE.getMessage());
             }
@@ -247,7 +247,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + BCConstants.RequestImportErrorCode.DATA_VALIDATION_ACCOUNT_EXPIRED_ERROR_CODE.getMessage());
             }
 
-            else if (!record.getSubAccountNumber().equalsIgnoreCase(KFSConstants.getDashSubAccountNumber()) && !record.getSubAccount().isSubAccountActiveIndicator()) {
+            else if (!record.getSubAccountNumber().equalsIgnoreCase(KFSConstants.getDashSubAccountNumber()) && !record.getSubAccount().isActive()) {
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_ACCOUNT_INACTIVE_ERROR_CODE.getErrorCode());
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_ACCOUNT_INACTIVE_ERROR_CODE.getMessage());
             }
@@ -283,7 +283,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             }
             
             // inactive sub-object code
-            else if (!record.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode()) && !subObjectCode.isFinancialSubObjectActiveIndicator()) {
+            else if (!record.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode()) && !subObjectCode.isActive()) {
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_OBJECT_INACTIVE_ERROR_CODE.getErrorCode());
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_OBJECT_INACTIVE_ERROR_CODE.getMessage());
             }

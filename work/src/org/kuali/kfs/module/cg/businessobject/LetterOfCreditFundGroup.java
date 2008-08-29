@@ -18,16 +18,17 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class LetterOfCreditFundGroup extends PersistableBusinessObjectBase {
+public class LetterOfCreditFundGroup extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String letterOfCreditFundGroupCode;
     private String letterOfCreditFundGroupDescription;
-    private boolean rowActiveIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -73,21 +74,21 @@ public class LetterOfCreditFundGroup extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the rowActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the rowActiveIndicator.
+     * @return Returns the active.
      */
-    public boolean isRowActiveIndicator() {
-        return rowActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the rowActiveIndicator attribute value.
+     * Sets the active attribute value.
      * 
-     * @param rowActiveIndicator The rowActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setRowActiveIndicator(boolean rowActiveIndicator) {
-        this.rowActiveIndicator = rowActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

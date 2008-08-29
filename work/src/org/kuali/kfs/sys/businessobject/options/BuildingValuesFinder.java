@@ -30,13 +30,13 @@ public class BuildingValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
 
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection buildings = boService.findAll(Building.class);
-        List labels = new ArrayList();
+        Collection<Building> buildings = SpringContext.getBean(KeyValuesService.class).findAll(Building.class);
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
-        for (Iterator iter = buildings.iterator(); iter.hasNext();) {
-            Building building = (Building) iter.next();
-            labels.add(new KeyLabelPair(building.getBuildingCode(), building.getBuildingCode() + " - " + building.getBuildingName()));
+        for (Building building : buildings) {
+            if(building.isActive()) {
+                labels.add(new KeyLabelPair(building.getBuildingCode(), building.getBuildingCode() + " - " + building.getBuildingName()));
+            }
         }
         return labels;
     }

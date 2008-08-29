@@ -19,8 +19,7 @@ import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocument
 import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
 import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
 import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED;
-import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
+import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD;
 import static org.kuali.kfs.sys.KFSConstants.AUXILIARY_LINE_HELPER_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.CREDIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.DEBIT_AMOUNT_PROPERTY_NAME;
@@ -481,11 +480,11 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
 
         valid = SpringContext.getBean(ParameterService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, RESTRICTED_PERIOD_CODES, document.getPostingPeriodCode()).evaluationSucceeds();
         if (!valid) {
-            reportError(ACCOUNTING_PERIOD_STATUS_CODE_FIELD, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
+            reportError(ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
         }
 
         // can't post into a closed period
-        if (acctPeriod == null || acctPeriod.getUniversityFiscalPeriodStatusCode().equalsIgnoreCase(ACCOUNTING_PERIOD_STATUS_CLOSED)) {
+        if (acctPeriod == null || acctPeriod.isActive()) {
             reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
             return false;
         }

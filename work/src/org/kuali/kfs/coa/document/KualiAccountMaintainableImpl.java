@@ -68,7 +68,7 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
         Account account = (Account) this.getBusinessObject();
         account.setAccountCreateDate(null); // account's pre-rules will fill this field in
         account.setAccountEffectiveDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
-        account.setAccountClosedIndicator(false);
+        account.setActive(false);
         super.processAfterCopy( document, parameters );
     }
 
@@ -92,11 +92,11 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
     
     protected boolean isClosingAccount() {
         // the account has to be closed on the new side when editing in order for it to be possible that we are closing the account
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && ((Account) getBusinessObject()).isAccountClosedIndicator()) {
+        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && ((Account) getBusinessObject()).isActive()) {
             Account existingAccountFromDB = retrieveExistingAccountFromDB();
             if (ObjectUtils.isNotNull(existingAccountFromDB)) {
                 // now see if the original account was not closed, in which case, we are closing the account
-                if (!existingAccountFromDB.isAccountClosedIndicator()) {
+                if (!existingAccountFromDB.isActive()) {
                     return true;
                 }
             }

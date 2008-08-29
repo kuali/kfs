@@ -462,18 +462,18 @@ public interface AccountIntf {
     public void setAccountOffCampusIndicator(boolean accountOffCampusIndicator);
 
     /**
-     * Gets the accountClosedIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the accountClosedIndicator
+     * @return Returns the active
      */
-    public boolean isAccountClosedIndicator();
+    public boolean isActive();
 
     /**
-     * Sets the accountClosedIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param accountClosedIndicator The accountClosedIndicator to set.
+     * @param active The active to set.
      */
-    public void setAccountClosedIndicator(boolean accountClosedIndicator);
+    public void setActive(boolean active);
 
     /**
      * Gets the chartOfAccounts attribute.

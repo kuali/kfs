@@ -857,7 +857,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         SimpleDateFormat tdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
         // is account closed?
-        if (budgetConstructionDocument.getAccount().isAccountClosedIndicator()) {
+        if (budgetConstructionDocument.getAccount().isActive()) {
             isAllowed = false;
             this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_CLOSED, isAdd, "account: " + budgetConstructionDocument.getAccountNumber());
         }
@@ -916,7 +916,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         }
 
         // check to make sure it is active
-        if (!subAccount.isSubAccountActiveIndicator()) {
+        if (!subAccount.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE, label + ":" + value);
             return false;
         }
@@ -945,7 +945,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         }
 
         // check active flag
-        if (!subObjectCode.isFinancialSubObjectActiveIndicator()) {
+        if (!subObjectCode.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label + ":" + value);
             return false;
         }

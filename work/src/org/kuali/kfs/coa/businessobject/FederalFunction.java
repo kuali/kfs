@@ -18,15 +18,17 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class FederalFunction extends PersistableBusinessObjectBase {
+public class FederalFunction extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String financialFederalFunctionCode;
     private String financialFederalFunctionName;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -80,5 +82,21 @@ public class FederalFunction extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("financialFederalFunctionCode", this.financialFederalFunctionCode);
         return m;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

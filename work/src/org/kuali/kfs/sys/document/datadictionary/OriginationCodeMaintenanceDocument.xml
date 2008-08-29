@@ -86,6 +86,9 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentNextItemIdentifier" />
         <bean parent="MaintainableFieldDefinition"
+              p:defaultValue="true"
+              p:name="active" />
+        <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
       </list>
     </property>

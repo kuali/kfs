@@ -25,6 +25,14 @@
         <ref bean="OffsetDefinition-versionNumber" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="financialBalanceType"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="financialObject"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

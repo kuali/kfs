@@ -39,27 +39,18 @@ public class AcctTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(AcctType.class);
-
-        List sortList = (List) codes;
-
-        // calling comparator.
-        AccountTypeCodeComparator accTypeCodeComparator = new AccountTypeCodeComparator();
+        List<AcctType> codes = (List<AcctType>) SpringContext.getBean(KeyValuesService.class).findAll(AcctType.class);
 
         // sort using comparator.
-        Collections.sort(sortList, accTypeCodeComparator);
+        Collections.sort(codes, new AccountTypeCodeComparator());
 
-
-        List labels = new ArrayList();
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
 
-
-        for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            AcctType acctType = (AcctType) iter.next();
-
-            labels.add(new KeyLabelPair(acctType.getAccountTypeCode(), acctType.getAccountTypeCode() + " - " + acctType.getAccountTypeName()));
-
+        for (AcctType acctType : codes) {
+            if(acctType.isActive()) {
+                labels.add(new KeyLabelPair(acctType.getAccountTypeCode(), acctType.getAccountTypeCode() + " - " + acctType.getAccountTypeName()));
+            }
         }
 
         return labels;

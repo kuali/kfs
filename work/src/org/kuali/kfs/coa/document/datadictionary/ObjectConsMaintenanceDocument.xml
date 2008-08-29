@@ -84,7 +84,7 @@
               p:name="finConsolidationObjectName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="finConsolidationObjActiveIndicator"
+              p:name="active"
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialEliminationsObjectCode"

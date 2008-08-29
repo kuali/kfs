@@ -304,7 +304,7 @@ public class PosterServiceImpl implements PosterService {
 
                 AccountingPeriod ap = accountingPeriodService.getByPeriod(reversal.getUniversityFiscalPeriodCode(), reversal.getUniversityFiscalYear());
                 if (ap != null) {
-                    if (KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(ap.getUniversityFiscalPeriodStatusCode())) {
+                    if (!ap.isActive()) { // Make sure accounting period is closed
                         reversal.setUniversityFiscalYear(runUniversityDate.getUniversityFiscalYear());
                         reversal.setUniversityFiscalPeriodCode(runUniversityDate.getUniversityFiscalAccountingPeriod());
                     }

@@ -15,9 +15,10 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 
-public class SufficientFundsCode extends KualiCodeBase {
+public class SufficientFundsCode extends KualiCodeBase implements Inactivateable {
 
 
 }

@@ -23,6 +23,7 @@
         <ref bean="PostalZipCode-postalCityName" />
         <ref bean="PostalZipCode-buildingCode" />
         <ref bean="PostalZipCode-buildingRoomNumber" />
+        <ref bean="PostalZipCode-active" />
         <ref bean="PostalZipCode-objectId" />
         <ref bean="PostalZipCode-versionNumber" />
       </list>
@@ -117,6 +118,11 @@
     <property name="summary" value="Building Room Number" />
     <property name="description" value="Building Room Number" />
   </bean>
+  <bean id="PostalZipCode-active" parent="PostalZipCode-active-parentBean" />
+
+  <bean id="PostalZipCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
   <bean id="PostalZipCode-objectId" parent="PostalZipCode-objectId-parentBean" />
 
   <bean id="PostalZipCode-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
@@ -150,6 +156,8 @@
                     p:attributeName="buildingCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="buildingRoomNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -186,6 +194,8 @@
               p:attributeName="buildingCode" />
         <bean parent="FieldDefinition"
               p:attributeName="buildingRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -200,6 +210,8 @@
               p:attributeName="buildingCode" />
         <bean parent="FieldDefinition"
               p:attributeName="buildingRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

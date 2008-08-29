@@ -412,7 +412,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
 
     private boolean isAccountInvalid(Account account) {
-        return ObjectUtils.isNull(account) || account.isAccountClosedIndicator() || account.isExpired();
+        return ObjectUtils.isNull(account) || account.isActive() || account.isExpired();
     }
 
 
@@ -455,7 +455,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             // new source payments must be greater than the capital asset cost amount
             KualiDecimal totalSeparateSourceAmount = assetGlobalService.totalSeparateSourceAmount(assetGlobal);
             if (totalSeparateSourceAmount.isGreaterThan(assetGlobal.getTotalCostAmount())) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT, new String[] { assetGlobal.getSeparateSourceCapitalAssetNumber().toString() });
+                putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT_REQUIRED, new String[] { assetGlobal.getSeparateSourceCapitalAssetNumber().toString() });
                 success = false;
             }
 
@@ -463,7 +463,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET);
             if (ObjectUtils.isNotNull(assetGlobal.getSeparateSourceCapitalAsset())) {
                 if (!assetService.isCapitalAsset(assetGlobal.getSeparateSourceCapitalAsset())) {
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetSeparate.ERROR_NON_CAPITAL_ASSET_SEPARATE, assetGlobal.getSeparateSourceCapitalAssetNumber().toString());
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetSeparate.ERROR_NON_CAPITAL_ASSET_SEPARATE_REQUIRED, assetGlobal.getSeparateSourceCapitalAssetNumber().toString());
                     success = false;
                 }
             }
@@ -622,7 +622,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
         Account organizationOwnerAccount = assetGlobal.getOrganizationOwnerAccount();
-        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (organizationOwnerAccount == null || organizationOwnerAccount.isAccountClosedIndicator() || organizationOwnerAccount.isExpired())) {
+        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (organizationOwnerAccount == null || organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NOT_ACTIVE, new String[] { assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber() });
             success &= false;
         }

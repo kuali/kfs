@@ -345,7 +345,7 @@ public class LaborScrubberProcess {
             transactionErrors.addAll(tmperrors);
 
             // Expired account?
-            if ((unscrubbedEntry.getAccount() != null) && (unscrubbedEntry.getAccount().isAccountClosedIndicator())) {
+            if ((unscrubbedEntry.getAccount() != null) && (unscrubbedEntry.getAccount().isActive())) {
                 // Make a copy of it so OJB doesn't just update the row in the original
                 // group. It needs to make a new one in the expired group
                 LaborOriginEntry expiredEntry = new LaborOriginEntry(scrubbedEntry);

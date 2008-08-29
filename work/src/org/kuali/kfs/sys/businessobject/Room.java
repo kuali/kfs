@@ -19,12 +19,13 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class Room extends PersistableBusinessObjectBase {
+public class Room extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String campusCode;
     private String buildingCode;

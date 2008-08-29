@@ -19,7 +19,7 @@
       <list>
         <ref bean="LetterOfCreditFundGroup-letterOfCreditFundGroupCode" />
         <ref bean="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription" />
-        <ref bean="LetterOfCreditFundGroup-rowActiveIndicator" />
+        <ref bean="LetterOfCreditFundGroup-active" />
         <ref bean="LetterOfCreditFundGroup-versionNumber" />
       </list>
     </property>
@@ -61,17 +61,10 @@
             p:size="42" />
     </property>
   </bean>
-  <bean id="LetterOfCreditFundGroup-rowActiveIndicator" parent="LetterOfCreditFundGroup-rowActiveIndicator-parentBean" />
+  <bean id="LetterOfCreditFundGroup-active" parent="LetterOfCreditFundGroup-active-parentBean" />
 
-  <bean id="LetterOfCreditFundGroup-rowActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="rowActiveIndicator" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Active Indicator" />
-    <property name="shortLabel" value="Active Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
+  <bean id="LetterOfCreditFundGroup-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="LetterOfCreditFundGroup-versionNumber" parent="LetterOfCreditFundGroup-versionNumber-parentBean" />
 
@@ -97,7 +90,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="letterOfCreditFundGroupDescription" />
               <bean parent="FieldDefinition"
-                    p:attributeName="rowActiveIndicator" />
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -124,7 +117,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="letterOfCreditFundGroupDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="rowActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -134,7 +127,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="letterOfCreditFundGroupDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="rowActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

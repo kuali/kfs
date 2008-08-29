@@ -20,6 +20,7 @@
         <ref bean="NonResidentAlienTaxPercent-incomeClassCode" />
         <ref bean="NonResidentAlienTaxPercent-incomeTaxTypeCode" />
         <ref bean="NonResidentAlienTaxPercent-incomeTaxPercent" />
+        <ref bean="NonResidentAlienTaxPercent-active" />
         <ref bean="NonResidentAlienTaxPercent-versionNumber" />
       </list>
     </property>
@@ -79,6 +80,12 @@
             p:size="22" />
     </property>
   </bean>
+  <bean id="NonResidentAlienTaxPercent-active" parent="NonResidentAlienTaxPercent-active-parentBean" />
+
+  <bean id="NonResidentAlienTaxPercent-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+
   <bean id="NonResidentAlienTaxPercent-versionNumber" parent="NonResidentAlienTaxPercent-versionNumber-parentBean" />
 
   <bean id="NonResidentAlienTaxPercent-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -104,6 +111,8 @@
                     p:attributeName="incomeTaxTypeCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="incomeTaxPercent" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -135,6 +144,8 @@
               p:attributeName="incomeClassCode" />
         <bean parent="FieldDefinition"
               p:attributeName="incomeTaxTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -145,6 +156,8 @@
               p:attributeName="incomeTaxTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="incomeTaxPercent" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

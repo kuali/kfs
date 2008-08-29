@@ -26,7 +26,7 @@
               p:displayFieldName="Chart Code" />
         <bean parent="ReferenceDefinition"
               p:attributeName="account"
-              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorAttributeName="active"
               p:activeIndicatorReversed="true"
               p:attributeToHighlightOnFail="accountNumber"
               p:displayFieldName="Account Number" />
@@ -108,7 +108,7 @@
               p:name="subAccountName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="subAccountActiveIndicator"
+              p:name="active"
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="a21SubAccount.subAccountTypeCode"

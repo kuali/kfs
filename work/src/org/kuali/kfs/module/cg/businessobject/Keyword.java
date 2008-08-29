@@ -26,7 +26,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public class Keyword extends PersistableBusinessObjectBase {
 
     private String routingFormKeywordDescription;
-    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -55,21 +55,21 @@ public class Keyword extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the dataObjectMaintenanceCodeActiveIndicator
+     * @return Returns the active
      */
-    public boolean isDataObjectMaintenanceCodeActiveIndicator() {
-        return dataObjectMaintenanceCodeActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 

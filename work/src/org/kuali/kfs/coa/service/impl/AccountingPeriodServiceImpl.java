@@ -57,14 +57,14 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     }
 
     /**
-     * Implements by choosing only accounting periods that have a status that is open ("O").
+     * Implements by choosing only accounting periods that are active.
      * 
      * @see org.kuali.kfs.coa.service.AccountingPeriodService#getOpenAccountingPeriods()
      */
     @Cached
     public Collection getOpenAccountingPeriods() {
         HashMap map = new HashMap();
-        map.put(KFSConstants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD, KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN);
+        map.put(KFSConstants.ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD, Boolean.TRUE);
 
         return businessObjectService.findMatchingOrderBy(AccountingPeriod.class, map, KFSPropertyConstants.ACCTING_PERIOD_UNIV_FISCAL_PERIOD_END_DATE, true);
     }

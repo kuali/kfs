@@ -43,7 +43,7 @@ public class DocumentSearchStatusCriteriaValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair(" ", "AWARD STATUSES"));
         Collection<AwardStatus> awardCodes = SpringContext.getBean(KeyValuesService.class).findAll(AwardStatus.class);
         for (AwardStatus awardStatus : awardCodes) {
-            if (awardStatus.isRowActiveIndicator()) {
+            if (awardStatus.isActive()) {
                 labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), STATUS_SPACE_PREFIX + awardStatus.getAwardStatusCode() + "-" + awardStatus.getAwardStatusDescription()));
             }
         }
@@ -51,7 +51,7 @@ public class DocumentSearchStatusCriteriaValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair(" ", "PROPOSAL STATUSES"));
         Collection<ProposalStatus> proposalCodes = SpringContext.getBean(KeyValuesService.class).findAll(ProposalStatus.class);
         for (ProposalStatus proposalStatus : proposalCodes) {
-            if (proposalStatus.isRowActiveIndicator()) {
+            if (proposalStatus.isActive()) {
                 labels.add(new KeyLabelPair(proposalStatus.getProposalStatusCode(), STATUS_SPACE_PREFIX + proposalStatus.getProposalStatusCode() + "-" + proposalStatus.getProposalStatusDescription()));
             }
         }

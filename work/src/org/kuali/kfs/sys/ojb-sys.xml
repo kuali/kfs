@@ -73,6 +73,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="postalCountryName" column="POSTAL_CNTRY_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="postalCountryRestrictedIndicator" column="PSTL_CNTRY_RSTRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.sys.businessobject.HomeOrigination" table="FS_HOME_ORIGIN_T">
@@ -221,6 +222,7 @@
     <field-descriptor name="nextFdocAttachmentIdentifier" column="NXT_FDOC_ATT_ID" jdbc-type="BIGINT" />
     <field-descriptor name="acctRcvbNextCustomerNumber" column="AR_NEXT_CUST_NBR" jdbc-type="BIGINT" />
     <field-descriptor name="financialDocumentNextItemIdentifier" column="FDOC_NEXT_ITEM_ID" jdbc-type="BIGINT" />
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.sys.businessobject.State" table="SH_STATE_T">
@@ -228,6 +230,7 @@
     <field-descriptor name="postalStateName" column="POSTAL_STATE_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.sys.businessobject.PostalZipCode" table="SH_ZIP_CODE_T">
@@ -238,6 +241,7 @@
     <field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <reference-descriptor name="state" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="postalStateCode" />
     </reference-descriptor>

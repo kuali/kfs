@@ -175,7 +175,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 
         // Scrubber accepts closed fiscal periods for A21 Balance
         AccountingPeriod accountingPeriod = referenceLookup.get().getAccountingPeriod(laborOriginEntry);
-        if (accountingPeriod != null && KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(accountingPeriod.getUniversityFiscalPeriodStatusCode())) {
+        if (accountingPeriod != null && !accountingPeriod.isActive()) {
             String bypassBalanceType = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.CLOSED_FISCAL_PERIOD_BYPASS_BALANCE_TYPES);
             
             if (!laborWorkingEntry.getFinancialBalanceTypeCode().equals(bypassBalanceType)) {
@@ -296,18 +296,18 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         today.setTime(universityRunDate.getUniversityDate());
 
         long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
-        boolean isAccountExpiredOrClosed = (account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) || account.isAccountClosedIndicator();
+        boolean isAccountExpiredOrClosed = (account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) || account.isActive();
         boolean continuationAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
         
         if (continuationAccountLogicInd && isAccountExpiredOrClosed) {
             // special checks for origination codes that have override ability
             boolean isOverrideOriginCode = continuationAccountBypassOriginationCodes.contains(laborOriginEntry.getFinancialSystemOriginationCode());
-            if (isOverrideOriginCode && account.isAccountClosedIndicator()) {
+            if (isOverrideOriginCode && account.isActive()) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT, laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber(), Message.TYPE_FATAL);
             }
 
             boolean canBypass = isOverrideOriginCode || continuationAccountBypassBalanceTypeCodes.contains(laborOriginEntry.getFinancialBalanceTypeCode()) || continuationAccountBypassDocumentTypeCodes.contains(laborOriginEntry.getFinancialDocumentTypeCode().trim());
-            if (!account.isAccountClosedIndicator() && canBypass) {
+            if (!account.isActive() && canBypass) {
                 return null;
             }
 
@@ -416,7 +416,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         if (account.getAccountExpirationDate() != null) {
             offsetAccountExpirationTime = account.getAccountExpirationDate().getTime();
 
-            if (account.isForContractsAndGrants() && (!account.isAccountClosedIndicator())) {
+            if (account.isForContractsAndGrants() && (!account.isActive())) {
                 String daysOffset = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                 int daysOffsetInt = 3 * 30; // default to 90 days (approximately 3 months)
 

@@ -31,10 +31,12 @@ public class PurposeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        List<Purpose> purposes = new ArrayList(SpringContext.getBean(PurposeService.class).getPurposes());
-        List purposeKeyLabelPairList = new ArrayList();
+        List<Purpose> purposes = new ArrayList<Purpose>(SpringContext.getBean(PurposeService.class).getPurposes());
+        List<KeyLabelPair> purposeKeyLabelPairList = new ArrayList<KeyLabelPair>();
         for (Purpose element : purposes) {
-            purposeKeyLabelPairList.add(new KeyLabelPair(element.getPurposeCode(), element.getPurposeDescription()));
+            if(element.isActive()) {
+                purposeKeyLabelPairList.add(new KeyLabelPair(element.getPurposeCode(), element.getPurposeDescription()));
+            }
         }
 
         return purposeKeyLabelPairList;

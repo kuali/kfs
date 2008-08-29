@@ -17,12 +17,13 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class RestrictedStatus extends PersistableBusinessObjectBase {
+public class RestrictedStatus extends PersistableBusinessObjectBase implements Inactivateable {
 
     /**
      * Default no-arg constructor.
@@ -33,6 +34,7 @@ public class RestrictedStatus extends PersistableBusinessObjectBase {
 
     private String accountRestrictedStatusCode;
     private String accountRestrictedStatusName;
+    private boolean active;
 
     /**
      * Gets the accountRestrictedStatusCode attribute.
@@ -88,5 +90,21 @@ public class RestrictedStatus extends PersistableBusinessObjectBase {
         m.put("accountRestrictedStatusCode", this.accountRestrictedStatusCode);
 
         return m;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

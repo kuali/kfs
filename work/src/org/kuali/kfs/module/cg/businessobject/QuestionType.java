@@ -17,36 +17,37 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class QuestionType extends PersistableBusinessObjectBase {
+public class QuestionType extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String questionTypeCode;
-    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private boolean active;
     private String questionTypeDescription;
     private Integer questionTypeSortNumber;
     private String questionTypeWorkgroupName;
     private String questionTypeNotificationValue;
 
     /**
-     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the dataObjectMaintenanceCodeActiveIndicator.
+     * @return Returns the active.
      */
-    public boolean isDataObjectMaintenanceCodeActiveIndicator() {
-        return dataObjectMaintenanceCodeActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the dataObjectMaintenanceCodeActiveIndicator attribute value.
+     * Sets the active attribute value.
      * 
-     * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

@@ -17,13 +17,14 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
 
-public class NonpersonnelObjectCode extends PersistableBusinessObjectBase implements Comparable {
+public class NonpersonnelObjectCode extends PersistableBusinessObjectBase implements Comparable, Inactivateable {
     private static final long serialVersionUID = -5150973847161350622L;
 
     /**
@@ -81,15 +82,15 @@ public class NonpersonnelObjectCode extends PersistableBusinessObjectBase implem
     /**
      * @param o
      */
-    public void setActive(boolean o) {
-        active = o;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**
      * @return active
      */
-    public boolean getActive() {
-        return active;
+    public boolean isActive() {
+        return this.active;
     }
 
     /**
@@ -139,7 +140,7 @@ public class NonpersonnelObjectCode extends PersistableBusinessObjectBase implem
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

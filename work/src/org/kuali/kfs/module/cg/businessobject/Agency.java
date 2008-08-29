@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -26,7 +27,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class defines an agency as it is used and referenced within the Contracts and Grants portion of a college or university
  * financial system.
  */
-public class Agency extends PersistableBusinessObjectBase implements ContractsAndGrantsAgency {
+public class Agency extends PersistableBusinessObjectBase implements ContractsAndGrantsAgency, Inactivateable {
 
     private String agencyNumber;
     private String reportingName;
@@ -34,11 +35,11 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     private String agencyTypeCode;
     private String reportsToAgencyNumber;
     private KualiDecimal indirectAmount;
-    private boolean historicalIndicator;
     private boolean inStateIndicator;
     private Agency reportsToAgency;
     private AgencyType agencyType;
     private AgencyExtension agencyExtension;
+    private boolean active;
 
     /**
      * Gets the agencyTypeCode attribute.
@@ -156,24 +157,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     }
 
     /**
-     * Gets the historicalIndicator attribute.
-     * 
-     * @return Returns the historicalIndicator
-     */
-    public boolean isHistoricalIndicator() {
-        return historicalIndicator;
-    }
-
-    /**
-     * Sets the historicalIndicator attribute.
-     * 
-     * @param historicalIndicator The historicalIndicator to set.
-     */
-    public void setHistoricalIndicator(boolean historicalIndicator) {
-        this.historicalIndicator = historicalIndicator;
-    }
-
-    /**
      * Gets the inStateIndicator attribute.
      * 
      * @return Returns the inStateIndicator
@@ -268,6 +251,22 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      */
     public boolean equals(Agency agency) {
         return this.agencyNumber.equals(agency.getAgencyNumber());
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

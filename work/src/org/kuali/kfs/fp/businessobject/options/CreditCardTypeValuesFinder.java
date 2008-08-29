@@ -37,23 +37,19 @@ public class CreditCardTypeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         // get a list of all CreditCardTypes
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        List codes = (List) boService.findAll(CreditCardType.class);
-
-
-        // get comparator
-        CreditCardTypeComparator creditCardTypeComparator = new CreditCardTypeComparator();
+        List<CreditCardType> codes = (List<CreditCardType>) SpringContext.getBean(KeyValuesService.class).findAll(CreditCardType.class);
 
         // sort using comparator
-        Collections.sort(codes, creditCardTypeComparator);
+        Collections.sort(codes, new CreditCardTypeComparator());
 
         // create a new list (code, name)
-        List labels = new ArrayList();
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", "")); // blank first entry
 
-        for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            CreditCardType creditCardType = (CreditCardType) iter.next();
-            labels.add(new KeyLabelPair(creditCardType.getFinancialDocumentCreditCardTypeCode(), creditCardType.getFinancialDocumentCreditCardTypeCode() + "-" + creditCardType.getFinancialDocumentCreditCardCompanyName()));
+        for (CreditCardType creditCardType : codes) {
+            if(creditCardType.isActive()) {
+                labels.add(new KeyLabelPair(creditCardType.getFinancialDocumentCreditCardTypeCode(), creditCardType.getFinancialDocumentCreditCardTypeCode() + "-" + creditCardType.getFinancialDocumentCreditCardCompanyName()));
+            }
         }
 
         return labels;

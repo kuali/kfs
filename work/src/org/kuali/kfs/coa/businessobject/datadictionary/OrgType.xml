@@ -21,6 +21,7 @@
         <ref bean="OrgType-organizationTypeCode" />
         <ref bean="OrgType-organizationTypeName" />
         <ref bean="OrgType-objectId" />
+        <ref bean="OrgType-active" />
         <ref bean="OrgType-versionNumber" />
       </list>
     </property>
@@ -64,6 +65,11 @@
 
   <bean id="OrgType-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
+  <bean id="OrgType-active" parent="OrgType-active-parentBean" />
+
+  <bean id="OrgType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
   <bean id="OrgType-versionNumber" parent="OrgType-versionNumber-parentBean" />
 
   <bean id="OrgType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -87,6 +93,8 @@
                     p:attributeName="organizationTypeCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationTypeName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -117,6 +125,8 @@
               p:attributeName="organizationTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationTypeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -125,6 +135,8 @@
               p:attributeName="organizationTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationTypeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

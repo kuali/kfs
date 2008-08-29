@@ -54,6 +54,7 @@
         <ref bean="Proposal-proposalSubmissionDate" />
         <ref bean="Proposal-proposalTotalAmount" />
         <ref bean="Proposal-proposalTotalProjectAmount" />
+        <ref bean="Proposal-active" />
         <ref bean="Proposal-versionNumber" />
       </list>
     </property>
@@ -134,6 +135,14 @@
             </list>
           </property>
         </bean>
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="proposalAwardType"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="award"/>
       </list>
     </property>
   </bean>
@@ -490,6 +499,12 @@
     <property name="shortLabel" value="Total Project" />
     <property name="exclusiveMin" value="-0.001" />
   </bean>
+  <bean id="Proposal-active" parent="Proposal-active-parentBean" />
+
+  <bean id="Proposal-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+	<property name="name" value="active" />
+  </bean>
+
   <bean id="Proposal-versionNumber" parent="Proposal-versionNumber-parentBean" />
 
   <bean id="Proposal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -561,6 +576,8 @@
                     p:attributeName="federalPassThroughAgencyNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="federalPassThroughAgency.fullName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -749,6 +766,8 @@
               p:attributeName="lookupUniversalUser.personUserIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="lookupUniversalUser.personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -771,6 +790,8 @@
               p:attributeName="proposalOrganizations" />
         <bean parent="FieldDefinition"
               p:attributeName="proposalProjectDirectors" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

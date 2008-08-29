@@ -24,6 +24,12 @@
 		<ref bean="IndirectCostRecoveryExclusionType-newCollectionRecord" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="objectCodeCurrent"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -72,7 +78,7 @@
   </bean>
   
   <bean id="IndirectCostRecoveryExclusionType-active" parent="IndirectCostRecoveryExclusionType-active-parentBean" />
-  <bean id="IndirectCostRecoveryExclusionType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="IndirectCostRecoveryExclusionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
   
@@ -131,6 +137,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
         <bean parent="FieldDefinition"
+              p:defaultValue="true"
               p:attributeName="active" />
       </list>
     </property>

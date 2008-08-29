@@ -129,6 +129,8 @@
                     p:attributeName="financialOffsetGenerationIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="finBalanceTypeEncumIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -165,6 +167,8 @@
               p:attributeName="financialOffsetGenerationIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="finBalanceTypeEncumIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -179,6 +183,8 @@
               p:attributeName="financialOffsetGenerationIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="finBalanceTypeEncumIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

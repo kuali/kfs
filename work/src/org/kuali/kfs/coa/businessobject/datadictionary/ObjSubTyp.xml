@@ -20,6 +20,7 @@
       <list>
         <ref bean="ObjSubTyp-code" />
         <ref bean="ObjSubTyp-name" />
+        <ref bean="ObjSubTyp-active" />
         <ref bean="ObjSubTyp-versionNumber" />
       </list>
     </property>
@@ -59,6 +60,12 @@
             p:size="40" />
     </property>
   </bean>
+  <bean id="ObjSubTyp-active" parent="ObjSubTyp-active-parentBean" />
+
+  <bean id="ObjSubTyp-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="ObjSubTyp-versionNumber" parent="ObjSubTyp-versionNumber-parentBean" />
 
   <bean id="ObjSubTyp-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -82,6 +89,8 @@
                     p:attributeName="code" />
               <bean parent="FieldDefinition"
                     p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -112,6 +121,8 @@
               p:attributeName="code" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -120,6 +131,8 @@
               p:attributeName="code" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

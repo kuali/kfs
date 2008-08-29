@@ -531,7 +531,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * @return Returns true if line can be edited, false otherwise
      */
     public boolean isEditable() {
-        if (this.getAccount() != null && this.getAccount().isAccountClosedIndicator()) {
+        if (this.getAccount() != null && this.getAccount().isActive()) {
             return false;
         }
 

@@ -1030,8 +1030,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // account must be being closed
-        oldAccount.setAccountClosedIndicator(false);
-        newAccount.setAccountClosedIndicator(true);
+        oldAccount.setActive(false);
+        newAccount.setActive(true);
         newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
 
         // continuation coa code null
@@ -1055,8 +1055,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // account must be being closed
-        oldAccount.setAccountClosedIndicator(false);
-        newAccount.setAccountClosedIndicator(true);
+        oldAccount.setActive(false);
+        newAccount.setActive(true);
         newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
 
         // continuation coa code null
@@ -1078,8 +1078,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // account must be being closed
-        oldAccount.setAccountClosedIndicator(true);
-        newAccount.setAccountClosedIndicator(true);
+        oldAccount.setActive(true);
+        newAccount.setActive(true);
         newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
 
         // continuation coa code null
@@ -1107,7 +1107,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
         subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
-        subFundGroup.setSubfundgrpActivityIndicator(true);
+        subFundGroup.setActive(true);
 
         // add the subFundGroup info to Account
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
@@ -1145,7 +1145,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
         subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
-        subFundGroup.setSubfundgrpActivityIndicator(true);
+        subFundGroup.setActive(true);
 
         // add the subFundGroup info to Account
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
@@ -1181,7 +1181,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.EN1);
         subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.EN1);
-        subFundGroup.setSubfundgrpActivityIndicator(true);
+        subFundGroup.setActive(true);
 
         // add the subFundGroup info to Account
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.EN1);
@@ -1219,7 +1219,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
         subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
-        subFundGroup.setSubfundgrpActivityIndicator(true);
+        subFundGroup.setActive(true);
 
         // add the subFundGroup info to Account
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
@@ -1262,7 +1262,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
         subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
-        subFundGroup.setSubfundgrpActivityIndicator(true);
+        subFundGroup.setActive(true);
 
         // add the subFundGroup info to Account
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
@@ -1295,7 +1295,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.EN1);
         subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.EN1);
-        subFundGroup.setSubfundgrpActivityIndicator(true);
+        subFundGroup.setActive(true);
 
         // add the subFundGroup info to Account
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.EN1);
@@ -1326,7 +1326,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.GF_MPRACT);
         subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.GF1);
-        subFundGroup.setSubfundgrpActivityIndicator(true);
+        subFundGroup.setActive(true);
 
         // add the subFundGroup info to Account
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.GF_MPRACT);
@@ -1357,7 +1357,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
         subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
-        subFundGroup.setSubfundgrpActivityIndicator(true);
+        subFundGroup.setActive(true);
 
         // add the subFundGroup info to Account
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
@@ -1390,7 +1390,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
         subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
-        subFundGroup.setSubfundgrpActivityIndicator(true);
+        subFundGroup.setActive(true);
 
         // add the subFundGroup info to Account
         newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
@@ -1424,7 +1424,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.GF1);
         subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.GF1);
-        subFundGroup.setSubfundgrpActivityIndicator(true);
+        subFundGroup.setActive(true);
 
         // add the subFundGroup info to Account
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.GF1);

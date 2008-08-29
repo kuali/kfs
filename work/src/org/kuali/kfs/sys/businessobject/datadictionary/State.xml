@@ -21,6 +21,7 @@
         <ref bean="State-postalStateCode" />
         <ref bean="State-postalStateName" />
         <ref bean="State-codeAndDescription" />
+        <ref bean="State-active" />
         <ref bean="State-versionNumber" />
       </list>
     </property>
@@ -84,6 +85,12 @@
     <property name="summary" value="State Code" />
     <property name="description" value="State Code" />
   </bean>
+  <bean id="State-active" parent="State-active-parentBean" />
+
+  <bean id="State-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="State-versionNumber" parent="State-versionNumber-parentBean" />
 
   <bean id="State-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -107,6 +114,8 @@
                     p:attributeName="postalStateCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="postalStateName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -137,6 +146,8 @@
               p:attributeName="postalStateCode" />
         <bean parent="FieldDefinition"
               p:attributeName="postalStateName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -145,6 +156,8 @@
               p:attributeName="postalStateCode" />
         <bean parent="FieldDefinition"
               p:attributeName="postalStateName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

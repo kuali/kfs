@@ -24,7 +24,7 @@
               p:attributeToHighlightOnFail="chartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="account"
-              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorAttributeName="active"
               p:activeIndicatorReversed="true"
               p:attributeToHighlightOnFail="accountNumber" />
         <bean parent="ReferenceDefinition"
@@ -104,7 +104,7 @@
               p:name="financialSubObjectCdshortNm"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="financialSubObjectActiveIndicator"
+              p:name="active"
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />

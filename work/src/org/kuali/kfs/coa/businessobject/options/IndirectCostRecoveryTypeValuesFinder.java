@@ -38,27 +38,18 @@ public class IndirectCostRecoveryTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(IndirectCostRecoveryType.class);
-
-        List sortList = (List) codes;
-
-        // calling comparator.
-        IndirectCostRecoveryTypeCodeComparator icrTypeCodeComparator = new IndirectCostRecoveryTypeCodeComparator();
+        List<IndirectCostRecoveryType> codes = (List<IndirectCostRecoveryType>) SpringContext.getBean(KeyValuesService.class).findAll(IndirectCostRecoveryType.class);
 
         // sort using comparator.
-        Collections.sort(sortList, icrTypeCodeComparator);
+        Collections.sort(codes, new IndirectCostRecoveryTypeCodeComparator());
 
-
-        List labels = new ArrayList();
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
 
-
-        for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            IndirectCostRecoveryType icrType = (IndirectCostRecoveryType) iter.next();
-
-            labels.add(new KeyLabelPair(icrType.getCode(), icrType.getCode() + " - " + icrType.getName()));
-
+        for (IndirectCostRecoveryType icrType : codes) {
+            if(icrType.isActive()) {
+                labels.add(new KeyLabelPair(icrType.getCode(), icrType.getCodeAndDescription()));
+            }
         }
 
         return labels;

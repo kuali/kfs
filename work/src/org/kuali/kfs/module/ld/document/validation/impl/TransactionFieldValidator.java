@@ -118,7 +118,7 @@ public class TransactionFieldValidator {
             }
 
             if (!StringUtils.equals(documentTypeCode, exclusiveDocumentTypeCode)) {
-                if (!transaction.getSubAccount().isSubAccountActiveIndicator()) {
+                if (!transaction.getSubAccount().isActive()) {
                     return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE, subAccountKey, Message.TYPE_FATAL);
                 }
             }

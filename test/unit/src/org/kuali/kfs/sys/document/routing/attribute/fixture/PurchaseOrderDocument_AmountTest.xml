@@ -678,7 +678,7 @@
         <responsibilityCenterCode>94</responsibilityCenterCode>
         <responsibilityCenterName>VP FOR INFORMATION TECHNOLOGY</responsibilityCenterName>
         <responsibilityCenterShortName>VPIT</responsibilityCenterShortName>
-        <responsibilityCenterActiveIndicator>true</responsibilityCenterActiveIndicator>
+        <active>true</active>
         <versionNumber>1</versionNumber>
         <objectId>014A17B043CE9D5EE043814FD8819D5E</objectId>
         <newCollectionRecord>false</newCollectionRecord>
@@ -720,7 +720,7 @@
           <responsibilityCenterCode>NO</responsibilityCenterCode>
           <responsibilityCenterName>NO RESPONSIBILITY CENTER</responsibilityCenterName>
           <responsibilityCenterShortName>NO RC</responsibilityCenterShortName>
-          <responsibilityCenterActiveIndicator>true</responsibilityCenterActiveIndicator>
+          <active>true</active>
           <versionNumber>1</versionNumber>
           <objectId>014A17B043D39D5EE043814FD8819D5E</objectId>
           <newCollectionRecord>false</newCollectionRecord>
@@ -1287,12 +1287,12 @@
               <boNotes/>
             </objectCode>
             <subAccount>
-              <subAccountActiveIndicator>false</subAccountActiveIndicator>
+              <active>false</active>
               <newCollectionRecord>false</newCollectionRecord>
               <boNotes/>
             </subAccount>
             <subObjectCode>
-              <financialSubObjectActiveIndicator>false</financialSubObjectActiveIndicator>
+              <active>false</active>
               <newCollectionRecord>false</newCollectionRecord>
               <boNotes/>
             </subObjectCode>
@@ -2429,7 +2429,7 @@
                         <proposal reference="../../../.."/>
                         <researchRiskType>
                           <researchRiskTypeCode>H</researchRiskTypeCode>
-                          <dataObjectMaintenanceCodeActiveIndicator>true</dataObjectMaintenanceCodeActiveIndicator>
+                          <active>true</active>
                           <researchRiskTypeDescription>Human Subjects</researchRiskTypeDescription>
                           <controlAttributeTypeCode>A</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>5</researchRiskTypeSortNumber>
@@ -2438,7 +2438,7 @@
                           <controlAttributeType>
                             <controlAttributeTypeCode>A</controlAttributeTypeCode>
                             <controlAttributeTypeDescription>All columns</controlAttributeTypeDescription>
-                            <dataObjectMaintenanceCodeActiveIndicator>false</dataObjectMaintenanceCodeActiveIndicator>
+                            <active>false</active>
                             <requiredIndicator>false</requiredIndicator>
                             <versionNumber>2</versionNumber>
                             <objectId>CE034184-1A03-17FA-6D58-68DDAE0E6927</objectId>
@@ -2462,7 +2462,7 @@
                         <proposal reference="../../../.."/>
                         <researchRiskType>
                           <researchRiskTypeCode>M</researchRiskTypeCode>
-                          <dataObjectMaintenanceCodeActiveIndicator>true</dataObjectMaintenanceCodeActiveIndicator>
+                          <active>true</active>
                           <researchRiskTypeDescription>Animals</researchRiskTypeDescription>
                           <controlAttributeTypeCode>S</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>10</researchRiskTypeSortNumber>
@@ -2471,7 +2471,7 @@
                           <controlAttributeType>
                             <controlAttributeTypeCode>S</controlAttributeTypeCode>
                             <controlAttributeTypeDescription>Partial columns</controlAttributeTypeDescription>
-                            <dataObjectMaintenanceCodeActiveIndicator>false</dataObjectMaintenanceCodeActiveIndicator>
+                            <active>false</active>
                             <requiredIndicator>false</requiredIndicator>
                             <versionNumber>2</versionNumber>
                             <objectId>E7437019-6718-51B3-9535-532B532C55FB</objectId>
@@ -2495,7 +2495,7 @@
                         <proposal reference="../../../.."/>
                         <researchRiskType>
                           <researchRiskTypeCode>B</researchRiskTypeCode>
-                          <dataObjectMaintenanceCodeActiveIndicator>true</dataObjectMaintenanceCodeActiveIndicator>
+                          <active>true</active>
                           <researchRiskTypeDescription>Biosafety</researchRiskTypeDescription>
                           <controlAttributeTypeCode>S</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>15</researchRiskTypeSortNumber>
@@ -2517,9 +2517,9 @@
                         <proposalNumber>80479</proposalNumber>
                         <isActive>false</isActive>
                         <proposal reference="../../../.."/>
-                        <researchRiskType>
+                        <researchRiskType> 
                           <researchRiskTypeCode>T</researchRiskTypeCode>
-                          <dataObjectMaintenanceCodeActiveIndicator>true</dataObjectMaintenanceCodeActiveIndicator>
+                          <active>true</active>
                           <researchRiskTypeDescription>Human Tissue/Fluids</researchRiskTypeDescription>
                           <controlAttributeTypeCode>S</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>20</researchRiskTypeSortNumber>
@@ -2543,7 +2543,7 @@
                         <proposal reference="../../../.."/>
                         <researchRiskType>
                           <researchRiskTypeCode>P</researchRiskTypeCode>
-                          <dataObjectMaintenanceCodeActiveIndicator>true</dataObjectMaintenanceCodeActiveIndicator>
+                          <active>true</active>
                           <researchRiskTypeDescription>Pathogenic Agent</researchRiskTypeDescription>
                           <controlAttributeTypeCode>S</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>25</researchRiskTypeSortNumber>
@@ -2567,7 +2567,7 @@
                         <proposal reference="../../../.."/>
                         <researchRiskType>
                           <researchRiskTypeCode>F</researchRiskTypeCode>
-                          <dataObjectMaintenanceCodeActiveIndicator>true</dataObjectMaintenanceCodeActiveIndicator>
+                          <active>true</active>
                           <researchRiskTypeDescription>Financial Conflict of Interest</researchRiskTypeDescription>
                           <controlAttributeTypeCode>D</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>30</researchRiskTypeSortNumber>
@@ -2576,7 +2576,7 @@
                           <controlAttributeType>
                             <controlAttributeTypeCode>D</controlAttributeTypeCode>
                             <controlAttributeTypeDescription>Description textarea</controlAttributeTypeDescription>
-                            <dataObjectMaintenanceCodeActiveIndicator>false</dataObjectMaintenanceCodeActiveIndicator>
+                            <active>false</active>
                             <requiredIndicator>false</requiredIndicator>
                             <versionNumber>2</versionNumber>
                             <objectId>985DF41B-C46B-790F-7016-4B7D240744A2</objectId>
@@ -2598,7 +2598,7 @@
                   <proposalAwardType>
                     <proposalAwardTypeCode>R</proposalAwardTypeCode>
                     <proposalAwardTypeDescription>Contin/Competing</proposalAwardTypeDescription>
-                    <rowActiveIndicator>true</rowActiveIndicator>
+                    <active>true</active>
                     <versionNumber>1</versionNumber>
                     <objectId>12BF192103149D6CE043814FD8819D6C</objectId>
                     <newCollectionRecord>false</newCollectionRecord>
@@ -2612,10 +2612,10 @@
                     <indirectAmount>
                       <value>0.00</value>
                     </indirectAmount>
-                    <historicalIndicator>true</historicalIndicator>
+                    <active>true</active>
                     <inStateIndicator>false</inStateIndicator>
                     <agencyType>
-                      <rowActiveIndicator>false</rowActiveIndicator>
+                      <active>false</active>
                       <code>D</code>
                       <name>Foundations</name>
                       <active>true</active>
@@ -2632,7 +2632,7 @@
                   <proposalStatus>
                     <proposalStatusCode>P</proposalStatusCode>
                     <proposalStatusDescription>Proposal</proposalStatusDescription>
-                    <rowActiveIndicator>true</rowActiveIndicator>
+                    <active>true</active>
                     <versionNumber>1</versionNumber>
                     <objectId>12BF192103049D6CE043814FD8819D6C</objectId>
                     <newCollectionRecord>false</newCollectionRecord>
@@ -2641,7 +2641,7 @@
                   <proposalPurpose>
                     <proposalPurposeCode>C</proposalPurposeCode>
                     <proposalPurposeDescription>RESEARCH</proposalPurposeDescription>
-                    <rowActiveIndicator>true</rowActiveIndicator>
+                    <active>true</active>
                     <versionNumber>1</versionNumber>
                     <objectId>12BF1921030A9D6CE043814FD8819D6C</objectId>
                     <newCollectionRecord>false</newCollectionRecord>
@@ -2656,7 +2656,7 @@
                 <proposalAwardType>
                   <proposalAwardTypeCode>N</proposalAwardTypeCode>
                   <proposalAwardTypeDescription>New</proposalAwardTypeDescription>
-                  <rowActiveIndicator>true</rowActiveIndicator>
+                  <active>true</active>
                   <versionNumber>1</versionNumber>
                   <objectId>12BF192103139D6CE043814FD8819D6C</objectId>
                   <newCollectionRecord>false</newCollectionRecord>
@@ -2665,7 +2665,7 @@
                 <awardStatus>
                   <awardStatusCode>A</awardStatusCode>
                   <awardStatusDescription>Award</awardStatusDescription>
-                  <rowActiveIndicator>true</rowActiveIndicator>
+                  <active>true</active>
                   <versionNumber>1</versionNumber>
                   <objectId>12D4ED2159F6EF34E043814FD881EF34</objectId>
                   <newCollectionRecord>false</newCollectionRecord>
@@ -2674,7 +2674,7 @@
                 <grantDescription>
                   <grantDescriptionCode>C</grantDescriptionCode>
                   <grantDescription>Federal Contract</grantDescription>
-                  <grantDescriptionActiveCode>true</grantDescriptionActiveCode>
+                  <active>true</active>
                   <versionNumber>1</versionNumber>
                   <objectId>12D4ED215A27EF34E043814FD881EF34</objectId>
                   <newCollectionRecord>false</newCollectionRecord>
@@ -2688,10 +2688,10 @@
                   <indirectAmount>
                     <value>0.00</value>
                   </indirectAmount>
-                  <historicalIndicator>false</historicalIndicator>
+                  <active>false</active>
                   <inStateIndicator>true</inStateIndicator>
                   <agencyType>
-                    <rowActiveIndicator>true</rowActiveIndicator>
+                    <active>true</active>
                     <code>P</code>
                     <name>Non-Profit</name>
                     <active>true</active>
@@ -2933,7 +2933,7 @@
                     <indirectAmount>
                       <value>0.00</value>
                     </indirectAmount>
-                    <historicalIndicator>true</historicalIndicator>
+                    <active>true</active>
                     <inStateIndicator>false</inStateIndicator>
                     <reportsToAgency>
                       <agencyNumber>12500</agencyNumber>
@@ -2944,7 +2944,7 @@
                       <indirectAmount>
                         <value>0.00</value>
                       </indirectAmount>
-                      <historicalIndicator>true</historicalIndicator>
+                      <active>true</active>
                       <inStateIndicator>false</inStateIndicator>
                       <reportsToAgency>
                         <agencyNumber>12010</agencyNumber>
@@ -2954,10 +2954,10 @@
                         <indirectAmount>
                           <value>0.00</value>
                         </indirectAmount>
-                        <historicalIndicator>true</historicalIndicator>
+                        <active>true</active>
                         <inStateIndicator>false</inStateIndicator>
                         <agencyType>
-                          <rowActiveIndicator>true</rowActiveIndicator>
+                          <active>true</active>
                           <code>F</code>
                           <name>Federal</name>
                           <active>true</active>
@@ -3001,7 +3001,7 @@
                   <proposalStatus>
                     <proposalStatusCode>A</proposalStatusCode>
                     <proposalStatusDescription>Award</proposalStatusDescription>
-                    <rowActiveIndicator>true</rowActiveIndicator>
+                    <active>true</active>
                     <versionNumber>1</versionNumber>
                     <objectId>12BF192103039D6CE043814FD8819D6C</objectId>
                     <newCollectionRecord>false</newCollectionRecord>
@@ -3019,7 +3019,7 @@
                 <letterOfCreditFundGroup>
                   <letterOfCreditFundGroupCode>USDL</letterOfCreditFundGroupCode>
                   <letterOfCreditFundGroupDescription>U.S. Department of Labor</letterOfCreditFundGroupDescription>
-                  <rowActiveIndicator>true</rowActiveIndicator>
+                  <active>true</active>
                   <versionNumber>1</versionNumber>
                   <objectId>12D4ED215A20EF34E043814FD881EF34</objectId>
                   <newCollectionRecord>false</newCollectionRecord>
@@ -3028,7 +3028,7 @@
                 <grantDescription>
                   <grantDescriptionCode>G</grantDescriptionCode>
                   <grantDescription>Federal Grant</grantDescription>
-                  <grantDescriptionActiveCode>true</grantDescriptionActiveCode>
+                  <active>true</active>
                   <versionNumber>1</versionNumber>
                   <objectId>12D4ED215A2CEF34E043814FD881EF34</objectId>
                   <newCollectionRecord>false</newCollectionRecord>
@@ -3043,7 +3043,7 @@
                   <indirectAmount>
                     <value>0.00</value>
                   </indirectAmount>
-                  <historicalIndicator>true</historicalIndicator>
+                  <active>true</active>
                   <inStateIndicator>false</inStateIndicator>
                   <reportsToAgency reference="../../proposal/agency/reportsToAgency"/>
                   <agencyType reference="../../proposal/agency/reportsToAgency/reportsToAgency/agencyType"/>
@@ -3121,7 +3121,7 @@
       <universityFiscalYear>2007</universityFiscalYear>
       <universityFiscalPeriodCode>12</universityFiscalPeriodCode>
       <universityFiscalPeriodName>JUNE 2007</universityFiscalPeriodName>
-      <universityFiscalPeriodStatusCode>O</universityFiscalPeriodStatusCode>
+      <active>O</active>
       <budgetRolloverIndicator>false</budgetRolloverIndicator>
       <universityFiscalPeriodEndDate>2007-06-30</universityFiscalPeriodEndDate>
       <options>

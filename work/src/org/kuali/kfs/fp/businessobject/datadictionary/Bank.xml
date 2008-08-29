@@ -22,6 +22,7 @@
         <ref bean="Bank-financialDocumentBankName" />
         <ref bean="Bank-financialDocumentBankShortNm" />
         <ref bean="Bank-bankRoutingNumber" />
+        <ref bean="Bank-active" />
         <ref bean="Bank-versionNumber" />
       </list>
     </property>
@@ -92,6 +93,12 @@
             p:size="12" />
     </property>
   </bean>
+  <bean id="Bank-active" parent="Bank-active-parentBean" />
+
+  <bean id="Bank-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="Bank-versionNumber" parent="Bank-versionNumber-parentBean" />
 
   <bean id="Bank-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -119,6 +126,8 @@
                     p:attributeName="financialDocumentBankShortNm" />
               <bean parent="FieldDefinition"
                     p:attributeName="bankRoutingNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -153,6 +162,8 @@
               p:attributeName="financialDocumentBankShortNm" />
         <bean parent="FieldDefinition"
               p:attributeName="bankRoutingNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -166,6 +177,8 @@
               p:attributeName="financialDocumentBankShortNm" />
         <bean parent="FieldDefinition"
               p:attributeName="bankRoutingNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

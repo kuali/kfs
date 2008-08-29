@@ -17,12 +17,13 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class ObjectCons extends PersistableBusinessObjectBase {
+public class ObjectCons extends PersistableBusinessObjectBase implements Inactivateable {
 
     /**
      * Default no-arg constructor.
@@ -35,7 +36,7 @@ public class ObjectCons extends PersistableBusinessObjectBase {
     private String finConsolidationObjectCode;
     private String finConsolidationObjectName;
     private String finConsolidationObjShortName;
-    private boolean finConsolidationObjActiveIndicator;
+    private boolean active;
     private String financialReportingSortCode;
     private String financialEliminationsObjectCode;
 
@@ -133,21 +134,21 @@ public class ObjectCons extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the finConsolidationObjActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the finConsolidationObjActiveIndicator
+     * @return Returns the active
      */
-    public boolean isFinConsolidationObjActiveIndicator() {
-        return finConsolidationObjActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the finConsolidationObjActiveIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param finConsolidationObjActiveIndicator The finConsolidationObjActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setFinConsolidationObjActiveIndicator(boolean finConsolidationObjActiveIndicator) {
-        this.finConsolidationObjActiveIndicator = finConsolidationObjActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

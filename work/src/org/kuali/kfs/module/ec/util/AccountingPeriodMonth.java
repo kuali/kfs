@@ -55,14 +55,14 @@ public enum AccountingPeriodMonth {
     }
 
     /**
-     * find all acocunting periods between the given begin period and end period. Here, a period can be represented by the
+     * find all accounting periods between the given begin period and end period. Here, a period can be represented by the
      * combination of year and period code. The begin perid should be no later than the end period.
      * 
      * @param beginYear the begin year
      * @param beginPeriodCode the begin period code
      * @param endYear the end year
      * @param endPeriodCode the end period code
-     * @return all acocunting periods between the given begin period and end period. The returning results are stored in a map,
+     * @return all accounting periods between the given begin period and end period. The returning results are stored in a map,
      *         whose keys is year and whose values are period code set.
      */
     public static Map<Integer, Set<String>> findAccountingPeriodsBetween(Integer beginYear, String beginPeriodCode, Integer endYear, String endPeriodCode) {

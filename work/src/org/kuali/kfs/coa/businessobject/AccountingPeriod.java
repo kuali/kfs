@@ -20,21 +20,21 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * 
  */
-public class AccountingPeriod extends PersistableBusinessObjectBase {
+public class AccountingPeriod extends PersistableBusinessObjectBase implements Inactivateable {
 
     private Integer universityFiscalYear;
     private String universityFiscalPeriodCode;
     private String universityFiscalPeriodName;
-    private String universityFiscalPeriodStatusCode; // TODO - should this be another bo?
+    private boolean active;
     private boolean budgetRolloverIndicator;
 
     private Date universityFiscalPeriodEndDate;
@@ -105,21 +105,21 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the universityFiscalPeriodStatusCode attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the universityFiscalPeriodStatusCode
+     * @return Returns the active
      */
-    public String getUniversityFiscalPeriodStatusCode() {
-        return universityFiscalPeriodStatusCode;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the universityFiscalPeriodStatusCode attribute.
+     * Sets the active attribute.
      * 
-     * @param universityFiscalPeriodStatusCode The universityFiscalPeriodStatusCode to set.
+     * @param active The active to set.
      */
-    public void setUniversityFiscalPeriodStatusCode(String universityFiscalPeriodStatusCode) {
-        this.universityFiscalPeriodStatusCode = universityFiscalPeriodStatusCode;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 
@@ -167,7 +167,7 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * @return true if the accounting period is open; otherwise, false
      */
     public boolean isOpen() {
-        return KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN.equals(this.getUniversityFiscalPeriodStatusCode());
+        return this.isActive();
     }
 
     /**

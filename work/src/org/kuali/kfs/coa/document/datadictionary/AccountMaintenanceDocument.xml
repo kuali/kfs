@@ -30,13 +30,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       	<dd:check boAttribute="accountType" attributeToHighlightOnFail="accountTypeCode" />
       	<dd:check boAttribute="financialHigherEdFunction" attributeToHighlightOnFail="financialHigherEdFunctionCd" />
       	<dd:check boAttribute="reportsToAccount" attributeToHighlightOnFail="reportsToAccountNumber" 
-      			  activeIndicatorAttribute="accountClosedIndicator" activeIndicatorReversed="true" />
+      			  activeIndicatorAttribute="active" activeIndicatorReversed="true" />
       	<dd:check boAttribute="continuationAccount" attributeToHighlightOnFail="continuationAccountNumber" 
-      			  activeIndicatorAttribute="accountClosedIndicator" activeIndicatorReversed="true" />
+      			  activeIndicatorAttribute="active" activeIndicatorReversed="true" />
       	<dd:check boAttribute="endowmentIncomeAccount" attributeToHighlightOnFail="endowmentIncomeAccountNumber" 
-      			  activeIndicatorAttribute="accountClosedIndicator" activeIndicatorReversed="true" />
+      			  activeIndicatorAttribute="active" activeIndicatorReversed="true" />
       	<dd:check boAttribute="indirectCostRecoveryAcct" attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" 
-      			  activeIndicatorAttribute="accountClosedIndicator" activeIndicatorReversed="true" />
+      			  activeIndicatorAttribute="active" activeIndicatorReversed="true" />
       	<dd:check boAttribute="sufficientFundsCode" attributeToHighlightOnFail="accountSufficientFundsCode" />
       	<dd:userCheck userAttribute="accountFiscalOfficerUser" />
       	<dd:userCheck userAttribute="accountSupervisoryUser" />
@@ -109,7 +109,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:maintField attributeName="accountStateCode" required="true" />
         <dd:maintField attributeName="accountStreetAddress" required="true" />
         <dd:maintField attributeName="accountOffCampusIndicator" />
-        <dd:maintField attributeName="accountClosedIndicator" />
+        <dd:maintField attributeName="active" />
         <dd:maintField attributeName="accountTypeCode" required="true" />
         <dd:maintField attributeName="subFundGroupCode" required="true"
                        javascriptLeaveFieldFunction="onblur_subFundGroup"

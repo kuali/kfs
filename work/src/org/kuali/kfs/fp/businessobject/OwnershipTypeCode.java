@@ -16,12 +16,13 @@
 
 package org.kuali.kfs.fp.businessobject;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * This class is used to represent an ownership type code.  
  */
-public class OwnershipTypeCode extends KualiCodeBase {
+public class OwnershipTypeCode extends KualiCodeBase implements Inactivateable {
 
     /**
      * Default no-arg constructor.

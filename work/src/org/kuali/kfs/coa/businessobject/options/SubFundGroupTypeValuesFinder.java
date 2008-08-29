@@ -38,13 +38,13 @@ public class SubFundGroupTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection subFundGroupTypeCodes = boService.findAll(SubFundGroupType.class);
-        List subFundGroupTypeKeyLabels = new ArrayList();
+        Collection<SubFundGroupType> subFundGroupTypeCodes = SpringContext.getBean(KeyValuesService.class).findAll(SubFundGroupType.class);
+        List<KeyLabelPair> subFundGroupTypeKeyLabels = new ArrayList<KeyLabelPair>();
         subFundGroupTypeKeyLabels.add(new KeyLabelPair("", ""));
-        for (Iterator iter = subFundGroupTypeCodes.iterator(); iter.hasNext();) {
-            SubFundGroupType element = (SubFundGroupType) iter.next();
-            subFundGroupTypeKeyLabels.add(new KeyLabelPair(element.getSubFundGroupTypeCode(), element.getSubFundGroupTypeCode() + " - " + element.getSubFundGroupTypeDescription()));
+        for (SubFundGroupType element : subFundGroupTypeCodes) {
+            if(element.isActive()) {
+                subFundGroupTypeKeyLabels.add(new KeyLabelPair(element.getSubFundGroupTypeCode(), element.getSubFundGroupTypeCode() + " - " + element.getSubFundGroupTypeDescription()));
+            }
         }
 
         return subFundGroupTypeKeyLabels;

@@ -24,7 +24,18 @@
         <ref bean="HigherEdFunction-finUnivBdgtOfficeFunctionCd" />
         <ref bean="HigherEdFunction-finAicpaFunctionCode" />
         <ref bean="HigherEdFunction-financialFederalFunctionCode" />
+        <ref bean="HigherEdFunction-active" />
         <ref bean="HigherEdFunction-versionNumber" />
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="aicpaFunction"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="federalFunction"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="universityBudgetOfficeFunction"/>
       </list>
     </property>
   </bean>
@@ -118,6 +129,12 @@
             p:size="3" />
     </property>
   </bean>
+  <bean id="HigherEdFunction-active" parent="HigherEdFunction-active-parentBean" />
+
+  <bean id="HigherEdFunction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="HigherEdFunction-versionNumber" parent="HigherEdFunction-versionNumber-parentBean" />
 
   <bean id="HigherEdFunction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -147,6 +164,8 @@
                     p:attributeName="finAicpaFunctionCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialFederalFunctionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -177,6 +196,8 @@
               p:attributeName="financialHigherEdFunctionCd" />
         <bean parent="FieldDefinition"
               p:attributeName="financialHigherEdFunctionNm" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -191,6 +212,8 @@
               p:attributeName="finAicpaFunctionCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialFederalFunctionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

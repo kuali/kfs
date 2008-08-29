@@ -60,7 +60,7 @@
               p:name="routingFormKeywordDescription"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="dataObjectMaintenanceCodeActiveIndicator"
+              p:name="active"
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />

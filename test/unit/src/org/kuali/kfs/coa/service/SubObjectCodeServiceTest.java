@@ -54,7 +54,7 @@ public class SubObjectCodeServiceTest extends KualiTestBase {
 
         resultSubObjectCode = SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(TestConstants.Data4.POSTING_YEAR, TestConstants.Data4.CHART_CODE, TestConstants.Data4.ACCOUNT, TestConstants.Data4.OBJECT_CODE, TestConstants.Data4.SUBOBJECT_CODE);
         assertNotNull(resultSubObjectCode);
-        assertTrue(resultSubObjectCode.isFinancialSubObjectActiveIndicator());
+        assertTrue(resultSubObjectCode.isActive());
 
     }
 }

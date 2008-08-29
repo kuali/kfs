@@ -19,17 +19,19 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * This class is used to represent a ServiceBillingControl business object.
  */
-public class ServiceBillingControl extends PersistableBusinessObjectBase {
+public class ServiceBillingControl extends PersistableBusinessObjectBase implements Inactivateable {
     private static final long serialVersionUID = -615796117852059115L;
 
     private String chartOfAccountsCode;
     private String accountNumber;
     private String workgroupName;
+    private boolean active;
 
     private Chart chartOfAccounts;
     private Account account;
@@ -133,6 +135,22 @@ public class ServiceBillingControl extends PersistableBusinessObjectBase {
         map.put("charOfAccountsCode", getChartOfAccountsCode());
         map.put("accountNumber", getAccountNumber());
         return map;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

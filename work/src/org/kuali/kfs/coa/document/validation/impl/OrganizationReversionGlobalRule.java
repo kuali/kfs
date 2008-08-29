@@ -254,7 +254,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         }
         else {
             detail.refreshReferenceObject("organizationReversionCategory");
-            if (detail.getOrganizationReversionCategory() == null || !detail.getOrganizationReversionCategory().isOrganizationReversionCategoryActiveIndicator()) {
+            if (detail.getOrganizationReversionCategory() == null || !detail.getOrganizationReversionCategory().isActive()) {
                 success = false;
                 GlobalVariables.getErrorMap().putError("organizationReversionCategoryCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_INVALID_ORG_REVERSION_CATEGORY, new String[] { detail.getOrganizationReversionCategoryCode() });
             }

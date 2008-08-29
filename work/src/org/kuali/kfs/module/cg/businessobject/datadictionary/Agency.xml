@@ -23,10 +23,10 @@
         <ref bean="Agency-fullName" />
         <ref bean="Agency-agencyType.name" />
         <ref bean="Agency-agencyTypeCode" />
-        <ref bean="Agency-historicalIndicator" />
         <ref bean="Agency-inStateIndicator" />
         <ref bean="Agency-indirectAmount" />
         <ref bean="Agency-reportsToAgencyNumber" />
+        <ref bean="Agency-active" />
         <ref bean="Agency-versionNumber" />
       </list>
     </property>
@@ -123,18 +123,6 @@
     <property name="shortLabel" value="Agency Type Cd" />
     <property name="required" value="false" />
   </bean>
-  <bean id="Agency-historicalIndicator" parent="Agency-historicalIndicator-parentBean" />
-
-  <bean id="Agency-historicalIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="historicalIndicator" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Active Indicator" />
-    <property name="shortLabel" value="Active Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
-  </bean>
   <bean id="Agency-inStateIndicator" parent="Agency-inStateIndicator-parentBean" />
 
   <bean id="Agency-inStateIndicator-parentBean" abstract="true" parent="AttributeDefinition">
@@ -172,6 +160,12 @@
     <property name="label" value="Reports To Agency Number" />
     <property name="shortLabel" value="Reports To Agency Number" />
   </bean>
+  <bean id="Agency-active" parent="Agency-active-parentBean" />
+
+  <bean id="Agency-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="Agency-versionNumber" parent="Agency-versionNumber-parentBean" />
 
   <bean id="Agency-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -200,13 +194,13 @@
               <bean parent="FieldDefinition"
                     p:attributeName="agencyType.name" />
               <bean parent="FieldDefinition"
-                    p:attributeName="historicalIndicator" />
-              <bean parent="FieldDefinition"
                     p:attributeName="inStateIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="indirectAmount" />
               <bean parent="FieldDefinition"
                     p:attributeName="reportsToAgencyNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -242,7 +236,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="agencyTypeCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="historicalIndicator" />
+              p:defaultValue="true"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -264,7 +259,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="reportsToAgencyNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="historicalIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

@@ -21,7 +21,7 @@
               p:attributeToHighlightOnFail="financialDocumentBankCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cashOffsetAccount"
-              p:activeIndicatorAttributeName="accountClosedIndicator"
+              p:activeIndicatorAttributeName="active"
               p:activeIndicatorReversed="true"
               p:attributeToHighlightOnFail="cashOffsetAccountNumber" />
         <bean parent="ReferenceDefinition"
@@ -93,6 +93,9 @@
               p:name="cashOffsetObjectCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="cashOffsetSubObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:defaultValue="true"
+              p:name="active" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
       </list>

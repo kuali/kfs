@@ -32,26 +32,44 @@ import org.kuali.rice.kns.service.KualiGroupService;
 
 
 /**
+ * 
+ * This class...
+ * 
  * @author jsissom
  */
 public class PdpSecurityServiceImpl implements PdpSecurityService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PdpSecurityServiceImpl.class);
 
-    private KualiGroupService groupService;
+    private KualiGroupService kualiGroupService;
     private KualiConfigurationService kualiConfigurationService;
 
+    /**
+     * 
+     * Constructs a PdpSecurityServiceImpl.java.
+     */
     public PdpSecurityServiceImpl() {
         super();
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kcs) {
-        this.kualiConfigurationService = kcs;
+    /**
+     * Sets the groupService attribute value.
+     * @param groupService The groupService to set.
+     */
+    public void setKualiGroupService(KualiGroupService groupService) {
+        this.kualiGroupService = groupService;
     }
 
-    public void setKualiGroupService(KualiGroupService gs) {
-        groupService = gs;
+    /**
+     * Sets the kualiConfigurationService attribute value.
+     * @param kualiConfigurationService The kualiConfigurationService to set.
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
-
+    /**
+     * 
+     * @see org.kuali.kfs.pdp.service.PdpSecurityService#getSecurityRecord(org.kuali.rice.kns.bo.user.UniversalUser)
+     */
     public SecurityRecord getSecurityRecord(UniversalUser user) {
         LOG.debug("getSecurityRecord() started");
 
@@ -59,25 +77,31 @@ public class PdpSecurityServiceImpl implements PdpSecurityService {
 
         // All of these group names are names in the application settings table.
         SecurityRecord sr = new SecurityRecord();
-        sr.setCancelRole(groupMember(groups, PdpConstants.Groups.CANCEL_GROUP));
-        sr.setHoldRole(groupMember(groups, PdpConstants.Groups.HOLD_GROUP));
-        sr.setLimitedViewRole(groupMember(groups, PdpConstants.Groups.LIMITEDVIEW_GROUP));
-        sr.setProcessRole(groupMember(groups, PdpConstants.Groups.PROCESS_GROUP));
-        sr.setRangesRole(groupMember(groups, PdpConstants.Groups.RANGES_GROUP));
-        sr.setSubmitRole(groupMember(groups, PdpConstants.Groups.SUBMIT_GROUP));
-        sr.setSysAdminRole(groupMember(groups, PdpConstants.Groups.SYSADMIN_GROUP));
-        sr.setTaxHoldersRole(groupMember(groups, PdpConstants.Groups.TAXHOLDERS_GROUP));
-        sr.setViewAllRole(groupMember(groups, PdpConstants.Groups.VIEWALL_GROUP));
-        sr.setViewIdRole(groupMember(groups, PdpConstants.Groups.VIEWID_GROUP));
-        sr.setViewBankRole(groupMember(groups, PdpConstants.Groups.VIEWBANK_GROUP));
-        sr.setViewIdPartialBank(groupMember(groups, PdpConstants.Groups.VIEWIDPARTIALBANK_GROUP));
+        sr.setCancelRole(isGroupMember(groups, PdpConstants.Groups.CANCEL_GROUP));
+        sr.setHoldRole(isGroupMember(groups, PdpConstants.Groups.HOLD_GROUP));
+        sr.setLimitedViewRole(isGroupMember(groups, PdpConstants.Groups.LIMITEDVIEW_GROUP));
+        sr.setProcessRole(isGroupMember(groups, PdpConstants.Groups.PROCESS_GROUP));
+        sr.setRangesRole(isGroupMember(groups, PdpConstants.Groups.RANGES_GROUP));
+        sr.setSubmitRole(isGroupMember(groups, PdpConstants.Groups.SUBMIT_GROUP));
+        sr.setSysAdminRole(isGroupMember(groups, PdpConstants.Groups.SYSADMIN_GROUP));
+        sr.setTaxHoldersRole(isGroupMember(groups, PdpConstants.Groups.TAXHOLDERS_GROUP));
+        sr.setViewAllRole(isGroupMember(groups, PdpConstants.Groups.VIEWALL_GROUP));
+        sr.setViewIdRole(isGroupMember(groups, PdpConstants.Groups.VIEWID_GROUP));
+        sr.setViewBankRole(isGroupMember(groups, PdpConstants.Groups.VIEWBANK_GROUP));
+        sr.setViewIdPartialBank(isGroupMember(groups, PdpConstants.Groups.VIEWIDPARTIALBANK_GROUP));
 
         return sr;
     }
 
-    private boolean groupMember(List groups, String groupName) {
-        for (Iterator<KualiGroup> iter = groups.iterator(); iter.hasNext();) {
-            KualiGroup element = iter.next();
+    /**
+     * 
+     * This method...
+     * @param groups
+     * @param groupName
+     * @return
+     */
+    private boolean isGroupMember(List<KualiGroup> groups, String groupName) {
+        for (KualiGroup element : groups) {
             if (element.getGroupName().equals(groupName)) {
                 return true;
             }
@@ -85,4 +109,5 @@ public class PdpSecurityServiceImpl implements PdpSecurityService {
 
         return false;
     }
+
 }

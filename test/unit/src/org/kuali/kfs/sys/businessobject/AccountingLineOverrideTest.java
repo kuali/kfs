@@ -315,7 +315,7 @@ public class AccountingLineOverrideTest extends KualiTestBase {
 
     private Account getClosedAccount() {
         Account account = getExpiredAccount();
-        account.setAccountClosedIndicator(true);
+        account.setActive(true);
         return account;
     }
 

@@ -38,7 +38,7 @@
               p:displayFieldName="Reports To Organization Code" />
         <bean parent="ReferenceDefinition"
               p:attributeName="responsibilityCenter"
-              p:activeIndicatorAttributeName="responsibilityCenterActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="responsibilityCenterCode"
               p:displayFieldName="Responsibility Center Code" />
       </list>

@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.UniversalUserService;
@@ -25,7 +26,7 @@ import org.kuali.rice.kns.service.UniversalUserService;
 /**
  * Reporting Codes Business Object
  */
-public class ReportingCodes extends PersistableBusinessObjectBase {
+public class ReportingCodes extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = -1585612121519839488L;
     private String chartOfAccountsCode;
@@ -34,6 +35,7 @@ public class ReportingCodes extends PersistableBusinessObjectBase {
     private String financialReportingCodeDescription;
     private String financialReportingCodeMgrId;
     private String financialReportsToReportingCode;
+    private boolean active;
 
     private Chart chart;
     private Org org;
@@ -194,6 +196,22 @@ public class ReportingCodes extends PersistableBusinessObjectBase {
         m.put("financialReportingCodeMgrId", this.financialReportingCodeMgrId);
         m.put("financialReportsToReportingCode", this.financialReportsToReportingCode);
         return m;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

@@ -294,7 +294,7 @@
           <accountNumber>1031400</accountNumber>
           <subAccountNumber>BLDG</subAccountNumber>
           <subAccountName>BUILDING SERVICES</subAccountName>
-          <subAccountActiveIndicator>true</subAccountActiveIndicator>
+          <active>true</active>
           <a21SubAccount>
             <chartOfAccountsCode>BL</chartOfAccountsCode>
             <accountNumber>1031400</accountNumber>
@@ -348,7 +348,7 @@
           <accountNumber>1031400</accountNumber>
           <subAccountNumber>DPD</subAccountNumber>
           <subAccountName>DAVID PISONI DEPARTMENT</subAccountName>
-          <subAccountActiveIndicator>true</subAccountActiveIndicator>
+          <active>true</active>
           <a21SubAccount>
             <chartOfAccountsCode>BL</chartOfAccountsCode>
             <accountNumber>1031400</accountNumber>
@@ -758,7 +758,7 @@
       <universityFiscalYear>2007</universityFiscalYear>
       <universityFiscalPeriodCode>11</universityFiscalPeriodCode>
       <universityFiscalPeriodName>MAY 2007</universityFiscalPeriodName>
-      <universityFiscalPeriodStatusCode>O</universityFiscalPeriodStatusCode>
+      <active>O</active>
       <budgetRolloverIndicator>false</budgetRolloverIndicator>
       <universityFiscalPeriodEndDate>2007-05-31</universityFiscalPeriodEndDate>
       <options class="org.kuali.kfs.sys.businessobject.Options--EnhancerByCGLIB--4bb10d55" reference="../../generalLedgerPendingEntries/org.kuali.kfs.bo.GeneralLedgerPendingEntry/option"/>

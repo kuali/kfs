@@ -28,7 +28,6 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  * This class...
  */
 public class ObjectCodeValuesFinder extends KeyValuesBase {
-    private List keyValues;
 
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
@@ -36,7 +35,7 @@ public class ObjectCodeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         CertificationReportForm form = (CertificationReportForm) GlobalVariables.getKualiForm();
         EffortCertificationDocument document = (EffortCertificationDocument)form.getDocument();
-        List keyValues = new ArrayList();
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         List<String> objectCodeList = document.getObjectCodeList();
         for (String objectCode : objectCodeList) {
             keyValues.add(new KeyLabelPair(objectCode, objectCode));

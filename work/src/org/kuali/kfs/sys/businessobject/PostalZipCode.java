@@ -18,12 +18,13 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class PostalZipCode extends PersistableBusinessObjectBase {
+public class PostalZipCode extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String postalZipCode;
     private String postalStateCode;
@@ -31,6 +32,7 @@ public class PostalZipCode extends PersistableBusinessObjectBase {
     private String buildingCode;
     private String buildingRoomNumber;
     private State state;
+    private boolean active;
 
     /**
      * Default no-arg constructor.
@@ -154,5 +156,21 @@ public class PostalZipCode extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("postalZipCode", this.postalZipCode);
         return m;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

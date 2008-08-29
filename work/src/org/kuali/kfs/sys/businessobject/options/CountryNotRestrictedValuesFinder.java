@@ -38,28 +38,29 @@ public class CountryNotRestrictedValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        Map criteria = new HashMap();
+        Map<String, List<String>> criteria = new HashMap<String, List<String>>();
 
         List<String> criteriaValues = new ArrayList<String>();
         criteriaValues.add(null);
         criteriaValues.add("N");
 
         criteria.put("postalCountryRestrictedIndicator", criteriaValues);
-        List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(Country.class, criteria, "postalCountryName", true);
-        List keyValues = new ArrayList();
+        List<Country> boList = (List<Country>) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(Country.class, criteria, "postalCountryName", true);
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
 
         Country usCountry = null;
-        for (Iterator iter = boList.iterator(); iter.hasNext();) {
-            Country element = (Country) iter.next();
+        for (Country element : boList) {
             if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(element.getPostalCountryCode())) {
                 usCountry = element;
             }
             else {
-                keyValues.add(new KeyLabelPair(element.getPostalCountryCode(), element.getPostalCountryName()));
+                if(element.isActive()) {
+                    keyValues.add(new KeyLabelPair(element.getPostalCountryCode(), element.getPostalCountryName()));
+                }
             }
         }
 
-        List keyValueUSFirst = new ArrayList();
+        List<KeyLabelPair> keyValueUSFirst = new ArrayList<KeyLabelPair>();
         keyValueUSFirst.add(new KeyLabelPair("", ""));
         keyValueUSFirst.add(new KeyLabelPair(usCountry.getPostalCountryCode(), usCountry.getPostalCountryName()));
         keyValueUSFirst.addAll(keyValues);

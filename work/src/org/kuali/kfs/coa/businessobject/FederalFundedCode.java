@@ -15,12 +15,13 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * Federal Funded Code Business Object
  */
-public class FederalFundedCode extends KualiCodeBase {
+public class FederalFundedCode extends KualiCodeBase implements Inactivateable {
 
     private static final long serialVersionUID = -3582946967647008777L;
 

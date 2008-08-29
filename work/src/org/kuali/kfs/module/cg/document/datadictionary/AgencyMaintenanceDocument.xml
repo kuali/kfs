@@ -80,7 +80,7 @@
               p:name="agencyTypeCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="historicalIndicator"
+              p:name="active"
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="inStateIndicator" />

@@ -38,13 +38,13 @@ public class FederalFundedCodeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(FederalFundedCode.class);
-        List labels = new ArrayList();
+        Collection<FederalFundedCode> codes = SpringContext.getBean(KeyValuesService.class).findAll(FederalFundedCode.class);
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
-        for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            FederalFundedCode FederalFundedCode = (FederalFundedCode) iter.next();
-            labels.add(new KeyLabelPair(FederalFundedCode.getCode(), FederalFundedCode.getCode() + "-" + FederalFundedCode.getName()));
+        for (FederalFundedCode federalFundedCode : codes) {
+            if(federalFundedCode.isActive()) {
+                labels.add(new KeyLabelPair(federalFundedCode.getCode(), federalFundedCode.getCodeAndDescription()));
+            }
         }
 
         return labels;

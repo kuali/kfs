@@ -53,7 +53,7 @@ public class OrganizationReversionDaoOjb extends PlatformAwareDaoBaseOjb impleme
         LOG.debug("getCategories() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("organizationReversionCategoryActiveIndicator", true);
+        criteria.addEqualTo("active", true);
         QueryByCriteria q = QueryFactory.newQuery(OrganizationReversionCategory.class, criteria);
         q.addOrderByAscending("organizationReversionSortCode");
 

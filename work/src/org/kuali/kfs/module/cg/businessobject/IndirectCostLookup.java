@@ -18,13 +18,14 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 
  */
-public class IndirectCostLookup extends PersistableBusinessObjectBase {
+public class IndirectCostLookup extends PersistableBusinessObjectBase implements Inactivateable {
 
     private boolean budgetOnCampusIndicator;
     private String budgetPurposeCode;
@@ -136,7 +137,7 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

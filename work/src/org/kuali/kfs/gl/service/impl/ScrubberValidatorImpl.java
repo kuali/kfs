@@ -294,7 +294,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return null;
         }
 
-        if ((originEntryAccount.getAccountExpirationDate() == null) && !originEntryAccount.isAccountClosedIndicator()) {
+        if ((originEntryAccount.getAccountExpirationDate() == null) && !originEntryAccount.isActive()) {
             // account is neither closed nor expired
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             return null;
@@ -307,11 +307,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         String[] continuationAccountBypassDocumentTypeCodes = parameterService.getParameterValues(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES).toArray(new String[] {});
 
         // Has an expiration date or is closed
-        if ((ArrayUtils.contains(continuationAccountBypassOriginationCodes, originEntry.getFinancialSystemOriginationCode())) && originEntryAccount.isAccountClosedIndicator()) {
+        if ((ArrayUtils.contains(continuationAccountBypassOriginationCodes, originEntry.getFinancialSystemOriginationCode())) && originEntryAccount.isActive()) {
             return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + originEntryAccount.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
         }
 
-        if ((ArrayUtils.contains(continuationAccountBypassOriginationCodes, originEntry.getFinancialSystemOriginationCode()) || ArrayUtils.contains(continuationAccountBypassBalanceTypeCodes, originEntry.getFinancialBalanceTypeCode()) || ArrayUtils.contains(continuationAccountBypassDocumentTypeCodes, originEntry.getFinancialDocumentTypeCode().trim())) && !originEntryAccount.isAccountClosedIndicator()) {
+        if ((ArrayUtils.contains(continuationAccountBypassOriginationCodes, originEntry.getFinancialSystemOriginationCode()) || ArrayUtils.contains(continuationAccountBypassBalanceTypeCodes, originEntry.getFinancialBalanceTypeCode()) || ArrayUtils.contains(continuationAccountBypassDocumentTypeCodes, originEntry.getFinancialDocumentTypeCode().trim())) && !originEntryAccount.isActive()) {
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             return null;
         }
@@ -321,7 +321,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(originEntryAccount);
 
-        if (isExpired(offsetAccountExpirationTime, today) || originEntryAccount.isAccountClosedIndicator()) {
+        if (isExpired(offsetAccountExpirationTime, today) || originEntryAccount.isActive()) {
             Message error = continuationAccountLogic(originEntry, workingEntry, today);
             if (error != null) {
                 return error;
@@ -416,7 +416,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private long getAdjustedAccountExpirationDate(Account account) {
         long offsetAccountExpirationTime = account.getAccountExpirationDate().getTime();
 
-        if (account.isForContractsAndGrants() && (!account.isAccountClosedIndicator())) {
+        if (account.isForContractsAndGrants() && (!account.isActive())) {
 
             String daysOffset = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
             int daysOffsetInt = 3 * 30; // default to 90 days (approximately 3 months)
@@ -482,7 +482,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 }
                 else {
                     // sub account IS valid
-                    if (originEntrySubAccount.isSubAccountActiveIndicator()) {
+                    if (originEntrySubAccount.isActive()) {
                         // sub account IS active
                         workingEntry.setSubAccountNumber(originEntry.getSubAccountNumber());
                     }
@@ -757,7 +757,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             SubObjCd originEntrySubObject = referenceLookup.get().getFinancialSubObject(originEntry);
             if (originEntrySubObject != null) {
                 // Exists
-                if (!originEntrySubObject.isFinancialSubObjectActiveIndicator()) {
+                if (!originEntrySubObject.isActive()) {
                     // if NOT active, set it to dashes
                     workingEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
                     return null;

@@ -34,12 +34,13 @@ public class OwnershipTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(OwnershipTypeCode.class);
-        List keyValues = new ArrayList();
+        List<OwnershipTypeCode> boList = (List<OwnershipTypeCode>) SpringContext.getBean(KeyValuesService.class).findAll(OwnershipTypeCode.class);
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", ""));
-        for (Iterator iter = boList.iterator(); iter.hasNext();) {
-            OwnershipTypeCode element = (OwnershipTypeCode) iter.next();
-            keyValues.add(new KeyLabelPair(element.getCode(), element.getName()));
+        for (OwnershipTypeCode element : boList) {
+            if(element.isActive()) {
+                keyValues.add(new KeyLabelPair(element.getCode(), element.getName()));
+            }
         }
 
         return keyValues;

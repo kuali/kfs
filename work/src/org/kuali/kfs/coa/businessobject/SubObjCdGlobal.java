@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -36,7 +37,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * 
  */
-public class SubObjCdGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
+public class SubObjCdGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject, Inactivateable {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubObjCdGlobal.class);
 
@@ -46,7 +47,7 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
     private String financialSubObjectCode;
     private String financialSubObjectCodeName;
     private String financialSubObjectCodeShortName;
-    private boolean financialSubObjectActiveIndicator;
+    private boolean active;
 
     private DocumentHeader financialDocument;
     private Options universityFiscal;
@@ -181,22 +182,22 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
 
 
     /**
-     * Gets the financialSubObjectActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the financialSubObjectActiveIndicator
+     * @return Returns the active
      */
-    public boolean isFinancialSubObjectActiveIndicator() {
-        return financialSubObjectActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
 
     /**
-     * Sets the financialSubObjectActiveIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param financialSubObjectActiveIndicator The financialSubObjectActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setFinancialSubObjectActiveIndicator(boolean financialSubObjectActiveIndicator) {
-        this.financialSubObjectActiveIndicator = financialSubObjectActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 
@@ -336,7 +337,7 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
     public void populate(SubObjCd old, AccountGlobalDetail accountGlobalDetail, SubObjCdGlobalDetail subObjCdGlobalDetail) {
         old.setFinancialSubObjectCodeName(update(old.getFinancialSubObjectCodeName(), financialSubObjectCodeName));
         old.setFinancialSubObjectCdshortNm(update(old.getFinancialSubObjectCdshortNm(), financialSubObjectCodeShortName));
-        old.setFinancialSubObjectActiveIndicator(update(old.isFinancialSubObjectActiveIndicator(), financialSubObjectActiveIndicator));
+        old.setActive(update(old.isActive(), active));
     }
 
 

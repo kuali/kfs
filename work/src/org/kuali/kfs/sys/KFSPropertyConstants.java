@@ -26,7 +26,7 @@ public class KFSPropertyConstants {
     public static final String ACCOUNT = "account";
     public static final String ACCOUNT_CHANGE_DETAILS = "accountGlobalDetails";
     public static final String ACCOUNT_CITY_NAME = "accountCityName";
-    public static final String ACCOUNT_CLOSED_INDICATOR = "accountClosedIndicator";
+    public static final String ACCOUNT_ACTIVE_INDICATOR = "active";
     public static final String ACCOUNT_CREATE_DATE = "accountCreateDate";
     public static final String ACCOUNT_DELEGATE = "accountDelegate";
     public static final String ACCOUNT_DELEGATE_ACTIVE_INDICATOR = "accountDelegateActiveIndicator";
@@ -639,7 +639,7 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_REPORTING_SORT_CODE = "financialReportingSortCode";
     public static final String FINANCIAL_REPORTS_TO_REPORTING_CODE = "financialReportsToReportingCode";
     public static final String FINANCIAL_SUB_OBJECT = "financialSubObject";
-    public static final String FINANCIAL_SUB_OBJECT_ACTIVE_INDICATOR = "financialSubObjectActiveIndicator";
+    public static final String FINANCIAL_SUB_OBJECT_ACTIVE_INDICATOR = "active";
     public static final String FINANCIAL_SUB_OBJECT_CDSHORT_NM = "financialSubObjectCdshortNm";
     public static final String FINANCIAL_SUB_OBJECT_CODE = "financialSubObjectCode";
     public static final String FINANCIAL_SUB_OBJECT_CODE_NAME = "financialSubObjectCodeName";
@@ -688,7 +688,7 @@ public class KFSPropertyConstants {
     public static final String GROUP = "group";
     public static final String GROUPS = KNSPropertyConstants.GROUPS;
     public static final String HISTORICAL_FINANCIAL_OBJECT_CODE = "historicalFinancialObjectCode";
-    public static final String HISTORICAL_INDICATOR = "historicalIndicator";
+    public static final String AGENCY_ACTIVE_INDICATOR = "active";
     public static final String HRIS_ORGANIZATION = "hrisOrganization";
     public static final String HRIS_ORGANIZATION_CODE = "hrisOrganizationCode";
     public static final String ICR_EXPENSE_FINANCIAL_OBJECT = "icrExpenseFinancialObject";
@@ -1052,7 +1052,7 @@ public class KFSPropertyConstants {
     public static final String STATE_CODE = "stateCode";
     public static final String STATE_INCOME_TAX_PERCENT = "stateIncomeTaxPercent";
     public static final String SUB_ACCOUNT = "subAccount";
-    public static final String SUB_ACCOUNT_ACTIVE_INDICATOR = "subAccountActiveIndicator";
+    public static final String SUB_ACCOUNT_ACTIVE_INDICATOR = "active";
     public static final String SUB_ACCOUNT_NAME = "subAccountName";
     public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
     public static final String SUB_ACCOUNT_TYPE_CODE = "subAccountTypeCode";
@@ -1151,7 +1151,7 @@ public class KFSPropertyConstants {
     public static final String UNIVERSITY_FISCAL_PERIOD_CODE = "universityFiscalPeriodCode";
     public static final String UNIVERSITY_FISCAL_PERIOD_END_DATE = "universityFiscalPeriodEndDate";
     public static final String UNIVERSITY_FISCAL_PERIOD_NAME = "universityFiscalPeriodName";
-    public static final String UNIVERSITY_FISCAL_PERIOD_STATUS_CODE = "universityFiscalPeriodStatusCode";
+    public static final String UNIVERSITY_FISCAL_PERIOD_STATUS_CODE = "active";
     public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
     public static final String UNIVERSITY_NAME = "universityName";
     public static final String USER = "user";

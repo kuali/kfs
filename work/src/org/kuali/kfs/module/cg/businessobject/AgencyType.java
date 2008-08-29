@@ -16,39 +16,12 @@
 
 package org.kuali.kfs.module.cg.businessobject;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * Extends KualiCodeBase with no changes.
  */
-public class AgencyType extends KualiCodeBase {
-
-    private boolean rowActiveIndicator;
-
-    /**
-     * Default no-arg constructor.
-     */
-    public AgencyType() {
-        super(); // KualiCodeBase does some setup in constructor
-    }
-
-    /**
-     * Returns a boolean defining the active status of the AgencyType object.
-     * 
-     * @return Getter for the active field.
-     */
-    public boolean isRowActiveIndicator() {
-        return rowActiveIndicator;
-    }
-
-
-    /**
-     * Sets the active indicator flag for this AgencyType object.
-     * 
-     * @param name - Setter for the active field.
-     */
-    public void setRowActiveIndicator(boolean a) {
-        this.rowActiveIndicator = a;
-    }
+public class AgencyType extends KualiCodeBase implements Inactivateable {
 
 }

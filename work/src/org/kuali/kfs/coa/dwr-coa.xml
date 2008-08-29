@@ -36,7 +36,7 @@
 	    	<include method="getByPrimaryId" />
 	    </create>
 	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.SubAccount">
-	   		<param name="include" value="chartOfAccountCode,accountNumber,subAccountNumber,subAccountName,subAccountActiveIndicator" />
+	   		<param name="include" value="chartOfAccountCode,accountNumber,subAccountNumber,subAccountName,active" />
 	   	</convert>
 	    <create creator="spring" javascript="SubAccountService">
 	    	<param name="beanName" value="subAccountService" />
@@ -62,7 +62,7 @@
 	    	<include method="getByPrimaryKey" />
 	    </create>
 	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.SubObjCd">
-	   		<param name="include" value="universityFiscalYear,chartOfAccountCode,accountNumber,financialObjectCode,financialSubObjectCode,financialSubObjectCodeName,financialSubObjectCdshortNm,financialSubObjectActiveIndicator" />
+	   		<param name="include" value="universityFiscalYear,chartOfAccountCode,accountNumber,financialObjectCode,financialSubObjectCode,financialSubObjectCodeName,financialSubObjectCdshortNm,active" />
 	   	</convert>
 	    <create creator="spring" javascript="SubObjectCodeService">
 	    	<param name="beanName" value="subObjectCodeService" />

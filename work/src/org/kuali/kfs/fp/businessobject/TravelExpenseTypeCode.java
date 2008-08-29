@@ -16,12 +16,13 @@
 
 package org.kuali.kfs.fp.businessobject;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * This class is used to represent a travel expense type code business object.
  */
-public class TravelExpenseTypeCode extends KualiCodeBase {
+public class TravelExpenseTypeCode extends KualiCodeBase implements Inactivateable {
     boolean prepaidExpense;
 
     /**

@@ -82,8 +82,8 @@ public class AccountingPeriodServiceTest extends KualiTestBase {
         assertFalse(accountingPeriods.isEmpty());
         // all returned AccountingPeriod instances should be marked as OPEN
         for (AccountingPeriod accountingPeriod : accountingPeriods) {
-            String statusCode = accountingPeriod.getUniversityFiscalPeriodStatusCode();
-            assertTrue(statusCode.equals(KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN));
+            boolean activeCode = accountingPeriod.isActive();
+            assertTrue(activeCode);
         }
     }
 }

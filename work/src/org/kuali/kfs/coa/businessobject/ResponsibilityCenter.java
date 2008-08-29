@@ -17,12 +17,13 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class ResponsibilityCenter extends PersistableBusinessObjectBase {
+public class ResponsibilityCenter extends PersistableBusinessObjectBase implements Inactivateable {
 
     /**
      * Default no-arg constructor.
@@ -34,7 +35,7 @@ public class ResponsibilityCenter extends PersistableBusinessObjectBase {
     private String responsibilityCenterCode;
     private String responsibilityCenterName;
     private String responsibilityCenterShortName;
-    private boolean responsibilityCenterActiveIndicator;
+    private boolean active;
 
     /**
      * Gets the responsibilityCenterCode attribute.
@@ -91,21 +92,21 @@ public class ResponsibilityCenter extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the responsibilityCenterActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the responsibilityCenterActiveIndicator
+     * @return Returns the active
      */
-    public boolean getResponsibilityCenterActiveIndicator() {
-        return responsibilityCenterActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the _responsibilityCenterActiveIndicator_ attribute.
+     * Sets the _active_ attribute.
      * 
-     * @param _responsibilityCenterActiveIndicator_ The _responsibilityCenterActiveIndicator_ to set.
+     * @param _active_ The _active_ to set.
      */
-    public void setResponsibilityCenterActiveIndicator(boolean responsibilityCenterActiveIndicator) {
-        this.responsibilityCenterActiveIndicator = responsibilityCenterActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

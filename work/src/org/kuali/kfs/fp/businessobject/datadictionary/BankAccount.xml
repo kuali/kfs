@@ -26,7 +26,14 @@
         <ref bean="BankAccount-cashOffsetSubAccountNumber" />
         <ref bean="BankAccount-cashOffsetObjectCode" />
         <ref bean="BankAccount-cashOffsetSubObjectCode" />
+        <ref bean="BankAccount-active" />
         <ref bean="BankAccount-versionNumber" />
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="bank"/>
       </list>
     </property>
   </bean>
@@ -115,6 +122,12 @@
     <property name="shortLabel" value="Cash Off Sub-Obj Cd" />
     <property name="required" value="false" />
   </bean>
+  <bean id="BankAccount-active" parent="BankAccount-active-parentBean" />
+
+  <bean id="BankAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="BankAccount-versionNumber" parent="BankAccount-versionNumber-parentBean" />
 
   <bean id="BankAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -148,6 +161,8 @@
                     p:attributeName="cashOffsetSubAccountNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="cashOffsetObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="cashOffsetSubObjectCode" />
             </list>
@@ -192,6 +207,8 @@
               p:attributeName="cashOffsetObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="cashOffsetSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -212,6 +229,8 @@
               p:attributeName="cashOffsetObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="cashOffsetSubObjectCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

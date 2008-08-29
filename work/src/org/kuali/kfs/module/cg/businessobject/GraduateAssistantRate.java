@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -29,7 +30,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * 
  */
 
-public class GraduateAssistantRate extends PersistableBusinessObjectBase {
+public class GraduateAssistantRate extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = 8803703155949499268L;
     private String campusCode;

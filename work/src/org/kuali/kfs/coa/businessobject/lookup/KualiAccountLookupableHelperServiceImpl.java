@@ -44,7 +44,7 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
             user = SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser( GlobalVariables.getUserSession().getFinancialSystemUser() );
             currentUser.set(user);
         }
-        if (!theAccount.isAccountClosedIndicator() || user.isAdministratorUser()) {
+        if (!theAccount.isActive() || user.isAdministratorUser()) {
             actions.append(getMaintenanceUrl(bo, "edit"));
         }
         else {

@@ -106,7 +106,7 @@ public class SubAccountTrickleDownInactivationServiceImpl implements SubAccountT
         if (ObjectUtils.isNotNull(inactivatedAccount.getSubAccounts()) && !inactivatedAccount.getSubAccounts().isEmpty()) {
             for (Iterator<SubAccount> i = inactivatedAccount.getSubAccounts().iterator(); i.hasNext(); ) {
                 SubAccount subAccount = i.next();
-                if (subAccount.isSubAccountActiveIndicator()) {
+                if (subAccount.isActive()) {
                     subAccountMaintainable.setBusinessObject(subAccount);
                     List<MaintenanceLock> subAccountLocks = subAccountMaintainable.generateMaintenanceLocks();
                     
@@ -117,7 +117,7 @@ public class SubAccountTrickleDownInactivationServiceImpl implements SubAccountT
                     }
                     else {
                         // no locks other than our own (but there may have been no locks at all), just go ahead and try to update
-                        subAccount.setSubAccountActiveIndicator(false);
+                        subAccount.setActive(false);
                         
                         try {
                             subAccountMaintainable.saveBusinessObject();

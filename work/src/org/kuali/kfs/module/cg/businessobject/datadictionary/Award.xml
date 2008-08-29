@@ -144,6 +144,14 @@
         </bean>
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="proposal"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="proposalAwardType"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -669,6 +677,8 @@
                     p:attributeName="awardDocumentNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="awardCommentText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -855,6 +865,8 @@
               p:attributeName="awardOrganizations.organization.organizationCode" />
         <bean parent="FieldDefinition"
               p:attributeName="awardAccounts.account.accountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -879,6 +891,8 @@
               p:attributeName="awardStatusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="primaryAwardOrganization.organizationCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

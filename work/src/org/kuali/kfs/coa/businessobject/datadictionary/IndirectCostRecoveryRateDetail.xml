@@ -193,7 +193,7 @@
   </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-active" parent="IndirectCostRecoveryRateDetail-active-parentBean" />
-  <bean id="IndirectCostRecoveryRateDetail-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="IndirectCostRecoveryRateDetail-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="active" />
   </bean>
 

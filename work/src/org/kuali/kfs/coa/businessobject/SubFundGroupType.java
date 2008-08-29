@@ -27,7 +27,7 @@ public class SubFundGroupType extends PersistableBusinessObjectBase {
 
     private String subFundGroupTypeCode;
     private String subFundGroupTypeDescription;
-    private boolean subFundGroupTypeActiveIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -75,21 +75,21 @@ public class SubFundGroupType extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the subFundGroupTypeActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the subFundGroupTypeActiveIndicator
+     * @return Returns the active
      */
-    public boolean getSubFundGroupTypeActiveIndicator() {
-        return subFundGroupTypeActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the subFundGroupTypeActiveIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param subFundGroupTypeActiveIndicator The subFundGroupTypeActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setSubFundGroupTypeActiveIndicator(boolean subFundGroupTypeActiveIndicator) {
-        this.subFundGroupTypeActiveIndicator = subFundGroupTypeActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 

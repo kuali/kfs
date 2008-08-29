@@ -77,7 +77,7 @@
   </bean>
   
   <bean id="IndirectCostRecoveryType-active" parent="IndirectCostRecoveryType-active-parentBean" />
-  <bean id="IndirectCostRecoveryType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="IndirectCostRecoveryType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 
@@ -129,6 +129,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="name" />
         <bean parent="FieldDefinition"
+              p:defaultValue="true"
               p:attributeName="active" />
       </list>
     </property>

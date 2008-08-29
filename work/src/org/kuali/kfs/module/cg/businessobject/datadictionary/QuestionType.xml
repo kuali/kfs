@@ -17,7 +17,7 @@
     <property name="objectLabel" value="Question Type" />
     <property name="attributes" >
       <list>
-        <ref bean="QuestionType-dataObjectMaintenanceCodeActiveIndicator" />
+        <ref bean="QuestionType-active" />
         <ref bean="QuestionType-questionTypeCode" />
         <ref bean="QuestionType-questionTypeDescription" />
         <ref bean="QuestionType-questionTypeSortNumber" />
@@ -31,19 +31,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="QuestionType-dataObjectMaintenanceCodeActiveIndicator" parent="QuestionType-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
+  <bean id="QuestionType-active" parent="QuestionType-active-parentBean" />
 
-  <bean id="QuestionType-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Data Object Maintenance Code Active Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
-    <property name="summary" value="dataObjectMaintenanceCodeActiveIndicator" />
-    <property name="description" value="dataObjectMaintenanceCodeActiveIndicator description..." />
+  <bean id="QuestionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="QuestionType-questionTypeCode" parent="QuestionType-questionTypeCode-parentBean" />
 
@@ -158,7 +149,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="questionTypeNotificationValue" />
               <bean parent="FieldDefinition"
-                    p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -191,7 +182,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="questionTypeNotificationValue" />
         <bean parent="FieldDefinition"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:defaultValue="true"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -207,7 +199,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="questionTypeNotificationValue" />
         <bean parent="FieldDefinition"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

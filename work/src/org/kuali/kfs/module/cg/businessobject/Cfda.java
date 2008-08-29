@@ -18,6 +18,8 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -25,13 +27,13 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a
  * government web-site. Additional codes can be created manually however. Codes can be updated automatically via the CfdaBatchStep.
  */
-public class Cfda extends PersistableBusinessObjectBase implements ContractsAndGrantsCfda {
+public class Cfda extends PersistableBusinessObjectBase implements ContractsAndGrantsCfda, Inactivateable {
 
     private String cfdaNumber;
     private String cfdaProgramTitleName;
     private boolean cfdaStatusCode;
     private String cfdaMaintenanceTypeId;
-    private boolean rowActiveIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -124,20 +126,20 @@ public class Cfda extends PersistableBusinessObjectBase implements ContractsAndG
     }
 
     /**
-     * This method gets the row active indicator value.
+     * This method gets the active value.
      * 
-     * @return The value of the row active indicator attribute.
+     * @return The value of the active attribute.
      */
-    public boolean isRowActiveIndicator() {
-        return rowActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * This method sets the row active indicator for this object.
+     * This method sets the active for this object.
      * 
-     * @param rowActiveIndicator The value to be assigned to the rowActiveIndicator attribute.
+     * @param active The value to be assigned to the active attribute.
      */
-    public void setRowActiveIndicator(boolean rowActiveIndicator) {
-        this.rowActiveIndicator = rowActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

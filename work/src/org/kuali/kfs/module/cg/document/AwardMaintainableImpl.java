@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -259,4 +260,9 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
         }
 
     }
+    
+    public List<MaintenanceLock> generateMaintenanceLocks() {
+        List<MaintenanceLock> locks = super.generateMaintenanceLocks();
+        return locks;
+      }
 }

@@ -38,14 +38,13 @@ public class BasicAccountingCategoryValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAllOrderBy(BasicAccountingCategory.class, "sortCode", true);
-        List labels = new ArrayList();
+        Collection<BasicAccountingCategory> codes = SpringContext.getBean(KeyValuesService.class).findAllOrderBy(BasicAccountingCategory.class, "sortCode", true);
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
-        Iterator iter = codes.iterator();
-        while (iter.hasNext()) {
-            BasicAccountingCategory basicAccountingCategory = (BasicAccountingCategory) iter.next();
-            labels.add(new KeyLabelPair(basicAccountingCategory.getCode(), basicAccountingCategory.getCodeAndDescription()));
+        for (BasicAccountingCategory basicAccountingCategory : codes) {
+            if(basicAccountingCategory.isActive()) {
+                labels.add(new KeyLabelPair(basicAccountingCategory.getCode(), basicAccountingCategory.getCodeAndDescription()));
+            }
         }
 
         return labels;

@@ -20,7 +20,7 @@
         <ref bean="ProjectType-projectTypeCode" />
         <ref bean="ProjectType-projectTypeDescription" />
         <ref bean="ProjectType-sortNumber" />
-        <ref bean="ProjectType-dataObjectMaintenanceCodeActiveIndicator" />
+        <ref bean="ProjectType-active" />
         <ref bean="ProjectType-versionNumber" />
       </list>
     </property>
@@ -84,10 +84,10 @@
     <property name="summary" value="sortNumber" />
     <property name="description" value="sortNumber description..." />
   </bean>
-  <bean id="ProjectType-dataObjectMaintenanceCodeActiveIndicator" parent="ProjectType-dataObjectMaintenanceCodeActiveIndicator-parentBean" />
+  <bean id="ProjectType-active" parent="ProjectType-active-parentBean" />
 
-  <bean id="ProjectType-dataObjectMaintenanceCodeActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="dataObjectMaintenanceCodeActiveIndicator" />
+  <bean id="ProjectType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="ProjectType-versionNumber" parent="ProjectType-versionNumber-parentBean" />
 
@@ -115,7 +115,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="sortNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -144,7 +144,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="sortNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:defaultValue="true"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -156,7 +157,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="sortNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

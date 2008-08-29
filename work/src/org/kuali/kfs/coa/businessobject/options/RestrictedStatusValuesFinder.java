@@ -38,13 +38,13 @@ public class RestrictedStatusValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(RestrictedStatus.class);
-        List labels = new ArrayList();
+        Collection<RestrictedStatus> codes = SpringContext.getBean(KeyValuesService.class).findAll(RestrictedStatus.class);
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
-        for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            RestrictedStatus restrictedStatus = (RestrictedStatus) iter.next();
-            labels.add(new KeyLabelPair(restrictedStatus.getAccountRestrictedStatusCode(), restrictedStatus.getAccountRestrictedStatusCode() + " - " + restrictedStatus.getAccountRestrictedStatusName()));
+        for (RestrictedStatus restrictedStatus : codes) {
+            if(restrictedStatus.isActive()) {
+                labels.add(new KeyLabelPair(restrictedStatus.getAccountRestrictedStatusCode(), restrictedStatus.getCodeAndDescription()));
+            }
         }
 
         return labels;

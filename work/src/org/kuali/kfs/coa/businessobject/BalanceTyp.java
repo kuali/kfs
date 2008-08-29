@@ -15,13 +15,14 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 
 
 /**
  * This class is the business object for the Balance Type object.
  */
-public class BalanceTyp extends KualiCodeBase {
+public class BalanceTyp extends KualiCodeBase implements Inactivateable {
 
     private String financialBalanceTypeShortNm;
     private boolean financialOffsetGenerationIndicator;
@@ -115,4 +116,5 @@ public class BalanceTyp extends KualiCodeBase {
     public void setFinancialOffsetGenerationIndicator(boolean financialOffsetGenerationIndicator) {
         this.financialOffsetGenerationIndicator = financialOffsetGenerationIndicator;
     }
+
 }

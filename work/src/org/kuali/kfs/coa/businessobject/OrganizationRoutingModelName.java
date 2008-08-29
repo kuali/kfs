@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -29,12 +30,13 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * 
  */
-public class OrganizationRoutingModelName extends PersistableBusinessObjectBase {
+public class OrganizationRoutingModelName extends PersistableBusinessObjectBase implements Inactivateable {
     private static final Logger LOG = Logger.getLogger(OrganizationRoutingModelName.class);
 
     private String chartOfAccountsCode;
     private String organizationCode;
     private String organizationRoutingModelName;
+    private boolean active;
     private List<OrganizationRoutingModel> organizationRoutingModel;
 
     private Org organization;
@@ -183,5 +185,21 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
         List bos = new ArrayList();
         bos.addAll(getOrganizationRoutingModel());
         SpringContext.getBean(BusinessObjectService.class).linkUserFields(bos);
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

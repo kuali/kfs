@@ -80,7 +80,9 @@ public class PaymentReasonValuesFinder extends KeyValuesBase {
                 // Need to retrieve parameter values for the constraint, so we can check to see if the values collection is empty.  An empty collection assumes the value is allowed by default.
                 List<String> foundParam = paramService.getParameterValues(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, payReason.getCode());
                 if(foundParam.isEmpty() || paramService.getParameterEvaluator(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, payReason.getCode(), campusCode).evaluationSucceeds()) { 
-                    keyValues.add(new KeyLabelPair(payReason.getCode(), payReason.getCodeAndDescription()));
+                    if(payReason.isActive()) {
+                        keyValues.add(new KeyLabelPair(payReason.getCode(), payReason.getCodeAndDescription()));
+                    }
                 }
             }
         }

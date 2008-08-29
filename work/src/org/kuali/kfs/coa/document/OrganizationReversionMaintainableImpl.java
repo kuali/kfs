@@ -85,7 +85,7 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
             Collection<OrganizationReversionCategory> categories = organizationReversionService.getCategoryList();
 
             for (OrganizationReversionCategory category : categories) {
-                if (category.isOrganizationReversionCategoryActiveIndicator()) {
+                if (category.isActive()) {
                     OrganizationReversionDetail detail = new OrganizationReversionDetail();
                     detail.setOrganizationReversionCategoryCode(category.getOrganizationReversionCategoryCode());
                     detail.setOrganizationReversionCategory(category);

@@ -37,7 +37,9 @@ public class DisbursementVoucherDocumentationLocationValuesFinder extends KeyVal
         List<DisbursementVoucherDocumentationLocation> boList = (List<DisbursementVoucherDocumentationLocation>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(DisbursementVoucherDocumentationLocation.class, KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_NAME, true);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         for (DisbursementVoucherDocumentationLocation element : boList) {
-            keyValues.add(new KeyLabelPair(element.getDisbursementVoucherDocumentationLocationCode(), element.getDisbursementVoucherDocumentationLocationCode() + " - " + element.getDisbursementVoucherDocumentationLocationName()));
+            if(element.isActive()) {
+                keyValues.add(new KeyLabelPair(element.getDisbursementVoucherDocumentationLocationCode(), element.getDisbursementVoucherDocumentationLocationCode() + " - " + element.getDisbursementVoucherDocumentationLocationName()));
+            }
         }
 
         return keyValues;

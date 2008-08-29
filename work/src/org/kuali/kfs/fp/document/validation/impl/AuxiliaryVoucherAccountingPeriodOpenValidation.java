@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED;
 import static org.kuali.kfs.sys.KFSConstants.DOCUMENT_ERRORS;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED;
 
@@ -41,7 +40,7 @@ public class AuxiliaryVoucherAccountingPeriodOpenValidation extends GenericValid
         AccountingPeriod acctPeriod = getAccountingPeriodService().getByPeriod(auxliaryVoucherDocumentForValidation.getPostingPeriodCode(), auxliaryVoucherDocumentForValidation.getPostingYear());
         
         //  can't post into a closed period
-        if (acctPeriod == null || acctPeriod.getUniversityFiscalPeriodStatusCode().equalsIgnoreCase(ACCOUNTING_PERIOD_STATUS_CLOSED)) {
+        if (acctPeriod == null || acctPeriod.isActive()) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
             return false;
         }

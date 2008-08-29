@@ -31,7 +31,7 @@ public enum SubAccountFixture {
     private String accountNumber;
     private String subAccountNumber;
     private String subAccountName;
-    private boolean subAccountActiveIndicator;
+    private boolean active;
     private String financialReportChartCode;
     private String finReportOrganizationCode;
     private String financialReportingCode;
@@ -58,17 +58,17 @@ public enum SubAccountFixture {
      * @param accountNumber
      * @param subAccountNumber
      * @param subAccountName
-     * @param subAccountActiveIndicator
+     * @param active
      * @param finReportChartCode
      * @param finReportOrgCode
      * @param finReportingCode
      */
-    private SubAccountFixture(String chartOfAccountsCode, String accountNumber, String subAccountNumber, String subAccountName, boolean subAccountActiveIndicator, String finReportChartCode, String finReportOrgCode, String finReportingCode) {
+    private SubAccountFixture(String chartOfAccountsCode, String accountNumber, String subAccountNumber, String subAccountName, boolean active, String finReportChartCode, String finReportOrgCode, String finReportingCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
         this.accountNumber = accountNumber;
         this.subAccountNumber = subAccountNumber;
         this.subAccountName = subAccountName;
-        this.subAccountActiveIndicator = subAccountActiveIndicator;
+        this.active = active;
         this.financialReportChartCode = finReportChartCode;
         this.finReportOrganizationCode = finReportOrgCode;
         this.financialReportingCode = finReportingCode;
@@ -81,7 +81,7 @@ public enum SubAccountFixture {
      * @param accountNumber
      * @param subAccountNumber
      * @param subAccountName
-     * @param subAccountActiveIndicator
+     * @param active
      * @param finReportChartCode
      * @param finReportOrgCode
      * @param finReportingCode
@@ -95,12 +95,12 @@ public enum SubAccountFixture {
      * @param costShareAccountNumber
      * @param costShareSubAccountNumber
      */
-    private SubAccountFixture(String chartOfAccountsCode, String accountNumber, String subAccountNumber, String subAccountName, boolean subAccountActiveIndicator, String finReportChartCode, String finReportOrgCode, String finReportingCode, String subAccountTypeCode, String icrTypeCode, String finSeriesId, String icrChartCode, String icrAccountNumber, boolean offCampusCode, String costShareChartCode, String costShareAccountNumber, String costShareSubAccountNumber) {
+    private SubAccountFixture(String chartOfAccountsCode, String accountNumber, String subAccountNumber, String subAccountName, boolean active, String finReportChartCode, String finReportOrgCode, String finReportingCode, String subAccountTypeCode, String icrTypeCode, String finSeriesId, String icrChartCode, String icrAccountNumber, boolean offCampusCode, String costShareChartCode, String costShareAccountNumber, String costShareSubAccountNumber) {
         this.chartOfAccountsCode = chartOfAccountsCode;
         this.accountNumber = accountNumber;
         this.subAccountNumber = subAccountNumber;
         this.subAccountName = subAccountName;
-        this.subAccountActiveIndicator = subAccountActiveIndicator;
+        this.active = active;
         this.financialReportChartCode = finReportChartCode;
         this.finReportOrganizationCode = finReportOrgCode;
         this.financialReportingCode = finReportingCode;
@@ -126,7 +126,7 @@ public enum SubAccountFixture {
         subAccount.setAccountNumber(accountNumber);
         subAccount.setSubAccountNumber(subAccountNumber);
         subAccount.setSubAccountName(subAccountName);
-        subAccount.setSubAccountActiveIndicator(subAccountActiveIndicator);
+        subAccount.setActive(active);
         subAccount.setFinancialReportChartCode(financialReportChartCode);
         subAccount.setFinReportOrganizationCode(finReportOrganizationCode);
         subAccount.setFinancialReportingCode(financialReportingCode);

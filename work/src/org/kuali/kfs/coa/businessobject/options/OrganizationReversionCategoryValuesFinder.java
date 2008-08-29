@@ -39,13 +39,13 @@ public class OrganizationReversionCategoryValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(OrganizationReversionCategory.class);
-        List labels = new ArrayList();
+        Collection<OrganizationReversionCategory> codes = SpringContext.getBean(KeyValuesService.class).findAll(OrganizationReversionCategory.class);
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
-        for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            OrganizationReversionCategory organizationReversionCategory = (OrganizationReversionCategory) iter.next();
-            labels.add(new KeyLabelPair(organizationReversionCategory.getOrganizationReversionCategoryCode(), organizationReversionCategory.getOrganizationReversionCategoryName()));
+        for (OrganizationReversionCategory organizationReversionCategory : codes) {
+            if(organizationReversionCategory.isActive()) {
+                labels.add(new KeyLabelPair(organizationReversionCategory.getOrganizationReversionCategoryCode(), organizationReversionCategory.getOrganizationReversionCategoryName()));
+            }
         }
 
         return labels;

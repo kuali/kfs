@@ -111,6 +111,8 @@
           p:blockedReferencePropertyName="fundBalanceObject"
           p:relationshipLabel="Fund Balance Object"
           p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="reportsToChartOfAccounts"/>
       </list>
     </property>
   </bean>

@@ -26,6 +26,7 @@
         <ref bean="ReportingCodes-universalUser.personUserIdentifier" />
         <ref bean="ReportingCodes-universalUser.personName" />
         <ref bean="ReportingCodes-financialReportsToReportingCode" />
+        <ref bean="ReportingCodes-active" />
         <ref bean="ReportingCodes-versionNumber" />
         <ref bean="ReportingCodes-objectId" />
       </list>
@@ -53,6 +54,12 @@
             </list>
           </property>
         </bean>
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="reportingCodes"/>
       </list>
     </property>
   </bean>
@@ -147,6 +154,11 @@
     <property name="label" value="Financial Reports To Reporting Code" />
     <property name="shortLabel" value="Reports To Code" />
   </bean>
+  <bean id="ReportingCodes-active" parent="ReportingCodes-active-parentBean" />
+
+  <bean id="ReportingCodes-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
   <bean id="ReportingCodes-versionNumber" parent="ReportingCodes-versionNumber-parentBean" />
 
   <bean id="ReportingCodes-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -182,6 +194,8 @@
                     p:attributeName="universalUser.personName" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialReportsToReportingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -214,6 +228,8 @@
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialReportingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -230,6 +246,8 @@
               p:attributeName="universalUser.personName" />
         <bean parent="FieldDefinition"
               p:attributeName="financialReportsToReportingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

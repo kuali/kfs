@@ -66,7 +66,8 @@
               p:name="responsibilityCenterShortName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="responsibilityCenterActiveIndicator" />
+              p:defaultValue="true"
+              p:name="active" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
       </list>

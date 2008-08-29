@@ -18,12 +18,13 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class SubFundGroup extends PersistableBusinessObjectBase {
+public class SubFundGroup extends PersistableBusinessObjectBase implements Inactivateable {
 
     /**
      * Default no-arg constructor.
@@ -36,7 +37,7 @@ public class SubFundGroup extends PersistableBusinessObjectBase {
 
     private String subFundGroupCode;
     private String subFundGroupDescription;
-    private boolean subfundgrpActivityIndicator;
+    private boolean active;
     private String subFundGroupTypeCode;
     private String financialReportingSortCode;
     private boolean subFundGroupWagesIndicator;
@@ -85,21 +86,21 @@ public class SubFundGroup extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the _SubfundgrpActivityIndicator_ attribute.
+     * Gets the _active_ attribute.
      * 
-     * @return Returns the _SubfundgrpActivityIndicator_
+     * @return Returns the _active_
      */
-    public boolean getSubfundgrpActivityIndicator() {
-        return subfundgrpActivityIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the _SubfundgrpActivityIndicator_ attribute.
+     * Sets the _active_ attribute.
      * 
-     * @param _SubfundgrpActivityIndicator_ The _SubfundgrpActivityIndicator_ to set.
+     * @param _active_ The _active_ to set.
      */
-    public void setSubfundgrpActivityIndicator(boolean _SubfundgrpActivityIndicator_) {
-        this.subfundgrpActivityIndicator = _SubfundgrpActivityIndicator_;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

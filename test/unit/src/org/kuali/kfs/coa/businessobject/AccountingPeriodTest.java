@@ -34,7 +34,7 @@ public class AccountingPeriodTest extends KualiTestBase {
     public static Date univFiscPerdEndDate;
     public static final Integer UNIV_FISC_YEAR = new Integer(2005);
     public static final String UNIV_FISC_PRD_NAME = "JAN. 1776";
-    public static final String UNIV_FISC_PRD_STATUS_CODE = "C";
+    public static final boolean UNIV_FISC_PRD_ACTIVE_INDICATOR = false;
     public static final Long VER_NBR = new Long(1);
 
     @Override
@@ -47,7 +47,7 @@ public class AccountingPeriodTest extends KualiTestBase {
         ap.setUniversityFiscalPeriodCode(UNIV_FISC_PERD_CODE);
         ap.setUniversityFiscalPeriodEndDate(univFiscPerdEndDate);
         ap.setUniversityFiscalPeriodName(UNIV_FISC_PRD_NAME);
-        ap.setUniversityFiscalPeriodStatusCode(UNIV_FISC_PRD_STATUS_CODE);
+        ap.setActive(UNIV_FISC_PRD_ACTIVE_INDICATOR);
         ap.setUniversityFiscalYear(UNIV_FISC_YEAR);
         ap.setVersionNumber(VER_NBR);
     }
@@ -58,7 +58,7 @@ public class AccountingPeriodTest extends KualiTestBase {
         assertEquals(UNIV_FISC_PERD_CODE, ap.getUniversityFiscalPeriodCode());
         assertEquals(univFiscPerdEndDate, ap.getUniversityFiscalPeriodEndDate());
         assertEquals(UNIV_FISC_PRD_NAME, ap.getUniversityFiscalPeriodName());
-        assertEquals(UNIV_FISC_PRD_STATUS_CODE, ap.getUniversityFiscalPeriodStatusCode());
+        assertEquals(UNIV_FISC_PRD_ACTIVE_INDICATOR, ap.isActive());
         assertEquals(UNIV_FISC_YEAR, ap.getUniversityFiscalYear());
         assertEquals(VER_NBR, ap.getVersionNumber());
     }

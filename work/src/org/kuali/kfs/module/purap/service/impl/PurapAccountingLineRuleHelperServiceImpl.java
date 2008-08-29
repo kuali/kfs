@@ -98,7 +98,7 @@ public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRule
 
 
         // check active flag
-        if (!subObjectCodeForValidation.isFinancialSubObjectActiveIndicator()) {
+        if (!subObjectCodeForValidation.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }

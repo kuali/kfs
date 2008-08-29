@@ -17,12 +17,13 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class AcctType extends PersistableBusinessObjectBase {
+public class AcctType extends PersistableBusinessObjectBase implements Inactivateable {
 
     /**
      * Default no-arg constructor.
@@ -33,6 +34,7 @@ public class AcctType extends PersistableBusinessObjectBase {
 
     private String accountTypeCode;
     private String accountTypeName;
+    private boolean active;
 
     /**
      * Gets the accountTypeCode attribute.
@@ -77,5 +79,21 @@ public class AcctType extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("accountTypeCode", this.accountTypeCode);
         return m;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

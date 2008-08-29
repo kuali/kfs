@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -37,7 +38,7 @@ import org.kuali.rice.kns.service.UniversalUserService;
 /**
  * 
  */
-public class PriorYearAccount extends PersistableBusinessObjectBase implements AccountIntf {
+public class PriorYearAccount extends PersistableBusinessObjectBase implements AccountIntf, Inactivateable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PriorYearAccount.class);
 
     private String chartOfAccountsCode;
@@ -69,7 +70,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private boolean financialObjectivePrsctrlIndicator;
     private String accountCfdaNumber;
     private boolean accountOffCampusIndicator;
-    private boolean accountClosedIndicator;
+    private boolean active;
 
     private String accountFiscalOfficerSystemIdentifier;
     private String accountsSupervisorySystemsIdentifier;
@@ -721,21 +722,21 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     }
 
     /**
-     * Gets the accountClosedIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the accountClosedIndicator
+     * @return Returns the active
      */
-    public boolean isAccountClosedIndicator() {
-        return accountClosedIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the accountClosedIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param accountClosedIndicator The accountClosedIndicator to set.
+     * @param active The active to set.
      */
-    public void setAccountClosedIndicator(boolean accountClosedIndicator) {
-        this.accountClosedIndicator = accountClosedIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

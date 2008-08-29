@@ -28,6 +28,12 @@
         <ref bean="ObjLevel-versionNumber" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="financialConsolidationObject"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

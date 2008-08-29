@@ -171,7 +171,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
             if (ObjectUtils.isNull(account)) {
                 return null;
             }
-            if (!account.isAccountClosedIndicator() && !account.isExpired()) {
+            if (!account.isActive() && !account.isExpired()) {
                 return account;
             }
         }
@@ -198,7 +198,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         }
 
         // make sure it's active for usage
-        if (account.isAccountClosedIndicator()) {
+        if (account.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED, label);
             return false;
         }
@@ -340,7 +340,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         }
 
         // check to make sure it is active
-        if (!subAccount.isSubAccountActiveIndicator()) {
+        if (!subAccount.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE, label);
             return false;
         }
@@ -368,7 +368,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         }
 
         // check active flag
-        if (!subObjectCode.isFinancialSubObjectActiveIndicator()) {
+        if (!subObjectCode.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }

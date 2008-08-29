@@ -20,6 +20,7 @@
       <list>
         <ref bean="FederalFundedCode-code" />
         <ref bean="FederalFundedCode-name" />
+        <ref bean="FederalFundedCode-active" />
         <ref bean="FederalFundedCode-versionNumber" />
       </list>
     </property>
@@ -59,6 +60,12 @@
             p:size="40" />
     </property>
   </bean>
+  <bean id="FederalFundedCode-active" parent="FederalFundedCode-active-parentBean" />
+
+  <bean id="FederalFundedCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="FederalFundedCode-versionNumber" parent="FederalFundedCode-versionNumber-parentBean" />
 
   <bean id="FederalFundedCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -82,6 +89,8 @@
                     p:attributeName="code" />
               <bean parent="FieldDefinition"
                     p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -112,6 +121,8 @@
               p:attributeName="code" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -120,6 +131,8 @@
               p:attributeName="code" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

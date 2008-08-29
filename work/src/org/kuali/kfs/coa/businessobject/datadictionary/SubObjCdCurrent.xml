@@ -25,7 +25,7 @@
         <ref bean="SubObjCdCurrent-financialSubObjectCode" />
         <ref bean="SubObjCdCurrent-financialSubObjectCodeName" />
         <ref bean="SubObjCdCurrent-financialSubObjectCdshortNm" />
-        <ref bean="SubObjCdCurrent-financialSubObjectActiveIndicator" />
+        <ref bean="SubObjCdCurrent-active" />
         <ref bean="SubObjCdCurrent-versionNumber" />
       </list>
     </property>
@@ -111,10 +111,10 @@
             p:size="12" />
     </property>
   </bean>
-  <bean id="SubObjCdCurrent-financialSubObjectActiveIndicator" parent="SubObjCdCurrent-financialSubObjectActiveIndicator-parentBean" />
+  <bean id="SubObjCdCurrent-active" parent="SubObjCdCurrent-active-parentBean" />
 
-  <bean id="SubObjCdCurrent-financialSubObjectActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="financialSubObjectActiveIndicator" />
+  <bean id="SubObjCdCurrent-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
   <bean id="SubObjCdCurrent-versionNumber" parent="SubObjCdCurrent-versionNumber-parentBean" />
 
@@ -148,7 +148,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="financialSubObjectCodeName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="financialSubObjectActiveIndicator" />
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialSubObjectCdshortNm" />
             </list>
@@ -190,6 +190,8 @@
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCodeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -207,7 +209,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCodeName" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectActiveIndicator" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCdshortNm" />
       </list>

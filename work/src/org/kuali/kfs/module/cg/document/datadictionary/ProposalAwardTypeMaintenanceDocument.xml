@@ -63,7 +63,7 @@
               p:name="proposalAwardTypeDescription"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="rowActiveIndicator"
+              p:name="active"
               p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />

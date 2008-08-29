@@ -27,6 +27,7 @@
         <ref bean="OrganizationReversion-cashReversionFinancialChartOfAccountsCode" />
         <ref bean="OrganizationReversion-cashReversionAccountNumber" />
         <ref bean="OrganizationReversion-carryForwardByObjectCodeIndicator" />
+        <ref bean="OrganizationReversion-active" />
         <ref bean="OrganizationReversion-versionNumber" />
       </list>
     </property>
@@ -97,6 +98,12 @@
     <property name="label" value="Carry Forward by Object Code Indicator" />
     <property name="shortLabel" value="CF by Object Code" />
   </bean>
+  <bean id="OrganizationReversion-active" parent="OrganizationReversion-active-parentBean" />
+
+  <bean id="OrganizationReversion-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="OrganizationReversion-versionNumber" parent="OrganizationReversion-versionNumber-parentBean" />
 
   <bean id="OrganizationReversion-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -132,6 +139,8 @@
                     p:attributeName="cashReversionAccountNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="carryForwardByObjectCodeIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -198,6 +207,8 @@
               p:attributeName="cashReversionFinancialChartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="cashReversionAccountNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -220,6 +231,8 @@
               p:attributeName="cashReversionAccountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="carryForwardByObjectCodeIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

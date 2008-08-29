@@ -933,7 +933,7 @@ public class BalanceForwardRuleHelper {
      * @param unclosedPriorYearAccountGroup the group to put balance forwarding origin entries with open accounts into
      */
     private void saveForwardingEntry(Balance balance, OriginEntryFull entry, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) {
-        if (ObjectUtils.isNotNull(balance.getPriorYearAccount()) && !balance.getPriorYearAccount().isAccountClosedIndicator()) {
+        if (ObjectUtils.isNotNull(balance.getPriorYearAccount()) && !balance.getPriorYearAccount().isActive()) {
 
             // 1410 009320 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
             // 1411 009330 WS-AMT-N

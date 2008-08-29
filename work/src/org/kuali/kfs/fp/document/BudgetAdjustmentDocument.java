@@ -839,15 +839,13 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         for (BudgetAdjustmentAccountingLine budgetAccountingLine : accountingLines) {
             
             Account baAccount = budgetAccountingLine.getAccount();
-            String subFundGroupCode = baAccount.getSubFundGroupCode();
-            String fundGroupCode = baAccount.getSubFundGroup().getFundGroupCode();
             
             ParameterService paramService = SpringContext.getBean(ParameterService.class);
             
-            if(paramService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS, fundGroupCode).evaluationSucceeds() &&
-               paramService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
+            if(paramService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS, baAccount.getSubFundGroup().getFundGroupCode()).evaluationSucceeds() &&
+               paramService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS, baAccount.getSubFundGroupCode()).evaluationSucceeds()) {
                 
-                String incomeStreamKey = baAccount.getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + budgetAccountingLine.getAccount().getIncomeStreamAccountNumber();
+                String incomeStreamKey = baAccount.getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + baAccount.getIncomeStreamAccountNumber();
     
                 // place record in balance map
                 incomeStreamBalance.put(incomeStreamKey, getIncomeStreamAmount(budgetAccountingLine, incomeStreamBalance.get(incomeStreamKey)));

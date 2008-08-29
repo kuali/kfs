@@ -20,6 +20,7 @@
       <list>
         <ref bean="TaxControlCode-code" />
         <ref bean="TaxControlCode-name" />
+        <ref bean="TaxControlCode-active" />
         <ref bean="TaxControlCode-versionNumber" />
       </list>
     </property>
@@ -57,6 +58,12 @@
             p:size="25" />
     </property>
   </bean>
+  <bean id="TaxControlCode-active" parent="TaxControlCode-active-parentBean" />
+
+  <bean id="TaxControlCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+
   <bean id="TaxControlCode-versionNumber" parent="TaxControlCode-versionNumber-parentBean" />
 
   <bean id="TaxControlCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -80,6 +87,8 @@
                     p:attributeName="code" />
               <bean parent="FieldDefinition"
                     p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -110,6 +119,8 @@
               p:attributeName="code" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -118,6 +129,8 @@
               p:attributeName="code" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

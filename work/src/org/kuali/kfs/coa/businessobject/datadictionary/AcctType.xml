@@ -21,6 +21,7 @@
         <ref bean="AcctType-accountTypeCode" />
         <ref bean="AcctType-accountTypeName" />
         <ref bean="AcctType-versionNumber" />
+        <ref bean="AcctType-active" />
       </list>
     </property>
   </bean>
@@ -64,6 +65,12 @@
             p:size="50" />
     </property>
   </bean>
+  <bean id="AcctType-active" parent="AcctType-active-parentBean" />
+
+  <bean id="AcctType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
   <bean id="AcctType-versionNumber" parent="AcctType-versionNumber-parentBean" />
 
   <bean id="AcctType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -87,6 +94,8 @@
                     p:attributeName="accountTypeCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="accountTypeName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -117,6 +126,8 @@
               p:attributeName="accountTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="accountTypeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -125,6 +136,8 @@
               p:attributeName="accountTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="accountTypeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

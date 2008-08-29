@@ -18,12 +18,13 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class SubAccount extends PersistableBusinessObjectBase {
+public class SubAccount extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = 6853259976912014273L;
 
@@ -31,7 +32,7 @@ public class SubAccount extends PersistableBusinessObjectBase {
     private String accountNumber;
     private String subAccountNumber;
     private String subAccountName;
-    private boolean subAccountActiveIndicator;
+    private boolean active;
     private String financialReportChartCode;
     private String finReportOrganizationCode;
     private String financialReportingCode;
@@ -121,21 +122,21 @@ public class SubAccount extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the subAccountActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the subAccountActiveIndicator
+     * @return Returns the active
      */
-    public boolean isSubAccountActiveIndicator() {
-        return subAccountActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the subAccountActiveIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param subAccountActiveIndicator The subAccountActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setSubAccountActiveIndicator(boolean subAccountActiveIndicator) {
-        this.subAccountActiveIndicator = subAccountActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

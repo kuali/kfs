@@ -30,6 +30,12 @@
         <ref bean="ObjectType-active" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="basicAccountingCategory"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -168,6 +174,8 @@
                     p:attributeName="financialReportingSortCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="basicAccountingCategory.codeAndDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -200,6 +208,8 @@
               p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="basicAccountingCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -218,6 +228,8 @@
               p:attributeName="financialReportingSortCode" />
         <bean parent="FieldDefinition"
               p:attributeName="basicAccountingCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

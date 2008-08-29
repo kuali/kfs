@@ -568,7 +568,7 @@ public class ScrubberProcess {
 
             // Expired account?
             Account unscrubbedEntryAccount = referenceLookup.get().getAccount(unscrubbedEntry);
-            if ((unscrubbedEntryAccount != null) && (unscrubbedEntryAccount.isAccountClosedIndicator())) {
+            if ((unscrubbedEntryAccount != null) && (unscrubbedEntryAccount.isActive())) {
                 // Make a copy of it so OJB doesn't just update the row in the original
                 // group. It needs to make a new one in the expired group
                 OriginEntryFull expiredEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);

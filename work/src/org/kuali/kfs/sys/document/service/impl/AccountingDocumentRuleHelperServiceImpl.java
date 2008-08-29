@@ -126,7 +126,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
         }
 
         // make sure it's open for use
-        if (accountingPeriod.getUniversityFiscalPeriodStatusCode().equals(KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED)) {
+        if (accountingPeriod.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
             return false;
         }

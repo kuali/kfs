@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -82,7 +83,8 @@ public interface AssetPaymentService {
      */
     public boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment);
     
-     /**
+    
+    /**
      * Checks if object sub type is non depreciable federally owned 
      * 
      * @param string objectSubType
@@ -98,4 +100,15 @@ public interface AssetPaymentService {
      * @return
      */
     public KualiDecimal getProratedAssetPayment(AssetGlobal assetGlobal, AssetPayment assetPayment);
+    
+    /**
+     * 
+     * sets in an assetPaymentDetail BO the posting year and posting period that is retrived from the university date table
+     * using the asset payment posted date as a key.
+     * 
+     * @param assetPaymentDetail
+     * @return boolean
+     */    
+    public boolean extractPostedDatePeriod(AssetPaymentDetail assetPaymentDetail);
+    
 }

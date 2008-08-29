@@ -27,6 +27,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
@@ -42,6 +43,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     private static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
     private static DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+    private static AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
     
     String capitalAssetNumber = "";
     AssetPaymentAssetDetail newAssetPaymentAssetDetail;
@@ -182,9 +184,11 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         }        
         
         if (newSourceLine.getExpenditureFinancialDocumentPostedDate() != null) {
-            Calendar postedDate = dateTimeService.getCalendar(newSourceLine.getExpenditureFinancialDocumentPostedDate());        
-            newSourceLine.setPostingYear(postedDate.get(Calendar.YEAR));
-            newSourceLine.setPostingPeriodCode(StringUtils.leftPad(Integer.toString(postedDate.get(Calendar.MONTH)),2,"0"));
+            //Setting the posting year and the posting period into the new assetDetailPayment row. 
+            assetPaymentService.extractPostedDatePeriod(newSourceLine); 
+//            Calendar postedDate = dateTimeService.getCalendar(newSourceLine.getExpenditureFinancialDocumentPostedDate());        
+//            newSourceLine.setPostingYear(postedDate.get(Calendar.YEAR));
+//            newSourceLine.setPostingPeriodCode(StringUtils.leftPad(Integer.toString(postedDate.get(Calendar.MONTH)),2,"0"));
         }                
         return (SourceAccountingLine) newSourceLine;
     }

@@ -66,17 +66,15 @@ public class CamsKeyConstants {
     public static class Payment {
         public static final String ERROR_ASSET_PAYMENT_DOCS_PENDING = "error.asset.payment.pending.docs";
         public static final String ERROR_INVALID_DOC_POST_DATE = "error.payment.invalid.document.postdate";
-        public static final String ERROR_INVALID_OBJECT_SUBTYPE="error.asset.payment.invalidObjectSubtypeCode";
-                
+        public static final String ERROR_INVALID_OBJECT_SUBTYPE="error.asset.payment.invalidObjectSubtypeCode";                
         public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.payment.object.subtype.not_the_same";
         public static final String MESSAGE_PAYMENT_WAS_NOT_SUBMITTED = "message.payment.routintCancelled";
-
         public static final String TOTAL_LABEL = "label.document.payment.total";
         public static final String PREVIOUS_COST_LABEL = "label.document.payment.previousCost";
-        public static final String NEW_TOTAL_LABEL = "label.document.payment.newTotal";
-        
+        public static final String NEW_TOTAL_LABEL = "label.document.payment.newTotal";        
         public static final String ERROR_NON_CAPITAL_ASSET = "error.non.capital.asset.payment";
-        public static final String ERROR_ASSET_EXISTS_IN_DOCUMENT="error.asset.exists.in.payment.document";
+        public static final String ERROR_ASSET_EXISTS_IN_DOCUMENT="error.asset.exists.in.payment.document";        
+        public static final String ERROR_NON_ASSETS_IN_DOCUMENT="error.payment.document.noAssetsInDocumentFound";        
     }
 
     public static class Transfer {

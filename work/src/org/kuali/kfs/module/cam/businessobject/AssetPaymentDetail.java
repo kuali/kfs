@@ -29,7 +29,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     private String expenditureFinancialSystemOriginationCode;
     private Date expenditureFinancialDocumentPostedDate;
-    //private String financialDocumentOverrideCode;
     private KualiDecimal primaryDepreciationPaymentAmount;
     private KualiDecimal secondaryDepreciationPaymentAmount;
     private boolean transferPaymentIndicator;
@@ -37,12 +36,10 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private String expenditureFinancialDocumentNumber;
     private String expenditureFinancialDocumentTypeCode;
     private Date paymentApplicationDate;
-//    private Integer postingYear;
     private String postingPeriodCode;
     private String purchaseOrderNumber;
     private String requisitionNumber;
     private KualiDecimal amount;
-//    private String financialObjectCode;
 
     // bo references    
     private AccountingPeriod financialDocumentPostingPeriod;
@@ -50,8 +47,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private DocumentHeader expenditureFinancialDocument;
     private DocumentType expenditureFinancialDocumentType;
     private OriginationCode expenditureFinancialSystemOrigination;
-    //private Account account;
-    //private ObjectCode objectCode;
 
 
 
@@ -90,17 +85,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     public void setExpenditureFinancialDocumentPostedDate(Date expenditureFinancialDocumentPostedDate) {
         this.expenditureFinancialDocumentPostedDate = expenditureFinancialDocumentPostedDate;
     }
-
-
-//    public String getFinancialDocumentOverrideCode() {
-//        return financialDocumentOverrideCode;
-//    }
-//
-//
-//    public void setFinancialDocumentOverrideCode(String financialDocumentOverrideCode) {
-//        this.financialDocumentOverrideCode = financialDocumentOverrideCode;
-//    }
-
 
     public KualiDecimal getPrimaryDepreciationPaymentAmount() {
         return primaryDepreciationPaymentAmount;
@@ -160,17 +144,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     public void setPaymentApplicationDate(Date paymentApplicationDate) {
         this.paymentApplicationDate = paymentApplicationDate;
     }
-
-
-//    public Integer getpostingYear() {
-//        return postingYear;
-//    }
-//
-//
-//    public void setPostingYear(Integer postingYear) {
-//        this.postingYear = postingYear;
-//    }
-
 
     public String getPostingPeriodCode() {
         return postingPeriodCode;
@@ -251,26 +224,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         this.expenditureFinancialSystemOrigination = expenditureFinancialSystemOrigination;
     }
     
-//    public Account getAccount() {
-//        return account;
-//    }
-//
-//
-//    public void setAccount(Account account) {
-//        this.account = account;
-//    }
-//    
-//
-//    public ObjectCode getObjectCode() {
-//        return objectCode;
-//    }
-//
-//
-//    public void setObjectCode(ObjectCode objectCode) {
-//        this.objectCode = objectCode;
-//    }
-
-
     public KualiDecimal getAmount() {
         return amount;
     }
@@ -279,14 +232,4 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     public void setAmount(KualiDecimal amount) {
         this.amount = amount;
     }
-
-
-//    public String getFinancialObjectCode() {
-//        return financialObjectCode;
-//    }
-//
-//    
-//    public void setFinancialObjectCode(String financialObjectCode) {
-//        this.financialObjectCode = financialObjectCode;
-//    }
 }

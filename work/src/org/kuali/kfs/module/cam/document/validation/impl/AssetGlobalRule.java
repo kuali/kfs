@@ -37,6 +37,7 @@ import org.kuali.kfs.module.cam.document.gl.AssetGlobalGeneralLedgerPendingEntry
 import org.kuali.kfs.module.cam.document.service.AssetAcquisitionTypeService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -78,11 +79,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
+    private static AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
     private static AssetAcquisitionTypeService assetAcquisitionTypeService = SpringContext.getBean(AssetAcquisitionTypeService.class);
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
     private static BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
     private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-
+    
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#checkAuthorizationRestrictions(org.kuali.rice.kns.document.MaintenanceDocument)
      */
@@ -357,17 +359,17 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
 
+    /**+
+     * 
+     * Validates the posted date
+     * @param assetPaymentDetail
+     * @return boolean
+     */
     private boolean validatePostedDate(AssetPaymentDetail assetPaymentDetail) {
-        boolean valid = true;
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_DATE, assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
-        UniversityDate universityDate = (UniversityDate) boService.findByPrimaryKey(UniversityDate.class, primaryKeys);
-        if (universityDate == null) {
+        boolean valid = true;                  
+        if (!assetPaymentService.extractPostedDatePeriod(assetPaymentDetail)) {
            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE, new String[] { assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().toString() });
            valid = false;          
-        } else {
-            assetPaymentDetail.setPostingYear(universityDate.getUniversityFiscalYear());
-            assetPaymentDetail.setPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
         }
         return valid;
     }
@@ -427,13 +429,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetGlobal.MIN_ONE_ASSET_REQUIRED);
             success &= false;
         }
-        
+
         // Capital Asset must have payment zone.
         if (isCapitalStatus(assetGlobal) && assetGlobal.getAssetPaymentDetails().isEmpty()) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS, CamsKeyConstants.AssetGlobal.MIN_ONE_PAYMENT_REQUIRED);
             success &= false;
         }
-        
+
         // check if amount is above threshold for capital assets for normal user
         KualiDecimal totalPaymentByAsset = assetGlobalService.totalPaymentByAsset(assetGlobal);
         UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
@@ -472,7 +474,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         
         success = validateLocationCollection(assetGlobal, assetSharedDetails);
         success = validateTagDuplication(assetSharedDetails);
-        
         return success;
     }
 
@@ -560,23 +561,23 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validatePaymentCollection(assetGlobal);
         }
         
-        // System shall only GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode
-        // is for capital assets
-        if ((success & super.processCustomSaveDocumentBusinessRules(document))
-                && assetAcquisitionTypeService.hasIncomeAssetObjectCode(acquisitionTypeCode)
-                && this.isCapitalStatus(assetGlobal)) {
+            // System shall only GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode
+            // is for capital assets
+            if ((success & super.processCustomSaveDocumentBusinessRules(document))
+                    && assetAcquisitionTypeService.hasIncomeAssetObjectCode(acquisitionTypeCode)
+                    && this.isCapitalStatus(assetGlobal)) {
 
-            // create poster
-            AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
-            // create postables
+                // create poster
+                AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
+                // create postables
                 assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster);
                 
-            if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
-                assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
-            } else {
-                assetGlobalGlPoster.getPendingEntries().clear();
+                if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
+                    assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
+                } else {
+                    assetGlobalGlPoster.getPendingEntries().clear();
+                }
             }
-        }
         
         return success;
     }
@@ -654,5 +655,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
+
 
 }

@@ -52,6 +52,9 @@
 				</bean>  
 				<bean parent="AssetPayment-accountingLineCountValidation" scope="prototype">								
 					<property name="quitOnFail" value="true" />
+				</bean>										
+				<bean parent="AssetPayment-assetCountValidation" scope="prototype">								
+					<property name="quitOnFail" value="true" />
 				</bean>						
   			</list>
   		</property>

@@ -80,9 +80,6 @@ public class AssetPaymentAssetValidation extends GenericValidation {
                 return false;
             }
         }
-        
-        
-        
         return true;
     }
 

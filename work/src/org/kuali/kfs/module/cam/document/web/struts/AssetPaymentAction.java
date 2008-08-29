@@ -51,14 +51,14 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     //TODO remove this method.
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AssetPaymentForm apForm = (AssetPaymentForm) form;
-        String command = ((AssetPaymentForm) form).getCommand();
-        String docID = ((AssetPaymentForm) form).getDocId();
-        String capitalAssetNumber = ((AssetPaymentForm) form).getCapitalAssetNumber();
-        LOG.info("***AssetPaymentAction.execute() - menthodToCall: " + apForm.getMethodToCall() + " - Command:" + command + " - DocId:" + docID + " - Capital Asset Number:" + capitalAssetNumber);
-        return super.execute(mapping, form, request, response);
-    }
+//    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        AssetPaymentForm apForm = (AssetPaymentForm) form;
+//        String command = ((AssetPaymentForm) form).getCommand();
+//        String docID = ((AssetPaymentForm) form).getDocId();
+//        String capitalAssetNumber = ((AssetPaymentForm) form).getCapitalAssetNumber();
+//        LOG.info("***AssetPaymentAction.execute() - menthodToCall: " + apForm.getMethodToCall() + " - Command:" + command + " - DocId:" + docID + " - Capital Asset Number:" + capitalAssetNumber);
+//        return super.execute(mapping, form, request, response);
+//    }
     
     /**
      * 

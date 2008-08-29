@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -323,7 +322,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
             return true;
         }
         return false;
-    }
+    }    
     
     /**
      * Add and return the total amount for separate source amount

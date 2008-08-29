@@ -293,6 +293,7 @@
     <collection-descriptor name="assetGlobalDetails" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+
     <collection-descriptor name="assetPaymentDetails" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -527,7 +528,7 @@
 	<field-descriptor name="expenditureFinancialDocumentPostedDate" 	column="EXPND_FDOC_POST_DT" jdbc-type="DATE"/>
 	<field-descriptor name="purchaseOrderNumber" 						column="PO_NUMBER" jdbc-type="VARCHAR"/>
 	<field-descriptor name="requisitionNumber" 							column="REQUISITION_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentOverrideCode" 				column="FDOC_OVERRIDE_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="overrideCode" 				column="FDOC_OVERRIDE_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="primaryDepreciationPaymentAmount" 			column="AST_PMT_DEPR1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="secondaryDepreciationPaymentAmount" 		column="AST_PMT_DEPR2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="transferPaymentIndicator" 					column="AST_TRNFR_PMT_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -605,7 +606,7 @@
 	<field-descriptor name="organizationText" column="ORG_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="separateSourceAmount" column="SEP_SRC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	
+
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>

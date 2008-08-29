@@ -368,7 +368,7 @@
   <bean id="AssetPayment-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Sub Object Code" />
+    <property name="label" value="Sub-Object Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
@@ -1176,7 +1176,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="account.organizationCode" />              
+              p:attributeName="account.organizationCode" />      
+        <bean parent="FieldDefinition"
+              p:attributeName="accountNumber" />                    
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
         <bean parent="FieldDefinition"

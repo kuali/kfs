@@ -30,7 +30,13 @@
         tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">
 
         <div class="tab-container" align="center">
-        
+			<SCRIPT type="text/javascript">
+			    var kualiForm = document.forms['KualiForm'];
+			    var kualiElements = kualiForm.elements;
+			</SCRIPT>
+            
+			<input type="hidden" value="${document.postingYear}" name="nonInvoicedAddLine.universityFiscalYear"/>
+            
             <c:choose>
                 <c:when test="${!isCustomerSelected}">
                     No Customer Selected
@@ -55,57 +61,69 @@
                     </td>
                     <td>
                         <kul:htmlControlAttribute
+                            onblur="loadChartInfo(this.name, 'nonInvoicedAddLine.chart.name')"
                             attributeEntry="${nonInvoicedPaymentAttributes.chartOfAccountsCode}"
                             property="nonInvoicedAddLine.chartOfAccountsCode"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Chart"
                             autoSearch="true"
                             lookupParameters="nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode" 
                             fieldConversions="chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode"/>
+                        <div id="nonInvoicedAddLine.chart.name.div"><bean:write name="KualiForm" property="nonInvoicedAddLine.chartOfAccounts.name"/></div>
                     </td>
                     <td>
                         <kul:htmlControlAttribute
+                            onblur="loadAccountInfo(this.name, 'nonInvoicedAddLine.account.name')"
                             attributeEntry="${nonInvoicedPaymentAttributes.accountNumber}"
                             property="nonInvoicedAddLine.accountNumber"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" 
                             autoSearch="true"
                             lookupParameters="nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode,nonInvoicedAddLine.accountNumber:accountNumber"
                             fieldConversions="chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode,accountNumber:nonInvoicedAddLine.accountNumber" />
+                        <div id="nonInvoicedAddLine.account.name.div"><bean:write name="KualiForm" property="nonInvoicedAddLine.account.name"/></div>
                     </td>
                     <td>
                         <kul:htmlControlAttribute
+                            onblur="loadSubAccountInfo(this.name, 'nonInvoicedAddLine.subAccount.name')"
                             attributeEntry="${nonInvoicedPaymentAttributes.subAccountNumber}"
                             property="nonInvoicedAddLine.subAccountNumber"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubAccount" 
                             autoSearch="true"
                             lookupParameters="nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode,nonInvoicedAddLine.accountNumber:accountNumber,nonInvoicedAddLine.subAccountNumber:subAccountNumber"
                             fieldConversions="chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode,accountNumber:nonInvoicedAddLine.accountNumber,subAccountNumber:nonInvoicedAddLine.subAccountNumber" />
+                        <div id="nonInvoicedAddLine.subAccount.name.div"><bean:write name="KualiForm" property="nonInvoicedAddLine.subAccountNumber"/></div>
                     </td>
                     <td>
                         <kul:htmlControlAttribute
+                            onblur="loadObjectInfo('${KualiForm.document.postingYear}', '', '', this.name, 'nonInvoicedAddLine.objectCode.name')"
                             attributeEntry="${nonInvoicedPaymentAttributes.financialObjectCode}"
                             property="nonInvoicedAddLine.financialObjectCode"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" 
                             autoSearch="true"
-                            lookupParameters="nonInvoicedAddLine.objectCode:financialObjectCode,nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode"
-                            fieldConversions="financialObjectCode:nonInvoicedAddLine.objectCode,chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode" />
+                            lookupParameters="nonInvoicedAddLine.financialObjectCode:financialObjectCode,nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode"
+                            fieldConversions="financialObjectCode:nonInvoicedAddLine.financialObjectCode,chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode" />
+                        <div id="nonInvoicedAddLine.objectCode.name.div"><bean:write name="KualiForm" property="nonInvoicedAddLine.financialObject.financialObjectCodeName"/></div>
                     </td>
                     <td>
                         <kul:htmlControlAttribute
+                            onblur="loadSubObjectInfo('${KualiForm.document.postingYear}', this.name, 'nonInvoicedAddLine.subObjectCode.name')"
                             attributeEntry="${nonInvoicedPaymentAttributes.financialSubObjectCode}"
                             property="nonInvoicedAddLine.financialSubObjectCode"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" 
                             autoSearch="true"
                             lookupParameters="nonInvoicedAddLine.financialSubObjectCode:financialSubObjectCode,nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode,nonInvoicedAddLine.objectCode:financialObjectCode"
                             fieldConversions="financialSubObjectCode:nonInvoicedAddLine.financialSubObjectCode,chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode,financialObjectCode:nonInvoicedAddLine.objectCode" />
+                        <div id="nonInvoicedAddLine.subObjectCode.name.div"><bean:write name="KualiForm" property="nonInvoicedAddLine.financialSubObjectCode"/></div>
                     </td>
                     <td>
                         <kul:htmlControlAttribute
+                            onblur="loadProjectInfo(this.name, 'nonInvoicedAddLine.projectCode.name')"
                             attributeEntry="${nonInvoicedPaymentAttributes.projectCode}"
                             property="nonInvoicedAddLine.projectCode"/>
                         <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ProjectCode" 
                             autoSearch="true"
                             lookupParameters="nonInvoicedAddLine.chartOfAccountsCode:chartOfAccountsCode,nonInvoicedAddLine.projectCode:code"
                             fieldConversions="chartOfAccountsCode:nonInvoicedAddLine.chartOfAccountsCode,code:nonInvoicedAddLine.projectCode" />
+                        <div id="nonInvoicedAddLine.projectCode.name.div"><bean:write name="KualiForm" property="nonInvoicedAddLine.project.name"/></div>
                     </td>
                     <td>
                         <kul:htmlControlAttribute

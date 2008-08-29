@@ -15,21 +15,27 @@
  */
 package org.kuali.kfs.module.cab.document.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cab.dataaccess.PurApLineDao;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
+import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -37,6 +43,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -49,15 +56,193 @@ public class PurApLineServiceImpl implements PurApLineService {
     private BusinessObjectService businessObjectService;
     private PurApLineDao purApLineDao;
 
+
+    public void resetSelectedValue(PurApLineForm purApLineForm) {
+        for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                item.setSelectedValue(false);
+            }
+        }
+    }
+
     /**
-     * 
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processAdditionalChargeAllocate(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
-    public void processAdditionalChargeAllocate(PurchasingAccountsPayableItemAsset itemAsset) {
-        // TODO Auto-generated method stub
-        
+    public boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines) {
+        boolean success = true;
+        // Maintain this account List for update. So accounts already allocated won't take effect for account not allocated yet.
+        List<PurchasingAccountsPayableLineAssetAccount> updatedAccountList = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
+
+        for (PurchasingAccountsPayableLineAssetAccount sourceAccount : selectedLineItem.getPurchasingAccountsPayableLineAssetAccounts()) {
+            // Get allocate to target account list
+            List<PurchasingAccountsPayableLineAssetAccount> targetAccounts = getAllocationTargetAccounts(sourceAccount, allocateTargetLines, selectedLineItem.isAdditionalChargeNonTradeInIndicator() | selectedLineItem.isTradeInAllowance());
+            if (!targetAccounts.isEmpty()) {
+                // Percentage amount to each target account
+                allocateByItemAccountAmount(sourceAccount, targetAccounts, updatedAccountList);
+            }
+        }
+
+        updateAllocateAccountList(updatedAccountList);
+
+        updateAllocateItemCost(allocateTargetLines);
+
+        return success;
     }
-    
+
+    private void updateAllocateItemCost(List<PurchasingAccountsPayableItemAsset> allocateTargetLines) {
+        // update target item unit cost and total cost
+        for (PurchasingAccountsPayableItemAsset item : allocateTargetLines) {
+            setLineItemCost(item);
+        }
+    }
+
+    private void updateAllocateAccountList(List<PurchasingAccountsPayableLineAssetAccount> updatedAccountList) {
+        // update account list for each line item
+        PurchasingAccountsPayableItemAsset lineItem = null;
+        for (PurchasingAccountsPayableLineAssetAccount updateAccount : updatedAccountList) {
+            if (updateAccount.getNewItemAccountTotalAmount() != null) {
+                updateAccount.setItemAccountTotalAmount(updateAccount.getNewItemAccountTotalAmount());
+            }
+            else {
+                lineItem = updateAccount.getPurchasingAccountsPayableItemAsset();
+                if (ObjectUtils.isNotNull(lineItem) && ObjectUtils.isNotNull(lineItem.getPurchasingAccountsPayableAssetDetails())) {
+                    lineItem.getPurchasingAccountsPayableLineAssetAccounts().add(updateAccount);
+                }
+            }
+        }
+    }
+
+    /**
+     * Set line item total cost and unit cost.
+     * 
+     * @param item
+     */
+    private void setLineItemCost(PurchasingAccountsPayableItemAsset item) {
+        KualiDecimal totalCost = calculateItemAssetTotalCost(item);
+        item.setTotalCost(totalCost);
+        setItemAssetUnitCost(item, totalCost);
+    }
+
+    /**
+     * Allocate one account line to target account lines percentage based on the account line amount.
+     * 
+     * @param sourceAccount Account line to be allocated.
+     * @param targetAccounts Account lines which accept amount.
+     */
+    private void allocateByItemAccountAmount(PurchasingAccountsPayableLineAssetAccount sourceAccount, List<PurchasingAccountsPayableLineAssetAccount> targetAccounts, List<PurchasingAccountsPayableLineAssetAccount> updatedAccountList) {
+        KualiDecimal targetAccountTotalAmount = KualiDecimal.ZERO;
+        KualiDecimal sourceAccountTotalAmount = sourceAccount.getItemAccountTotalAmount();
+        KualiDecimal amountAllocated = KualiDecimal.ZERO;
+        KualiDecimal additionalAmount = null;
+
+
+        for (PurchasingAccountsPayableLineAssetAccount targetAccount : targetAccounts) {
+            targetAccountTotalAmount = targetAccountTotalAmount.add(targetAccount.getItemAccountTotalAmount());
+        }
+
+        for (Iterator iterator = targetAccounts.iterator(); iterator.hasNext();) {
+            PurchasingAccountsPayableLineAssetAccount targetAccount = (PurchasingAccountsPayableLineAssetAccount) iterator.next();
+            if (iterator.hasNext()) {
+                // Not working on the last node. Calculate additional charge amount by percentage
+                additionalAmount = targetAccount.getItemAccountTotalAmount().multiply(sourceAccountTotalAmount).divide(targetAccountTotalAmount);
+                amountAllocated = amountAllocated.add(additionalAmount);
+            }
+            else {
+                // Working on the last node, set the additional charge amount to the rest of sourceAccountTotalAmount.
+                additionalAmount = sourceAccountTotalAmount.subtract(amountAllocated);
+            }
+
+            if (sourceAccount.getGeneralLedgerAccountIdentifier().equals(targetAccount.getGeneralLedgerAccountIdentifier())) {
+                // If the target account is the same GL entry, update the itemAccountTotalAmount
+                targetAccount.setNewItemAccountTotalAmount(targetAccount.getItemAccountTotalAmount().add(additionalAmount));
+            }
+            else {
+                // If the target account is a different GL entry, create a new account and attach to this line item.
+                targetAccount = new PurchasingAccountsPayableLineAssetAccount(targetAccount.getPurchasingAccountsPayableItemAsset(), sourceAccount.getGeneralLedgerAccountIdentifier());
+                targetAccount.setItemAccountTotalAmount(additionalAmount);
+                targetAccount.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.GENERAL_LEDGER_ENTRY);
+            }
+            updatedAccountList.add(targetAccount);
+        }
+
+        return;
+    }
+
+    /**
+     * For additional charge allocation, target account selection is based on account lines with the same account number and object
+     * code. If no matching, select all account lines.
+     * 
+     * @param sourceAccount
+     * @param lineItems
+     * @param addtionalCharge
+     * @return
+     */
+    private List<PurchasingAccountsPayableLineAssetAccount> getAllocationTargetAccounts(PurchasingAccountsPayableLineAssetAccount sourceAccount, List<PurchasingAccountsPayableItemAsset> lineItems, boolean addtionalCharge) {
+        GeneralLedgerEntry candidateEntry = null;
+        GeneralLedgerEntry sourceEntry = sourceAccount.getGeneralLedgerEntry();
+        List<PurchasingAccountsPayableLineAssetAccount> matchingAccounts = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
+        List<PurchasingAccountsPayableLineAssetAccount> allAccounts = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
+
+        for (PurchasingAccountsPayableItemAsset item : lineItems) {
+            for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
+                candidateEntry = account.getGeneralLedgerEntry();
+                // account.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.PURAP_ITEM_ASSET);
+                account.setPurchasingAccountsPayableItemAsset(item);
+
+                if (ObjectUtils.isNotNull(candidateEntry)) {
+                    allAccounts.add(account);
+                    if (addtionalCharge & isValidTargetAccount(sourceEntry, candidateEntry)) {
+                        matchingAccounts.add(account);
+                    }
+                }
+            }
+        }
+
+        return matchingAccounts.isEmpty() ? allAccounts : matchingAccounts;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#getAllocateTargetLines(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset,
+     *      org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
+     */
+    public List<PurchasingAccountsPayableItemAsset> getAllocateTargetLines(PurchasingAccountsPayableItemAsset selectedLineItem, PurApLineForm purApForm) {
+        List<PurchasingAccountsPayableItemAsset> targetLineItems = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
+
+        for (PurchasingAccountsPayableDocument purApDoc : purApForm.getPurApDocs()) {
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                if ((selectedLineItem.isAdditionalChargeNonTradeInIndicator() && item != selectedLineItem && !item.isAdditionalChargeNonTradeInIndicator() && !item.isTradeInAllowance()) || (selectedLineItem.isTradeInAllowance() && item != selectedLineItem && item.isItemAssignedToTradeInIndicator()) || (item != selectedLineItem && item.isSelectedValue())) {
+                    targetLineItems.add(item);
+                }
+            }
+        }
+        return targetLineItems;
+    }
+
+
+    /**
+     * Validation based on account number and object code.
+     * 
+     * @param sourceEntry
+     * @param candidateEntry
+     * @return
+     */
+    private boolean isValidTargetAccount(GeneralLedgerEntry sourceEntry, GeneralLedgerEntry candidateEntry) {
+        if (!StringUtils.equalsIgnoreCase(sourceEntry.getAccountNumber(), candidateEntry.getAccountNumber()) || !StringUtils.equalsIgnoreCase(sourceEntry.getFinancialObjectCode(), candidateEntry.getFinancialObjectCode())) {
+            return false;
+        }
+        return true;
+    }
+
+    private KualiDecimal getItemsTotalCost(List<PurchasingAccountsPayableItemAsset> targetItems) {
+        KualiDecimal totalCost = KualiDecimal.ZERO;
+
+        for (PurchasingAccountsPayableItemAsset itemAsset : targetItems) {
+            totalCost = totalCost.add(itemAsset.getTotalCost());
+        }
+
+        return totalCost;
+    }
+
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processPercentPayment(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset)
      */
@@ -67,8 +252,9 @@ public class PurApLineServiceImpl implements PurApLineService {
         // update quantity and unit cost.
         if (oldQty.isLessThan(newQty)) {
             itemAsset.setCapitalAssetBuilderQuantity(newQty);
+            itemAsset.setTotalCost(calculateItemAssetTotalCost(itemAsset));
             // unit cost will be the same value as total cost since quantity is updated to 1.
-            itemAsset.setUnitCost(calculateItemAssetTotalCost(itemAsset));
+            itemAsset.setUnitCost(itemAsset.getTotalCost());
         }
     }
 
@@ -86,16 +272,11 @@ public class PurApLineServiceImpl implements PurApLineService {
         // Set account list for new item asset and update current account amount value.
         createAccountsForNewItemAsset(currentItemAsset, newItemAsset);
 
-        // Set total cost and unit cost for new item asset
-        KualiDecimal totalCost = calculateItemAssetTotalCost(newItemAsset);
-        newItemAsset.setTotalCost(totalCost);
-        setItemAssetUnitCost(newItemAsset, totalCost);
+        setLineItemCost(newItemAsset);
 
         // Adjust current item asset quantity, total cost and unit cost
         currentItemAsset.setAccountsPayableItemQuantity(currentItemAsset.getCapitalAssetBuilderQuantity().subtract(currentItemAsset.getSplitQty()));
-        totalCost = calculateItemAssetTotalCost(currentItemAsset);
-        currentItemAsset.setTotalCost(totalCost);
-        setItemAssetUnitCost(currentItemAsset, totalCost);
+        setLineItemCost(currentItemAsset);
         currentItemAsset.setSplitQty(null);
 
         return newItemAsset;
@@ -104,21 +285,27 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#saveBusinessObject(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
-    public void saveBusinessObjects(PurApLineForm purApLineForm) {
+    public void processSaveBusinessObjects(PurApLineForm purApLineForm) {
         for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
-            List<PurchasingAccountsPayableItemAsset> itemAssets = purApDoc.getPurchasingAccountsPayableItemAssets();
-            if (itemAssets != null && !itemAssets.isEmpty()) {
-                businessObjectService.save(itemAssets);
-                for (PurchasingAccountsPayableItemAsset itemAsset : itemAssets) {
-                    List<PurchasingAccountsPayableLineAssetAccount> assetAccounts = itemAsset.getPurchasingAccountsPayableLineAssetAccounts();
-                    if (assetAccounts != null && !assetAccounts.isEmpty()) {
-                        businessObjectService.save(assetAccounts);
-                    }
-                }
-            }
+            businessObjectService.save(purApDoc);
         }
-
+        // Removed below codes together with PurApLineSession when using buildListOfDeletionAwareLists is approved.
+        // List itemAssets = purApDoc.getPurchasingAccountsPayableItemAssets();
+        // if (itemAssets != null && !itemAssets.isEmpty()) {
+        // businessObjectService.save(itemAssets);
+        // }
     }
+
+    //
+    // // delete allocated items
+    // if (purApLineSession != null) {
+    // List deletedItems = purApLineSession.getDeletedItemAssets();
+    // if (deletedItems != null && !deletedItems.isEmpty()) {
+    // businessObjectService.delete(deletedItems);
+    // purApLineSession.getDeletedItemAssets().removeAll(deletedItems);
+    // }
+    // }
+    // }
 
     /**
      * Create asset account list for new item asset and update the current account amount.
@@ -162,7 +349,6 @@ public class PurApLineServiceImpl implements PurApLineService {
 
 
     /**
-     * 
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#setPurchaseOrderInfo(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
     public void setPurchaseOrderInfo(PurApLineForm purApLineForm) {
@@ -192,7 +378,6 @@ public class PurApLineServiceImpl implements PurApLineService {
 
 
     /**
-     * 
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#buildPurApItemAssetsList(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
     public void buildPurApItemAssetsList(PurApLineForm purApLineForm) {
@@ -201,18 +386,11 @@ public class PurApLineServiceImpl implements PurApLineService {
                 // set fields from PurAp tables
                 setCabItemFieldsFromPurAp(item, purApDoc.getDocumentTypeCode());
 
-                // set total cost and unit cost
-                KualiDecimal totalCost = calculateItemAssetTotalCost(item);
-                item.setTotalCost(totalCost);
-                setItemAssetUnitCost(item, totalCost);
+                // set line item unit cost and total cost
+                setLineItemCost(item);
 
                 // set financial object code
                 setFirstFinancialObjectCode(item);
-
-                // set additional charge indicator in the form
-                if (item.isAdditionalChargeNonTradeInIndicator() && !purApLineForm.isAdditionalChargeIndicator()) {
-                    purApLineForm.setAdditionalChargeIndicator(true);
-                }
             }
 
             Collections.sort(purApDoc.getPurchasingAccountsPayableItemAssets());
@@ -298,6 +476,5 @@ public class PurApLineServiceImpl implements PurApLineService {
     public void setPurApLineDao(PurApLineDao purApLineDao) {
         this.purApLineDao = purApLineDao;
     }
-
 
 }

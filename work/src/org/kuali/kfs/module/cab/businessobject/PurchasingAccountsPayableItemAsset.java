@@ -1,10 +1,10 @@
 package org.kuali.kfs.module.cab.businessobject;
 
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.AssetType;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -12,7 +12,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjectBase implements Comparable<PurchasingAccountsPayableItemAsset>{
+public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjectBase implements Comparable<PurchasingAccountsPayableItemAsset> {
 
     private String documentNumber;
     private Integer accountsPayableLineItemIdentifier;
@@ -26,7 +26,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private String manufacturerModelNumber;
     private String capitalAssetManagementDocumentNumber;
     private boolean active;
-    
+
     private PurchasingAccountsPayableDocument purchasingAccountsPayableDocument;
     private AssetType capitalAssetType;
     private List<PurchasingAccountsPayableAssetDetail> purchasingAccountsPayableAssetDetails;
@@ -34,7 +34,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     // non persistent fields
     private Integer itemLineNumber;
-    // TODO: difference from capitalAssetTypeCode? 
+    // TODO: difference from capitalAssetTypeCode?
     private String capitalAssetTransactionTypeCode;
     private boolean additionalChargeNonTradeInIndicator;
     private boolean tradeInAllowance;
@@ -43,6 +43,17 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private KualiDecimal totalCost;
     private String firstFincialObjectCode;
     private KualiDecimal splitQty;
+    private boolean selectedValue;
+
+
+
+    public boolean isSelectedValue() {
+        return selectedValue;
+    }
+
+    public void setSelectedValue(boolean selectedValue) {
+        this.selectedValue = selectedValue;
+    }
 
     public KualiDecimal getSplitQty() {
         return splitQty;
@@ -55,7 +66,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public int getPurchasingAccountsPayableLineAssetAccountsSize() {
         return this.purchasingAccountsPayableLineAssetAccounts.size();
     }
-    
+
     public boolean isTradeInAllowance() {
         return tradeInAllowance;
     }
@@ -83,6 +94,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public PurchasingAccountsPayableItemAsset() {
         this.purchasingAccountsPayableAssetDetails = new TypedArrayList(PurchasingAccountsPayableAssetDetail.class);
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
+        this.selectedValue = false;
     }
 
     public PurchasingAccountsPayableItemAsset(PurchasingAccountsPayableItemAsset initialItemAsset) {
@@ -95,8 +107,9 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.tradeInAllowance = initialItemAsset.isTradeInAllowance();
         this.purchasingAccountsPayableAssetDetails = new TypedArrayList(PurchasingAccountsPayableAssetDetail.class);
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
+        this.selectedValue = false;
     }
-    
+
     public List<PurchasingAccountsPayableLineAssetAccount> getPurchasingAccountsPayableLineAssetAccounts() {
         return purchasingAccountsPayableLineAssetAccounts;
     }
@@ -407,20 +420,20 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setUnitCost(KualiDecimal unitCost) {
         this.unitCost = unitCost;
     }
-    
-    public KualiDecimal getUnitCost(){
+
+    public KualiDecimal getUnitCost() {
         return this.unitCost;
     }
-    
+
     public void setFirstFincialObjectCode(String firstFincialObjectCode) {
         this.firstFincialObjectCode = firstFincialObjectCode;
     }
-    
+
     public String getFirstFincialObjectCode() {
         return this.firstFincialObjectCode;
     }
 
-    
+
     public boolean isItemAssignedToTradeInIndicator() {
         return itemAssignedToTradeInIndicator;
     }
@@ -448,5 +461,5 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         }
         return 0;
     }
-    
+
 }

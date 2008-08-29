@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <%@ attribute name="seq" required="true" description="The total sequence number"%>
+<%@ attribute name="chkcount" required="true" description="The total check number"%>
 <%@ attribute name="docPos" required="true" description="The index of the CAB PurAp Document"%>
 <%@ attribute name="linePos" required="true" description="The index of CAB PurAp item asset"%>
 <%@ attribute name="itemLine" required="true" type="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset" description="determine row span number for additional charge"%>
@@ -47,16 +48,16 @@
 <html:hidden property="${assetItemStr}.versionNumber" />
 <html:hidden property="${assetItemStr}.active" />
 <html:hidden property="${assetItemStr}.documentNumber" />
-<html:hidden property="${assetItemStr}.capitalAssetManagementDocumentNumber" />
 <html:hidden property="${assetItemStr}.accountsPayableLineItemIdentifier" />
 <html:hidden property="${assetItemStr}.capitalAssetBuilderLineNumber" />
 <html:hidden property="${assetItemStr}.itemAssignedToTradeInIndicator" />
 <html:hidden property="${assetItemStr}.tradeInAllowance" />
 <html:hidden property="${assetItemStr}.additionalChargeNonTradeInIndicator" />
+<html:hidden property="${assetItemStr}.capitalAssetManagementDocumentNumber" />
 <tr style="color:${color}">
 	<c:choose>
 	<c:when test="${!itemLine.additionalChargeNonTradeInIndicator}">
-		<td rowspan="2"><html:checkbox property="systemCheckbox" value="doc${docPos-1}.line${linePos-1}"/></td>
+		<td rowspan="2"><html:checkbox styleId="systemCheckbox" property="${assetItemStr}.selectedValue" /></td>
 	</c:when>
 	<c:otherwise>
 		<td rowspan="2">&nbsp;</td>
@@ -88,7 +89,7 @@
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-percentpayment.gif" styleClass="tinybutton" property="methodToCall.percentPayment.doc${docPos-1}.line${linePos-1}" title="Percent Payment" alt="Percent Payment" />
 			</c:if>
 		</c:if>
-		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-allocate.gif" styleClass="tinybutton" property="methodToCall.allocate.doc${docPos-1}.line${linePos-1}" title="allocate" alt="allocate" onclick="allocate();"/>
+		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-allocate.gif" styleClass="tinybutton" property="methodToCall.allocate.doc${docPos-1}.line${linePos-1}" title="allocate" alt="allocate"/>
 	</td>
 </tr>
 <tr>
@@ -130,9 +131,12 @@
 		<tr>
 			<c:set var="acctId" value="${acctId+1}"/>
 			<c:set var="pmtStr" value="purApDocs[${docPos-1}].purchasingAccountsPayableItemAssets[${linePos-1}].purchasingAccountsPayableLineAssetAccounts[${acctId-1}]" />
-			<html:hidden property="${pmtStr}.generalLedgerAccountIdentifier" />
 			<html:hidden property="${pmtStr}.versionNumber" />
 			<html:hidden property="${pmtStr}.active" />
+			<html:hidden property="${pmtStr}.documentNumber" />
+			<html:hidden property="${pmtStr}.accountsPayableLineItemIdentifier" />
+			<html:hidden property="${pmtStr}.capitalAssetBuilderLineNumber" />
+			<html:hidden property="${pmtStr}.generalLedgerAccountIdentifier" />
 			<td class="infoline">&nbsp;</td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.chartOfAccountsCode" attributeEntry="${generalLedgerAttributes.chartOfAccountsCode}" readOnly="true"/></td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.accountNumber" attributeEntry="${generalLedgerAttributes.accountNumber}" readOnly="true"/></td>

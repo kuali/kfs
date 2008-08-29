@@ -1,7 +1,7 @@
 	function selectSources(all){
-		var elms = document.getElementsByName("systemCheckbox");
+		var elms = document.getElementsByTagName("input");
 		for(var i=0; i< elms.length; i++){
-			if(!elms[i].disabled){
+			if(elms[i].id !=null  && elms[i].id =='systemCheckbox' && !elms[i].disabled){
 				elms[i].checked = all.checked;
 			}
 		}

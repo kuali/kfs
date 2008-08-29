@@ -227,7 +227,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="newAssetIndicator" column="NEW_AST_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="campusTagNumber" column="CPTLAST_IU_TAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="serialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>

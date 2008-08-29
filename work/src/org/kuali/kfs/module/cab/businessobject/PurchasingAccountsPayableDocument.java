@@ -1,5 +1,6 @@
 package org.kuali.kfs.module.cab.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -23,25 +24,15 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     private DocumentType documentType;
     private FinancialSystemDocumentHeader documentHeader;
     private List<PurchasingAccountsPayableItemAsset> purchasingAccountsPayableItemAssets;
-    private List<PurchasingAccountsPayableItemAsset> assetLineItems;
-    private List<PurchasingAccountsPayableItemAsset> additionalChargeLineItems;
-    private List<PurchasingAccountsPayableItemAsset> tradeInLineItems;
 
     public PurchasingAccountsPayableDocument() {
         this.purchasingAccountsPayableItemAssets = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
-        this.assetLineItems = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
-        this.additionalChargeLineItems = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
-        this.tradeInLineItems = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
     }
-    
+
     // non-persistent
     private String purApContactEmailAddress;
     private String purApContactPhoneNumber;
-    
-    public int getAdditionalChargeLineItemsSize() {
-        return this.additionalChargeLineItems.size();
-    }
-    
+
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -97,41 +88,16 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
     }
-    
+
     public List<PurchasingAccountsPayableItemAsset> getPurchasingAccountsPayableItemAssets() {
         return purchasingAccountsPayableItemAssets;
     }
-    
+
     public void setPurchasingAccountsPayableItemAssets(List<PurchasingAccountsPayableItemAsset> purchasingAccountsPayableItemAssets) {
         this.purchasingAccountsPayableItemAssets = purchasingAccountsPayableItemAssets;
     }
 
-
-    public List<PurchasingAccountsPayableItemAsset> getAssetLineItems() {
-        return assetLineItems;
-    } 
-
-   public void setAssetLineItems(List<PurchasingAccountsPayableItemAsset> assetLineItems) {
-        this.assetLineItems = assetLineItems;
-    }
-
-    public List<PurchasingAccountsPayableItemAsset> getAdditionalChargeLineItems() {
-        return additionalChargeLineItems;
-    }
-
-    public void setAdditionalChargeLineItems(List<PurchasingAccountsPayableItemAsset> additionalChargeLineItems) {
-        this.additionalChargeLineItems = additionalChargeLineItems;
-    }
-
-    public List<PurchasingAccountsPayableItemAsset> getTradeInLineItems() {
-        return tradeInLineItems;
-    }
-
-    public void setTradeInLineItems(List<PurchasingAccountsPayableItemAsset> tradeInLineItems) {
-        this.tradeInLineItems = tradeInLineItems;
-    }
-
-     public String getPurApContactEmailAddress() {
+    public String getPurApContactEmailAddress() {
         return purApContactEmailAddress;
     }
 
@@ -145,6 +111,19 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
     public void setPurApContactPhoneNumber(String purApContactPhoneNumber) {
         this.purApContactPhoneNumber = purApContactPhoneNumber;
+    }
+
+    /**
+     * Need to override this method, so we can save item assets, the framework can delete the allocated item assets.
+     * 
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List<List> managedLists = new ArrayList<List>();
+
+        managedLists.add(getPurchasingAccountsPayableItemAssets());
+        return managedLists;
     }
 
     /**

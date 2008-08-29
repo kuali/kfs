@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.module.cab.document.service;
 
+import java.util.List;
+
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
+import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 
 
@@ -44,7 +47,7 @@ public interface PurApLineService {
      * 
      * @param purApLineForm form
      */
-    void saveBusinessObjects(PurApLineForm purApLineForm);
+    void processSaveBusinessObjects(PurApLineForm purApLineForm);
 
     /**
      * Set Purchasing order email address and contact phone from PurAp.
@@ -65,5 +68,21 @@ public interface PurApLineService {
      * Handle additional charge allocate in the same document.
      * @param purLineForm
      */
-    void processAdditionalChargeAllocate(PurchasingAccountsPayableItemAsset itemAsset);
+    boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines);
+    
+    /**
+     * Get the target lines based on allocation line type
+     * 
+     * @param selectedLineItem
+     * @param purApForm
+     * @return
+     */
+    List<PurchasingAccountsPayableItemAsset> getAllocateTargetLines(PurchasingAccountsPayableItemAsset selectedLineItem, PurApLineForm purApForm);
+    
+    /**
+     * 
+     * Reset selectedValue for all line items
+     * @param selectedItems
+     */
+    void resetSelectedValue(PurApLineForm purApForm);
 }

@@ -25,10 +25,12 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -39,34 +41,23 @@ public class PurApLineForm extends KualiForm {
     private String purApContactPhoneNumber;
 
     private List<PurchasingAccountsPayableDocument> purApDocs;
-    private String[] systemCheckbox;
     private int actionPurApDocIndex;
     private int actionItemAssetIndex;
-    private boolean additionalChargeIndicator;
 
-
+    private KualiDecimal mergeQty;
+    
     public PurApLineForm() {
         this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
-        this.additionalChargeIndicator = false;
-    }
-
-    public boolean isAdditionalChargeIndicator() {
-        return additionalChargeIndicator;
     }
 
 
-    public void setAdditionalChargeIndicator(boolean additionalChargeIndicator) {
-        this.additionalChargeIndicator = additionalChargeIndicator;
+    public KualiDecimal getMergeQty() {
+        return mergeQty;
     }
 
 
-    public String[] getSystemCheckbox() {
-        return systemCheckbox;
-    }
-
-
-    public void setSystemCheckbox(String[] systemCheckbox) {
-        this.systemCheckbox = systemCheckbox;
+    public void setMergeQty(KualiDecimal mergeQty) {
+        this.mergeQty = mergeQty;
     }
 
 
@@ -140,5 +131,4 @@ public class PurApLineForm extends KualiForm {
     public void setPurchaseOrderIdentifier(String purchaseOrderIdentifier) {
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
-
 }

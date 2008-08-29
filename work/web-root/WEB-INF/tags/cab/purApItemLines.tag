@@ -18,7 +18,6 @@
 
 <c:set var="purApDocumentAttributes" value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
 <c:set var="purApItemAssetAttributes" value="${DataDictionary.PurchasingAccountsPayableItemAsset.attributes}" />
-<html:hidden property="additionalChargeIndicator" />
 <kul:tab tabTitle="Line Items" defaultOpen="true" tabErrorKey="purApDocs*">
 <div class="tab-container" align="center">
 <table width="100%" cellpadding="0" cellspacing="0" class="datatable">	
@@ -41,23 +40,31 @@
 	    <th class="grid" align="center">TI</th>
 	    <th class="grid" align="center">Action</th>
 	</tr>
+   	<c:set var="chkcount" value="0" />
     <c:forEach items="${KualiForm.purApDocs}" var="purApDoc" >
     	<c:set var="docPos" value="${docPos+1}" />
     	<c:set var="linePos" value="0" />
     	<html:hidden property="purApDocs[${docPos-1}].versionNumber" />
     	<html:hidden property="purApDocs[${docPos-1}].active" />
+    	<html:hidden property="purApDocs[${docPos-1}].documentNumber" />
+    	<html:hidden property="purApDocs[${docPos-1}].purapDocumentIdentifier" />
+    	<html:hidden property="purApDocs[${docPos-1}].purchaseOrderIdentifier" />
+    	<html:hidden property="purApDocs[${docPos-1}].documentTypeCode" />
     	<c:forEach items="${purApDoc.purchasingAccountsPayableItemAssets}" var="assetLine" >
-	    	<c:set var="seq" value="${seq+1}" />
-    		<c:set var="linePos" value="${linePos+1}" />
-    		<cab:purApLineDetail seq="${seq}" docPos="${docPos}" linePos="${linePos}" itemLine="${assetLine}">
-    		</cab:purApLineDetail>
+	    	<c:set var="linePos" value="${linePos+1}" />
+		    <c:set var="seq" value="${seq+1}" />				    
+	    	<cab:purApLineDetail seq="${seq}" chkcount="${chkcount}" docPos="${docPos}" linePos="${linePos}" itemLine="${assetLine}">
+	    	</cab:purApLineDetail>
+	    	<c:if test="${!assetLine.additionalChargeNonTradeInIndicator}">
+				<c:set var="chkcount" value="${chkcount+1}" />
+			</c:if>
 		</c:forEach>
 	</c:forEach>
 	<tr>
-		<td class="grid" colspan="16">
-		<div align="center">
+		<th class="grid" align="right" colspan="7">Merge Qty</th>
+		<td class="infoline"><kul:htmlControlAttribute property="mergeQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>
+		<td class="grid" colspan="6" align="left">
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-merge.gif" styleClass="tinybutton" property="methodToCall.merge" title="merge" alt="merge" onclick="merge();"/>&nbsp;&nbsp;&nbsp;
-		</div>
 		</td>
 	</tr>
 </table>

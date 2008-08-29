@@ -21,17 +21,30 @@ public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusine
     // References
     GeneralLedgerEntry generalLedgerEntry;
     PurchasingAccountsPayableItemAsset purchasingAccountsPayableItemAsset;
+    
+    // non-persistent
+    private KualiDecimal newItemAccountTotalAmount;
 
     public PurchasingAccountsPayableLineAssetAccount() {
         
     }
-    
+
     public PurchasingAccountsPayableLineAssetAccount(PurchasingAccountsPayableItemAsset itemAsset, Long generalLedgerAccountIdentifier) {
         this.documentNumber = itemAsset.getDocumentNumber();
         this.accountsPayableLineItemIdentifier = itemAsset.getAccountsPayableLineItemIdentifier();
         this.capitalAssetBuilderLineNumber = itemAsset.getCapitalAssetBuilderLineNumber();
         this.generalLedgerAccountIdentifier = generalLedgerAccountIdentifier;
+        this.purchasingAccountsPayableItemAsset  = itemAsset;
+        this.newItemAccountTotalAmount = null;
         this.setActive(true);
+    }
+    
+    public KualiDecimal getNewItemAccountTotalAmount() {
+        return newItemAccountTotalAmount;
+    }
+    
+    public void setNewItemAccountTotalAmount(KualiDecimal newItemAccountTotalAmount) {
+        this.newItemAccountTotalAmount = newItemAccountTotalAmount;
     }
     
     public String getDocumentNumber() {

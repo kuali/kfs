@@ -33,9 +33,7 @@ public class BusinessObjectPropertyLookupableHelperServiceImpl extends KualiLook
 
     @Override
     public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
-        super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        List<BusinessObjectProperty> matchingBusinessObjectProperties = kfsBusinessObjectMetaDataService.findBusinessObjectProperties(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL), fieldValues.get(KFSPropertyConstants.PROPERTY_LABEL));
+        List<BusinessObjectProperty> matchingBusinessObjectProperties = kfsBusinessObjectMetaDataService.findBusinessObjectProperties(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_COMPONENT_LABEL), fieldValues.get(KFSPropertyConstants.PROPERTY_LABEL));
         List<String> sortProperties = new ArrayList<String>();
         sortProperties.add(KFSPropertyConstants.NAMESPACE_CODE);
         sortProperties.add(KFSPropertyConstants.BUSINESS_OBJECT_COMPONENT_LABEL);

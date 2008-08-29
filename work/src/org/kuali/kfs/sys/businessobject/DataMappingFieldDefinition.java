@@ -27,6 +27,8 @@ public class DataMappingFieldDefinition extends TransientBusinessObjectBase {
     private String namespaceCode;
     private String componentClass;
     private String propertyName;
+    private String tableName;
+    private String fieldName;
     private FunctionalFieldDescription functionalFieldDescription;
     private BusinessObjectEntry businessObjectEntry;
     private ClassDescriptor classDescriptor;
@@ -47,8 +49,10 @@ public class DataMappingFieldDefinition extends TransientBusinessObjectBase {
         setFunctionalFieldDescription(functionalFieldDescription);
         setBusinessObjectEntry(businessObjectEntry);
         setClassDescriptor(classDescriptor);
+        setTableName(classDescriptor.getFullTableName());
         setAttributeDefinition(attributeDefinition);
         setFieldDescriptor(classDescriptor.getFieldDescriptorByName(getPropertyName()));
+        setFieldName(getFieldDescriptor().getColumnName());
     }
 
     public String getNamespaceCode() {
@@ -73,6 +77,22 @@ public class DataMappingFieldDefinition extends TransientBusinessObjectBase {
 
     public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
     }
 
     public FunctionalFieldDescription getFunctionalFieldDescription() {

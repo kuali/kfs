@@ -32,8 +32,6 @@ public class BusinessObjectComponentLookupableHelperServiceImpl extends KualiLoo
 
     @Override
     public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
-        super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         List<BusinessObjectComponent> matchingBusinessObjectComponents = kfsBusinessObjectMetaDataService.findBusinessObjectComponents(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.COMPONENT_LABEL));
         if (getDefaultSortColumns().size() > 0) {
             Collections.sort(matchingBusinessObjectComponents, new BeanPropertyComparator(getDefaultSortColumns(), true));

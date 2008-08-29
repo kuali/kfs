@@ -30,7 +30,7 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
     private boolean active;
 
     private BusinessObjectProperty businessObjectProperty;
-
+        
     @Override
     public void refreshNonUpdateableReferences() {
         if (StringUtils.isNotBlank(getComponentClass()) && StringUtils.isNotBlank(getPropertyName()) && ((businessObjectProperty == null) || !getComponentClass().equals(businessObjectProperty.getBusinessObjectComponent().getComponentClass()) || !getPropertyName().equals(businessObjectProperty.getPropertyName()))) {
@@ -38,7 +38,7 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
             setNamespaceCode(businessObjectProperty.getNamespaceCode());
         }
     }
-
+    
     public String getNamespaceCode() {
         return namespaceCode;
     }

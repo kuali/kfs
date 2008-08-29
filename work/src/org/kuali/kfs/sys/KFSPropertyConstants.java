@@ -507,6 +507,7 @@ public class KFSPropertyConstants {
     public static final String FEDERAL_PASS_THROUGH_AGENCY_NUMBER = "federalPassThroughAgencyNumber";
     public static final String FEDERAL_PASS_THROUGH_FUNDED_AMOUNT = "federalPassThroughFundedAmount";
     public static final String FEDERAL_PASS_THROUGH_INDICATOR = "federalPassThroughIndicator";
+    public static final String FIELD_NAME = "fieldName";
     public static final String FIN_ACCOUNTS_PAYABLE_OBJECT = "finAccountsPayableObject";
     public static final String FIN_ACCOUNTS_PAYABLE_OBJECT_CODE = "finAccountsPayableObjectCode";
     public static final String FIN_ACCOUNTS_RECEIVABLE_OBJ = "finAccountsReceivableObj";
@@ -1070,6 +1071,7 @@ public class KFSPropertyConstants {
     public static final String SUFFICIENT_FUNDS_OBJECT_CODE = "sufficientFundsObjectCode";
     public static final String SUM_TOTAL_AMOUNT = "sumTotalAmount";
     public static final String SUPERVISOR_USER = "supervisorUser";
+    public static final String TABLE_NAME = "tableName";
     public static final String TARGET_ACCOUNTING_LINE = "targetAccountingLine";
     public static final String TARGET_ACCOUNTING_LINES = "targetAccountingLines";
     public static final String TARGET_ACCOUNTING_LINES_SECTION_TITLE = "targetAccountingLinesSectionTitle";

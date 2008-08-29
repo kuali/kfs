@@ -131,7 +131,9 @@
     <property name="shortLabel" value="Requested Salary" />
     <property name="maxLength" value="16" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern">
+      	<property name="allowNegative" value="true"/>
+      </bean>
     </property>
     <property name="required" value="true" />
     <property name="control" >
@@ -170,7 +172,9 @@
     <property name="shortLabel" value="Requested Csf Amount" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+      <bean parent="FloatingPointValidationPattern">
+      	<property name="allowNegative" value="true"/>
+      </bean>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

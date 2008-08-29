@@ -15,8 +15,6 @@
 			value="org.kuali.kfs.sys.document.FunctionalFieldDescriptionMaintainable" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FunctionalFieldDescriptionMaintenanceDocumentAuthorizer" />
-		<property name="businessRulesClass"
-			value="org.kuali.kfs.sys.document.validation.impl.FunctionalFieldDescriptionRule" />
 		<property name="authorizations">
 			<list>
 				<bean parent="AuthorizationDefinition">
@@ -71,19 +69,19 @@
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition"
-					p:name="namespaceCode" p:readOnly="true" />
-				<bean parent="MaintainableFieldDefinition"
 					p:name="componentClass" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="businessObjectProperty.businessObjectComponent.componentLabel" p:readOnly="true" />
 				<bean parent="MaintainableFieldDefinition"
 					p:name="propertyName" />
 				<bean parent="MaintainableFieldDefinition"
-					p:name="businessObjectProperty.propertyLabel" />
+					p:name="namespaceCode" p:readOnly="true" />
+				<bean parent="MaintainableFieldDefinition"
+					p:name="businessObjectProperty.businessObjectComponent.componentLabel" p:readOnly="true" />
+				<bean parent="MaintainableFieldDefinition"
+					p:name="businessObjectProperty.propertyLabel" p:lookupReadOnly="true" p:required="true" />
+				<bean parent="MaintainableFieldDefinition"
+					p:name="functionalFieldDescription" p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
 					p:name="active" p:defaultValue="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="versionNumber" />
 			</list>
 		</property>
 	</bean>

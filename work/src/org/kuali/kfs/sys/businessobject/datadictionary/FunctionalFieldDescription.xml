@@ -15,7 +15,6 @@
 		<property name="lookupDefinition">
 			<ref bean="FunctionalFieldDescription-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="propertyName" />
 		<property name="objectLabel"
 			value="Functional Field Description" />
 		<property name="attributes">
@@ -140,7 +139,6 @@
 		abstract="true" parent="GenericAttributes-genericBigText">
 		<property name="name" value="functionalFieldDescription" />
 		<property name="label" value="Functional Description" />
-		<property name="shortLabel" value="Functional Description" />
 		<property name="maxLength" value="500" />
 		<property name="required" value="true" />
 	</bean>
@@ -160,7 +158,6 @@
 		abstract="true" parent="GenericAttributes-versionNumber" />
 
 	<!-- Business Object Lookup Definition -->
-
 	<bean id="FunctionalFieldDescription-lookupDefinition"
 		parent="FunctionalFieldDescription-lookupDefinition-parentBean" />
 
@@ -199,6 +196,37 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="functionalFieldDescription" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="FunctionalFieldDescription-inquiryDefinition"
+		parent="FunctionalFieldDescription-inquiryDefinition-parentBean" />
+
+	<bean id="FunctionalFieldDescription-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title"
+			value="Functional Field Description Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="2" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="namespaceCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="businessObjectProperty.businessObjectComponent.componentLabel" />
+							<bean parent="FieldDefinition"
+								p:attributeName="businessObjectProperty.propertyLabel" />
+							<bean parent="FieldDefinition"
+								p:attributeName="functionalFieldDescription" />
+							<bean parent="FieldDefinition"
+								p:attributeName="active" />
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>

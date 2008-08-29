@@ -15,7 +15,6 @@
 		<property name="lookupDefinition">
 			<ref bean="BusinessObjectProperty-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="propertyName" />
 		<property name="objectLabel" value="Business Object Property" />
 		<property name="attributes">
 			<list>
@@ -83,7 +82,7 @@
 	<bean id="BusinessObjectProperty-propertyName-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="propertyName" />
-		<property name="label" value="Property" />
+		<property name="label" value="Field" />
 		<property name="maxLength" value="100" />
 		<property name="required" value="true" />
 		<property name="control">
@@ -97,7 +96,7 @@
 	<bean id="BusinessObjectProperty-propertyLabel-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="propertyLabel" />
-		<property name="label" value="Property" />
+		<property name="label" value="Field" />
 		<property name="maxLength" value="100" />
 		<property name="required" value="true" />
 		<property name="control">

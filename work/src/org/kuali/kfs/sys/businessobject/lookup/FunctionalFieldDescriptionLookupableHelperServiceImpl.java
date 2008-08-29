@@ -36,8 +36,6 @@ public class FunctionalFieldDescriptionLookupableHelperServiceImpl extends Kuali
 
     @Override
     public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
-        super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         List<BusinessObjectProperty> businessObjectProperties = kfsBusinessObjectMetaDataService.findBusinessObjectProperties(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL));
         Set<String> namespaceCodes = new HashSet<String>();
         Set<String> componentClasses = new HashSet<String>();
@@ -52,7 +50,7 @@ public class FunctionalFieldDescriptionLookupableHelperServiceImpl extends Kuali
         fieldValues.put(KFSPropertyConstants.PROPERTY_NAME, buildOrCriteria(propertyNames));
         fieldValues.remove(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL);
         fieldValues.remove(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL);
-        List<FunctionalFieldDescription> searchResults = (List) getLookupService().findCollectionBySearchHelper(FunctionalFieldDescription.class, fieldValues, false);
+        List<FunctionalFieldDescription> searchResults = (List<FunctionalFieldDescription>) getLookupService().findCollectionBySearchHelper(FunctionalFieldDescription.class, fieldValues, false);
         for (FunctionalFieldDescription functionalFieldDescription : searchResults) {
             functionalFieldDescription.refreshNonUpdateableReferences();
         }        

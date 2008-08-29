@@ -57,9 +57,6 @@ public class DataMappingFieldDefinitionLookupableHelperServiceImpl extends Funct
         List<DataMappingFieldDefinition> dataMappingFieldDefinitions = new ArrayList<DataMappingFieldDefinition>();
         for (FunctionalFieldDescription functionalFieldDescription : functionalFieldDescriptions) {
             ClassDescriptor classDescriptor = getOjbRepository().getDescriptorFor(functionalFieldDescription.getComponentClass());
-            if (classDescriptor.getFullTableName().equals("CA_ACCOUNT_T")) {
-                LOG.debug("butt");
-            }
             Pattern tableNameRegex = null;
             if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.TABLE_NAME))) {
                 String patternStr = fieldValues.get(KFSPropertyConstants.TABLE_NAME).replace("*", ".*").toUpperCase();

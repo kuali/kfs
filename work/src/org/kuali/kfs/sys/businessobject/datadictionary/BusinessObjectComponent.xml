@@ -15,7 +15,6 @@
 		<property name="lookupDefinition">
 			<ref bean="BusinessObjectComponent-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="componentClass" />
 		<property name="objectLabel" value="Business Object Component" />
 		<property name="attributes">
 			<list>

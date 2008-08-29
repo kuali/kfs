@@ -8,9 +8,7 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
-import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cg.businessobject.Agency;
@@ -713,7 +711,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
         String financialObjectSubTypeCode = null;
-        AssetGlobal assetGlobal = SpringContext.getBean(AssetGlobal.class);
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
 
@@ -798,7 +795,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 }
                 
                 // set values for source asset within Asset Separate doc
-                if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+                if (assetGlobalService.isAssetSeparateDocument(this)) {
                     assetPayment.setAccountChargeAmount(location.getSeparateSourceAmount());
                     assetPayment.setFinancialDocumentTypeCode(CamsConstants.DocumentTypeCodes.ASSET_SEPARATE);
                 } else {
@@ -811,12 +808,12 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         }
         
         // reduce source asset payment for Asset Separate document
-        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
-            Asset separateSourceCapitalAsset = assetGlobal.getSeparateSourceCapitalAsset();
+        if (assetGlobalService.isAssetSeparateDocument(this)) {
+            Asset separateSourceCapitalAsset = this.getSeparateSourceCapitalAsset();
             
             for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
                 AssetPayment offsetAssetPayment = new AssetPayment(assetPayment);
-                assetPayment.setAccountChargeAmount(assetPaymentService.getProratedAssetPayment(assetGlobal, assetPayment));
+                assetPayment.setAccountChargeAmount(assetPaymentService.getProratedAssetPayment(this, assetPayment));
                 assetPayment.setFinancialDocumentTypeCode(CamsConstants.DocumentTypeCodes.ASSET_SEPARATE);
                 persistables.add(offsetAssetPayment);
             }

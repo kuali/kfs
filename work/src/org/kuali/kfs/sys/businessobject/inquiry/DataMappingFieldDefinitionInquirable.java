@@ -23,11 +23,10 @@ import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 
-public class FunctionalFieldDescriptionInquirable extends KualiInquirableImpl {
+public class DataMappingFieldDefinitionInquirable extends KualiInquirableImpl {
 
     @Override
     public BusinessObject getBusinessObject(Map fieldValues) {
         return SpringContext.getBean(KfsBusinessObjectMetaDataService.class).getDataMappingFieldDefinition((String) fieldValues.get(KFSPropertyConstants.COMPONENT_CLASS), (String) fieldValues.get(KFSPropertyConstants.PROPERTY_NAME));
     }
-
 }

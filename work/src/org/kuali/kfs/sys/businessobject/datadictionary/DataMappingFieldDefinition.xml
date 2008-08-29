@@ -11,9 +11,12 @@
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition" />
-	    <property name="inquiryDefinition" ref="DataMappingFieldDefinition-inquiryDefinition" />
-	    <property name="lookupDefinition" ref="DataMappingFieldDefinition-lookupDefinition" />
-		<property name="titleAttribute" value="functionalFieldDescription.businessObjectProperty.propertyLabel" />
+		<property name="inquiryDefinition"
+			ref="DataMappingFieldDefinition-inquiryDefinition" />
+		<property name="lookupDefinition"
+			ref="DataMappingFieldDefinition-lookupDefinition" />
+		<property name="titleAttribute"
+			value="functionalFieldDescription.businessObjectProperty.propertyLabel" />
 		<property name="objectLabel"
 			value="Data Mapping Field Definition" />
 		<property name="attributes">
@@ -127,7 +130,8 @@
 
 	<bean
 		id="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel-parentBean"
-		abstract="true" parent="FunctionalFieldDescription-businessObjectProperty.businessObjectComponent.componentLabel">
+		abstract="true"
+		parent="FunctionalFieldDescription-businessObjectProperty.businessObjectComponent.componentLabel">
 		<property name="name"
 			value="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" />
 	</bean>
@@ -144,7 +148,8 @@
 
 	<bean
 		id="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.propertyLabel-parentBean"
-		abstract="true" parent="FunctionalFieldDescription-businessObjectProperty.propertyLabel">
+		abstract="true"
+		parent="FunctionalFieldDescription-businessObjectProperty.propertyLabel">
 		<property name="name"
 			value="functionalFieldDescription.businessObjectProperty.propertyLabel" />
 	</bean>
@@ -175,13 +180,17 @@
 		</property>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-functionalFieldDescription.functionalFieldDescription"
+	<bean
+		id="DataMappingFieldDefinition-functionalFieldDescription.functionalFieldDescription"
 		parent="DataMappingFieldDefinition-functionalFieldDescription.functionalFieldDescription-parentBean" />
 
-	<bean id="DataMappingFieldDefinition-functionalFieldDescription.functionalFieldDescription-parentBean"
-		abstract="true" parent="FunctionalFieldDescription-functionalFieldDescription">
-		<property name="name" value="functionalFieldDescription.functionalFieldDescription" />
-	</bean>		
+	<bean
+		id="DataMappingFieldDefinition-functionalFieldDescription.functionalFieldDescription-parentBean"
+		abstract="true"
+		parent="FunctionalFieldDescription-functionalFieldDescription">
+		<property name="name"
+			value="functionalFieldDescription.functionalFieldDescription" />
+	</bean>
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="DataMappingFieldDefinition-lookupDefinition"
@@ -230,14 +239,15 @@
 			</list>
 		</property>
 	</bean>
-	
-		<!-- Business Object Inquiry Definition -->
+
+	<!-- Business Object Inquiry Definition -->
 	<bean id="DataMappingFieldDefinition-inquiryDefinition"
 		parent="DataMappingFieldDefinition-inquiryDefinition-parentBean" />
 
 	<bean id="DataMappingFieldDefinition-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
-    <property name="inquirableClass" value="org.kuali.kfs.sys.businessobject.inquiry.DataMappingFieldDefinitionInquirable" />
+		<property name="inquirableClass"
+			value="org.kuali.kfs.sys.businessobject.inquiry.DataMappingFieldDefinitionInquirable" />
 		<property name="title"
 			value="Data Mapping Field Definition Inquiry" />
 		<property name="inquirySections">
@@ -251,7 +261,8 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" />
 							<bean parent="FieldDefinition"
-								p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel" />
+								p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel"
+								p:noInquiry="true" />
 							<bean parent="FieldDefinition"
 								p:attributeName="functionalFieldDescription.functionalFieldDescription" />
 							<bean parent="FieldDefinition"

@@ -64,6 +64,7 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
         primaryKeys.put(KFSPropertyConstants.COMPONENT_CLASS, componentClass);
         primaryKeys.put(KFSPropertyConstants.PROPERTY_NAME, propertyName);
         FunctionalFieldDescription functionalFieldDescription = (FunctionalFieldDescription) businessObjectService.findByPrimaryKey(FunctionalFieldDescription.class, primaryKeys);
+        functionalFieldDescription.refreshNonUpdateableReferences();
         return new DataMappingFieldDefinition(functionalFieldDescription, dataDictionaryService.getDataDictionary().getBusinessObjectEntry(functionalFieldDescription.getComponentClass()), org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(functionalFieldDescription.getComponentClass()), dataDictionaryService.getDataDictionary().getBusinessObjectEntry(functionalFieldDescription.getComponentClass()).getAttributeDefinition(functionalFieldDescription.getPropertyName()));
     }
 

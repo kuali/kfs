@@ -703,5 +703,10 @@
 		<field-descriptor name="TaxRegionTypeName" column="TAX_REGION_TYP_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" />
 	</class-descriptor>
-	    
+
+	<!-- this is to fake out the framework -->
+ 	<class-descriptor class="org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition" table="FAKE">
+ 		<field-descriptor name="componentClass" column="FAKE_CC" jdbc-type="VARCHAR" primarykey="true" />
+ 		<field-descriptor name="propertyName" column="FAKE_PN" jdbc-type="VARCHAR" primarykey="true" />
+	</class-descriptor>	    
 </descriptor-repository>

@@ -28,6 +28,13 @@
 		padding : 0!important;
  	}
 </style>
+<!--[if IE]>
+<style>
+	#workarea div.tab-container {
+		width:100%;
+	}
+</style>
+<![endif]-->
 <kul:page showDocumentInfo="false"
 	headerTitle="Modify Batch Job" docTitle="Modify Batch Job"
 	transactionalDocument="false" htmlFormAction="batchModify"

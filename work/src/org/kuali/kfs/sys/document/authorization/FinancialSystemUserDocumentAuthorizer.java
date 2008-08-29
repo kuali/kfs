@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.v2.service.AuthenticationService;
+import org.kuali.rice.kim.service.AuthenticationService;
 import org.kuali.rice.kns.authorization.UniversalUserAuthorizationConstants;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;

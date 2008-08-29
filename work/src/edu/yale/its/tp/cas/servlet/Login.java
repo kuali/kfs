@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.v2.service.AuthenticationService;
+import org.kuali.rice.kim.service.AuthenticationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 import edu.yale.its.tp.cas.auth.AuthHandler;

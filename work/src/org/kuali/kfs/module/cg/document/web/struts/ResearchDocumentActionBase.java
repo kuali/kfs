@@ -33,7 +33,7 @@ import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.v2.service.AuthenticationService;
+import org.kuali.rice.kim.service.AuthenticationService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.kns.bo.user.AuthenticationUserId;

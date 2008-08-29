@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kim.v2.service.AuthenticationService;
+import org.kuali.rice.kim.service.AuthenticationService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;

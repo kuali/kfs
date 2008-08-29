@@ -243,7 +243,7 @@
 		<property name="encryptionService" ref="encryptionService" />
 	</bean>
 
-  <bean id="webAuthenticationService" class="org.kuali.rice.kim.v2.service.impl.AuthenticationServiceImpl">
+  <bean id="webAuthenticationService" class="org.kuali.rice.kim.service.impl.AuthenticationServiceImpl">
     <property name="validatePassword" value="${validate.password}" />
   </bean>
 	<!-- 

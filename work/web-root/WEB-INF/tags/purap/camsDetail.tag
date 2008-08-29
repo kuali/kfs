@@ -12,6 +12,16 @@
 <html:hidden property="${camsAssetSystemProperty}.versionNumber" />
 <html:hidden property="${camsAssetSystemProperty}.objectId" />
 
+<c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByItem.line${ctr}" />
+<c:if test="${PurapConstants.CapitalAssetAvailability.ONCE eq availability}">
+	<c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByDocument.line${ctr}" />
+</c:if>
+
+<c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByItem.(((${ctr})))" />
+<c:if test="${PurapConstants.CapitalAssetAvailability.ONCE eq availability}">
+	<c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByDocument.(((${ctr})))" />
+</c:if>
+
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
   <tr>
     <td colspan="4"  align="right" valign="middle" style="padding:0px">
@@ -23,7 +33,7 @@
 	      <td class="datacell" align="left" colspan="3">
 			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="newPurchasingItemCapitalAssetLine.capitalAssetNumber" />		
 	      	&nbsp;
-			<html:image property="methodToCall.addItemCapitalAsset.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item Capital Asset" title="Add an Item Capital Asset" styleClass="tinybutton" />
+			<html:image property="${addItemAssetUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item Capital Asset" title="Add an Item Capital Asset" styleClass="tinybutton" />
 		  </td>
 	    </tr>
 	    <tr>  
@@ -31,7 +41,7 @@
 	      <td class="datacell" valign="top" colspan="3">	
 			<logic:iterate indexId="idx" name="KualiForm" property="${camsAssetSystemProperty}.purchasingItemCapitalAssets" id="asset">
 	 			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="${camsAssetSystemProperty}.purchasingItemCapitalAssets[${idx}].capitalAssetNumber" readOnly="true" />
-  				<html:image property="methodToCall.deleteItemCapitalAsset.(((${ctr}))).((#${idx}#))" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete an Asset Number" title="Delete an Asset Number" styleClass="tinybutton" />
+  				<html:image property="${deleteItemAssetUrl}.((#${idx}#))" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete an Asset Number" title="Delete an Asset Number" styleClass="tinybutton" />
 				  <br/>
 			</logic:iterate>
 		  </td>

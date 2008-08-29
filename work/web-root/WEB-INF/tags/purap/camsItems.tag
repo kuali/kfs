@@ -58,46 +58,41 @@
 	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].objectId" />
 
 	<tr>
-        <td class="infoline" rowspan="2" valign="middle">
-
-        	<b><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemLineNumber" readOnly="${true}"/></b>
+        <td class="infoline" rowspan="2" valign="middle" align="middle">
+        	<b>${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemLineNumber}</b>
         </td>
 		<td class="infoline">
-		    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemType.itemTypeDescription" readOnly="${true}"/>
+			${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemType.itemTypeDescription}
 	    </td>
 		<td class="infoline">
-		    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemQuantity}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemQuantity" readOnly="${true}"/>
+		    ${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemQuantity}
 	    </td>
 		<td class="infoline">
-		    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemUnitOfMeasureCode" readOnly="${true}"/>
+		    ${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemUnitOfMeasureCode}
 	    </td>
 		<td class="infoline">
-		    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemCatalogNumber" readOnly="${true}"/>
+		    ${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemCatalogNumber}
 	    </td>
-        <td class="infoline">
-            <c:set var="commodityCodeField"  value="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.purchasingCommodityCode" />
-            <c:set var="commodityDescriptionField"  value="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.commodityCode.commodityDescription" />
-            <kul:htmlControlAttribute attributeEntry="${itemAttributes.commodityCode}" 
-                property="${commodityCodeField}" 
-                onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${true}" />
+        <td class="infoline">	
+            ${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.commodityCode.commodityDescription}
 		</td>			    
 		<td class="infoline">
-		   <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemDescription" readOnly="${true}"/>
+		   ${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemDescription}
 	    </td>
 		<td class="infoline">
 		    <div align="right">
-		        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemUnitPrice" readOnly="${true}"/>
+		        ${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemUnitPrice}
 			</div>
 		</td>
 		<td class="infoline">
-			    <div align="right">
-			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.extendedPrice}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.extendedPrice" readOnly="true"/>
+			<div align="right">
+				${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.extendedPrice}
 			</div>
 		</td>
 		<c:if test="${isRequisition}">
 		<td class="infoline">
 			<div align="center">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="document.purchasingCapitalAssetItems[${ctr}].purchasingItem.itemRestrictedIndicator" readOnly="${true}"/>
+				${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemRestrictedIndicator}
 			</div>
 		</td>
 		</c:if>		

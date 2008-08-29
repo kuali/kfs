@@ -29,13 +29,18 @@
 	<c:set var="availability" value="${PurapConstants.CapitalAssetAvailability.EACH}"/>
 </c:if>
 
+<c:set var="deleteLocationUrl" value="methodToCall.deleteCapitalAssetLocationByItem.(((${ctr}))).((#${ctr2}#))" />
+<c:if test="${PurapConstants.CapitalAssetAvailability.ONCE eq availability}">
+	<c:set var="deleteLocationUrl" value="methodToCall.deleteCapitalAssetLocationByDocument.(((${ctr}))).((#${ctr2}#))" />
+</c:if>
+
 <table class="datatable" summary="" border="0" cellpadding="0" cellspacing="0" style="width:100%">
 <tr>
 	<td colspan="4" class="subhead">
 		<span class="left">Location</span>
 		<c:if test="${!isEditable}">
 		<span class="right">
-			<html:image property="methodToCall.deleteCapitalAssetLocation.(((${ctr}))).((#${ctr2}#))" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete a Asset Location" title="Delete a Asset Location" styleClass="tinybutton" />
+			<html:image property="${deleteLocationUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete a Asset Location" title="Delete a Asset Location" styleClass="tinybutton" />
 		</span>
 		</c:if>
 	</td>

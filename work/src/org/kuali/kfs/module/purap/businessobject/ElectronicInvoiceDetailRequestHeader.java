@@ -241,8 +241,8 @@ public class ElectronicInvoiceDetailRequestHeader {
   /**
    * @return Returns the invoiceDate.
    */
-  public Date getInvoiceDate() {
-    return invoiceDate;
+  public java.sql.Date getInvoiceDate() {
+    return new java.sql.Date(invoiceDate.getTime());
   }
   /**
    * @param invoiceDate The invoiceDate to set.

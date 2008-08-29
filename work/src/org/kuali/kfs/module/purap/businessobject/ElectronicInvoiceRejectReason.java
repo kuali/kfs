@@ -23,6 +23,7 @@ public class ElectronicInvoiceRejectReason extends PersistableBusinessObjectBase
   private ElectronicInvoiceRejectDocument electronicInvoiceRejectDocument;
   private ElectronicInvoiceRejectReasonType invoiceRejectReasonType;
   
+  
   /**
    * 
    */
@@ -43,6 +44,14 @@ public class ElectronicInvoiceRejectReason extends PersistableBusinessObjectBase
     this.invoiceRejectReasonTypeCode = electronicInvoiceRejectTypeCode;
     this.invoiceFileName = invoiceFileName;
     this.invoiceRejectReasonDescription = description;
+  }
+  
+  public ElectronicInvoiceRejectReason(Integer purapDocumentIdentifier, String electronicInvoiceRejectTypeCode, String invoiceFileName, String description) {
+      super();
+      this.purapDocumentIdentifier = purapDocumentIdentifier;
+      this.invoiceRejectReasonTypeCode = electronicInvoiceRejectTypeCode;
+      this.invoiceFileName = invoiceFileName;
+      this.invoiceRejectReasonDescription = description;
   }
   
   /**
@@ -139,8 +148,10 @@ public class ElectronicInvoiceRejectReason extends PersistableBusinessObjectBase
    * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
    */
   protected LinkedHashMap toStringMapper() {
+      
       LinkedHashMap m = new LinkedHashMap();
       m.put("invoiceRejectReasonIdentifier", this.invoiceRejectReasonIdentifier);
       return m;
   }
+ 
 }

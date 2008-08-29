@@ -776,6 +776,19 @@ public class PurapConstants extends JSTLConstants {
 
         // ELECTRONIC INVOICE SHIPPING DESCRIPTION
         public static String SHIPPING_DESCRIPTION = "Electronic Invoice Shipping";
+        
+        /**
+         * Here is a list of reject reason type codes
+         */
+        public final static String DUNS_INVALID = "INDU";
+        public final static String INVOICE_ID_INVALID = "INID";
+        public final static String INVOICE_DATE_INVALID = "INVD";
+        public final static String INFORMATION_ONLY = "INFO";
+        public final static String FILE_FORMAT_INVALID = "INFF";
+        public final static String HEADER_INVOICE_IND_ON = "HIIO";
+        public final static String INVOICE_ORDERS_NOT_FOUND = "NOIV";
+        public final static String DUNS_NOT_FOUND = "NODU";
+        public final static String DUNS_EMPTY = "DUEM";
     }
     
     public static String PRODUCTION_ENVIRONMENT = "PRD";

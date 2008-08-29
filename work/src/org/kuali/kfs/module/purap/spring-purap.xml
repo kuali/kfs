@@ -584,6 +584,34 @@
 		    <ref bean="electronicInvoiceInputFileType" />
 		</property>
 		<property name="mailService" ref="mailService"/>
+		<property name="electronicInvoiceMatchingService">
+		    <ref bean="electronicInvoiceMatchingService" />
+		</property>
+	</bean>
+	
+	<bean id="electronicInvoiceParserService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceParserServiceImpl">
+		<property name="electronicInvoicingDao">
+		    <ref bean="electronicInvoicingDao" />
+		</property>
+         <property name="electronicInvoiceMappingService">
+            <ref bean="electronicInvoiceMappingService" />
+        </property>
+        <property name="electronicInvoiceInputFileType">
+		    <ref bean="electronicInvoiceInputFileType" />
+		</property>
+		<property name="mailService" ref="mailService"/>
+		<property name="electronicInvoiceMatchingService">
+		    <ref bean="electronicInvoiceMatchingService" />
+		</property>
+		<property name="batchInputFileService">
+		    <ref bean="batchInputFileService" />
+		</property>
+	</bean>
+	
+	<bean id="electronicInvoiceMatchingService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceMatchingServiceImpl">
+		<property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
 	</bean>
 
 	<bean id="environmentService" class="org.kuali.kfs.pdp.service.impl.EnvironmentServiceImpl">
@@ -634,8 +662,8 @@
 	</bean>
 	
 	<bean id="electronicInvoiceExtractStep" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceStep" parent="step">
-		<property name="electronicInvoiceLoadService">
-			<ref bean="electronicInvoiceLoadService" />
+		<property name="electronicInvoiceParserService">
+			<ref bean="electronicInvoiceParserService" />
 		</property>
 	</bean>
 	

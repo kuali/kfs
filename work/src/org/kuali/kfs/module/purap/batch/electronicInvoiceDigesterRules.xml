@@ -101,6 +101,7 @@
 	   		<!-- INVOICE PARTNER -->
 	   		<pattern value="InvoicePartner">
 	   		
+	   			<!-- IdReference not handled in EPIC -->
 	   			<set-properties-rule pattern="IdReference">
 		      		<alias attr-name="domain" prop-name="idReferenceDomain" />
 		      		<alias attr-name="identifier" prop-name="idReferenceIdentifier" />
@@ -275,7 +276,7 @@
       			
 	   		</pattern> <!-- InvoiceDetailShipping -->
 	   		
-	   		
+	   		<!-- The next two elements were not used in EPIC -->
 	   		<set-properties-rule pattern="InvoiceDetailPaymentTerm">
    				<alias attr-name="payInNumberOfDays" prop-name="payInNumberOfDays" paramtype="java.lang.Integer"/>
    				<alias attr-name="percentageRate" prop-name="percentageRate"/>

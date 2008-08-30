@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.web.ui.CustomerInvoiceWriteoffLookupResultRow;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -106,6 +107,7 @@ public class CustomerInvoiceWriteoffLookupAction extends KualiMultipleValueLooku
         // build the parameters for the refresh url
         Properties parameters = new Properties();
         parameters.put(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, multipleValueLookupForm.getLookupResultsSequenceNumber());
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, ArConstants.CUSTOMER_INVOICE_WRITEOFF_SUMMARY_ACTION);
 
         String customerInvoiceWriteoffLookupSummaryUrl = UrlFactory.parameterizeUrl("arCustomerInvoiceWriteoffLookupSummary.do", parameters);
         return new ActionForward(customerInvoiceWriteoffLookupSummaryUrl, true);

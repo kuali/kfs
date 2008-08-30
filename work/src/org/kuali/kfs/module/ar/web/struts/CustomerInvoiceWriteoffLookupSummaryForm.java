@@ -15,8 +15,30 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.util.Collection;
+
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
+    
+    private String lookupResultsSequenceNumber;
+    private Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults;
+
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceWriteoffLookupResults() {
+        return customerInvoiceWriteoffLookupResults;
+    }
+
+    public void setCustomerInvoiceWriteoffLookupResults(Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) {
+        this.customerInvoiceWriteoffLookupResults = customerInvoiceWriteoffLookupResults;
+    }
+
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    } 
 
 }

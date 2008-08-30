@@ -26,6 +26,7 @@
         <ref bean="PostalZipCode-active" />
         <ref bean="PostalZipCode-objectId" />
         <ref bean="PostalZipCode-versionNumber" />
+        <ref bean="PostalZipCode-countyCode" />
       </list>
     </property>
   </bean>
@@ -132,6 +133,25 @@
   <bean id="PostalZipCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
+  <bean id="PostalZipCode-countyCode" parent="PostalZipCode-countyCode-parentBean" />
+  
+  <bean id="PostalZipCode-countyCode-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="countyCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="County Code" />
+    <property name="shortLabel" value="County" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="County Code" />
+    <property name="description" value="County Code" />
+  </bean>
 <!-- Business Object Inquiry Definition -->
 
 
@@ -156,6 +176,8 @@
                     p:attributeName="buildingCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="buildingRoomNumber" />
+              <bean parent="FieldDefinition"
+              		p:attributeName="countyCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -194,6 +216,8 @@
               p:attributeName="buildingCode" />
         <bean parent="FieldDefinition"
               p:attributeName="buildingRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="countyCode" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

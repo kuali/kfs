@@ -33,8 +33,10 @@ public class PostalZipCode extends PersistableBusinessObjectBase implements Inac
     private String buildingRoomNumber;
     private State state;
     private boolean active;
+    private String countyCode;
 
-    /**
+   
+	/**
      * Default no-arg constructor.
      */
     public PostalZipCode() {
@@ -173,4 +175,12 @@ public class PostalZipCode extends PersistableBusinessObjectBase implements Inac
     public void setActive(boolean active) {
         this.active = active;
     }
+
+	public String getCountyCode() {
+		return countyCode;
+	}
+
+	public void setCountyCode(String countyCode) {
+		this.countyCode = countyCode;
+	}
 }

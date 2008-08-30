@@ -242,6 +242,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="countyCode" column="COUNTY_CD" jdbc-type="VARCHAR" />
     <reference-descriptor name="state" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="postalStateCode" />
     </reference-descriptor>
@@ -652,16 +653,19 @@
         </reference-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kfs.sys.businessobject.TaxDistrict" table="FS_TAX_DISTRICT_T">
-	    <field-descriptor name="taxDistrictCode" column="TAX_DISTRICT_CD" jdbc-type="VARCHAR" primarykey="true" />
-	    <field-descriptor name="taxDistrictName" column="TAX_DISTRICT_NM" jdbc-type="VARCHAR" />
+    <class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegion" table="FS_TAX_REGION_T">
+	    <field-descriptor name="taxRegionCode" column="TAX_REGION_CD" jdbc-type="VARCHAR" primarykey="true" />
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	    <field-descriptor name="taxRegionName" column="TAX_REGION_NM" jdbc-type="VARCHAR" />
+	    <field-descriptor name="taxRegionTypeCode" column="TAX_REGION_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="taxRegionUseTaxIndicator" column="TAX_REGION_USE_TAX_IND" jdbc-type="VARCHAR" />
+	    
 	    <field-descriptor name="chartOfAccountsCode" column="LIAB_FIN_COA_CD" jdbc-type="VARCHAR" />
 	    <field-descriptor name="accountNumber" column="LIAB_ACCT_NBR" jdbc-type="VARCHAR" />
 	    <field-descriptor name="financialObjectCode" column="LIAB_FIN_OBJECT_CD" jdbc-type="VARCHAR" />
-        <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />        
-	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />        
+	    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="chartOfAccountsCode" />
         </reference-descriptor>
 	    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -671,6 +675,9 @@
 	    <reference-descriptor name="objectCode" class-ref="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 	        <foreignkey field-ref="chartOfAccountsCode" />
 	        <foreignkey field-ref="financialObjectCode" />
+	    </reference-descriptor>
+	    <reference-descriptor name="taxRegionTypeCode" class-ref="org.kuali.kfs.sys.businessobject.TaxRegionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	    	<foreignkey field-ref="taxRegionTypeCode" />
 	    </reference-descriptor>
 
         <collection-descriptor name="taxRegionRates"
@@ -705,7 +712,7 @@
  		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="TaxRegionTypeName" column="TAX_REGION_TYP_NM" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
 
 	<!-- this is to fake out the framework -->

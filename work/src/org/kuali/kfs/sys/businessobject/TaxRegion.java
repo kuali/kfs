@@ -18,17 +18,18 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class TaxDistrict extends PersistableBusinessObjectBase implements Inactivateable {
+public class TaxRegion extends PersistableBusinessObjectBase {
 
-    private String taxDistrictCode; //(e.g., state code or district code)
-    private String taxDistrictName; //(e.g., state name or tax district name)
+    private String taxRegionCode; //(e.g., state code or district code)
+    private String taxRegionName; //(e.g., state name or tax district name)
+    private String taxRegionTypeCode;
+    private String taxRegionUseTaxIndicator;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String financialObjectCode;
@@ -80,20 +81,20 @@ public class TaxDistrict extends PersistableBusinessObjectBase implements Inacti
         this.financialObjectCode = financialObjectCode;
     }
 
-    public String getTaxDistrictCode() {
-        return taxDistrictCode;
+    public String getTaxRegionCode() {
+        return taxRegionCode;
     }
 
-    public void setTaxDistrictCode(String taxDistrictCode) {
-        this.taxDistrictCode = taxDistrictCode;
+    public void setTaxRegionCode(String taxDistrictCode) {
+        this.taxRegionCode = taxDistrictCode;
     }
 
-    public String getTaxDistrictName() {
-        return taxDistrictName;
+    public String getTaxRegionName() {
+        return taxRegionName;
     }
 
-    public void setTaxDistrictName(String taxDistrictName) {
-        this.taxDistrictName = taxDistrictName;
+    public void setTaxRegionName(String taxDistrictName) {
+        this.taxRegionName = taxDistrictName;
     }
 
     @Override
@@ -125,5 +126,21 @@ public class TaxDistrict extends PersistableBusinessObjectBase implements Inacti
     public void setObjectCode(ObjectCodeCurrent objectCode) {
         this.objectCode = objectCode;
     }
+
+	public String getTaxRegionTypeCode() {
+		return taxRegionTypeCode;
+	}
+
+	public void setTaxRegionTypeCode(String taxRegionTypeCode) {
+		this.taxRegionTypeCode = taxRegionTypeCode;
+	}
+
+	public String getTaxRegionUseTaxIndicator() {
+		return taxRegionUseTaxIndicator;
+	}
+
+	public void setTaxRegionUseTaxIndicator(String taxRegionUseTaxIndicator) {
+		this.taxRegionUseTaxIndicator = taxRegionUseTaxIndicator;
+	}
 
 }

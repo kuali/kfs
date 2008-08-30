@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.document.authorization;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.businessobject.TaxDistrict;
+import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionRate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.user.UniversalUser;
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 /**
  * This class implements authorization for Tax District Maintenance Document.
  */
-public class TaxDistrictDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
+public class TaxRegionDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
     /**
      * If a effective date for a tax rate is not in future, make it read only.
@@ -39,14 +39,14 @@ public class TaxDistrictDocumentAuthorizer extends MaintenanceDocumentAuthorizer
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(
             MaintenanceDocument document, UniversalUser user) {
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
-        TaxDistrict taxDistrict = (TaxDistrict)document.getNewMaintainableObject().getBusinessObject();
-        if(taxDistrict!=null)
+        TaxRegion taxRegion = (TaxRegion)document.getNewMaintainableObject().getBusinessObject();
+        if(taxRegion!=null)
         {
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             Date currentDate = dateTimeService.getCurrentDate();
             int index = 0;
             int comparison = 0;
-            for(TaxRegionRate taxRegionRate: taxDistrict.getTaxRegionRates()){
+            for(TaxRegionRate taxRegionRate: taxRegion.getTaxRegionRates()){
                 comparison = taxRegionRate.getEffectiveDate().compareTo(currentDate);
                 if(comparison==0 || comparison<0)
                     auths.addReadonlyAuthField("taxDistrictRates[" + index + "].taxRate");

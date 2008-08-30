@@ -28,7 +28,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class implements add collection line business rule for tax district rate.
  */
-public class TaxDistrictRule extends KfsMaintenanceDocumentRuleBase {
+public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
 
     /**
      * Rules:

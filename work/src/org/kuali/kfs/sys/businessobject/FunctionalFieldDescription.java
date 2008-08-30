@@ -88,6 +88,7 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
     }
 
     public BusinessObjectProperty getBusinessObjectProperty() {
+        refreshNonUpdateableReferences();
         return businessObjectProperty;
     }
 

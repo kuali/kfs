@@ -12,7 +12,7 @@
 		<property name="businessObjectClass"
 			value="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" />
 		<property name="maintainableClass"
-			value="org.kuali.kfs.sys.document.FunctionalFieldDescriptionMaintainable" />
+			value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FunctionalFieldDescriptionMaintenanceDocumentAuthorizer" />
 		<property name="authorizations">

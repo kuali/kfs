@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kfs.sys.businessobject.BusinessObjectComponent;
 import org.kuali.kfs.sys.businessobject.BusinessObjectProperty;
 import org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition;
+import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 
 public interface KfsBusinessObjectMetaDataService {
     public BusinessObjectComponent getBusinessObjectComponent(String componentClass);
@@ -28,7 +29,15 @@ public interface KfsBusinessObjectMetaDataService {
 
     public DataMappingFieldDefinition getDataMappingFieldDefinition(String componentClass, String propertyName);
 
+    public DataMappingFieldDefinition getDataMappingFieldDefinition(FunctionalFieldDescription functionalFieldDescription);
+
     public List<BusinessObjectComponent> findBusinessObjectComponents(String namespaceCode, String componentLabel);
 
     public List<BusinessObjectProperty> findBusinessObjectProperties(String namespaceCode, String componentLabel, String propertyLabel);
+
+    public List<FunctionalFieldDescription> findFunctionalFieldDescriptions(String namespaceCode, String componentClass, String propertyName, String description, String active);
+
+    public boolean isMatch(String componentClass, String propertyName, String tableNameSearchCriterion, String fieldNameSearchCriterion);
+
+    public String getReferenceComponentLabel(Class componentClass, String propertyName);
 }

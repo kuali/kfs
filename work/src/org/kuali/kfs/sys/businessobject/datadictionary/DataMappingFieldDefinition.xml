@@ -28,10 +28,20 @@
 				<ref bean="DataMappingFieldDefinition-propertyName" />
 				<ref
 					bean="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.propertyLabel" />
+				<ref
+					bean="DataMappingFieldDefinition-functionalFieldDescription.description" />
 				<ref bean="DataMappingFieldDefinition-tableName" />
 				<ref bean="DataMappingFieldDefinition-fieldName" />
-				<ref
-					bean="DataMappingFieldDefinition-functionalFieldDescription.functionalFieldDescription" />
+				<ref bean="DataMappingFieldDefinition-databaseDataType" />
+				<ref bean="DataMappingFieldDefinition-applicationDataType" />
+				<ref bean="DataMappingFieldDefinition-databaseDefinedLength" />
+				<ref bean="DataMappingFieldDefinition-applicationDefinedLength" />
+				<ref bean="DataMappingFieldDefinition-decimalPlaces" />
+				<ref bean="DataMappingFieldDefinition-referenceComponent" />
+				<ref bean="DataMappingFieldDefinition-required" />
+				<ref bean="DataMappingFieldDefinition-validationPattern" />
+				<ref bean="DataMappingFieldDefinition-encrypted" />
+				<ref bean="DataMappingFieldDefinition-maskPattern" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -154,13 +164,25 @@
 			value="functionalFieldDescription.businessObjectProperty.propertyLabel" />
 	</bean>
 
+	<bean
+		id="DataMappingFieldDefinition-functionalFieldDescription.description"
+		parent="DataMappingFieldDefinition-functionalFieldDescription.description-parentBean" />
+
+	<bean
+		id="DataMappingFieldDefinition-functionalFieldDescription.description-parentBean"
+		abstract="true"
+		parent="FunctionalFieldDescription-description">
+		<property name="name"
+			value="functionalFieldDescription.description" />
+	</bean>
+
 	<bean id="DataMappingFieldDefinition-tableName"
 		parent="DataMappingFieldDefinition-tableName-parentBean" />
 
 	<bean id="DataMappingFieldDefinition-tableName-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="tableName" />
-		<property name="label" value="Table Name" />
+		<property name="label" value="Database Table Name" />
 		<property name="maxLength" value="50" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="30" />
@@ -173,23 +195,133 @@
 	<bean id="DataMappingFieldDefinition-fieldName-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="fieldName" />
-		<property name="label" value="Field Name" />
+		<property name="label" value="Database Field Name" />
 		<property name="maxLength" value="50" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="30" />
 		</property>
 	</bean>
 
-	<bean
-		id="DataMappingFieldDefinition-functionalFieldDescription.functionalFieldDescription"
-		parent="DataMappingFieldDefinition-functionalFieldDescription.functionalFieldDescription-parentBean" />
+	<bean id="DataMappingFieldDefinition-databaseDataType"
+		parent="DataMappingFieldDefinition-databaseDataType-parentBean" />
 
-	<bean
-		id="DataMappingFieldDefinition-functionalFieldDescription.functionalFieldDescription-parentBean"
-		abstract="true"
-		parent="FunctionalFieldDescription-functionalFieldDescription">
-		<property name="name"
-			value="functionalFieldDescription.functionalFieldDescription" />
+	<bean id="DataMappingFieldDefinition-databaseDataType-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="databaseDataType" />
+		<property name="label" value="Database Data Type" />
+		<property name="maxLength" value="50" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+	</bean>
+
+	<bean id="DataMappingFieldDefinition-applicationDataType"
+		parent="DataMappingFieldDefinition-applicationDataType-parentBean" />
+
+	<bean id="DataMappingFieldDefinition-applicationDataType-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="applicationDataType" />
+		<property name="label" value="Application Data Type" />
+		<property name="maxLength" value="50" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+	</bean>
+
+	<bean id="DataMappingFieldDefinition-databaseDefinedLength"
+		parent="DataMappingFieldDefinition-databaseDefinedLength-parentBean" />
+
+	<bean id="DataMappingFieldDefinition-databaseDefinedLength-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="databaseDefinedLength" />
+		<property name="label" value="Database Defined Length" />
+		<property name="maxLength" value="50" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+	</bean>
+	
+	<bean id="DataMappingFieldDefinition-applicationDefinedLength"
+		parent="DataMappingFieldDefinition-applicationDefinedLength-parentBean" />
+
+	<bean id="DataMappingFieldDefinition-applicationDefinedLength-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="applicationDefinedLength" />
+		<property name="label" value="Application Defined Length" />
+		<property name="maxLength" value="50" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+	</bean>
+	
+	<bean id="DataMappingFieldDefinition-decimalPlaces"
+		parent="DataMappingFieldDefinition-decimalPlaces-parentBean" />
+
+	<bean id="DataMappingFieldDefinition-decimalPlaces-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="decimalPlaces" />
+		<property name="label" value="Decimal Places" />
+		<property name="maxLength" value="50" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+	</bean>
+
+	<bean id="DataMappingFieldDefinition-referenceComponent"
+		parent="DataMappingFieldDefinition-referenceComponent-parentBean" />
+
+	<bean id="DataMappingFieldDefinition-referenceComponent-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="referenceComponent" />
+		<property name="label" value="Reference Component" />
+		<property name="maxLength" value="50" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+	</bean>
+
+	<bean id="DataMappingFieldDefinition-required"
+		parent="DataMappingFieldDefinition-required-parentBean" />
+
+	<bean id="DataMappingFieldDefinition-required-parentBean"
+		abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="required" />
+		<property name="label" value="Required" />
+	</bean>
+
+	<bean id="DataMappingFieldDefinition-validationPattern"
+		parent="DataMappingFieldDefinition-validationPattern-parentBean" />
+
+	<bean id="DataMappingFieldDefinition-validationPattern-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="validationPattern" />
+		<property name="label" value="Validation Pattern" />
+		<property name="maxLength" value="50" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+	</bean>
+
+	<bean id="DataMappingFieldDefinition-encrypted"
+		parent="DataMappingFieldDefinition-encrypted-parentBean" />
+
+	<bean id="DataMappingFieldDefinition-encrypted-parentBean"
+		abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="encrypted" />
+		<property name="label" value="Encrypted" />
+	</bean>
+
+	<bean id="DataMappingFieldDefinition-maskPattern"
+		parent="DataMappingFieldDefinition-maskPattern-parentBean" />
+
+	<bean id="DataMappingFieldDefinition-maskPattern-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="maskPattern" />
+		<property name="label" value="Mask Pattern" />
+		<property name="maxLength" value="50" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
@@ -215,7 +347,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel" />
 				<bean parent="FieldDefinition"
-					p:attributeName="functionalFieldDescription.functionalFieldDescription" />
+					p:attributeName="functionalFieldDescription.description" />
 				<bean parent="FieldDefinition"
 					p:attributeName="tableName" />
 				<bean parent="FieldDefinition"
@@ -231,7 +363,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel" />
 				<bean parent="FieldDefinition"
-					p:attributeName="functionalFieldDescription.functionalFieldDescription" />
+					p:attributeName="functionalFieldDescription.description" />
 				<bean parent="FieldDefinition"
 					p:attributeName="tableName" />
 				<bean parent="FieldDefinition"
@@ -264,11 +396,31 @@
 								p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel"
 								p:noInquiry="true" />
 							<bean parent="FieldDefinition"
-								p:attributeName="functionalFieldDescription.functionalFieldDescription" />
+								p:attributeName="functionalFieldDescription.description" />
 							<bean parent="FieldDefinition"
 								p:attributeName="tableName" />
 							<bean parent="FieldDefinition"
 								p:attributeName="fieldName" />
+							<bean parent="FieldDefinition"
+								p:attributeName="databaseDataType" />
+							<bean parent="FieldDefinition"
+								p:attributeName="applicationDataType" />
+							<bean parent="FieldDefinition"
+								p:attributeName="databaseDefinedLength" />
+							<bean parent="FieldDefinition"
+								p:attributeName="applicationDefinedLength" />
+							<bean parent="FieldDefinition"
+								p:attributeName="decimalPlaces" />
+							<bean parent="FieldDefinition"
+								p:attributeName="referenceComponent" />
+							<bean parent="FieldDefinition"
+								p:attributeName="required" />
+							<bean parent="FieldDefinition"
+								p:attributeName="validationPattern" />
+							<bean parent="FieldDefinition"
+								p:attributeName="encrypted" />
+							<bean parent="FieldDefinition"
+								p:attributeName="maskPattern" />
 						</list>
 					</property>
 				</bean>

@@ -293,8 +293,10 @@ public class KFSPropertyConstants {
     public static final String COMPLETE = "complete";
     public static final String COMPONENT_CLASS = "componentClass";
     public static final String COMPONENT_LABEL = "componentLabel";
+    public static final String DESCRIPTION = KNSPropertyConstants.DESCRIPTION;
     public static final String BUSINESS_OBJECT_COMPONENT_LABEL = "businessObjectComponent." + COMPONENT_LABEL;
     public static final String BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL = "businessObjectProperty." + BUSINESS_OBJECT_COMPONENT_LABEL;
+    public static final String FUNCTIONAL_FIELD_DESCRIPTION_DESCRIPTION = "functionalFieldDescription." + DESCRIPTION;
     public static final String FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL = "functionalFieldDescription." + BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL;
     public static final String CONSOLIDATED_OBJECT_CODE = "consolidatedObjectCode";
     public static final String CONSOLIDATION_OPTION = "consolidationOption";
@@ -346,7 +348,6 @@ public class KFSPropertyConstants {
     public static final String DEPOSIT_BANK_ACCOUNT_NUMBER = "depositBankAccountNumber";
     public static final String DEPOSIT_DATE = "depositDate";
     public static final String DEPTID = "deptid";
-    public static final String DESCRIPTION = KNSPropertyConstants.DESCRIPTION;
     public static final String DETAIL_POSITION_REQUIRED_INDICATOR = "detailPositionRequiredIndicator";
     public static final String DETAIL_TEXT = "detailText";
     public static final String DICTIONARY_BUSINESS_OBJECT_NAME = KNSPropertyConstants.DICTIONARY_BUSINESS_OBJECT_NAME;

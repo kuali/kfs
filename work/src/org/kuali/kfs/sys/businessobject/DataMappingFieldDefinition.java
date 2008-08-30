@@ -17,11 +17,12 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.apache.ojb.broker.metadata.ClassDescriptor;
-import org.apache.ojb.broker.metadata.FieldDescriptor;
+import org.kuali.kfs.sys.dataaccess.FieldMetaData;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.mask.MaskFormatterLiteral;
+import org.kuali.rice.kns.datadictionary.mask.MaskFormatterSubString;
 
 public class DataMappingFieldDefinition extends PersistableBusinessObjectBase {
     private String namespaceCode;
@@ -30,29 +31,76 @@ public class DataMappingFieldDefinition extends PersistableBusinessObjectBase {
     private String tableName;
     private String fieldName;
     private FunctionalFieldDescription functionalFieldDescription;
+
     private BusinessObjectEntry businessObjectEntry;
-    private ClassDescriptor classDescriptor;
     private AttributeDefinition attributeDefinition;
-    private FieldDescriptor fieldDescriptor;
-    
-    // just on here to get lookups right
-    private BusinessObjectComponent businessObjectComponent;
-    private BusinessObjectProperty businessObjectProperty;
+    private FieldMetaData fieldMetaData;
+    private String propertyType;
+    private String referenceComponentLabel;
 
     public DataMappingFieldDefinition() {
     }
 
-    public DataMappingFieldDefinition(FunctionalFieldDescription functionalFieldDescription, BusinessObjectEntry businessObjectEntry, ClassDescriptor classDescriptor, AttributeDefinition attributeDefinition) {
+    public DataMappingFieldDefinition(FunctionalFieldDescription functionalFieldDescription, BusinessObjectEntry businessObjectEntry, AttributeDefinition attributeDefinition, FieldMetaData fieldMetaData, String propertyType, String referenceComponentLabel) {
         setNamespaceCode(functionalFieldDescription.getNamespaceCode());
         setComponentClass(functionalFieldDescription.getComponentClass());
         setPropertyName(functionalFieldDescription.getPropertyName());
+        setTableName(fieldMetaData.getTableName());
+        setFieldName(fieldMetaData.getColumnName());
         setFunctionalFieldDescription(functionalFieldDescription);
-        setBusinessObjectEntry(businessObjectEntry);
-        setClassDescriptor(classDescriptor);
-        setTableName(classDescriptor.getFullTableName());
-        setAttributeDefinition(attributeDefinition);
-        setFieldDescriptor(classDescriptor.getFieldDescriptorByName(getPropertyName()));
-        setFieldName(getFieldDescriptor().getColumnName());
+        this.businessObjectEntry = businessObjectEntry;
+        this.attributeDefinition = attributeDefinition;
+        this.fieldMetaData = fieldMetaData;
+        this.propertyType = propertyType;
+        this.referenceComponentLabel = referenceComponentLabel;
+    }
+
+    public String getDatabaseDataType() {
+        return fieldMetaData.getDataType();
+    }
+
+    public String getApplicationDataType() {
+        return propertyType;
+    }
+
+    public int getDatabaseDefinedLength() {
+        return fieldMetaData.getLength();
+    }
+
+    public int getApplicationDefinedLength() {
+        return attributeDefinition.getMaxLength();
+    }
+
+    public int getDecimalPlaces() {
+        return fieldMetaData.getDecimalPlaces();
+    }
+
+    public String getReferenceComponent() {
+        return referenceComponentLabel;
+    }
+
+    public boolean isRequired() {
+        return attributeDefinition.isRequired();
+    }
+
+    public String getValidationPattern() {
+        return new StringBuffer(attributeDefinition.getValidationPattern().getClass().getSimpleName()).append(" (").append(attributeDefinition.getValidationPattern().getRegexPattern().toString()).append(")").toString();
+    }
+    
+    public boolean isEncrypted() {
+        return fieldMetaData.isEncrypted();
+    }
+    
+    public String getMaskPattern() {
+        if (attributeDefinition.getDisplayMask().getMaskFormatter() instanceof MaskFormatterLiteral) {
+            return ((MaskFormatterLiteral)attributeDefinition.getDisplayMask().getMaskFormatter()).getLiteral();
+        }
+        else if (attributeDefinition.getDisplayMask().getMaskFormatter() instanceof MaskFormatterSubString) {
+            return new StringBuffer(((MaskFormatterSubString)attributeDefinition.getDisplayMask().getMaskFormatter()).getMaskLength()).append(" ").append(((MaskFormatterSubString)attributeDefinition.getDisplayMask().getMaskFormatter()).getMaskCharacter()).append(" characters").toString();
+        }
+        else {
+            return "Unknown MaskFormatter";
+        } 
     }
 
     public String getNamespaceCode() {
@@ -101,54 +149,6 @@ public class DataMappingFieldDefinition extends PersistableBusinessObjectBase {
 
     public void setFunctionalFieldDescription(FunctionalFieldDescription functionalFieldDescription) {
         this.functionalFieldDescription = functionalFieldDescription;
-    }
-
-    public BusinessObjectEntry getBusinessObjectEntry() {
-        return businessObjectEntry;
-    }
-
-    public void setBusinessObjectEntry(BusinessObjectEntry businessObjectEntry) {
-        this.businessObjectEntry = businessObjectEntry;
-    }
-
-    public AttributeDefinition getAttributeDefinition() {
-        return attributeDefinition;
-    }
-
-    public ClassDescriptor getClassDescriptor() {
-        return classDescriptor;
-    }
-
-    public void setClassDescriptor(ClassDescriptor classDescriptor) {
-        this.classDescriptor = classDescriptor;
-    }
-
-    public void setAttributeDefinition(AttributeDefinition attributeDefinition) {
-        this.attributeDefinition = attributeDefinition;
-    }
-
-    public FieldDescriptor getFieldDescriptor() {
-        return fieldDescriptor;
-    }
-
-    public void setFieldDescriptor(FieldDescriptor fieldDescriptor) {
-        this.fieldDescriptor = fieldDescriptor;
-    }
-
-    public BusinessObjectComponent getBusinessObjectComponent() {
-        return businessObjectComponent;
-    }
-
-    public void setBusinessObjectComponent(BusinessObjectComponent businessObjectComponent) {
-        this.businessObjectComponent = businessObjectComponent;
-    }
-
-    public BusinessObjectProperty getBusinessObjectProperty() {
-        return businessObjectProperty;
-    }
-
-    public void setBusinessObjectProperty(BusinessObjectProperty businessObjectProperty) {
-        this.businessObjectProperty = businessObjectProperty;
     }
 
     @Override

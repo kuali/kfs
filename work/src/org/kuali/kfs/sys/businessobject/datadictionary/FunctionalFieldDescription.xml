@@ -27,7 +27,7 @@
 				<ref
 					bean="FunctionalFieldDescription-businessObjectProperty.propertyLabel" />
 				<ref
-					bean="FunctionalFieldDescription-functionalFieldDescription" />
+					bean="FunctionalFieldDescription-description" />
 				<ref bean="FunctionalFieldDescription-active" />
 				<ref bean="FunctionalFieldDescription-versionNumber" />
 			</list>
@@ -131,14 +131,14 @@
 		<property name="required" value="true" />
 	</bean>
 
-	<bean id="FunctionalFieldDescription-functionalFieldDescription"
-		parent="FunctionalFieldDescription-functionalFieldDescription-parentBean" />
+	<bean id="FunctionalFieldDescription-description"
+		parent="FunctionalFieldDescription-description-parentBean" />
 
 	<bean
-		id="FunctionalFieldDescription-functionalFieldDescription-parentBean"
+		id="FunctionalFieldDescription-description-parentBean"
 		abstract="true" parent="GenericAttributes-genericBigText">
-		<property name="name" value="functionalFieldDescription" />
-		<property name="label" value="Functional Description" />
+		<property name="name" value="description" />
+		<property name="label" value="Description" />
 		<property name="maxLength" value="500" />
 		<property name="required" value="true" />
 	</bean>
@@ -180,7 +180,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="businessObjectProperty.propertyLabel" />
 				<bean parent="FieldDefinition"
-					p:attributeName="functionalFieldDescription" />
+					p:attributeName="description" />
 				<bean parent="FieldDefinition" p:attributeName="active"
 					p:defaultValue="Y" />
 			</list>
@@ -194,7 +194,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="businessObjectProperty.propertyLabel" />
 				<bean parent="FieldDefinition"
-					p:attributeName="functionalFieldDescription" />
+					p:attributeName="description" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

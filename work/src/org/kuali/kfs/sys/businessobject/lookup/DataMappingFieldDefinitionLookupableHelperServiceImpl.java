@@ -16,82 +16,101 @@
 package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.metadata.ClassDescriptor;
+import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.BusinessObjectProperty;
 import org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition;
 import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
-import org.kuali.kfs.sys.service.impl.KfsBusinessObjectMetaDataServiceImpl;
+import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 
-public class DataMappingFieldDefinitionLookupableHelperServiceImpl extends FunctionalFieldDescriptionLookupableHelperServiceImpl {
-    private Logger LOG = Logger.getLogger(KfsBusinessObjectMetaDataServiceImpl.class);
+public class DataMappingFieldDefinitionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    private Logger LOG = Logger.getLogger(DataMappingFieldDefinitionLookupableHelperServiceImpl.class);
+    private static final List<String> SORT_PROPERTIES = new ArrayList<String>();
+    static {
+        SORT_PROPERTIES.add(KFSPropertyConstants.NAMESPACE_CODE);
+        SORT_PROPERTIES.add(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL);
+        SORT_PROPERTIES.add(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_LABEL);
+    }
+    protected KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService;
 
     @Override
-    public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
-        fieldValues.put(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL, fieldValues.get(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL));
-        fieldValues.remove(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL);
-        fieldValues.put(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL, fieldValues.get(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_LABEL));
-        fieldValues.remove(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_LABEL);
-        String tableName = fieldValues.get(KFSPropertyConstants.TABLE_NAME);
-        fieldValues.remove(KFSPropertyConstants.TABLE_NAME);
-        String fieldName = fieldValues.get(KFSPropertyConstants.FIELD_NAME);
-        fieldValues.remove(KFSPropertyConstants.FIELD_NAME);
-        List<FunctionalFieldDescription> functionalFieldDescriptions = (List<FunctionalFieldDescription>) super.getSearchResults(fieldValues);
-        fieldValues.put(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL, fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL));
-        fieldValues.remove(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL);
-        fieldValues.put(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_LABEL, fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL));
-        fieldValues.remove(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL);
-        fieldValues.put(KFSPropertyConstants.TABLE_NAME, tableName);
-        fieldValues.put(KFSPropertyConstants.FIELD_NAME, fieldName);
-        
-        List<DataMappingFieldDefinition> dataMappingFieldDefinitions = new ArrayList<DataMappingFieldDefinition>();
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<FunctionalFieldDescription> functionalFieldDescriptions = (List<FunctionalFieldDescription>) kfsBusinessObjectMetaDataService.findFunctionalFieldDescriptions(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL), fieldValues.get(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_LABEL), fieldValues.get(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_DESCRIPTION), "Y");
+        List<BusinessObjectProperty> businessObjectProperties = kfsBusinessObjectMetaDataService.findBusinessObjectProperties(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL), fieldValues.get(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_BUSINESS_OBJECT_PROPERTY_LABEL));
+        Map<String, BusinessObject> matches = new HashMap<String, BusinessObject>();
         for (FunctionalFieldDescription functionalFieldDescription : functionalFieldDescriptions) {
-            ClassDescriptor classDescriptor = org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(functionalFieldDescription.getComponentClass());
-            Pattern tableNameRegex = null;
-            if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.TABLE_NAME))) {
-                String patternStr = fieldValues.get(KFSPropertyConstants.TABLE_NAME).replace("*", ".*").toUpperCase();
-                try {
-                    tableNameRegex = Pattern.compile(patternStr);
-                }
-                catch (PatternSyntaxException ex) {
-                    LOG.error("Unable to parse tableName pattern, ignoring.", ex);
-                }
-            }
-            Pattern fieldNameRegex = null;
-            if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.FIELD_NAME))) {
-                String patternStr = fieldValues.get(KFSPropertyConstants.FIELD_NAME).replace("*", ".*").toUpperCase();
-                try {
-                    fieldNameRegex = Pattern.compile(patternStr);
-                }
-                catch (PatternSyntaxException ex) {
-                    LOG.error("Unable to parse fieldName pattern, ignoring.", ex);
-                }
-            }
-            if (((tableNameRegex == null) || tableNameRegex.matcher(classDescriptor.getFullTableName().toUpperCase()).matches())
-                    && ((fieldNameRegex == null) || fieldNameRegex.matcher(classDescriptor.getFieldDescriptorByName(functionalFieldDescription.getPropertyName()).getColumnName().toUpperCase()).matches())) {
-                        DataMappingFieldDefinition dataMappingFieldDefinition = new DataMappingFieldDefinition(functionalFieldDescription, getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(functionalFieldDescription.getComponentClass()), classDescriptor, getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(functionalFieldDescription.getComponentClass()).getAttributeDefinition(functionalFieldDescription.getPropertyName()));
-                        dataMappingFieldDefinitions.add(dataMappingFieldDefinition);
+            if (kfsBusinessObjectMetaDataService.isMatch(functionalFieldDescription.getComponentClass(), functionalFieldDescription.getPropertyName(), fieldValues.get(KFSPropertyConstants.TABLE_NAME), fieldValues.get(KFSPropertyConstants.FIELD_NAME))) {
+                matches.put(functionalFieldDescription.getComponentClass() + functionalFieldDescription.getPropertyName(), functionalFieldDescription);
             }
         }
-        return dataMappingFieldDefinitions;
+        if (StringUtils.isBlank(fieldValues.get(KFSPropertyConstants.FUNCTIONAL_FIELD_DESCRIPTION_DESCRIPTION))) {
+            for (BusinessObjectProperty businessObjectProperty : businessObjectProperties) {
+                if (!matches.containsKey(businessObjectProperty.getComponentClass() + businessObjectProperty.getPropertyName()) && kfsBusinessObjectMetaDataService.isMatch(businessObjectProperty.getComponentClass(), businessObjectProperty.getPropertyName(), fieldValues.get(KFSPropertyConstants.TABLE_NAME), fieldValues.get(KFSPropertyConstants.FIELD_NAME))) {
+                    matches.put(businessObjectProperty.getComponentClass() + businessObjectProperty.getPropertyName(), businessObjectProperty);
+                }
+            }
+        }
+        
+        Map<String, DataMappingFieldDefinition> dataMappingFieldDefinitions = new HashMap<String, DataMappingFieldDefinition>();
+        int searchResultsLimit = LookupUtils.getSearchResultsLimit(DataMappingFieldDefinition.class);
+        int iterationCount = 0;
+        for (BusinessObject businessObject : matches.values()) {
+            if (++iterationCount <= searchResultsLimit) {
+                if (businessObject instanceof FunctionalFieldDescription) {
+                    FunctionalFieldDescription functionalFieldDescription = (FunctionalFieldDescription) businessObject;
+                    dataMappingFieldDefinitions.put(functionalFieldDescription.getComponentClass() + functionalFieldDescription.getPropertyName(), kfsBusinessObjectMetaDataService.getDataMappingFieldDefinition(functionalFieldDescription));
+                }
+                else {
+                    BusinessObjectProperty businessObjectProperty = (BusinessObjectProperty) businessObject;
+                    dataMappingFieldDefinitions.put(businessObjectProperty.getComponentClass() + businessObjectProperty.getPropertyName(), kfsBusinessObjectMetaDataService.getDataMappingFieldDefinition(businessObjectProperty.getComponentClass(), businessObjectProperty.getPropertyName()));
+                }
+            }
+            else {
+                break;
+            }
+        }
+
+        List<DataMappingFieldDefinition> searchResults = null;
+        if (matches.size() > searchResultsLimit) {
+            searchResults = new CollectionIncomplete(dataMappingFieldDefinitions.values(), Long.valueOf(matches.size()));
+        }
+        else {
+            searchResults = new CollectionIncomplete(dataMappingFieldDefinitions.values(), 0L);
+        }
+        Collections.sort(searchResults, new BeanPropertyComparator(getSortProperties(), true));
+        return searchResults;
     }
-    
+
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
         String baseUrl = super.getInquiryUrl(bo, propertyName);
         if (StringUtils.isNotBlank(baseUrl)) {
-            return new StringBuffer(baseUrl).append("&").append(KFSPropertyConstants.COMPONENT_CLASS).append("=").append(((DataMappingFieldDefinition)bo).getComponentClass()).append("&").append(KFSPropertyConstants.PROPERTY_NAME).append("=").append(((DataMappingFieldDefinition)bo).getPropertyName()).toString();
+            return new StringBuffer(baseUrl).append("&").append(KFSPropertyConstants.COMPONENT_CLASS).append("=").append(((DataMappingFieldDefinition) bo).getComponentClass()).append("&").append(KFSPropertyConstants.PROPERTY_NAME).append("=").append(((DataMappingFieldDefinition) bo).getPropertyName()).toString();
         }
-        else return baseUrl;
+        else
+            return baseUrl;
+    }
+    
+    protected List<String> getSortProperties() {
+        return SORT_PROPERTIES;
+    }
+    
+    public void setKfsBusinessObjectMetaDataService(KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService) {
+        this.kfsBusinessObjectMetaDataService = kfsBusinessObjectMetaDataService;
     }
 }

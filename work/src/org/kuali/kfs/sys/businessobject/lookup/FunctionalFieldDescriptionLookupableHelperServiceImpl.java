@@ -17,13 +17,10 @@ package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.BusinessObjectProperty;
 import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -31,47 +28,23 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 public class FunctionalFieldDescriptionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
+    private static final List<String> SORT_PROPERTIES = new ArrayList<String>();
+    static {
+        SORT_PROPERTIES.add(KFSPropertyConstants.NAMESPACE_CODE);
+        SORT_PROPERTIES.add(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL);
+        SORT_PROPERTIES.add(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL);
+    }
     protected KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService;
 
     @Override
-    public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
-        List<BusinessObjectProperty> businessObjectProperties = kfsBusinessObjectMetaDataService.findBusinessObjectProperties(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL));
-        Set<String> namespaceCodes = new HashSet<String>();
-        Set<String> componentClasses = new HashSet<String>();
-        Set<String> propertyNames = new HashSet<String>();
-        for (BusinessObjectProperty businessObjectProperty : businessObjectProperties) {
-            namespaceCodes.add(businessObjectProperty.getNamespaceCode());
-            componentClasses.add(businessObjectProperty.getComponentClass());
-            propertyNames.add(businessObjectProperty.getPropertyName());
-        }
-        fieldValues.put(KFSPropertyConstants.NAMESPACE_CODE, buildOrCriteria(namespaceCodes));
-        fieldValues.put(KFSPropertyConstants.COMPONENT_CLASS, buildOrCriteria(componentClasses));
-        fieldValues.put(KFSPropertyConstants.PROPERTY_NAME, buildOrCriteria(propertyNames));
-        fieldValues.remove(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL);
-        fieldValues.remove(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL);
-        List<FunctionalFieldDescription> searchResults = (List<FunctionalFieldDescription>) getLookupService().findCollectionBySearchHelper(FunctionalFieldDescription.class, fieldValues, false);
-        for (FunctionalFieldDescription functionalFieldDescription : searchResults) {
-            functionalFieldDescription.refreshNonUpdateableReferences();
-        }        
-        List<String> sortProperties = new ArrayList<String>();
-        sortProperties.add(KFSPropertyConstants.NAMESPACE_CODE);
-        sortProperties.add(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL);
-        sortProperties.add(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL);
-        Collections.sort(searchResults, new BeanPropertyComparator(sortProperties, true));
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<FunctionalFieldDescription> searchResults = kfsBusinessObjectMetaDataService.findFunctionalFieldDescriptions(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_COMPONENT_LABEL), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_PROPERTY_LABEL), fieldValues.get(KFSPropertyConstants.DESCRIPTION), fieldValues.get(KFSPropertyConstants.ACTIVE));
+        Collections.sort(searchResults, new BeanPropertyComparator(getSortProperties(), true));
         return searchResults;
     }
 
-    private String buildOrCriteria(Set<String> values) {
-        StringBuffer orCriteria = new StringBuffer();
-        List<String> valueList = new ArrayList<String>(values);
-        for (int i = 0; i < valueList.size(); i++) {
-            orCriteria.append(valueList.get(i));
-            if (i < (valueList.size() - 1)) {
-                orCriteria.append("|");
-            }
-        }
-        return orCriteria.toString();
+    protected List<String> getSortProperties() {
+        return SORT_PROPERTIES;
     }
 
     public void setKfsBusinessObjectMetaDataService(KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService) {

@@ -382,11 +382,16 @@
             </bean>
         </property>
     </bean>
+    
+    <bean id="businessObjectMetaDataDao" class="org.kuali.kfs.sys.dataaccess.impl.BusinessObjectMetaDataDaoJdbc" parent="platformAwareDaoJdbc" />
 
     <bean id="kfsBusinessObjectMetaDataService" class="org.kuali.kfs.sys.service.impl.KfsBusinessObjectMetaDataServiceImpl">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
+		<property name="businessObjectMetaDataDao" ref="businessObjectMetaDataDao" />
+		<property name="lookupService" ref="lookupService" />
     </bean>
 
     <bean id="businessObjectComponentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
@@ -405,17 +410,20 @@
         </property>
     </bean>
 
-	<bean id="functionalFieldDescriptionLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.FunctionalFieldDescriptionLookupableHelperServiceImpl" parent="lookupableHelperService">
-    	<property name="kfsBusinessObjectMetaDataService" ref="kfsBusinessObjectMetaDataService" />
-    </bean>
 
     <bean id="functionalFieldDescriptionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
-        <property name="lookupableHelperService" ref="functionalFieldDescriptionLookupableHelperService" />
+        <property name="lookupableHelperService">
+        	<bean class="org.kuali.kfs.sys.businessobject.lookup.FunctionalFieldDescriptionLookupableHelperServiceImpl" parent="lookupableHelperService">
+    			<property name="kfsBusinessObjectMetaDataService" ref="kfsBusinessObjectMetaDataService" />
+    		</bean>
+        </property>
     </bean>
 
     <bean id="dataMappingFieldDefinitionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
         <property name="lookupableHelperService">
-			<bean class="org.kuali.kfs.sys.businessobject.lookup.DataMappingFieldDefinitionLookupableHelperServiceImpl" parent="functionalFieldDescriptionLookupableHelperService" />
+			<bean class="org.kuali.kfs.sys.businessobject.lookup.DataMappingFieldDefinitionLookupableHelperServiceImpl" parent="lookupableHelperService">
+            	<property name="kfsBusinessObjectMetaDataService" ref="kfsBusinessObjectMetaDataService" />
+            </bean>
         </property>
     </bean>
 

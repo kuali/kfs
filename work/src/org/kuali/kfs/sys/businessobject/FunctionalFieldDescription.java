@@ -26,10 +26,18 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
     private String namespaceCode;
     private String componentClass;
     private String propertyName;
-    private String functionalFieldDescription;
+    private String description;
     private boolean active;
 
     private BusinessObjectProperty businessObjectProperty;
+    
+    public FunctionalFieldDescription() {        
+    }
+    
+    public FunctionalFieldDescription(String componentClass, String propertyName) {
+        setComponentClass(componentClass);
+        setPropertyName(propertyName);
+    }
         
     @Override
     public void refreshNonUpdateableReferences() {
@@ -63,12 +71,12 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
         this.propertyName = propertyName;
     }
 
-    public String getFunctionalFieldDescription() {
-        return functionalFieldDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setFunctionalFieldDescription(String functionalFieldDescription) {
-        this.functionalFieldDescription = functionalFieldDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isActive() {

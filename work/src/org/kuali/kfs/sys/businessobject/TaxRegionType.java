@@ -8,13 +8,15 @@ public class TaxRegionType extends PersistableBusinessObjectBase {
 	
 	private String taxRegionTypeCode;
 	private String taxRegionTypeName;
-	private String active;
+	private boolean active;
 	
-	public String getActive() {
+	
+
+	public boolean isActive() {
 		return active;
 	}
 
-	public void setActive(String active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
 

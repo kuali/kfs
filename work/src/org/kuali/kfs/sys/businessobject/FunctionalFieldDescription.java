@@ -41,7 +41,7 @@ public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
         
     @Override
     public void refreshNonUpdateableReferences() {
-        if (StringUtils.isNotBlank(getComponentClass()) && StringUtils.isNotBlank(getPropertyName()) && ((businessObjectProperty == null) || !getComponentClass().equals(businessObjectProperty.getBusinessObjectComponent().getComponentClass()) || !getPropertyName().equals(businessObjectProperty.getPropertyName()))) {
+        if (StringUtils.isNotBlank(getComponentClass()) && StringUtils.isNotBlank(getPropertyName()) && ((businessObjectProperty == null) || !getPropertyName().equals(businessObjectProperty.getPropertyName()) || (businessObjectProperty.getBusinessObjectComponent() == null) || !getComponentClass().equals(businessObjectProperty.getBusinessObjectComponent().getComponentClass()))) {
             setBusinessObjectProperty(SpringContext.getBean(KfsBusinessObjectMetaDataService.class).getBusinessObjectProperty(getComponentClass(), getPropertyName()));
             setNamespaceCode(businessObjectProperty.getNamespaceCode());
         }

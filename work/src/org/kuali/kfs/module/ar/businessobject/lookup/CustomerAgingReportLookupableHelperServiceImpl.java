@@ -101,18 +101,22 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         // iterate over all invoices consolidating balances for each customer
         for (CustomerInvoiceDetail cid : invoiceDetails) {
 
-            Date approvalDate = today;//cid.getCustomerPurchaseOrderDate();
-            CustomerInvoiceDocument custdocobj = cid.getCustomerInvoiceDocument();
             
-         if(custdocobj!=null) {   
+          // THIS METHOD DOESN'T WORK
+            //CustomerInvoiceDocument custdocobj = cid.getCustomerInvoiceDocument();
+            String invoiceDocumentNumber = cid.getDocumentNumber();
+            CustomerInvoiceDocument custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
+            Date approvalDate = custInvoice.getBillingDate();  // using billing date because can't find "approved date" that vivek mentioned was in ar header
             
-            Customer customerobj = custdocobj.getCustomer();
+         if(custInvoice!=null) {   
+            
+            Customer customerobj = custInvoice.getCustomer();
             
             
-            String customerNumber = customerobj.getCustomerNumber();    //
-            String customerName = customerobj.getCustomerName();
+            String customerNumber = customerobj.getCustomerNumber();    // tested and works
+            String customerName = customerobj.getCustomerName();  // tested and works
             
-            String customerNumber2 = (cid.getCustomerInvoiceDocument().getCustomer()).getCustomerNumber();
+            //String customerNumber2 = (cid.getCustomerInvoiceDocument().getCustomer()).getCustomerNumber();
 
             if (knownCustomers.containsKey(customerNumber) && approvalDate.before(reportDate) && (customerInvoiceDetailService.getOpenAmount(cid).isNonZero())) {
                 // not a new customer id and invoice approvalDate is valid
@@ -194,8 +198,18 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         args.put("accountNumber", accountNumber);
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
 
-    }
-
+    }  
+ 
+//    /**
+//     * @return the CustomerInvoiceDocument associated with a given documentNumber
+//     */
+//    @SuppressWarnings("unchecked")
+//    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByAccountNumber(String accountNumber) {
+//        Map args = new HashMap();
+//        args.put("accountNumber", accountNumber);
+//        return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
+//
+//    } 
 
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.

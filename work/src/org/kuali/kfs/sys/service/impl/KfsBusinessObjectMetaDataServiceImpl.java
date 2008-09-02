@@ -111,8 +111,8 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
             }
         }
         for (BusinessObjectEntry businessObjectEntry : dataDictionaryService.getDataDictionary().getBusinessObjectEntries().values()) {
-            // TODO remove null checking on component label once that is required
-            if ((StringUtils.isBlank(namespaceCode) || namespaceCode.equals(parameterService.getNamespace(businessObjectEntry.getBusinessObjectClass()))) && ((componentLabelRegex == null) || (StringUtils.isNotBlank(businessObjectEntry.getObjectLabel()) && componentLabelRegex.matcher(businessObjectEntry.getObjectLabel().toUpperCase()).matches()))) {
+            if ((StringUtils.isBlank(namespaceCode) || namespaceCode.equals(parameterService.getNamespace(businessObjectEntry.getBusinessObjectClass()))) 
+                    && ((componentLabelRegex == null) || (StringUtils.isNotBlank(businessObjectEntry.getObjectLabel()) && componentLabelRegex.matcher(businessObjectEntry.getObjectLabel().toUpperCase()).matches()))) {
                 matchingBusinessObjectComponents.put(businessObjectEntry.getBusinessObjectClass(), new BusinessObjectComponent(parameterService.getNamespace(businessObjectEntry.getBusinessObjectClass()), businessObjectEntry));
             }
         }

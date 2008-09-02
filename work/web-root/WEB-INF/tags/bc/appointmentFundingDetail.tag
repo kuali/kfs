@@ -130,6 +130,8 @@
                 readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
 		
+		<fmt:formatNumber var="formattedRequestedTimePercent" value="${fundingLine.appointmentRequestedTimePercent}" 
+        		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>	
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
@@ -137,7 +139,7 @@
 				detailFunctionExtraParam="'${postionFieldPrefix}budgetConstructionPosition.iuPayMonths','${fundingLineName}.appointmentFundingMonth', '${fundingLineName}.appointmentRequestedFteQuantity',"
                 fieldAlign="right"
                 readOnly="${readOnly}"
-                rowSpan="1" dataFieldCssClass="amount" />
+                rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedRequestedTimePercent}"/>
                 
         <td class="datacell" style="text-align: right;" rowSpan="1">
         	<fmt:formatNumber var="formattedFteQuantity" value="${fundingLine.appointmentRequestedFteQuantity}" 

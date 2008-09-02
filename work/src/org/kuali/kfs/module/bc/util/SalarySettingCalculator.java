@@ -254,7 +254,7 @@ public class SalarySettingCalculator {
         List<PendingBudgetConstructionAppointmentFunding> effectiveAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : AppointmentFundings) {
-            if (!appointmentFunding.isAppointmentFundingDeleteIndicator() && !appointmentFunding.isExcludedFromTotal()) {
+            if (!appointmentFunding.isAppointmentFundingDeleteIndicator() && !appointmentFunding.isExcludedFromTotal() && !appointmentFunding.isPurged()) {
                 effectiveAppointmentFundings.add(appointmentFunding);
             }
         }

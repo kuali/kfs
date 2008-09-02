@@ -556,7 +556,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the csfAmountTotal.
      */
     public KualiInteger getCsfAmountTotal() {
-        return SalarySettingCalculator.getCsfAmountTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getCsfAmountTotal(this.getAppointmentFundings());
     }
 
     /**
@@ -565,7 +565,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the csfTimePercentTotal.
      */
     public BigDecimal getCsfTimePercentTotal() {
-        return SalarySettingCalculator.getCsfTimePercentTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getCsfTimePercentTotal(this.getAppointmentFundings());
     }
 
     /**
@@ -574,7 +574,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the csfStandardHoursTotal.
      */
     public BigDecimal getCsfStandardHoursTotal() {
-        return SalarySettingCalculator.getCsfStandardHoursTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getCsfStandardHoursTotal(this.getAppointmentFundings());
     }
 
     /**
@@ -583,7 +583,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the csfFullTimeEmploymentQuantityTotal.
      */
     public BigDecimal getCsfFullTimeEmploymentQuantityTotal() {
-        return SalarySettingCalculator.getCsfFullTimeEmploymentQuantityTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getCsfFullTimeEmploymentQuantityTotal(this.getAppointmentFundings());
     }
 
     /**

@@ -228,6 +228,9 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, appointmentFunding.getFinancialSubObjectCode());
         parameters.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFunding.getPositionNumber());
         parameters.put(KFSPropertyConstants.EMPLID, appointmentFunding.getEmplid());
+        
+        parameters.put(BCPropertyConstants.REFRESH_INCUMBENT_BEFORE_SALARY_SETTING, Boolean.valueOf(salarySettingForm.isRefreshIncumbentBeforeSalarySetting()).toString());
+        parameters.put(BCPropertyConstants.REFRESH_POSITION_BEFORE_SALARY_SETTING, Boolean.valueOf(salarySettingForm.isRefreshPositionBeforeSalarySetting()).toString());
 
         parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.ADD_LINE, Boolean.FALSE.toString());

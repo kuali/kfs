@@ -16,17 +16,12 @@
 package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -34,11 +29,9 @@ import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
@@ -52,6 +45,7 @@ import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -322,17 +316,19 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#purgeAppointmentFunding(java.util.List,
-     *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#purgeAppointmentFundings(java.util.List)
      */
-    public void purgeAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        this.preprocessFundingReason(appointmentFunding);
-
-        if (businessObjectService.retrieve(appointmentFunding) != null) {
-            businessObjectService.delete(appointmentFunding);
+    public void purgeAppointmentFundings(List<PendingBudgetConstructionAppointmentFunding> purgedAppointmentFundings) {        
+        // remove the purged appointment funding lines and their referenced records
+        for(PendingBudgetConstructionAppointmentFunding appointmentFunding : purgedAppointmentFundings) {
+            if(!appointmentFunding.isNewLineIndicator()) {
+                List<BudgetConstructionAppointmentFundingReason> fundingReasons = appointmentFunding.getBudgetConstructionAppointmentFundingReason();
+                fundingReasons.get(0).setAppointmentFundingReasonCode(null);
+                
+                this.preprocessFundingReason(appointmentFunding);
+                businessObjectService.delete(appointmentFunding);
+            }
         }
-
-        appointmentFundings.remove(appointmentFunding);
     }
 
     /**
@@ -418,7 +414,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         this.saveAppointmentFundings(appointmentFundings);
 
         for (SalarySettingExpansion salarySettingExpansion : salarySettingExpansionSet) {
-            salarySettingExpansion.refreshReferenceObject(BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING);
             this.saveSalarySetting(salarySettingExpansion);
         }
     }
@@ -428,10 +423,21 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      */
     public void saveAppointmentFundings(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
         LOG.debug("saveAppointmentFundings() start");
+        
+        // remove the appointment funding lines being purged
+        List<PendingBudgetConstructionAppointmentFunding> purgedAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+        for(PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            if(appointmentFunding.isPurged()) {
+                purgedAppointmentFundings.add(appointmentFunding);
+            }
+        }
+        this.purgeAppointmentFundings(purgedAppointmentFundings);
 
-        this.updateAppointmentFundingsBeforeSaving(appointmentFundings);
-
-        businessObjectService.save(appointmentFundings);
+        // save the appointment funding lines that have been updated or newly created
+        List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>(appointmentFundings);
+        savableAppointmentFundings.removeAll(purgedAppointmentFundings);        
+        this.updateAppointmentFundingsBeforeSaving(savableAppointmentFundings);
+        businessObjectService.save(savableAppointmentFundings);
     }
 
     /**
@@ -555,18 +561,18 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             return false;
         }
 
-        // if the user is in the hierachy, access can be determined by the organization levels of the user and the document
-        Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
-        Integer userLevelCode = this.getClosestUserLevelCode(documentOrganizationLevelCode, fiscalYear, account, organazationReviewHierachy);
-        if (userLevelCode != null) {
-            appointmentFunding.setDisplayOnlyMode(userLevelCode != documentOrganizationLevelCode ? true : false);
-            appointmentFunding.setExcludedFromTotal(userLevelCode < documentOrganizationLevelCode ? true : false);
-
-            return true;
+        String accessMode = budgetDocumentService.getAccessMode(budgetConstructionHeader, universalUser);
+        if (StringUtils.equals(accessMode, KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+            appointmentFunding.setDisplayOnlyMode(false);
+        }
+        else {
+            appointmentFunding.setDisplayOnlyMode(true);
         }
 
-        // if not in the hierachy path, an organization approver of the budget construction doccument has the read-only access
-        appointmentFunding.setDisplayOnlyMode(true);
+        if (StringUtils.equals(accessMode, KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
+            appointmentFunding.setExcludedFromTotal(true);
+        }
+
         return true;
     }
 
@@ -576,7 +582,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public void updateAppointmentFundingsBeforeSaving(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
         LOG.debug("updateAppointmentFundingsBeforeSaving() start");
 
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {            
             this.preprocessFundingReason(appointmentFunding);
             this.preprocessLeaveRequest(appointmentFunding);
 
@@ -586,67 +592,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
             BigDecimal requestedFteQuantity = this.calculateFteQuantityFromAppointmentFunding(appointmentFunding);
             appointmentFunding.setAppointmentRequestedFteQuantity(requestedFteQuantity);
-        }
-    }
-
-    /**
-     * retrieve the user level code that is closest to the given document orgianzation level code
-     * 
-     * @param documentOrganizationLevelCode the given document organization level code
-     * @param fiscalYear the given fiscal year
-     * @param account the given account
-     * @param organazationReviewHierachy a list of organization review hierachy for which the specified user is an approver
-     * @return the user level code for the given account that is closest to the given document orgianzation level code
-     */
-    private Integer getClosestUserLevelCode(Integer documentOrganizationLevelCode, Integer fiscalYear, Account account, List<Org> organazationReviewHierachy) {
-        Set<Integer> userLevelCodes = new HashSet<Integer>();
-
-        for (Org organazation : organazationReviewHierachy) {
-            this.getAllUserLevelCodes(userLevelCodes, fiscalYear, account, organazation);
-        }
-
-        if (userLevelCodes.isEmpty()) {
-            return null;
-        }
-
-        if (userLevelCodes.contains(documentOrganizationLevelCode)) {
-            return documentOrganizationLevelCode;
-        }
-
-        userLevelCodes.add(documentOrganizationLevelCode);
-
-        List<Integer> userLevelCodeList = new ArrayList<Integer>();
-        userLevelCodeList.addAll(userLevelCodes);
-        Collections.sort(userLevelCodeList);
-
-        int indexOfDocumentOrganizationLevelCode = userLevelCodeList.indexOf(documentOrganizationLevelCode);
-        if (userLevelCodeList.size() > indexOfDocumentOrganizationLevelCode) {
-            return userLevelCodeList.get(indexOfDocumentOrganizationLevelCode + 1);
-        }
-
-        return userLevelCodeList.get(indexOfDocumentOrganizationLevelCode - 1);
-    }
-
-    /**
-     * retrieve the user level codes and store them into the given level code set
-     * 
-     * @param userLevelCodes the user level code set to be updated
-     * @param fiscalYear the given fiscal year
-     * @param account the given account
-     * @param organazation the given organization for which the user is an approver
-     */
-    private void getAllUserLevelCodes(Set<Integer> userLevelCodes, Integer fiscalYear, Account account, Org organazation) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
-
-        fieldValues.put(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, organazation.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.ORGANIZATION_CODE, organazation.getOrganizationCode());
-
-        Collection<BudgetConstructionAccountOrganizationHierarchy> accountOrganizationHierarchy = businessObjectService.findMatching(BudgetConstructionAccountOrganizationHierarchy.class, fieldValues);
-        for (BudgetConstructionAccountOrganizationHierarchy hierarchy : accountOrganizationHierarchy) {
-            userLevelCodes.add(hierarchy.getOrganizationLevelCode());
+            
+            appointmentFunding.setNewLineIndicator(false);
         }
     }
 
@@ -667,78 +614,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             if (reasons != null) {
                 reasons.clear();
             }
+            
+            appointmentFunding.setPersistedDeleteIndicator(true);
         }
-    }
-
-    /**
-     * adjust existing monthly request amounts using an even spread of the changes
-     * 
-     * @param pendingBudgetConstructionGeneralLedger the given pending Budget Construction General Ledger record
-     * @param changes the given changes that will be used to adjust monthly request amounts using an even spread
-     */
-    private List<BudgetConstructionMonthly> updateMonthlyAmounts(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, KualiInteger changes) {
-        BigInteger countOfMonth = BigInteger.valueOf(BCConstants.BC_MONTHLY_AMOUNTS.size());
-        BigInteger[] distribution = changes.bigIntegerValue().divideAndRemainder(countOfMonth);
-
-        KualiInteger monthlyAdjustment = new KualiInteger(distribution[0]);
-        int remainder = distribution[1].intValue();
-
-        Map<String, Object> keyMap = pendingBudgetConstructionGeneralLedger.buildPrimaryKeyMap();
-        Collection<BudgetConstructionMonthly> monthlyGLRecordsCollection = businessObjectService.findMatching(BudgetConstructionMonthly.class, keyMap);
-
-        List<BudgetConstructionMonthly> monthlyGLRecords = new ArrayList<BudgetConstructionMonthly>();
-        for (BudgetConstructionMonthly monthlyGLRecord : monthlyGLRecordsCollection) {
-            this.updateMonthlyAmounts(monthlyGLRecord, monthlyAdjustment, remainder);
-            monthlyGLRecords.add(monthlyGLRecord);
-        }
-
-        return monthlyGLRecords;
-    }
-
-    /**
-     * update the monthly amounts of the given monthly GL record with the given amount
-     * 
-     * @param monthlyGLRecord the given montly GL record that will be updated
-     * @param adjustment the amount used to adjust the monthly amounts
-     * @param remainder the sulpus that can be used to adjust the monthly amounts util it is used up
-     */
-    private void updateMonthlyAmounts(BudgetConstructionMonthly monthlyGLRecord, KualiInteger adjustment, int remainder) {
-        int indexOfMonth = 1;
-        for (String[] monthlyAmountFieldPair : BCConstants.BC_MONTHLY_AMOUNTS) {
-            String monthlyAmountField = monthlyAmountFieldPair[0];
-
-            if (!PropertyUtils.isReadable(monthlyGLRecord, monthlyAmountField) || !PropertyUtils.isWriteable(monthlyGLRecord, monthlyAmountField)) {
-                continue;
-            }
-
-            try {
-                KualiInteger currentMonthlyAmount = (KualiInteger) PropertyUtils.getProperty(monthlyGLRecord, monthlyAmountField);
-                KualiInteger newMonthlyAmount = this.getNewMonthlyAmount(currentMonthlyAmount, adjustment, indexOfMonth++, remainder);
-
-                PropertyUtils.setProperty(monthlyGLRecord, monthlyAmountField, newMonthlyAmount);
-            }
-            catch (Exception e) {
-                LOG.fatal("Cannot update the monthly amount." + e);
-                throw new RuntimeException("Cannot update the monthly amount." + e);
-            }
-        }
-    }
-
-    /**
-     * calculate the new monthly amount based on the given information
-     * 
-     * @param currentMonthlyAmount the current monthly amount
-     * @param adjustment the given adjustment that will be added into currentLineAmount
-     * @param indexOfMonth the traversing index of the current month, which is used to determine whether current monthly amount can
-     *        get additional adjustment from surplus amount
-     * @param remainder the sulpus that can be used to adjust the monthly amounts util it is used up. If the surplus is greater than
-     *        indexOfMonth, the monthly amount can increase by 1.
-     * @return the new monthly amount calculated from the given information
-     */
-    private KualiInteger getNewMonthlyAmount(KualiInteger currentMonthlyAmount, KualiInteger adjustment, int indexOfMonth, int remainder) {
-        KualiInteger newMonthlyAmount = currentMonthlyAmount.add(adjustment);
-
-        return remainder < indexOfMonth ? newMonthlyAmount : newMonthlyAmount.add(KFSConstants.ONE);
     }
 
     /**

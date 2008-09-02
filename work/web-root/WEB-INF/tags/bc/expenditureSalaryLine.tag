@@ -151,15 +151,27 @@
 		<td class="infoline" colspan="${colSpan}"><center>			
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-addposition.gif" 
 				property="methodToCall.addPosition" title="Add Position" 
-				alt="Add Position" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
-	   			
+				alt="Add Position" styleClass="tinybutton" />
+				
+			&nbsp;&nbsp;&nbsp;	   			
 	   		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-addincumbent.gif" 
 	   			property="methodToCall.addIncumbent" title="Add Incumbent" 
-	   			alt="Add Incumbent" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
-	
+	   			alt="Add Incumbent" styleClass="tinybutton" />
+	   			
+	   		&nbsp;&nbsp;&nbsp;
+	   		<html:checkbox property="refreshPositionBeforeSalarySetting" title="Refresh Position" alt="Refresh Position">
+	   			Refresh Position?
+	   		</html:checkbox>
+	        
+	        &nbsp;&nbsp;&nbsp;  	
+	   		<html:checkbox property="refreshIncumbentBeforeSalarySetting" title="Refresh Incumbent" alt="Refresh Incumbent">
+	   			Refresh Incumbent?
+	   		</html:checkbox>
+	          
 	   		</center>
 		</td>
 	</tr>
+	${KualiForm.refreshPositionBeforeSalarySetting}	--- ${KualiForm.refreshIncumbentBeforeSalarySetting}	
 	</c:if>
 </tbody>
 </table>

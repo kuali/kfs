@@ -57,26 +57,41 @@
 	</c:if>
         		
     <c:forEach items="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
-		<c:set var="fundingLineName" value="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
+    <c:if test="${!fundingLine.purged}">	 
+    	<c:set var="fundingLineName" value="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
+    	<c:set var="editable" value="${!readOnly && !fundingLine.displayOnlyMode}"/>
 		<c:set var="isVacant" value="${fundingLine.emplid eq BCConstants.VACANT_EMPLID}" />
 		<c:set var="isNewLine" value="${fundingLine.newLineIndicator}" />
+		<c:set var="hasBeenDeleted" value="${fundingLine.appointmentFundingDeleteIndicator}" />
+		<c:set var="markedAsDelete" value="${!fundingLine.persistedDeleteIndicator && fundingLine.appointmentFundingDeleteIndicator}" />
 		<c:set var="hidePercentAdjustment" value="${fundingLine.appointmentFundingDeleteIndicator || KualiForm.hideAdjustmentMeasurement || readOnly || empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
-		<c:set var="notEditable" value="${readOnly || fundingLine.persistedDeleteIndicator || fundingLine.displayOnlyMode}"/>
-		<c:set var="canPurge" value="${not notEditable && empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
-		<c:set var="canDelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.appointmentFundingDeleteIndicator }" />
-		<c:set var="canUndelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.vacatable && fundingLine.appointmentFundingDeleteIndicator}" /> 
-	    
+		
+		<c:set var="canPurge" value="${editable && !fundingLine.purged && !hasBeenDeleted && empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
+		<c:set var="canUnpurge" value="${editable && fundingLine.purged}" />
+		
+		<c:set var="canDelete" value="${editable && !hasBeenDeleted && not isVacant && not isNewLine}" />
+		<c:set var="canUndelete" value="${editable && hasBeenDeleted}" /> 
+		
+		<c:set var="canVacate" value="${editable && fundingLine.vacatable}"/>
+		<c:set var="canRevert" value="${editable && markedAsDelete && not isVacant && not isNewLine && not fundingLine.vacatable}" /> 
+			    
 	    <html:hidden property="${fundingLineName}.budgetConstructionPosition.iuPayMonths" />
 		<html:hidden property="${fundingLineName}.budgetConstructionPosition.iuNormalWorkMonths" />  
 	          	
 	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${fundingLine.appointmentFundingString}" >
 	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	countOfMajorColumns="9" lineIndex="${status.index}" hasBeenAdded = "true">    		
-	    		<c:if test="${fundingLine.vacatable}">
+	    		<c:if test="${canVacate}">
 					<html:image property="methodToCall.vacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-vacate.gif" 
 						title="Vacate Salary Setting Line ${status.index}"
 						alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
 				</c:if>
+				<c:if test="${canRevert}">	
+					<html:image property="methodToCall.revertSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-revert1.gif" 
+						title="revert Salary Setting Line ${status.index}"
+						alt="revert Salary Setting Line ${status.index}" styleClass="tinybutton" />
+				</c:if>				
 				
 				<c:if test="${canPurge}">	
 					<html:image property="methodToCall.purgeSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
@@ -85,7 +100,7 @@
 						alt="Purge Salary Setting Line ${status.index}" styleClass="tinybutton" />
 				</c:if>
 				
-				<c:if test="${canDelete && not canPurge}">	
+				<c:if test="${canDelete}">	
 					<html:image property="methodToCall.deleteSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-delete1.gif" 
 						title="Delete Salary Setting Line ${status.index}"
@@ -93,13 +108,14 @@
 				</c:if>
 				
 				<c:if test="${canUndelete}">	
-					<html:image property="methodToCall.revertSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
-						src="${ConfigProperties.externalizable.images.url}tinybutton-revert1.gif" 
-						title="revert Salary Setting Line ${status.index}"
-						alt="revert Salary Setting Line ${status.index}" styleClass="tinybutton" />
+					<html:image property="methodToCall.undeleteSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-undelete.gif" 
+						title="undelete Salary Setting Line ${status.index}"
+						alt="undelete Salary Setting Line ${status.index}" styleClass="tinybutton" />
 				</c:if>
 			</bc:appointmentFundingLineForPosition>	
 		</kul:subtab>
+	</c:if>
 	</c:forEach>
         
     <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Totals" > 
@@ -109,5 +125,24 @@
 			<br/></center></td><tr>
 		</table>
 	</kul:subtab>
+</div>
+</kul:tab>
+
+<kul:tab tabTitle="Purged Appointment Funding" defaultOpen="false">
+<div class="tab-container" align="center">        		
+    <c:forEach items="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
+	<c:if test="${fundingLine.purged}">	 
+		<c:set var="fundingLineName" value="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
+		         	
+	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${fundingLine.appointmentFundingString}">
+	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	countOfMajorColumns="9" lineIndex="${status.index}" readOnly="true" hasBeenAdded = "true">    		
+				<html:image property="methodToCall.restorePurgedSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+					src="${ConfigProperties.externalizable.images.url}tinybutton-restore.gif" 
+					title="Restore the Purged Salary Setting Line ${status.index}"
+					alt="Restore the Purged Salary Setting Line ${status.index}" styleClass="tinybutton" />
+			</bc:appointmentFundingLineForPosition>	
+		</kul:subtab>
+	</c:if>
+	</c:forEach>
 </div>
 </kul:tab>

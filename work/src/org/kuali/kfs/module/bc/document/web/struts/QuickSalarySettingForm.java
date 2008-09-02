@@ -31,6 +31,8 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuickSalarySettingForm.class);
 
     private SalarySettingExpansion salarySettingExpansion;
+    private boolean refreshPositionBeforeSalarySetting;
+    private boolean refreshIncumbentBeforeSalarySetting;
 
     /**
      * Constructs a QuickSalarySettingForm.java.
@@ -94,5 +96,41 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
      */
     public void setSalarySettingExpansion(SalarySettingExpansion salarySettingExpansion) {
         this.salarySettingExpansion = salarySettingExpansion;
+    }
+
+    /**
+     * Gets the refreshPositionBeforeSalarySetting attribute.
+     * 
+     * @return Returns the refreshPositionBeforeSalarySetting.
+     */
+    public boolean isRefreshPositionBeforeSalarySetting() {
+        return refreshPositionBeforeSalarySetting;
+    }
+
+    /**
+     * Sets the refreshPositionBeforeSalarySetting attribute value.
+     * 
+     * @param refreshPositionBeforeSalarySetting The refreshPositionBeforeSalarySetting to set.
+     */
+    public void setRefreshPositionBeforeSalarySetting(boolean refreshPositionBeforeSalarySetting) {
+        this.refreshPositionBeforeSalarySetting = refreshPositionBeforeSalarySetting;
+    }
+
+    /**
+     * Gets the refreshIncumbentBeforeSalarySetting attribute.
+     * 
+     * @return Returns the refreshIncumbentBeforeSalarySetting.
+     */
+    public boolean isRefreshIncumbentBeforeSalarySetting() {
+        return refreshIncumbentBeforeSalarySetting;
+    }
+
+    /**
+     * Sets the refreshIncumbentBeforeSalarySetting attribute value.
+     * 
+     * @param refreshIncumbentBeforeSalarySetting The refreshIncumbentBeforeSalarySetting to set.
+     */
+    public void setRefreshIncumbentBeforeSalarySetting(boolean refreshIncumbentBeforeSalarySetting) {
+        this.refreshIncumbentBeforeSalarySetting = refreshIncumbentBeforeSalarySetting;
     }
 }

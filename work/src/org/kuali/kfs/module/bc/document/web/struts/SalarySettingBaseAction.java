@@ -147,7 +147,8 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
             if (!messageList.contains(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED)) {
                 messageList.add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
             }
-            return saveAction;
+            
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         messageList.add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
@@ -168,14 +169,23 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     }
 
     /**
-     * delete the selected salary setting line
+     * mark the selected salary setting line as purged
      */
     public ActionForward purgeSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
 
-        salarySettingService.purgeAppointmentFunding(appointmentFundings, appointmentFunding);
+        this.getSelectedFundingLine(request, salarySettingForm).setPurged(true);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * restore the selected salary setting line if it is marked as purged
+     */
+    public ActionForward restorePurgedSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
+
+        this.getSelectedFundingLine(request, salarySettingForm).setPurged(false);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -188,6 +198,17 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
 
         salarySettingService.markAsDelete(appointmentFunding);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * unmark the selected salary setting line that has been marked as deleted
+     */
+    public ActionForward undeleteSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
+
+        this.getSelectedFundingLine(request, salarySettingForm).setAppointmentFundingDeleteIndicator(false);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

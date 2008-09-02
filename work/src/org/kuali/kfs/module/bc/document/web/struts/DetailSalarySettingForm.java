@@ -64,7 +64,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
     private ErrorMap errorMap = GlobalVariables.getErrorMap();
-    private static final List<String> comparableFields = getComparableFields(); 
+    private static final List<String> comparableFields = getComparableFields();
 
     /**
      * Constructs a DetailSalarySettingForm.java.
@@ -322,7 +322,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public void pickAppointmentFundingsForSingleAccount() {
         LOG.info("pickAppointmentFundingsForSingleAccount() started");
-        
+
         List<PendingBudgetConstructionAppointmentFunding> excludedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getAppointmentFundings()) {
             if (!ObjectUtil.equals(appointmentFunding, this, comparableFields)) {

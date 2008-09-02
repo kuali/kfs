@@ -126,12 +126,11 @@ public interface SalarySettingService {
     public PendingBudgetConstructionAppointmentFunding vacateAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
-     * delete the given appointment funding of the given appointment funding collection
+     * permanently delete the given appointment funding lines being purged
      * 
-     * @param appointmentFundings the given appointment funding collection that the given appointment funding belongs to
-     * @param appointmentFunding the given apporintment funding
+     * @param purgedAppointmentFundings the given appointment funding collection being purged
      */
-    public void purgeAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    public void purgeAppointmentFundings(List<PendingBudgetConstructionAppointmentFunding> purgedAppointmentFundings);
 
     /**
      * find the appointment funding from the given appointment funding collection, which has the same key information as the specified vacant appointment funding

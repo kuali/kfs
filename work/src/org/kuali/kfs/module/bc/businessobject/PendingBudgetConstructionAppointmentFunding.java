@@ -98,6 +98,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private boolean hourlyPaid;
     private boolean excludedFromTotal;
     private boolean override2PlugMode;
+    private boolean purged;
 
     /**
      * Default constructor.
@@ -1057,5 +1058,23 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      */
     public void setHourlyPaid(boolean hourlyPaid) {
         this.hourlyPaid = hourlyPaid;
+    }
+
+    /**
+     * Gets the purged attribute.
+     * 
+     * @return Returns the purged.
+     */
+    public boolean isPurged() {
+        return purged;
+    }
+
+    /**
+     * Sets the purged attribute value.
+     * 
+     * @param purged The purged to set.
+     */
+    public void setPurged(boolean purged) {
+        this.purged = purged;
     }
 }

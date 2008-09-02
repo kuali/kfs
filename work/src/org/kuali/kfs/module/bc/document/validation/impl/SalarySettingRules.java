@@ -17,8 +17,6 @@ package org.kuali.kfs.module.bc.document.validation.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService;
@@ -127,16 +125,16 @@ public class SalarySettingRules implements SalarySettingRule {
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processAdjustSalaraySettingLinePercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processAdjustSalaraySettingLinePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        boolean canBeAdjusted =  salarySettingRuleHelperService.canBeAdjusted(appointmentFunding, errorMap);
-        if(!canBeAdjusted) {
+        boolean canBeAdjusted = salarySettingRuleHelperService.canBeAdjusted(appointmentFunding, errorMap);
+        if (!canBeAdjusted) {
             return false;
         }
-        
+
         boolean hasValidAdjustmentAmount = salarySettingRuleHelperService.hasValidAdjustmentAmount(appointmentFunding, errorMap);
-        if(!hasValidAdjustmentAmount) {
+        if (!hasValidAdjustmentAmount) {
             return false;
         }
-        
+
         return true;
     }
 

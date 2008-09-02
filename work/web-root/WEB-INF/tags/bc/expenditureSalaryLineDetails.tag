@@ -256,7 +256,7 @@
 												
 				<c:if test="${isHourlyPaid && not notEditable}">	
 					<html:image property="methodToCall.normalizePayRateAndAmount.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
-						src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-normalize.gif" 
 						title="Normalize the hourly rate and annual amount for Salary Setting Line ${status.index}"
 						alt="Normalize the hourly rate and annual amount for Salary Setting Line ${status.index}" styleClass="tinybutton" />
 				</c:if>

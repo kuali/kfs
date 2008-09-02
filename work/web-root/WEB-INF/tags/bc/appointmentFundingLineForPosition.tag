@@ -54,6 +54,7 @@
 
 <html:hidden property="${fundingLineName}.persistedDeleteIndicator" /> 
 <html:hidden property="${fundingLineName}.newLineIndicator" />
+<html:hidden property="${fundingLineName}.purged" />
 
 <html:hidden property="${fundingLineName}.excludedFromTotal" />
 <html:hidden property="${fundingLineName}.displayOnlyMode" /> 
@@ -189,8 +190,12 @@
 	<tr id="${fundingLineName}">
 		<td colspan="${colspan}" class="infoline" style="border-bottom: none;">
 			<center><br/>
+			
+			<c:set var="detailReadOnly"
+				   value="${readOnly || fundingLine.displayOnlyMode || fundingLine.appointmentFundingDeleteIndicator || fundingLine.purged}" />
+			
 			<bc:appointmentFundingDetail fundingLine="${fundingLine}" fundingLineName="${fundingLineName}" 
-				lineIndex="${lineIndex}" hasBeenAdded="${hasBeenAdded}" readOnly="${readOnly || fundingLine.displayOnlyMode}"/>
+				lineIndex="${lineIndex}" hasBeenAdded="${hasBeenAdded}" readOnly="${detailReadOnly}"/>
 			<br/></center>
 		</td>            
 	</tr>

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
+import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
@@ -24,6 +25,8 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
  * <code>{@link org.kuali.kfs.fp.document.VoucherDocument}</code>
  */
 public class VoucherSourceAccountingLine extends SourceAccountingLine {
+    private String objectTypeCode;
+    private ObjectType objectType;
 
     /**
      * Constructs a VoucherSourceAccountingLine.java.
@@ -35,4 +38,39 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
         // totals get calculated correctly
         this.setDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
     }
+
+    /**
+     * Gets the objectType attribute. 
+     * @return Returns the objectType.
+     */
+    @Override
+    public ObjectType getObjectType() {
+        return objectType;
+    }
+
+    /**
+     * Sets the objectType attribute value.
+     * @param objectType The objectType to set.
+     */
+    public void setObjectType(ObjectType objectType) {
+        this.objectType = objectType;
+    }
+
+    /**
+     * Gets the objectTypeCode attribute. 
+     * @return Returns the objectTypeCode.
+     */
+    @Override
+    public String getObjectTypeCode() {
+        return objectTypeCode;
+    }
+
+    /**
+     * Sets the objectTypeCode attribute value.
+     * @param objectTypeCode The objectTypeCode to set.
+     */
+    public void setObjectTypeCode(String objectTypeCode) {
+        this.objectTypeCode = objectTypeCode;
+    }
+    
 }

@@ -224,14 +224,6 @@ public interface AccountingLine extends PersistableBusinessObject, GeneralLedger
     public ObjectType getObjectType();
 
     /**
-     * This method sets the ObjectType for the accounting line. This method should only be used for a Journal Voucher document.
-     * 
-     * @param objectType
-     * @deprecated
-     */
-    public void setObjectType(ObjectType objectType);
-
-    /**
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber);
@@ -260,11 +252,6 @@ public interface AccountingLine extends PersistableBusinessObject, GeneralLedger
      * @return Returns the objectTypeCode.
      */
     public String getObjectTypeCode();
-
-    /**
-     * @param objectTypeCode The objectTypeCode to set.
-     */
-    public void setObjectTypeCode(String objectTypeCode);
 
     /**
      * @return Returns the financialDocumentLineTypeCode.

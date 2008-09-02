@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -161,7 +162,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         KualiDecimal balance = new KualiDecimal("21.12");
         ArrayList sourceLines = new ArrayList();
         {
-            SourceAccountingLine sourceLine = new SourceAccountingLine();
+            VoucherSourceAccountingLine sourceLine = new VoucherSourceAccountingLine();
             sourceLine.setDocumentNumber(document.getDocumentNumber());
             sourceLine.setSequenceNumber(new Integer(1));
             sourceLine.setChartOfAccountsCode("BL");
@@ -308,7 +309,6 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class), SpringContext.getBean(AccountingPeriodService.class));
     }
 
-    // @RelatesTo(JiraIssue.KULRNE4926)
     @ConfigureContext(session = DFOGLE, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));

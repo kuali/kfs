@@ -419,11 +419,11 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
             valid &= isValidProjectCode(projectCode, dd);
         }
         // object type code is not required to be entered
-        if (StringUtils.isNotBlank(accountingLine.getObjectTypeCode())) {
+        /*if (StringUtils.isNotBlank(accountingLine.getObjectTypeCode())) {
             accountingLine.refreshReferenceObject("objectType");
             ObjectType objectTypeCode = accountingLine.getObjectType();
             valid &= isValidObjectTypeCode(objectTypeCode, dd);
-        }
+        }*/
         if (StringUtils.isNotBlank(accountingLine.getReferenceOriginCode())) {
             accountingLine.refreshReferenceObject("referenceOrigin");
             OriginationCode referenceOrigin = accountingLine.getReferenceOrigin();

@@ -210,8 +210,6 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         if (valid) {
             buildAccountingLineObjectType(accountingLine);
             valid &= isValidDocWithSubAndLevel(document, accountingLine);
-            // remove the object type, otherwise, the object type code will get persisted and cause future validation errors
-            clearAccountingLineObjectType(accountingLine);
         }
 
         return valid;
@@ -234,8 +232,6 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         if (valid) {
             buildAccountingLineObjectType(accountingLine);
             valid &= isValidDocWithSubAndLevel(document, accountingLine);
-            // remove the object type, otherwise, the object type code will get persisted and cause future validation errors
-            clearAccountingLineObjectType(accountingLine);
         }
         return valid;
     }
@@ -433,17 +429,6 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      */
     private void buildAccountingLineObjectType(AccountingLine line) {
         String objectTypeCode = line.getObjectCode().getFinancialObjectTypeCode();
-        line.setObjectTypeCode(objectTypeCode);
-        line.refresh();
-    }
-    
-    /**
-     * Clears out the info set in {@link #buildAccountingLineObjectType(AccountingLine)}
-     * 
-     * @param line
-     */
-    private void clearAccountingLineObjectType(AccountingLine line) {
-        line.setObjectTypeCode(null);
         line.refresh();
     }
 

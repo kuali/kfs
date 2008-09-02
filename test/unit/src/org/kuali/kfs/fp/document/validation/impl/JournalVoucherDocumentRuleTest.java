@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapNotContains;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
-import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
-import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.getBusinessRule;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testAddAccountingLine_IsObjectSubTypeAllowed;
@@ -42,12 +42,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
-import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -62,6 +60,9 @@ import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch;
 import org.kuali.kfs.sys.service.IsDebitTestUtils;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 
 @ConfigureContext(session = DFOGLE)
 public class JournalVoucherDocumentRuleTest extends KualiTestBase {
@@ -285,7 +286,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     private SourceAccountingLine getInvalidObjectTypeSourceLine() throws Exception {
-        SourceAccountingLine retval = LINE9.createSourceAccountingLine();
+        VoucherSourceAccountingLine retval = LINE9.createVoucherSourceAccountingLine();
         retval.setObjectTypeCode(new String());
         return retval;
     }

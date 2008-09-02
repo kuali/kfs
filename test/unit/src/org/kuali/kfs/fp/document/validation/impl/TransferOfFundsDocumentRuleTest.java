@@ -45,16 +45,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
+import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
-import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.fp.document.TransferOfFundsDocument;
-import org.kuali.kfs.sys.suite.AnnotationTestSuite;
-import org.kuali.kfs.sys.suite.CrossSectionSuite;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -68,6 +63,12 @@ import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture;
 import org.kuali.kfs.sys.service.IsDebitTestUtils;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.CrossSectionSuite;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = KHUNTLEY)
 public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
@@ -576,7 +577,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
     private SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
 
-        SourceAccountingLine line = LINE11.createSourceAccountingLine();
+        VoucherSourceAccountingLine line = LINE11.createVoucherSourceAccountingLine();
 
         // make sure that financial object type code is IN
         line.getObjectCode().setFinancialObjectTypeCode("IN");

@@ -76,7 +76,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private String financialSubObjectCode;
     private String projectCode;
     private String balanceTypeCode;
-    private String objectTypeCode;
 
     // bo references
     private Chart chart;
@@ -86,7 +85,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     private SubObjCd subObjectCode;
     private ProjectCode project;
     private BalanceTyp balanceTyp;
-    private ObjectType objectType; // should only be set by the Journal Voucher document
     private OriginationCode referenceOrigin;
     private DocumentType referenceType;
     private SalesTax salesTax;
@@ -105,7 +103,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         objectCode.setUniversityFiscalYear(postingYear);
         balanceTyp = new BalanceTyp();
-        objectType = new ObjectType();
         // salesTax = new SalesTax();
         salesTaxRequired = false;
     }
@@ -458,19 +455,10 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @return An ObjectType instance.
      */
     public ObjectType getObjectType() {
-        return objectType;
+        refreshReferenceObject("objectCode");
+        if (!ObjectUtils.isNull(objectCode)) return objectCode.getFinancialObjectType();
+        return null;
     }
-
-    /**
-     * This method sets the ObjectType for the accounting line. This method should only be used for a Journal Voucher document.
-     * 
-     * @param objectType
-     * @deprecated
-     */
-    public void setObjectType(ObjectType objectType) {
-        this.objectType = objectType;
-    }
-
 
     /**
      * @return Returns the accountNumber.
@@ -546,14 +534,9 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @return Returns the objectTypeCode.
      */
     public String getObjectTypeCode() {
-        return objectTypeCode;
-    }
-
-    /**
-     * @param objectTypeCode The objectTypeCode to set.
-     */
-    public void setObjectTypeCode(String objectTypeCode) {
-        this.objectTypeCode = objectTypeCode;
+        refreshReferenceObject("objectCode");
+        if (!ObjectUtils.isNull(objectCode)) return objectCode.getFinancialObjectTypeCode();
+        return null;
     }
 
     /**
@@ -702,7 +685,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
             setFinancialSubObjectCode(other.getFinancialSubObjectCode());
             setProjectCode(other.getProjectCode());
             setBalanceTypeCode(other.getBalanceTypeCode());
-            setObjectTypeCode(other.getObjectTypeCode());
 
             // sales tax
             if (ObjectUtils.isNotNull(other.getSalesTax())) {
@@ -733,7 +715,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
             setSubObjectCode(other.getSubObjectCode());
             setProject(other.getProject());
             setBalanceTyp(other.getBalanceTyp());
-            setObjectType(other.getObjectType());
         }
     }
 

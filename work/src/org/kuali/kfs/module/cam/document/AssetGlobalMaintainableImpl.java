@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -44,6 +45,7 @@ import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.ui.Section;
@@ -77,6 +79,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             
             populateAssetInformation(assetGlobal, asset);
             populateAssetSeparateAssetDetails(assetGlobal, asset, assetOrganization);
+            //populateAssetSeparateLocationDetails(assetGlobal, asset);
             populateAssetSeparatePaymentDetails(assetGlobal, asset);
         }
         
@@ -110,7 +113,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     }
     
     /**
-     * Populate Asset Information for Asset Separate doc
+     * Populate Asset Information for Asset Separate document
      * 
      * @param assetGlobal
      * @param asset
@@ -121,7 +124,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     }  
     
     /**
-     * Populate Asset Details for Asset Separate doc
+     * Populate Asset Details for Asset Separate document
      * 
      * @param assetGlobal
      */
@@ -145,9 +148,29 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.setLandAcreageSize(asset.getLandAcreageSize());
         assetGlobal.setLandParcelNumber(asset.getLandParcelNumber());   
     }
-    
+    /*
+    private void populateAssetSeparateLocationDetails(AssetGlobal assetGlobal, Asset asset) { 
+
+        //List<AssetGlobalDetail> newAssetGlobalDetailList = assetGlobal.getAssetSharedDetails();
+
+        for (AssetGlobalDetail assetGlobalSharedDetail : assetGlobal.getAssetSharedDetails()) {
+            for (AssetGlobalDetail assetGlobalUniqueDetail : assetGlobalSharedDetail.getAssetGlobalUniqueDetails()) {
+                //AssetGlobalDetail sharedDetails = new AssetGlobalDetail();
+                    
+                assetGlobalUniqueDetail.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
+                assetGlobalUniqueDetail.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
+                assetGlobalUniqueDetail.setManufacturerName(assetGlobal.getManufacturerName());
+                assetGlobalUniqueDetail.setSeparateSourceAmount(KualiDecimal.ZERO);
+            }
+            
+            //newAssetGlobalDetailList.add(assetGlobalSharedDetail);
+        }
+
+        //assetGlobal.setAssetSharedDetails(newAssetGlobalDetailList);
+    }
+    */
     /**
-     * Populate Asset Payment Details for Asset Separate doc
+     * Populate Asset Payment Details for Asset Separate document
      * 
      * @param assetGlobal
      */
@@ -214,7 +237,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     }   
     
     /**
-     * Hide specific document sections
+     * Hide specific document sections.
      * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
@@ -252,18 +275,43 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         }
         int sharedDetailsIndex = assetGlobal.getAssetSharedDetails().size() - 1;
         if (sharedDetailsIndex > -1 && (CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + sharedDetailsIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS).equalsIgnoreCase(collectionName)) {
-            handleAssetUniqueCollection(collectionName);
+            handleAssetUniqueCollection(collectionName, assetGlobal);
         }
         super.addNewLineToCollection(collectionName);
     }
 
-    private void handleAssetUniqueCollection(String collectionName) {
+    /**
+     * Sets required fields with specific values when an individual unique asset added.
+     * 
+     * @param collectionName
+     */
+    private void handleAssetUniqueCollection(String collectionName, AssetGlobal assetGlobal) {
         AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) newCollectionLines.get(collectionName);
-        if (assetGlobalDetail != null) {
+
+        if (ObjectUtils.isNotNull(assetGlobalDetail)) {
             assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+            /*
+            // populate unique asset fields for "Asset Separate" doc (location tab)
+            if (ObjectUtils.isNotNull(assetGlobal)) {
+                if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+                    assetGlobalDetail.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
+                    assetGlobalDetail.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
+                    assetGlobalDetail.setManufacturerName(assetGlobal.getManufacturerName());
+                    if (StringUtils.isBlank(assetGlobalDetail.getSeparateSourceAmount().toString())) {
+                        assetGlobalDetail.setSeparateSourceAmount(KualiDecimal.ZERO);
+                    }
+                }
+            }
+            */
         }
     }
 
+    /**
+     * Sets required fields with specific values when multiple unique assets added (i.e. field "Quantity Of Assets To Be Created").
+     * 
+     * @param collectionName
+     * @param assetGlobal
+     */
     private void handleAssetSharedDetailsCollection(String collectionName, AssetGlobal assetGlobal) {
         AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) newCollectionLines.get(collectionName);
         Integer locationQuantity = assetGlobalDetail.getLocationQuantity();
@@ -271,11 +319,12 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             AssetGlobalDetail newAssetUnique = new AssetGlobalDetail();
             newAssetUnique.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
             
-            // populate fields for "Asset Separate" doc (location tab)
+            // populate unique asset fields for "Asset Separate" doc (location tab)
             if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
                 newAssetUnique.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
                 newAssetUnique.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
                 newAssetUnique.setManufacturerName(assetGlobal.getManufacturerName());
+                newAssetUnique.setSeparateSourceAmount(KualiDecimal.ZERO);
             }
             assetGlobalDetail.getAssetGlobalUniqueDetails().add(newAssetUnique);
             newAssetUnique.setNewCollectionRecord(true);

@@ -293,7 +293,9 @@ public class CamsPropertyConstants {
         public static final String ASSET_UNIQUE_DETAILS = "assetGlobalUniqueDetails";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String DOCUMENT_NUMBER = "documentNumber";
-        // Asset Separate
+        //**** Asset Separate ****
+        // needed to highlight fields
+        public static final String ASSET_GLOBAL_UNIQUE_DETAILS = "assetGlobalUniqueDetails";
         public static String REPRESENTATIVE_UNIVERSAL_IDENTIFIER = "representativeUniversalIdentifier";
         public static String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
         public static String CAPITAL_ASSET_DESCRIPTION = "capitalAssetDescription";
@@ -302,7 +304,7 @@ public class CamsPropertyConstants {
         public static String MANUFACTURER_MODEL_NUMBER = "manufacturerModelNumber";
         public static String SEPARATE_SOURCE_AMOUNT = "separateSourceAmount";
     }
-
+    
     public static class AssetDepreciationConvention {
         public static final String FINANCIAL_OBJECT_SUB_TYPE_CODE = "financialObjectSubTypeCode";
     }

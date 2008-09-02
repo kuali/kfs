@@ -358,8 +358,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-
-    /**+
+    /**
      * 
      * Validates the posted date
      * @param assetPaymentDetail
@@ -442,23 +441,23 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         String capitalizationThresholdAmount = parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
         if (isCapitalStatus(assetGlobal) && totalPaymentByAsset.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ADMINISTRATORS)) {
             putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN, capitalizationThresholdAmount);
-            success = false;
+            success &= false;
         }
 
         // check if amount is less than threshold for non-capital assets for all users
         if (!isCapitalStatus(assetGlobal) && totalPaymentByAsset.isGreaterEqual(new KualiDecimal(capitalizationThresholdAmount))) {
             putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX);
-            success = false;
+            success &= false;
         }
         
-        // for Asset Separate doc - new source payments must be greater than the capital asset cost amount
+        // only for "Asset Separate" document
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             
             // new source payments must be greater than the capital asset cost amount
             KualiDecimal totalSeparateSourceAmount = assetGlobalService.totalSeparateSourceAmount(assetGlobal);
             if (totalSeparateSourceAmount.isGreaterThan(assetGlobal.getTotalCostAmount())) {
                 putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT_REQUIRED, new String[] { assetGlobal.getSeparateSourceCapitalAssetNumber().toString() });
-                success = false;
+                success &= false;
             }
 
             // only active capital assets can be separated
@@ -466,17 +465,60 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             if (ObjectUtils.isNotNull(assetGlobal.getSeparateSourceCapitalAsset())) {
                 if (!assetService.isCapitalAsset(assetGlobal.getSeparateSourceCapitalAsset())) {
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetSeparate.ERROR_NON_CAPITAL_ASSET_SEPARATE_REQUIRED, assetGlobal.getSeparateSourceCapitalAssetNumber().toString());
-                    success = false;
+                    success &= false;
                 }
             }
 
-        } 
+            // validate required fields within "Asset Unique Information" tab
+            int sharedIndex = 0;
+            for (AssetGlobalDetail addLocationDetail : assetSharedDetails) {
+                int uniqueIndex = 0;
+                for (AssetGlobalDetail uniqueLocationDetails : addLocationDetail.getAssetGlobalUniqueDetails()) {
+                    String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + sharedIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_GLOBAL_UNIQUE_DETAILS + "[" + uniqueIndex + "]";
+                    GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                    success &= validateCapitalAssetTypeCode(uniqueLocationDetails);
+                    success &= validateSeparateSourceAmount(uniqueLocationDetails);
+                    GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                    uniqueIndex++;
+                }
+                sharedIndex++;
+            }
+        } // end ASEP
         
         success = validateLocationCollection(assetGlobal, assetSharedDetails);
         success = validateTagDuplication(assetSharedDetails);
         return success;
     }
 
+    /**
+     * Validates the capital asset type code.
+     * 
+     * @param uniqueLocationDetails
+     * @return boolean
+     */
+    private boolean validateCapitalAssetTypeCode(AssetGlobalDetail uniqueLocationDetails) {
+        boolean success = true;
+        if (StringUtils.isEmpty(uniqueLocationDetails.getCapitalAssetTypeCode())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetSeparate.ERROR_CAPITAL_ASSET_TYPE_CODE_REQUIRED, uniqueLocationDetails.getCapitalAssetTypeCode());
+            success &= false;
+        }
+        return success;
+    }
+    
+    /**
+     * Validates the separate source amount.
+     * 
+     * @param uniqueLocationDetails
+     * @return boolean
+     */
+    private boolean validateSeparateSourceAmount(AssetGlobalDetail uniqueLocationDetails) {
+        boolean success = true;    
+        if ( StringUtils.isBlank(uniqueLocationDetails.getSeparateSourceAmount().toString()) || uniqueLocationDetails.getSeparateSourceAmount().isZero()) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT, CamsKeyConstants.AssetSeparate.ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT_REQUIRED, uniqueLocationDetails.getSeparateSourceAmount().toString());
+            success &= false;
+        }
+        return success;
+    }
 
     private boolean validateLocationCollection(AssetGlobal assetGlobal, List<AssetGlobalDetail> assetSharedDetails) {
         boolean success = true;
@@ -561,27 +603,24 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validatePaymentCollection(assetGlobal);
         }
         
-            // System shall only GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode
-            // is for capital assets
-            if ((success & super.processCustomSaveDocumentBusinessRules(document))
-                    && assetAcquisitionTypeService.hasIncomeAssetObjectCode(acquisitionTypeCode)
-                    && this.isCapitalStatus(assetGlobal)) {
+        // System shall only GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode is for capital assets
+        if ((success & super.processCustomSaveDocumentBusinessRules(document)) && assetAcquisitionTypeService.hasIncomeAssetObjectCode(acquisitionTypeCode) && this.isCapitalStatus(assetGlobal)) {
 
-                // create poster
-                AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
-                // create postables
-                assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster);
-                
-                if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
-                    assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
-                } else {
-                    assetGlobalGlPoster.getPendingEntries().clear();
-                }
+            // create poster
+            AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
+            // create postables
+            assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster);
+
+            if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
+                assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
             }
+            else {
+                assetGlobalGlPoster.getPendingEntries().clear();
+            }
+        }
         
         return success;
     }
-
 
     private boolean validatePaymentCollection(AssetGlobal assetGlobal) {
         boolean success = true;
@@ -629,7 +668,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
-
+    
+    /**
+     * Validate location
+     * 
+     * @param assetGlobal
+     * @return boolean
+     */
     private boolean validateLocation(AssetGlobal assetGlobal, AssetGlobalDetail assetGlobalDetail) {
         boolean success = true;
         if (StringUtils.isBlank(assetGlobal.getInventoryStatusCode())) {
@@ -646,6 +691,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * Validate asset type.
+     * 
+     * @param assetGlobal
+     * @return boolean
+     */
     private boolean validateAssetType(AssetGlobal assetGlobal) {
         boolean success = true;
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE);

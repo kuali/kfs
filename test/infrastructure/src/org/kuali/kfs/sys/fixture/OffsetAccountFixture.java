@@ -41,6 +41,7 @@ public enum OffsetAccountFixture {
         account.setFinancialOffsetObjectCode(this.financialOffsetObjectCode);
         account.setFinancialOffsetChartOfAccountCode(this.financialOffsetChartOfAccountCode);
         account.setFinancialOffsetAccountNumber(this.financialOffsetAccountNumber);
+        account.setActive(true);
 
         return account;
     }

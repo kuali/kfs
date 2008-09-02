@@ -82,7 +82,7 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
         assertTrue(GlobalVariables.getErrorMap().size() == 1);
         GlobalVariables.getErrorMap().clear();
 
-        // should not be generated for treatly exempt
+        // should not be generated for treaty exempt
         dvDocument.getDvNonResidentAlienTax().setIncomeClassCode("F");
         dvDocument.getDvNonResidentAlienTax().setForeignSourceIncomeCode(false);
         dvDocument.getDvNonResidentAlienTax().setIncomeTaxTreatyExemptCode(true);

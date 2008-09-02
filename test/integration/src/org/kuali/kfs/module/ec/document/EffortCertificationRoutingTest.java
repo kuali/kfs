@@ -148,7 +148,6 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         String initiatorNetworkId = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
         try {
             UniversalUser initiatorUser = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
-            initiatorUser.getModuleUsers(); // init the module users map for serialization
             initiatior.setUniversalUser(initiatorUser);
         }
         catch (UserNotFoundException e) {

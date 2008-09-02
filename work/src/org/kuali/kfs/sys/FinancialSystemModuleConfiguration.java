@@ -16,27 +16,10 @@
 package org.kuali.kfs.sys;
 
 import org.kuali.rice.kns.bo.ModuleConfiguration;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.rules.PreRulesContinuationBase;
-import org.kuali.rice.kns.service.KualiModuleUserService;
 
 /**
  * Slim subclass to enforce class hierarchy not enforced by the parent class' contract.
  */
 public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
 
-    @Override
-    public void setModuleUserRule(MaintenanceDocumentRuleBase moduleUserRule) {
-        throw new UnsupportedOperationException( "Module User properties are not used on FinancialSystemModule instances.");
-    }
-    
-    @Override
-    public void setModuleUserPreRules(PreRulesContinuationBase moduleUserPreRules) {
-        throw new UnsupportedOperationException( "Module User properties are not used on FinancialSystemModule instances.");
-    }
-    
-    @Override
-    public void setModuleUserService(KualiModuleUserService moduleUserService) {
-        throw new UnsupportedOperationException( "Module User properties are not used on FinancialSystemModule instances.");
-    }
 }

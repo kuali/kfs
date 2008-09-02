@@ -22,7 +22,6 @@
               p:attributeToHighlightOnFail="chartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="projectManagerUniversal"
-              p:activeIndicatorAttributeName="activeForAnyModule"
               p:attributeToHighlightOnFail="projectManagerUniversal.personUserIdentifier" />
         <bean parent="ReferenceDefinition"
               p:attributeName="organization"

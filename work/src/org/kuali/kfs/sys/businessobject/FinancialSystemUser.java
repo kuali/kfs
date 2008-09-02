@@ -35,7 +35,6 @@ import org.kuali.rice.kns.bo.EmployeeStatus;
 import org.kuali.rice.kns.bo.EmployeeType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.kns.bo.user.KualiGroup;
-import org.kuali.rice.kns.bo.user.KualiModuleUser;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -162,11 +161,6 @@ public class FinancialSystemUser extends UniversalUser {
         return orgs;
     }
 
-    
-    public String getActiveModuleCodeString() {
-        return getEmbeddedUniversalUser().getActiveModuleCodeString();
-    }
-
     public Campus getCampus() {
         return getEmbeddedUniversalUser().getCampus();
     }
@@ -175,12 +169,6 @@ public class FinancialSystemUser extends UniversalUser {
     public String getCampusCode() {
         return getEmbeddedUniversalUser().getCampusCode();
     }
-
-
-    public Set<String> getChangedModuleCodes() {
-        return getEmbeddedUniversalUser().getChangedModuleCodes();
-    }
-
 
     public EmployeeStatus getEmployeeStatus() {
         return getEmbeddedUniversalUser().getEmployeeStatus();
@@ -216,25 +204,6 @@ public class FinancialSystemUser extends UniversalUser {
         return getEmbeddedUniversalUser().getGroups();
     }
 
-
-    public Map<String, Map<String, String>> getModuleProperties() {
-        return getEmbeddedUniversalUser().getModuleProperties();
-    }
-
-
-    public Map<String, String> getModuleProperties(String moduleId) {
-        return getEmbeddedUniversalUser().getModuleProperties(moduleId);
-    }
-
-
-    public KualiModuleUser getModuleUser(String moduleId) {
-        return getEmbeddedUniversalUser().getModuleUser(moduleId);
-    }
-
-
-    public Map<String, KualiModuleUser> getModuleUsers() {
-        return getEmbeddedUniversalUser().getModuleUsers();
-    }
 
     public KualiDecimal getPersonBaseSalaryAmount() {
         return getEmbeddedUniversalUser().getPersonBaseSalaryAmount();
@@ -372,12 +341,6 @@ public class FinancialSystemUser extends UniversalUser {
     public void setCampusCode(String campusCode) {
         getEmbeddedUniversalUser().setCampusCode(campusCode);
     }
-
-
-    public void setChangedModuleCodes(Set<String> changedModuleCodes) {
-        getEmbeddedUniversalUser().setChangedModuleCodes(changedModuleCodes);
-    }
-
 
     public void setEmployeeStatus(EmployeeStatus employeeStatus) {
         getEmbeddedUniversalUser().setEmployeeStatus(employeeStatus);

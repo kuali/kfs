@@ -24,18 +24,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import org.kuali.rice.kns.lookup.LookupResultsServiceImpl;
-import org.kuali.rice.kns.service.impl.BusinessObjectServiceImpl;
-import org.kuali.rice.kns.service.impl.KeyValuesServiceImpl;
-import org.kuali.rice.kns.service.impl.KualiModuleUserPropertyServiceImpl;
-import org.kuali.rice.kns.service.impl.LookupServiceImpl;
-import org.kuali.rice.kns.service.impl.PersistenceServiceImpl;
-import org.kuali.rice.kns.service.impl.PostDataLoadEncryptionServiceImpl;
-import org.kuali.rice.kns.service.impl.SequenceAccessorServiceImpl;
 import org.kuali.kfs.coa.service.impl.SubFundGroupServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
+import org.kuali.rice.kns.lookup.LookupResultsServiceImpl;
+import org.kuali.rice.kns.service.impl.BusinessObjectServiceImpl;
+import org.kuali.rice.kns.service.impl.KeyValuesServiceImpl;
+import org.kuali.rice.kns.service.impl.LookupServiceImpl;
+import org.kuali.rice.kns.service.impl.PersistenceServiceImpl;
+import org.kuali.rice.kns.service.impl.PostDataLoadEncryptionServiceImpl;
+import org.kuali.rice.kns.service.impl.SequenceAccessorServiceImpl;
 import org.springframework.aop.framework.AopProxyUtils;
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
@@ -65,7 +64,6 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         excludedClasses.add( PersistenceServiceImpl.class );
         excludedClasses.add( SubFundGroupServiceImpl.class );
         excludedClasses.add( PostDataLoadEncryptionServiceImpl.class );
-        excludedClasses.add( KualiModuleUserPropertyServiceImpl.class );
         excludedClasses.add( KeyValuesServiceImpl.class );
         excludedClasses.add( SequenceAccessorServiceImpl.class );
         excludedClasses.add( LookupResultsServiceImpl.class );

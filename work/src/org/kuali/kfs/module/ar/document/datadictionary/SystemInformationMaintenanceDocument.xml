@@ -70,7 +70,6 @@
               p:attributeToHighlightOnFail="universityFiscalYear" />
         <bean parent="ReferenceDefinition"
               p:attributeName="financialDocumentInitiator"
-              p:activeIndicatorAttributeName="activeForAnyModule"
               p:attributeToHighlightOnFail="financialDocumentInitiator.personUserIdentifier" />                
       </list>
     </property>

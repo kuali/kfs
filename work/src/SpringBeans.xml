@@ -62,7 +62,6 @@
 			<set>
 				<value>kualiConfigurationService</value>
 				<value>kualiModuleService</value>
-				<value>kualiModuleUserPropertyService</value>
 				<value>webAuthenticationService</value>
 				<value>enWebAuthenticationService</value>
 				<value>authorizationService</value>
@@ -260,7 +259,6 @@
 		<property name="lookupDao" ref="lookupDao" />
 		<property name="kualiModuleService" ref="kualiModuleService" />
 		<property name="dateTimeService" ref="dateTimeService" />
-		<property name="moduleUserPropertyService" ref="kualiModuleUserPropertyService" />
 		<property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
 		<property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
 		<property name="workflowUserCapabilities">
@@ -271,20 +269,6 @@
 		</property>
 	</bean>
     <alias name="universalUserService" alias="financialSystemUserService"/>
-
-	<bean id="kualiModuleUserServiceBase" class="org.kuali.rice.kns.service.impl.KualiModuleUserServiceBaseImpl" abstract="true">
-		<property name="universalUserService">
-			<ref bean="universalUserService" />
-		</property>
-		<property name="configService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-		<property name="kualiModuleUserDao">
-			<bean id="kualiModuleUserDao" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
-				<property name="serviceName" value="kualiModuleUserDao" />
-			</bean>
-		</property>
-	</bean>
 
 	<bean id="encryptionService" class="org.kuali.rice.core.service.impl.DemonstrationGradeEncryptionServiceImpl">
 		<property name="secretKey">
@@ -645,12 +629,6 @@
 		</property>
 	</bean>
 
-	<bean id="kualiModuleUserPropertyService" class="org.kuali.rice.kns.service.impl.KualiModuleUserPropertyServiceImpl">
-		<property name="moduleUserPropertyDao">
-			<ref bean="moduleUserPropertyDao" />
-		</property>
-	</bean>
-
 	<bean id="kualiLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="lookupableHelperService" />
@@ -770,8 +748,6 @@
 		</property>
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
-
-	<bean id="moduleUserPropertyDao" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.KualiModuleUserPropertyDaoOjb" />
 
 	<bean id="maintenanceDocumentDao" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.MaintenanceDocumentDaoOjb" />
 

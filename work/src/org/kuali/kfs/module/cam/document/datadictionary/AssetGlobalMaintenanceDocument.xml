@@ -340,6 +340,7 @@
                           p:readOnlyAfterAdd="true" />
                    	<bean parent="MaintainableFieldDefinition"
                     	  p:name="separateSourceAmount"
+                    	  p:defaultValue="0.00"
                           p:readOnlyAfterAdd="true" /> 
                     <!-- Asset Separate - END -->                   
                   </list>

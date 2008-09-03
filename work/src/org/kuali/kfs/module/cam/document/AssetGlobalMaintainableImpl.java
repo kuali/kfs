@@ -79,7 +79,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             
             populateAssetInformation(assetGlobal, asset);
             populateAssetSeparateAssetDetails(assetGlobal, asset, assetOrganization);
-            //populateAssetSeparateLocationDetails(assetGlobal, asset);
             populateAssetSeparatePaymentDetails(assetGlobal, asset);
         }
         
@@ -148,27 +147,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.setLandAcreageSize(asset.getLandAcreageSize());
         assetGlobal.setLandParcelNumber(asset.getLandParcelNumber());   
     }
-    /*
-    private void populateAssetSeparateLocationDetails(AssetGlobal assetGlobal, Asset asset) { 
 
-        //List<AssetGlobalDetail> newAssetGlobalDetailList = assetGlobal.getAssetSharedDetails();
-
-        for (AssetGlobalDetail assetGlobalSharedDetail : assetGlobal.getAssetSharedDetails()) {
-            for (AssetGlobalDetail assetGlobalUniqueDetail : assetGlobalSharedDetail.getAssetGlobalUniqueDetails()) {
-                //AssetGlobalDetail sharedDetails = new AssetGlobalDetail();
-                    
-                assetGlobalUniqueDetail.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
-                assetGlobalUniqueDetail.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
-                assetGlobalUniqueDetail.setManufacturerName(assetGlobal.getManufacturerName());
-                assetGlobalUniqueDetail.setSeparateSourceAmount(KualiDecimal.ZERO);
-            }
-            
-            //newAssetGlobalDetailList.add(assetGlobalSharedDetail);
-        }
-
-        //assetGlobal.setAssetSharedDetails(newAssetGlobalDetailList);
-    }
-    */
     /**
      * Populate Asset Payment Details for Asset Separate document
      * 
@@ -290,19 +269,24 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
         if (ObjectUtils.isNotNull(assetGlobalDetail)) {
             assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
-            /*
-            // populate unique asset fields for "Asset Separate" doc (location tab)
+
+            // if not set, populate unique asset fields using original asset data.  "Asset Separate" doc (location tab)
             if (ObjectUtils.isNotNull(assetGlobal)) {
                 if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
-                    assetGlobalDetail.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
-                    assetGlobalDetail.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
-                    assetGlobalDetail.setManufacturerName(assetGlobal.getManufacturerName());
-                    if (StringUtils.isBlank(assetGlobalDetail.getSeparateSourceAmount().toString())) {
+                    if (assetGlobalDetail.getCapitalAssetTypeCode()== null) {
+                        assetGlobalDetail.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
+                    }
+                    if (assetGlobalDetail.getCapitalAssetDescription()== null) {
+                        assetGlobalDetail.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
+                    }
+                    if (assetGlobalDetail.getManufacturerName()== null) {
+                        assetGlobalDetail.setManufacturerName(assetGlobal.getManufacturerName());
+                    }
+                    if (assetGlobalDetail.getSeparateSourceAmount()== null) {
                         assetGlobalDetail.setSeparateSourceAmount(KualiDecimal.ZERO);
                     }
                 }
             }
-            */
         }
     }
 
@@ -319,7 +303,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             AssetGlobalDetail newAssetUnique = new AssetGlobalDetail();
             newAssetUnique.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
             
-            // populate unique asset fields for "Asset Separate" doc (location tab)
+            // populate unique asset fields using original asset data.  "Asset Separate" doc (location tab)
             if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
                 newAssetUnique.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
                 newAssetUnique.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());

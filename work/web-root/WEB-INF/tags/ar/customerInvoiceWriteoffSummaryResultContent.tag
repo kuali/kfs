@@ -22,37 +22,36 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
 
 <div class="tab-container" align="center">
-		<h3>Invoices to Writeoff</h3>
-		<table class="datatable-100" cellspacing="0" cellpadding="0" width="100%">
-			<thead>
-				
-				<tr>
-					<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.documentNumber}" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.age}" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.billingDate}" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.sourceTotal}" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.openAmount}" />
-				</tr>
-			</thead>
-			<logic:iterate id="customerInvoiceDocument" name="KualiForm"
-					property="${propertyName}.customerInvoiceDocuments" indexId="ctr">
-	
-				<ar:customerInvoiceWriteoffSummarySubResult
-					customerInvoiceDocumentAttributes="${customerInvoiceDocumentAttributes}"
-					propertyName="${propertyName}.customerInvoiceDocuments[${ctr}]"
-					/>
-			</logic:iterate>
-		</table>
-		<h3>Customer Note</h3>
-		<table class="datatable-100" cellspacing="0" cellpadding="0" width="100%">
+	<h3>Invoices to Writeoff</h3>
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+		<thead>
+			
 			<tr>
-				<td>
-					*Note:
-				</td>
-				<td>
-					<textarea rows="3" cols="60"></textarea>
-				</td>
-			</tr>	
-		</table>
-	</div>
+				<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.documentNumber}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.age}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.billingDate}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.sourceTotal}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDocumentAttributes.openAmount}" />
+			</tr>
+		</thead>
+		<logic:iterate id="customerInvoiceDocument" name="KualiForm"
+				property="${propertyName}.customerInvoiceDocuments" indexId="ctr">
+
+			<ar:customerInvoiceWriteoffSummarySubResult
+				customerInvoiceDocumentAttributes="${customerInvoiceDocumentAttributes}"
+				propertyName="${propertyName}.customerInvoiceDocuments[${ctr}]"
+				/>
+		</logic:iterate>
+	</table>
+	<h3>Customer Note</h3>
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+		<tr>
+			<td>
+				*Note:
+			</td>
+			<td>
+				<textarea rows="3" cols="60"></textarea>
+			</td>
+		</tr>	
+	</table>
 </div>	

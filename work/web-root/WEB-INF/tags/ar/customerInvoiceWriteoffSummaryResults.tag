@@ -14,4 +14,4 @@
 		useTabTop="${useTabTop}"
 		/>
 </logic:iterate>
-<kul:panelFooter />
+

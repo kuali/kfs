@@ -23,4 +23,6 @@
 	</br>
 		
 	<ar:customerInvoiceWriteoffSummaryResults customerInvoiceDocumentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"/>
+
+	<kul:panelFooter />
 </kul:page>

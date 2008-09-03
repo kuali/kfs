@@ -257,7 +257,7 @@
 	<field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	
 	<reference-descriptor name="state" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="postalStateCode" />
+        <foreignkey field-ref="stateCode" />
     </reference-descriptor>
 </class-descriptor>
 

@@ -10,7 +10,14 @@ public class County extends PersistableBusinessObjectBase implements Inactivatea
 	private String stateCode;
 	private String countyName;
 	private boolean active;
+	private State state;
 	
+	public State getState() {
+		return state;
+	}
+	public void setState(State state) {
+		this.state = state;
+	}
 	public boolean isActive() {
 		return active;
 	}

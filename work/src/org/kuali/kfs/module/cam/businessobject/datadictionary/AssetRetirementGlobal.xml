@@ -88,7 +88,7 @@
   <bean id="AssetRetirementGlobal-mergedTargetCapitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="mergedTargetCapitalAssetNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Merged Target Capital Asset Number" />
+    <property name="label" value="Merged Target Asset Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >

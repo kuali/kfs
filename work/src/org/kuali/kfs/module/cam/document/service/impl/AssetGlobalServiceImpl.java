@@ -26,7 +26,6 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -41,6 +40,7 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants.CAPITAL_ASSETS_BATCH;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -92,10 +92,10 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     protected AssetGlpeSourceDetail createAssetGlpePostable(AssetGlobal document, AssetPaymentDetail assetPaymentDetail, AmountCategory amountCategory) {
         LOG.debug("Start - createAssetGlpePostable (" + document.getDocumentNumber() + "-" + assetPaymentDetail.getAccountNumber() + ")");
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
-        
+
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
         postable.setAccount(assetPaymentDetail.getAccount());
-        
+
         postable.setAmount(assetPaymentDetail.getAmount());
         postable.setAccountNumber(assetPaymentDetail.getAccountNumber());
         postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_AC);
@@ -109,11 +109,11 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
         AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
-        
+
         OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetPaymentDetail.getChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
         document.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE);
         amountCategory.setParams(postable, assetPaymentDetail, assetObjectCode, offsetDefinition, document.getAcquisitionType());
-        
+
         LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + assetPaymentDetail.getAccountNumber() + "-" + ")");
         return postable;
     }
@@ -123,7 +123,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      */
     public void createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster) {
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
-        
+
         for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
             if (isPaymentFinancialObjectActive(assetPaymentDetail)) {
                 KualiDecimal accountChargeAmount = assetPaymentDetail.getAmount();
@@ -260,16 +260,13 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      */
     public KualiDecimal totalNonFederalPaymentByAsset(AssetGlobal assetGlobal) {
         KualiDecimal totalNonFederal = KualiDecimal.ZERO;
-        int numberOfAssets = assetGlobal.getAssetGlobalDetails().size();
 
+        //each paymentDetails contains the totalNonFederal amount for all the new created asset(s).  
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
-            if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(Asset.class, CamsConstants.Parameters.FEDERAL_OWNED_OBJECT_SUB_TYPES).split(";")).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
+            // It should be in the parameter list of CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES instead of CamsConstants.Parameters.FEDERAL_OWNED_OBJECT_SUB_TYPES
+            if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
                 totalNonFederal = totalNonFederal.add(assetPaymentDetail.getAmount());
             }
-        }
-
-        if (numberOfAssets != 0) {
-            return totalNonFederal.divide(new KualiDecimal(numberOfAssets));
         }
         return totalNonFederal;
     }
@@ -317,24 +314,24 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      * @param assetGlobal
      * @return boolean
      */
-    public boolean isAssetSeparateDocument(AssetGlobal assetGlobal){
+    public boolean isAssetSeparateDocument(AssetGlobal assetGlobal) {
         if (ObjectUtils.isNotNull(assetGlobal.getFinancialDocumentTypeCode()) && assetGlobal.getFinancialDocumentTypeCode().equals(CamsConstants.DocumentTypeCodes.ASSET_SEPARATE)) {
             return true;
         }
         return false;
-    }    
-    
+    }
+
     /**
      * Add and return the total amount for separate source amount
      * 
      * @param assetGlobal
      * @return Returns the total separate source amount
      */
-    public KualiDecimal totalSeparateSourceAmount (AssetGlobal assetGlobal) {
+    public KualiDecimal totalSeparateSourceAmount(AssetGlobal assetGlobal) {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
         // add new asset location
         for (AssetGlobalDetail assetSharedDetail : assetGlobal.getAssetSharedDetails()) {
-            // existing 
+            // existing
             for (AssetGlobalDetail assetGlobalUniqueDetail : assetSharedDetail.getAssetGlobalUniqueDetails()) {
                 totalAmount = totalAmount.add(assetGlobalUniqueDetail.getSeparateSourceAmount());
             }

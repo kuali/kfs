@@ -92,6 +92,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PULLUP_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PUSHDOWN_METHOD)) {
 
+            // init the account org hier state on initial load only - this is stored as hiddens
+            if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD)){
+                budgetConstructionForm.setAccountOrgHierLevels(SpringContext.getBean(BudgetDocumentService.class).getPushPullLevelList(budgetConstructionForm.getBudgetConstructionDocument(), GlobalVariables.getUserSession().getUniversalUser()));
+            }
+
             if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_VIEW_ONLY);
             }

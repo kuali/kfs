@@ -784,10 +784,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * @return Returns the accountOrgHierLevels.
      */
     public List<BudgetConstructionAccountOrganizationHierarchy> getAccountOrgHierLevels() {
-        if (this.accountOrgHierLevels.isEmpty() && this.getBudgetConstructionDocument().getDocumentNumber() != null) {
-            this.setAccountOrgHierLevels(SpringContext.getBean(BudgetDocumentService.class).getPushPullLevelList(this.getBudgetConstructionDocument(), GlobalVariables.getUserSession().getUniversalUser()));
-        }
-        return accountOrgHierLevels;
+        return this.accountOrgHierLevels;
     }
 
     /**

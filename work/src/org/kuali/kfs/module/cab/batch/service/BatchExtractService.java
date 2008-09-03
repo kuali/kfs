@@ -31,6 +31,7 @@ public interface BatchExtractService {
 
     /**
      * Returns the list of CAB eligible GL entries, filter parameters are pre-configured
+     * 
      * @param process log
      * @return Eligible GL Entries meeting batch parameters configured under parameter group KFS-CAB:Batch
      */
@@ -53,7 +54,7 @@ public interface BatchExtractService {
 
     /**
      * Saved purchasing line transactions, this method implementation internally uses
-     * {@link org.kuali.kfs.gl.batch.service.ReconciliationService} to qa the data before saving
+     * {@link org.kuali.kfs.gl.batch.service.ReconciliationService} to QA the data before saving
      * 
      * @param poLines Eligible GL Lines
      * @param processLog Process Log
@@ -89,4 +90,11 @@ public interface BatchExtractService {
      * @return Collection Purchasing Accounts Payable Account Line History
      */
     Collection<PurApAccountingLineBase> findPurapAccountHistory();
+
+    /**
+     * Generates a PDF report with status details
+     * 
+     * @param extractProcessLog ExtractProcessLog
+     */
+    void generateStatusReport(ExtractProcessLog extractProcessLog);
 }

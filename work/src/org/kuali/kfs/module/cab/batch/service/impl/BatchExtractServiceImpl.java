@@ -27,6 +27,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
+
+import net.sf.jasperreports.engine.JRParameter;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.businessobject.Entry;
@@ -50,9 +53,12 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.mail.InvalidAddressException;
@@ -63,6 +69,7 @@ import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.jasperreports.JasperReportsUtils;
 
 /**
  * This class provides default implementation of {@link BatchExtractService}
@@ -76,7 +83,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     protected DateTimeService dateTimeService;
     protected ParameterService parameterService;
     protected MailService mailService;
-    private PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao;
+    protected PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao;
+    private ReportGenerationService reportGenerationService;
+    private ReportInfo cabBatchStatusReportInfo;
 
     /**
      * Creates a batch parameters object reading values from configured system parameters
@@ -430,6 +439,31 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         }
     }
 
+    public void generateStatusReport(ExtractProcessLog extractProcessLog) {
+        String reportFileName = cabBatchStatusReportInfo.getReportFileName();
+        String reportDirectoty = cabBatchStatusReportInfo.getReportsDirectory();
+        String reportTemplateClassPath = cabBatchStatusReportInfo.getReportTemplateClassPath();
+        String reportTemplateName = cabBatchStatusReportInfo.getReportTemplateName();
+        ResourceBundle resourceBundle = cabBatchStatusReportInfo.getResourceBundle();
+        String subReportTemplateClassPath = cabBatchStatusReportInfo.getSubReportTemplateClassPath();
+        Map<String, String> subReports = cabBatchStatusReportInfo.getSubReports();
+        Map<String, Object> reportData = new HashMap<String, Object>();
+        reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+        reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR, subReportTemplateClassPath);
+        reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME, subReports);
+        String template = reportTemplateClassPath + reportTemplateName;
+        String fullReportFileName = reportGenerationService.buildFullFileName(dateTimeService.getCurrentDate(), reportDirectoty, reportFileName, "");
+        List<ExtractProcessLog> dataSource = new ArrayList<ExtractProcessLog>();
+        dataSource.add(extractProcessLog);
+        List<Entry> mismatchedGLEntries = extractProcessLog.getMismatchedGLEntries();
+        List<Entry> duplicateGLEntries = extractProcessLog.getDuplicateGLEntries();
+        List<Entry> ignoredGLEntries = extractProcessLog.getIgnoredGLEntries();
+        reportData.put("mismatchedGLEntries", JasperReportsUtils.convertReportData(mismatchedGLEntries == null ? new ArrayList<Entry>() : mismatchedGLEntries));
+        reportData.put("duplicateGLEntries", JasperReportsUtils.convertReportData(duplicateGLEntries == null ? new ArrayList<Entry>() : duplicateGLEntries));
+        reportData.put("ignoredGLEntries", JasperReportsUtils.convertReportData(ignoredGLEntries == null ? new ArrayList<Entry>() : ignoredGLEntries));
+        reportGenerationService.generateReportToPdfFile(reportData, dataSource, template, fullReportFileName);
+    }
+
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#sendStatusEmail(org.kuali.kfs.module.cab.batch.ExtractProcessLog)
      */
@@ -615,6 +649,42 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      */
     public void setPurchasingAccountsPayableItemAssetDao(PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao) {
         this.purchasingAccountsPayableItemAssetDao = purchasingAccountsPayableItemAssetDao;
+    }
+
+    /**
+     * Gets the reportGenerationService attribute.
+     * 
+     * @return Returns the reportGenerationService.
+     */
+    public ReportGenerationService getReportGenerationService() {
+        return reportGenerationService;
+    }
+
+    /**
+     * Sets the reportGenerationService attribute value.
+     * 
+     * @param reportGenerationService The reportGenerationService to set.
+     */
+    public void setReportGenerationService(ReportGenerationService reportGenerationService) {
+        this.reportGenerationService = reportGenerationService;
+    }
+
+    /**
+     * Gets the cabBatchStatusReportInfo attribute.
+     * 
+     * @return Returns the cabBatchStatusReportInfo.
+     */
+    public ReportInfo getCabBatchStatusReportInfo() {
+        return cabBatchStatusReportInfo;
+    }
+
+    /**
+     * Sets the cabBatchStatusReportInfo attribute value.
+     * 
+     * @param cabBatchStatusReportInfo The cabBatchStatusReportInfo to set.
+     */
+    public void setCabBatchStatusReportInfo(ReportInfo cabBatchStatusReportInfo) {
+        this.cabBatchStatusReportInfo = cabBatchStatusReportInfo;
     }
 
 

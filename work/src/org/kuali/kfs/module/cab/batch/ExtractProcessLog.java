@@ -131,6 +131,9 @@ public class ExtractProcessLog {
      * @param add Entry
      */
     public void addIgnoredGLEntry(Entry add) {
+        if (this.ignoredGLEntries == null) {
+            this.ignoredGLEntries = new ArrayList<Entry>();
+        }
         this.ignoredGLEntries.add(add);
     }
 
@@ -140,6 +143,9 @@ public class ExtractProcessLog {
      * @param add Entry
      */
     public void addDuplicateGLEntry(Entry add) {
+        if (this.duplicateGLEntries == null) {
+            this.duplicateGLEntries = new ArrayList<Entry>();
+        }
         this.duplicateGLEntries.add(add);
     }
 
@@ -149,6 +155,9 @@ public class ExtractProcessLog {
      * @param add Entry
      */
     public void addMismatchedGLEntry(Entry add) {
+        if (this.mismatchedGLEntries == null) {
+            this.mismatchedGLEntries = new ArrayList<Entry>();
+        }
         this.mismatchedGLEntries.add(add);
     }
 

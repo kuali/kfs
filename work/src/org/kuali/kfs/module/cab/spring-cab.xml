@@ -115,6 +115,8 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="mailService" ref="mailService" />
+		<property name="cabBatchStatusReportInfo" ref="cabBatchStatusReportInfo" />
+		<property name="reportGenerationService" ref="reportGenerationService" />
 	</bean>
 	<bean id="reconciliationService" class="org.kuali.kfs.module.cab.batch.service.impl.ReconciliationServiceImpl" singleton="false">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -135,6 +137,20 @@
 		<property name="jobName" value="cabExtractJob" />
 		<!--  it will run every day at 7 AM -->
 		<property name="cronExpression" value="0 0 7 ? * *" />
+	</bean>
+	<bean id="cabBatchStatusReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
+		<property name="reportTitle" value="CAB Batch Status Report" />
+		<property name="reportFileName" value="cab_batch_status_report" />
+		<property name="reportsDirectory" value="${reports.directory}/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/cab/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/cab/report/" />
+		<property name="reportTemplateName" value="BatchReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/cab/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="batchReportDetails" value="BatchReportDetails"/>
+			</map>
+		</property>
 	</bean>	
 <!-- End - CAB Batch Beans -->
 	

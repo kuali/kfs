@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
@@ -43,6 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class ReconciliationServiceImpl implements ReconciliationService {
+    private static final Logger LOG = Logger.getLogger(ReconciliationServiceImpl.class);
     protected BusinessObjectService businessObjectService;
     protected List<Entry> ignoredEntries = new ArrayList<Entry>();
     protected List<Entry> duplicateEntries = new ArrayList<Entry>();
@@ -60,6 +62,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
         /**
          * FORMULA is amount value (GL_ENTRY_T + GL_PEND_ENTRY_T = AP_ACCT_LINE_HIST)
          */
+        LOG.info("Reconcile started");
         groupGLEntries(glEntries);
         groupPendingGLEntries(pendingGlEntries);
         groupPurapAccountEntries(purapAcctEntries);
@@ -67,9 +70,11 @@ public class ReconciliationServiceImpl implements ReconciliationService {
 
         // check for continuation account numbers
         if (!misMatchedGroups.isEmpty()) {
+            LOG.info("Checking for continuation account");
             checkGroupByContinuationAccount();
             reconcileGroups(misMatchedGroups);
         }
+        LOG.info("Reconcile finished");
     }
 
     /**
@@ -85,6 +90,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
                 // find the account and check expiration date and continuation
                 String continuationAcctNum = null;
                 if (account.isExpired() && (continuationAcctNum = account.getContinuationAccountNumber()) != null) {
+                    LOG.debug("Continutation account found for " + account.getAccountNumber() + " is " + account.getContinuationAccountNumber());
                     purapAcctGroupMap.remove(purapAcctLineGroup);
                     purapAcctLineGroup.setAccountNumber(continuationAcctNum);
                     purapAcctGroupMap.put(purapAcctLineGroup, purapAcctLineGroup);
@@ -98,6 +104,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
                 // find the account and check expiration date and continuation
                 String continuationAcctNum = null;
                 if (account.isExpired() && (continuationAcctNum = account.getContinuationAccountNumber()) != null) {
+                    LOG.debug("Continutation account found for " + account.getAccountNumber() + " is " + account.getContinuationAccountNumber());
                     pendingGlEntryGroupMap.remove(pendingGlEntryGroup);
                     pendingGlEntryGroup.setAccountNumber(continuationAcctNum);
                     pendingGlEntryGroupMap.put(pendingGlEntryGroup, pendingGlEntryGroup);
@@ -133,9 +140,11 @@ public class ReconciliationServiceImpl implements ReconciliationService {
             KualiDecimal glAmt = this.glEntryGroupMap.get(glAccountLineGroup).getAmount();
             KualiDecimal totalAmount = glAmt.add(pendingGlAmt);
             if (purapAccountLineGroup == null || !totalAmount.equals(purapAccountLineGroup.getAmount())) {
+                LOG.debug("GL account line " + glAccountLineGroup.toString() + " did not find a mathcing purchasing account line group");
                 misMatchedGroups.add(glAccountLineGroup);
             }
             else {
+                LOG.debug("GL account line " + glAccountLineGroup.toString() + " found a matching Purchasing account line group ");
                 glAccountLineGroup.setMatchedPurApAcctLines(purapAccountLineGroup.getSourceEntries());
                 matchedGroups.add(glAccountLineGroup);
                 misMatchedGroups.remove(glAccountLineGroup);

@@ -86,6 +86,7 @@ public class ExtractStep extends AbstractStep {
         }
         finally {
             batchExtractService.sendStatusEmail(processLog);
+            batchExtractService.generateStatusReport(processLog);
             LOG.info("Batch status email is sent successfully.");
         }
         return true;

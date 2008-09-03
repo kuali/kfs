@@ -153,7 +153,7 @@
     <field-descriptor name="lastAssignedDisbNbr" column="LST_ASND_DISB_NBR" jdbc-type="INTEGER"/>
     <field-descriptor name="physCampusProcCode" column="PHYS_CMP_PROC_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 
     <field-descriptor name="bankId" column="BNK_ID" jdbc-type="INTEGER"/>
     <reference-descriptor name="bank" class-ref="org.kuali.kfs.pdp.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">

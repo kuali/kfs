@@ -79,8 +79,9 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
 
     /**
      * @return
-     * @hibernate.many-to-one class="edu.iu.uis.pdp.bo.Bank" column="BNK_ID" not-null="true"
+     * 
      */
+   
     public Bank getBank() {
         return bank;
     }
@@ -134,8 +135,9 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
     }
 
     /**
-     * @param integer
+     * @param Bank
      */
+    @Deprecated
     public void setBank(Bank bank) {
         this.bank = bank;
     }
@@ -203,5 +205,13 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
 
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
+    }
+    
+    public Integer getBankId() {
+        return bankId;
+    }
+    
+    public void setBankId(Integer bankId) {
+        this.bankId = bankId;
     }
 }

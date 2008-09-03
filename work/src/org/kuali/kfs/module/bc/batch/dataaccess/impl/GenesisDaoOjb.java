@@ -42,6 +42,7 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.GenesisDao;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
@@ -1073,7 +1074,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private Integer nHeadersSwitchingLevels = 0;
 
 
-    // public method
+    /*
+     *  rebuild the organization hierarchy based on changes to BC accounting and BC organization tables
+     */
 
     public void rebuildOrganizationHierarchy(Integer BaseYear) {
         // ********
@@ -1120,6 +1123,49 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             updateBudgetConstructionHeaderAsNeeded(extantBCHdr);
         }
         organizationHierarchyCleanUp();
+    }
+    
+    /*
+     *  verify that all the accounts in the budget construction header table are in the budget construction accounting table as well.
+     *
+     *  genesis initially inserts all accounts in the chart of accounts table into the budget construction accounting table.
+     *  after genesis, the budget construction accounting and organization tables must be maintained separately, to allow changes for the coming fiscal year to be made without changing the current account/organization structure.
+     *  this means that accounts can come into budget construction via the general ledger or via payroll (CSF) which were created after genesis but for some reason not entered into the budget construction accounting tables.
+     *  there is no good way for a program to decide why this happened and what to do about it.  so, check for this situation and print a log message if it occurs. 
+     */
+    
+    public Map verifyAccountsAreAccessible(Integer requestFiscalYear)
+    {
+        HashMap<String,String[]> returnMap = new HashMap<String,String[]>();
+        
+        Criteria criteriaId = new Criteria();
+        // allow more than one year in BC
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, requestFiscalYear);
+        // query for the chart, account, and a field unique to the joined BC Account table
+        String[] selectList = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                               KFSPropertyConstants.ACCOUNT_NUMBER,
+                               BCPropertyConstants.BUDGET_CONSTRUCTION_ACCOUNT_REPORTS+"."+KFSPropertyConstants.REPORTS_TO_ORGANIZATION_CODE};
+        ReportQueryByCriteria missingBCAccounts = new ReportQueryByCriteria(BudgetConstructionHeader.class,criteriaId);
+        missingBCAccounts.setAttributes(selectList);
+        // set up an outer join path to the BC Account table
+        missingBCAccounts.setPathOuterJoin(BCPropertyConstants.BUDGET_CONSTRUCTION_ACCOUNT_REPORTS);
+        //
+        // look for a null value of the organization code to identify accounts not in Budget Construction Accounting
+        Iterator <Object[]> returnedRows = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(missingBCAccounts);
+        while (returnedRows.hasNext())
+        {
+            Object[] returnedFields = returnedRows.next();
+            if (returnedFields[2] == null)
+            {
+                // store the missing row in the map
+                String chart = (String) returnedFields[0];
+                String account = (String) returnedFields[1];
+                String[] chartAccount = {chart, account};
+                returnMap.put(chart+account,chartAccount);
+            }
+        }
+        
+        return returnMap;
     }
 
     //  private utility methods
@@ -2742,399 +2788,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             }
         }
     }
-
-    /**************************************************************************** 
-     * (10) this is a unit test routine @@TODO: take this out                 
-     ****************************************************************************/
-    public void genesisUnitTest(Integer BaseYear) {
-        /* (1) check the SQL for appointment funding (worked 03/29/2007) p6spy=yes
-        Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                              BaseYear+1);
-        criteriaID.addEqualTo(KFSPropertyConstants.EMPLID,"0000001321");
-        QueryByCriteria queryID = new QueryByCriteria(
-                PendingBudgetConstructionAppointmentFunding.class, criteriaID);
-        Iterator bcafResults =
-        getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
-        while (bcafResults.hasNext())
-        {
-            PendingBudgetConstructionAppointmentFunding bcaf =
-                (PendingBudgetConstructionAppointmentFunding) bcafResults.next();
-            untouchedAppointmentFunding(bcaf);
-        }
-         */
-        /* (2) test the addIn criterion  (worked 04/02/2007) p6spy=yes */
-        //        Integer RequestYear = BaseYear+1;
-        //        Criteria criteriaID = new Criteria();
-        //        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
-        //                              RequestYear);
-        //        criteriaID.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_CODE,
-        //                this.findPositionRequiredObjectCodes(BaseYear));
-        //        String[] selectCount = {"COUNT(*)"};
-        //        ReportQueryByCriteria queryID =
-        //            new ReportQueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
-        //                                      selectCount,criteriaID);
-        //        Iterator rowCounter =
-        //            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        //        while (rowCounter.hasNext())
-        //        {
-        //            Integer rowCount = 
-        //                ((Number)((Object[]) rowCounter.next())[0]).intValue();
-        //            LOG.info(String.format("\nPBGL rows with detailed position objects: %d",
-        //                     rowCount));
-        //        }
-        // here is an add on to verify that OJB instantiates all joined rows
-        // one row at a time
-        //        criteriaID.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,"BL");
-        //        QueryByCriteria testQry = 
-        //            new QueryByCriteria(LaborObject.class,criteriaID);
-        //        Iterator uncleGuido =
-        //            getPersistenceBrokerTemplate().getIteratorByQuery(testQry);
-        //        Integer numerateri = new Integer(0);
-        //        while (uncleGuido.hasNext())
-        //        {
-        //            numerateri = numerateri+1;
-        //            LOG.warn(String.format("\ninstantiating Object %d",numerateri));
-        //            LaborObject labObj = (LaborObject) uncleGuido.next();
-        //        }
-        /* (3) attempt to test the rounding mechanism (worked 4/4/2007)
-        // build the new BC CSF objects in memory
-        setUpCSFOverrideKeys(BaseYear); 
-        setUpBCSFMap(BaseYear);
-        setUpKeysNeedingRounding(BaseYear);
-        readCSFOverride(BaseYear);
-        readCSF(BaseYear);
-        CSFForBCSF = bCSF.size(); 
-        adjustCSFRounding();
-        CSFDiagnostics();
-         */
-        /* (4) attempt to test appointment funding (worked 04/09/2007)
-        createNewBCDocumentsFromGLCSF(2007,true,true);
-        buildAppointmentFundingAndBCSF(2007);
-         */
-        /*
-         * (5)  attempting to speed up document creation
-         */
-        try {
-            // testANewBCDocument();
-            logAnExistingBCDocument();
-        }
-        catch (WorkflowException wex) {
-            LOG.warn(String.format("\nproblem creating document %s", wex.getMessage()));
-            wex.printStackTrace();
-        }
-        /*
-         *  (6) write out a bean's properties
-         */
-        //        try
-        //        {
-        //            testBeanProperties();
-        //        }
-        //        catch (IllegalAccessException iaex)
-        //        {
-        //            LOG.warn(String.format("\n %s",iaex.getMessage()));
-        //            iaex.printStackTrace();
-        //        }
-        //        catch (NoSuchMethodException nsex)
-        //        {
-        //            LOG.warn(String.format("\n %s",nsex.getMessage()));
-        //            nsex.printStackTrace();
-        //        }
-        //        catch (InvocationTargetException itex)
-        //        {
-        //            LOG.warn(String.format("\n %s",itex.getMessage()));
-        //            itex.printStackTrace();
-        //        }
-    }
-
-    public void testNullForeignKeys() {
-        // this verifies that some of the code we used in fiscalYearMakers works
-        //
-        // build a bogus row with some null fields
-        Integer oldYear = new Integer(1997);
-        CalculatedSalaryFoundationTracker testCSFRow = new CalculatedSalaryFoundationTracker();
-        testCSFRow.setUniversityFiscalYear(oldYear);
-        testCSFRow.setChartOfAccountsCode("BL");
-        testCSFRow.setAccountNumber("1031400");
-        testCSFRow.setSubAccountNumber("-----");
-        testCSFRow.setFinancialObjectCode("3000");
-        testCSFRow.setFinancialSubObjectCode("---");
-        testCSFRow.setPositionNumber("00000000");
-        testCSFRow.setEmplid("0000000000");
-        testCSFRow.setCsfCreateTimestamp(dateTimeService.getCurrentTimestamp());
-        // save the row to force nulls in uniitialized fields
-        getPersistenceBrokerTemplate().store(testCSFRow);
-        getPersistenceBrokerTemplate().clearCache();
-        // get the row
-        Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, oldYear);
-        QueryByCriteria queryID = new QueryByCriteria(CalculatedSalaryFoundationTracker.class, criteriaID);
-        testCSFRow = (CalculatedSalaryFoundationTracker) getPersistenceBrokerTemplate().getObjectByQuery(queryID);
-        // now we want to do exactly what we are doing in fiscal year makers
-        // on a string--
-        String earnCode = new String("");
-        String accountNumber = null;
-        try {
-            Object returnValue = (String) PropertyUtils.getProperty(testCSFRow, "earnCode");
-            if (returnValue != null) {
-                earnCode = returnValue.toString();
-            }
-            returnValue = PropertyUtils.getProperty(testCSFRow, "accountNumber");
-            // make sure one we know is there translates correctly from Object to string
-            accountNumber = returnValue.toString();
-        }
-        catch (InvocationTargetException ex) {
-            LOG.error(String.format("\n  InvocationTargetException getting earnCode from fake CSF row\n%s\n", ex.getMessage()));
-        }
-        catch (NoSuchMethodException ex) {
-            LOG.error(String.format("\n  NoSuchMethodException getting earnCode from fake CSF row\n%s\n", ex.getMessage()));
-        }
-        catch (IllegalAccessException ex) {
-            LOG.error(String.format("\n  IllegalAccessException getting earnCode from fake CSF row\n%s\n", ex.getMessage()));
-        }
-        LOG.warn(String.format("\n>>> earnCode string length %d, earnCode = %s", earnCode.length(), earnCode));
-        LOG.warn(String.format("\n   string from Object accountNumber (String) %s", accountNumber));
-        // on a number--
-        String employeeRecord = new String("");
-        String universityFiscalYear = new String("");
-        try {
-            Object returnValue = (String) PropertyUtils.getProperty(testCSFRow, "employeeRecord");
-            if (returnValue != null) {
-                employeeRecord = returnValue.toString();
-            }
-            // make sure one we know is there translates correctly from Object to string
-            returnValue = PropertyUtils.getProperty(testCSFRow, "universityFiscalYear");
-            universityFiscalYear = returnValue.toString();
-        }
-        catch (InvocationTargetException ex) {
-            LOG.error(String.format("\n  InvocationTargetException getting employeeRecord from fake CSF row\n%s\n", ex.getMessage()));
-        }
-        catch (NoSuchMethodException ex) {
-            LOG.error(String.format("\n  NoSuchMethodException getting employeeRecord from fake CSF row\n%s\n", ex.getMessage()));
-        }
-        catch (IllegalAccessException ex) {
-            LOG.error(String.format("\n  IllegalAccessException getting employeeRecord from fake CSF row\n%s\n", ex.getMessage()));
-        }
-        LOG.warn(String.format("\n>>> employeeRecord string length %d, employeeRecord = %s", employeeRecord.length(), employeeRecord));
-        LOG.warn(String.format("\n   string from Object universityFiscalYear (Integer) %s", universityFiscalYear));
-        // on a date--
-        String effectiveDate = new String("");
-        String csfCreateTimestamp = new String("");
-        try {
-            Object returnValue = (String) PropertyUtils.getProperty(testCSFRow, "effectiveDate");
-            if (returnValue != null) {
-                effectiveDate = returnValue.toString();
-            }
-            returnValue = PropertyUtils.getProperty(testCSFRow, "csfCreateTimestamp");
-            csfCreateTimestamp = returnValue.toString();
-        }
-        catch (InvocationTargetException ex) {
-            LOG.error(String.format("\n  InvocationTargetException getting effectiveDate from fake CSF row\n%s\n", ex.getMessage()));
-        }
-        catch (NoSuchMethodException ex) {
-            LOG.error(String.format("\n  NoSuchMethodException getting effectiveDate from fake CSF row\n%s\n", ex.getMessage()));
-        }
-        catch (IllegalAccessException ex) {
-            LOG.error(String.format("\n  IllegalAccessException getting effectiveDate from fake CSF row\n%s\n", ex.getMessage()));
-        }
-        LOG.warn(String.format("\n>>> effectiveDate string length %d, effectiveDate = %s", effectiveDate.length(), effectiveDate));
-        LOG.warn(String.format("\n   string from Object csfCreateTimestamp (time stamp) %s", csfCreateTimestamp));
-        // now test the string builder
-        StringBuilder testBuilder = new StringBuilder(500);
-        LOG.warn(String.format("\n\nString builder length = %d and value = %s when unitialized", testBuilder.toString().length(), testBuilder.toString()));
-        testBuilder.delete(0, testBuilder.length());
-        String emptyString = testBuilder.toString();
-        LOG.warn(String.format("\n\nString builder length = %d and value = %s after delete", testBuilder.toString().length(), testBuilder.toString()));
-        testBuilder.append(testCSFRow.getAccountNumber());
-        testBuilder.delete(0, testBuilder.length());
-        emptyString = testBuilder.toString();
-        LOG.warn(String.format("\n\nString builder length = %d and value = %s after fill, then delete", testBuilder.toString().length(), testBuilder.toString()));
-    }
-
-    /*
-     *   @@TODO:  take this out
-     */
-    // playing around to see if we can create a new document and have workflow
-    // do fewer steps in the route
-
-    private void testBeanProperties() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        HashMap<String, Object> propertyMap;
-        propertyMap = (HashMap<String, Object>) PropertyUtils.describe(workflowDocumentService);
-        LOG.warn(String.format("\n\nworkflowDocumentService bean properties"));
-        for (Map.Entry<String, Object> printPair : propertyMap.entrySet()) {
-            LOG.warn(String.format("\n %s  %s", printPair.getKey(), printPair.getValue().toString()));
-        }
-
-    }
-
-    private void logAnExistingBCDocument() throws WorkflowException {
-        Long testDocumentID = new Long(306358);
-        String note1 = new String("this here doc was scoped out by Ernie '07");
-        String note2 = new String("Ernie cameback--left some goobers the first time");
-        String note3 = new String("Ernie bought another ticket--whoowee!");
-        KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(testDocumentID, GlobalVariables.getUserSession().getFinancialSystemUser());
-        // try to write to the log
-        workflowDocument.logDocumentAction(note1);
-        // try writing to the log again
-        workflowDocument.logDocumentAction(note2);
-        // get a fresh "flex doc" for the same ID and try writing a third message
-        workflowDocument = workflowDocumentService.createWorkflowDocument(testDocumentID, GlobalVariables.getUserSession().getFinancialSystemUser());
-        workflowDocument.logDocumentAction(note3);
-    }
-
-    private void testANewBCDocument() throws WorkflowException {
-        // first, get rid of anything that's in the header
-        Criteria delCriteria = new Criteria();
-        delCriteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, 2012);
-        QueryByCriteria queryID = new QueryByCriteria(BudgetConstructionDocument.class, delCriteria);
-        getPersistenceBrokerTemplate().deleteByQuery(queryID);
-        getPersistenceBrokerTemplate().clearCache();
-        // try to get the workflow service that deals with the actual document header
-        setUpRouteHeaderService();
-        // set up the Budget Construction Header
-        BudgetConstructionDocument newBCHdr;
-        newBCHdr = (BudgetConstructionDocument) documentService.getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
-        newBCHdr.setUniversityFiscalYear(2012);
-        newBCHdr.setChartOfAccountsCode("BL");
-        newBCHdr.setAccountNumber("1031400");
-        newBCHdr.setSubAccountNumber("-----");
-        newBCHdr.setOrganizationLevelChartOfAccountsCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
-        newBCHdr.setOrganizationLevelOrganizationCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
-        newBCHdr.setOrganizationLevelCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
-        newBCHdr.setBudgetTransactionLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
-        newBCHdr.setBudgetLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
-        newBCHdr.setVersionNumber(DEFAULT_VERSION_NUMBER);
-        FinancialSystemDocumentHeader kualiDocumentHeader = newBCHdr.getDocumentHeader();
-        newBCHdr.setDocumentNumber(newBCHdr.getDocumentHeader().getDocumentNumber());
-        //   this settting apparently has not effect on workflow
-        //        kualiDocumentHeader.setOrganizationDocumentNumber(
-        //                            newBCHdr.getUniversityFiscalYear().toString());
-        kualiDocumentHeader.setFinancialDocumentStatusCode(KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
-        kualiDocumentHeader.setFinancialDocumentStatusCode(KEWConstants.ROUTE_HEADER_FINAL_CD);
-        kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
-        kualiDocumentHeader.setDocumentDescription(String.format("%s %d %s %s", BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, newBCHdr.getUniversityFiscalYear(), newBCHdr.getChartOfAccountsCode(), newBCHdr.getAccountNumber()));
-        kualiDocumentHeader.setExplanation(String.format("%s: %s", BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, newBCHdr.getDocumentHeader().getWorkflowDocument().toString()));
-        //      do this for a timing check
-        LOG.info(String.format("\nstore %s", newBCHdr.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()));
-        getPersistenceBrokerTemplate().store(newBCHdr);
-        documentService.prepareWorkflowDocument(newBCHdr);
-        StringBuffer annotateDoc = new StringBuffer("created by Genesis--test");
-        annotateDoc.append(newBCHdr.getDocumentNumber());
-        //  the service does not have a complete method, but the document does        
-        //        workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
-        //                                      annotateDoc.toString(),null);
-        //        newBCHdr.getDocumentHeader().getWorkflowDocument().saveDocument(annotateDoc.toString());
-        //  this is Eric Westfall's suggestion of 01/18/2007
-        //        newBCHdr.getDocumentHeader().getWorkflowDocument().logDocumentAction(annotateDoc.toString());
-        //        newBCHdr.getDocumentHeader().getWorkflowDocument().routeDocument(annotateDoc.append(": passed to route").toString());
-        //  end of Eric's suggestion
-        //  this complete works, but does not fill in some of the dates 
-        /*  removed October 2007, when things stopped working in finite time        
-         newBCHdr.getDocumentHeader().getWorkflowDocument().complete(annotateDoc.toString());
-         //  OK.  This should have saved the document.  Now, we are going to try to set all the dates and codes
-         finalizeBCDocument(newBCHdr);
-         */
-        saveBCDocumentInWorkflow(newBCHdr);
-        //  do this for a timing check
-        LOG.info(String.format("\nfinished processing %s", newBCHdr.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()));
-        Long ourDocID = newBCHdr.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-
-        //
-        //      try to change the route header itself, so it will have the correct dates and status codes
-
-        //
-        //        
-        //        KHUNTLEY does not have superuser privileges
-        //        the procurement card does a superUserApprove, and its test uses KULUSER 
-        //        KULUSER works for us as well, but for our document the superUser method
-        //        apparently goes through the same stages as the route method        
-        //        workflowDocumentService.superUserApprove(newBCHdr.getDocumentHeader().getWorkflowDocument(),
-        //                "created by Genesis");
-    }
-
-    public Object returnWkflwDocHeader() {
-        DocumentRouteHeaderValue newDoc = new DocumentRouteHeaderValue();
-        Criteria docCriteria = new Criteria();
-        docCriteria.addEqualTo("routeHeaderId", 286968);
-        QueryByCriteria queryID = new QueryByCriteria(DocumentRouteHeaderValue.class, docCriteria);
-        Iterator<DocumentRouteHeaderValue> itr = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
-        if (itr.hasNext()) {
-            newDoc = TransactionalServiceUtils.retrieveFirstAndExhaustIterator(itr);
-        }
-        return newDoc;
-    }
-
-    public String testFindBCDocumentNumber(Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber) {
-        Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        criteriaId.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccounts);
-        criteriaId.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        criteriaId.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
-        QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class, criteriaId);
-        BudgetConstructionHeader newBCHeader = (BudgetConstructionHeader) getPersistenceBrokerTemplate().getObjectByQuery(queryId);
-        return (newBCHeader.getDocumentNumber());
-    }
-
-    public void testObjectID() {
-        FiscalYearFunctionControl fyrCtrl;
-        FiscalYearFunctionControl fyrCtrl1;
-        FiscalYearFunctionControl fyrCtrl2;
-        FiscalYearFunctionControl fyrCtrl3;
-        Integer fiscalYear;
-        String financialSystemFunctionControlCode;
-        // get the intial row
-        Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, 2008);
-        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, "CSFUPD");
-        QueryByCriteria queryID = new QueryByCriteria(FiscalYearFunctionControl.class, criteriaID);
-        fyrCtrl = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectByQuery(queryID);
-        // now get a new object--see if it uses the cache
-        fyrCtrl1 = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectByQuery(queryID);
-        LOG.warn(String.format("\ntwo queries by criteria for same row into different object pointers (constant WHERE clauses):\n same Object? %b", fyrCtrl.equals(fyrCtrl1)));
-        // now get a new object with a different query--see if it uses the cache
-        fiscalYear = fyrCtrl.getUniversityFiscalYear();
-        financialSystemFunctionControlCode = fyrCtrl1.getFinancialSystemFunctionControlCode();
-        Criteria anotherCriteriaID = new Criteria();
-        anotherCriteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        anotherCriteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, financialSystemFunctionControlCode);
-        QueryByCriteria newQueryID = new QueryByCriteria(FiscalYearFunctionControl.class, anotherCriteriaID);
-        fyrCtrl2 = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectByQuery(newQueryID);
-        LOG.warn(String.format("\ntwo queries by criteria for same row into different object pointers (constant WHERE clause," + "variable WHERE clause):\n same Object? %b", fyrCtrl.equals(fyrCtrl2)));
-        // finally, try getting it using getObjectByID
-        // we will take a flying leap and guess that we should pass in the object--that's what the code looks like it wants
-        // recall that the PersistenceBrokerTemplate converts PersistenceBrokerException into a DataAccess Exception
-        try {
-            fyrCtrl3 = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectById(FiscalYearFunctionControl.class, fyrCtrl2);
-            LOG.warn(String.format("\ngetObjectById: same Object? %b", fyrCtrl.equals(fyrCtrl3)));
-        }
-        catch (DataAccessException e) {
-            LOG.warn(String.format("\nPersistenceBrokerException when trying to read Identity for pointer fyrCtrl2:\n%s", e));
-        }
-        try {
-            fyrCtrl3 = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectById(FiscalYearFunctionControl.class, fyrCtrl1);
-            LOG.warn(String.format("\ngetObjectById: same Object? %b", fyrCtrl.equals(fyrCtrl3)));
-        }
-        catch (DataAccessException e) {
-            LOG.warn(String.format("\nPersistenceBrokerException when trying to read Identity for pointer fyrCtrl1:\n%s", e));
-        }
-        try {
-            fyrCtrl3 = (FiscalYearFunctionControl) getPersistenceBrokerTemplate().getObjectById(FiscalYearFunctionControl.class, fyrCtrl);
-            LOG.warn(String.format("\ngetObjectById: same Object? %b", fyrCtrl.equals(fyrCtrl3)));
-        }
-        catch (DataAccessException e) {
-            LOG.warn(String.format("\nPersistenceBrokerException when trying to read Identity for pointer fyrCtrl:\n%s", e));
-        }
-    }
-
-    public void testLaborInterface() {
-        LOG.warn("\n\ntest the new labor interface\n");
-        ArrayList<String> laborObjects = findPositionRequiredObjectCodes(2007);
-        for (String posObject : laborObjects) {
-            LOG.warn(String.format("  %s ", posObject));
-        }
-        LOG.warn("\nend of labor interface test\n");
-    }
-
 
     //
     //  here are the routines Spring uses to "wire the beans"

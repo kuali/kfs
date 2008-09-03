@@ -753,6 +753,8 @@
         
     <bean id="budgetConstructionGeneralLedgerLoadBatchStep" class="org.kuali.kfs.module.bc.batch.BudgetConstructionGeneralLedgerLoadBatchStep" parent="step"> </bean>
         
+    <bean id="budgetConstructionUpdateBatchStep" class="org.kuali.kfs.module.bc.batch.BudgetConstructionUpdateBatchStep" parent="step"> </bean>
+        
     <bean id="genesisBatchStep" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step"> </bean>
     	
     <bean id="genesisBatchJob" parent="scheduledJobDescriptor">

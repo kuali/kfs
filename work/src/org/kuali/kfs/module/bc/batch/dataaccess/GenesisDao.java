@@ -57,25 +57,13 @@ public interface GenesisDao {
 
     public void updateToPBGL(Integer currentFiscalYear);
 
+    public Map verifyAccountsAreAccessible(Integer requestFiscalYear);
+
     // document creation
     // create document with embedded workflow
     public void createNewBCDocumentsFromGLCSF(Integer BaseYear, boolean GLUpdatesAllowed, boolean CSFUpdatesAllowed);
 
     // budget construction CSF and budget construction appointment funding
     public void buildAppointmentFundingAndBCSF(Integer BaseYear);
-
-    // this is a junk method in genesis that was used to unit test various SQL
-    public void genesisUnitTest(Integer BaseYear);
-
-    // this is used to test the document route log
-    public Object returnWkflwDocHeader();
-
-    // this is a junk method to do some testing for batch
-    public void testObjectID();
-    public void testNullForeignKeys();
-    public void testLaborInterface();
-    
-    // this is also a junk method to do some testing for batch
-    public String testFindBCDocumentNumber (Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber);
 
 }

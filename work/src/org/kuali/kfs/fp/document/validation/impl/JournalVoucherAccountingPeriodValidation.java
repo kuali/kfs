@@ -53,7 +53,7 @@ public class JournalVoucherAccountingPeriodValidation extends GenericValidation 
         }
 
         // make sure it's open for use
-        if (accountingPeriod.isActive()) {
+        if (!accountingPeriod.isActive()) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + SELECTED_ACCOUNTING_PERIOD, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
             return false;
         }

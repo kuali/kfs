@@ -581,7 +581,6 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
         // make sure that financial object type code is IN
         line.getObjectCode().setFinancialObjectTypeCode("IN");
-        line.setObjectTypeCode("IN");
         return line;
     }
 

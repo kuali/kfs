@@ -111,7 +111,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     }
 
     /**
-     * acquire position and funding locks for the given appointment funding
+     * acquire position and funding locks for all appointment fundings
      */
     public boolean acquirePositionAndFundingLocks() {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
@@ -124,28 +124,17 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         }
         return true;
     }
-
+    
     /**
      * acquire position and funding locks for the given appointment funding
      * 
      * @param appointmentFunding the given appointment funding
-     * @param fieldsHolder the given field holder
      * @return true if the position and funding locks for the given appointment funding are acquired successfully, otherwise, false
      */
     public boolean acquirePositionAndFundingLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("acquirePositionAndFundingLocks() started");
 
         try {
-            SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
-
-            // update the access flags of the current funding line
-            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.getUniversalUser());
-            if (!updated) {
-                errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS, appointmentFunding.getAppointmentFundingString());
-                this.releasePositionAndFundingLocks();
-                return false;
-            }
-
             // not to acquire any lock for the display-only and non-budgetable funding line
             if (appointmentFunding.isDisplayOnlyMode() || !appointmentFunding.isBudgetable()) {
                 return true;
@@ -175,8 +164,52 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         catch (Exception e) {
             this.releasePositionAndFundingLocks();
 
-            LOG.error("Failed when acquiring position/funding lock for " + appointmentFunding + "." + e);
-            throw new RuntimeException("Failed when acquiring transaction lock for " + appointmentFunding + "." + e);
+            String errorMessage = "Failed when acquiring position/funding lock for " + appointmentFunding;
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(errorMessage, e);
+        }
+
+        return true;
+    }    
+
+    /**
+     * update the access modes of all appointment fundings
+     */
+    public boolean updateAccessMode() {
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            boolean accessModeUpdated = this.updateAccessMode(appointmentFunding);
+
+            if (!accessModeUpdated) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * update the access mode of the given appointment funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the access mode of the given appointment funding are updated successfully, otherwise, false
+     */
+    public boolean updateAccessMode(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.info("updateAccessMode() started");
+
+        try {
+            SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
+
+            // update the access flags of the current funding line
+            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.getUniversalUser());
+            if (!updated) {
+                errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS, appointmentFunding.getAppointmentFundingString());
+                return false;
+            }
+        }
+        catch (Exception e) {
+            String errorMessage = "Failed to update the access mode of " + appointmentFunding + ".";
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(errorMessage, e);
         }
 
         return true;
@@ -201,7 +234,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
                     errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, appointmentFunding.getAppointmentFundingString());
 
                     this.releaseTransactionLocks();
-
                     return false;
                 }
             }
@@ -209,8 +241,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
                 this.releaseTransactionLocks();
                 this.releasePositionAndFundingLocks();
 
-                LOG.error("Failed when acquiring transaction lock for " + appointmentFunding + "." + e);
-                throw new RuntimeException("Failed when acquiring transaction lock for " + appointmentFunding + "." + e);
+                LOG.error("Failed when acquiring transaction lock for " + appointmentFunding, e);
+                throw new RuntimeException("Failed when acquiring transaction lock for " + appointmentFunding, e);
             }
         }
 

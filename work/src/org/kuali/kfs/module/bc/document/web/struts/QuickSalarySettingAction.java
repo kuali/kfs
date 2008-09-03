@@ -64,14 +64,9 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
+        LOG.info("refresh() started");
 
-        salarySettingForm.populateBCAFLines();
-
-        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
-        salarySettingExpansion.refresh();
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return this.loadExpansionScreen(mapping, form, request, response);
     }
 
     /**
@@ -218,7 +213,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         // build the query strings with the information of the selected line
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + KFSConstants.ACTION_EXTENSION_DOT_DO);
         
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, appointmentFunding.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, appointmentFunding.getChartOfAccountsCode());

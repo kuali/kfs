@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${KualiForm.viewOnlyEntry}" />
+<c:set var="readOnly" value="${KualiForm.viewOnlyEntry || KualiForm.salarySettingClosed}" />
 
 <kul:page showDocumentInfo="false" docTitle="Quick Salary Setting" transactionalDocument="false"
 	htmlFormAction="budgetQuickSalarySetting" renderMultipart="true" showTabButtons="true">
@@ -26,7 +26,7 @@
     
 	<kul:tabTop tabTitle="Quick Salary Setting" defaultOpen="true" tabErrorKey="${BCConstants.ErrorKey.QUICK_SALARY_SETTING_TAB_ERRORS}">
 		<div class="tab-container" align=center>
-			<bc:expenditureSalaryLine/>	
+			<bc:expenditureSalaryLine readOnly="${readOnly}"/>	
 			
 			<br/>
 						
@@ -40,9 +40,10 @@
         <c:if test="${not readOnly}">
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" 
 	        	styleClass="globalbuttons" property="methodToCall.save" title="save" alt="save"/>
+	    </c:if>    	
 	        	
-	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" 
-        		styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>	
-	    </c:if>
+        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" 
+       		styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>	
+
     </div>
 </kul:page>

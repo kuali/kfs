@@ -49,7 +49,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -65,9 +64,6 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     private KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
     private KualiRuleService kualiRuleService = SpringContext.getBean(KualiRuleService.class);
-
-    private List<String> messageList = GlobalVariables.getMessageList();
-    private ErrorMap errorMap = GlobalVariables.getErrorMap();
 
     /**
      * loads the data for the expansion screen based on the passed in url parameters
@@ -114,7 +110,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      * save the information in the current form into underlying data store
      */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        errorMap.putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -125,34 +121,37 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
-        
+
         // return to the calller directly if the current user just can have view-only access
-        if (salarySettingForm.isViewOnlyEntry()) {
-            messageList.add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
-            return this.returnToCaller(mapping, form, request, response);
+        if (salarySettingForm.isViewOnlyEntry() || salarySettingForm.isSalarySettingClosed()) {
+            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
+            return this.returnToCaller(mapping, salarySettingForm, request, response);
         }
 
         // ask a question before closing unless it has been answered
         String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (StringUtils.isBlank(question)) {
             String questionText = kualiConfiguration.getPropertyString(KFSKeyConstants.QUESTION_SAVE_BEFORE_CLOSE);
-            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
+            return this.performQuestionWithoutInput(mapping, salarySettingForm, request, response, KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
         }
+        
+        // indicate the salary setting has been closed
+        salarySettingForm.setSalarySettingClosed(true);
 
         // save the salary setting if the user answers to the question with "Yes" (save and close)
         String buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
         if (StringUtils.equals(KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, question) && StringUtils.equals(ConfirmationQuestion.YES, buttonClicked)) {
-            ActionForward saveAction = this.save(mapping, form, request, response);
+            ActionForward saveAction = this.save(mapping, salarySettingForm, request, response);
 
-            if (!messageList.contains(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED)) {
-                messageList.add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
+            if (!GlobalVariables.getMessageList().contains(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED)) {
+                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
             }
-            
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+
+            return saveAction;
         }
 
-        messageList.add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
-        return this.returnToCaller(mapping, form, request, response);
+        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
+        return this.returnToCaller(mapping, salarySettingForm, request, response);
     }
 
     /**
@@ -178,7 +177,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * restore the selected salary setting line if it is marked as purged
      */
@@ -201,7 +200,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * unmark the selected salary setting line that has been marked as deleted
      */
@@ -248,11 +247,11 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
         // the adjustment measurement and amount must be provided
         if (StringUtils.isBlank(adjustmentMeasurement)) {
-            errorMap.putError(BCPropertyConstants.ADJUSTMENT_MEASUREMENT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED);
+            GlobalVariables.getErrorMap().putError(BCPropertyConstants.ADJUSTMENT_MEASUREMENT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         if (ObjectUtils.isNull(adjustmentAmount)) {
-            errorMap.putError(BCPropertyConstants.ADJUSTMENT_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_AMOUNT_REQUIRED);
+            GlobalVariables.getErrorMap().putError(BCPropertyConstants.ADJUSTMENT_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_AMOUNT_REQUIRED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -261,7 +260,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
             appointmentFunding.setAdjustmentMeasurement(adjustmentMeasurement);
 
             ActionForward adjustAction = this.adjustSalarySettingLinePercent(mapping, salarySettingForm, appointmentFunding);
-            if (!errorMap.isEmpty()) {
+            if (!GlobalVariables.getErrorMap().isEmpty()) {
                 return adjustAction;
             }
         }
@@ -280,7 +279,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
         if (document == null) {
-            errorMap.putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
+            GlobalVariables.getErrorMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -307,7 +306,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
             salarySettingService.adjustRequestedSalaryByAmount(appointmentFunding);
         }
     }
-    
+
     /**
      * normalize the hourly pay rate and annual pay amount
      */
@@ -320,7 +319,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
         if (document == null) {
-            errorMap.putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
+            GlobalVariables.getErrorMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 

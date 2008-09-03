@@ -15,17 +15,19 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
+
 <c:set var="sseAttributes" value="${DataDictionary['SalarySettingExpansion'].attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary['Account'].attributes}" />
 
-<!-- <c:set var="readOnly" value="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}" />-->
-<c:set var="readOnly" value="false" />
 <c:set var="accountingLine" value="salarySettingExpansion" />
 <c:set var="colSpan" value="7" />
 
 <html:hidden property="returnAnchor" />
 <html:hidden property="returnFormKey" />
 <html:hidden property="backLocation" />
+
+<html:hidden property="salarySettingClosed" />
 
 <html:hidden property="universityFiscalYear" />
 <html:hidden property="documentNumber" />

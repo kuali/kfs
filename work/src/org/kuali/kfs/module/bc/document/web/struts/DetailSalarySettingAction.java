@@ -36,11 +36,11 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.document.validation.event.AddAppointmentFundingEvent;
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
 import org.kuali.kfs.module.bc.document.validation.event.SaveSalarySettingEvent;
-import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -52,10 +52,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-
-    private List<String> messageList = GlobalVariables.getMessageList();
-    private ErrorMap errorMap = GlobalVariables.getErrorMap();
-    UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+    private UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
 
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#execute(org.apache.struts.action.ActionMapping,
@@ -76,7 +73,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
                 salarySettingForm.releasePositionAndFundingLocks();
             }
 
-            LOG.fatal("Unexpected errors occurred. " + e.getMessage());
+            LOG.fatal("Unexpected errors occurred.", e);
         }
 
         return executeAction;
@@ -88,22 +85,17 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
      */
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward closeActionForward = super.close(mapping, form, request, response);
-
-        // ask the question unless it has not been answered
-        String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        if (StringUtils.isBlank(question)) {
-            return closeActionForward;
-        }
-
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-
+        String buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+        boolean isClose = StringUtils.equals(ConfirmationQuestion.YES, buttonClicked) || StringUtils.equals(ConfirmationQuestion.NO, buttonClicked);
+        
+        ActionForward closeActionForward = super.close(mapping, salarySettingForm, request, response);
+        
         // release all locks before closing the current expansion screen
-        if (!salarySettingForm.isViewOnlyEntry()) {
+        if (isClose && !salarySettingForm.isViewOnlyEntry() && !salarySettingForm.isSalarySettingClosed()) {
             salarySettingForm.releasePositionAndFundingLocks();
         }
-
-        salarySettingForm.setOrgSalSetClose(true);
+  
         return closeActionForward;
     }
 
@@ -136,7 +128,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
         if (savableAppointmentFundings == null || savableAppointmentFundings.isEmpty()) {
-            messageList.add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
+            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -146,8 +138,13 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             // retrieve corresponding document in advance in order to use the rule framework
             BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);
             if (document == null) {
-                errorMap.putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
+                GlobalVariables.getErrorMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+            
+            // bypass validation rules if the funding line has been marked as purged or deleted
+            if(savableFunding.isPurged()) {
+                continue;
             }
 
             // validate the savable appointment funding lines
@@ -167,10 +164,10 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
         // release all transaction locks
         salarySettingForm.releaseTransactionLocks();
-        
+
         this.clearPurgedAppointmentFundings(appointmentFundings);
 
-        messageList.add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
+        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -192,7 +189,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(workingAppointmentFunding);
         if (document == null) {
-            errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, workingAppointmentFunding.getAppointmentFundingString());
+            GlobalVariables.getErrorMap().putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, workingAppointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -204,17 +201,14 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         }
 
         // update the access flags of the current funding line
-        SalarySettingFieldsHolder fieldsHolder = salarySettingForm.getSalarySettingFieldsHolder();
-        boolean budgetByAccountMode = salarySettingForm.isBudgetByAccountMode();
-        boolean updated = salarySettingService.updateAccessOfAppointmentFunding(workingAppointmentFunding, fieldsHolder, budgetByAccountMode, currentUser);
-        if (!updated) {
-            errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS, workingAppointmentFunding.getAppointmentFundingString());
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        boolean accessModeUpdated = salarySettingForm.updateAccessMode(workingAppointmentFunding);
+        if (!accessModeUpdated) {
+            return this.returnToCaller(mapping, form, request, response);
         }
 
         // have no permission to do salary setting on the new line
         if (workingAppointmentFunding.isDisplayOnlyMode()) {
-            errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_NO_SALARY_SETTING_PERMISSION, workingAppointmentFunding.getAppointmentFundingString());
+            GlobalVariables.getErrorMap().putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_NO_SALARY_SETTING_PERMISSION, workingAppointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -239,7 +233,6 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
                 return true;
             }
         }
-
         return false;
     }
 
@@ -253,18 +246,15 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             appointmentFunding.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
     }
-    
-    // clear the appointment funding lines that have been purged 
+
+    // clear the appointment funding lines that have been purged
     protected void clearPurgedAppointmentFundings(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
         List<PendingBudgetConstructionAppointmentFunding> purgedAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
-        
-        // retrieve the appointment funding lines being purged
-        for(PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            if(appointmentFunding.isPurged()) {
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            if (appointmentFunding.isPurged()) {
                 purgedAppointmentFundings.add(appointmentFunding);
             }
         }
-        
         appointmentFundings.removeAll(purgedAppointmentFundings);
     }
 }

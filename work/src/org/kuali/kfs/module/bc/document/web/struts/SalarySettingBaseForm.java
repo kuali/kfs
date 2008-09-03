@@ -64,7 +64,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     private boolean budgetByAccountMode;
     private boolean singleAccountMode;
-    private boolean orgSalSetClose = false;
+    private boolean salarySettingClosed;
 
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
@@ -454,24 +454,6 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the orgSalSetClose attribute.
-     * 
-     * @return Returns the orgSalSetClose.
-     */
-    public boolean isOrgSalSetClose() {
-        return orgSalSetClose;
-    }
-
-    /**
-     * Sets the orgSalSetClose attribute value.
-     * 
-     * @param orgSalSetClose The orgSalSetClose to set.
-     */
-    public void setOrgSalSetClose(boolean orgSalSetClose) {
-        this.orgSalSetClose = orgSalSetClose;
-    }
-
-    /**
      * Gets the appointmentFundings attribute.
      * 
      * @return Returns the appointmentFundings.
@@ -628,6 +610,24 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public UniversalUser getUniversalUser() {
         return universalUser;
+    }   
+
+    /**
+     * Gets the salarySettingClosed attribute.
+     * 
+     * @return Returns the salarySettingClosed.
+     */
+    public boolean isSalarySettingClosed() {
+        return salarySettingClosed;
+    }
+
+    /**
+     * Sets the salarySettingClosed attribute value.
+     * 
+     * @param salarySettingClosed The salarySettingClosed to set.
+     */
+    public void setSalarySettingClosed(boolean salarySettingClosed) {
+        this.salarySettingClosed = salarySettingClosed;
     }
 
     /**
@@ -636,27 +636,18 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the readOnlyEntry.
      */
     public boolean isViewOnlyEntry() {
-        /*boolean viewOnly = false;
-        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-            viewOnly = Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
-        }
+        /*
+         * boolean viewOnly = false; if
+         * (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) { viewOnly =
+         * Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)); } if (viewOnly) {
+         * return true; } if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) { viewOnly =
+         * !Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)); } else { viewOnly =
+         * true; } return viewOnly;
+         */
 
-        if (viewOnly) {
-            return true;
-        }
-
-        if (editingMode.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
-            viewOnly = !Boolean.valueOf(editingMode.get(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY));
-        }
-        else {
-            viewOnly = true;
-        }
-
-        return viewOnly;*/
-        
         // TODO: restore the logic above
-        List<String> messageList =  GlobalVariables.getMessageList();
-        if(!messageList.contains(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED)) {
+        List<String> messageList = GlobalVariables.getMessageList();
+        if (!messageList.contains(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED)) {
             messageList.add(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED);
         }
         return false;

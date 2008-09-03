@@ -32,6 +32,7 @@
 <html:hidden property="positionNumber" />
 <html:hidden property="budgetByAccountMode" />
 <html:hidden property="addLine" />
+<html:hidden property="salarySettingClosed" />
 
 <kul:tabTop tabTitle="Position" defaultOpen="true">
 	<div class="tab-container" align=center>
@@ -79,7 +80,8 @@
 		<html:hidden property="${fundingLineName}.budgetConstructionPosition.iuNormalWorkMonths" />  
 	          	
 	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${fundingLine.appointmentFundingString}" >
-	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	countOfMajorColumns="9" lineIndex="${status.index}" hasBeenAdded = "true">    		
+	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	
+	    		countOfMajorColumns="9" lineIndex="${status.index}" hasBeenAdded = "true" readOnly="${readOnly}">    		
 	    		<c:if test="${canVacate}">
 					<html:image property="methodToCall.vacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-vacate.gif" 
@@ -128,21 +130,23 @@
 </div>
 </kul:tab>
 
-<kul:tab tabTitle="Purged Appointment Funding" defaultOpen="false">
-<div class="tab-container" align="center">        		
-    <c:forEach items="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
-	<c:if test="${fundingLine.purged}">	 
-		<c:set var="fundingLineName" value="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
-		         	
-	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${fundingLine.appointmentFundingString}">
-	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	countOfMajorColumns="9" lineIndex="${status.index}" readOnly="true" hasBeenAdded = "true">    		
-				<html:image property="methodToCall.restorePurgedSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
-					src="${ConfigProperties.externalizable.images.url}tinybutton-restore.gif" 
-					title="Restore the Purged Salary Setting Line ${status.index}"
-					alt="Restore the Purged Salary Setting Line ${status.index}" styleClass="tinybutton" />
-			</bc:appointmentFundingLineForPosition>	
-		</kul:subtab>
-	</c:if>
-	</c:forEach>
-</div>
-</kul:tab>
+<c:if test="${!readOnly}" >
+	<kul:tab tabTitle="Purged Appointment Funding" defaultOpen="false">
+	<div class="tab-container" align="center">        		
+	    <c:forEach items="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
+		<c:if test="${fundingLine.purged}">	 
+			<c:set var="fundingLineName" value="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
+			         	
+		    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${fundingLine.appointmentFundingString}">
+		    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	countOfMajorColumns="9" lineIndex="${status.index}" readOnly="true" hasBeenAdded = "true">    		
+					<html:image property="methodToCall.restorePurgedSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-restore.gif" 
+						title="Restore the Purged Salary Setting Line ${status.index}"
+						alt="Restore the Purged Salary Setting Line ${status.index}" styleClass="tinybutton" />
+				</bc:appointmentFundingLineForPosition>	
+			</kul:subtab>
+		</c:if>
+		</c:forEach>
+	</div>
+	</kul:tab>
+</c:if>

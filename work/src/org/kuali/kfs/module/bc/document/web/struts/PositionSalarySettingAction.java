@@ -82,6 +82,11 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         if (!positionSalarySettingForm.isViewOnlyEntry()) {
             positionSalarySettingForm.postProcessBCAFLines();
             positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
+            
+            boolean accessModeUpdated = positionSalarySettingForm.updateAccessMode();
+            if (!accessModeUpdated) {
+                return this.returnToCaller(mapping, form, request, response);
+            }
 
             boolean gotLocks = positionSalarySettingForm.acquirePositionAndFundingLocks();
             if (!gotLocks) {

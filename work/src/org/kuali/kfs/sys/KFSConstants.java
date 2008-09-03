@@ -380,6 +380,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String METHOD_TO_CALL_PARM13_RIGHT_DEL = ";:::)";
     // if more strings needed, then add more colons to the PARM11 strings above, e.g. (::; (:::;, etc.
 
+    public static final String ACTION_EXTENSION_DOT_DO = ".do";
     public static final String ANCHOR = "anchor";
     public static final String ANCHOR_TOP_OF_FORM = "topOfForm";
     public static final String QUESTION_ANCHOR = "questionAnchor";

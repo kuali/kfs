@@ -55,11 +55,11 @@
 		
 		<td class="datacell">
 			<c:if test="${!readOnly}">
-			<bc:salaryAdjustment attributes="${pbcafAttributes}" 
-				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
-				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
-				methodToCall="adjustSalarySettingLinePercent"
-				lineIndex="${lineIndex}"/>
+				<bc:salaryAdjustment attributes="${pbcafAttributes}" 
+					adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
+					adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
+					methodToCall="adjustSalarySettingLinePercent"
+					lineIndex="${lineIndex}"/>
 			</c:if>
 		</td>		
 		
@@ -69,7 +69,7 @@
                 attributes="${bcsfAttributes}"
                 field="csfAmount"
                 fieldAlign="right"
-                readOnly="true"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
                 
 		<td class="datacell">&nbsp;</td>
@@ -83,7 +83,7 @@
                 attributes="${bcsfAttributes}"
                 field="csfTimePercent"
                 fieldAlign="right"
-                readOnly="true"
+                readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedCsfTimePercent}"/>
         
         <fmt:formatNumber var="formattedCsfFteQuantity" value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity}" 

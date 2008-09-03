@@ -515,24 +515,18 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         String subAccountNumber = appointmentFunding.getSubAccountNumber();
         String objectCode = appointmentFunding.getFinancialObjectCode();
         String subObjectCode = appointmentFunding.getFinancialSubObjectCode();
-
+        
         // just allow edit if budget by object mode (general case of single account mode)
-        if (budgetByObjectMode && StringUtils.equals(chartOfAccountsCode, budgetChartOfAccountsCode) && StringUtils.equals(accountNumber, budgetAccountNumber) && StringUtils.equals(subAccountNumber, budgetSubAccountNumber)) {
+        if (budgetByObjectMode && StringUtils.equals(chartOfAccountsCode, budgetChartOfAccountsCode) && StringUtils.equals(accountNumber, budgetAccountNumber) && StringUtils.equals(subAccountNumber, budgetSubAccountNumber)) {           
             appointmentFunding.setDisplayOnlyMode(false);
-
-            if (!StringUtils.equals(objectCode, budgetObjectCode) || !StringUtils.equals(subObjectCode, budgetSubObjectCode)) {
-                appointmentFunding.setOverride2PlugMode(true);
-            }
-
             return true;
         }
 
         boolean isUpdatedByUserLevel = this.updateAccessOfAppointmentFundingByUserLevel(appointmentFunding, universalUser);
         if (isUpdatedByUserLevel) {
-            appointmentFunding.setOverride2PlugMode(false);
             return true;
         }
-
+        
         return false;
     }
 

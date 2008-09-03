@@ -15,19 +15,8 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${KualiForm.viewOnlyEntry}" />
+<c:set var="readOnly" value="${KualiForm.viewOnlyEntry || KualiForm.salarySettingClosed}" />
 
-<c:if test="${KualiForm.orgSalSetClose}">
-<kul:page showDocumentInfo="false"
-	htmlFormAction="budgetPositionSalarySetting" renderMultipart="false"
-	showTabButtons="false"
-	docTitle="Salary Setting by Position"
-    transactionalDocument="false"
-	>
-</kul:page>
-</c:if>
-
-<c:if test="${!KualiForm.orgSalSetClose}">
 <kul:page showDocumentInfo="false" htmlFormAction="budgetPositionSalarySetting" renderMultipart="true"
 	showTabButtons="true" docTitle="Salary Setting by Position" transactionalDocument="false">
 	
@@ -48,11 +37,10 @@
 	        property="methodToCall.close" title="close" alt="close"/>	
     </div>
 
-<%-- Need these here to override and initialize vars used by objectinfo.js to BC specific --%>
-<SCRIPT type="text/javascript">
-  subObjectCodeNameSuffix = ".financialSubObject.financialSubObjectCdshortNm";
-  var kualiForm = document.forms['KualiForm'];
-  var kualiElements = kualiForm.elements;
-</SCRIPT>
+	<%-- Need these here to override and initialize vars used by objectinfo.js to BC specific --%>
+	<SCRIPT type="text/javascript">
+	  subObjectCodeNameSuffix = ".financialSubObject.financialSubObjectCdshortNm";
+	  var kualiForm = document.forms['KualiForm'];
+	  var kualiElements = kualiForm.elements;
+	</SCRIPT>
 </kul:page>
-</c:if>

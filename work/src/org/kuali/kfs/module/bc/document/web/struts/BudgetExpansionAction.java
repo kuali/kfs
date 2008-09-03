@@ -61,11 +61,9 @@ public class BudgetExpansionAction extends KualiAction {
         if (StringUtils.isNotEmpty(budgetExpansionForm.getReturnAnchor())) {
             parameters.put(KFSConstants.ANCHOR, budgetExpansionForm.getReturnAnchor());
         }
-
         parameters.put(KFSConstants.REFRESH_CALLER, this.getClass().getName());
 
         String backUrl = UrlFactory.parameterizeUrl(budgetExpansionForm.getBackLocation(), parameters);
-
         return new ActionForward(backUrl, true);
     }
 }

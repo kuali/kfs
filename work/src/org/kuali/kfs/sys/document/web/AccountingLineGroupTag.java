@@ -246,7 +246,7 @@ public class AccountingLineGroupTag extends TagSupport {
             containers.add(buildContainerForLine(groupDefinition, document, accountingLine, currentUser, new Integer(count)));
             count += 1;
         }
-        if (!StringUtils.isBlank(newLinePropertyName) && !getGroupDefinition().getAccountingLineAuthorizer().isGroupReadOnly(document, collectionPropertyName, currentUser, getEditModes())) {
+        if (!StringUtils.isBlank(newLinePropertyName) && !getGroupDefinition().getAccountingLineAuthorizer().isGroupReadOnly(document, collectionPropertyName, currentUser, getEditModes()) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName, currentUser)) {
             containers.add(0, buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null));
         }
         return containers;

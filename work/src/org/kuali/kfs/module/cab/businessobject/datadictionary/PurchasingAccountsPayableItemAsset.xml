@@ -31,11 +31,29 @@
         <ref bean="PurchasingAccountsPayableItemAsset-versionNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-itemLineNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode" />
+        <ref bean="PurchasingAccountsPayableItemAsset-itemTypeCode" />
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
+  <bean id="PurchasingAccountsPayableItemAsset-itemTypeCode" parent="PurchasingAccountsPayableItemAsset-itemTypeCode-parentBean" />
+  <bean id="PurchasingAccountsPayableItemAsset-itemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Type Code" />
+    <property name="shortLabel" value="Item Type" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  
   <bean id="PurchasingAccountsPayableItemAsset-documentNumber" parent="PurchasingAccountsPayableItemAsset-documentNumber-parentBean" />
 
   <bean id="PurchasingAccountsPayableItemAsset-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">

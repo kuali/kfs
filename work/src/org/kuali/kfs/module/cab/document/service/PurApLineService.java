@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cab.document.service;
 import java.util.List;
 
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
-import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 
 
@@ -62,14 +61,14 @@ public interface PurApLineService {
      * @param purApLineForm form
      */
     void buildPurApItemAssetsList(PurApLineForm purApLineForm);
-    
+
     /**
-     * 
      * Handle additional charge allocate in the same document.
+     * 
      * @param purLineForm
      */
     boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines);
-    
+
     /**
      * Get the target lines based on allocation line type
      * 
@@ -78,11 +77,26 @@ public interface PurApLineService {
      * @return
      */
     List<PurchasingAccountsPayableItemAsset> getAllocateTargetLines(PurchasingAccountsPayableItemAsset selectedLineItem, PurApLineForm purApForm);
-    
+
     /**
+     * Get the selected merge lines.
      * 
+     * @param purApLineForm
+     * @return
+     */
+    List<PurchasingAccountsPayableItemAsset> getSelectedMergeLines(PurApLineForm purApLineForm);
+
+    /**
      * Reset selectedValue for all line items
+     * 
      * @param selectedItems
      */
     void resetSelectedValue(PurApLineForm purApForm);
+
+    /**
+     * Merge line items.
+     * 
+     * @param mergeLines
+     */
+    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines);
 }

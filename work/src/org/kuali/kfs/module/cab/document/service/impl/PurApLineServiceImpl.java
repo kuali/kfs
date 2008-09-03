@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.OptimisticLockException;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
@@ -69,24 +70,29 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processAdditionalChargeAllocate(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
     public boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines) {
-        boolean success = true;
+        boolean allocatedIndicator = true;
         // Maintain this account List for update. So accounts already allocated won't take effect for account not allocated yet.
-        List<PurchasingAccountsPayableLineAssetAccount> updatedAccountList = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
+        List<PurchasingAccountsPayableLineAssetAccount> newAccountList = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
 
         for (PurchasingAccountsPayableLineAssetAccount sourceAccount : selectedLineItem.getPurchasingAccountsPayableLineAssetAccounts()) {
             // Get allocate to target account list
             List<PurchasingAccountsPayableLineAssetAccount> targetAccounts = getAllocationTargetAccounts(sourceAccount, allocateTargetLines, selectedLineItem.isAdditionalChargeNonTradeInIndicator() | selectedLineItem.isTradeInAllowance());
-            if (!targetAccounts.isEmpty()) {
+            if (targetAccounts.isEmpty()) {
+                allocatedIndicator = false;
+                break;
+            }
+            else {
                 // Percentage amount to each target account
-                allocateByItemAccountAmount(sourceAccount, targetAccounts, updatedAccountList);
+                allocateByItemAccountAmount(sourceAccount, targetAccounts, newAccountList);
             }
         }
 
-        updateAllocateAccountList(updatedAccountList);
+        if (allocatedIndicator) {
+            addNewAccountToItemList(newAccountList);
+            updateAllocateItemCost(allocateTargetLines);
+        }
 
-        updateAllocateItemCost(allocateTargetLines);
-
-        return success;
+        return allocatedIndicator;
     }
 
     private void updateAllocateItemCost(List<PurchasingAccountsPayableItemAsset> allocateTargetLines) {
@@ -96,18 +102,17 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
     }
 
-    private void updateAllocateAccountList(List<PurchasingAccountsPayableLineAssetAccount> updatedAccountList) {
-        // update account list for each line item
+    /**
+     * update account list for each line item
+     * 
+     * @param updatedAccountList
+     */
+    private void addNewAccountToItemList(List<PurchasingAccountsPayableLineAssetAccount> newAccountList) {
         PurchasingAccountsPayableItemAsset lineItem = null;
-        for (PurchasingAccountsPayableLineAssetAccount updateAccount : updatedAccountList) {
-            if (updateAccount.getNewItemAccountTotalAmount() != null) {
-                updateAccount.setItemAccountTotalAmount(updateAccount.getNewItemAccountTotalAmount());
-            }
-            else {
-                lineItem = updateAccount.getPurchasingAccountsPayableItemAsset();
-                if (ObjectUtils.isNotNull(lineItem) && ObjectUtils.isNotNull(lineItem.getPurchasingAccountsPayableAssetDetails())) {
-                    lineItem.getPurchasingAccountsPayableLineAssetAccounts().add(updateAccount);
-                }
+        for (PurchasingAccountsPayableLineAssetAccount newAccount : newAccountList) {
+            lineItem = newAccount.getPurchasingAccountsPayableItemAsset();
+            if (ObjectUtils.isNotNull(lineItem) && ObjectUtils.isNotNull(lineItem.getPurchasingAccountsPayableAssetDetails())) {
+                lineItem.getPurchasingAccountsPayableLineAssetAccounts().add(newAccount);
             }
         }
     }
@@ -129,22 +134,22 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param sourceAccount Account line to be allocated.
      * @param targetAccounts Account lines which accept amount.
      */
-    private void allocateByItemAccountAmount(PurchasingAccountsPayableLineAssetAccount sourceAccount, List<PurchasingAccountsPayableLineAssetAccount> targetAccounts, List<PurchasingAccountsPayableLineAssetAccount> updatedAccountList) {
-        KualiDecimal targetAccountTotalAmount = KualiDecimal.ZERO;
+    private void allocateByItemAccountAmount(PurchasingAccountsPayableLineAssetAccount sourceAccount, List<PurchasingAccountsPayableLineAssetAccount> targetAccounts, List<PurchasingAccountsPayableLineAssetAccount> newAccountList) {
+        KualiDecimal targetAccountsTotalAmount = KualiDecimal.ZERO;
         KualiDecimal sourceAccountTotalAmount = sourceAccount.getItemAccountTotalAmount();
         KualiDecimal amountAllocated = KualiDecimal.ZERO;
         KualiDecimal additionalAmount = null;
 
-
+        // Calculate the targetAccountTotalAmount.
         for (PurchasingAccountsPayableLineAssetAccount targetAccount : targetAccounts) {
-            targetAccountTotalAmount = targetAccountTotalAmount.add(targetAccount.getItemAccountTotalAmount());
+            targetAccountsTotalAmount = targetAccountsTotalAmount.add(targetAccount.getItemAccountTotalAmount());
         }
 
         for (Iterator iterator = targetAccounts.iterator(); iterator.hasNext();) {
             PurchasingAccountsPayableLineAssetAccount targetAccount = (PurchasingAccountsPayableLineAssetAccount) iterator.next();
             if (iterator.hasNext()) {
                 // Not working on the last node. Calculate additional charge amount by percentage
-                additionalAmount = targetAccount.getItemAccountTotalAmount().multiply(sourceAccountTotalAmount).divide(targetAccountTotalAmount);
+                additionalAmount = targetAccount.getItemAccountTotalAmount().multiply(sourceAccountTotalAmount).divide(targetAccountsTotalAmount);
                 amountAllocated = amountAllocated.add(additionalAmount);
             }
             else {
@@ -152,25 +157,54 @@ public class PurApLineServiceImpl implements PurApLineService {
                 additionalAmount = sourceAccountTotalAmount.subtract(amountAllocated);
             }
 
-            if (sourceAccount.getGeneralLedgerAccountIdentifier().equals(targetAccount.getGeneralLedgerAccountIdentifier())) {
-                // If the target account is the same GL entry, update the itemAccountTotalAmount
-                targetAccount.setNewItemAccountTotalAmount(targetAccount.getItemAccountTotalAmount().add(additionalAmount));
+            PurchasingAccountsPayableLineAssetAccount newAccount = getFromTargetAccountList(targetAccounts, sourceAccount.getGeneralLedgerAccountIdentifier());
+            if (newAccount != null) {
+                // If exists the same GL entry, update the newItemAccountTotalAmount
+                updateAccountAmount(additionalAmount, newAccount);
             }
             else {
-                // If the target account is a different GL entry, create a new account and attach to this line item.
-                targetAccount = new PurchasingAccountsPayableLineAssetAccount(targetAccount.getPurchasingAccountsPayableItemAsset(), sourceAccount.getGeneralLedgerAccountIdentifier());
-                targetAccount.setItemAccountTotalAmount(additionalAmount);
-                targetAccount.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.GENERAL_LEDGER_ENTRY);
+                newAccount = getFromNewAccountList(newAccountList, sourceAccount.getGeneralLedgerAccountIdentifier(), targetAccount);
+                if (newAccount != null) {
+                    updateAccountAmount(additionalAmount, newAccount);
+                }
+                else {
+                    // If the target account is a different GL entry, create a new account and attach to this line item.
+                    targetAccount = new PurchasingAccountsPayableLineAssetAccount(targetAccount.getPurchasingAccountsPayableItemAsset(), sourceAccount.getGeneralLedgerAccountIdentifier());
+                    targetAccount.setItemAccountTotalAmount(additionalAmount);
+                    targetAccount.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.GENERAL_LEDGER_ENTRY);
+                    newAccountList.add(targetAccount);
+                }
             }
-            updatedAccountList.add(targetAccount);
         }
+    }
 
-        return;
+    private PurchasingAccountsPayableLineAssetAccount getFromTargetAccountList(List<PurchasingAccountsPayableLineAssetAccount> targetAccounts, Long glIdentifier) {
+        for (PurchasingAccountsPayableLineAssetAccount account : targetAccounts) {
+            if (account.getGeneralLedgerAccountIdentifier().equals(glIdentifier)) {
+                return account;
+            }
+        }
+        return null;
+    }
+
+    private void updateAccountAmount(KualiDecimal additionalAmount, PurchasingAccountsPayableLineAssetAccount targetAccount) {
+        KualiDecimal baseAmount = targetAccount.getItemAccountTotalAmount();
+        targetAccount.setItemAccountTotalAmount(baseAmount != null ? baseAmount.add(additionalAmount) : additionalAmount);
+    }
+
+
+    private PurchasingAccountsPayableLineAssetAccount getFromNewAccountList(List<PurchasingAccountsPayableLineAssetAccount> newAccountList, Long glIdentifier, PurchasingAccountsPayableLineAssetAccount targetAccount) {
+        for (PurchasingAccountsPayableLineAssetAccount newAccount : newAccountList) {
+            if (StringUtils.equalsIgnoreCase(targetAccount.getDocumentNumber(), newAccount.getDocumentNumber()) && targetAccount.getAccountsPayableLineItemIdentifier().equals(newAccount.getAccountsPayableLineItemIdentifier()) && targetAccount.getCapitalAssetBuilderLineNumber().equals(newAccount.getCapitalAssetBuilderLineNumber()) && glIdentifier.equals(newAccount.getGeneralLedgerAccountIdentifier())) {
+                return newAccount;
+            }
+        }
+        return null;
     }
 
     /**
      * For additional charge allocation, target account selection is based on account lines with the same account number and object
-     * code. If no matching, select all account lines.
+     * code. If no matching, select all account lines. For line item to line items, select all account lines as target.
      * 
      * @param sourceAccount
      * @param lineItems
@@ -186,7 +220,6 @@ public class PurApLineServiceImpl implements PurApLineService {
         for (PurchasingAccountsPayableItemAsset item : lineItems) {
             for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
                 candidateEntry = account.getGeneralLedgerEntry();
-                // account.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.PURAP_ITEM_ASSET);
                 account.setPurchasingAccountsPayableItemAsset(item);
 
                 if (ObjectUtils.isNotNull(candidateEntry)) {
@@ -210,7 +243,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
         for (PurchasingAccountsPayableDocument purApDoc : purApForm.getPurApDocs()) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                if ((selectedLineItem.isAdditionalChargeNonTradeInIndicator() && item != selectedLineItem && !item.isAdditionalChargeNonTradeInIndicator() && !item.isTradeInAllowance()) || (selectedLineItem.isTradeInAllowance() && item != selectedLineItem && item.isItemAssignedToTradeInIndicator()) || (item != selectedLineItem && item.isSelectedValue())) {
+                if (item != selectedLineItem && ((selectedLineItem.isAdditionalChargeNonTradeInIndicator() && !item.isAdditionalChargeNonTradeInIndicator() && !item.isTradeInAllowance()) || (selectedLineItem.isTradeInAllowance() && item.isItemAssignedToTradeInIndicator()) || (item.isSelectedValue()))) {
                     targetLineItems.add(item);
                 }
             }
@@ -218,6 +251,49 @@ public class PurApLineServiceImpl implements PurApLineService {
         return targetLineItems;
     }
 
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#getSelectedMergeLines(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
+     */
+    public List<PurchasingAccountsPayableItemAsset> getSelectedMergeLines(PurApLineForm purApLineForm) {
+        List<PurchasingAccountsPayableItemAsset> mergeLines = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
+
+        for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                if (item.isSelectedValue()) {
+                    mergeLines.add(item);
+                    item.setPurchasingAccountsPayableDocument(purApDoc);
+                }
+            }
+        }
+        return mergeLines;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processMerge(java.util.List)
+     */
+    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines) {
+        PurchasingAccountsPayableItemAsset firstItem = mergeLines.get(0);
+        List<PurchasingAccountsPayableLineAssetAccount> firstAccountList = firstItem.getPurchasingAccountsPayableLineAssetAccounts();
+        PurchasingAccountsPayableItemAsset item = null;
+        PurchasingAccountsPayableLineAssetAccount targetAccount = null;
+
+        for (int i = 1; i < mergeLines.size(); i++) {
+            item = mergeLines.get(i);
+            for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
+                targetAccount = getFromTargetAccountList(firstAccountList, account.getGeneralLedgerAccountIdentifier());
+                if (targetAccount != null) {
+                    updateAccountAmount(account.getItemAccountTotalAmount(), targetAccount);
+                }
+                else {
+                    account.setDocumentNumber(firstItem.getDocumentNumber());
+                    account.setAccountsPayableLineItemIdentifier(firstItem.getAccountsPayableLineItemIdentifier());
+                    account.setCapitalAssetBuilderLineNumber(firstItem.getCapitalAssetBuilderLineNumber());
+                    firstAccountList.add(account);
+                }
+            }
+        }
+        setLineItemCost(firstItem);
+    }
 
     /**
      * Validation based on account number and object code.
@@ -286,8 +362,13 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#saveBusinessObject(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
     public void processSaveBusinessObjects(PurApLineForm purApLineForm) {
-        for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
-            businessObjectService.save(purApDoc);
+        try {
+            for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
+                businessObjectService.save(purApDoc);
+            }
+        }
+        catch (Exception e) {
+            throw new OptimisticLockException(e);
         }
         // Removed below codes together with PurApLineSession when using buildListOfDeletionAwareLists is approved.
         // List itemAssets = purApDoc.getPurchasingAccountsPayableItemAssets();
@@ -445,6 +526,7 @@ public class PurApLineServiceImpl implements PurApLineService {
             if (item.getItemType() != null) {
                 purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
                 purchasingAccountsPayableItemAsset.setTradeInAllowance(item.getItemType().isItemTypeBelowTheLineIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+                purchasingAccountsPayableItemAsset.setItemTypeCode(item.getItemTypeCode());
             }
             purchasingAccountsPayableItemAsset.setItemAssignedToTradeInIndicator(item.getItemAssignedToTradeInIndicator());
         }
@@ -454,6 +536,7 @@ public class PurApLineServiceImpl implements PurApLineService {
             if (item.getItemType() != null) {
                 purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
                 purchasingAccountsPayableItemAsset.setTradeInAllowance(item.getItemType().isItemTypeBelowTheLineIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+                purchasingAccountsPayableItemAsset.setItemTypeCode(item.getItemTypeCode());
             }
             purchasingAccountsPayableItemAsset.setItemAssignedToTradeInIndicator(item.getItemAssignedToTradeInIndicator());
         }

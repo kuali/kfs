@@ -67,7 +67,14 @@
 	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].purapDocumentIdentifier" attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}" readOnly="true"/></td>
 	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentTypeCode" attributeEntry="${purApDocumentAttributes.documentTypeCode}" readOnly="true"/></td>
 	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentHeader.financialDocumentStatusCode" attributeEntry="${financialSystemDocumentHeaderAttributes.financialDocumentStatusCode}" readOnly="true"/></td>
-	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.itemLineNumber" attributeEntry="${purApItemAssetAttributes.itemLineNumber}" readOnly="true"/></td>
+	<c:choose>
+	<c:when test="${itemLine.itemLineNumber != null}">
+		<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.itemLineNumber" attributeEntry="${purApItemAssetAttributes.itemLineNumber}" readOnly="true"/></td>
+	</c:when>
+	<c:otherwise>
+		<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.itemTypeCode" attributeEntry="${purApItemAssetAttributes.itemTypeCode}" readOnly="true"/></td>
+	</c:otherwise>
+	</c:choose>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.accountsPayableItemQuantity" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}" readOnly="true"/></td>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.splitQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.unitCost" attributeEntry="${genericAttributes.genericAmount}" readOnly="true"/></td>
@@ -83,7 +90,7 @@
 	</c:otherwise>
 	</c:choose>
 	<td class="infoline" align="center">
-		<c:if test="${!itemLine.additionalChargeNonTradeInIndicator }">
+		<c:if test="${!itemLine.additionalChargeNonTradeInIndicator && !itemLine.tradeInAllowance}">
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-split.gif" styleClass="tinybutton" property="methodToCall.split.doc${docPos-1}.line${linePos-1}" title="Split" alt="Split" />
 			<c:if test="${itemLine.accountsPayableItemQuantity < 1 }">
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-percentpayment.gif" styleClass="tinybutton" property="methodToCall.percentPayment.doc${docPos-1}.line${linePos-1}" title="Percent Payment" alt="Percent Payment" />

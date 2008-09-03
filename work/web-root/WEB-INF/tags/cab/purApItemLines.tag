@@ -18,7 +18,7 @@
 
 <c:set var="purApDocumentAttributes" value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
 <c:set var="purApItemAssetAttributes" value="${DataDictionary.PurchasingAccountsPayableItemAsset.attributes}" />
-<kul:tab tabTitle="Line Items" defaultOpen="true" tabErrorKey="purApDocs*">
+<kul:tab tabTitle="Line Items" defaultOpen="true" tabErrorKey="purApDocs*,mergeQty">
 <div class="tab-container" align="center">
 <table width="100%" cellpadding="0" cellspacing="0" class="datatable">	
 	<tr>
@@ -64,7 +64,7 @@
 		<th class="grid" align="right" colspan="7">Merge Qty</th>
 		<td class="infoline"><kul:htmlControlAttribute property="mergeQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>
 		<td class="grid" colspan="6" align="left">
-			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-merge.gif" styleClass="tinybutton" property="methodToCall.merge" title="merge" alt="merge" onclick="merge();"/>&nbsp;&nbsp;&nbsp;
+			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-merge.gif" styleClass="tinybutton" property="methodToCall.merge" title="merge" alt="merge"/>&nbsp;&nbsp;&nbsp;
 		</td>
 	</tr>
 </table>

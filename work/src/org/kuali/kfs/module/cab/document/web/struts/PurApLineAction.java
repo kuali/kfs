@@ -216,10 +216,31 @@ public class PurApLineAction extends KualiAction {
     }
 
 
-    // TODO:
     public ActionForward merge(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // check all merge line documents have no additional charge unallocated.
         // ???check all merge lines have no trade-in indicator set. If set, further check if no trade-in allowance line exists.
+        PurApLineForm purApForm = (PurApLineForm) form;
+        if (purApForm.getMergeQty() == null) {
+            GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.MERGE_QTY, CabKeyConstants.ERROR_MERGE_QTY_EMPTY);
+        }
+        else {
+            List<PurchasingAccountsPayableItemAsset> mergeLines = purApLineService.getSelectedMergeLines(purApForm);
+
+            if (mergeLines.size() <= 1) {
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_MERGE_LINE_SELECTED);
+            }
+            else {
+                purApLineService.processMerge(mergeLines);
+                // remove mergeLines except the first one.
+                for (int i = 1; i < mergeLines.size(); i++) {
+                    PurchasingAccountsPayableItemAsset item = mergeLines.get(i);
+                    item.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(item);
+                }
+                mergeLines.get(0).setAccountsPayableItemQuantity(purApForm.getMergeQty());
+                purApLineService.resetSelectedValue(purApForm);
+                purApForm.setMergeQty(null);
+            }
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -236,14 +257,21 @@ public class PurApLineAction extends KualiAction {
     // TODO:
     public ActionForward allocate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
-        PurchasingAccountsPayableItemAsset selectedLineItem = getSelectedLineItem(purApForm);
+        PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
 
-        if (selectedLineItem != null) {
-            List<PurchasingAccountsPayableItemAsset> allocateTargetLines = purApLineService.getAllocateTargetLines(selectedLineItem, purApForm);
-
-            if (purApLineService.processAllocate(selectedLineItem, allocateTargetLines)) {
+        if (selectedLine != null) {
+            List<PurchasingAccountsPayableItemAsset> allocateTargetLines = purApLineService.getAllocateTargetLines(selectedLine, purApForm);
+            if (allocateTargetLines.isEmpty()) {
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ALLOCATE_NO_LINE_SELECTED);
+            }
+            // Check if this allocate is valid.
+            // checkAllocateValid(selectedLine,allocateTargetLines);
+            else if (!purApLineService.processAllocate(selectedLine, allocateTargetLines)) {
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ALLOCATE_NO_TARGET_ACCOUNT);
+            }
+            else {
                 List<PurchasingAccountsPayableItemAsset> sameDocItems = getSelectedPurApDoc(purApForm).getPurchasingAccountsPayableItemAssets();
-                sameDocItems.remove(selectedLineItem);
+                sameDocItems.remove(selectedLine);
                 purApLineService.resetSelectedValue(purApForm);
                 // PurApLineSession purApLineSession = (PurApLineSession)
                 // GlobalVariables.getUserSession().retrieveObject("purApLineSesion");
@@ -252,9 +280,27 @@ public class PurApLineAction extends KualiAction {
                 // }
             }
         }
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    private boolean checkAllocateValid(PurchasingAccountsPayableItemAsset selectedLine, List<PurchasingAccountsPayableItemAsset> allocateTargetLines) {
+        boolean valid = true;
+        boolean hasAdditionalCharges = false;
+        boolean differentDocument = false;
+        // When one line item allocate to other lines in different doc, we should constraint all additional charges have been
+        // allocated.
+        if (!selectedLine.isAdditionalChargeNonTradeInIndicator() && !selectedLine.isTradeInAllowance()) {
+            for (PurchasingAccountsPayableItemAsset item : allocateTargetLines) {
+                if (!selectedLine.getDocumentNumber().equalsIgnoreCase(item.getDocumentNumber())) {
+                    differentDocument = true;
+                }
+            }
+        }
+        return valid;
+    }
+
+    
     protected PurchasingAccountsPayableItemAsset getSelectedLineItem(PurApLineForm purApLineForm) {
         PurchasingAccountsPayableDocument purApDoc = purApLineForm.getPurApDocs().get(purApLineForm.getActionPurApDocIndex());
         return purApDoc.getPurchasingAccountsPayableItemAssets().get(purApLineForm.getActionItemAssetIndex());

@@ -44,8 +44,16 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private String firstFincialObjectCode;
     private KualiDecimal splitQty;
     private boolean selectedValue;
+    private String itemTypeCode;
 
 
+    public String getItemTypeCode() {
+        return itemTypeCode;
+    }
+
+    public void setItemTypeCode(String itemTypeCode) {
+        this.itemTypeCode = itemTypeCode;
+    }
 
     public boolean isSelectedValue() {
         return selectedValue;

@@ -42,18 +42,12 @@ import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingGuid;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.IllegalObjectStateException;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.DocumentInitiator;
-import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
 /**
  * Budget
@@ -448,19 +442,12 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
                 xml.append(projectDirector.getUser().getPersonUniversalIdentifier());
                 xml.append("</projectDirector>");
             }
+            xml.append(openRoutingInfoXml());
             if (!StringUtils.isBlank(projectDirector.getFiscalCampusCode())) {
-                xml.append("<chartOrg><chartOfAccountsCode>");
-                xml.append(projectDirector.getFiscalCampusCode());
-                xml.append("</chartOfAccountsCode><organizationCode>");
-                if (StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode())) {
-                    xml.append(SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART).getOrganizationCode());
-                }
-                else {
-                    xml.append(projectDirector.getPrimaryDepartmentCode());
-                }
-                xml.append("</organizationCode></chartOrg>");
+                xml.append(buildRoutingDataXmlForOrg(projectDirector.getFiscalCampusCode(), (StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode()) ? SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART).getOrganizationCode() : projectDirector.getPrimaryDepartmentCode())));
             }
         }
+        xml.append(closeRoutingInfoXml());
         if (encloseContent) {
             xml.append("</documentContent>");
         }
@@ -483,19 +470,13 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
             xml.append("<documentContent>");
         }
 
+        xml.append(openRoutingInfoXml());
         for (BudgetInstitutionCostShare costShare : this.getBudget().getInstitutionCostShareItems()) {
             if (costShare.isPermissionIndicator() || costSharePermissionCode.equals(CGConstants.COST_SHARE_PERMISSION_CODE_TRUE)) {
-                xml.append("<chartOrg><chartOfAccountsCode>");
-                if (costShare.getChartOfAccountsCode() != null) {
-                    xml.append(costShare.getChartOfAccountsCode());
-                }
-                xml.append("</chartOfAccountsCode><organizationCode>");
-                if (costShare.getOrganizationCode() != null) {
-                    xml.append(costShare.getOrganizationCode());
-                }
-                xml.append("</organizationCode></chartOrg>");
+                xml.append(buildRoutingDataXmlForOrg(costShare.getChartOfAccountsCode(), (costShare.getOrganizationCode() != null ? costShare.getOrganizationCode() : "")));
             }
         }
+        xml.append(closeRoutingInfoXml());
         if (encloseContent) {
             xml.append("</documentContent>");
         }
@@ -515,18 +496,68 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
         if (encloseContent) {
             xml.append("<documentContent>");
         }
+        xml.append(openRoutingInfoXml());
         List<AdhocOrg> orgs = this.getAdhocOrgs();
         for (AdhocOrg org : orgs) {
-            xml.append("<chartOrg><chartOfAccountsCode>");
-            xml.append(org.getFiscalCampusCode());
-            xml.append("</chartOfAccountsCode><organizationCode>");
-            xml.append(org.getPrimaryDepartmentCode());
-            xml.append("</organizationCode></chartOrg>");
+            xml.append(buildRoutingDataXmlForOrg(org.getFiscalCampusCode(), org.getPrimaryDepartmentCode()));
         }
+        xml.append(closeRoutingInfoXml());
         if (encloseContent) {
             xml.append("</documentContent>");
         }
         return xml.toString();
+    }
+    
+    /**
+     * Creates the routing data XML for a single organization to check against
+     * @param chartCode the chart code of the organization to check routing against
+     * @param organizationCode the organization code of the organization to check routing against
+     * @return the routing data XML for the organization
+     */
+    protected String buildRoutingDataXmlForOrg(String chartCode, String organizationCode) {
+        StringBuilder routingInfo = new StringBuilder();
+        
+        routingInfo.append("<"+OrgReviewRoutingData.class.getName()+">");
+        routingInfo.append("<routingChart>");
+        routingInfo.append(chartCode);
+        routingInfo.append("</routingChart>");
+        routingInfo.append("<routingOrg>");
+        routingInfo.append(organizationCode);
+        routingInfo.append("</routingOrg>");
+        routingInfo.append("</"+OrgReviewRoutingData.class.getName()+">");
+        
+        return routingInfo.toString();
+    }
+    
+    /**
+     * Builds the XML to create the header for a routingInfo tag
+     * @return the XML for a routing info opening tag
+     */
+    protected String openRoutingInfoXml() {
+        StringBuilder routingInfo = new StringBuilder();
+        routingInfo.append("<routingInfo>");
+        routingInfo.append("<"+RoutingData.class.getName()+">");
+        routingInfo.append("<routingTypes>");
+        routingInfo.append("<string>KualiOrgReviewAttribute</string>");
+        routingInfo.append("<string>I am fake</string>");
+        routingInfo.append("</routingTypes>");
+        routingInfo.append("<routingSet>");
+        routingInfo.append("<"+RoutingGuid.class.getName()+">");
+        routingInfo.append("<routingGuid>Still Fake.  Right here.</routingGuid>");
+        routingInfo.append("</"+RoutingGuid.class.getName()+">");
+        return routingInfo.toString();
+    }
+    
+    /**
+     * Builds the XML to create the footer for a routingInfo tag
+     * @return the XML for a routing info closing tag
+     */
+    protected String closeRoutingInfoXml() {
+        StringBuilder routingInfo = new StringBuilder();
+        routingInfo.append("</routingSet>");
+        routingInfo.append("</"+RoutingData.class.getName()+">");
+        routingInfo.append("</routingInfo>");
+        return routingInfo.toString();
     }
 
     /**

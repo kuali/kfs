@@ -460,6 +460,14 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/financial/{1}.jsp" />
 		</action>
+		
+		<action path="/financialCashManagement" name="CashManagementForm"
+			input="/jsp/modules/financial/CashManagement.jsp"
+			type="org.kuali.kfs.fp.document.web.struts.CashManagementAction" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/modules/financial/CashManagement.jsp" />
+		</action>
 
 		<action path="/depositWizard" name="DepositWizardForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"

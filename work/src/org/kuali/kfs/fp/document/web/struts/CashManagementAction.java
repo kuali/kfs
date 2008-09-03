@@ -35,6 +35,7 @@ import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
 import org.kuali.kfs.fp.document.web.struts.CashManagementForm.CashDrawerSummary;
+import org.kuali.kfs.fp.exception.CashDrawerStateException;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -62,7 +63,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class CashManagementAction extends KualiDocumentActionBase {
     private static Logger LOG = Logger.getLogger(CashManagementAction.class);
-
+    private static final String CASH_MANAGEMENT_STATUS_PAGE = "/cashManagementStatus.do";
 
     /**
      * Default constructor
@@ -79,25 +80,30 @@ public class CashManagementAction extends KualiDocumentActionBase {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward dest = super.execute(mapping, form, request, response);
+        ActionForward dest = null;
+        
+        try {
+            dest = super.execute(mapping, form, request, response);
 
-        CashManagementForm cmf = (CashManagementForm) form;
-        cmf.populateDepositHelpers();
-        KualiWorkflowDocument kwd = cmf.getDocument().getDocumentHeader().getWorkflowDocument();
-        if (kwd.stateIsEnroute() || kwd.stateIsFinal()) {
-            cmf.setCashDrawerSummary(null);
-        }
-        else {
-            if (cmf.getCashDrawerSummary() == null) {
-                cmf.populateCashDrawerSummary();
+            CashManagementForm cmf = (CashManagementForm) form;
+            cmf.populateDepositHelpers();
+            KualiWorkflowDocument kwd = cmf.getDocument().getDocumentHeader().getWorkflowDocument();
+            if (kwd.stateIsEnroute() || kwd.stateIsFinal()) {
+                cmf.setCashDrawerSummary(null);
             }
+            else {
+                if (cmf.getCashDrawerSummary() == null) {
+                    cmf.populateCashDrawerSummary();
+                }
+            }
+            // put any recently closed items in process in the form
+            cmf.setRecentlyClosedItemsInProcess(SpringContext.getBean(CashManagementService.class).getRecentlyClosedItemsInProcess(cmf.getCashManagementDocument()));
+        } catch (CashDrawerStateException cdse) {
+            dest = new ActionForward(UrlFactory.parameterizeUrl(CASH_MANAGEMENT_STATUS_PAGE, cdse.toProperties()), true);
         }
-        // put any recently closed items in process in the form
-        cmf.setRecentlyClosedItemsInProcess(SpringContext.getBean(CashManagementService.class).getRecentlyClosedItemsInProcess(cmf.getCashManagementDocument()));
-
+        
         return dest;
     }
-
 
     /**
      * Overrides the default document-creation code to auto-save new documents upon creation: since creating a CMDoc changes the

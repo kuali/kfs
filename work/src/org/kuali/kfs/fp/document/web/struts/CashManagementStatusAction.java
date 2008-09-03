@@ -20,15 +20,14 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.struts.Globals;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.kfs.fp.document.CashManagementDocument;
-import org.kuali.kfs.fp.exception.CashDrawerStateException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -57,14 +56,9 @@ public class CashManagementStatusAction extends KualiAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // populate with exception values, if any
         CashManagementStatusForm cform = (CashManagementStatusForm) form;
-        CashDrawerStateException e = (CashDrawerStateException) request.getAttribute(Globals.EXCEPTION_KEY);
-        if (e != null) {
-            cform.setMethodToCall("displayPage");
 
-            cform.setVerificationUnit(e.getVerificationUnit());
-            cform.setControllingDocumentId(e.getControllingDocumentId());
-            cform.setCurrentDrawerStatus(e.getCurrentDrawerStatus());
-            cform.setDesiredDrawerStatus(e.getDesiredDrawerStatus());
+        if (cform.getMethodToCall().equals("docHandler")) {
+            cform.setMethodToCall("displayPage");
         }
 
         // generate the status message

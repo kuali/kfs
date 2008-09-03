@@ -15,15 +15,23 @@
  */
 package org.kuali.kfs.fp.exception;
 
+import java.util.Properties;
 
-public class CashDrawerStateException extends RuntimeException {
+import org.kuali.rice.kns.exception.KualiException;
+
+
+
+public class CashDrawerStateException extends KualiException {
     private final String verificationUnit;
     private final String controllingDocumentId;
     private final String currentDrawerStatus;
     private final String desiredDrawerStatus;
+    
+    private final static String CASH_DRAWER_STATE_EXCEPTION_SESSION_KEY = "CASH_DRAWER_STATE_EXCEPTION";
 
 
     public CashDrawerStateException(String verificationUnit, String controllingDocumentId, String currentDrawerStatus, String desiredDrawerStatus) {
+        super("Cash Drawer State Exception; this exception should simply serve to redirect the page to the Cash Drawer Status page");
         this.verificationUnit = verificationUnit;
         this.controllingDocumentId = controllingDocumentId;
         this.currentDrawerStatus = currentDrawerStatus;
@@ -57,5 +65,19 @@ public class CashDrawerStateException extends RuntimeException {
      */
     public String getControllingDocumentId() {
         return controllingDocumentId;
+    }
+    
+    /**
+     * Creates a Properties object, based on the properties in this exception
+     * @return a Properties object
+     */
+    public Properties toProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("verificationUnit", getVerificationUnit());
+        properties.setProperty("controllingDocumentId", getControllingDocumentId());
+        properties.setProperty("currentDrawerStatus", getCurrentDrawerStatus());
+        properties.setProperty("desiredDrawerStatus", getDesiredDrawerStatus());
+        properties.setProperty("methodToCall", "displayPage");
+        return properties;
     }
 }

@@ -60,6 +60,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -71,6 +72,7 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
  */
 public class DepositWizardAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepositWizardAction.class);
+    private static final String CASH_MANAGEMENT_STATUS_PAGE = "/cashManagementStatus.do";
 
     /**
      * Overrides the parent to validate the document state of the cashManagementDocument which will be updated and redisplayed after
@@ -99,7 +101,11 @@ public class DepositWizardAction extends KualiAction {
 
             CashManagementDocument cmDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cmDocId);
 
-            initializeForm(dwForm, cmDoc, depositTypeCode);
+            try {
+                initializeForm(dwForm, cmDoc, depositTypeCode);
+            } catch (CashDrawerStateException cdse) {
+                dest = new ActionForward(UrlFactory.parameterizeUrl(CASH_MANAGEMENT_STATUS_PAGE, cdse.toProperties()), true);
+            }
         }
 
         return dest;

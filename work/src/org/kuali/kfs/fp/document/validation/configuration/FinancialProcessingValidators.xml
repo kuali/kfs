@@ -149,4 +149,9 @@
 	</bean>
 	
 	<bean id="JournalVoucher-reversalDateValidation" class="org.kuali.kfs.fp.document.validation.impl.JournalVoucherReversalDateValidation" abstract="true" />
+	
+	<bean id="JournalVoucher-accountingLineObjectTypeCodeValidation" class="org.kuali.kfs.fp.document.validation.impl.JournalVoucherObjectTypeValidation">
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="accountingLineRuleHelperService" ref="accountingLineRuleHelperService" />
+	</bean>
 </beans>

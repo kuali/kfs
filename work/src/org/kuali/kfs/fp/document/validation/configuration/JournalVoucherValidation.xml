@@ -139,6 +139,17 @@
 								</property>
 								<property name="quitOnFail" value="true" />
 							</bean>
+							<bean parent="JournalVoucher-accountingLineObjectTypeCodeValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion">
+											<property name="sourceEventProperty" value="accountingLine" />
+											<property name="targetValidationProperty" value="accountingLineForValidation" />
+										</bean>
+									</list>
+								</property>
+								<property name="quitOnFail" value="true" />
+							</bean>
 							<bean parent="JournalVoucher-accountingLineValuesAllowedValidation" scope="prototype">
 								<property name="accountingDocumentParameterPropertyName" value="document" />
 								<property name="accountingLineParameterPropertyName" value="accountingLine" />
@@ -230,6 +241,17 @@
 								</property>
 								<property name="quitOnFail" value="true" />
 							</bean>
+							<bean parent="JournalVoucher-accountingLineObjectTypeCodeValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion">
+											<property name="sourceEventProperty" value="updatedAccountingLine" />
+											<property name="targetValidationProperty" value="accountingLineForValidation" />
+										</bean>
+									</list>
+								</property>
+								<property name="quitOnFail" value="true" />
+							</bean>
 							<bean parent="JournalVoucher-accountingLineValuesAllowedValidation" scope="prototype">
 								<property name="accountingDocumentParameterPropertyName" value="document" />
 								<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
@@ -301,6 +323,17 @@
 								<property name="quitOnFail" value="true" />
 							</bean>
 							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion">
+											<property name="sourceEventProperty" value="accountingLine" />
+											<property name="targetValidationProperty" value="accountingLineForValidation" />
+										</bean>
+									</list>
+								</property>
+								<property name="quitOnFail" value="true" />
+							</bean>
+							<bean parent="JournalVoucher-accountingLineObjectTypeCodeValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">

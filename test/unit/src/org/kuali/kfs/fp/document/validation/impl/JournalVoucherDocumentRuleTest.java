@@ -70,17 +70,17 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     public static final Class<JournalVoucherDocument> DOCUMENT_CLASS = JournalVoucherDocument.class;
 
     public void testProcessAddAccountingLineBusinessRules_irrelevantReferenceOriginCode() throws Exception {
-        testProcessAddAccountingLineBusinessRules(EXPENSE_LINE2.createSourceAccountingLine(), null, null);
+        testProcessAddAccountingLineBusinessRules(EXPENSE_LINE2.createVoucherSourceAccountingLine(), null, null);
     }
 
     public void testProcessAddAccountingLineBusinessRules_emptyReferenceOriginCode() throws Exception {
-        AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createSourceAccountingLine();
+        AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createVoucherSourceAccountingLine();
         line.setReferenceOriginCode("");
         testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSKeyConstants.ERROR_REQUIRED);
     }
 
     public void testProcessAddAccountingLineBusinessRules_emptyReferences() throws Exception {
-        AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createSourceAccountingLine();
+        AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createVoucherSourceAccountingLine();
         line.setReferenceOriginCode("");
         line.setReferenceNumber("");
         line.setReferenceTypeCode("");
@@ -90,17 +90,17 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     public void testProcessAddAccountingLineBusinessRules_validReferences() throws Exception {
-        testProcessAddAccountingLineBusinessRules(EXTERNAL_ENCUMBRANCE_LINE.createSourceAccountingLine(), null, null);
+        testProcessAddAccountingLineBusinessRules(EXTERNAL_ENCUMBRANCE_LINE.createVoucherSourceAccountingLine(), null, null);
     }
 
     public void testProcessAddAccountingLineBusinessRules_invalidReferenceOriginCode() throws Exception {
-        AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createSourceAccountingLine();
+        AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createVoucherSourceAccountingLine();
         line.setReferenceOriginCode("42");
         testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSKeyConstants.ERROR_EXISTENCE);
     }
 
     public void testProcessAddAccountingLineBusinessRules_invalidReferenceTypeCode() throws Exception {
-        AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createSourceAccountingLine();
+        AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createVoucherSourceAccountingLine();
         line.setReferenceTypeCode("42");
         testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE);
         assertGlobalErrorMapNotContains(line.toString(), KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED);
@@ -193,7 +193,6 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
     }
 
-    // @RelatesTo(JiraIssue.KULRNE4926)
     public void testProcessSaveDocument_Valid() throws Exception {
         testSaveDocumentRule_ProcessSaveDocument(buildDocument(), true);
     }
@@ -229,7 +228,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
-        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(buildDocument(), EXPENSE_LINE.createSourceAccountingLine(), EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, null);
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(buildDocument(), EXPENSE_LINE.createVoucherSourceAccountingLine(), EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, null);
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() throws Exception {
@@ -253,7 +252,6 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     private JournalVoucherDocument createDocumentWithValidObjectSubType() throws Exception {
         JournalVoucherDocument retval = buildDocument();
         retval.setSourceAccountingLines(getValidObjectSubTypeSourceLines());
-        retval.setTargetAccountingLines(getValidObjectSubTypeTargetLines());
         return retval;
     }
 
@@ -268,9 +266,9 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         return LINE11.createTargetAccountingLine();
     }
 
-    private List<SourceAccountingLine> getValidObjectSubTypeSourceLines() throws Exception {
-        List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
-        retval.add(LINE11.createSourceAccountingLine());
+    private List<VoucherSourceAccountingLine> getValidObjectSubTypeSourceLines() throws Exception {
+        List<VoucherSourceAccountingLine> retval = new ArrayList<VoucherSourceAccountingLine>();
+        retval.add(LINE11.createVoucherSourceAccountingLine());
         return retval;
     }
 
@@ -282,7 +280,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     private SourceAccountingLine getValidObjectTypeSourceLine() throws Exception {
-        return LINE8.createSourceAccountingLine();
+        return LINE8.createVoucherSourceAccountingLine();
     }
 
     private SourceAccountingLine getInvalidObjectTypeSourceLine() throws Exception {
@@ -292,11 +290,11 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     private SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
-        return LINE11.createSourceAccountingLine();
+        return LINE11.createVoucherSourceAccountingLine();
     }
 
     private SourceAccountingLine getAssetSourceLine() throws Exception {
-        return SOURCE_LINE.createSourceAccountingLine();
+        return SOURCE_LINE.createVoucherSourceAccountingLine();
     }
 
     private JournalVoucherDocument createDocumentUnbalanced() throws Exception {

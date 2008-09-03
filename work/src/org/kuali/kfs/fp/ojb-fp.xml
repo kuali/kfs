@@ -395,10 +395,6 @@
         <foreignkey field-ref="balanceTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="objectType" class-ref="org.kuali.kfs.coa.businessobject.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="objectTypeCode" />
-    </reference-descriptor>
-
     <reference-descriptor name="referenceOrigin" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="referenceOriginCode" />
     </reference-descriptor>
@@ -473,10 +469,6 @@
 
     <reference-descriptor name="balanceTyp" class-ref="org.kuali.kfs.coa.businessobject.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="balanceTypeCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="objectType" class-ref="org.kuali.kfs.coa.businessobject.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="objectTypeCode" />
     </reference-descriptor>
 
     <reference-descriptor name="referenceOrigin" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

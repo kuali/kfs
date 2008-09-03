@@ -68,12 +68,9 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
 
         // set accountinglines to document
         for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
-            sourceFixture.addAsSourceTo(document);
+            sourceFixture.addAsVoucherSourceTo(document);
         }
 
-        for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
-            targetFixture.addAsTargetTo(document);
-        }
         document.setBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
         return document;
     }
@@ -84,7 +81,6 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * 
      * @see org.kuali.rice.kns.document.AccountingDocumentTestBase#testConvertIntoCopy()
      */
-    // @RelatesTo(JiraIssue.KULRNE4926)
     @ConfigureContext(session = DFOGLE, shouldCommitTransactions = true)
     public void testConvertIntoCopy() throws Exception {
         // save the original doc, wait for status change
@@ -153,7 +149,6 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * 
      * @see org.kuali.rice.kns.document.AccountingDocumentTestBase#testConvertIntoErrorCorrection()
      */
-    // @RelatesTo(JiraIssue.KULRNE4926)
     @ConfigureContext(session = DFOGLE, shouldCommitTransactions = true)
     public void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocument document = buildDocument();

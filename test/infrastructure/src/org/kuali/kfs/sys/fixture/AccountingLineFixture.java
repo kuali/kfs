@@ -171,7 +171,10 @@ public enum AccountingLineFixture {
     }
     
     public VoucherSourceAccountingLine createVoucherSourceAccountingLine() throws InstantiationException, IllegalAccessException {
-        return createAccountingLine(VoucherSourceAccountingLine.class);
+        VoucherSourceAccountingLine line = createAccountingLine(VoucherSourceAccountingLine.class);
+        line.refreshReferenceObject("objectCode");
+        line.setObjectTypeCode(line.getObjectCode().getFinancialObjectTypeCode());
+        return line;
     }
 
     public TargetAccountingLine createTargetAccountingLine() throws InstantiationException, IllegalAccessException {
@@ -180,6 +183,13 @@ public enum AccountingLineFixture {
 
     public void addAsSourceTo(AccountingDocument document) throws IllegalAccessException, InstantiationException {
         document.addSourceAccountingLine(createAccountingLine(SourceAccountingLine.class, document.getDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber()));
+    }
+    
+    public void addAsVoucherSourceTo(AccountingDocument document) throws IllegalAccessException, InstantiationException {
+        VoucherSourceAccountingLine line = createAccountingLine(VoucherSourceAccountingLine.class, document.getDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber());
+        line.refreshReferenceObject("objectCode");
+        line.setObjectTypeCode(line.getObjectCode().getFinancialObjectTypeCode());
+        document.addSourceAccountingLine(line);
     }
 
     public void addAsTargetTo(AccountingDocument document) throws IllegalAccessException, InstantiationException {

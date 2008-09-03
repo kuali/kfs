@@ -58,8 +58,12 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
     }
 
     public ActionForward createCustomerInvoiceWriteoffs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_CANCEL);
     }
+    
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_CANCEL);
+    }    
 
     protected LookupResultsService getLookupResultsService() {
         if (ObjectUtils.isNull(lookupResultsService)) {

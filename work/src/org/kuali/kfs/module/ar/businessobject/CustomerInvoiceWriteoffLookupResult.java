@@ -31,6 +31,7 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     private String customerTypeCode;
     private String collectionStatus;
     private String customerInvoiceNumber;
+    private String customerNote;
     private Integer age;
     private KualiDecimal customerTotal;
     private List<CustomerInvoiceDocument> customerInvoiceDocuments;    
@@ -92,6 +93,12 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     }
     
     
+    public String getCustomerNote() {
+        return customerNote;
+    }
+    public void setCustomerNote(String customerNote) {
+        this.customerNote = customerNote;
+    }
     public List<String> getCustomerInvoiceDocumentAttributesForDisplay(){
         List<String> customerInvoiceDocumentAttributesForDisplay = new ArrayList<String>();
         customerInvoiceDocumentAttributesForDisplay.add(ArConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER);

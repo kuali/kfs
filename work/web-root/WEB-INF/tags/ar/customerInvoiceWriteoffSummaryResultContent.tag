@@ -21,6 +21,8 @@
 <%@ attribute name="propertyName" required="true"
               description="The DataDictionary entry containing attributes for this row's fields." %>
 
+<c:set var="customerInvoiceWriteoffLookupResultAttributes" value="${DataDictionary.CustomerInvoiceWriteoffLookupResult.attributes}" />
+
 <div class="tab-container" align="center">
 	<h3>Invoices to Writeoff</h3>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
@@ -46,11 +48,11 @@
 	<h3>Customer Note</h3>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
 		<tr>
+			<th align=right valign=middle class="bord-l-b">
+				<div align="right"><kul:htmlAttributeLabel attributeEntry="${customerInvoiceWriteoffLookupResultAttributes.customerNote}" /></div>
+			</th>
 			<td>
-				*Note:
-			</td>
-			<td>
-				<textarea rows="3" cols="60"></textarea>
+				<kul:htmlControlAttribute attributeEntry="${customerInvoiceWriteoffLookupResultAttributes.customerNote}" property="${propertyName}.customerNote" />
 			</td>
 		</tr>	
 	</table>

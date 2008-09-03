@@ -122,16 +122,6 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="InternalBilling-capitalObjectValidation">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
 			</list>
   		</property>
 	</bean>
@@ -203,16 +193,6 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="InternalBilling-capitalObjectValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="updatedAccountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
 			</list>
   		</property>
 	</bean>
@@ -258,16 +238,6 @@
 							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
 								<property name="accountingDocumentParameterPropertyName" value="document" />
 								<property name="accountingLineParameterPropertyName" value="accountingLine" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="InternalBilling-capitalObjectValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
 							</bean>
 						</list>
 					</property>

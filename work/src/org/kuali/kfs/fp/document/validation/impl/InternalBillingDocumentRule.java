@@ -15,20 +15,14 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.fp.document.validation.impl.InternalBillingDocumentRuleConstants.CAPITAL_OBJECT_SUB_TYPE_CODES;
-
 import org.kuali.kfs.fp.document.InternalBillingDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.ExceptionUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -54,91 +48,6 @@ public class InternalBillingDocumentRule extends AccountingDocumentRuleBase {
             return false;
         }
         return true;
-    }
-
-    /**
-     * @param document 
-     * @param accountingLine 
-     * @return 
-     * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(FinancialDocument,
-     *      AccountingLine)
-     */
-    @Override
-    public boolean processCustomAddAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
-        return processCommonCustomAccountingLineRules(accountingLine);
-    }
-
-    /**
-     * @param document 
-     * @param accountingLine 
-     * @return 
-     * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(FinancialDocument,
-     *      AccountingLine)
-     */
-    @Override
-    public boolean processCustomReviewAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
-        return processCommonCustomAccountingLineRules(accountingLine);
-    }
-
-    /**
-     * @param document 
-     * @param accountingLine 
-     * @return 
-     * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(FinancialDocument,
-     *      AccountingLine, AccountingLine)
-     */
-    @Override
-    public boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument document, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
-        return processCommonCustomAccountingLineRules(updatedAccountingLine);
-    }
-
-    /**
-     * Processes rules common to the three custom accounting line rule methods.
-     * 
-     * @param accountingLine The accounting line the business rules will be applied to.
-     * @return True if the custom business rule succeed, false otherwise.
-     */
-    private boolean processCommonCustomAccountingLineRules(AccountingLine accountingLine) {
-        return validateCapitalObjectCodes(accountingLine);
-    }
-
-    /**
-     * Evaluates the object sub type code of the accounting line's object code to determine whether the object code is a capital
-     * object code. If so, and this accounting line is in the income section, then it is not valid. <p/> 
-     * 
-     * Note: this is an IU specific business rule.
-     * 
-     * @param accountingLine The accounting line the object code will be retrieved from.
-     * @return True if the given line is valid with respect to capital object codes.
-     */
-    private boolean validateCapitalObjectCodes(AccountingLine accountingLine) {
-        if (accountingLine.isSourceAccountingLine() && isCapitalObject(accountingLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION);
-            LOG.debug("APC rule failure " + ExceptionUtils.describeStackLevel(0));
-            return false;
-        }
-        else {
-            return true;
-        }
-        // TODO phase II
-        // int pendPurchaseCount = 0; 
-        // TODO need to do something with this but I have no idea what
-        // if (!SUB_FUND_GROUP_CODE.CODE_EXTAGY.equals(subFundGroupCode) && restrictedCapitalObjectCodes.contains(objectSubTypeCode)
-        // && (pendPurchaseCount <= 0))
-    }
-
-    /**
-     * Checks whether the given AccountingLine's ObjectCode is a capital one.
-     * 
-     * @param accountingLine The accounting line the object code will be retrieved from.
-     * @return True if the given accounting line's object code is a capital code, false otherwise.
-     */
-    private boolean isCapitalObject(AccountingLine accountingLine) {
-        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(InternalBillingDocument.class, CAPITAL_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
-        return evaluator.evaluationSucceeds();
     }
 
     /**

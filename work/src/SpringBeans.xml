@@ -349,7 +349,6 @@
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/Note.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/NoteType.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/UniversalUser.xml</value>
-				<value>classpath:org/kuali/rice/kns/bo/datadictionary/RiceUser.xml</value>
 
                 <value>classpath:org/kuali/rice/kns/document/datadictionary/ParameterNamespaceMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/rice/kns/document/datadictionary/ParameterTypeMaintenanceDocument.xml</value>
@@ -362,7 +361,6 @@
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/EmployeeStatusMaintenanceDocument.xml</value>
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/EmployeeTypeMaintenanceDocument.xml</value>
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/UniversalUserMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/rice/kns/document/datadictionary/RiceUserMaintenanceDocument.xml</value>
             </list>
         </property>
 	</bean>

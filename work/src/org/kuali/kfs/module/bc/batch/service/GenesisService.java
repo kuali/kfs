@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.bc.batch.service;
 
+import java.util.Map;
+
 /*
  * this service intializes/updates the budget construction data used by the budget module to build a new budget for the coming
  * fiscal year
@@ -48,4 +50,11 @@ public interface GenesisService {
      *  this step runs genesis
      */
     public void genesisStep(Integer baseYear);
+    /*
+     *   look of accounts from the payroll (CSF) or GL that came into budget construction but are *not* in the budget construction accounting table.
+     *   this can be due to an oversight on the part of the chart manager, or to problems with the current year's budget control.
+     *   such accounts will not appear in the pull-up list, since they can't be added to the reporting hierarchy, which is built from budget construction accounting.
+     *   this method is provided for use by a report an institution might want to write.  such accounts will always appear in the log from bCUpdateStep above, whether this method is used or not.
+     */
+    public Map verifyAccountsAreAccessible(Integer requestFiscalYear);
 }

@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition;
 import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 import org.kuali.kfs.sys.dataaccess.BusinessObjectMetaDataDao;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.BusinessObjectRelationship;
@@ -46,6 +47,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.LookupService;
 
+@NonTransactional
 public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMetaDataService {
     private Logger LOG = Logger.getLogger(KfsBusinessObjectMetaDataServiceImpl.class);
     private DataDictionaryService dataDictionaryService;

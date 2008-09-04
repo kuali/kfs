@@ -61,7 +61,7 @@ public class ItemParserBase implements ItemParser {
      * The default format defines the expected item property names and their order in the import file.
      * Please update this if the import file format changes (i.e. adding/deleting item properties, changing their order).
      */
-    protected static final String[] DEFAULT_FORMAT = {ITEM_QUANTITY, ITEM_UNIT_OF_MEASURE_CODE, ITEM_CATALOG_NUMBER, ITEM_DESCRIPTION, ITEM_COMMODITY_CODE, ITEM_UNIT_PRICE};
+    protected static final String[] DEFAULT_FORMAT = {ITEM_QUANTITY, ITEM_UNIT_OF_MEASURE_CODE, ITEM_CATALOG_NUMBER, ITEM_COMMODITY_CODE, ITEM_DESCRIPTION, ITEM_UNIT_PRICE};
     private Integer lineNo = 0;
 
     /**

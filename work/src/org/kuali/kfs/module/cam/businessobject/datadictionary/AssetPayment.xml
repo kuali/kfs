@@ -249,7 +249,7 @@
   <bean id="AssetPayment-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Number" />
+    <property name="label" value="Asset Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >

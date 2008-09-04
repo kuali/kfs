@@ -139,7 +139,7 @@
 
 
 		<group  name="OrgChartOfAccountsCodeGroup" isStartNewPage="true" >
-			<groupExpression><![CDATA[orgChartOfAccountsCode]]></groupExpression>
+			<groupExpression><![CDATA[$F{orgChartOfAccountsCode}]]></groupExpression>
 			<groupHeader>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
@@ -150,7 +150,7 @@
 			</groupFooter>
 		</group>
 		<group  name="OrganizationCodeGroup" isStartNewPage="true" >
-			<groupExpression><![CDATA[organizationCode]]></groupExpression>
+			<groupExpression><![CDATA[$F{organizationCode}]]></groupExpression>
 			<groupHeader>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
@@ -161,7 +161,7 @@
 			</groupFooter>
 		</group>
 		<group  name="SubFundGroupCodeGroup" isStartNewPage="true" >
-			<groupExpression><![CDATA[subFundGroupCode]]></groupExpression>
+			<groupExpression><![CDATA[$F{subFundGroupCode}]]></groupExpression>
 			<groupHeader>
 			<band height="0"  isSplitAllowed="true" >
 			</band>

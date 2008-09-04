@@ -141,7 +141,7 @@
 	<bean id="cabBatchStatusReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
 		<property name="reportTitle" value="CAB Batch Status Report" />
 		<property name="reportFileName" value="cab_batch_status_report" />
-		<property name="reportsDirectory" value="${reports.directory}/" />
+		<property name="reportsDirectory" value="${reports.directory}/cab/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/cab/report/messages" />
 		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/cab/report/" />
 		<property name="reportTemplateName" value="BatchReport" />

@@ -77,6 +77,7 @@ public class ExtractStep extends AbstractStep {
             batchExtractService.updateLastExtractTime(startTs);
             LOG.info("CAB batch finished at " + dateTimeService.getCurrentTimestamp());
             processLog.setFinishTime(dateTimeService.getCurrentTimestamp());
+            processLog.setSuccess(true);
         }
         catch (Exception e) {
             processLog.setSuccess(false);

@@ -30,7 +30,7 @@ public class ExtractProcessLog {
     private List<Entry> duplicateGLEntries;
     private List<Entry> mismatchedGLEntries;
     private String errorMessage;
-    private boolean success;
+    private boolean success = true;
     private Integer totalGlCount;
     private Integer nonPurApGlCount;
     private Integer purApGlCount;

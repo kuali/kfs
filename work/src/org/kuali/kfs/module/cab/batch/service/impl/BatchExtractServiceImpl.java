@@ -69,7 +69,6 @@ import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.jasperreports.JasperReportsUtils;
 
 /**
  * This class provides default implementation of {@link BatchExtractService}
@@ -186,11 +185,11 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             ReconciliationService reconciliationService = SpringContext.getBean(ReconciliationService.class);
             if (fpLine.getTransactionLedgerEntryAmount() == null || fpLine.getTransactionLedgerEntryAmount().isZero()) {
                 // amount is zero or null
-                processLog.addIgnoredGLEntries(Arrays.asList(fpLine));
+                processLog.addIgnoredGLEntry(fpLine);
             }
             else if (reconciliationService.isDuplicateEntry(fpLine)) {
                 // GL is duplicate
-                processLog.addDuplicateGLEntries(Arrays.asList(fpLine));
+                processLog.addDuplicateGLEntry(fpLine);
             }
             else {
                 GeneralLedgerEntry glEntry = new GeneralLedgerEntry(fpLine);
@@ -455,12 +454,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         String fullReportFileName = reportGenerationService.buildFullFileName(dateTimeService.getCurrentDate(), reportDirectoty, reportFileName, "");
         List<ExtractProcessLog> dataSource = new ArrayList<ExtractProcessLog>();
         dataSource.add(extractProcessLog);
-        List<Entry> mismatchedGLEntries = extractProcessLog.getMismatchedGLEntries();
-        List<Entry> duplicateGLEntries = extractProcessLog.getDuplicateGLEntries();
-        List<Entry> ignoredGLEntries = extractProcessLog.getIgnoredGLEntries();
-        reportData.put("mismatchedGLEntries", JasperReportsUtils.convertReportData(mismatchedGLEntries == null ? new ArrayList<Entry>() : mismatchedGLEntries));
-        reportData.put("duplicateGLEntries", JasperReportsUtils.convertReportData(duplicateGLEntries == null ? new ArrayList<Entry>() : duplicateGLEntries));
-        reportData.put("ignoredGLEntries", JasperReportsUtils.convertReportData(ignoredGLEntries == null ? new ArrayList<Entry>() : ignoredGLEntries));
         reportGenerationService.generateReportToPdfFile(reportData, dataSource, template, fullReportFileName);
     }
 

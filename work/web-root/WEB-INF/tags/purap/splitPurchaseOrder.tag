@@ -46,7 +46,34 @@
 	            		<div align="right"><c:out value="${PurapConstants.PODocumentsStrings.SPLIT_ADDL_CHARGES_WARNING_LABEL}"/></div>
 	            	</th>
 	            	<td align=left valign=middle class="datacell" width="50%">
-	            		<c:out value="${PurapConstants.PODocumentsStrings.SPLIT_ADDL_CHARGES_WARNING}"/>
+	            		<h3><c:out value="${PurapConstants.PODocumentsStrings.SPLIT_ADDL_CHARGES_WARNING}"/></h3>
+	            		<table cellpadding="0" cellspacing="0" class="datatable" summary="Additional Charges Summary">
+	            			<tr>
+	            				<kul:htmlAttributeHeaderCell literalLabel="Item Type" />
+	            				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
+	            			</tr>
+	            			<logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
+	            				<c:choose>
+        							<c:when test="${itemLine.itemType.itemTypeAboveTheLineIndicator == false}">
+        								<tr>
+        									<td class="datacell">
+											    <kul:htmlControlAttribute
+												    attributeEntry="${itemAttributes.itemTypeCode}"
+												    property="document.item[${ctr}].itemTypeCode"
+												    extraReadOnlyProperty="document.item[${ctr}].itemType.itemTypeDescription" readOnly="true" />
+											</td>
+											<td class="datacell">
+							    				<div align="right">
+							        				<kul:htmlControlAttribute
+								        				attributeEntry="${itemAttributes.extendedPrice}"
+								        				property="document.item[${ctr}].extendedPrice" readOnly="true" />
+							    				</div>
+											</td>
+										</tr>
+									</c:when>
+								</c:choose>
+					         </logic:iterate>
+	            		</table>
 	            	</td>
 	            </tr>
 	        </c:if>

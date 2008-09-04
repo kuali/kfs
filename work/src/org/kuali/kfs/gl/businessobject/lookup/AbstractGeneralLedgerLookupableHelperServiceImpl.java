@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,12 +23,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.Constant;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -53,18 +53,18 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
 
     /**
      * This method overides that in parent class so that the maintainance actions are surpressed
-     * 
+     *
      * @returns links to edit and copy maintenance action for the current maintenance record. For GL balance inquire, there are no
      *          maintenance links.
      */
     @Override
-    public String getActionUrls(BusinessObject bo) {
-        return KFSConstants.EMPTY_STRING;
+    public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
+        return super.getEmptyActionUrls();
     }
 
     /**
      * This method tests if the user selects to see the general ledager pending entries
-     * 
+     *
      * @param fieldValues the map containing the search fields and values
      * @return the value of pending entry option
      */
@@ -78,7 +78,7 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
 
     /**
      * This method tests if the user selects to see the reports by monthly or accumulated
-     * 
+     *
      * @param fieldValues the map containing the search fields and values
      * @return the value of amount view option
      */
@@ -96,7 +96,7 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
 
     /**
      * This method tests if the user selects to see the details or consolidated results
-     * 
+     *
      * @param fieldValues the map containing the search fields and values
      * @return true if consolidation is selected and subaccount is not specified
      */
@@ -135,7 +135,7 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
 
     /**
      * This method tests if the user selects to see the results with cost share subaccount
-     * 
+     *
      * @param fieldValues the map containing the search fields and values
      * @return true if inclusive option is selected
      */
@@ -154,7 +154,7 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
 
     /**
      * build the serach result list from the given collection and the number of all qualified search results
-     * 
+     *
      * @param searchResultsCollection the given search results, which may be a subset of the qualified search results
      * @param actualSize the number of all qualified search results
      * @return the serach result list with the given results and actual size
@@ -174,7 +174,7 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
     /**
      * This method is used to update amounts of the given entries with the corresponding pending amounts. It is a factory that
      * executes the update methods of individual derived classes.
-     * 
+     *
      * @param entryCollection a collection of balance entries
      * @param fieldValues the map containing the search fields and values
      * @param pendingEntryOption flag whether the approved entries or all entries will be processed
@@ -195,7 +195,7 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
     /**
      * This method is an abstract method and implemented to update the given entry collection by the children classes. It is called
      * by updateByPendingLedgerEntry method.
-     * 
+     *
      * @param entryCollection a collection of balance entries
      * @param fieldValues the map containing the search fields and values
      * @param isApproved flag whether the approved entries or all entries will be processed

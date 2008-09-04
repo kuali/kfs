@@ -49,7 +49,7 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
     }
     
     @Override
-    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl) {
+    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl, List pkNames) {
         
         return "";
     }

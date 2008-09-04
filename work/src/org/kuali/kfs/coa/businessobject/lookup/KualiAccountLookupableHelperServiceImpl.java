@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,43 +15,50 @@
  */
 package org.kuali.kfs.coa.businessobject.lookup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class overrids the base getActionUrls method
  */
 public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    
+
     ThreadLocal<FinancialSystemUser> currentUser = new ThreadLocal<FinancialSystemUser>();
     /**
      * If the account is not closed or the user is an Administrator the "edit" link is added The "copy" link is added for Accounts
-     * 
+     *
      * @returns links to edit and copy maintenance action for the current maintenance record.
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
      */
     @Override
-    public String getActionUrls(BusinessObject bo) {
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         StringBuffer actions = new StringBuffer();
-        Account theAccount = (Account) bo;
-        
+        Account theAccount = (Account) businessObject;
+        List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         FinancialSystemUser user = currentUser.get();
         if ( user == null ) {
             user = SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser( GlobalVariables.getUserSession().getFinancialSystemUser() );
             currentUser.set(user);
         }
+        AnchorHtmlData urlDataCopy = getURLData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
         if (!theAccount.isActive() || user.isAdministratorUser()) {
-            actions.append(getMaintenanceUrl(bo, "edit"));
+            anchorHtmlDataList.add(getURLData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
         else {
-            actions.append("&nbsp;&nbsp;&nbsp;&nbsp;");
+            urlDataCopy.setPrependDisplayText("&nbsp;&nbsp;&nbsp;&nbsp;");
         }
-        actions.append("&nbsp;&nbsp;");
-        actions.append(getMaintenanceUrl(bo, "copy"));
-        return actions.toString();
+        anchorHtmlDataList.add(urlDataCopy);
+        return anchorHtmlDataList;
     }
 }

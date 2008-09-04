@@ -98,7 +98,7 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
     }
 
     @Override
-    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl) {
+    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl, List pkNames) {
         
         return "";
     }

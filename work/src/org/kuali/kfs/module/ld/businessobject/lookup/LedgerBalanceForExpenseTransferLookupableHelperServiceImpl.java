@@ -101,17 +101,20 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
             displayList = (Collection<BusinessObject>) getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
         }
 
+        List pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
+        List returnKeys = getReturnKeys();
         // iterate through result list and wrap rows with return url and action urls
         for (BusinessObject element : displayList) {
             LOG.debug("Doing lookup for " + element.getClass());
-            String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
+            String returnUrl = 
+                getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
 
             if (element instanceof PersistableBusinessObject) {
                 if (element instanceof SegmentedBusinessObject) {
                     LOG.debug("segmented property names " + ((SegmentedBusinessObject) element).getSegmentedPropertyNames());
                     
                     Collection<Column> columns = getColumns(element);
-                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element));
+                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element, pkNames));
 
                     for (String propertyName : ((SegmentedBusinessObject) element).getSegmentedPropertyNames()) {
                         columns.add(setupResultsColumn(element, propertyName));
@@ -123,7 +126,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
                 else {
                     Collection<Column> columns = getColumns(element);
                     
-                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, "", getActionUrls(element));
+                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, "", getActionUrls(element, pkNames));
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                     resultTable.add(row);
                 }

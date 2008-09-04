@@ -84,7 +84,8 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         else {
             displayList = (Collection<BusinessObject>) getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
         }
-
+        List pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
+        List returnKeys = getReturnKeys();
         // iterate through result list and wrap rows with return url and action urls
         for (BusinessObject element : displayList) {
             LOG.debug("Doing lookup for " + element.getClass());
@@ -109,8 +110,11 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
             
             //create main customer header row
             Collection<Column> columns = getColumns(element);
-            String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
-            CustomerInvoiceWriteoffLookupResultRow row = new CustomerInvoiceWriteoffLookupResultRow((List<Column>) columns, subResultRows, returnUrl, getActionUrls(element), "");
+            String returnUrl = 
+                getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
+            CustomerInvoiceWriteoffLookupResultRow row = 
+                new CustomerInvoiceWriteoffLookupResultRow(
+                        (List<Column>) columns, subResultRows, returnUrl, getActionUrls(element, pkNames), "");
             resultTable.add(row);
         }
 

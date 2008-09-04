@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.bc.businessobject.lookup;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -26,6 +28,8 @@ import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -38,49 +42,55 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
     public KualiConfigurationService kualiConfigurationService;
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List, java.util.List pkNames)
      */
     @Override
-    public String getActionUrls(BusinessObject businessObject) {
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         Map requestParameters = super.getParameters();
         if (requestParameters.containsKey(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION)) {
             String[] requestParm = (String[]) requestParameters.get(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION);
             Boolean showSalaryByIncumbent = (Boolean) (new BooleanFormatter()).convertFromPresentationFormat(requestParm[0]);
             if (!showSalaryByIncumbent) {
-                return getMaintenanceUrls(businessObject);
+                return getIncumbentCustomActionUrls(businessObject, pkNames);
             }
         }
         else {
-            return getMaintenanceUrls(businessObject);
+            return getIncumbentCustomActionUrls(businessObject, pkNames);
         }
-
         return getSalarySettingByIncumbentUrls(businessObject);
     }
 
+    /***
+     * 
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionURLHref(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.util.List)
+     */
+    @Override
+    protected String getActionURLHref(BusinessObject businessObject, String methodToCall, List pkNames){
+        LOG.info("inside getActionURLHref overridden in IntendedIncumbentLookupableHelperSI");
+        String href = super.getActionURLHref(businessObject, methodToCall, pkNames);
+        return StringUtils.replace(href, KFSConstants.MAINTENANCE_ACTION,
+                KFSConstants.RICE_PATH_PREFIX + KFSConstants.MAINTENANCE_ACTION);
+    }
 
     /**
      * Checks system parameter to determine if the incumbent table is maintained by an external system or internally. If internally
      * they calls super to display the edit and copy links. If external then returns the refresh button source.
-     * 
+     *
      * @param businessObject business object for result row
      * @return String holding the action column contents
      */
-    public String getMaintenanceUrls(BusinessObject businessObject) {
+    private List<HtmlData> getIncumbentCustomActionUrls(BusinessObject businessObject, List pkNames) {
         BudgetConstructionIntendedIncumbent intendedIncumbent = (BudgetConstructionIntendedIncumbent) businessObject;
-
         boolean payrollIncumbentFeed = BudgetParameterFinder.getPayrollIncumbentFeedIndictor();
         if (!payrollIncumbentFeed) {
-            String url = super.getActionUrls(businessObject);
-            url = StringUtils.replace(url, KFSConstants.MAINTENANCE_ACTION, KFSConstants.RICE_PATH_PREFIX + KFSConstants.MAINTENANCE_ACTION);
-            return url;
+            return super.getCustomActionUrls(businessObject, pkNames);
         }
-
-        return "";
+        return super.getEmptyActionUrls();
     }
 
     /**
      * Override to check system parameter for determining if the incumbent data is feed from Payroll or maintained in the KFS.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#allowsMaintenanceNewOrCopyAction()
      */
     @Override
@@ -93,13 +103,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
         return true;
     }
 
-    /**
-     * Builds URL to salary setting by Incumbent setting parameters based on the caller request.
-     * 
-     * @param businessObject business object for result row
-     * @return String holding the action column contents
-     */
-    public String getSalarySettingByIncumbentUrls(BusinessObject businessObject) {
+    protected Properties getSalarySettingByIncumbentParameters(BusinessObject businessObject){
         BudgetConstructionIntendedIncumbent intendedIncumbent = (BudgetConstructionIntendedIncumbent) businessObject;
 
         Properties parameters = new Properties();
@@ -167,33 +171,58 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
         }
 
         parameters.put(BCConstants.REFRESH_INCUMBENT_BEFORE_SALARY_SETTING, "false");
+        return parameters;
+    }
 
-        String url = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
-        url = "<a href=\"" + url + "\"";
-        if (linkToNewWindow) {
-            url += "target=\"blank\" ";
+    /**
+     * Builds URL to salary setting by Incumbent setting parameters based on the caller request.
+     *
+     * @param businessObject business object for result row
+     * @return String holding the action column contents
+     */
+    public List<HtmlData> getSalarySettingByIncumbentUrls(BusinessObject businessObject) {
+        List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
+        Properties parameters = getSalarySettingByIncumbentParameters(businessObject);
+        String href = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
+        //TODO:Revisit title. I guess we will want to change this.
+        AnchorHtmlData urlData1 =
+            new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset");
+            //new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset", "Incmbnt Salset");
+        Map requestParameters = super.getParameters();
+        boolean linkToNewWindow = true;
+        if (requestParameters.containsKey(BCPropertyConstants.ADD_LINE)) {
+            String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.ADD_LINE);
+            Boolean addNewFunding = (Boolean) (new BooleanFormatter()).convertFromPresentationFormat(requestParm[0]);
+            if (addNewFunding) {
+                linkToNewWindow = false;
+            }
         }
-        url += "title=\"Incmbnt Salset\">Incmbnt Salset</a>  ";
+        if (linkToNewWindow) {
+            urlData1.setTarget("blank");
+        }
+        anchorHtmlDataList.add(urlData1);
 
         // now add refresh url if feed from payroll is on
         boolean payrollIncumbentFeed = BudgetParameterFinder.getPayrollIncumbentFeedIndictor();
-        String url2 = "";
         if (payrollIncumbentFeed) {
             parameters.put(BCConstants.REFRESH_INCUMBENT_BEFORE_SALARY_SETTING, "true");
-            url2 = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
-            url2 = "<a href=\"" + url2 + "\"";
-            if (linkToNewWindow) {
-                url2 += "target=\"blank\" ";
-            }
-            url2 += "title=\"Incmbnt Salset w/sync\">Incmbnt Salset w/sync</a>  ";
-        }
+            href = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
+            //TODO:Revisit title. I guess we will want to change this.
+            AnchorHtmlData urlData2 =
+                new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset w/sync");
+                //new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset w/sync", "Incmbnt Salset w/sync");
 
-        return url + "<br/>" + url2;
+            if (linkToNewWindow) {
+                urlData2.setTarget("blank");
+            }
+            anchorHtmlDataList.add(urlData2);
+        }
+        return anchorHtmlDataList;
     }
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {

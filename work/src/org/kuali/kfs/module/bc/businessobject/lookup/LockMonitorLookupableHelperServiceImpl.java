@@ -35,7 +35,9 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.InputHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -186,23 +188,35 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     /**
      * Builds unlink action for each type of lock.
      * 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
      */
     @Override
-    public String getActionUrls(BusinessObject businessObject) {
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         BudgetConstructionLockSummary lockSummary = (BudgetConstructionLockSummary) businessObject;
 
         String imageDirectory = kualiConfigurationService.getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         String lockFields = lockSummary.getUniversityFiscalYear() + "%" + lockSummary.getChartOfAccountsCode() + "%" + lockSummary.getAccountNumber() + "%" + lockSummary.getSubAccountNumber() + "%" + lockSummary.getPositionNumber() + "%";
         lockFields = StringUtils.replace(lockFields, "null", "");
         
-        String buttonSubmit = "<input name=\"" + KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + BCConstants.TEMP_LIST_UNLOCK_METHOD + ".";
-        buttonSubmit += KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL + StringUtils.replace(lockSummary.getLockType()," ","_") + KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL;
-        buttonSubmit += KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL + lockFields + KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL;
-        buttonSubmit += KFSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL + lockSummary.getLockUserId() + KFSConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL + "\" ";
-        buttonSubmit += "src=\"" + imageDirectory + BCConstants.UNLOCK_BUTTON_NAME + "\"  type=\"image\" styleClass=\"tinybutton\" alt=\"unlock\" title=\"unlock\" border=\"0\" />";
-
-        return buttonSubmit;
+        String name = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + BCConstants.TEMP_LIST_UNLOCK_METHOD + ".";
+        name += 
+            KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL + StringUtils.replace(lockSummary.getLockType()," ","_") + 
+            KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL;
+        name += KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL + lockFields + KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL;
+        name += 
+            KFSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL + lockSummary.getLockUserId() + 
+            KFSConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL;
+        String src = imageDirectory + BCConstants.UNLOCK_BUTTON_NAME;
+        String inputType = "image";
+        String styleClass = "tinybutton";
+        String border= "0";
+        
+        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        InputHtmlData inputHtmlData = new InputHtmlData(name, inputType, src);
+        inputHtmlData.setStyleClass(styleClass);
+        inputHtmlData.setBorder(border);
+        htmlDataList.add(inputHtmlData);
+        return htmlDataList;
     }
     
     /**
@@ -231,7 +245,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject, java.util.Map, java.lang.String)
      */
     @Override
-    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl) {
+    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl, List pkNames) {
         return "";
     }
 

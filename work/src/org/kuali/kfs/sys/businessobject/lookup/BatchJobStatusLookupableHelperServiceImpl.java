@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,10 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -59,7 +62,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         String schedulerGroup = fieldValues.get("group");
         String jobStatus = fieldValues.get("status");
         for (BatchJobStatus job : allJobs) {
-            if (!StringUtils.isEmpty(namespaceCode) && 
+            if (!StringUtils.isEmpty(namespaceCode) &&
                     (!namespaceCode.equalsIgnoreCase(job.getNamespaceCode()) && job.getNamespaceCode()!=null)) {
                 continue;
             }
@@ -88,11 +91,15 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         }
         return false;
     }
+    
+    /***
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     */
     @Override
-    public String getActionUrls(BusinessObject businessObject) {
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         if (businessObject instanceof BatchJobStatus) {
             BatchJobStatus job = (BatchJobStatus) businessObject;
-            if(doesModuleServiceHaveJobStatus(job)) return "&nbsp;";
+            if(doesModuleServiceHaveJobStatus(job)) return super.getEmptyActionUrls();
             String linkText = "Modify";
             StringBuffer sb = new StringBuffer();
             if (parameterService.parameterExists(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP)) {
@@ -101,13 +108,29 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
                     linkText = "View";
                 }
             }
-            sb.append("<a href=\"" + configurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name=").append(UrlFactory.encode(job.getName())).append("&group=").append(UrlFactory.encode(job.getGroup())).append("\">").append(linkText).append("</a>");
-
-            return sb.toString();
+            String href = configurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name="+(UrlFactory.encode(job.getName()))+("&group=")+(UrlFactory.encode(job.getGroup()));
+            List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
+            AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.START_METHOD, linkText);
+            anchorHtmlDataList.add(anchorHtmlData);
+            return anchorHtmlDataList;
         }
-        return "&nbsp;";
+        return super.getEmptyActionUrls();
     }
 
+    /***
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlTitleText(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.util.List)
+     */
+    @Override
+    protected String getActionUrlTitleText(BusinessObject businessObject, String displayText, List pkNames){
+        BatchJobStatus job = (BatchJobStatus) businessObject;
+        String titleText = displayText+" "
+            +getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(getBusinessObjectClass().getName()).getObjectLabel()
+            +" "
+            +KNSServiceLocator.getKualiConfigurationService().getPropertyString(TITLE_ACTION_URL_PREPENDTEXT_PROPERTY);
+        titleText += "Name="+job.getName()+" Group="+job.getGroup();
+        return titleText;
+    }
+    
     public void setSchedulerService(SchedulerService schedulerService) {
         this.schedulerService = schedulerService;
     }

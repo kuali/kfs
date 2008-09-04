@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -33,47 +34,50 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class FinancialSystemUserLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinancialSystemUserLookupableHelperServiceImpl.class);
-    
+
     protected FinancialSystemUserDocumentAuthorizer documentAuthorizer;
     protected boolean searchUsingOnlyPrimaryKeyValues = false;
-    
+
     /**
      * Determines if underlying lookup bo has associated maintenance document that allows new or copy maintenance actions.
-     * 
+     *
      * @return true if bo has maint doc that allows new or copy actions
      */
     @Override
     public boolean allowsMaintenanceNewOrCopyAction() {
-        
+
         if ( getDocumentAuthorizer() != null && getDocumentAuthorizer().canEditUniversalUserAttributes(GlobalVariables.getUserSession().getFinancialSystemUser()) ) {
             return super.allowsMaintenanceNewOrCopyAction();
         }
         return false;
     }
 
+    /***
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     */
     @Override
-    public String getActionUrls(BusinessObject businessObject) {
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         // allow edit if KFS data can be maintained
         if ( getDocumentAuthorizer() != null && getDocumentAuthorizer().canEditFinancialSystemUserAttributes(GlobalVariables.getUserSession().getFinancialSystemUser()) ) {
-            return super.getActionUrls(businessObject);
+            return super.getCustomActionUrls(businessObject, pkNames);
         // allow edit if UU is editable
         } else if ( getDocumentAuthorizer() != null && getDocumentAuthorizer().canEditUniversalUserAttributes(GlobalVariables.getUserSession().getFinancialSystemUser()) ) {
-            return super.getActionUrls(businessObject);
+            return super.getCustomActionUrls(businessObject, pkNames);
         }
-        return "";
+        return super.getEmptyActionUrls();
     }
-    
+
     /**
-     * 
+     *
      * This method does the actual search, with the parameters specified, and returns the result.
-     * 
+     *
      * NOTE that it will not do any upper-casing based on the DD forceUppercase. That is handled through an external call to
      * LookupUtils.forceUppercase().
-     * 
+     *
      * @param fieldValues A Map of the fieldNames and fieldValues to be searched on.
      * @param unbounded Whether the results should be bounded or not to a certain max size.
      * @return A List of search results.
-     * 
+     *
      */
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         // remove hidden fields
@@ -99,7 +103,7 @@ public class FinancialSystemUserLookupableHelperServiceImpl extends KualiLookupa
         }
         return searchResults;
     }
-    
+
     /**
      * @see LookupableHelperService#isSearchUsingOnlyPrimaryKeyValues()
      */
@@ -110,7 +114,7 @@ public class FinancialSystemUserLookupableHelperServiceImpl extends KualiLookupa
 
     public FinancialSystemUserDocumentAuthorizer getDocumentAuthorizer() {
         if ( documentAuthorizer == null ) {
-            
+
             DocumentAuthorizer tempDocAuth = KNSServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(getMaintenanceDocumentDictionaryService().getDocumentTypeName(FinancialSystemUser.class));
             if ( tempDocAuth instanceof FinancialSystemUserDocumentAuthorizer ) {
                 documentAuthorizer = (FinancialSystemUserDocumentAuthorizer)tempDocAuth;
@@ -118,6 +122,6 @@ public class FinancialSystemUserLookupableHelperServiceImpl extends KualiLookupa
         }
         return documentAuthorizer;
     }
-    
-    
+
+
 }

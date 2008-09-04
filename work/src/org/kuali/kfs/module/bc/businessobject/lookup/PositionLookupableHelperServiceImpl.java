@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.bc.businessobject.lookup;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -26,6 +28,8 @@ import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -38,22 +42,21 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
     public KualiConfigurationService kualiConfigurationService;
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List, java.util.List pkNames)
      */
     @Override
-    public String getActionUrls(BusinessObject businessObject) {
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         Map requestParameters = super.getParameters();
         if (requestParameters.containsKey(BCConstants.SHOW_SALARY_BY_POSITION_ACTION)) {
             String[] requestParm = (String[]) requestParameters.get(BCConstants.SHOW_SALARY_BY_POSITION_ACTION);
             Boolean showSalaryByPosition = (Boolean) (new BooleanFormatter()).convertFromPresentationFormat(requestParm[0]);
             if (!showSalaryByPosition) {
-                return getMaintenanceUrls(businessObject);
+                return getPositionCustomActionUrls(businessObject, pkNames);
             }
         }
         else {
-            return getMaintenanceUrls(businessObject);
+            return getPositionCustomActionUrls(businessObject, pkNames);
         }
-
         return getSalarySettingByPositionUrls(businessObject);
     }
 
@@ -61,27 +64,36 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
     /**
      * Checks system parameter to determine if the position table is maintained by an external system or internally. If internally
      * they calls super to display the edit and copy links. If external then returns the refresh button source.
-     * 
+     *
      * @param businessObject business object for result row
      * @return String holding the action column contents
      */
-    public String getMaintenanceUrls(BusinessObject businessObject) {
+    private List<HtmlData> getPositionCustomActionUrls(BusinessObject businessObject, List pkNames) {
         BudgetConstructionPosition position = (BudgetConstructionPosition) businessObject;
 
         boolean payrollPositionFeed = BudgetParameterFinder.getPayrollPositionFeedIndicator();
         if (!payrollPositionFeed) {
-            String url = super.getActionUrls(businessObject);
-            url = StringUtils.replace(url, KFSConstants.MAINTENANCE_ACTION, KFSConstants.RICE_PATH_PREFIX + KFSConstants.MAINTENANCE_ACTION);
-
-            return url;
+            return super.getCustomActionUrls(businessObject, pkNames);
         }
+        return super.getEmptyActionUrls();
+    }
 
-        return "";
+    /***
+     * 
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionURLHref(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.util.List)
+     */
+    @Override
+    protected String getActionURLHref(BusinessObject businessObject, String methodToCall, List pkNames){
+        LOG.info("inside getActionURLHref overridden in IntendedIncumbentLookupableHelperSI");
+        String href = super.getActionURLHref(businessObject, methodToCall, pkNames);
+        href = StringUtils.replace(href, KFSConstants.MAINTENANCE_ACTION,
+                KFSConstants.RICE_PATH_PREFIX + KFSConstants.MAINTENANCE_ACTION);
+        return href;
     }
 
     /**
      * Override to check system parameter for determining if the position data is feed from Payroll or maintained in the KFS.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#allowsMaintenanceNewOrCopyAction()
      */
     @Override
@@ -94,13 +106,7 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
         return true;
     }
 
-    /**
-     * Builds URL to salary setting by Position setting parameters based on the caller request.
-     * 
-     * @param businessObject business object for result row
-     * @return String holding the action column contents
-     */
-    public String getSalarySettingByPositionUrls(BusinessObject businessObject) {
+    private Properties getSalarySettingByPositionParameters(BusinessObject businessObject){
         BudgetConstructionPosition position = (BudgetConstructionPosition) businessObject;
 
         Properties parameters = new Properties();
@@ -165,35 +171,59 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
         else {
             parameters.put(BCPropertyConstants.SINGLE_ACCOUNT_MODE, "false");
         }
-
         parameters.put(BCConstants.REFRESH_POSITION_BEFORE_SALARY_SETTING, "false");
+        return parameters;
+    }
 
-        String url = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
-        url = "<a href=\"" + url + "\"";
-        if (linkToNewWindow) {
-            url += "target=\"blank\" ";
+    /**
+     * Builds URL to salary setting by Position setting parameters based on the caller request.
+     *
+     * @param businessObject business object for result row
+     * @return String holding the action column contents
+     */
+    public List<HtmlData> getSalarySettingByPositionUrls(BusinessObject businessObject) {
+        List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
+        Properties parameters = getSalarySettingByPositionParameters(businessObject);
+        String href = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
+        //TODO:Revisit title. I guess we will want to change this.
+        AnchorHtmlData urlData1 =
+            new AnchorHtmlData(href, BCConstants.POSITION_SALARY_SETTING_METHOD, "Posn Salset");
+            //new AnchorHtmlData(href, BCConstants.POSITION_SALARY_SETTING_METHOD, "Posn Salset", "Posn Salset");
+        Map requestParameters = super.getParameters();
+        boolean linkToNewWindow = true;
+        if (requestParameters.containsKey(BCPropertyConstants.ADD_LINE)) {
+            String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.ADD_LINE);
+            Boolean addNewFunding = (Boolean) (new BooleanFormatter()).convertFromPresentationFormat(requestParm[0]);
+            if (addNewFunding) {
+                linkToNewWindow = false;
+            }
         }
-        url += "title=\"Posn Salset\">Posn Salset</a>  ";
+        if (linkToNewWindow) {
+            urlData1.setTarget("blank");
+        }
 
         // now add refresh url if feed from payroll is on
         boolean payrollPositionFeed = BudgetParameterFinder.getPayrollPositionFeedIndicator();
         String url2 = "";
         if (payrollPositionFeed) {
             parameters.put(BCConstants.REFRESH_POSITION_BEFORE_SALARY_SETTING, "true");
-            url2 = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
-            url2 = "<a href=\"" + url2 + "\"";
+            href = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
+            AnchorHtmlData urlData2 =
+                new AnchorHtmlData(href, BCConstants.POSITION_SALARY_SETTING_METHOD, "Posn Salset w/sync");
+                //new AnchorHtmlData(href, BCConstants.POSITION_SALARY_SETTING_METHOD, "Posn Salset w/sync", "Posn Salset w/sync");
+
             if (linkToNewWindow) {
-                url2 += "target=\"blank\" ";
+                urlData2.setTarget("blank");
             }
-            url2 += "title=\"Posn Salset w/sync\">Posn Salset w/sync</a>  ";
+            anchorHtmlDataList.add(urlData2);
         }
 
-        return url + "<br/>" + url2;
+        return anchorHtmlDataList;
     }
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {

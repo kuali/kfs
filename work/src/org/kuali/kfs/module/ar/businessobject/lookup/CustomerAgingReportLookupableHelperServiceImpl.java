@@ -270,7 +270,7 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportDate.toString() + "\t");
      * @return a List of the names of fields which are marked in data dictionary as return fields.
      */
     @Override
-    protected Properties getParameters(BusinessObject bo, Map fieldConversions, String lookupImpl) {
+    protected Properties getParameters(BusinessObject bo, Map fieldConversions, String lookupImpl, List pkNames) {
         Properties parameters = new Properties();
         parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.RETURN_METHOD_TO_CALL);
         parameters.put(KNSConstants.DOC_FORM_KEY, getDocFormKey());

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.businessobject.lookup;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -23,6 +24,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementReason;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.UrlFactory;
 
@@ -42,13 +44,13 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
      * <li>{@link KFSConstants.OVERRIDE_KEYS}</li>
      * </ul>
      * {@link KFSConstants.DISPATCH_REQUEST_PARAMETER}
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject, java.util.Map,
      *      java.lang.String)
      */
     @Override
-    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl) {
-        Properties parameters = getParameters(businessObject, fieldConversions, lookupImpl);
+    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl, List pkNames) {
+        Properties parameters = getParameters(businessObject, fieldConversions, lookupImpl, pkNames);
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetRetirementGlobal.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE);
@@ -58,7 +60,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * Overrides base implementation to determine whether or not we are dealing with looking up the model or editing it
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#setFieldConversions(java.util.Map)
      */
     @Override
@@ -71,16 +73,16 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * Overrides base implementation to remove the action urls if we are initializing the asset retirement reason
-     * 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
+     *
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, List pkNames)
      */
     @Override
-    public String getActionUrls(BusinessObject businessObject) {
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         if (!initializingAssetRetirement) {
-            return super.getActionUrls(businessObject);
+            return super.getCustomActionUrls(businessObject, pkNames);
         }
         else {
-            return "";
+            return super.getEmptyActionUrls();
         }
     }
 }

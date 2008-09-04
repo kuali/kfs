@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.bc.businessobject.lookup;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.kuali.kfs.module.bc.BCConstants;
@@ -23,6 +25,8 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumben
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.UrlFactory;
 
 /**
@@ -31,10 +35,10 @@ import org.kuali.rice.kns.util.UrlFactory;
 public class IntendedIncumbentSelectLookupableHelperServiceImpl extends SelectLookupableHelperServiceImpl {
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List, java.util.List pkNames)
      */
     @Override
-    public String getActionUrls(BusinessObject businessObject) {
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         BudgetConstructionIntendedIncumbentSelect intendedIncumbentSelect = (BudgetConstructionIntendedIncumbentSelect) businessObject;
 
         Properties parameters = new Properties();
@@ -47,9 +51,11 @@ public class IntendedIncumbentSelectLookupableHelperServiceImpl extends SelectLo
         parameters.put(BCPropertyConstants.SINGLE_ACCOUNT_MODE, "false");
         parameters.put(BCPropertyConstants.ADD_LINE, "false");
 
-        String url = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
-
-        return url = "<a href=\"" + url + "\" target=\"blank\" title=\"Incmbnt Salset\">Incmbnt Salset</a>";
+        String href = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
+        List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
+        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset");
+        anchorHtmlDataList.add(anchorHtmlData);
+        return anchorHtmlDataList;
     }
 
 }

@@ -823,7 +823,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
         if (insertNeeded) {
 
-            // do insert in the middle or at end
+            // do insert in the middle or at end of list
             String objectCode = KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG;
             String subObjectCode = KFSConstants.getDashFinancialSubObjectCode();
             String objectTypeCode = optionsService.getOptions(bcDoc.getUniversityFiscalYear()).getFinObjTypeExpenditureexpCd();

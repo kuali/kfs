@@ -54,5 +54,8 @@ public interface CustomerService {
      * @return
      */
     public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(String customerNumber);
+    
+    
+    public void createCustomerNote( String customerNumber, String customerNote );
 
 }

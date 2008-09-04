@@ -41,7 +41,7 @@
 
 			<ar:customerInvoiceWriteoffSummarySubResult
 				customerInvoiceDocumentAttributes="${customerInvoiceDocumentAttributes}"
-				propertyName="${propertyName}.customerInvoiceDocuments[${ctr}]"
+				propertyName="${propertyName}.customerInvoiceDocument[${ctr}]"
 				/>
 		</logic:iterate>
 	</table>
@@ -53,6 +53,8 @@
 			</th>
 			<td>
 				<kul:htmlControlAttribute attributeEntry="${customerInvoiceWriteoffLookupResultAttributes.customerNote}" property="${propertyName}.customerNote" />
+				<!--  pass through customerNumber so you can tie customer note to appropriate customer -->
+				<html:hidden property="${propertyName}.customerNumber" />				
 			</td>
 		</tr>	
 	</table>

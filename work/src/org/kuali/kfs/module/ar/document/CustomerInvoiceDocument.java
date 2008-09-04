@@ -116,10 +116,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	}
 	
 	public void setOpenAmount(KualiDecimal openAmount){
-	    
+	    //do nothing
 	}
 	
 	public void setBalance(KualiDecimal balance) {
+	    //do nothing
+	}
+	
+	public void setSourceTotal(KualiDecimal sourceTotal){
 	    //do nothing
 	}
 	

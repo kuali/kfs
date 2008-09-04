@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,6 +26,7 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class CustomerInvoiceWriteoffLookupUtil {
     
@@ -36,7 +36,7 @@ public class CustomerInvoiceWriteoffLookupUtil {
      * @return
      */
     public static Collection<CustomerInvoiceWriteoffLookupResult> getPopulatedCustomerInvoiceWriteoffLookupResults(Collection<CustomerInvoiceDocument> customerInvoiceDocuments){
-        Collection<CustomerInvoiceWriteoffLookupResult> populatedCustomerInvoiceWriteoffLookupResults = new ArrayList<CustomerInvoiceWriteoffLookupResult>();
+        Collection<CustomerInvoiceWriteoffLookupResult> populatedCustomerInvoiceWriteoffLookupResults = new TypedArrayList(CustomerInvoiceWriteoffLookupResult.class);
         
         Iterator iter = getCustomerInvoiceDocumentsByCustomerNumberMap(customerInvoiceDocuments).entrySet().iterator();
         CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult = null;
@@ -82,7 +82,7 @@ public class CustomerInvoiceWriteoffLookupUtil {
             if( customerInvoiceDocumentsByCustomerNumberMap.containsKey(customerNumber) ){
                 ((List<CustomerInvoiceDocument>)customerInvoiceDocumentsByCustomerNumberMap.get(customerNumber)).add(customerInvoiceDocument);
             } else {
-                List<CustomerInvoiceDocument> customerInvoiceDocumentsForCustomerNumber = new ArrayList<CustomerInvoiceDocument>();
+                List<CustomerInvoiceDocument> customerInvoiceDocumentsForCustomerNumber = new TypedArrayList(CustomerInvoiceDocument.class);
                 customerInvoiceDocumentsForCustomerNumber.add(customerInvoiceDocument);
                 customerInvoiceDocumentsByCustomerNumberMap.put(customerNumber, customerInvoiceDocumentsForCustomerNumber);
             }

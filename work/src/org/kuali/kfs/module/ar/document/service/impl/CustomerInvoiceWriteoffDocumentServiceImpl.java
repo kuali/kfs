@@ -29,14 +29,19 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoiceWriteoffDocumentService {
 
     private ParameterService parameterService;
@@ -45,6 +50,8 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     private BusinessObjectService businessObjectService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    private CustomerService customerService;
+    private DocumentService documentService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument)
@@ -100,6 +107,27 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(customerInvoiceDocuments);
     }
     
+    public void createCustomerInvoiceWriteoffDocuments(Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) throws WorkflowException {
+        
+        //create customer writeoff documents
+        for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : customerInvoiceWriteoffLookupResults ){
+            
+            customerService.createCustomerNote(customerInvoiceWriteoffLookupResult.getCustomerNumber(), customerInvoiceWriteoffLookupResult.getCustomerNote());
+            
+            for( CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceWriteoffLookupResult.getCustomerInvoiceDocuments() ){
+                createCustomerInvoiceWriteoffDocument(customerInvoiceDocument);
+            }
+        }
+    }    
+    
+    protected void createCustomerInvoiceWriteoffDocument(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException {
+        CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument)documentService.getNewDocument(CustomerInvoiceWriteoffDocument.class);
+        customerInvoiceWriteoffDocument.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDocument.getDocumentNumber());
+        setupDefaultValuesForNewCustomerInvoiceWriteoffDocument( customerInvoiceWriteoffDocument );
+        customerInvoiceWriteoffDocument.getDocumentHeader().setDocumentDescription(ArConstants.CUSTOMER_INVOICE_WRITEOFF_DOCUMENT_DESCRIPTION + " " + customerInvoiceDocument.getDocumentNumber());
+        documentService.saveDocument(customerInvoiceWriteoffDocument);        
+    }
+    
     
     public ParameterService getParameterService() {
         return parameterService;
@@ -150,4 +178,22 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     }
 
 
+    public CustomerService getCustomerService() {
+        return customerService;
+    }
+
+
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
 }

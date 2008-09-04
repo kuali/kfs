@@ -23,6 +23,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObjectBase{
     
@@ -35,6 +36,10 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     private Integer age;
     private KualiDecimal customerTotal;
     private List<CustomerInvoiceDocument> customerInvoiceDocuments;    
+    
+    public CustomerInvoiceWriteoffLookupResult(){
+        customerInvoiceDocuments = new TypedArrayList(CustomerInvoiceDocument.class);
+    }
     
     public String getCollectionStatus() {
         return collectionStatus;
@@ -114,5 +119,9 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub
         return null;
+    }
+    
+    public CustomerInvoiceDocument getCustomerInvoiceDocument(int index){
+        return getCustomerInvoiceDocuments().get(index);
     }
 }

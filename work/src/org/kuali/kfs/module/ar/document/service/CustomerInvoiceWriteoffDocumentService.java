@@ -20,13 +20,33 @@ import java.util.Collection;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface CustomerInvoiceWriteoffDocumentService {
     
+    /**
+     * This method setups any default values for a new customer invoice document 
+     * @param customerInvoiceWriteoffDocument
+     */
     public void setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument);
     
+    /**
+     * This method returns true if a customer invoice writeoff document is approved
+     * @param customerInvoiceWriteoffDocumentNumber
+     * @return
+     */
     public boolean isCustomerInvoiceWriteoffDocumentApproved(String customerInvoiceWriteoffDocumentNumber);
     
+    /**
+     * This method returns a collection of customer invoice documents that are eligible for writeoff
+     * @return
+     */
     public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup();
+    
+    /**
+     * This method initiates customer invoice writeoff documents based on a collection of customer invoice writeoff lookup results
+     * @param customerInvoiceWriteoffLookupResults
+     */
+    public void createCustomerInvoiceWriteoffDocuments( Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults ) throws WorkflowException;
 
 }

@@ -141,6 +141,9 @@
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
 		</property>				
+		<property name="noteService">
+			<ref bean="noteService" />
+		</property>						
 	</bean>
 	
     <bean id="customerInvoiceDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDocumentServiceImpl">
@@ -194,6 +197,12 @@
 		</property>
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
+		</property>	
+		<property name="customerService">
+			<ref bean="customerService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
 		</property>		
 	</bean>		
 	

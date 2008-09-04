@@ -16,14 +16,20 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
     
     private String lookupResultsSequenceNumber;
     private Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults;
+    
+    public CustomerInvoiceWriteoffLookupSummaryForm(){
+        customerInvoiceWriteoffLookupResults = new TypedArrayList(CustomerInvoiceWriteoffLookupResult.class);
+    }
 
     public String getLookupResultsSequenceNumber() {
         return lookupResultsSequenceNumber;
@@ -40,5 +46,10 @@ public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
     } 
+    
+    public CustomerInvoiceWriteoffLookupResult getCustomerInvoiceWriteoffLookupResult(int index){
+        CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult = ((List<CustomerInvoiceWriteoffLookupResult>)getCustomerInvoiceWriteoffLookupResults()).get(index);
+        return customerInvoiceWriteoffLookupResult;
+    }
 
 }

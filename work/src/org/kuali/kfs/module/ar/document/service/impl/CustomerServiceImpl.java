@@ -22,7 +22,9 @@ import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,7 @@ public class CustomerServiceImpl implements CustomerService {
     private SequenceAccessorService sequenceAccessorService;
     private BusinessObjectService businessObjectService;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    private NoteService noteService;
     private static final String CUSTOMER_NUMBER_SEQUENCE = "CUST_NBR_SEQ";
     
     /**
@@ -112,6 +115,26 @@ public class CustomerServiceImpl implements CustomerService {
 
     public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(String customerNumber) {
         return customerInvoiceDocumentService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber);
+    }
+
+    public void createCustomerNote(String customerNumber, String customerNote) {
+        Customer customer = getByPrimaryKey(customerNumber);
+        Note note = new Note();
+        note.setNoteText(customerNote);
+        try {
+            note = noteService.createNote(note, customer);
+            noteService.save(note);
+        } catch (Exception e){
+            throw new RuntimeException("Problems creating note for Customer " + customerNumber);
+        }
+    }
+
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
     }
 
 }

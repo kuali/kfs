@@ -5,6 +5,7 @@
 
 <logic:iterate id="customerInvoiceWriteoffLookupResult" name="KualiForm"
 	property="customerInvoiceWriteoffLookupResults" indexId="ctr">
+	
 	<c:set var="useTabTop" value="${ctr == 0}" />
 	<c:set var="tabTitle" value="${KualiForm.customerInvoiceWriteoffLookupResults[ctr].customerNumber}, ${KualiForm.customerInvoiceWriteoffLookupResults[ctr].customerName}" />
 	<ar:customerInvoiceWriteoffSummaryResult

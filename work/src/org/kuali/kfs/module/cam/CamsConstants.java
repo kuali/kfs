@@ -197,6 +197,7 @@ public class CamsConstants extends JSTLConstants {
     public static class RetirementLabel {
         public static final String BUYER_DESCRIPTION = "Buyer Description";
         public static final String SALE_PRICE = "Sale Price";
+        public static final String CASH_RECEIPT_FINANCIAL_DOCUMENT_NUMBER = "Cash Receipt Financial Document Number";
         public static final String RETIREMENT_INSTITUTION_NAME = "Retirement Institution Name";
         public static final String PAID_CASE_NUMBER = "Police Case Number";
     }

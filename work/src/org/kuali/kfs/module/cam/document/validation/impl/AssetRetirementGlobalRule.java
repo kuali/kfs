@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.cam.document.validation.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -37,6 +39,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -49,6 +52,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
     private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
+    private PersistableBusinessObject bo;
 
     /**
      * Constructs a AssetLocationGlobalRule
@@ -57,7 +61,6 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
      */
     @Override
@@ -86,7 +89,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
         if ((valid & super.processCustomSaveDocumentBusinessRules(document)) && !assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal) && validateAssetObjectCodeExistence(assetRetirementGlobal)) {
             // create poster
-            AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader)document.getDocumentHeader());
+            AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());
             // create postables
             if (!(valid = assetRetirementService.createGLPostables(assetRetirementGlobal, assetRetirementGlPoster))) {
                 putFieldError(CamsPropertyConstants.AssetRetirementGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);
@@ -106,13 +109,13 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     private boolean validateAssetObjectCodeExistence(AssetRetirementGlobal assetRetirementGlobal) {
         boolean valid = true;
-        
+
         for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
             Asset asset = assetRetirementGlobalDetail.getAsset();
             for (AssetPayment assetPayment : asset.getAssetPayments()) {
                 AssetObjectCode assetObjectCode = assetRetirementService.getAssetObjectCode(asset, assetPayment);
                 if (ObjectUtils.isNull(assetObjectCode)) {
-                    putFieldError(CamsPropertyConstants.AssetRetirementGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] {asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode()});
+                    putFieldError(CamsPropertyConstants.AssetRetirementGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() });
                     valid = false;
                     break;
                 }
@@ -122,7 +125,6 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
@@ -149,8 +151,8 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * Check if only single asset is allowed to retire.
+     * 
      * @param retirementReasonCode
      * @param assetRetirementDetails
      * @param maxNumber
@@ -159,7 +161,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber) {
         boolean success = true;
 
-        if (assetRetirementDetails.size() > maxNumber && !assetRetirementService.isAllowedRetireMultipleAssets(retirementReasonCode) ) {
+        if (assetRetirementDetails.size() > maxNumber && !assetRetirementService.isAllowedRetireMultipleAssets(retirementReasonCode)) {
             putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
             success = false;
         }
@@ -168,7 +170,6 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method validates each asset to be retired.
      * 
      * @param assetRetirementGlobalDetails
@@ -200,7 +201,6 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * 
      * This method validates one asset is a valid asset and no duplicate with target asset when merge.
      * 
      * @param detail
@@ -251,7 +251,6 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * User must be in work group CM_SUPER_USERS to retire a non-moveable asset.
      * 
      * @return
@@ -270,7 +269,6 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * 
      * Validate Asset Retirement Global and Details.
      * 
      * @param assetRetirementGlobal
@@ -290,7 +288,6 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * Validate mergedTargetCapitalAsset. Only valid and active capital asset is allowed.
      * 
      * @param assetRetirementGlobal
@@ -367,6 +364,15 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
             if (sharedRetirementInfo.getSalePrice() == null) {
                 putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.SALE_PRICE, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.SALE_PRICE, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
                 valid = false;
+            }
+            if (StringUtils.isNotBlank(sharedRetirementInfo.getCashReceiptFinancialDocumentNumber())) {
+                Map retirementInfoMap = new HashMap();
+                retirementInfoMap.put(CamsPropertyConstants.AssetGlobal.DOCUMENT_NUMBER, sharedRetirementInfo.getCashReceiptFinancialDocumentNumber());
+                bo = (FinancialSystemDocumentHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(FinancialSystemDocumentHeader.class, retirementInfoMap);
+                if (bo == null) {
+                    putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.CASH_RECEIPT_FINANCIAL_DOCUMENT_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_RETIREMENT_DETAIL_INFO, new String[] { CamsConstants.RetirementLabel.CASH_RECEIPT_FINANCIAL_DOCUMENT_NUMBER, sharedRetirementInfo.getCashReceiptFinancialDocumentNumber() });
+                    valid = false;
+                }
             }
         }
         else if (assetRetirementService.isAssetRetiredByExternalTransferOrGift(assetRetirementGlobal) && StringUtils.isBlank(sharedRetirementInfo.getRetirementInstitutionName())) {

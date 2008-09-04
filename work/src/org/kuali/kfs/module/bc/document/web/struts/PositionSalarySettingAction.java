@@ -38,6 +38,7 @@ import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -63,12 +64,13 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             return resyncAction;
         }
 
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         Map<String, Object> fieldValues = positionSalarySettingForm.getKeyMapOfSalarySettingItem();
         BudgetConstructionPosition budgetConstructionPosition = (BudgetConstructionPosition) businessObjectService.findByPrimaryKey(BudgetConstructionPosition.class, fieldValues);
         if (budgetConstructionPosition == null) {
             String positionNumber = (String) fieldValues.get(KFSPropertyConstants.POSITION_NUMBER);
             String fiscalYear = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_POSITION_NOT_FOUND, positionNumber, fiscalYear);
+            errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_POSITION_NOT_FOUND, positionNumber, fiscalYear);
 
             return this.returnToCaller(mapping, form, request, response);
         }
@@ -83,12 +85,12 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             positionSalarySettingForm.postProcessBCAFLines();
             positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
             
-            boolean accessModeUpdated = positionSalarySettingForm.updateAccessMode();
+            boolean accessModeUpdated = positionSalarySettingForm.updateAccessMode(errorMap);
             if (!accessModeUpdated) {
                 return this.returnToCaller(mapping, form, request, response);
             }
 
-            boolean gotLocks = positionSalarySettingForm.acquirePositionAndFundingLocks();
+            boolean gotLocks = positionSalarySettingForm.acquirePositionAndFundingLocks(errorMap);
             if (!gotLocks) {
                 return this.returnToCaller(mapping, form, request, response);
             }

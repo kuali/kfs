@@ -80,11 +80,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         salarySettingForm.populateAuthorizationFields(new BudgetConstructionDocumentAuthorizer());
 
         ActionForward forward = super.execute(mapping, form, request, response);
-
-        boolean isSuccessfullyProcessed = salarySettingForm.postProcessBCAFLines();
-        if (!isSuccessfullyProcessed) {
-            return this.returnToCaller(mapping, form, request, response);
-        }
+        salarySettingForm.postProcessBCAFLines();
 
         return forward;
     }
@@ -373,7 +369,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      */
     protected ActionForward returnAfterClose(SalarySettingBaseForm salarySettingForm, ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (salarySettingForm.isBudgetByAccountMode()) {
-            salarySettingForm.addMessage(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
+            salarySettingForm.getCallBackMessages().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
             return this.returnToCaller(mapping, salarySettingForm, request, response);
         }
 

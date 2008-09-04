@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -43,6 +46,16 @@ public class BudgetExpansionAction extends KualiAction {
      */
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return returnToCaller(mapping, form, request, response);
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        this.moveCallBackMessagesInPlace();              
+        return super.refresh(mapping, form, request, response);
     }
 
     /**
@@ -64,7 +77,47 @@ public class BudgetExpansionAction extends KualiAction {
         }
         parameters.put(KFSConstants.REFRESH_CALLER, this.getClass().getName());
 
+        this.addCallBackMessagesInSession(budgetExpansionForm);
+
         String backUrl = UrlFactory.parameterizeUrl(budgetExpansionForm.getBackLocation(), parameters);
         return new ActionForward(backUrl, true);
+    }
+
+    /**
+     * add the callback messages and error messages into session variable
+     */
+    public void addCallBackMessagesInSession(BudgetExpansionForm budgetExpansionForm) {
+        if (!budgetExpansionForm.getCallBackMessages().isEmpty()) {
+            GlobalVariables.getUserSession().addObject(BCPropertyConstants.CALL_BACK_MESSAGES, budgetExpansionForm.getCallBackMessages());
+        }
+
+        if (!budgetExpansionForm.getCallBackErrors().isEmpty()) {
+            GlobalVariables.getUserSession().addObject(BCPropertyConstants.CALL_BACK_ERRORS, budgetExpansionForm.getCallBackErrors());
+        }
+    }
+
+    /**
+     * remove the callback messages and error messages from session variable
+     */
+    public void removeCallBackMessagesFromSession() {
+        GlobalVariables.getUserSession().removeObject(BCPropertyConstants.CALL_BACK_MESSAGES);
+        GlobalVariables.getUserSession().removeObject(BCPropertyConstants.CALL_BACK_ERRORS);
+    }
+    
+    /**
+     * move the callback messages and error messages in place and remove the callback message entries
+     */
+    public void moveCallBackMessagesInPlace() {
+        List<String> messagesList = (List<String>)GlobalVariables.getUserSession().retrieveObject(BCPropertyConstants.CALL_BACK_MESSAGES);
+        if(messagesList != null) {
+            GlobalVariables.getMessageList().addAll(messagesList);
+        }
+        
+        ErrorMap errorMap = (ErrorMap)GlobalVariables.getUserSession().retrieveObject(BCPropertyConstants.CALL_BACK_ERRORS);
+        if(errorMap != null) {
+            GlobalVariables.setErrorMap(errorMap);
+        }
+        
+        this.removeCallBackMessagesFromSession();
     }
 }

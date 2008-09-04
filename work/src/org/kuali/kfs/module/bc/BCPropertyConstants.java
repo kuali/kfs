@@ -76,6 +76,9 @@ public class BCPropertyConstants {
     public static final String REFRESH_POSITION_BEFORE_SALARY_SETTING = "refreshPositionBeforeSalarySetting";
     public static final String REFRESH_INCUMBENT_BEFORE_SALARY_SETTING = "refreshIncumbentBeforeSalarySetting";
     
+    public static final String CALL_BACK_MESSAGES = "callBackMessages";
+    public static final String CALL_BACK_ERRORS = "callBackErrors";
+    
     public static final String FINANCIAL_DOCUMENT_MONTH1_LINE_AMOUNT = "financialDocumentMonth1LineAmount";
     public static final String FINANCIAL_DOCUMENT_MONTH2_LINE_AMOUNT = "financialDocumentMonth2LineAmount";
     public static final String FINANCIAL_DOCUMENT_MONTH3_LINE_AMOUNT = "financialDocumentMonth3LineAmount";

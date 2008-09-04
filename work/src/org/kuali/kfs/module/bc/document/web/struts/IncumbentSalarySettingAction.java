@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -49,6 +50,7 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
     @Override
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
+        ErrorMap callBackErrors = incumbentSalarySettingForm.getCallBackErrors();
 
         // update incumbent record if required
         if (incumbentSalarySettingForm.isRefreshIncumbentBeforeSalarySetting()) {
@@ -61,8 +63,8 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
 
         if (budgetConstructionIntendedIncumbent == null) {
             String emplid = (String) fieldValues.get(KFSPropertyConstants.EMPLID);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_INCUMBENT_NOT_FOUND, emplid);
-
+            
+            callBackErrors.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_INCUMBENT_NOT_FOUND, emplid);
             return this.returnToCaller(mapping, form, request, response);
         }
 
@@ -76,12 +78,12 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
             incumbentSalarySettingForm.postProcessBCAFLines();
             incumbentSalarySettingForm.setNewBCAFLine(incumbentSalarySettingForm.createNewAppointmentFundingLine());
             
-            boolean accessModeUpdated = incumbentSalarySettingForm.updateAccessMode();
+            boolean accessModeUpdated = incumbentSalarySettingForm.updateAccessMode(callBackErrors);
             if (!accessModeUpdated) {
                 return this.returnToCaller(mapping, form, request, response);
             }
 
-            boolean gotLocks = incumbentSalarySettingForm.acquirePositionAndFundingLocks();
+            boolean gotLocks = incumbentSalarySettingForm.acquirePositionAndFundingLocks(callBackErrors);
             if (!gotLocks) {
                 return this.returnToCaller(mapping, form, request, response);
             }

@@ -63,7 +63,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private LockService lockService = SpringContext.getBean(LockService.class);
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
-    private ErrorMap errorMap = GlobalVariables.getErrorMap();
     private static final List<String> comparableFields = getComparableFields();
 
     /**
@@ -113,10 +112,10 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     /**
      * acquire position and funding locks for all appointment fundings
      */
-    public boolean acquirePositionAndFundingLocks() {
+    public boolean acquirePositionAndFundingLocks(ErrorMap errorMap) {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            boolean gotLocks = this.acquirePositionAndFundingLocks(appointmentFunding);
+            boolean gotLocks = this.acquirePositionAndFundingLocks(appointmentFunding, errorMap);
 
             if (!gotLocks) {
                 return false;
@@ -131,7 +130,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * @param appointmentFunding the given appointment funding
      * @return true if the position and funding locks for the given appointment funding are acquired successfully, otherwise, false
      */
-    public boolean acquirePositionAndFundingLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public boolean acquirePositionAndFundingLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         LOG.info("acquirePositionAndFundingLocks() started");
 
         try {
@@ -175,10 +174,10 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     /**
      * update the access modes of all appointment fundings
      */
-    public boolean updateAccessMode() {
+    public boolean updateAccessMode(ErrorMap errorMap) {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            boolean accessModeUpdated = this.updateAccessMode(appointmentFunding);
+            boolean accessModeUpdated = this.updateAccessMode(appointmentFunding, errorMap);
 
             if (!accessModeUpdated) {
                 return false;
@@ -193,7 +192,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * @param appointmentFunding the given appointment funding
      * @return true if the access mode of the given appointment funding are updated successfully, otherwise, false
      */
-    public boolean updateAccessMode(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public boolean updateAccessMode(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
         LOG.info("updateAccessMode() started");
 
         try {
@@ -220,7 +219,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * 
      * @return true if the transaction locks for all savable appointment fundings are acquired successfully, otherwise, false
      */
-    public boolean acquireTransactionLocks() {
+    public boolean acquireTransactionLocks(ErrorMap errorMap) {
         LOG.info("acquireTransactionLocks() started");
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getSavableAppointmentFundings()) {

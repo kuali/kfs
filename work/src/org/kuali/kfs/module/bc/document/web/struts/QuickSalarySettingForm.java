@@ -133,4 +133,12 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
     public void setRefreshIncumbentBeforeSalarySetting(boolean refreshIncumbentBeforeSalarySetting) {
         this.refreshIncumbentBeforeSalarySetting = refreshIncumbentBeforeSalarySetting;
     }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#isBudgetByAccountMode()
+     */
+    @Override
+    public boolean isBudgetByAccountMode() {
+        return true;
+    }
 }

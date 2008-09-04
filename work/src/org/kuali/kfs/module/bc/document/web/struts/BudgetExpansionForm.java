@@ -34,7 +34,9 @@ public class BudgetExpansionForm extends KualiForm {
 
     // form messages
     private List<String> messages;
-    private ErrorMap errorMap;
+    
+    private List<String> callBackMessages = new ArrayList<String>();
+    private ErrorMap callBackErrors = new ErrorMap();
 
     /**
      * Default Constructor
@@ -42,7 +44,6 @@ public class BudgetExpansionForm extends KualiForm {
     public BudgetExpansionForm() {
         super();
         messages = new ArrayList<String>();
-        errorMap = new ErrorMap();
     }
 
     /**
@@ -100,6 +101,24 @@ public class BudgetExpansionForm extends KualiForm {
     }
 
     /**
+     * Gets the universityFiscalYear attribute.
+     * 
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * Sets the universityFiscalYear attribute value.
+     * 
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+    
+    /**
      * Gets the messages attribute.
      * 
      * @return Returns the messages.
@@ -131,37 +150,18 @@ public class BudgetExpansionForm extends KualiForm {
     }
 
     /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear.
+     * Gets the callBackMessages attribute. 
+     * @return Returns the callBackMessages.
      */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
+    public List<String> getCallBackMessages() {
+        return callBackMessages;
     }
 
     /**
-     * Sets the universityFiscalYear attribute value.
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
+     * Gets the callBackErrors attribute. 
+     * @return Returns the callBackErrors.
      */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
+    public ErrorMap getCallBackErrors() {
+        return callBackErrors;
     }
-
-    /**
-     * Gets the errorMap attribute. 
-     * @return Returns the errorMap.
-     */
-    public ErrorMap getErrorMap() {
-        return errorMap;
-    }
-
-    /**
-     * Sets the errorMap attribute value.
-     * @param errorMap The errorMap to set.
-     */
-    public void setErrorMap(ErrorMap errorMap) {
-        this.errorMap = errorMap;
-    }
-
 }

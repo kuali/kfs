@@ -66,10 +66,12 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.info("refresh() started");
         
+        super.refresh(mapping, form, request, response);
+        
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;       
         salarySettingForm.setRefreshIncumbentBeforeSalarySetting(false);
         salarySettingForm.setRefreshPositionBeforeSalarySetting(false);
-
+        
         return this.loadExpansionScreen(mapping, form, request, response);
     }
 
@@ -115,7 +117,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(KFSPropertyConstants.OBJECT_CODE, salarySettingForm.getFinancialObjectCode());
         parameters.put(KFSPropertyConstants.SUB_OBJECT_CODE, salarySettingForm.getFinancialSubObjectCode());
 
-        parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, Boolean.TRUE.toString());
+        parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, Boolean.toString(salarySettingForm.isBudgetByAccountMode()));
         parameters.put(BCPropertyConstants.ADD_LINE, Boolean.TRUE.toString());
         
         // anchor, if it exists

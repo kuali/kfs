@@ -132,13 +132,14 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         for (PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
             String errorKeyPrefix = this.getErrorKeyPrefixOfAppointmentFundingLine(appointmentFundings, savableFunding);
 
             // retrieve corresponding document in advance in order to use the rule framework
             BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);
             if (document == null) {
-                GlobalVariables.getErrorMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
+                errorMap.putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             
@@ -155,7 +156,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         }
 
         // acquire transaction locks for all funding lines
-        boolean transactionLocked = salarySettingForm.acquireTransactionLocks();
+        boolean transactionLocked = salarySettingForm.acquireTransactionLocks(GlobalVariables.getErrorMap());
         if (!transactionLocked) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -185,11 +186,13 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         PendingBudgetConstructionAppointmentFunding workingAppointmentFunding = new PendingBudgetConstructionAppointmentFunding();
         ObjectUtil.buildObject(workingAppointmentFunding, newAppointmentFunding);
         this.applyDefaultValuesIfEmpty(workingAppointmentFunding);
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
 
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(workingAppointmentFunding);
         if (document == null) {
-            GlobalVariables.getErrorMap().putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, workingAppointmentFunding.getAppointmentFundingString());
+            errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, workingAppointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -201,19 +204,19 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         }
 
         // update the access flags of the current funding line
-        boolean accessModeUpdated = salarySettingForm.updateAccessMode(workingAppointmentFunding);
+        boolean accessModeUpdated = salarySettingForm.updateAccessMode(workingAppointmentFunding, errorMap);
         if (!accessModeUpdated) {
-            return this.returnToCaller(mapping, form, request, response);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // have no permission to do salary setting on the new line
         if (workingAppointmentFunding.isDisplayOnlyMode()) {
-            GlobalVariables.getErrorMap().putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_NO_SALARY_SETTING_PERMISSION, workingAppointmentFunding.getAppointmentFundingString());
+            errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_NO_SALARY_SETTING_PERMISSION, workingAppointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // acquire a lock for the new appointment funding line
-        boolean gotLocks = salarySettingForm.acquirePositionAndFundingLocks(workingAppointmentFunding);
+        boolean gotLocks = salarySettingForm.acquirePositionAndFundingLocks(workingAppointmentFunding, errorMap);
         if (!gotLocks) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }

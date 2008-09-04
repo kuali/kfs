@@ -323,14 +323,14 @@
 	<c:if test="${not readOnly}">
 		<tr>
 			<td colspan="${16 - numOfColumsRemoved}" class="subhead">
-				<span class="subhead-left">Global Percent Adjustment</span>
+				<span class="subhead-left">Global Actions</span>
 			</td>
 		</tr>
 		
 		<tr>
 			<kul:htmlAttributeHeaderCell scope="row" colspan="8" literalLabel="" horizontal="true" />
 		
-		    <td colspan ="${7 - numOfColumsRemoved}"><center>
+		    <td colspan ="${5 - numOfColumsRemoved}"><center>
 				<bc:salaryAdjustment attributes="${pbcafAttributes}" 
 					adjustmentMeasurementFieldName="adjustmentMeasurement" 
 					adjustmentAmountFieldName="adjustmentAmount"
@@ -338,7 +338,21 @@
 				</center>
 			</td>
 			
-			<kul:htmlAttributeHeaderCell />
+			<td colspan="3" style="white-space: nowrap;">				   		
+		   		<c:if test="${KualiForm.payrollPositionFeedIndicator}">	
+			   		&nbsp;&nbsp;&nbsp;
+			   		<html:checkbox property="refreshPositionBeforeSalarySetting" title="Refresh Position" alt="Refresh Position">
+			   			Refresh Position?
+			   		</html:checkbox>
+		   		</c:if>
+		        
+		        <c:if test="${KualiForm.payrollIncumbentFeedIndictor}">	
+			        &nbsp;&nbsp;&nbsp;  	
+			   		<html:checkbox property="refreshIncumbentBeforeSalarySetting" title="Refresh Incumbent" alt="Refresh Incumbent">
+			   			Refresh Incumbent?
+			   		</html:checkbox>
+		   		</c:if>
+			</td
 		</tr>
 	</c:if>
 		

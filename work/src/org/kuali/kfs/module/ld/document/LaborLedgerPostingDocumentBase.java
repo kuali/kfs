@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
@@ -110,17 +111,30 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * If the document has a total amount, call method on document to get the total and set in doc header.
+     * 
+     * @see org.kuali.rice.kns.document.Document#prepareForSave()
      */
     @Override
-    public void prepareForSave(KualiDocumentEvent event) {
+    public void prepareForSave() {
         if (!SpringContext.getBean(LaborLedgerPendingEntryService.class).generateLaborLedgerPendingEntries(this)) {
             logErrors();
             throw new ValidationException("labor ledger LLPE generation failed");
         }
-        super.prepareForSave(event);
+        
+        super.prepareForSave();
+    }    
+    
+    
+    /**
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        this.prepareForSave();
+        super.prepareForSave(event);        
     }
-
+    
     /**
      * This is a "do nothing" version of the method - it just won't create GLPEs
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)

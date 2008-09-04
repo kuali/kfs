@@ -22,6 +22,12 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="buildingAddressZip"
               p:attributeToHighlightOnFail="buildingAddressZipCode" />
+         <bean parent="ReferenceDefinition"
+              p:attributeName="buildingAddressState"
+              p:attributeToHighlightOnFail="buildingAddressStateCode" />
+          <bean parent="ReferenceDefinition"
+              p:attributeName="buildingAddressCountry"
+              p:attributeToHighlightOnFail="buildingAddressCountryCode" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -84,6 +90,8 @@
               p:name="buildingAddressStateCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="buildingAddressZipCode" />
+         <bean parent="MaintainableFieldDefinition"
+              p:name="buildingAddressCountryCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="alternateBuildingCode" />
         <bean parent="MaintainableFieldDefinition"

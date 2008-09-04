@@ -26,6 +26,7 @@
         <ref bean="Building-buildingAddressStateCode" />
         <ref bean="Building-buildingAddressZipCode" />
         <ref bean="Building-alternateBuildingCode" />
+        <ref bean="Building-buildingAddressCountryCode" />
         <ref bean="Building-active" />
         <ref bean="Building-versionNumber" />
       </list>
@@ -160,6 +161,28 @@
     <property name="summary" value="buildingAddressZipCode" />
     <property name="description" value="buildingAddressZipCode description..." />
   </bean>
+  
+   <bean id="Building-buildingAddressCountryCode" parent="Building-buildingAddressCountryCode-parentBean" />
+
+  <bean id="Building-buildingAddressCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingAddressCountryCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Address Country Code" />
+    <property name="shortLabel" value="Bldg. Country" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:exactLength="2" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="buildingAddressCountryCode" />
+    <property name="description" value="buildingAddressCountryCode description..." />
+  </bean>
+  
   <bean id="Building-alternateBuildingCode" parent="Building-alternateBuildingCode-parentBean" />
 
   <bean id="Building-alternateBuildingCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -217,7 +240,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="buildingAddressStateCode" />   
               <bean parent="FieldDefinition"
-                    p:attributeName="buildingAddressZipCode" />  
+                    p:attributeName="buildingAddressZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingAddressCountryCode" />        
               <bean parent="FieldDefinition"
                     p:attributeName="alternateBuildingCode" />                                                                                                     
               <bean parent="FieldDefinition"

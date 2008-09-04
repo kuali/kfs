@@ -36,11 +36,13 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
     private String buildingAddressZipCode;
     private String alternateBuildingCode;
     private boolean active;
+    private String buildingAddressCountryCode;
     
     private Campus campus;
     private State buildingAddressState;
     private PostalZipCode buildingAddressZip;
-
+    private Country buildingAddressCountry;
+ 
     /**
      * Default constructor.
      */
@@ -265,6 +267,41 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
     public void setBuildingAddressZip(PostalZipCode buildingAddressZip) {
         this.buildingAddressZip = buildingAddressZip;
     }
+    
+    /**
+     * Gets the buildingAddressCountryCode attribute. 
+     * @return Returns the buildingAddressCountryCode.
+     */
+    public String getBuildingAddressCountryCode() {
+        return buildingAddressCountryCode;
+    }
+
+    /**
+     * Sets the buildingAddressCountryCode attribute value.
+     * @param buildingAddressCountryCode The buildingAddressCountryCode to set.
+     */
+    public void setBuildingAddressCountryCode(String buildingAddressCountryCode) {
+        this.buildingAddressCountryCode = buildingAddressCountryCode;
+    }
+
+    /**
+     * Gets the buildingAddressCountry attribute. 
+     * @return Returns the buildingAddressCountry.
+     */
+    public Country getBuildingAddressCountry() {
+        return buildingAddressCountry;
+    }
+
+    /**
+     * Sets the buildingAddressCountry attribute value.
+     * @param buildingAddressCountry The buildingAddressCountry to set.
+     */
+    public void setBuildingAddressCountry(Country buildingAddressCountry) {
+        this.buildingAddressCountry = buildingAddressCountry;
+    }
+
+
+ 
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

@@ -564,6 +564,7 @@
 			attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/budget/{1}.jsp" />
+			<forward name="organizationSalarySettingReturning" path="/jsp/modules/budget/OrganizationSalarySettingReturning.jsp" />
 			<forward name="import_export"
 				path="/jsp/modules/budget/BudgetConstructionImportExport.jsp" />
 			<forward name="report_dump"

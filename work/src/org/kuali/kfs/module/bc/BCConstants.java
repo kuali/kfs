@@ -409,6 +409,7 @@ public class BCConstants extends JSTLConstants {
     public static final String REFRESH_INCUMBENT_BEFORE_SALARY_SETTING = "refreshPositionBeforeSalarySetting";
     public static final String TEMP_LIST_REFRESH_INCUMBENT_METHOD = "refreshIncumbent";
     public static final String REFRESH_INCUMBENT_BUTTON_NAME = "tinybutton-sync.gif";
+    public static final String MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING = "organizationSalarySettingReturning";
 
     /**
      * enumerate the leave duration code

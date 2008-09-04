@@ -124,8 +124,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
         // return to the calller directly if the current user just can have view-only access
         if (salarySettingForm.isViewOnlyEntry() || salarySettingForm.isSalarySettingClosed()) {
-            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
-            return this.returnToCaller(mapping, salarySettingForm, request, response);
+            return this.returnAfterClose(salarySettingForm, mapping, request, response);
         }
 
         // ask a question before closing unless it has been answered
@@ -134,7 +133,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
             String questionText = kualiConfiguration.getPropertyString(KFSKeyConstants.QUESTION_SAVE_BEFORE_CLOSE);
             return this.performQuestionWithoutInput(mapping, salarySettingForm, request, response, KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
         }
-        
+
         // indicate the salary setting has been closed
         salarySettingForm.setSalarySettingClosed(true);
 
@@ -151,8 +150,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
             return saveAction;
         }
 
-        salarySettingForm.addMessage(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
-        return this.returnToCaller(mapping, salarySettingForm, request, response);
+        return this.returnAfterClose(salarySettingForm, mapping, request, response);
     }
 
     /**
@@ -368,6 +366,19 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         String pattern = "{0}.{1}[{2}]";
 
         return MessageFormat.format(pattern, this.getFundingAwareObjectName(), BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING, indexOfFundingLine);
+    }
+
+    /**
+     * return after salary setting is closed
+     */
+    protected ActionForward returnAfterClose(SalarySettingBaseForm salarySettingForm, ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (salarySettingForm.isBudgetByAccountMode()) {
+            salarySettingForm.addMessage(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
+            return this.returnToCaller(mapping, salarySettingForm, request, response);
+        }
+
+        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
+        return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
     }
 
     /**

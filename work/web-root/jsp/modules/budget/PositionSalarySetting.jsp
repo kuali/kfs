@@ -32,9 +32,9 @@
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" 
 	        	property="methodToCall.save" title="save" alt="save"/>
         </c:if>	
-        	    
-	    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" 
-	        property="methodToCall.close" title="close" alt="close"/>	
+        
+	    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" 
+       		styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>	
     </div>
 
 	<%-- Need these here to override and initialize vars used by objectinfo.js to BC specific --%>

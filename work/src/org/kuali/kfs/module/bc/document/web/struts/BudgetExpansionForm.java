@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -33,6 +34,7 @@ public class BudgetExpansionForm extends KualiForm {
 
     // form messages
     private List<String> messages;
+    private ErrorMap errorMap;
 
     /**
      * Default Constructor
@@ -40,6 +42,7 @@ public class BudgetExpansionForm extends KualiForm {
     public BudgetExpansionForm() {
         super();
         messages = new ArrayList<String>();
+        errorMap = new ErrorMap();
     }
 
     /**
@@ -143,6 +146,22 @@ public class BudgetExpansionForm extends KualiForm {
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * Gets the errorMap attribute. 
+     * @return Returns the errorMap.
+     */
+    public ErrorMap getErrorMap() {
+        return errorMap;
+    }
+
+    /**
+     * Sets the errorMap attribute value.
+     * @param errorMap The errorMap to set.
+     */
+    public void setErrorMap(ErrorMap errorMap) {
+        this.errorMap = errorMap;
     }
 
 }

@@ -143,14 +143,15 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         if (StringUtils.equals(KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, question) && StringUtils.equals(ConfirmationQuestion.YES, buttonClicked)) {
             ActionForward saveAction = this.save(mapping, salarySettingForm, request, response);
 
-            if (!GlobalVariables.getMessageList().contains(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED)) {
-                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
+            if (GlobalVariables.getMessageList().contains(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED)) {
+                GlobalVariables.getMessageList().remove(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
             }
+            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED_AND_CLOSED);
 
             return saveAction;
         }
 
-        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
+        salarySettingForm.addMessage(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
         return this.returnToCaller(mapping, salarySettingForm, request, response);
     }
 

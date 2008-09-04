@@ -193,7 +193,7 @@
 			
 			<c:set var="detailReadOnly"
 				   value="${readOnly || fundingLine.displayOnlyMode || fundingLine.appointmentFundingDeleteIndicator || fundingLine.purged}" />
-			${detailReadOnly}
+				   
 			<bc:appointmentFundingDetail fundingLine="${fundingLine}" fundingLineName="${fundingLineName}" 
 				lineIndex="${lineIndex}" hasBeenAdded="${hasBeenAdded}" readOnly="${detailReadOnly}"/>
 			<br/></center>

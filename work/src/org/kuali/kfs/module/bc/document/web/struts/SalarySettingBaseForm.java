@@ -26,6 +26,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
@@ -610,7 +611,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public UniversalUser getUniversalUser() {
         return universalUser;
-    }   
+    }
 
     /**
      * Gets the salarySettingClosed attribute.
@@ -651,5 +652,23 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
             messageList.add(BCKeyConstants.WARNING_AUTHORIZATION_DISABLED);
         }
         return false;
+    }
+
+    /**
+     * Gets the payrollIncumbentFeedIndictor attribute.
+     * 
+     * @return Returns the payrollIncumbentFeedIndictor.
+     */
+    public boolean isPayrollIncumbentFeedIndictor() {
+        return BudgetParameterFinder.getPayrollIncumbentFeedIndictor();
+    }
+
+    /**
+     * Gets the payrollPositionFeedIndicator attribute.
+     * 
+     * @return Returns the payrollPositionFeedIndicator.
+     */
+    public boolean isPayrollPositionFeedIndicator() {
+        return BudgetParameterFinder.getPayrollPositionFeedIndicator();
     }
 }

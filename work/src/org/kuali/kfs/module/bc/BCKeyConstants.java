@@ -29,6 +29,7 @@ public class BCKeyConstants {
     public static final String MESSAGE_BENEFITS_CALCULATED = "message.budget.benefitsCalculated";
     public static final String MESSAGE_BENEFITS_MONTHLY_CALCULATED = "message.budget.benefitsMonthlyCalculated";
     public static final String MESSAGE_SALARY_SETTING_SAVED = "message.budget.salarySettingSaved";
+    public static final String MESSAGE_SALARY_SETTING_SAVED_AND_CLOSED = "message.budget.salarySettingSavedAndClosed";
     public static final String ERROR_BUDGET_AUTHORIZATION_DOCUMENT = "error.budget.authorization.document";
     public static final String ERROR_BUDGET_PULLUP_DOCUMENT = "error.budget.pullup.document";
     public static final String ERROR_BUDGET_PUSHDOWN_DOCUMENT = "error.budget.pushdown.document";

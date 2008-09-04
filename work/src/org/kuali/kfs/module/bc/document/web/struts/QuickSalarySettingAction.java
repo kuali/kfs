@@ -65,6 +65,10 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.info("refresh() started");
+        
+        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;       
+        salarySettingForm.setRefreshIncumbentBeforeSalarySetting(false);
+        salarySettingForm.setRefreshPositionBeforeSalarySetting(false);
 
         return this.loadExpansionScreen(mapping, form, request, response);
     }
@@ -84,6 +88,14 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         parameters.put(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.ADD_LINE, Boolean.TRUE.toString());
+        
+        // anchor, if it exists
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(salarySettingForm.getAnchor())) {
+            parameters.put(BCConstants.RETURN_ANCHOR, salarySettingForm.getAnchor());
+        }
+
+        // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.INTENDED_INCUMBENT, BudgetConstructionIntendedIncumbent.class.getName(), parameters);
 
@@ -96,7 +108,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     public ActionForward addPosition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
 
-        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> parameters = new HashMap<String, String>();        
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salarySettingForm.getChartOfAccountsCode());
         parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, salarySettingForm.getAccountNumber());
         parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, salarySettingForm.getSubAccountNumber());
@@ -105,6 +117,14 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.ADD_LINE, Boolean.TRUE.toString());
+        
+        // anchor, if it exists
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(salarySettingForm.getAnchor())) {
+            parameters.put(BCConstants.RETURN_ANCHOR, salarySettingForm.getAnchor());
+        }
+
+        // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.BUDGET_POSITION_LOOKUP, BudgetConstructionPosition.class.getName(), parameters);
 

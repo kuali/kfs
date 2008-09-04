@@ -10,6 +10,14 @@ public class TaxPostalCode extends PersistableBusinessObjectBase implements Inac
 	private String postalCode;
 	private String taxRegionCode;
 	private boolean active;
+	private PostalZipCode postalZip;
+	
+	public PostalZipCode getPostalZip() {
+		return postalZip;
+	}
+	public void setPostalZip(PostalZipCode postalZip) {
+		this.postalZip = postalZip;
+	}
 	public boolean isActive() {
 		return active;
 	}

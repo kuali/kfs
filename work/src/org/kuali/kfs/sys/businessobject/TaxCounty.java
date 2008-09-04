@@ -11,6 +11,7 @@ public class TaxCounty extends PersistableBusinessObjectBase implements Inactiva
 	private String stateCode;
 	private String taxRegionCode;
 	private boolean active;
+	private County county;
 	
 	public String getCountyCode() {
 		return countyCode;
@@ -44,4 +45,10 @@ public class TaxCounty extends PersistableBusinessObjectBase implements Inactiva
         m.put("taxRegionCode", this.taxRegionCode);
         return m;
     }
+	public County getCounty() {
+		return county;
+	}
+	public void setCounty(County county) {
+		this.county = county;
+	}
 }

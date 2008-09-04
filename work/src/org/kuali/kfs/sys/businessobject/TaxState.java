@@ -10,6 +10,8 @@ public class TaxState extends PersistableBusinessObjectBase implements Inactivat
 	private String stateCode;
 	private String taxRegionCode;
 	private boolean active;
+	private State state;
+	
 	public boolean isActive() {
 		return active;
 	}
@@ -35,4 +37,10 @@ public class TaxState extends PersistableBusinessObjectBase implements Inactivat
         m.put("taxRegionCode", this.taxRegionCode);
         return m;
     }
+	public State getState() {
+		return state;
+	}
+	public void setState(State state) {
+		this.state = state;
+	}
 }

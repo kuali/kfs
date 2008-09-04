@@ -17,8 +17,6 @@ package org.kuali.kfs.module.cam.document.web.struts;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,12 +25,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.ar.document.validation.event.DiscountCustomerInvoiceDetailEvent;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
-import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentAddAssetEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -147,7 +144,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
             insertAccountingLine(true, assetPaymentForm, line);
 
             // clear the used newTargetLine
-            assetPaymentForm.setNewSourceLine(null);            
+            assetPaymentForm.setNewSourceLine(new AssetPaymentDetail());
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

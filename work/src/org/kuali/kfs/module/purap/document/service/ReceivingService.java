@@ -152,4 +152,6 @@ public interface ReceivingService {
      * @throws RuntimeException
      */
     public boolean isReceivingLineDocumentGeneratedForPurchaseOrder(Integer poId) throws RuntimeException;
+    
+    public void createNoteForReturnedAndDamagedItems(ReceivingDocument recDoc);
 }

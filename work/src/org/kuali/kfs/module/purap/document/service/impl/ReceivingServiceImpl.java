@@ -467,8 +467,6 @@ public class ReceivingServiceImpl implements ReceivingService {
      */
     public void completeReceivingDocument(ReceivingDocument receivingDocument) {
 
-        createNoteForReturnedAndDamagedItems(receivingDocument);
-        
         PurchaseOrderDocument poDoc = null;
 
         if (receivingDocument instanceof ReceivingLineDocument){
@@ -493,18 +491,15 @@ public class ReceivingServiceImpl implements ReceivingService {
         purapService.saveDocumentNoValidation(receivingDocument);
     }
 
-    private void createNoteForReturnedAndDamagedItems(ReceivingDocument recDoc){
+    public void createNoteForReturnedAndDamagedItems(ReceivingDocument recDoc){
         
         for (ReceivingItem item : (List<ReceivingItem>)recDoc.getItems()){
             if(!StringUtils.equalsIgnoreCase(item.getItemType().getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
                 if (item.getItemReturnedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)){
                     try{
                         String noteString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.MESSAGE_RECEIVING_LINEITEM_RETURN_NOTE_TEXT);
-                        noteString = item.getItemReturnedTotalQuantity().intValue() + " " + noteString + " " + item.getReceivingItemIdentifier();
-                        Note noteObj = documentService.createNoteFromDocument(recDoc, noteString);
-                        
-                        documentService.addNoteToDocument(recDoc, noteObj);
-                        noteService.save(noteObj);
+                        noteString = item.getItemReturnedTotalQuantity().intValue() + " " + noteString + " " + item.getItemLineNumber();
+                        addNoteToReceivingDocument(recDoc, noteString);
                     }catch (Exception e){
                         String errorMsg = "Note Service Exception caught: " + e.getLocalizedMessage();
                         throw new RuntimeException(errorMsg, e);                    
@@ -514,10 +509,8 @@ public class ReceivingServiceImpl implements ReceivingService {
                 if (item.getItemDamagedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)){
                     try{
                         String noteString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.MESSAGE_RECEIVING_LINEITEM_DAMAGE_NOTE_TEXT);
-                        noteString = item.getItemDamagedTotalQuantity().intValue() + " " + noteString + " " + item.getReceivingItemIdentifier();
-                        Note noteObj = documentService.createNoteFromDocument(recDoc, noteString);
-                        documentService.addNoteToDocument(recDoc, noteObj);
-                        noteService.save(noteObj);
+                        noteString = item.getItemDamagedTotalQuantity().intValue() + " " + noteString + " " + item.getItemLineNumber();
+                        addNoteToReceivingDocument(recDoc, noteString);
                     }catch (Exception e){
                         String errorMsg = "Note Service Exception caught: " + e.getLocalizedMessage();
                         throw new RuntimeException(errorMsg, e);                    

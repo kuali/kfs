@@ -56,5 +56,49 @@ public final class OrgReviewRoutingData extends RoutingObject{
         this.routingOrg=routingOrg;
     }
 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((routingChart == null) ? 0 : routingChart.hashCode());
+        result = PRIME * result + ((routingOrg == null) ? 0 : routingOrg.hashCode());
+        result = PRIME * result + ((routingOverrideCode == null) ? 0 : routingOverrideCode.hashCode());
+        return result;
+    }
 
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final OrgReviewRoutingData other = (OrgReviewRoutingData) obj;
+        if (routingChart == null) {
+            if (other.routingChart != null)
+                return false;
+        }
+        else if (!routingChart.equals(other.routingChart))
+            return false;
+        if (routingOrg == null) {
+            if (other.routingOrg != null)
+                return false;
+        }
+        else if (!routingOrg.equals(other.routingOrg))
+            return false;
+        if (routingOverrideCode == null) {
+            if (other.routingOverrideCode != null)
+                return false;
+        }
+        else if (!routingOverrideCode.equals(other.routingOverrideCode))
+            return false;
+        return true;
+    }
 }

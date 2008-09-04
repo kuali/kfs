@@ -17,9 +17,11 @@ package org.kuali.kfs.sys.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -34,12 +36,18 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
+import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.document.validation.event.AccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingAccount;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.service.AccountingLineService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -53,7 +61,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Base implementation class for financial edocs.
  */
-public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumentBase implements AccountingDocument, GeneralLedgerPendingEntrySource {
+public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumentBase implements AccountingDocument, GeneralLedgerPendingEntrySource, GenericRoutingInfo {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentBase.class);
 
     protected Integer nextSourceLineNumber;
@@ -64,6 +72,8 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     private transient FinancialSystemTransactionalDocumentEntry dataDictionaryEntry;
     private transient Class sourceAccountingLineClass;
     private transient Class targetAccountingLineClass;
+    
+    public Set<RoutingData> routingInfo;
 
     /**
      * Default constructor.
@@ -709,4 +719,100 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - end");
         return returnKualiDecimal;
     }
+
+    /**
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#getRoutingInfo()
+     */
+    public Set getRoutingInfo() {
+        return routingInfo;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        routingInfo = new HashSet<RoutingData>();
+        Set<OrgReviewRoutingData> orgsToReview = new HashSet<OrgReviewRoutingData>();
+        Set<RoutingAccount> accountsToReview = new HashSet<RoutingAccount>();
+        
+        if (getSourceAccountingLines() != null && getSourceAccountingLines().size() > 0) {
+            collectAccountsAndOrganizationsFromAccountingLines(getSourceAccountingLines(), accountsToReview, orgsToReview);
+        }
+        
+        if (getTargetAccountingLines() != null && getTargetAccountingLines().size() > 0) {
+            collectAccountsAndOrganizationsFromAccountingLines(getTargetAccountingLines(), accountsToReview, orgsToReview);
+        }
+        
+        routingInfo.add(getAccountReviewRoutingData(accountsToReview));
+        routingInfo.add(getOrgReviewRoutingData(orgsToReview));
+    }
+    
+    /**
+     * Creates a RoutingData object which holds RoutingAccount objects
+     * @param accountsToReview the accounts to review
+     * @return the RoutingData object for accounts
+     */
+    protected RoutingData getAccountReviewRoutingData(Set<RoutingAccount> accountsToReview) {
+        RoutingData accountReviewRoutingData = new RoutingData();
+        accountReviewRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
+        accountReviewRoutingData.setRoutingSet(accountsToReview);
+        return accountReviewRoutingData;
+    }
+    
+    /**
+     * Creates a RoutingData object which holds OrgReviewRoutingData objects
+     * @param orgsToReview the organizations to review
+     * @return the RoutingData object for organizations
+     */
+    protected RoutingData getOrgReviewRoutingData(Set<OrgReviewRoutingData> orgsToReview) {
+        RoutingData orgReviewRoutingData = new RoutingData();
+        orgReviewRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
+        orgReviewRoutingData.setRoutingSet(orgsToReview);
+        return orgReviewRoutingData;
+    }
+    
+    /**
+     * Populates the accountsToReview and orgsToReview sets with accounts and organizations from each accounting line in the List of accountingLines given as a parameter
+     * @param accountingLines the accounting lines to get accounts and organizations from
+     * @param accountsToReview the Set of account routing info to populate
+     * @param orgsToReview the Set of organization routing info to populate
+     */
+    protected void collectAccountsAndOrganizationsFromAccountingLines(List accountingLines, Set<RoutingAccount> accountsToReview, Set<OrgReviewRoutingData> orgsToReview) {
+       for (Object accountingLineAsObject : accountingLines) {
+           AccountingLine accountingLine = (AccountingLine)accountingLineAsObject;
+           accountsToReview.add(getRoutingAccountFromAccountingLine(accountingLine));
+           orgsToReview.add(getRoutingOrgFromAccountingLine(accountingLine));
+       }
+    }
+    
+    /**
+     * Builds a RoutingAccount object from the accounting line
+     * @param line the line to build the RoutingAccount object from
+     * @return a newly minted RoutingAccount object
+     */
+    protected RoutingAccount getRoutingAccountFromAccountingLine(AccountingLine line) {
+        return new RoutingAccount(line.getChartOfAccountsCode(), line.getAccountNumber());
+    }
+    
+    /**
+     * Builds an OrgReviewRoutingData object from the accounting line's account's organization
+     * @param line the accounting line to build the object from
+     * @return a newly created OrgReviewRoutingData
+     */
+    protected OrgReviewRoutingData getRoutingOrgFromAccountingLine(AccountingLine line) {
+       line.refreshReferenceObject("account");
+       OrgReviewRoutingData reviewOrg = new OrgReviewRoutingData(line.getAccount().getChartOfAccountsCode(), line.getAccount().getOrganizationCode());
+       if (!StringUtils.isBlank(line.getOverrideCode())) {
+           reviewOrg.setRoutingOverrideCode(line.getOverrideCode());
+       }
+       return reviewOrg;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#setRoutingInfo(java.util.Set)
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+    
 }

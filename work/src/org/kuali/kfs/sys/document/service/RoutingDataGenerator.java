@@ -13,11 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.document.workflow;
+package org.kuali.kfs.sys.document.service;
+
+import org.kuali.kfs.sys.document.workflow.RoutingData;
+import org.kuali.rice.kns.document.Document;
+
 /**
- * 
- * This class is the abstract superclass of all objects that will contain 
- * document data that will be used by routing attributes to determine routing
- * as part of the generic routing framework.  See {@link RoutingData}
+ * Contract for classes which intend to create RoutingData from document content
  */
-abstract class RoutingObject {}
+public interface RoutingDataGenerator {
+    
+    /**
+     * Given a document, generates a RoutingData object 
+     * @param document the document to get RoutingData from
+     * @return a populated RoutingData object
+     */
+    public RoutingData generateRoutingData(Document document);
+}

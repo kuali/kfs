@@ -15,26 +15,26 @@
  */
 package org.kuali.kfs.sys.document.workflow;
 
-public final class RoutingAccount extends RoutingObject {
-    String routingChart;
-    String routingAccount;
+/**
+ * SubFundGroup info for routing
+ */
+public class RoutingSubFundGroup extends RoutingObject {
+    private String subFundGroup;
     
-    public RoutingAccount(String routingChart, String routingAccount){
-        this.routingChart=routingChart;
-        this.routingAccount=routingAccount;
+    /**
+     * Constructs a RoutingSubFundGroup
+     * @param subFundGroup
+     */
+    public RoutingSubFundGroup(String subFundGroup) {
+        this.subFundGroup = subFundGroup;
     }
-    
-    public String getRoutingAccount() {
-        return routingAccount;
-    }
-    public void setRoutingAccount(String routingAccount) {
-        this.routingAccount = routingAccount;
-    }
-    public String getRoutingChart() {
-        return routingChart;
-    }
-    public void setRoutingChart(String routingChart) {
-        this.routingChart = routingChart;
+
+    /**
+     * Gets the subFundGroup attribute. 
+     * @return Returns the subFundGroup.
+     */
+    public String getSubFundGroup() {
+        return subFundGroup;
     }
 
     /**
@@ -44,8 +44,7 @@ public final class RoutingAccount extends RoutingObject {
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((routingAccount == null) ? 0 : routingAccount.hashCode());
-        result = PRIME * result + ((routingChart == null) ? 0 : routingChart.hashCode());
+        result = PRIME * result + ((subFundGroup == null) ? 0 : subFundGroup.hashCode());
         return result;
     }
 
@@ -60,18 +59,12 @@ public final class RoutingAccount extends RoutingObject {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final RoutingAccount other = (RoutingAccount) obj;
-        if (routingAccount == null) {
-            if (other.routingAccount != null)
+        final RoutingSubFundGroup other = (RoutingSubFundGroup) obj;
+        if (subFundGroup == null) {
+            if (other.subFundGroup != null)
                 return false;
         }
-        else if (!routingAccount.equals(other.routingAccount))
-            return false;
-        if (routingChart == null) {
-            if (other.routingChart != null)
-                return false;
-        }
-        else if (!routingChart.equals(other.routingChart))
+        else if (!subFundGroup.equals(other.subFundGroup))
             return false;
         return true;
     }

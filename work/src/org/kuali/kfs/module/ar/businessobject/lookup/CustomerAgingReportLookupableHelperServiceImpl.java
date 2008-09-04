@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -56,6 +57,8 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
+
+
 public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerAgingReportLookupableHelperServiceImpl.class);
@@ -74,7 +77,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public List getSearchResults(Map fieldValues) {
-         LOG.debug("\n\n\n\n ***********************    getSearchResults() started\n");
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
@@ -83,9 +85,17 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         Date reportDate = today;
-        Date reportDateCutoff1; // MJM need to add 4 more cutoff dates based on fieldValues.get...
+        Date cutoffdate30 = DateUtils.addDays(reportDate, -30);
+        Date cutoffdate60 = DateUtils.addDays(reportDate, -60);
+        Date cutoffdate90 = DateUtils.addDays(reportDate, -90);
+        Date cutoffdate120 = DateUtils.addDays(reportDate, -120);
+        Date cutoffdate365 = DateUtils.addDays(reportDate, -365);
 
-        LOG.debug("\n\n\n\n \t\t\t\t***********************    customerInvoiceDocumentService should not be null \n\n");
+        LOG.info("\t\t***********************  cutoffdate 30:\t\t"+cutoffdate30.toString());
+        LOG.info("\t\t***********************  cutoffdate 60:\t\t"+cutoffdate60.toString());
+        LOG.info("\t\t***********************  cutoffdate 90:\t\t"+cutoffdate90.toString());
+        LOG.info("\t\t***********************  cutoffdate 120:\t\t"+cutoffdate120.toString());
+        LOG.info("\t\t***********************  cutoffdate 365:\t\t"+cutoffdate365.toString());
 
         // List invoices = (List) customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
         Collection<CustomerInvoiceDocument> invoices = customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
@@ -97,6 +107,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         KualiDecimal totalbalance = new KualiDecimal(0.00);
         CustomerAgingReportDetail custDetail = null;
+        String previousCustomerNumber = "";
 
         // iterate over all invoices consolidating balances for each customer
         for (CustomerInvoiceDetail cid : invoiceDetails) {
@@ -106,45 +117,71 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             //CustomerInvoiceDocument custdocobj = cid.getCustomerInvoiceDocument();
             String invoiceDocumentNumber = cid.getDocumentNumber();
             CustomerInvoiceDocument custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
-            Date approvalDate = custInvoice.getBillingDate();  // using billing date because can't find "approved date" that vivek mentioned was in ar header
+            Date approvalDate;
+            if (custInvoice.getCustomerPurchaseOrderDate()!=null) {
+                approvalDate=custInvoice.getCustomerPurchaseOrderDate();  // using customer purchase order date to test with for backdating
+            }else {
+                approvalDate=custInvoice.getBillingDate(); // use this if above isn't set since this is never null
+                // I think should be using billingDate because use can't find "approved date" that vivek mentioned was in ar header
+            }
             
-         if(custInvoice!=null) {   
+         if(custInvoice!=null && customerInvoiceDetailService.getOpenAmount(cid).isNonZero()) {   
             
-            Customer customerobj = custInvoice.getCustomer();
-            
-            
+            Customer customerobj = custInvoice.getCustomer();                        
             String customerNumber = customerobj.getCustomerNumber();    // tested and works
             String customerName = customerobj.getCustomerName();  // tested and works
             
-            //String customerNumber2 = (cid.getCustomerInvoiceDocument().getCustomer()).getCustomerNumber();
-
-            if (knownCustomers.containsKey(customerNumber) && approvalDate.before(reportDate) && (customerInvoiceDetailService.getOpenAmount(cid).isNonZero())) {
-                // not a new customer id and invoice approvalDate is valid
-                custDetail = (CustomerAgingReportDetail) knownCustomers.get(customerNumber);
+            
+if (knownCustomers.containsKey(customerNumber)) { 
+    custDetail = (CustomerAgingReportDetail) knownCustomers.get(customerNumber);
+    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tfound");
+} else {
+    custDetail = new CustomerAgingReportDetail();
+    custDetail.setCustomerName(customerName);
+    custDetail.setCustomerNumber(customerNumber);
+    knownCustomers.put(customerNumber, custDetail);
+    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tADDED");
+}
+LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
+LOG.info("\t\t REPORT DATE: \t\t" + reportDate.toString() + "\t");
+            if (approvalDate.before(reportDate) && approvalDate.after(cutoffdate30)) {                                
+                custDetail.setUnpaidBalance0to30(cid.getAmount().add(custDetail.getUnpaidBalance0to30())); 
+                LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
             }
-            else { // if (approvalDate.before(reportDate)) {
-                // new customer id, so create a new CustomerAgingReportDetail
-                custDetail = new CustomerAgingReportDetail();
-                custDetail.setCustomerName(customerName);
-                custDetail.setCustomerNumber(customerNumber);
-                // if (approvalDate.
-                custDetail.setUnpaidBalance0to30(cid.getAmount());
-                knownCustomers.put(customerNumber, custDetail);
+            if (approvalDate.before(cutoffdate30) && approvalDate.after(cutoffdate60)) {               
+                custDetail.setUnpaidBalance31to60(cid.getAmount().add(custDetail.getUnpaidBalance31to60()));
+                LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance31to60());
             }
-         }
-
-            if (LOG.isInfoEnabled()) {
-                LOG.info("\t\tcustDetail=\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
+            if (approvalDate.before(cutoffdate60) && approvalDate.after(cutoffdate90)) {
+                custDetail.setUnpaidBalance61to90(cid.getAmount().add(custDetail.getUnpaidBalance61to90()));   
+                LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance61to90());
             }
-        }
+            if (approvalDate.before(cutoffdate90) && approvalDate.after(cutoffdate120)) {
+                custDetail.setUnpaidBalance91toSYSPR(cid.getAmount().add(custDetail.getUnpaidBalance91toSYSPR()));   
+                LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
+            }
+//            if (approvalDate.before(cutoffdate120) && approvalDate.after(cutoffdate365)) {
+//                custDetail = (CustomerAgingReportDetail) knownCustomers.get(customerNumber);                
+//                custDetail.setUnpaidBalance0to30(cid.getAmount().add(custDetail.getUnpaidBalance0to30()));                
+//            }
+            if (approvalDate.before(cutoffdate120)) {
+                custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getAmount().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
+                LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalanceSYSPRplus1orMore());
+            }            
+            
+}        
 
-
-        if (LOG.isInfoEnabled()) {
-            // LOG.info("CustomerInvoiceDocument cidgetTotalDollarAmount=" + cid.getTotalDollarAmount() + "\t\tCustomerName=" +
-            // cid.getCustomer().getCustomerNumber());
-        }
-
-
+        } // end for loop
+       
+     LOG.info("\n\n\n\n");   
+     LOG.info("\t\tCustomer=\t\t0-30\t\t31-60\t\t61-90\t\t91-120\t\t120+\t");        
+     for (Object obj : knownCustomers.values().toArray()) {
+        CustomerAgingReportDetail cdetail = (CustomerAgingReportDetail)obj;        
+        LOG.info("\t\t"+cdetail.getCustomerNumber()+"\t\t"+cdetail.getUnpaidBalance0to30()+"\t\t"+cdetail.getUnpaidBalance31to60()+"\t\t"+cdetail.getUnpaidBalance61to90()+"\t\t"+cdetail.getUnpaidBalance91toSYSPR()+"\t\t"+cdetail.getUnpaidBalanceSYSPRplus1orMore());       
+     } 
+        
+        
+        
         // create some fake entries to test with
         CustomerAgingReportDetail matt = new CustomerAgingReportDetail();
         matt.setCustomerName("Matt");

@@ -30,11 +30,11 @@ private String customerNumber;
 private String chartOfAccountsCode;
 private String organizationCode;
 private String accountNumber;
-private KualiDecimal unpaidBalance0to30;
-private KualiDecimal unpaidBalance31to60;
-private KualiDecimal unpaidBalance61to90;
-private KualiDecimal unpaidBalance91toSYSPR;
-private KualiDecimal unpaidBalanceSYSPRplus1orMore;
+private KualiDecimal unpaidBalance0to30 = KualiDecimal.ZERO;
+private KualiDecimal unpaidBalance31to60 = KualiDecimal.ZERO;
+private KualiDecimal unpaidBalance61to90 = KualiDecimal.ZERO;
+private KualiDecimal unpaidBalance91toSYSPR = KualiDecimal.ZERO;
+private KualiDecimal unpaidBalanceSYSPRplus1orMore = KualiDecimal.ZERO;
 
     /**
      * Constructs a CustomerAgingReportDetail.java.

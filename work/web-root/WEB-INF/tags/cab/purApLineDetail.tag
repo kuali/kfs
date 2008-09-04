@@ -56,24 +56,23 @@
 <html:hidden property="${assetItemStr}.capitalAssetManagementDocumentNumber" />
 <tr style="color:${color}">
 	<c:choose>
-	<c:when test="${!itemLine.additionalChargeNonTradeInIndicator}">
+	<c:when test="${!itemLine.additionalChargeNonTradeInIndicator && !itemLine.tradeInAllowance}">
 		<td rowspan="2"><html:checkbox styleId="systemCheckbox" property="${assetItemStr}.selectedValue" /></td>
 	</c:when>
 	<c:otherwise>
 		<td rowspan="2">&nbsp;</td>
 	</c:otherwise>
 	</c:choose>
-	<td class="infoline" rowspan="2">${seq}</td>
 	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].purapDocumentIdentifier" attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}" readOnly="true"/></td>
 	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentTypeCode" attributeEntry="${purApDocumentAttributes.documentTypeCode}" readOnly="true"/></td>
 	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentHeader.financialDocumentStatusCode" attributeEntry="${financialSystemDocumentHeaderAttributes.financialDocumentStatusCode}" readOnly="true"/></td>
 	<c:choose>
-	<c:when test="${itemLine.itemLineNumber != null}">
+		<c:when test="${itemLine.itemLineNumber != null}">
 		<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.itemLineNumber" attributeEntry="${purApItemAssetAttributes.itemLineNumber}" readOnly="true"/></td>
-	</c:when>
-	<c:otherwise>
+		</c:when>
+		<c:otherwise>
 		<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.itemTypeCode" attributeEntry="${purApItemAssetAttributes.itemTypeCode}" readOnly="true"/></td>
-	</c:otherwise>
+		</c:otherwise>
 	</c:choose>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.accountsPayableItemQuantity" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}" readOnly="true"/></td>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.splitQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>
@@ -100,9 +99,9 @@
 	</td>
 </tr>
 <tr>
-	<c:set var="tabKey" value="payment-${seq}"/>
+	<c:set var="tabKey" value="payment-${docPos}-${linePos}"/>
 	<html:hidden property="tabStates(${tabKey})" value="CLOSE" />
-	<td colspan="12" style="padding:0px; border-style:none;">
+	<td colspan="13" style="padding:0px; border-style:none;">
 	<table class="datatable" cellpadding="0" cellspacing="0" align="center"
        style="width: 100%; text-align: left;">
 		<tr>

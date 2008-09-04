@@ -84,6 +84,7 @@ public class CabPropertyConstants {
     public static class PurApLineForm {
         public static final String PURAP_DOCS = "purApDocs";
         public static final String MERGE_QTY = "mergeQty";
+        public static final String MERGE_DESC = "mergeDesc";
     }
 
     public static class GeneralLedgerPendingEntry {

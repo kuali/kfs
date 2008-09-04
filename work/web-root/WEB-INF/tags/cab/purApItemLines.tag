@@ -26,7 +26,6 @@
 	</tr>	
 	<tr>
 		<th class="grid" align="center"><input type="checkbox" id="all" name="all" onclick="selectSources(this);" >Select</th>
-		<kul:htmlAttributeHeaderCell literalLabel="Seq #"/>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}"/>
   		<th class="grid" align="center">Doc Type
   		<th class="grid" align="center">Invoice Status
@@ -61,11 +60,15 @@
 		</c:forEach>
 	</c:forEach>
 	<tr>
-		<th class="grid" align="right" colspan="7">Merge Qty</th>
-		<td class="infoline"><kul:htmlControlAttribute property="mergeQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>
-		<td class="grid" colspan="6" align="left">
+		<th class="grid" align="right" colspan="6">Merge Qty</th>
+		<td class="infoline" colspan="2"><kul:htmlControlAttribute property="mergeQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>
+		<td class="grid" colspan="5" rowspan="2">&nbsp;&nbsp;
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-merge.gif" styleClass="tinybutton" property="methodToCall.merge" title="merge" alt="merge"/>&nbsp;&nbsp;&nbsp;
 		</td>
+	</tr>
+	<tr>
+		<th class="grid" align="right" colspan="6">Merge Description</th>
+		<td class="infoline" colspan="2"><kul:htmlControlAttribute property="mergeDesc" attributeEntry="${purApItemAssetAttributes.accountsPayableLineItemDescription}"/></td>
 	</tr>
 </table>
 </div>

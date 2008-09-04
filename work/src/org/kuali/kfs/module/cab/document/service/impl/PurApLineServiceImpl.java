@@ -157,7 +157,8 @@ public class PurApLineServiceImpl implements PurApLineService {
                 additionalAmount = sourceAccountTotalAmount.subtract(amountAllocated);
             }
 
-            PurchasingAccountsPayableLineAssetAccount newAccount = getFromTargetAccountList(targetAccounts, sourceAccount.getGeneralLedgerAccountIdentifier());
+//            PurchasingAccountsPayableLineAssetAccount newAccount = getFromTargetAccountList(targetAccounts, sourceAccount.getGeneralLedgerAccountIdentifier());
+            PurchasingAccountsPayableLineAssetAccount newAccount = getFromNewAccountList(targetAccounts, sourceAccount.getGeneralLedgerAccountIdentifier(),targetAccount);
             if (newAccount != null) {
                 // If exists the same GL entry, update the newItemAccountTotalAmount
                 updateAccountAmount(additionalAmount, newAccount);
@@ -243,7 +244,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
         for (PurchasingAccountsPayableDocument purApDoc : purApForm.getPurApDocs()) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                if (item != selectedLineItem && ((selectedLineItem.isAdditionalChargeNonTradeInIndicator() && !item.isAdditionalChargeNonTradeInIndicator() && !item.isTradeInAllowance()) || (selectedLineItem.isTradeInAllowance() && item.isItemAssignedToTradeInIndicator()) || (item.isSelectedValue()))) {
+                if (item != selectedLineItem && ((selectedLineItem.isAdditionalChargeNonTradeInIndicator() && !item.isAdditionalChargeNonTradeInIndicator() && !item.isTradeInAllowance() && StringUtils.equalsIgnoreCase(selectedLineItem.getDocumentNumber(),item.getDocumentNumber())) || (selectedLineItem.isTradeInAllowance() && item.isItemAssignedToTradeInIndicator()) || (item.isSelectedValue()))) {
                     targetLineItems.add(item);
                 }
             }
@@ -268,6 +269,25 @@ public class PurApLineServiceImpl implements PurApLineService {
         return mergeLines;
     }
 
+    /**
+     * If all lines selected except additional charges, we think it's a "merge all" action.
+     * 
+     * @return
+     */
+    //TODO
+    private boolean isMergeAllAction (PurApLineForm purApLineForm) {
+        boolean mergeAllIndicator = true;
+        
+        for (PurchasingAccountsPayableDocument purApDoc: purApLineForm.getPurApDocs()) {
+            for (PurchasingAccountsPayableItemAsset item:purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                if (item.isSelectedValue() || item.isAdditionalChargeNonTradeInIndicator()) {
+                    
+                }
+            }
+        }
+        return mergeAllIndicator;
+    }
+    
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processMerge(java.util.List)
      */
@@ -362,14 +382,9 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#saveBusinessObject(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
     public void processSaveBusinessObjects(PurApLineForm purApLineForm) {
-        try {
             for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
                 businessObjectService.save(purApDoc);
             }
-        }
-        catch (Exception e) {
-            throw new OptimisticLockException(e);
-        }
         // Removed below codes together with PurApLineSession when using buildListOfDeletionAwareLists is approved.
         // List itemAssets = purApDoc.getPurchasingAccountsPayableItemAssets();
         // if (itemAssets != null && !itemAssets.isEmpty()) {

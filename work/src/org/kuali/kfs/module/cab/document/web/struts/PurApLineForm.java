@@ -45,9 +45,20 @@ public class PurApLineForm extends KualiForm {
     private int actionItemAssetIndex;
 
     private KualiDecimal mergeQty;
+    private String mergeDesc;
     
     public PurApLineForm() {
         this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
+    }
+
+
+    public String getMergeDesc() {
+        return mergeDesc;
+    }
+
+
+    public void setMergeDesc(String mergeDesc) {
+        this.mergeDesc = mergeDesc;
     }
 
 

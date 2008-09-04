@@ -27,6 +27,7 @@ public class CabKeyConstants {
     public static final String MESSAGE_NO_ACTIVE_PURAP_DOC = "message.no.active.purap.doc";
     public static final String MESSAGE_CAB_CHANGES_SAVED_SUCCESS = "message.cab.changes.saved.success";
     public static final String ERROR_MERGE_QTY_EMPTY = "error.merge.qty.empty";
+    public static final String ERROR_MERGE_DESCRIPTION_EMPTY = "error.merge.description.empty";
     public static final String ERROR_ALLOCATE_NO_LINE_SELECTED = "error.allocate.no.line.selected";
     public static final String ERROR_ALLOCATE_NO_TARGET_ACCOUNT = "error.allocate.no.target.account";
     public static final String ERROR_ADDITIONAL_CHARGES_EXIST = "error.additional.charges.exist";

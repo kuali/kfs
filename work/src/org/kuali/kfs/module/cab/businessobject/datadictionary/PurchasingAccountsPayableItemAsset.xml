@@ -138,6 +138,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Accounts Payable Item Quantity" />
     <property name="shortLabel" value="Qty" />
+    <property name="exclusiveMin" value="0" />
     <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
@@ -266,7 +267,6 @@
 
   <bean id="PurchasingAccountsPayableItemAsset-itemLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
    <property name="name" value="itemLineNumber" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Line #" />
     <property name="shortLabel" value="Line #" />
     <property name="maxLength" value="3" />

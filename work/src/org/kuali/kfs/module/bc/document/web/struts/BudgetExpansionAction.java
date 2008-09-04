@@ -54,7 +54,9 @@ public class BudgetExpansionAction extends KualiAction {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        this.moveCallBackMessagesInPlace();              
+        this.moveCallBackMessagesInPlace();
+        this.removeCallBackMessagesObjectFromSession();
+        
         return super.refresh(mapping, form, request, response);
     }
 
@@ -77,16 +79,16 @@ public class BudgetExpansionAction extends KualiAction {
         }
         parameters.put(KFSConstants.REFRESH_CALLER, this.getClass().getName());
 
-        this.addCallBackMessagesInSession(budgetExpansionForm);
+        this.addCallBackMessagesAsObjectInSession(budgetExpansionForm);
 
         String backUrl = UrlFactory.parameterizeUrl(budgetExpansionForm.getBackLocation(), parameters);
         return new ActionForward(backUrl, true);
     }
 
     /**
-     * add the callback messages and error messages into session variable
+     * add the callback messages and error messages as objects in session variable
      */
-    public void addCallBackMessagesInSession(BudgetExpansionForm budgetExpansionForm) {
+    public void addCallBackMessagesAsObjectInSession(BudgetExpansionForm budgetExpansionForm) {
         if (!budgetExpansionForm.getCallBackMessages().isEmpty()) {
             GlobalVariables.getUserSession().addObject(BCPropertyConstants.CALL_BACK_MESSAGES, budgetExpansionForm.getCallBackMessages());
         }
@@ -97,15 +99,15 @@ public class BudgetExpansionAction extends KualiAction {
     }
 
     /**
-     * remove the callback messages and error messages from session variable
+     * remove the objects that hold the callback messages and error messages from session variable
      */
-    public void removeCallBackMessagesFromSession() {
+    public void removeCallBackMessagesObjectFromSession() {
         GlobalVariables.getUserSession().removeObject(BCPropertyConstants.CALL_BACK_MESSAGES);
         GlobalVariables.getUserSession().removeObject(BCPropertyConstants.CALL_BACK_ERRORS);
     }
     
     /**
-     * move the callback messages and error messages in place and remove the callback message entries
+     * move the callback messages and error messages in place
      */
     public void moveCallBackMessagesInPlace() {
         List<String> messagesList = (List<String>)GlobalVariables.getUserSession().retrieveObject(BCPropertyConstants.CALL_BACK_MESSAGES);
@@ -117,7 +119,5 @@ public class BudgetExpansionAction extends KualiAction {
         if(errorMap != null) {
             GlobalVariables.setErrorMap(errorMap);
         }
-        
-        this.removeCallBackMessagesFromSession();
     }
 }

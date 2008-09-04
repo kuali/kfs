@@ -44,20 +44,23 @@ public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends Fina
      */
     @Override
     public boolean isAccountLineEditable(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser, String editModeForAccountingLine) {
+        boolean isEditable = super.isAccountLineEditable(document, accountingLine, currentUser, editModeForAccountingLine);
 
-        DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) document;
-
-        List<ElectronicPaymentClaim> epcs = diDoc.getElectronicPaymentClaims();
-
-        if (epcs == null) {
-            diDoc.refreshReferenceObject("electronicPaymentClaims");
-            epcs = diDoc.getElectronicPaymentClaims();
+        if (isEditable) {
+            DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) document;
+    
+            List<ElectronicPaymentClaim> epcs = diDoc.getElectronicPaymentClaims();
+    
+            if (epcs == null) {
+                diDoc.refreshReferenceObject("electronicPaymentClaims");
+                epcs = diDoc.getElectronicPaymentClaims();
+            }
+    
+            if (epcs != null && epcs.size() > 0) {
+                return false;
+            }
         }
 
-        if (epcs != null && epcs.size() > 0) {
-            return false;
-        }
-
-        return true;
+        return isEditable;
     }
 }

@@ -1186,4 +1186,5 @@ public class KFSPropertyConstants {
     public static final String ZIP_CODE = "zipCode";
     public static final String CASH_CONTROL_DETAIL = "cashControlDetail";
     public static final String CASH_CONTROL_DETAILS = "cashControlDetails";
+    public static final String BANK_CODE = "bankCode";
 }

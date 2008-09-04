@@ -1771,7 +1771,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     private void writeFinalDiagnosticCounts() {
-        LOG.info(String.format("\n\nRun Statistics\n\n"));
+        LOG.info(String.format("\n\nGeneral Ledger Run Statistics\n\n"));
         LOG.info(String.format("\nGeneral Ledger BB Keys read: %d", nGLBBKeysRead));
         LOG.info(String.format("\nGeneral Ledger BB Rows read: %d", nGLBBRowsRead));
         LOG.info(String.format("\nExisting Pending General Ledger rows: %d", nCurrentPBGLRows));
@@ -1786,6 +1786,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
             }
         }
+        LOG.info(String.format("\n\nend of General Ledger run statics"));
     }
 
     /*
@@ -2189,7 +2190,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         // if implementers take it out, we hedge our bets below
         String positionNumber = bcsf.getPositionNumber();
         Integer normalWorkMonths = (positionNormalWorkMonths.containsKey(positionNumber) ? positionNormalWorkMonths.get(positionNumber) : 12);
-        // rqstAmount and notOnLeave are used elswhere and defined globally
+        // rqstAmount and notOnLeave are used elsewhere and defined globally
         KualiInteger defaultAmount = KualiInteger.ZERO;
         BigDecimal defaultFractions = new BigDecimal(0);
         //
@@ -2328,10 +2329,11 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         LOG.info(String.format("\nCSF vacant               %d", CSFRowsVacant));
         LOG.info(String.format("\nCSF vacants consolidated %d", CSFVacantsConsolidated));
         LOG.info(String.format("\n\nBudgetConstruction CSF rows %d", CSFForBCSF));
-        LOG.info(String.format("\n\nCurrent PBGL rows           %d", CSFCurrentGLRows));
+        LOG.info(String.format("\n\nCurrent PBGL rows with position object classes %d", CSFCurrentGLRows));
         LOG.info(String.format("\nCurrent appt funding rows     %d", CSFCurrentBCAFRows));
         LOG.info(String.format("\n\nAppt funding rows not in BCSF   %d", CSFBCAFRowsMissing));
         LOG.info(String.format("\nAppt funding rows marked deleted %d", CSFBCAFRowsMarkedDeleted));
+        LOG.info(String.format("\n\nend of BC CSF build statistics"));
     }
 
     private ArrayList<String> findPositionRequiredObjectCodes(Integer BaseYear) {

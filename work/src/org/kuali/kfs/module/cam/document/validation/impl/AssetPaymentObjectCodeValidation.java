@@ -21,6 +21,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -50,19 +51,26 @@ public class AssetPaymentObjectCodeValidation extends GenericValidation {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;
 
+        List<String> validSubtypeCodes = parameterService.getParameterValues(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES);
+        String parameterDetail = "(module:"+parameterService.getNamespace(AssetGlobal.class)+"/component:"+parameterService.getDetailType(AssetGlobal.class)+")";
+        
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
-        //TODO FIX IT
-        if (true) {
-        //if (assetService.isCapitalAsset(assetPaymentDocument.getAsset())) {
-            List<String> validSubtypeCodes = parameterService.getParameterValues(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES);
-            String parameterDetail = "(module:"+parameterService.getNamespace(AssetGlobal.class)+"/component:"+parameterService.getDetailType(AssetGlobal.class)+")";
+        
+        boolean capitalAssetFound = false;
+        
+        List<AssetPaymentAssetDetail> assetPaymentAssetDetails = assetPaymentDocument.getAssetPaymentAssetDetail();
+        for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {
+            LOG.info("**** AssetPaymentObjectCodeValidation - Asset:"+assetPaymentAssetDetail.getAsset().getCapitalAssetNumber());
             
-            //if (!parameterService.getParameterValues(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
-            if (!validSubtypeCodes.contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {            
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.Payment.ERROR_INVALID_OBJECT_SUBTYPE, new String[] { assetPaymentDetail.getFinancialObjectCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode(), CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES+" "+parameterDetail,validSubtypeCodes.toString() });
-                result = false;
+            if (assetService.isCapitalAsset(assetPaymentAssetDetail.getAsset())) {
+                if (!validSubtypeCodes.contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {            
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.Payment.ERROR_INVALID_OBJECT_SUBTYPE, new String[] { assetPaymentDetail.getFinancialObjectCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode(), CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES+" "+parameterDetail,validSubtypeCodes.toString() });
+                    result = false;
+                    break;
+                }
             }
-        }
+            
+        }                
         return result;
     }
 

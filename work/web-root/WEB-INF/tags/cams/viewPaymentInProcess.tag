@@ -78,7 +78,7 @@
 						<td class="grid"><kul:htmlControlAttribute property="${object}.financialSubObjectCode" attributeEntry="${assetPaymentAttributes.financialSubObjectCode}" readOnly="true"/></td>								
 						<td class="grid"><kul:htmlControlAttribute property="${object}.projectCode" attributeEntry="${assetPaymentAttributes.projectCost}" readOnly="true"/></td>
 						<td class="grid"><kul:htmlControlAttribute property="${object}.organizationReferenceId" attributeEntry="${assetPaymentAttributes.organizationReferenceId}" readOnly="true"/></td>								
-						<td class="grid"><kul:htmlControlAttribute property="${object}.documentNumber" attributeEntry="${assetPaymentAttributes.documentNumber}" readOnly="true"/></td>								
+						<td class="grid"><kul:htmlControlAttribute property="${object}.expenditureFinancialDocumentNumber" attributeEntry="${assetPaymentAttributes.documentNumber}" readOnly="true"/></td>								
 						<td class="grid"><kul:htmlControlAttribute property="${object}.expenditureFinancialDocumentTypeCode" attributeEntry="${assetPaymentAttributes.expenditureFinancialDocumentTypeCode}" readOnly="true"/></td>								
 						<td class="grid"><kul:htmlControlAttribute property="${object}.purchaseOrderNumber" attributeEntry="${assetPaymentAttributes.purchaseOrderNumber}" readOnly="true"/></td>								
 						<td class="grid"><kul:htmlControlAttribute property="${object}.requisitionNumber" attributeEntry="${assetPaymentAttributes.requisitionNumber}" readOnly="true"/></td>								

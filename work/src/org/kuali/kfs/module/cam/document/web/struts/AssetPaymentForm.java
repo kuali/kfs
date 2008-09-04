@@ -183,13 +183,13 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
             newSourceLine.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
         }        
         
-        if (newSourceLine.getExpenditureFinancialDocumentPostedDate() != null) {
+//        if (newSourceLine.getExpenditureFinancialDocumentPostedDate() != null) {
             //Setting the posting year and the posting period into the new assetDetailPayment row. 
-            assetPaymentService.extractPostedDatePeriod(newSourceLine); 
+//            assetPaymentService.extractPostedDatePeriod(newSourceLine); 
 //            Calendar postedDate = dateTimeService.getCalendar(newSourceLine.getExpenditureFinancialDocumentPostedDate());        
 //            newSourceLine.setPostingYear(postedDate.get(Calendar.YEAR));
 //            newSourceLine.setPostingPeriodCode(StringUtils.leftPad(Integer.toString(postedDate.get(Calendar.MONTH)),2,"0"));
-        }                
+//        }                
         return (SourceAccountingLine) newSourceLine;
     }
 

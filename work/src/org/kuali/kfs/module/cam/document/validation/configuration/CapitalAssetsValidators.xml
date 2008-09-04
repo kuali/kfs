@@ -36,6 +36,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="universityDateService" ref="universityDateService" />
+		<property name="assetPaymentService" ref="assetPaymentService" />
 	</bean>	
 	
 	<bean id="AssetPayment-fiscalPeriodValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentFiscalPeriodValidation" abstract="true">

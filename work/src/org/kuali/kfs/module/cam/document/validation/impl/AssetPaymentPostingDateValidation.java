@@ -24,9 +24,11 @@ import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -45,6 +47,7 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
     private UniversityDateService universityDateService;
+    private AssetPaymentService assetPaymentService;
 
 
     /**
@@ -53,7 +56,7 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        boolean result = true;
+        boolean valid = true;
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         Date expenditureFinancialDocumentPostedDate = assetPaymentDetail.getExpenditureFinancialDocumentPostedDate();
         if (expenditureFinancialDocumentPostedDate != null) {
@@ -65,7 +68,7 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
             if (businessObjectService.findByPrimaryKey(UniversityDate.class, keyToFind) == null) {
                 String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
-                result = false;
+                valid = false;
             }
             //Forcing a required field!!!
             
@@ -73,14 +76,18 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
             Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
             if (documentPostedDate.get(Calendar.YEAR) > currentFiscalYear.intValue()) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
-                result = false;
+                valid = false;
             }
+            if (valid) {
+                assetPaymentService.extractPostedDatePeriod(assetPaymentDetail);                 
+            }
+            
         } else {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_REQUIRED,label);
-            result = false;
+            valid = false;
         }            
-        return result;
+        return valid;
     }
 
     public AccountingLine getAccountingLineForValidation() {
@@ -123,5 +130,11 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
         this.universityDateService = universityDateService;
     }
 
+    public AssetPaymentService getAssetPaymentService() {
+        return assetPaymentService;
+    }
 
+    public void setAssetPaymentService(AssetPaymentService assetPaymentService) {
+        this.assetPaymentService = assetPaymentService;
+    }
 }

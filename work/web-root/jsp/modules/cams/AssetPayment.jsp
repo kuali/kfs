@@ -20,7 +20,7 @@
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsAssetPayment"  documentTypeName="AssetPaymentDocument" renderMultipart="true"  showTabButtons="true">
     <kfs:hiddenDocumentFields />
   	<html:hidden property="document.capitalAssetNumber"/>
-	<html:hidden property="document.nextCapitalAssetPaymentLineNumber"/>
+	<html:hidden property="document.nextSourceLineNumber"/>
 	
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 

@@ -22,14 +22,13 @@
 	<kfs:hiddenDocumentFields/>
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
-
-	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}"
-		currentBaseAmount="true" displayMonthlyAmounts="true" 
-		extraHiddenFields=",budgetAdjustmentPeriodCode,fringeBenefitIndicator"
-		accountingLineAttributes="${DataDictionary['BudgetAdjustmentSourceAccountingLine'].attributes}" />
-
-	<gl:generalLedgerPendingEntries />
+<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+			<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+			<sys:accountingLineGroup newLinePropertyName="newTargetLine" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
+		</sys:accountingLines>
+	</kul:tab>
+<gl:generalLedgerPendingEntries />
 
 	<kul:notes />
 

@@ -111,4 +111,12 @@ public interface AssetPaymentService {
      */    
     public boolean extractPostedDatePeriod(AssetPaymentDetail assetPaymentDetail);
     
+    /**
+     * TODO is this needed? 
+     * Returns asset payment details quantity
+     * 
+     * @param assetGlobal
+     * @return Integer
+     */
+    public Integer getAssetPaymentDetailQuantity(AssetGlobal assetGlobal);
 }

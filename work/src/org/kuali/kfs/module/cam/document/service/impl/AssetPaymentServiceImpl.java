@@ -330,7 +330,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
 
     /**
-     * 
      * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#extractPostedDatePeriod(org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail)
      */
     public boolean extractPostedDatePeriod(AssetPaymentDetail assetPaymentDetail) {
@@ -345,5 +344,18 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         } else {
             return false;
         }
+    }
+    
+    /**
+     * TODO is this needed? 
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getAssetPaymentDetailQuantity(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
+     */
+    public Integer getAssetPaymentDetailQuantity(AssetGlobal assetGlobal) {
+        Integer assetPaymentDetailQuantity = 0;
+        for (AssetPaymentDetail assetPaymentDetail: assetGlobal.getAssetPaymentDetails()) {
+            assetPaymentDetailQuantity++;
+        }
+
+        return assetPaymentDetailQuantity;
     }
 }

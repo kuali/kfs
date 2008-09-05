@@ -238,8 +238,8 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
                 else {
                     pushdownLevelKeyLabels.clear();
 
-                    // start at level zero and add all that are below current level
-                    for (int i = 0; i < bcDoc.getOrganizationLevelCode(); i++) {
+                    // start at current doc level and add all that are below current level
+                    for (int i = (bcDoc.getOrganizationLevelCode()-1); i >= 0; i--) {
                         BudgetConstructionAccountOrganizationHierarchy level = levels.get(i);
                         SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(level, "organization");
                         if (level.getOrganizationLevelCode() == 0) {

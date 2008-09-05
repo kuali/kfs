@@ -43,7 +43,8 @@
 
   <bean id="BankAccount-financialDocumentBankCode" parent="BankAccount-financialDocumentBankCode-parentBean" />
 
-  <bean id="BankAccount-financialDocumentBankCode-parentBean" abstract="true" parent="Bank-financialDocumentBankCode">
+  <bean id="BankAccount-financialDocumentBankCode-parentBean" abstract="true" parent="Bank-bankCode">
+  	<property name="name" value="financialDocumentBankCode" />
   </bean>
   <bean id="BankAccount-finDocumentBankAccountNumber" parent="BankAccount-finDocumentBankAccountNumber-parentBean" />
 

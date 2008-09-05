@@ -87,7 +87,7 @@
   </bean>
   <bean id="Deposit-depositBankCode" parent="Deposit-depositBankCode-parentBean" />
 
-  <bean id="Deposit-depositBankCode-parentBean" abstract="true" parent="Bank-financialDocumentBankCode">
+  <bean id="Deposit-depositBankCode-parentBean" abstract="true" parent="Bank-bankCode">
     <property name="name" value="depositBankCode" />
   </bean>
   <bean id="Deposit-depositBankAccountNumber" parent="Deposit-depositBankAccountNumber-parentBean" />

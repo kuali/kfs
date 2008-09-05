@@ -107,7 +107,8 @@
   </bean>
   <bean id="AdvanceDepositDetail-financialDocumentBankCode" parent="AdvanceDepositDetail-financialDocumentBankCode-parentBean" />
 
-  <bean id="AdvanceDepositDetail-financialDocumentBankCode-parentBean" abstract="true" parent="Bank-financialDocumentBankCode">
+  <bean id="AdvanceDepositDetail-financialDocumentBankCode-parentBean" abstract="true" parent="Bank-bankCode">
+    <property name="name" value="financialDocumentBankCode" />
     <property name="label" value="Bank" />
     <property name="shortLabel" value="Bank" />
   </bean>

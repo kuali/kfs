@@ -82,6 +82,13 @@ public class PositionObjectGroup extends PersistableBusinessObjectBase implement
     }
 
     /**
+     * @see org.kuali.kfs.integration.businessobject.ld.LaborLedgerPositionObjectGroup#getRowActiveIndicator()
+     */
+    public boolean getRowActiveIndicator() {
+        return isRowActiveIndicator();
+    }
+
+    /**
      * Sets the rowActiveIndicator
      * 
      * @param rowActiveIndicator The rowActiveIndicator to set.

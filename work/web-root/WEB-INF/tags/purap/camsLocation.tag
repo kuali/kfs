@@ -21,6 +21,9 @@
 <%@ attribute name="isEditable" required="true" description="Determines if a cams location is editable"%>
 <%@ attribute name="availability" required="true" description="Determines if this is a capture once tag or for each"%>
 
+<html:hidden property="${camsAssetLocationProperty}.capitalAssetLocationIdentifier" />
+<html:hidden property="${camsAssetLocationProperty}.versionNumber" />
+
 <c:if test="${empty isEditable}">
 	<c:set var="isEditable" value="false"/>
 </c:if>

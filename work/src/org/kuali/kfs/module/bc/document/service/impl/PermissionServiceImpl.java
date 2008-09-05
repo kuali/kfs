@@ -127,7 +127,7 @@ public class PermissionServiceImpl implements PermissionService {
      *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public boolean isAccountManagerOrDelegate(Account account, UniversalUser universalUser) {
-        boolean isAccountManager = StringUtils.equals(universalUser.getPersonUserIdentifier(), account.getAccountManagerUserPersonUserIdentifier());
+        boolean isAccountManager = StringUtils.equals(universalUser.getPersonUniversalIdentifier(), account.getAccountFiscalOfficerSystemIdentifier());
 
         return isAccountManager || this.isAccountDelegate(account, universalUser);
     }

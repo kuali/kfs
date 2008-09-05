@@ -33,6 +33,7 @@ import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
@@ -307,19 +308,23 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getProratedAssetPayment(org.kuali.kfs.module.cam.businessobject.AssetGlobal, org.kuali.kfs.module.cam.businessobject.AssetPayment)
      */
     public KualiDecimal getProratedAssetPayment(AssetGlobal assetGlobal, AssetPayment assetPayment) {
-        LOG.info("LEO - SERVICE PRORATE - STARTED....");
-        
-        KualiDecimal separateSourceTotal = assetGlobalService.totalSeparateSourceAmount(assetGlobal);
-        LOG.info("LEO - SERVICE PRORATE - separateSourceTotal: '" + separateSourceTotal + "'");
+        KualiDecimal separateSourceTotal = KualiDecimal.ZERO;
+        Integer locationQuantity = 0;
         KualiDecimal assetPaymentAmount = assetPayment.getAccountChargeAmount();
-        LOG.info("LEO - SERVICE PRORATE - assetPaymentAmount: '" + assetPaymentAmount + "'");
-        Integer locationQuantity = assetGlobal.getAssetSharedDetails().get(0).getAssetGlobalUniqueDetails().size();
-        LOG.info("LEO - SERVICE PRORATE - locationQuantity: '" + locationQuantity + "'");
-        //KualiDecimal separateSourceAdjustedAmount = separateSourceTotal.divide(new KualiDecimal(assetGlobalService.getAssetGlobalDetailLocationQuantity(assetGlobal)));
-        KualiDecimal separateSourceAdjustedAmount = separateSourceTotal.divide(new KualiDecimal(locationQuantity));
-        LOG.info("LEO - SERVICE PRORATE - separateSourceAdjustedAmount: '" + separateSourceAdjustedAmount + "'");
         
-        LOG.info("LEO - SERVICE PRORATE - FINISHED");
+        // get unique amounts total
+        for (AssetGlobalDetail assetSharedDetail : assetGlobal.getAssetSharedDetails()) {
+            for (AssetGlobalDetail assetGlobalUniqueDetail : assetSharedDetail.getAssetGlobalUniqueDetails()) {
+
+                separateSourceTotal = separateSourceTotal.add(assetGlobalUniqueDetail.getSeparateSourceAmount());
+                locationQuantity++;
+            }
+        }
+        
+        // divide total by quantity to get adjusted amount
+        KualiDecimal separateSourceAdjustedAmount = separateSourceTotal.divide(new KualiDecimal(locationQuantity));
+
+        // multiply payment amount by adjusted amount, then divide it by the total 
         return (assetPaymentAmount.multiply(separateSourceAdjustedAmount)).divide(separateSourceTotal);
     }
 

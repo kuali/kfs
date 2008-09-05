@@ -12,6 +12,7 @@ import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
+import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -809,7 +810,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                     assetPayment.setFinancialDocumentPostingPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());
                 }
 
-                // set values for source asset within Asset Separate doc
+                // set values for new assets for Asset Separate document
                 if (assetGlobalService.isAssetSeparateDocument(this)) {
                     assetPayment.setAccountChargeAmount(location.getSeparateSourceAmount());
                     assetPayment.setFinancialDocumentTypeCode(CamsConstants.DocumentTypeCodes.ASSET_SEPARATE);
@@ -835,8 +836,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         if (assetGlobalService.isAssetSeparateDocument(this)) {
             Asset separateSourceCapitalAsset = this.getSeparateSourceCapitalAsset();
 
+            // copy source to new assets
             for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
-                AssetPayment offsetAssetPayment = new AssetPayment(assetPayment);
+                AssetPayment offsetAssetPayment = new AssetPayment();
+                ObjectValueUtils.copySimpleProperties(assetPayment, offsetAssetPayment);
                 assetPayment.setAccountChargeAmount(assetPaymentService.getProratedAssetPayment(this, assetPayment));
                 assetPayment.setFinancialDocumentTypeCode(CamsConstants.DocumentTypeCodes.ASSET_SEPARATE);
                 persistables.add(offsetAssetPayment);

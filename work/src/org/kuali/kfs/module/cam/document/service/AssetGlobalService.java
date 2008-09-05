@@ -31,7 +31,7 @@ public interface AssetGlobalService {
      * @param assetGlobal
      * @return
      */
-    public KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal);
+    public KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal, boolean lastEntry);
 
     /**
      * This method checks if member exists in the given group.

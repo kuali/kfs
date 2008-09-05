@@ -436,16 +436,24 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         // check if amount is above threshold for capital assets for normal user
-        KualiDecimal totalPaymentByAsset = assetGlobalService.totalPaymentByAsset(assetGlobal);
+        KualiDecimal minTotalPaymentByAsset = assetGlobalService.totalPaymentByAsset(assetGlobal, false);
+        KualiDecimal maxTotalPaymentByAsset = assetGlobalService.totalPaymentByAsset(assetGlobal, true);
+        if (minTotalPaymentByAsset.isGreaterThan(maxTotalPaymentByAsset)) {
+            // swap min and max
+            KualiDecimal totalPayment = minTotalPaymentByAsset;
+            minTotalPaymentByAsset = maxTotalPaymentByAsset;
+            maxTotalPaymentByAsset = totalPayment;
+        }
+        
         UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
         String capitalizationThresholdAmount = parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
-        if (isCapitalStatus(assetGlobal) && totalPaymentByAsset.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ADMINISTRATORS)) {
+        if (isCapitalStatus(assetGlobal) && minTotalPaymentByAsset.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ADMINISTRATORS)) {
             putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN, capitalizationThresholdAmount);
             success &= false;
         }
 
         // check if amount is less than threshold for non-capital assets for all users
-        if (!isCapitalStatus(assetGlobal) && totalPaymentByAsset.isGreaterEqual(new KualiDecimal(capitalizationThresholdAmount))) {
+        if (!isCapitalStatus(assetGlobal) && maxTotalPaymentByAsset.isGreaterEqual(new KualiDecimal(capitalizationThresholdAmount))) {
             putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX);
             success &= false;
         }

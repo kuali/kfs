@@ -287,6 +287,10 @@ public class PurApLineServiceImpl implements PurApLineService {
         List<PurchasingAccountsPayableItemAsset> mergeLines = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
         boolean mergeAll = isMergeAllAction(purApLineForm);
 
+        if (mergeAll) {
+            boolean tradeInPending = isTradeInAllocPending(purApLineForm);
+        }
+
         for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
                 if ((!mergeAll && item.isSelectedValue()) || (mergeAll && !item.isTradeInAllowance())) {
@@ -296,6 +300,30 @@ public class PurApLineServiceImpl implements PurApLineService {
             }
         }
         return mergeLines;
+    }
+
+    /**
+     * Check if there is pending allocation for trade-in allowance.
+     * 
+     * @param purApLineForm
+     * @return
+     */
+    private boolean isTradeInAllocPending(PurApLineForm purApLineForm) {
+        boolean tradeInIndicator = false;
+        boolean tradeInAllowance = false;
+
+        for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                tradeInAllowance |= item.isTradeInAllowance();
+                tradeInIndicator |= item.isItemAssignedToTradeInIndicator();
+
+                if (tradeInAllowance & tradeInIndicator) {
+                    break;
+                }
+            }
+        }
+        // When both trade-in allowance and trade-in indicator exist, trade-in allocation is pending.
+        return tradeInAllowance & tradeInIndicator;
     }
 
     /**

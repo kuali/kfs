@@ -228,22 +228,26 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#totalPaymentByAsset(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
-    public KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal) {
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
+    public KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal, boolean lastEntry) {
+        KualiDecimal totalPayments = KualiDecimal.ZERO;
+        KualiDecimal assetTotalAmount = KualiDecimal.ZERO;
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
         int numberOfTotalAsset = 0;
         for (AssetGlobalDetail assetSharedDetail : assetGlobal.getAssetSharedDetails()) {
             numberOfTotalAsset += assetSharedDetail.getAssetGlobalUniqueDetails().size();
         }
         for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
-            totalAmount = totalAmount.add(assetPaymentDetail.getAmount());
+            totalPayments = totalPayments.add(assetPaymentDetail.getAmount());
         }
+        
         if (numberOfTotalAsset != 0) {
-            return totalAmount.divide(new KualiDecimal(numberOfTotalAsset));
+            assetTotalAmount = totalPayments.divide(new KualiDecimal(numberOfTotalAsset));
+            if (lastEntry && numberOfTotalAsset > 1) {
+                assetTotalAmount = totalPayments.subtract(assetTotalAmount.multiply(new KualiDecimal(numberOfTotalAsset - 1)));
+            }
         }
-        return totalAmount;
+        return assetTotalAmount;
     }
-
 
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#existsInGroup(java.lang.String, java.lang.String)

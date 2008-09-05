@@ -3,6 +3,7 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -727,7 +728,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             financialObjectSubTypeCode = assetPaymentDetails.get(0).getObjectCode().getFinancialObjectSubTypeCode();
         }
 
-        for (AssetGlobalDetail detail : assetGlobalDetails) {
+        for (Iterator iterator = assetGlobalDetails.iterator(); iterator.hasNext();) {
+            
+            AssetGlobalDetail detail = (AssetGlobalDetail)iterator.next();
 
             /** @TODO check into a better way to do the below other then getting / setting a dozen fields -- deepCopy? */
 
@@ -744,7 +747,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setPrimaryDepreciationMethodCode(primaryDepreciationMethodCode); // ??
             asset.setManufacturerName(manufacturerName);
             asset.setManufacturerModelNumber(manufacturerModelNumber);
-            asset.setTotalCostAmount(totalCostAmount);
             asset.setLandCountyName(landCountyName);
             asset.setLandAcreageSize(landAcreageSize);
             asset.setLandParcelNumber(landParcelNumber);
@@ -762,7 +764,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setBuildingRoomNumber(detail.getBuildingRoomNumber());
             asset.setBuildingSubRoomNumber(detail.getBuildingSubRoomNumber());
             asset.setActive(true);
-            asset.setTotalCostAmount(assetGlobalService.totalPaymentByAsset(this));
+            asset.setTotalCostAmount(assetGlobalService.totalPaymentByAsset(this, !iterator.hasNext()));
             asset.setFinancialObjectSubTypeCode(financialObjectSubTypeCode);
 
             asset.setFinancialDocumentPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate().getUniversityFiscalYear());

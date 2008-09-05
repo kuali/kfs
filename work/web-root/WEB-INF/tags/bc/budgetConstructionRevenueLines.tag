@@ -33,7 +33,10 @@
 <c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 <c:set var="pbglRevPropertyName" value="document.pendingBudgetConstructionGeneralLedgerRevenueLines"/>
 
-<kul:tab tabTitle="Revenue" defaultOpen="false" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS}">
+<fmt:formatNumber value="${KualiForm.document.revenueAccountLineAnnualBalanceAmountTotal}" 
+        	var="formattedRevReqTotal" type="number" groupingUsed="true" />
+        		
+<kul:tab tabTitle="Revenue" defaultOpen="false" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS}" tabItemCount="${formattedRevReqTotal}">
 <div class="tab-container" align=center>
 
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">

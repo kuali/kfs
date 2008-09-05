@@ -37,7 +37,10 @@
 <c:set var="pbglExpPropertyName" value="document.pendingBudgetConstructionGeneralLedgerExpenditureLines"/>
 
 
-<kul:tab tabTitle="Expenditure" defaultOpen="false" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS}">
+<fmt:formatNumber value="${KualiForm.document.expenditureAccountLineAnnualBalanceAmountTotal}" 
+        	var="formattedExpReqTotal" type="number" groupingUsed="true" />
+        		
+<kul:tab tabTitle="Expenditure" defaultOpen="false" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS}" tabItemCount="${formattedExpReqTotal}">
 <div class="tab-container" align=center>
 
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">

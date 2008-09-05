@@ -48,7 +48,7 @@ public class PurApDocumentLookupableHelperServiceImpl extends KualiLookupableHel
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, CabConstants.Actions.START);
         parameters.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purApDoc.getPurchaseOrderIdentifier().toString());
 
-        String href = UrlFactory.parameterizeUrl(CabConstants.CB_INVOICE_LINE_ACTION, parameters);
+        String href = UrlFactory.parameterizeUrl(CabConstants.CB_INVOICE_LINE_ACTION_URL, parameters);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, CabConstants.Actions.START, CabConstants.Actions.PROCESS);
         anchorHtmlDataList.add(anchorHtmlData);

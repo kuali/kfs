@@ -214,51 +214,69 @@ public class PurApLineAction extends KualiAction {
         return;
     }
 
-
+    /**
+     * Merge Action includes merge all functionality.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward merge(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // check all merge line documents have no additional charge unallocated.
         // ???check all merge lines have no trade-in indicator set. If set, further check if no trade-in allowance line exists.
         PurApLineForm purApForm = (PurApLineForm) form;
-        if (checkMergeRequiredFields(purApForm)) {
-            List<PurchasingAccountsPayableItemAsset> mergeLines = purApLineService.getSelectedMergeLines(purApForm);
+        checkMergeRequiredFields(purApForm);
+        List<PurchasingAccountsPayableItemAsset> mergeLines = purApLineService.getSelectedMergeLines(purApForm);
 
-            if (mergeLines.size() <= 1) {
-                GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_MERGE_LINE_SELECTED);
-            }
-            else {
-                purApLineService.processMerge(mergeLines);
-                // remove mergeLines except the first one.
-                for (int i = 1; i < mergeLines.size(); i++) {
-                    PurchasingAccountsPayableItemAsset item = mergeLines.get(i);
-                    item.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(item);
-                }
-                // Set new value for quantity and description.
-                mergeLines.get(0).setAccountsPayableItemQuantity(purApForm.getMergeQty());
-                mergeLines.get(0).setAccountsPayableLineItemDescription(purApForm.getMergeDesc());
-                purApLineService.resetSelectedValue(purApForm);
-                purApForm.setMergeQty(null);
-                purApForm.setMergeDesc(null);
-            }
+        if (mergeLines.size() <= 1) {
+            GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_MERGE_LINE_SELECTED);
         }
-        
+        if (GlobalVariables.getErrorMap().isEmpty()) {
+            // Set new value for quantity and description.
+            mergeLines.get(0).setAccountsPayableItemQuantity(purApForm.getMergeQty());
+            mergeLines.get(0).setAccountsPayableLineItemDescription(purApForm.getMergeDesc());
+            purApLineService.processMerge(mergeLines);
+            // remove mergeLines except the first one.
+            for (int i = 1; i < mergeLines.size(); i++) {
+                PurchasingAccountsPayableItemAsset item = mergeLines.get(i);
+                item.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(item);
+            }
+            // reset user input values.
+            purApLineService.resetSelectedValue(purApForm);
+            purApForm.setMergeQty(null);
+            purApForm.setMergeDesc(null);
+        }
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    private boolean checkMergeRequiredFields(PurApLineForm purApForm) {
-        boolean success = true;
-        if (purApForm.getMergeQty() == null ) {
+
+    /**
+     * Check the required fields entered for merge.
+     */
+    protected void checkMergeRequiredFields(PurApLineForm purApForm) {
+        if (purApForm.getMergeQty() == null) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.MERGE_QTY, CabKeyConstants.ERROR_MERGE_QTY_EMPTY);
-            success = false;
         }
+
         if (StringUtils.isBlank(purApForm.getMergeDesc())) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.MERGE_DESC, CabKeyConstants.ERROR_MERGE_DESCRIPTION_EMPTY);
-            success = false;
         }
-        return success;
     }
 
 
-    
+    /**
+     * Update the item quantity value from a decimal(less than 1) to 1.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward percentPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableItemAsset itemAsset = getSelectedLineItem((PurApLineForm) form);
 
@@ -269,6 +287,16 @@ public class PurApLineAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Allocate line items including allocate additional charges functionality.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward allocate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
         PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
@@ -314,13 +342,13 @@ public class PurApLineAction extends KualiAction {
         return valid;
     }
 
-    
-    protected PurchasingAccountsPayableItemAsset getSelectedLineItem(PurApLineForm purApLineForm) {
+
+    private PurchasingAccountsPayableItemAsset getSelectedLineItem(PurApLineForm purApLineForm) {
         PurchasingAccountsPayableDocument purApDoc = purApLineForm.getPurApDocs().get(purApLineForm.getActionPurApDocIndex());
         return purApDoc.getPurchasingAccountsPayableItemAssets().get(purApLineForm.getActionItemAssetIndex());
     }
 
-    protected PurchasingAccountsPayableDocument getSelectedPurApDoc(PurApLineForm purApLineForm) {
+    private PurchasingAccountsPayableDocument getSelectedPurApDoc(PurApLineForm purApLineForm) {
         return purApLineForm.getPurApDocs().get(purApLineForm.getActionPurApDocIndex());
     }
 }

@@ -18,7 +18,7 @@
 
 <c:set var="purApDocumentAttributes" value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
 <c:set var="purApItemAssetAttributes" value="${DataDictionary.PurchasingAccountsPayableItemAsset.attributes}" />
-<kul:tab tabTitle="Line Items" defaultOpen="true" tabErrorKey="purApDocs*,mergeQty">
+<kul:tab tabTitle="Line Items" defaultOpen="true" tabErrorKey="purApDocs*,merge*">
 <div class="tab-container" align="center">
 <table width="100%" cellpadding="0" cellspacing="0" class="datatable">	
 	<tr>

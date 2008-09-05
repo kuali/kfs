@@ -73,7 +73,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     private transient Class sourceAccountingLineClass;
     private transient Class targetAccountingLineClass;
     
-    public Set<RoutingData> routingInfo;
+    public transient Set<RoutingData> routingInfo;
 
     /**
      * Default constructor.

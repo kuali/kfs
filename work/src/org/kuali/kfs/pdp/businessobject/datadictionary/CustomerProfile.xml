@@ -1,0 +1,866 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CustomerProfile" parent="CustomerProfile-parentBean" />
+
+  <bean id="CustomerProfile-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.CustomerProfile" />
+    <property name="inquiryDefinition" >
+      <ref bean="CustomerProfile-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CustomerProfile-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Customer Profile" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CustomerProfile-id" />
+        <ref bean="CustomerProfile-customerShortName" />
+        <ref bean="CustomerProfile-customerDescription" />
+        <ref bean="CustomerProfile-contactFullName" />
+        <ref bean="CustomerProfile-processingEmailAddr" />
+        <ref bean="CustomerProfile-defaultPhysicalCampusProcessingCode" />
+        <ref bean="CustomerProfile-customerActive" />
+        <ref bean="CustomerProfile-chartCode" />
+		<ref bean="CustomerProfile-orgCode" />
+		<ref bean="CustomerProfile-subUnitCode" />
+		<ref bean="CustomerProfile-defaultChartCode" />
+		<ref bean="CustomerProfile-defaultAccountNumber" />
+		<ref bean="CustomerProfile-defaultSubAccountNumber" />
+		<ref bean="CustomerProfile-defaultObjectCode" />
+		<ref bean="CustomerProfile-defaultSubObjectCode"  />
+		<ref bean="CustomerProfile-address1" />
+		<ref bean="CustomerProfile-address2" />
+		<ref bean="CustomerProfile-address3" />
+		<ref bean="CustomerProfile-address4" />
+		<ref bean="CustomerProfile-city" />
+		<ref bean="CustomerProfile-state" />
+		<ref bean="CustomerProfile-zipCode" />
+		<ref bean="CustomerProfile-countryName" />
+		<ref bean="CustomerProfile-fileThresholdAmount" />
+		<ref bean="CustomerProfile-fileThresholdEmailAddress" />
+		<ref bean="CustomerProfile-paymentThresholdAmount" />
+		<ref bean="CustomerProfile-paymentThresholdEmailAddress" />
+		<ref bean="CustomerProfile-adviceHeaderText" />
+		<ref bean="CustomerProfile-adviceSubjectLine" />
+		<ref bean="CustomerProfile-adviceReturnEmailAddr" />
+		<ref bean="CustomerProfile-checkHeaderNoteTextLine1" />
+		<ref bean="CustomerProfile-checkHeaderNoteTextLine2" />
+		<ref bean="CustomerProfile-checkHeaderNoteTextLine3" />
+		<ref bean="CustomerProfile-checkHeaderNoteTextLine4" />
+		<ref bean="CustomerProfile-additionalCheckNoteTextLine1" />
+		<ref bean="CustomerProfile-additionalCheckNoteTextLine2" />
+		<ref bean="CustomerProfile-additionalCheckNoteTextLine3" />
+		<ref bean="CustomerProfile-additionalCheckNoteTextLine4" />
+		<ref bean="CustomerProfile-achPaymentDescription" />
+		<ref bean="CustomerProfile-accountingEditRequired" />
+		<ref bean="CustomerProfile-payeeIdRequired" />
+		<ref bean="CustomerProfile-ownershipCodeRequired" />
+		<ref bean="CustomerProfile-adviceCreate" />
+		<ref bean="CustomerProfile-employeeCheck" />
+		<ref bean="CustomerProfile-nraReview" />
+		<ref bean="CustomerProfile-relieveLiabilities" />
+		<ref bean="CustomerProfile-psdTransactionCode" />
+		<ref bean="CustomerProfile-version" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="CustomerProfile-id" parent="CustomerProfile-id-parentBean" />
+  <bean id="CustomerProfile-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Profile ID" />
+    <property name="shortLabel" value="Customer Profile ID" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="Customer Profile ID" />
+    <property name="description" value="Customer Profile ID" />
+  </bean>
+  
+  <bean id="CustomerProfile-customerShortName" parent="CustomerProfile-customerShortName-parentBean" />
+  <bean id="CustomerProfile-customerShortName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerShortName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart - Organization - Sub-Unit" />
+    <property name="shortLabel" value="Chart - Organization - Sub-Unit" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Chart - Organization - Sub-Unit" />
+    <property name="description" value="Chart - Organization - Sub-Unit" />
+  </bean>
+  
+  <bean id="CustomerProfile-customerDescription" parent="CustomerProfile-customerDescription-parentBean" />
+  <bean id="CustomerProfile-customerDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerDescription" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="required" value="true" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Profile Description" />
+    <property name="description" value="Profile Description" />
+  </bean>
+  
+  <bean id="CustomerProfile-contactFullName" parent="CustomerProfile-contactFullName-parentBean" />
+  <bean id="CustomerProfile-contactFullName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contactFullName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Primary Contact Name" />
+    <property name="shortLabel" value="Primary Contact Name" />
+    <property name="required" value="true" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Primary Contact Name" />
+    <property name="description" value="Primary Contact Name" />
+  </bean> 
+  
+  <bean id="CustomerProfile-processingEmailAddr" parent="CustomerProfile-processingEmailAddr-parentBean" />
+  <bean id="CustomerProfile-processingEmailAddr-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="processingEmailAddr" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Process E-Mail Address" />
+    <property name="shortLabel" value="Customer Process E-Mail Address" />
+    <property name="required" value="true" />
+    <property name="maxLength" value="200" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Profile E-Mail" />
+    <property name="description" value="Profile E-Mail" />
+  </bean>
+  
+  <bean id="CustomerProfile-defaultPhysicalCampusProcessingCode" parent="CustomerProfile-defaultPhysicalCampusProcessingCode-parentBean" />
+  <bean id="CustomerProfile-defaultPhysicalCampusProcessingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultPhysicalCampusProcessingCode" />
+    <property name="label" value="Campus Process Location" />
+    <property name="shortLabel" value="Campus Process Location" />
+    <property name="summary" value="Campus Process Location" />
+    <property name="description" value="Effective Date" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-chartCode" parent="CustomerProfile-chartCode-parentBean" />
+  <bean id="CustomerProfile-chartCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartCode" />
+    <property name="label" value="Chart" />
+    <property name="shortLabel" value="Chart" />
+    <property name="summary" value="Chart" />
+    <property name="description" value="Chart" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-orgCode" parent="CustomerProfile-orgCode-parentBean" />
+  <bean id="CustomerProfile-orgCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="orgCode" />
+    <property name="label" value="Organization" />
+    <property name="shortLabel" value="Organization" />
+    <property name="summary" value="Organization" />
+    <property name="description" value="Organization" />
+    <property name="maxLength" value="4" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-subUnitCode" parent="CustomerProfile-subUnitCode-parentBean" />
+  <bean id="CustomerProfile-subUnitCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subUnitCode" />
+    <property name="label" value="Sub-Unit" />
+    <property name="shortLabel" value="Sub-Unit" />
+    <property name="summary" value="Sub-Unit" />
+    <property name="description" value="Sub-Unit" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-defaultChartCode" parent="CustomerProfile-defaultChartCode-parentBean" />
+  <bean id="CustomerProfile-defaultChartCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultChartCode" />
+    <property name="label" value="Default Chart" />
+    <property name="shortLabel" value="Default Chart" />
+    <property name="summary" value="Default Chart" />
+    <property name="description" value="Default Chart" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-defaultAccountNumber" parent="CustomerProfile-defaultAccountNumber-parentBean" />
+  <bean id="CustomerProfile-defaultAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultAccountNumber" />
+    <property name="label" value="Default Account" />
+    <property name="shortLabel" value="Default Account" />
+    <property name="summary" value="Default Account" />
+    <property name="description" value="Default Account" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-defaultSubAccountNumber" parent="CustomerProfile-defaultSubAccountNumber-parentBean" />
+  <bean id="CustomerProfile-defaultSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultSubAccountNumber" />
+    <property name="label" value="Default Sub Account" />
+    <property name="shortLabel" value="Default Sub Account" />
+    <property name="summary" value="Default Sub Account" />
+    <property name="description" value="Default Sub Account" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-defaultObjectCode" parent="CustomerProfile-defaultObjectCode-parentBean" />
+  <bean id="CustomerProfile-defaultObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultObjectCode" />
+    <property name="label" value="Default Object Code" />
+    <property name="shortLabel" value="Default Object Code" />
+    <property name="summary" value="Default Object Code" />
+    <property name="description" value="Default Object Code" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-defaultSubObjectCode" parent="CustomerProfile-defaultSubObjectCode-parentBean" />
+  <bean id="CustomerProfile-defaultSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="defaultSubObjectCode" />
+    <property name="label" value="Default Sub Object Code" />
+    <property name="shortLabel" value="Default Sub Object Code" />
+    <property name="summary" value="Default Sub Object Code" />
+    <property name="description" value="Default Sub Object Code" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-address1" parent="CustomerProfile-address1-parentBean" />
+  <bean id="CustomerProfile-address1-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="address1" />
+    <property name="label" value="Address Line 1" />
+    <property name="shortLabel" value="Address Line 1" />
+    <property name="summary" value="Address Line 1" />
+    <property name="description" value="Address Line 1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-address2" parent="CustomerProfile-address2-parentBean" />
+  <bean id="CustomerProfile-address2-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="address2" />
+    <property name="label" value="Address Line 2" />
+    <property name="shortLabel" value="Address Line 2" />
+    <property name="summary" value="Address Line 2" />
+    <property name="description" value="Address Line 2" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-address3" parent="CustomerProfile-address3-parentBean" />
+  <bean id="CustomerProfile-address3-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="address3" />
+    <property name="label" value="Address Line 3" />
+    <property name="shortLabel" value="Address Line 3" />
+    <property name="summary" value="Address Line 3" />
+    <property name="description" value="Address Line 3" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-address4" parent="CustomerProfile-address4-parentBean" />
+  <bean id="CustomerProfile-address4-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="address4" />
+    <property name="label" value="Address Line 4" />
+    <property name="shortLabel" value="Address Line 4" />
+    <property name="summary" value="Address Line 4" />
+    <property name="description" value="Address Line 4" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-city" parent="CustomerProfile-city-parentBean" />
+  <bean id="CustomerProfile-city-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="city" />
+    <property name="label" value="City" />
+    <property name="shortLabel" value="City" />
+    <property name="summary" value="City" />
+    <property name="description" value="City" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-state" parent="CustomerProfile-state-parentBean" />
+  <bean id="CustomerProfile-state-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="state" />
+    <property name="label" value="State" />
+    <property name="shortLabel" value="State" />
+    <property name="summary" value="State" />
+    <property name="description" value="State" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-zipCode" parent="CustomerProfile-zipCode-parentBean" />
+  <bean id="CustomerProfile-zipCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="zipCode" />
+    <property name="label" value="Zip" />
+    <property name="shortLabel" value="Zip" />
+    <property name="summary" value="Zip" />
+    <property name="description" value="Zip" />
+    <property name="required" value="false" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-countryName" parent="CustomerProfile-countryName-parentBean" />
+  <bean id="CustomerProfile-countryName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="countryName" />
+    <property name="label" value="Country" />
+    <property name="shortLabel" value="Country" />
+    <property name="summary" value="Country" />
+    <property name="description" value="Country" />
+    <property name="required" value="false" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-fileThresholdAmount" parent="CustomerProfile-fileThresholdAmount-parentBean" />
+  <bean id="CustomerProfile-fileThresholdAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fileThresholdAmount" />
+    <property name="label" value="File Threshold Amount" />
+    <property name="shortLabel" value="File Threshold Amount" />
+    <property name="summary" value="File Threshold Amount" />
+    <property name="description" value="File Threshold Amount" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-fileThresholdEmailAddress" parent="CustomerProfile-fileThresholdEmailAddress-parentBean" />
+  <bean id="CustomerProfile-fileThresholdEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fileThresholdEmailAddress" />
+    <property name="label" value="File Threshold E-Mail Address" />
+    <property name="shortLabel" value="File Threshold E-Mail Address" />
+    <property name="summary" value="File Threshold E-Mail Address" />
+    <property name="description" value="File Threshold E-Mail Address" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="EmailAddressValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-paymentThresholdAmount" parent="CustomerProfile-paymentThresholdAmount-parentBean" />
+  <bean id="CustomerProfile-paymentThresholdAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentThresholdAmount" />
+    <property name="label" value="Payment Threshold Amount" />
+    <property name="shortLabel" value="Payment Threshold Amount" />
+    <property name="summary" value="Payment Threshold Amount" />
+    <property name="description" value="Payment Threshold Amount" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-paymentThresholdEmailAddress" parent="CustomerProfile-paymentThresholdEmailAddress-parentBean" />
+  <bean id="CustomerProfile-paymentThresholdEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentThresholdEmailAddress" />
+    <property name="label" value="Payment Threshold E-Mail Address" />
+    <property name="shortLabel" value="Payment Threshold E-Mail Address" />
+    <property name="summary" value="Payment Threshold E-Mail Address" />
+    <property name="description" value="Payment Threshold E-Mail Address" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="EmailAddressValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-adviceHeaderText" parent="CustomerProfile-adviceHeaderText-parentBean" />
+  <bean id="CustomerProfile-adviceHeaderText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="adviceHeaderText" />
+    <property name="label" value="Advice Heading Text" />
+    <property name="shortLabel" value="Advice Heading Text" />
+    <property name="summary" value="Advice Heading Text" />
+    <property name="description" value="Advice Heading Text" />
+    <property name="maxLength" value="400" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-adviceSubjectLine" parent="CustomerProfile-adviceSubjectLine-parentBean" />
+  <bean id="CustomerProfile-adviceSubjectLine-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="adviceSubjectLine" />
+    <property name="label" value="Advice Subject Line Text" />
+    <property name="shortLabel" value="Advice Subject Line Text" />
+    <property name="summary" value="Advice Subject Line Text" />
+    <property name="description" value="Advice Subject Line Text" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-adviceReturnEmailAddr" parent="CustomerProfile-adviceReturnEmailAddr-parentBean" />
+  <bean id="CustomerProfile-adviceReturnEmailAddr-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="adviceReturnEmailAddr" />
+    <property name="label" value="Advice Return / Cancel E-Mail Address:" />
+    <property name="shortLabel" value="Advice Return / Cancel E-Mail Address:" />
+    <property name="summary" value="Advice Return / Cancel E-Mail Address:" />
+    <property name="description" value="Advice Return / Cancel E-Mail Address:" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="EmailAddressValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-checkHeaderNoteTextLine1" parent="CustomerProfile-checkHeaderNoteTextLine1-parentBean" />
+  <bean id="CustomerProfile-checkHeaderNoteTextLine1-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="checkHeaderNoteTextLine1" />
+    <property name="label" value="Check Header Note Line 1" />
+    <property name="shortLabel" value="Check Header Note Line 1" />
+    <property name="summary" value="Check Header Note Line 1" />
+    <property name="description" value="Check Header Note Line 1" />
+    <property name="maxLength" value="90" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-checkHeaderNoteTextLine2" parent="CustomerProfile-checkHeaderNoteTextLine2-parentBean" />
+  <bean id="CustomerProfile-checkHeaderNoteTextLine2-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="checkHeaderNoteTextLine2" />
+    <property name="label" value="Check Header Note Line 2" />
+    <property name="shortLabel" value="Check Header Note Line 2" />
+    <property name="summary" value="Check Header Note Line 2" />
+    <property name="description" value="Check Header Note Line 2" />
+    <property name="maxLength" value="90" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-checkHeaderNoteTextLine3" parent="CustomerProfile-checkHeaderNoteTextLine3-parentBean" />
+  <bean id="CustomerProfile-checkHeaderNoteTextLine3-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="checkHeaderNoteTextLine3" />
+    <property name="label" value="Check Header Note Line 3" />
+    <property name="shortLabel" value="Check Header Note Line 3" />
+    <property name="summary" value="Check Header Note Line 3" />
+    <property name="description" value="Check Header Note Line 3" />
+    <property name="maxLength" value="90" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-checkHeaderNoteTextLine4" parent="CustomerProfile-checkHeaderNoteTextLine4-parentBean" />
+  <bean id="CustomerProfile-checkHeaderNoteTextLine4-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="checkHeaderNoteTextLine4" />
+    <property name="label" value="Check Header Note Line 4" />
+    <property name="shortLabel" value="Check Header Note Line 4" />
+    <property name="summary" value="Check Header Note Line 4" />
+    <property name="description" value="Check Header Note Line 4" />
+    <property name="maxLength" value="90" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-additionalCheckNoteTextLine1" parent="CustomerProfile-additionalCheckNoteTextLine1-parentBean" />
+  <bean id="CustomerProfile-additionalCheckNoteTextLine1-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="additionalCheckNoteTextLine1" />
+    <property name="label" value="Additional Check Note Line 1" />
+    <property name="shortLabel" value="Additional Check Note Line 1" />
+    <property name="summary" value="Additional Check Note Line 1" />
+    <property name="description" value="Additional Check Note Line 1" />
+    <property name="maxLength" value="90" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-additionalCheckNoteTextLine2" parent="CustomerProfile-additionalCheckNoteTextLine2-parentBean" />
+  <bean id="CustomerProfile-additionalCheckNoteTextLine2-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="additionalCheckNoteTextLine2" />
+    <property name="label" value="Additional Check Note Line 2" />
+    <property name="shortLabel" value="Additional Check Note Line 2" />
+    <property name="summary" value="Additional Check Note Line 2" />
+    <property name="description" value="Additional Check Note Line 2" />
+    <property name="maxLength" value="90" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-additionalCheckNoteTextLine3" parent="CustomerProfile-additionalCheckNoteTextLine3-parentBean" />
+  <bean id="CustomerProfile-additionalCheckNoteTextLine3-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="additionalCheckNoteTextLine3" />
+    <property name="label" value="Additional Check Note Line 3" />
+    <property name="shortLabel" value="Additional Check Note Line 3" />
+    <property name="summary" value="Additional Check Note Line 3" />
+    <property name="description" value="Additional Check Note Line 3" />
+    <property name="maxLength" value="90" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-additionalCheckNoteTextLine4" parent="CustomerProfile-additionalCheckNoteTextLine4-parentBean" />
+  <bean id="CustomerProfile-additionalCheckNoteTextLine4-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="additionalCheckNoteTextLine4" />
+    <property name="label" value="Additional Check Note Line 4" />
+    <property name="shortLabel" value="Additional Check Note Line 4" />
+    <property name="summary" value="Additional Check Note Line 4" />
+    <property name="description" value="Additional Check Note Line 4" />
+    <property name="maxLength" value="90" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-achPaymentDescription" parent="CustomerProfile-achPaymentDescription-parentBean" />
+  <bean id="CustomerProfile-achPaymentDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="achPaymentDescription" />
+    <property name="label" value="ACH Payment Detail Description" />
+    <property name="shortLabel" value="ACH Payment Detail Description" />
+    <property name="summary" value="ACH Payment Detail Description" />
+    <property name="description" value="ACH Payment Detail Description" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-accountingEditRequired" parent="CustomerProfile-accountingEditRequired-parentBean" />
+  <bean id="CustomerProfile-accountingEditRequired-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountingEditRequired" />
+    <property name="label" value="Accounting Edit Required" />
+    <property name="shortLabel" value="Accounting Edit Required" />
+    <property name="summary" value="Accounting Edit Required" />
+    <property name="description" value="Accounting Edit Required" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-payeeIdRequired" parent="CustomerProfile-payeeIdRequired-parentBean" />
+  <bean id="CustomerProfile-payeeIdRequired-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeIdRequired" />
+    <property name="label" value="Payee ID Required" />
+    <property name="shortLabel" value="Payee ID Required" />
+    <property name="summary" value="Payee ID Required" />
+    <property name="description" value="Payee ID Required" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-ownershipCodeRequired" parent="CustomerProfile-ownershipCodeRequired-parentBean" />
+  <bean id="CustomerProfile-ownershipCodeRequired-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="ownershipCodeRequired" />
+    <property name="label" value="Ownership Codes Required" />
+    <property name="shortLabel" value="Ownership Codes Required" />
+    <property name="summary" value="Ownership Codes Required" />
+    <property name="description" value="Ownership Codes Required" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-adviceCreate" parent="CustomerProfile-adviceCreate-parentBean" />
+  <bean id="CustomerProfile-adviceCreate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="adviceCreate" />
+    <property name="label" value="ACH Advice Flag" />
+    <property name="shortLabel" value="ACH Advice Flag" />
+    <property name="summary" value="ACH Advice Flag" />
+    <property name="description" value="ACH Advice Flag" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-employeeCheck" parent="CustomerProfile-employeeCheck-parentBean" />
+  <bean id="CustomerProfile-employeeCheck-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="employeeCheck" />
+    <property name="label" value="Employee Check Indicator" />
+    <property name="shortLabel" value="Employee Check Indicator" />
+    <property name="summary" value="Employee Check Indicator" />
+    <property name="description" value="Employee Check Indicator" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-nraReview" parent="CustomerProfile-nraReview-parentBean" />
+  <bean id="CustomerProfile-nraReview-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nraReview" />
+    <property name="label" value="NRA Check Indicator" />
+    <property name="shortLabel" value="NRA Check Indicator" />
+    <property name="summary" value="NRA Check Indicator" />
+    <property name="description" value="NRA Check Indicator" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-relieveLiabilities" parent="CustomerProfile-relieveLiabilities-parentBean" />
+  <bean id="CustomerProfile-relieveLiabilities-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="relieveLiabilities" />
+    <property name="label" value="Relieve Liabilities" />
+    <property name="shortLabel" value="Relieve Liabilities" />
+    <property name="summary" value="Relieve Liabilities" />
+    <property name="description" value="Relieve Liabilities" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-customerActive" parent="CustomerProfile-customerActive-parentBean" />
+  <bean id="CustomerProfile-customerActive-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerActive" />
+    <property name="label" value="Profile Active Indicator" />
+    <property name="shortLabel" value="Profile Active Indicator" />
+    <property name="summary" value="Profile Active Indicator" />
+    <property name="description" value="Profile Active Indicator" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-psdTransactionCode" parent="CustomerProfile-psdTransactionCode-parentBean" />
+  <bean id="CustomerProfile-psdTransactionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="psdTransactionCode" />
+    <property name="label" value="Direct Deposit Sign-Up Code (PSD Transaction Code)" />
+    <property name="shortLabel" value="Direct Deposit Sign-Up Code (PSD Transaction Code)" />
+    <property name="summary" value="Direct Deposit Sign-Up Code (PSD Transaction Code)" />
+    <property name="description" value="Direct Deposit Sign-Up Code (PSD Transaction Code)" />
+    <property name="required" value="false" />
+    <property name="maxLength" value="4" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  
+  <bean id="CustomerProfile-version" parent="CustomerProfile-version-parentBean" />
+  <bean id="CustomerProfile-version-parentBean" abstract="true" parent="GenericAttributes-versionNumber"/>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="CustomerProfile-inquiryDefinition" parent="CustomerProfile-inquiryDefinition-parentBean" />
+  <bean id="CustomerProfile-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Customer Profile Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="id" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerShortName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contactFullName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="processingEmailAddr" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultPhysicalCampusProcessingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerActive" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="CustomerProfile-lookupDefinition" parent="CustomerProfile-lookupDefinition-parentBean" />
+  <bean id="CustomerProfile-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Customer Profile Lookup" />
+    <property name="instructions" value="Lookup a Customer Profile" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>id</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="id" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+                    p:attributeName="id" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerShortName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contactFullName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="processingEmailAddr" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultPhysicalCampusProcessingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerActive" />
+      </list>
+    </property>
+  </bean>
+</beans>

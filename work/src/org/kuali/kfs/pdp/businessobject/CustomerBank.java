@@ -149,4 +149,12 @@ public class CustomerBank extends TimestampedBusinessObjectBase {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
 
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
 }

@@ -122,7 +122,7 @@ public class ItemParserTest extends KualiTestBase {
      * Tests whether parseItem returns successfully with valid quantity-driven Requisition item line as input.
      */
     public void testParseQuantityReqItem() {
-        String itemLine = "3,BX,123,paper,,6";
+        String itemLine = "3,BX,123,,paper,6";
         try {
             PurApItem item = parser.parseItem(itemLine, itemClass, documentNumber);
             assertEquals(item.getItemQuantity().compareTo(new KualiDecimal(3)), 0);
@@ -147,7 +147,7 @@ public class ItemParserTest extends KualiTestBase {
         parser = purDoc.getItemParser();
         itemClass = purDoc.getItemClass();
         documentNumber = purDoc.getDocumentNumber();
-        String itemLine = ",,100,cleaning service,,50";
+        String itemLine = ",,100,,cleaning service,50";
         try {
             PurApItem item = parser.parseItem(itemLine, itemClass, documentNumber);
             assertEquals(item.getItemQuantity(), null);

@@ -596,10 +596,17 @@
         <property name="electronicInvoiceInputFileType">
 		    <ref bean="electronicInvoiceInputFileType" />
 		</property>
+		<property name="electronicInvoiceMatchingService">
+			<ref bean="electronicInvoiceMatchingService"/>
+		</property>
 		<property name="mailService" ref="mailService"/>
 		<property name="batchInputFileService">
 		    <ref bean="batchInputFileService" />
 		</property>
+		<property name="vendorService" ref="vendorService"/>
+		<property name="purchaseOrderService">
+            <ref bean="purchaseOrderService" />
+        </property>
 	</bean>
 	
 	<bean id="electronicInvoiceMatchingService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceMatchingServiceImpl">

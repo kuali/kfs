@@ -15,11 +15,27 @@
  */
 package org.kuali.kfs.module.purap.service;
 
+import java.util.List;
+
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoad;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+
 public interface ElectronicInvoiceParserService {
-    /**
-     * Use the given filename to load a CXML document into EPIC
-     * for processing and matching
-     * 
-     */
-      public boolean loadElectronicInvoices();
+
+    public boolean loadElectronicInvoices();
+    
+    public ElectronicInvoiceLoadSummary getOrCreateLoadSummary(ElectronicInvoiceLoad eInvoiceLoad,String fileDunsNumber);
+    
+    /*public ElectronicInvoiceRejectReason createRejectReason(String rejectReasonTypeCode,
+                                                            String extraDescription,
+                                                            String fileName);*/
+    
+    public ElectronicInvoiceRejectDocument createAndSaveRejectDocument(ElectronicInvoiceLoad eInvoiceLoad, 
+                                                                       ElectronicInvoice eInvoice,
+                                                                       ElectronicInvoiceOrder electronicInvoiceOrder);
+    
 }

@@ -180,11 +180,11 @@ public class ElectronicInvoiceDetailRequestHeader {
       // try to parse date
       SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_SIMPLE_DATE_FORMAT, Locale.US);
       try {
-        this.invoiceDate = sdf.parse(invoiceDateString);
+        setInvoiceDate(sdf.parse(invoiceDateString));
       } catch (ParseException e) {
         // setting invoice date to null to identify problem
         LOG.error("setInvoiceDateString() SimpleDateFormat parser error attempting to set invalid date string " + invoiceDateString + " in InvoiceDate field... setting date to null");
-        this.invoiceDate = null;
+        setInvoiceDate(null);
       }
     }
   }
@@ -242,7 +242,11 @@ public class ElectronicInvoiceDetailRequestHeader {
    * @return Returns the invoiceDate.
    */
   public java.sql.Date getInvoiceDate() {
-    return new java.sql.Date(invoiceDate.getTime());
+      if (invoiceDate != null){
+          return new java.sql.Date(invoiceDate.getTime());
+      }else{
+          return null;
+      }
   }
   /**
    * @param invoiceDate The invoiceDate to set.

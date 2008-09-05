@@ -18,16 +18,18 @@ package org.kuali.kfs.module.purap.service;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoad;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReasonType;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+import org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceOrderHolder;
 
 public interface ElectronicInvoiceMatchingService {
     
-    public void doMatchingProcess(ElectronicInvoice electronicInvoice);
-    
-    public void doMatchingProcess(ElectronicInvoiceRejectDocument rejectDocument);
-    
     public ElectronicInvoiceRejectReasonType getElectronicInvoiceRejectReasonType(String rejectReasonTypeCode);
+    
+    public void doMatchingProcess(ElectronicInvoiceOrderHolder orderWrapper);
+    
+    public ElectronicInvoiceRejectReason createRejectReason(String rejectReasonTypeCode, String extraDescription, String fileName);
     
 }

@@ -99,7 +99,8 @@
     <property name="shortLabel" value="City" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+            p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -134,7 +135,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+            p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

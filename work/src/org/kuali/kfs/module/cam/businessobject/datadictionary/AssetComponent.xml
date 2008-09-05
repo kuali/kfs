@@ -97,7 +97,7 @@
 
   <bean id="AssetComponent-componentDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="componentDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Component Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="255" />
@@ -135,7 +135,7 @@
 
   <bean id="AssetComponent-componentManufacturerModelNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="componentManufacturerModelNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Component Manufacturer Model Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="25" />
@@ -154,7 +154,7 @@
 
   <bean id="AssetComponent-componentManufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="componentManufacturerName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Component Manufacturer Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -238,7 +238,7 @@
 
   <bean id="AssetComponent-componentSerialNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="componentSerialNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Component Serial Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="25" />
@@ -257,7 +257,7 @@
 
   <bean id="AssetComponent-componentVendorName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="componentVendorName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Component Vendor Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -290,7 +290,7 @@
 
   <bean id="AssetComponent-componentWarrantyContactName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="componentWarrantyContactName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Component Warranty Contact Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -389,7 +389,7 @@
 
   <bean id="AssetComponent-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="governmentTagNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Government Tag Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="12" />
@@ -408,7 +408,7 @@
 
   <bean id="AssetComponent-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nationalStockNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="National Stock Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="25" />

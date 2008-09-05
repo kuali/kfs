@@ -156,7 +156,7 @@
 
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Asset Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="2000" />
@@ -183,7 +183,7 @@
 
   <bean id="PurchasingAccountsPayableItemAsset-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Vendor Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -203,7 +203,7 @@
 
   <bean id="PurchasingAccountsPayableItemAsset-manufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="manufacturerName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Manufacturer" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -223,7 +223,7 @@
 
   <bean id="PurchasingAccountsPayableItemAsset-manufacturerModelNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="manufacturerModelNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Model Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="25" />

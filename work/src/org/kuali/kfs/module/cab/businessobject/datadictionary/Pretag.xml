@@ -187,7 +187,7 @@
 
   <bean id="Pretag-manufacturerModelNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="manufacturerModelNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Manufacturer Model Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="25" />
@@ -205,7 +205,7 @@
 
   <bean id="Pretag-manufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="manufacturerName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Manufacturer Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -224,7 +224,7 @@
 
   <bean id="Pretag-organizationInventoryName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationInventoryName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Inventory Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -281,7 +281,7 @@
 
   <bean id="Pretag-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Vendor Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />

@@ -517,7 +517,7 @@
 
   <bean id="Asset-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nationalStockNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="National Stock Number" />
     <property name="shortLabel" value="NationalStockNumber" />
     <property name="maxLength" value="25" />
@@ -536,7 +536,7 @@
 
   <bean id="Asset-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="governmentTagNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Government Tag" />
     <property name="shortLabel" value="GovernmentTagNumber" />
     <property name="maxLength" value="12" />
@@ -576,7 +576,7 @@
 
   <bean id="Asset-manufacturerModelNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="manufacturerModelNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Model Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="25" />
@@ -595,7 +595,7 @@
 
   <bean id="Asset-manufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="manufacturerName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Manufacturer" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -827,7 +827,7 @@
 
   <bean id="Asset-serialNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="serialNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Serial Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="25" />
@@ -883,7 +883,7 @@
 
   <bean id="Asset-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Vendor Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -1005,7 +1005,7 @@
 
   <bean id="Asset-landCountyName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="landCountyName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Land County" />
     <property name="shortLabel" value="landCountyName" />
     <property name="maxLength" value="20" />

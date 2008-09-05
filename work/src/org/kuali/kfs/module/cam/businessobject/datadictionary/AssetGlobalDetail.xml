@@ -177,7 +177,7 @@
   <bean id="AssetGlobalDetail-governmentTagNumber" parent="AssetGlobalDetail-governmentTagNumber-parentBean" />
   <bean id="AssetGlobalDetail-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="governmentTagNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Government Tag Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="12" />
@@ -195,7 +195,7 @@
   <bean id="AssetGlobalDetail-nationalStockNumber" parent="AssetGlobalDetail-nationalStockNumber-parentBean" />
   <bean id="AssetGlobalDetail-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nationalStockNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="National Stock Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="25" />
@@ -343,7 +343,7 @@
   <bean id="AssetGlobalDetail-serialNumber" parent="AssetGlobalDetail-serialNumber-parentBean" />
   <bean id="AssetGlobalDetail-serialNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="serialNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Serial Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="25" />

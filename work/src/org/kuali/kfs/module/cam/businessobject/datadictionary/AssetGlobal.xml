@@ -205,7 +205,7 @@
 
   <bean id="AssetGlobal-landCountyName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="landCountyName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Land County Name" />
     <property name="shortLabel" value="Country" />
     <property name="maxLength" value="20" />
@@ -241,7 +241,7 @@
 
   <bean id="AssetGlobal-landParcelNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="landParcelNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Land Parcel Number" />
     <property name="shortLabel" value="Parcel" />
     <property name="maxLength" value="30" />

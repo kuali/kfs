@@ -70,7 +70,7 @@
 
   <bean id="AssetOrganization-organizationDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />

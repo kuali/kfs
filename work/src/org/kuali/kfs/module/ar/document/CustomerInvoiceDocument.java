@@ -56,6 +56,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	private String invoiceAttentionLineText;
 	private Date invoiceDueDate;
 	private Date billingDate;
+	private Date closedDate;
 	private Date billingDateForDisplay;
 	private String invoiceTermsText;
 	private String organizationInvoiceNumber;
@@ -920,6 +921,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     public void setBillingDateForDisplay(Date date){
         //do nothing
+    }
+
+    public Date getClosedDate() {
+        return closedDate;
+    }
+
+    public void setClosedDate(Date closedDate) {
+        this.closedDate = closedDate;
     }
 
     /**

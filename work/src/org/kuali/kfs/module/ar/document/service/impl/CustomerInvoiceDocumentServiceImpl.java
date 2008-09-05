@@ -434,6 +434,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
     public void closeCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         customerInvoiceDocument.setOpenInvoiceIndicator(false);
+        customerInvoiceDocument.setClosedDate(dateTimeService.getCurrentSqlDate());
         businessObjectService.save(customerInvoiceDocument);
     }
 

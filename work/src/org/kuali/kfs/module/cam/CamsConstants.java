@@ -48,9 +48,11 @@ public class CamsConstants extends JSTLConstants {
         public static final String TRANSFER = "transfer";
     }
 
-    public static class DocumentTypeCodes {
-        public static final String ASSET_SEPARATE = "ASEP";
-        public static final String ASSET_RETIREMENT_DOCTYPE_CD = "AMRG";
+    public static class PaymentDocumentTypeCodes {
+        // These are the document type codes that payments are saved under when they are modified by assets. Note that not necessarily
+        // the documents themselves use these document type codes.
+        public static final String ASSET_GLOBAL_SEPARATE = "ASEP";
+        public static final String ASSET_RETIREMENT_MERGE = "AMRG";
     }
 
     public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";

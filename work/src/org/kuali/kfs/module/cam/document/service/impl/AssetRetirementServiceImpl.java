@@ -216,7 +216,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
             for (AssetPayment sourcePayment : sourceAsset.getAssetPayments()) {
                 AssetPayment offsetPayment = new AssetPayment();
                 ObjectValueUtils.copySimpleProperties(sourcePayment, offsetPayment);
-                offsetPayment.setFinancialDocumentTypeCode(CamsConstants.DocumentTypeCodes.ASSET_RETIREMENT_DOCTYPE_CD);
+                offsetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_RETIREMENT_MERGE);
                 offsetPayment.setDocumentNumber(currentDocumentNumber);
                 offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);
                 assetPaymentService.adjustPaymentAmounts(offsetPayment, true, false);
@@ -241,7 +241,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
                 AssetPayment newPayment = new AssetPayment();
                 ObjectValueUtils.copySimpleProperties(sourcePayment, newPayment);
                 newPayment.setCapitalAssetNumber(targetAsset.getCapitalAssetNumber());
-                newPayment.setFinancialDocumentTypeCode(CamsConstants.DocumentTypeCodes.ASSET_RETIREMENT_DOCTYPE_CD);
+                newPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_RETIREMENT_MERGE);
                 newPayment.setPaymentSequenceNumber(++maxSequenceNo);
                 newPayment.setDocumentNumber(currentDocumentNumber);
                 assetPaymentService.adjustPaymentAmounts(newPayment, false, false);

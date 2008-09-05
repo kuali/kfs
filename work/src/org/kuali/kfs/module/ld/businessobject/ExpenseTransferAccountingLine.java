@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ld.businessobject;
 
-import org.kuali.kfs.integration.businessobject.LaborLedgerExpenseTransferAccountingLine;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerExpenseTransferAccountingLine;
 
 /**
  * Labor contract methods to accounting line implementations for Expense Transfer Documents.

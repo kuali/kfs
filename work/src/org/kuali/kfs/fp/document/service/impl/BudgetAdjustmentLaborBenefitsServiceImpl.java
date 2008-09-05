@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService;
-import org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation;
+import org.kuali.kfs.integration.businessobject.ld.LaborFringeBenefitInformation;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;

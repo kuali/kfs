@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.businessobject;
+package org.kuali.kfs.integration.businessobject.ld;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
-
-public interface LaborLedgerPositionObjectGroup extends PersistableBusinessObject{
+public interface LaborLedgerPositionObjectGroup extends PersistableBusinessObject, ExternalizableBusinessObject{
 
     /**
      * Gets the positionObjectGroupCode
@@ -61,5 +61,11 @@ public interface LaborLedgerPositionObjectGroup extends PersistableBusinessObjec
      * @param rowActiveIndicator The rowActiveIndicator to set.
      */
     abstract void setRowActiveIndicator(boolean rowActiveIndicator);
-
+    
+    /**
+     * Gets the rowActiveIndicator
+     * 
+     * @return Returns the rowActiveIndicator
+     */
+    abstract boolean getActive();
 }

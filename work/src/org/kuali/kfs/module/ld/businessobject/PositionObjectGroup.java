@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ld.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectGroup;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerPositionObjectGroup;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -88,6 +88,15 @@ public class PositionObjectGroup extends PersistableBusinessObjectBase implement
      */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
         this.rowActiveIndicator = rowActiveIndicator;
+    }
+    
+    /**
+     * Gets the active
+     * 
+     * @return Returns the active
+     */
+    public boolean getActive() {
+        return rowActiveIndicator;
     }
 
     /**

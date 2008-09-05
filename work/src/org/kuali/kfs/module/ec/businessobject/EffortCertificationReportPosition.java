@@ -2,12 +2,12 @@ package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectGroup;
-import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerPositionObjectGroup;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiModuleService;
 
 /**
  * Business Object for the Effort Certification Report Position Table.
@@ -102,18 +102,11 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     /**
      * gets the positionObjetGroup
      * 
-     * @return
+     * @return the positionObjetGroup
      */
     public LaborLedgerPositionObjectGroup getPositionObjectGroup() {
-        if (StringUtils.isBlank(effortCertificationReportPositionObjectGroupCode)) {
-            if (positionObjectGroup != null) {
-                positionObjectGroup = null;
-            }
-        } else {
-            if (positionObjectGroup == null || !positionObjectGroup.getPositionObjectGroupCode().equals(effortCertificationReportPositionObjectGroupCode)) {
-                positionObjectGroup = SpringContext.getBean(LaborModuleService.class).getLaborLedgerPositionObjectGroup(effortCertificationReportPositionObjectGroupCode);
-            }
-        }
+        positionObjectGroup = (LaborLedgerPositionObjectGroup) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborLedgerPositionObjectGroup.class).retrieveExternalizableBusinessObjectIfNecessary(this, positionObjectGroup, LaborPropertyConstants.POSITION_OBJECT_GROUP);
+
         return positionObjectGroup;
     }
 

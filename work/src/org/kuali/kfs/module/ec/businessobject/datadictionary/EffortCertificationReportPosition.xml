@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="EffortCertificationReportPosition" parent="EffortCertificationReportPosition-parentBean" />
 
@@ -26,6 +28,14 @@
         <ref bean="EffortCertificationReportPosition-newCollectionRecord" />
       </list>
     </property>
+    
+    <property name="relationships" >
+      <list>
+        <dd:relationship objectAttribute="positionObjectGroup">
+            <dd:primitiveAttribute source="effortCertificationReportPositionObjectGroupCode" target="positionObjectGroupCode" />
+        </dd:relationship>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -37,8 +47,21 @@
   </bean>
   <bean id="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode" parent="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode-parentBean" />
 
-  <bean id="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode-parentBean" abstract="true" parent="PositionObjectGroup-positionObjectGroupCode">
+  <bean id="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.businessobject.ld.LaborLedgerPositionObjectGroup"
+	p:sourceAttributeName="positionObjectGroupCode">
     <property name="name" value="effortCertificationReportPositionObjectGroupCode" />
+        <property name="forceUppercase" value="true" />
+    <property name="label" value="Labor Position Object Group Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
   </bean>
   <bean id="EffortCertificationReportPosition-universityFiscalYear" parent="EffortCertificationReportPosition-universityFiscalYear-parentBean" />
 

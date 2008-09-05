@@ -23,7 +23,7 @@ import java.util.Set;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
-import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerBalance;
 import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortKeyConstants;

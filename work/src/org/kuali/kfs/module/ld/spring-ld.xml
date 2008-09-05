@@ -56,6 +56,12 @@
 				<value>laborPurgeJob</value>
 			</list>
 		</property>
+		
+		<property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.businessobject.ld.LaborLedgerPositionObjectGroup" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" />
+            </map>
+        </property> 
 	</bean>
 
     <bean id="ldModuleService" parent="ldModuleService-parentBean"/>

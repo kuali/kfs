@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerObject;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;

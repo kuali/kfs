@@ -20,7 +20,7 @@ import java.util.Properties;
 
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerBalance;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;

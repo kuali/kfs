@@ -21,15 +21,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation;
-import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
-import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
-import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsType;
-import org.kuali.kfs.integration.businessobject.LaborLedgerEntry;
-import org.kuali.kfs.integration.businessobject.LaborLedgerExpenseTransferAccountingLine;
-import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
-import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit;
-import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectGroup;
+import org.kuali.kfs.integration.businessobject.ld.LaborFringeBenefitInformation;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerBalance;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerBenefitsCalculation;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerBenefitsType;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerEntry;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerExpenseTransferAccountingLine;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerObject;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerPositionObjectBenefit;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerPositionObjectGroup;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.KualiDecimal;
 

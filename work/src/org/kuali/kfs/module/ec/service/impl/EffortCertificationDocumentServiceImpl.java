@@ -25,7 +25,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.businessobject.LaborLedgerExpenseTransferAccountingLine;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortKeyConstants;

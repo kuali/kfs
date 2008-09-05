@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ec.util;
 
-import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerBalance;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 

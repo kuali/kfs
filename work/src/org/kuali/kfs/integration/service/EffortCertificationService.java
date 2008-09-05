@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.service;
 
 import java.util.List;
 
-import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
+import org.kuali.kfs.integration.businessobject.ec.EffortCertificationReport;
 
 /**
  * Exposes service methods that may be used by the modules outside of Effort Certification

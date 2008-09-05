@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerObject;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 

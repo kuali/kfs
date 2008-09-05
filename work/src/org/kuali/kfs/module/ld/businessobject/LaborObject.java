@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
-import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectGroup;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerObject;
+import org.kuali.kfs.integration.businessobject.ld.LaborLedgerPositionObjectGroup;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 

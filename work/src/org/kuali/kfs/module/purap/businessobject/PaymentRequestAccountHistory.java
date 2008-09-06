@@ -20,8 +20,8 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
-import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -32,10 +32,37 @@ public class PaymentRequestAccountHistory extends PaymentRequestAccount {
 
     protected Integer accountHistoryIdentifier;
     private Timestamp accountHistoryTimestamp;
+    private Integer postingYear;
+    private String postingPeriodCode;
 
     private PaymentRequestAccount paymentRequestAccount;
+    private AccountingPeriod accountingPeriod;
     
-    /**
+    public AccountingPeriod getAccountingPeriod() {
+		return accountingPeriod;
+	}
+
+	public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
+		this.accountingPeriod = accountingPeriod;
+	}
+
+	public String getPostingPeriodCode() {
+		return postingPeriodCode;
+	}
+
+	public void setPostingPeriodCode(String postingPeriodCode) {
+		this.postingPeriodCode = postingPeriodCode;
+	}
+
+	public Integer getPostingYear() {
+		return postingYear;
+	}
+
+	public void setPostingYear(Integer postingYear) {
+		this.postingYear = postingYear;
+	}
+
+	/**
      * Default constructor.
      */
     public PaymentRequestAccountHistory() {

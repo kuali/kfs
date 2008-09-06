@@ -2847,6 +2847,8 @@
     <field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="disencumberedAmount" column="DISENC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="accountHistoryTimestamp" column="PMT_RQST_ACCT_HIST_TS" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER" />
+    <field-descriptor name="postingPeriodCode" column ="FDOC_POST_PRD_CD" jdbc-type="VARCHAR" />
     <reference-descriptor name="paymentRequestAccount" class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="accountIdentifier" />
     </reference-descriptor>
@@ -2877,6 +2879,10 @@
     </reference-descriptor>
     <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="projectCode" />
+    </reference-descriptor>
+    <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="universityFiscalPeriodCode" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -3622,6 +3628,8 @@
     <field-descriptor name="amount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="accountHistoryTimestamp" column="CRDT_MEMO_ACCT_HIST_TS" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER" />
+    <field-descriptor name="postingPeriodCode" column ="FDOC_POST_PRD_CD" jdbc-type="VARCHAR" />
     <reference-descriptor name="creditMemoAccount" class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="accountIdentifier" />
     </reference-descriptor>
@@ -3652,6 +3660,10 @@
     </reference-descriptor>
     <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="projectCode" />
+    </reference-descriptor>
+    <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="universityFiscalPeriodCode" />
     </reference-descriptor>
 </class-descriptor>
 

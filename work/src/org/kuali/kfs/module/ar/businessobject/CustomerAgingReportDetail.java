@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
@@ -30,6 +31,7 @@ private String customerNumber;
 private String chartOfAccountsCode;
 private String organizationCode;
 private String accountNumber;
+private Date reportRunDate;
 private KualiDecimal unpaidBalance0to30 = KualiDecimal.ZERO;
 private KualiDecimal unpaidBalance31to60 = KualiDecimal.ZERO;
 private KualiDecimal unpaidBalance61to90 = KualiDecimal.ZERO;
@@ -87,6 +89,22 @@ private KualiDecimal unpaidBalanceSYSPRplus1orMore = KualiDecimal.ZERO;
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    /**
+     * Gets the reportRunDate attribute. 
+     * @return Returns the reportRunDate.
+     */
+    public Date getReportRunDate() {
+        return reportRunDate;
+    }
+
+    /**
+     * Sets the reportRunDate attribute value.
+     * @param reportRunDate The reportRunDate to set.
+     */
+    public void setReportRunDate(Date reportRunDate) {
+        this.reportRunDate = reportRunDate;
     }
 
     public KualiDecimal getUnpaidBalance0to30() {

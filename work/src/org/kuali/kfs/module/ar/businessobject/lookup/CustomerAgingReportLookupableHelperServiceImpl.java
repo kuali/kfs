@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -27,6 +30,8 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArConstants.CustomerAgingReportFields;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -57,6 +62,8 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
+import sun.util.calendar.CalendarDate;
+
 
 
 public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -82,15 +89,26 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         Collection<CustomerInvoiceDetail> invoiceDetails= getCustomerInvoiceDetailsByAccountNumber((String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME));
-
+        
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+      
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-        Date reportDate = today;
-        Date cutoffdate30 = DateUtils.addDays(reportDate, -30);
-        Date cutoffdate60 = DateUtils.addDays(reportDate, -60);
-        Date cutoffdate90 = DateUtils.addDays(reportDate, -90);
-        Date cutoffdate120 = DateUtils.addDays(reportDate, -120);
-        Date cutoffdate365 = DateUtils.addDays(reportDate, -365);
+        Date reportRunDate;
+        try {
+            reportRunDate = dateFormat.parse((String) fieldValues.get(ArConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
+        }
+        catch (ParseException e) {
+            reportRunDate=today;
+            // MJM Auto-generated catch block
+            e.printStackTrace();
+        }
+        Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
+        Date cutoffdate60 = DateUtils.addDays(reportRunDate, -60);
+        Date cutoffdate90 = DateUtils.addDays(reportRunDate, -90);
+        Date cutoffdate120 = DateUtils.addDays(reportRunDate, -120);
+        Date cutoffdate365 = DateUtils.addDays(reportRunDate, -365);
 
+        LOG.info("\t\t********** REPORT DATE\t\t"+reportRunDate.toString());
         LOG.info("\t\t***********************  cutoffdate 30:\t\t"+cutoffdate30.toString());
         LOG.info("\t\t***********************  cutoffdate 60:\t\t"+cutoffdate60.toString());
         LOG.info("\t\t***********************  cutoffdate 90:\t\t"+cutoffdate90.toString());
@@ -143,8 +161,8 @@ if (knownCustomers.containsKey(customerNumber)) {
     LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tADDED");
 }
 LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
-LOG.info("\t\t REPORT DATE: \t\t" + reportDate.toString() + "\t");
-            if (approvalDate.before(reportDate) && approvalDate.after(cutoffdate30)) {                                
+LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
+            if (approvalDate.before(reportRunDate) && approvalDate.after(cutoffdate30)) {                                
                 custDetail.setUnpaidBalance0to30(cid.getAmount().add(custDetail.getUnpaidBalance0to30())); 
                 LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
             }

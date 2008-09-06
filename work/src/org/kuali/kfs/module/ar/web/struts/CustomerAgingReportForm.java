@@ -122,6 +122,7 @@ public class CustomerAgingReportForm extends LookupForm {
             Map fieldValues = new HashMap();
             Map formFields = getFields();
             Class boClass = Class.forName(getBusinessObjectClassName());
+            LOG.info("\n\n\n\nBusiness Object class " + getBusinessObjectClassName() + " not found\n\n\n\n");
             for (Iterator iter = getLookupable().getRows().iterator(); iter.hasNext();) {
                 Row row = (Row) iter.next();
 

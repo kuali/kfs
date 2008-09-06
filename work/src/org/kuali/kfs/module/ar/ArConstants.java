@@ -158,6 +158,10 @@ public class ArConstants {
         public static final String CUSTOMER_PAYMENT_MEDIUM_CODE = "customerPaymentMediumCode";
         public static final String CUSTOMER_NUMBER = "customerNumber";
     }
+    
+    public static class CustomerAgingReportFields {
+        public static final String REPORT_RUN_DATE = "reportRunDate";
+    }    
 
     public static class CustomerCreditMemoDocumentFields {
         public static final String CREDIT_MEMO_ITEM_QUANTITY = "creditMemoItemQuantity";

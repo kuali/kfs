@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 
@@ -37,7 +38,7 @@ public class PositionDataLookupableHelperServiceImpl extends AbstractLookupableH
      * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public String getInquiryUrl(BusinessObject businessObject, String propertyName) {
+    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String propertyName) {
         if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
             return (new PositionDataDetailsInquirableImpl()).getInquiryUrl(businessObject, propertyName);
         }

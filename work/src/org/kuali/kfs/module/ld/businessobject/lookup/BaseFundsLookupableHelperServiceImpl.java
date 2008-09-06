@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.web.ui.Row;
 
@@ -43,7 +44,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
      * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new BaseFundsInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 

@@ -45,6 +45,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.mask.Mask;
 import org.kuali.rice.kns.inquiry.Inquirable;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.AuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -233,7 +234,7 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
 
 
         if (StringUtils.isNotBlank(propValue)) {
-            col.setPropertyURL(getInquiryUrl(element, col.getPropertyName()));
+            col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
         }
         return col;
     }
@@ -260,7 +261,7 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new CustomerInvoiceWriteoffLookupResultInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 

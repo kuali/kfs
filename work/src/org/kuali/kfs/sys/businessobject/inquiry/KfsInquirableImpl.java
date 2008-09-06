@@ -20,6 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -35,13 +37,13 @@ public class KfsInquirableImpl extends KualiInquirableImpl {
      * @param propertyName the property which links to an inquirable
      * @return String url to inquiry
      */
-    public String getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
+    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
         if (PropertyUtils.isReadable(businessObject, attributeName)) {
             Object objFieldValue = ObjectUtils.getPropertyValue(businessObject, attributeName);
             String fieldValue = objFieldValue == null ? KFSConstants.EMPTY_STRING : objFieldValue.toString();
 
             if (StringUtils.containsOnly(fieldValue, KFSConstants.DASH)) {
-                return KFSConstants.EMPTY_STRING;
+                return new AnchorHtmlBase();
             }
         }
 

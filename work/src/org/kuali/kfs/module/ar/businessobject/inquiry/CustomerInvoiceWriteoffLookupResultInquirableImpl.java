@@ -26,7 +26,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 
@@ -39,8 +41,9 @@ public class CustomerInvoiceWriteoffLookupResultInquirableImpl extends KfsInquir
      * @param attributeName the attribute name which links to an inquirable
      * @return String url to inquiry
      */
-    public String getInquiryUrl(BusinessObject businessObject, String attributeName) {
+    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String attributeName) {
 
+        AnchorHtmlBase inquiryHref = new AnchorHtmlBase(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
         if (ArConstants.CustomerFields.CUSTOMER_NUMBER.equals(attributeName)) {
             String baseUrl = KFSConstants.INQUIRY_ACTION;
             Properties parameters = new Properties();
@@ -48,12 +51,12 @@ public class CustomerInvoiceWriteoffLookupResultInquirableImpl extends KfsInquir
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Customer.class.getName());
             parameters.put(ArConstants.CustomerFields.CUSTOMER_NUMBER, ObjectUtils.getPropertyValue((CustomerInvoiceWriteoffLookupResult) businessObject, attributeName));
 
-            return UrlFactory.parameterizeUrl(baseUrl, parameters);
+            inquiryHref.setHref(UrlFactory.parameterizeUrl(baseUrl, parameters));
         } else if (ArConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER.equals(attributeName) ){
             
             String documentNumber = ObjectUtils.getPropertyValue((CustomerInvoiceDocument)businessObject, attributeName).toString();
-            return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + documentNumber + "&command=displayDocSearchView";
+            inquiryHref.setHref(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + documentNumber + "&command=displayDocSearchView");
         }
-        return Constant.EMPTY_STRING;
+        return inquiryHref;
     }
 }

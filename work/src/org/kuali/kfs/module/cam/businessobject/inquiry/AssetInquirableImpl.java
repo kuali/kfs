@@ -29,7 +29,10 @@ import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.struts.form.KualiHelpForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
@@ -88,7 +91,8 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
             f.setFieldLabel("Payments Lookup");
             f.setPropertyValue("Click here to view the payment lookup for this asset.");
             f.setFieldType(Field.HIDDEN);
-            f.setInquiryURL("lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPayment&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&capitalAssetNumber=" + asset.getCapitalAssetNumber());
+            AnchorHtmlBase hRef = new AnchorHtmlBase("lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetPayment&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&capitalAssetNumber=" + asset.getCapitalAssetNumber(), KNSConstants.EMPTY_STRING);
+            f.setInquiryURL(hRef);
             rows.add(new Row(f));
 
             Section section = new Section();

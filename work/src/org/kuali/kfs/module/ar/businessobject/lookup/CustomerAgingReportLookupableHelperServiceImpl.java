@@ -447,7 +447,7 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
 
 
                 if (StringUtils.isNotBlank(propValue)) {
-                    col.setPropertyURL(getInquiryUrl(element, col.getPropertyName()));
+                    col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
                 }
             }
 

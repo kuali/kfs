@@ -24,8 +24,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
@@ -79,11 +81,11 @@ public class EntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLooku
      * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public String getInquiryUrl(BusinessObject businessObject, String propertyName) {
+    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String propertyName) {
         if (KFSPropertyConstants.DOCUMENT_NUMBER.equals(propertyName)) {
             if (businessObject instanceof Entry) {
                 Entry entry = (Entry) businessObject;
-                return new InquirableFinancialDocument().getInquirableDocumentUrl(entry);
+                return new AnchorHtmlBase(new InquirableFinancialDocument().getInquirableDocumentUrl(entry), KNSConstants.EMPTY_STRING);
             }
         }
         return (new EntryInquirableImpl()).getInquiryUrl(businessObject, propertyName);

@@ -36,6 +36,7 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.InputHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -268,9 +269,9 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      *      java.lang.String)
      */
     @Override
-    public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        String inquiryUrl = super.getInquiryUrl(bo, propertyName);
-        inquiryUrl = StringUtils.replace(inquiryUrl, KNSConstants.INQUIRY_ACTION, KFSConstants.INQUIRY_ACTION);
+    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
+        AnchorHtmlBase inquiryUrl = super.getInquiryUrl(bo, propertyName);
+        inquiryUrl.setHref(StringUtils.replace(inquiryUrl.getHref(), KNSConstants.INQUIRY_ACTION, KFSConstants.INQUIRY_ACTION));
 
         return inquiryUrl;
     }

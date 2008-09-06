@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ld.businessobject.inquiry;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
@@ -48,10 +50,11 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
      * @param attributeName the attribute name which links to an inquirable
      * @return String url to inquiry
      */
-    public String getInquiryUrl(BusinessObject businessObject, String attributeName) {
+    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String attributeName) {
         BusinessObjectDictionaryService businessDictionary = SpringContext.getBean(BusinessObjectDictionaryService.class);
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
+        AnchorHtmlBase inquiryHref = new AnchorHtmlBase(Constant.EMPTY_STRING, Constant.EMPTY_STRING);
         String baseUrl = KFSConstants.INQUIRY_ACTION;
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
@@ -75,7 +78,7 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
             isPkReference = true;
         }
         else if (ObjectUtils.isNestedAttribute(attributeName)) {
-            return Constant.EMPTY_STRING;
+            return inquiryHref;
         }
         else {
             Map primitiveReference = LookupUtils.getPrimitiveReference(businessObject, attributeName);
@@ -90,11 +93,11 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
         // process the business object class if the attribute name is not user-defined
         if (!isUserDefinedAttribute) {
             if (isExclusiveFieldToBeALink(attributeName, attributeValue)) {
-                return Constant.EMPTY_STRING;
+                return inquiryHref;
             }
 
             if (inquiryBusinessObjectClass == null || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue()) {
-                return Constant.EMPTY_STRING;
+                return inquiryHref;
             }
 
             if (KualiSystemCode.class.isAssignableFrom(inquiryBusinessObjectClass)) {
@@ -118,7 +121,9 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
         }
 
         // build key value url parameters used to retrieve the business object
+        Map<String,String> inquiryFields = new HashMap<String,String>();
         if (keys != null) {
+            StringBuffer title = new StringBuffer(Constant.EMPTY_STRING);
             for (Iterator keyIterator = keys.iterator(); keyIterator.hasNext();) {
                 String keyName = (String) keyIterator.next();
 
@@ -152,8 +157,10 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
                 keyName = tempKeyName == null ? keyName : tempKeyName;
 
                 // add the key-value pair into the parameter map
-                if (keyName != null)
+                if (keyName != null){
                     parameters.put(keyName, keyValue);
+                    inquiryFields.put(keyName, keyValue.toString());
+                }
             }
         }
         
@@ -161,8 +168,7 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
         if (isUserDefinedAttribute) {
             addMoreParameters(parameters, attributeName);
         }
-
-        return UrlFactory.parameterizeUrl(baseUrl, parameters);
+        return getHyperLink(inquiryBusinessObjectClass, inquiryFields, UrlFactory.parameterizeUrl(baseUrl, parameters));
     }
 
     /**

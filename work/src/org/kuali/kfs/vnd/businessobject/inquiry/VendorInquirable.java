@@ -19,6 +19,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -34,11 +36,11 @@ public class VendorInquirable extends KfsInquirableImpl {
      * @param propertyName the property which links to an inquirable
      * @return String url to inquiry
      */
-    public String getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
+    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
         if (businessObject instanceof VendorDetail && attributeName.equalsIgnoreCase("vendorUrlAddress")) {
             Object objFieldValue = ObjectUtils.getPropertyValue(businessObject, attributeName);
             String fieldValue = objFieldValue == null ? KFSConstants.EMPTY_STRING : objFieldValue.toString();
-            return "http://" + fieldValue;
+            return new AnchorHtmlBase("http://" + fieldValue, KNSConstants.EMPTY_STRING);
         }
 
         return super.getInquiryUrl(businessObject, attributeName, forceInquiry);

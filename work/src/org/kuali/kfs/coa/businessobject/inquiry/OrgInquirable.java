@@ -21,6 +21,8 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
@@ -48,7 +50,8 @@ public class OrgInquirable extends KfsInquirableImpl {
             f.setFieldLabel("Organization Review Hierarchy");
             f.setPropertyValue("run search");
             f.setFieldType(Field.HIDDEN);
-            f.setInquiryURL(org.getOrganizationReviewHierarchy());
+            AnchorHtmlBase hRef = new AnchorHtmlBase(org.getOrganizationReviewHierarchy(), KNSConstants.EMPTY_STRING);
+            f.setInquiryURL(hRef);
             rows.add(new Row(f));
 
             Section section = new Section();

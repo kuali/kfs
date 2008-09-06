@@ -269,7 +269,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
 
                 if (StringUtils.isNotBlank(propValue)) {
-                    col.setPropertyURL(getInquiryUrl(element, col.getPropertyName()));
+                    col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
                 }
             }
 

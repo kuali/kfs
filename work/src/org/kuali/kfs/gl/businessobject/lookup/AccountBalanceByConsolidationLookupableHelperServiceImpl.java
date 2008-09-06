@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2007 The Kuali Foundation.
+     * Copyright 2006-2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 
 /**
  * An extension of KualiLookupableImpl to support the account balance by consolidation inquiry screen
@@ -52,8 +53,9 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
      * @return String url to inquiry
      */
     @Override
-    public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        return (new AccountBalanceByConsolidationInquirableImpl()).getInquiryUrl(bo, propertyName);
+    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
+        AnchorHtmlBase hRef = (new AccountBalanceByConsolidationInquirableImpl()).getInquiryUrl(bo, propertyName);
+        return hRef;
     }
 
     /**

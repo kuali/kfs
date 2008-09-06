@@ -16,12 +16,14 @@
 package org.kuali.kfs.gl.businessobject.inquiry;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.displaytag.util.Href;
 import org.kuali.kfs.coa.businessobject.KualiSystemCode;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
@@ -33,12 +35,15 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.DataDictionaryEntryBase;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.form.KualiHelpForm;
 
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.
@@ -52,7 +57,7 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
      * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, boolean)
      */
     @Override
-    public String getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
+    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
         return this.getInquiryUrl(businessObject, attributeName);
     }
 
@@ -63,8 +68,9 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
      * @param attributeName the attribute name which links to an inquirable
      * @return String url to inquiry
      */
-    public String getInquiryUrl(BusinessObject businessObject, String attributeName) {
+    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String attributeName) {
         this.setBusinessObject(businessObject);
+        AnchorHtmlBase inquiryHref = new AnchorHtmlBase(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
         BusinessObjectDictionaryService businessDictionary = SpringContext.getBean(BusinessObjectDictionaryService.class);
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
@@ -95,7 +101,7 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
                 inquiryBusinessObjectClass = LookupUtils.getNestedReferenceClass(businessObject, attributeName);
             }
             else {
-                return "";
+                return inquiryHref;
             }
         }
         else {
@@ -111,11 +117,11 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
         // process the business object class if the attribute name is not user-defined
         if (!isUserDefinedAttribute) {
             if (isExclusiveField(attributeName, attributeValue)) {
-                return "";
+                return inquiryHref;
             }
 
             if (inquiryBusinessObjectClass == null || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue()) {
-                return "";
+                return inquiryHref;
             }
 
             if (KualiSystemCode.class.isAssignableFrom(inquiryBusinessObjectClass)) {
@@ -125,6 +131,7 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, inquiryBusinessObjectClass.getName());
 
         List keys = new ArrayList();
+        Map<String,String> inquiryFields = new HashMap<String, String>();
         if (isUserDefinedAttribute) {
             baseUrl = getBaseUrl();
             keys = buildUserDefinedAttributeKeyList();
@@ -176,8 +183,10 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
                 keyName = tempKeyName == null ? keyName : tempKeyName;
 
                 // add the key-value pair into the parameter map
-                if (keyName != null)
+                if (keyName != null){
                     parameters.put(keyName, keyValue);
+                    inquiryFields.put(keyName, keyValue.toString());
+                }
             }
         }
 
@@ -194,7 +203,7 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
             }
         }
 
-        return UrlFactory.parameterizeUrl(baseUrl, parameters);
+        return getHyperLink(inquiryBusinessObjectClass, inquiryFields, UrlFactory.parameterizeUrl(baseUrl, parameters));
     }
 
     /**

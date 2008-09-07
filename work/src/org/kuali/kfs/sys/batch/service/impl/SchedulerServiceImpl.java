@@ -103,7 +103,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             LOG.info("Loading scheduled jobs for: " + moduleService.getModuleConfiguration().getNamespaceCode());
             for (String jobName : moduleService.getModuleConfiguration().getJobNames()) {
                 try {
-                    if (moduleService instanceof BatchModuleService && ((BatchModuleService) moduleService).hasJobStatus(jobName)) {
+                    if (moduleService instanceof BatchModuleService && ((BatchModuleService) moduleService).isExternalJob(jobName)) {
                         jobDescriptor = new JobDescriptor();
                         jobDescriptor.setBeanName(jobName);
                         jobDescriptor.setGroup(SCHEDULED_GROUP);
@@ -484,8 +484,8 @@ public class SchedulerServiceImpl implements SchedulerService {
             SpringContext.getBean(KualiModuleService.class).getResponsibleModuleServiceForJob(jobDetail.getName());
         //If the module service has status information for a job, get the status from it
         //else get status from job detail data map 
-        return (moduleService!=null && moduleService.hasJobStatus(jobDetail.getName()))
-                    ? moduleService.getJobStatus(jobDetail.getName())
+        return (moduleService!=null && moduleService.isExternalJob(jobDetail.getName()))
+                    ? moduleService.getExternalJobStatus(jobDetail.getName())
                     : jobDetail.getJobDataMap().getString(SchedulerServiceImpl.JOB_STATUS_PARAMETER);
     }
 

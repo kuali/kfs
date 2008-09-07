@@ -15,29 +15,29 @@
  */
 package org.kuali.kfs.sys.service;
 
-import org.quartz.JobDetail;
+import org.kuali.rice.kns.service.ModuleService;
 
 /**
- * 
- * This class defines methods needed for batch
+ * This class defines methods needed for batch to run successfully when there are dependencies on jobs that are run on external systems.
+ * Implementations of this interface are able to keep track of external job status and report it to the scheduler service.
  * 
  */
-public interface BatchModuleService {
+public interface BatchModuleService extends ModuleService{
 
     /**
-     * This method determines whether the module service has the status information of the given job name or not.
+     * This method returns whether a job is run on an external system. 
      *  
-     * @param jobName
-     * @return
+     * @param jobName a job name, such that calling {@link #isResponsibleForJob(String)} with this job name would return true
+     * @return whether this job runs from an external system
      */
-    public boolean hasJobStatus(String jobName);
+    public boolean isExternalJob(String jobName);
     
     /**
-     * This method returns the status of the given job.
+     * This method returns the status of the given external job.
      * 
-     * @param jobName
-     * @return
+     * @param jobName a job name, such that calling {@link #isResponsibleForJob(String)} with this job name would return true
+     * @return one of the status code constants defined in {@link org.kuali.kfs.sys.batch.service.SchedulerService}
      */
-    public String getJobStatus(String jobName);
+    public String getExternalJobStatus(String jobName);
     
 }

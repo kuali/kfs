@@ -59,13 +59,16 @@
             <map>
                 <entry key="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.cg.businessobject.Cfda" />
                 <entry key="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
+                <entry key="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.cg.businessobject.Award" />
+                <entry key="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
+                <entry key="org.kuali.kfs.integration.businessobject.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
             </map>
         </property> 
 	</bean>
 
     <bean id="cgModuleService" parent="cgModuleService-parentBean"/>
 
-    <bean id="cgModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+    <bean id="cgModuleService-parentBean" class="org.kuali.rice.kns.service.impl.ModuleServiceBase" abstract="true">
 		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
 	
@@ -170,7 +173,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="cfdaJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="cfdaJob" />
 		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />

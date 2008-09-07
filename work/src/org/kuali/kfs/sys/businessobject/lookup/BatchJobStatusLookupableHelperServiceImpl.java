@@ -87,7 +87,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
             moduleService = (KfsModuleServiceImpl)
             SpringContext.getBean(KualiModuleService.class).getResponsibleModuleServiceForJob(job.getName());
             //This means this job is externalized and we do not want to show any action urls for it.
-            return (moduleService!=null && moduleService.hasJobStatus(job.getName()));
+            return (moduleService!=null && moduleService.isExternalJob(job.getName()));
         }
         return false;
     }

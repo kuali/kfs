@@ -31,15 +31,15 @@ public class KfsModuleServiceImpl extends ModuleServiceBase implements BatchModu
     /***
      * @see org.kuali.kfs.sys.service.BatchModuleService#hasJobStatus(java.lang.String)
      */
-    public boolean hasJobStatus(String jobName){
+    public boolean isExternalJob(String jobName){
         return false;
     }
 
     /***
      * @see org.kuali.kfs.sys.service.BatchModuleService#getJobStatus(java.lang.String)
      */
-    public String getJobStatus(String jobName) {
-        if(hasJobStatus(jobName))
+    public String getExternalJobStatus(String jobName) {
+        if(isExternalJob(jobName))
             return SchedulerServiceImpl.SUCCEEDED_JOB_STATUS_CODE;
         return null;
     }

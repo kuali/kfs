@@ -131,7 +131,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:relationship objectAttribute="cfda">
             <dd:primitiveAttribute source="accountCfdaNumber" target="cfdaNumber" />
         </dd:relationship>
-        <dd:relationship objectAttribute="awards">
+        <dd:relationship objectAttribute="awards" targetClass="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation">
             <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
             <dd:primitiveAttribute source="accountNumber" target="accountNumber" />
         </dd:relationship>
@@ -931,7 +931,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="InquirySectionDefinition" p:title="Account Responsibility">
           <property name="inquiryFields" >
             <list>
-        
+
               <dd:field attributeName="accountFiscalOfficerUserPersonUserIdentifier" />
               <dd:field attributeName="accountFiscalOfficerUser.personName" />
               <dd:field attributeName="accountSupervisoryUserPersonUserIdentifier" />

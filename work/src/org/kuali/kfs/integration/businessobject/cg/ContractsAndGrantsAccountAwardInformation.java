@@ -15,13 +15,12 @@
  */
 package org.kuali.kfs.integration.businessobject.cg;
 
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.kns.bo.Inactivateable;
 
 /**
  * Information about an award associated with an account.
@@ -82,6 +81,6 @@ public interface ContractsAndGrantsAccountAwardInformation extends CGProjectDire
      * 
      * @return The Award object associated with this AwardAccount.
      */
-    public Award getAward();
+    public ContractsAndGrantsAward getAward();
 
 }

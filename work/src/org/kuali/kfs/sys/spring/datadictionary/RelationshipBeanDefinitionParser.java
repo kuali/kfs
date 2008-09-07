@@ -38,10 +38,14 @@ public class RelationshipBeanDefinitionParser extends KualiBeanDefinitionParserB
     protected void doParse(Element element, ParserContext context, BeanDefinitionBuilder bean) {
         // get all attributes
         String objectAttribute = element.getAttribute("objectAttribute");
+        String targetClass = element.getAttribute("targetClass");
 
         // now, set on the bean definition
         if ( StringUtils.hasText(objectAttribute) ) {
             bean.addPropertyValue("objectAttributeName", objectAttribute);
+        }
+        if ( StringUtils.hasText(targetClass) ) {
+            bean.addPropertyValue("targetClass", targetClass);
         }
         
         NodeList children = element.getChildNodes();

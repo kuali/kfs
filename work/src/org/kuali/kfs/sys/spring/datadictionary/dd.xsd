@@ -321,6 +321,15 @@ This attribute's type will be a class implementing BusinessObject.
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>                    
+                    <xsd:attribute name="targetClass" use="optional" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+The target class for the relationship. 
+For 1:1 relationships, this class represents the type of the reference class.  
+For 1:n references, this class represents the type of the element of the collection.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute> 
                 </xsd:extension>
             </xsd:complexContent>
         </xsd:complexType>

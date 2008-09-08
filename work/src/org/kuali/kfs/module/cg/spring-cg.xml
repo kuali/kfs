@@ -68,7 +68,7 @@
 
     <bean id="cgModuleService" parent="cgModuleService-parentBean"/>
 
-    <bean id="cgModuleService-parentBean" class="org.kuali.rice.kns.service.impl.ModuleServiceBase" abstract="true">
+    <bean id="cgModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
 	

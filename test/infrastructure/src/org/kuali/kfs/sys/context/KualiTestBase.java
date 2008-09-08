@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.context;
 import static org.kuali.kfs.sys.suite.JiraRelatedSuite.State.OPEN_OR_IN_PROGRESS_OR_REOPENED;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,9 +27,6 @@ import junit.framework.TestCase;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.OptimisticLockException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
@@ -36,6 +34,9 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.suite.JiraRelatedSuite;
 import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -85,6 +86,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
 
         LOG.info("Entering test '" + testName + "'");
         GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageList(new ArrayList());
         ConfigureContext contextConfiguration = getMethod(getName()).getAnnotation(ConfigureContext.class) != null ? getMethod(getName()).getAnnotation(ConfigureContext.class) : getMethod("setUp").getAnnotation(ConfigureContext.class) != null ? getMethod("setUp").getAnnotation(ConfigureContext.class) : getClass().getAnnotation(ConfigureContext.class);
         if (contextConfiguration != null) {
             configure(contextConfiguration);

@@ -36,6 +36,11 @@
         </bean>
       </list>
     </property>
+    <property name="routingDataGenerators">
+    	<list>
+    		<value>subFundGroupTargetOnlyRoutingDataGenerator</value>
+    	</list>
+    </property>
   </bean>
 
 <!-- Exported Workflow Properties -->

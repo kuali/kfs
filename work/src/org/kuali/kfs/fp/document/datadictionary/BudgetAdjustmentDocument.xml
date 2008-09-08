@@ -60,6 +60,11 @@
 	    	</entry>
     	</map>
     </property>
+    <property name="routingDataGenerators">
+    	<list>
+    		<value>subFundGroupRoutingDataGenerator</value>
+    	</list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -190,7 +195,7 @@
 	  <property name="groupLabel" value="From/Decrease" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
 	</bean>
 	
 	<bean id="BudgetAdjustment-targetAccountingLineGroup" parent="BudgetAdjustment-targetAccountingLineGroup-parentBean" />

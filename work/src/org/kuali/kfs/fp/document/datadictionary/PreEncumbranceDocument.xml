@@ -41,6 +41,11 @@
         <ref bean="PreEncumbranceDocument-reversalDate" />
       </list>
     </property>
+    <property name="routingDataGenerators">
+    	<list>
+    		<value>subFundGroupTargetOnlyRoutingDataGenerator</value>
+    	</list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

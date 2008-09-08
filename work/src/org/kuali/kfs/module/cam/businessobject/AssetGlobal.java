@@ -801,7 +801,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             if (ObjectUtils.isNotNull(payment.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(payment.getObjectCode().getFinancialObjectSubTypeCode())) {
                 isDepreciablePayment = true;
             }
-            
+
             // Distribute Asset Payments from AssetPaymentDetails to AssetPayment
             // Divide each payment to records in Asset AssetGlobalDetails
             for (AssetGlobalDetail location : assetGlobalDetails) {
@@ -848,23 +848,22 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                         assetPayment.setAccountChargeAmount(KualiDecimal.ZERO);
                     }
                 }
+
                 assetPayment.setPrimaryDepreciationBaseAmount(primaryDepreciationBaseAmount);
                 persistables.add(assetPayment);
             }
         }
-
+        
         // reduce source total amount and asset payment if document is Asset Separate
         if (assetGlobalService.isAssetSeparateDocument(this)) {
             Asset separateSourceCapitalAsset = this.getSeparateSourceCapitalAsset();
             separateSourceCapitalAsset.setTotalCostAmount(getTotalCostAmount().subtract(assetGlobalService.totalSeparateSourceAmount(this)));
-            // set and reduce source payments
+            // copy and set AssetPayment from source Asset into new AssetPayment object
             for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
                 AssetPayment offsetAssetPayment = new AssetPayment();
                 ObjectValueUtils.copySimpleProperties(assetPayment, offsetAssetPayment);
-                
-                // TODO not setting the correct amount
-                assetPayment.setAccountChargeAmount(assetPaymentService.getProratedAssetPayment(this, assetPayment));
-                assetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
+                offsetAssetPayment.setAccountChargeAmount(assetPaymentService.getProratedAssetPayment(this, assetPayment));
+                offsetAssetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
                 persistables.add(offsetAssetPayment);
             }
         }

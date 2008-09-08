@@ -20,9 +20,11 @@
       <list>
         <ref bean="CapitalAssetTransactionType-capitalAssetTransactionTypeCode" />
         <ref bean="CapitalAssetTransactionType-capitalAssetTransactionTypeDescription" />
-        <ref bean="CapitalAssetTransactionType-capitalAssetTransactionTypeServiceIndicator" />
+        <ref bean="CapitalAssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator" />
         <ref bean="CapitalAssetTransactionType-active" />
         <ref bean="CapitalAssetTransactionType-versionNumber" />
+        <ref bean="CapitalAssetTransactionType-capitalAssetQuantitySubtypeRequiredText" />
+        <ref bean="CapitalAssetTransactionType-capitalAssetNonquantitySubtypeRequiredText" />
       </list>
     </property>
   </bean>
@@ -63,12 +65,12 @@
             p:size="47" />
     </property>
   </bean>
-  <bean id="CapitalAssetTransactionType-capitalAssetTransactionTypeServiceIndicator" parent="CapitalAssetTransactionType-capitalAssetTransactionTypeServiceIndicator-parentBean" />
+  <bean id="CapitalAssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator" parent="CapitalAssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator-parentBean" />
 
-  <bean id="CapitalAssetTransactionType-capitalAssetTransactionTypeServiceIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetTransactionTypeServiceIndicator" />
+  <bean id="CapitalAssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetNonquantityDrivenAllowIndicator" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Capital Asset Transaction Type Service Indicator" />
+    <property name="label" value="Capital Asset Nonquantity Driven Allow Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
     <property name="control" >
@@ -83,6 +85,18 @@
   <bean id="CapitalAssetTransactionType-versionNumber" parent="CapitalAssetTransactionType-versionNumber-parentBean" />
 
   <bean id="CapitalAssetTransactionType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  
+  <bean id="CapitalAssetTransactionType-capitalAssetQuantitySubtypeRequiredText" parent="CapitalAssetTransactionType-capitalAssetQuantitySubtypeRequiredText-parentBean" />
+  
+  <bean id="CapitalAssetTransactionType-capitalAssetQuantitySubtypeRequiredText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="capitalAssetQuantitySubtypeRequiredText" />
+  </bean>
+  
+  <bean id="CapitalAssetTransactionType-capitalAssetNonquantitySubtypeRequiredText" parent="CapitalAssetTransactionType-capitalAssetNonquantitySubtypeRequiredText-parentBean" />
+  
+  <bean id="CapitalAssetTransactionType-capitalAssetNonquantitySubtypeRequiredText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="capitalAssetNonquantitySubtypeRequiredText" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
@@ -104,7 +118,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetTransactionTypeDescription" />
               <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetTransactionTypeServiceIndicator" />
+                    p:attributeName="capitalAssetNonquantityDrivenAllowIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -133,7 +147,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetTransactionTypeDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTransactionTypeServiceIndicator" />
+              p:attributeName="capitalAssetNonquantityDrivenAllowIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -145,7 +159,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetTransactionTypeDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTransactionTypeServiceIndicator" />
+              p:attributeName="capitalAssetNonquantityDrivenAllowIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

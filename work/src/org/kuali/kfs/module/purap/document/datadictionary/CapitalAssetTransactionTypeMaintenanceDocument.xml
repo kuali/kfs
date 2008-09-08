@@ -61,7 +61,7 @@
               p:name="capitalAssetTransactionTypeDescription"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="capitalAssetTransactionTypeServiceIndicator" />
+              p:name="capitalAssetNonquantityDrivenAllowIndicator" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active" />
         <bean parent="MaintainableFieldDefinition"

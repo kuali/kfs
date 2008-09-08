@@ -26,6 +26,7 @@
         <ref bean="PurchaseOrderCapitalAssetSystem-documentNumber" />
         <ref bean="PurchaseOrderCapitalAssetSystem-versionNumber" />
         <ref bean="PurchaseOrderCapitalAssetSystem-capitalAssetNoteText" />
+        <ref bean="PurchaseOrderCapitalAssetSystem-capitalAssetCountAssetNumber" />
       </list>
     </property>
   </bean>
@@ -176,6 +177,12 @@
             p:rows="3"
             p:cols="50" />
     </property>
+  </bean>
+  
+  <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetCountAssetNumber" parent="PurchaseOrderCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" />
+  
+  <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" abstract="true" parent="GenericAttributes-genericSystemId" >
+  	<property name="name" value="capitalAssetCountAssetNumber" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->

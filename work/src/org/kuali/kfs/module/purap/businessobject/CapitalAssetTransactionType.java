@@ -27,7 +27,9 @@ public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
 
     private String capitalAssetTransactionTypeCode;
     private String capitalAssetTransactionTypeDescription;
-    private boolean capitalAssetTransactionTypeServiceIndicator;
+    private boolean capitalAssetNonquantityDrivenAllowIndicator;
+    private String capitalAssetQuantitySubtypeRequiredText;
+    private String capitalAssetNonquantitySubtypeRequiredText;
     private boolean active;
 
     /**
@@ -61,12 +63,12 @@ public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
         this.capitalAssetTransactionTypeDescription = capitalAssetTransactionTypeDescription;
     }
 
-    public boolean getCapitalAssetTransactionTypeServiceIndicator() {
-        return capitalAssetTransactionTypeServiceIndicator;
+    public boolean getCapitalAssetNonquantityDrivenAllowIndicator() {
+        return capitalAssetNonquantityDrivenAllowIndicator;
     }
 
-    public void setCapitalAssetTransactionTypeServiceIndicator(boolean capitalAssetTransactionTypeServiceIndicator) {
-        this.capitalAssetTransactionTypeServiceIndicator = capitalAssetTransactionTypeServiceIndicator;
+    public void setCapitalAssetNonquantityDrivenAllowIndicator(boolean capitalAssetNonquantityDrivenAllowIndicator) {
+        this.capitalAssetNonquantityDrivenAllowIndicator = capitalAssetNonquantityDrivenAllowIndicator;
     }
 
     public boolean isActive() {
@@ -85,4 +87,22 @@ public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
         m.put("capitalAssetTransactionTypeCode", this.capitalAssetTransactionTypeCode);
         return m;
     }
+
+	public String getCapitalAssetNonquantitySubtypeRequiredText() {
+		return capitalAssetNonquantitySubtypeRequiredText;
+	}
+
+	public void setCapitalAssetNonquantitySubtypeRequiredText(
+			String capitalAssetNonquantitySubtypeRequiredText) {
+		this.capitalAssetNonquantitySubtypeRequiredText = capitalAssetNonquantitySubtypeRequiredText;
+	}
+
+	public String getCapitalAssetQuantitySubtypeRequiredText() {
+		return capitalAssetQuantitySubtypeRequiredText;
+	}
+
+	public void setCapitalAssetQuantitySubtypeRequiredText(
+			String capitalAssetQuantitySubtypeRequiredText) {
+		this.capitalAssetQuantitySubtypeRequiredText = capitalAssetQuantitySubtypeRequiredText;
+	}
 }

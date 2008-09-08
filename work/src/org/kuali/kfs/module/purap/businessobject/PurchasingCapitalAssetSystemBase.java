@@ -38,8 +38,17 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
     private List<ItemCapitalAsset> itemCapitalAssets;
     private List<CapitalAssetLocation> capitalAssetLocations;
     private CapitalAssetLocation newPurchasingCapitalAssetLocationLine;
+    private Integer capitalAssetCountAssetNumber;
     
-    public PurchasingCapitalAssetSystemBase() {
+    public Integer getCapitalAssetCountAssetNumber() {
+		return capitalAssetCountAssetNumber;
+	}
+
+	public void setCapitalAssetCountAssetNumber(Integer capitalAssetCountAssetNumber) {
+		this.capitalAssetCountAssetNumber = capitalAssetCountAssetNumber;
+	}
+
+	public PurchasingCapitalAssetSystemBase() {
         super();
         itemCapitalAssets = new TypedArrayList(getItemCapitalAssetClass());
         capitalAssetLocations = new TypedArrayList(getCapitalAssetLocationClass());

@@ -25,6 +25,9 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -90,5 +93,23 @@ public class CustomerInvoiceWriteoffLookupUtil {
         
         return customerInvoiceDocumentsByCustomerNumberMap;
     }
+    
+    public static Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String universalUserId) {
+        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new TypedArrayList(CustomerInvoiceDocument.class);
+        try {
+            for (PersistableBusinessObject obj : SpringContext.getBean(LookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, CustomerInvoiceDocument.class, universalUserId)) {
+                customerInvoiceDocuments.add((CustomerInvoiceDocument) obj);
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return customerInvoiceDocuments;
+    }
+    
+    public static Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String universalUserId){
+        return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(getCustomerInvoiceDocumentsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, universalUserId));
+    }    
 
 }

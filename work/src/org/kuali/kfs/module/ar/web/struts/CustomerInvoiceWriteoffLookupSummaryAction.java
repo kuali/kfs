@@ -26,24 +26,15 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupUtil;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
-
-    private LookupResultsService lookupResultsService;
-
-    public void setLookupResultsService(LookupResultsService lookupResultsService) {
-        this.lookupResultsService = lookupResultsService;
-    }
 
     public ActionForward viewSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -51,7 +42,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         String lookupResultsSequenceNumber = customerInvoiceWriteoffLookupSummaryForm.getLookupResultsSequenceNumber();
         if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
             String universalUserId = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
-            Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults = getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber,universalUserId);
+            Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults = CustomerInvoiceWriteoffLookupUtil.getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber,universalUserId);
             customerInvoiceWriteoffLookupSummaryForm.setCustomerInvoiceWriteoffLookupResults(customerInvoiceWriteoffLookupResults);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -66,31 +57,5 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
     
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_CANCEL);
-    }    
-
-    protected LookupResultsService getLookupResultsService() {
-        if (ObjectUtils.isNull(lookupResultsService)) {
-            lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-        }
-
-        return lookupResultsService;
-    }
-
-    protected Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String universalUserId) {
-        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new TypedArrayList(CustomerInvoiceDocument.class);
-        try {
-            for (PersistableBusinessObject obj : getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, CustomerInvoiceDocument.class, universalUserId)) {
-                customerInvoiceDocuments.add((CustomerInvoiceDocument) obj);
-            }
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return customerInvoiceDocuments;
-    }
-    
-    protected Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String universalUserId){
-        return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(getCustomerInvoiceDocumentsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, universalUserId));
-    }
+    }        
 }

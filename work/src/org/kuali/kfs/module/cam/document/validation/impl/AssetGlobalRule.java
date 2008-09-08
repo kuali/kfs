@@ -423,6 +423,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         boolean success = super.processCustomRouteDocumentBusinessRules(document);
         
+        // TODO is this needed? 
+        // cannot create more than 9 assets at a time
+        if (assetPaymentService.getAssetPaymentDetailQuantity(assetGlobal) >= 10) {
+            putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_ASSET_SPLIT_MAX_LIMIT);
+            success &= false;
+        }
+        
         // need at least one asset location
         if (assetSharedDetails.isEmpty() || assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetGlobal.MIN_ONE_ASSET_REQUIRED);

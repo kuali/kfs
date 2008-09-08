@@ -35,7 +35,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class AssetGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
-
     private String documentNumber;
     private String acquisitionTypeCode;
     private String capitalAssetDescription;
@@ -727,9 +726,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         if (!assetPaymentDetails.isEmpty() && ObjectUtils.isNotNull(assetPaymentDetails.get(0).getObjectCode())) {
             financialObjectSubTypeCode = assetPaymentDetails.get(0).getObjectCode().getFinancialObjectSubTypeCode();
         }
-
+        
+        // set new asset data
         for (Iterator iterator = assetGlobalDetails.iterator(); iterator.hasNext();) {
-            
+
             AssetGlobalDetail detail = (AssetGlobalDetail)iterator.next();
 
             /** @TODO check into a better way to do the below other then getting / setting a dozen fields -- deepCopy? */
@@ -766,13 +766,34 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setActive(true);
             asset.setTotalCostAmount(assetGlobalService.totalPaymentByAsset(this, !iterator.hasNext()));
             asset.setFinancialObjectSubTypeCode(financialObjectSubTypeCode);
-
             asset.setFinancialDocumentPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate().getUniversityFiscalYear());
             asset.setFinancialDocumentPostingPeriodCode(SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
             // asset.setVersionNumber(1L);
+            
+            // set specific values for new asset if document is Asset Separate
+            // capitalAssetTypeCode is over written from above
+            if (assetGlobalService.isAssetSeparateDocument(this)) {
+                asset.setSerialNumber(detail.getSerialNumber());
+                asset.setOrganizationInventoryName(detail.getOrganizationInventoryName());
+                asset.setGovernmentTagNumber(detail.getGovernmentTagNumber());
+                asset.setCampusTagNumber(detail.getCampusTagNumber());
+                asset.setNationalStockNumber(detail.getNationalStockNumber());
+                asset.setRepresentativeUniversalIdentifier(detail.getRepresentativeUniversalIdentifier());
+                asset.setCapitalAssetTypeCode(detail.getCapitalAssetTypeCode());
+                asset.setCapitalAssetDescription(detail.getCapitalAssetDescription());
+                asset.setManufacturerName(detail.getManufacturerName());
+                asset.setManufacturerModelNumber(detail.getManufacturerModelNumber());
+                // set AssetOrganization data
+                AssetOrganization assetOrganization = new AssetOrganization();
+                assetOrganization.setCapitalAssetNumber(detail.getCapitalAssetNumber());
+                assetOrganization.setOrganizationText(detail.getOrganizationText());
+                assetOrganization.setOrganizationAssetTypeIdentifier(detail.getOrganizationAssetTypeIdentifier());
+                asset.setAssetOrganization(assetOrganization);
+            }
             persistables.add(asset);
         }
 
+        // set new AssetPayment(s) from each AssetPaymentDetails
         for (AssetPaymentDetail payment : assetPaymentDetails) {
             newAssetCount = assetGlobalDetails.size();
             isDepreciablePayment = false;
@@ -780,10 +801,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             if (ObjectUtils.isNotNull(payment.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(payment.getObjectCode().getFinancialObjectSubTypeCode())) {
                 isDepreciablePayment = true;
             }
-
+            
+            // Distribute Asset Payments from AssetPaymentDetails to AssetPayment
+            // Divide each payment to records in Asset AssetGlobalDetails
             for (AssetGlobalDetail location : assetGlobalDetails) {
-                // Distribute Asset Payments from AssetPaymentDetails to AssetPayment
-                // Divide each payment to records in Asset AssetGlobalDetails
                 AssetPayment assetPayment = new AssetPayment();
                 assetPayment.setCapitalAssetNumber(location.getCapitalAssetNumber());
                 assetPayment.setPaymentSequenceNumber(payment.getSequenceNumber());
@@ -811,10 +832,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                     assetPayment.setFinancialDocumentPostingYear(currentUniversityDate.getUniversityFiscalYear());
                     assetPayment.setFinancialDocumentPostingPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());
                 }
-
-                // set values for new assets for Asset Separate document
+                // set specific values for new assets if document is Asset Separate
                 if (assetGlobalService.isAssetSeparateDocument(this)) {
-                    assetPayment.setAccountChargeAmount(location.getSeparateSourceAmount());
+                    assetPayment.setAccountChargeAmount(payment.getAmount().subtract(location.getSeparateSourceAmount()));
                     assetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
                 }
                 else {
@@ -828,20 +848,21 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                         assetPayment.setAccountChargeAmount(KualiDecimal.ZERO);
                     }
                 }
-
                 assetPayment.setPrimaryDepreciationBaseAmount(primaryDepreciationBaseAmount);
                 persistables.add(assetPayment);
             }
         }
 
-        // reduce source asset payment for Asset Separate document
+        // reduce source total amount and asset payment if document is Asset Separate
         if (assetGlobalService.isAssetSeparateDocument(this)) {
             Asset separateSourceCapitalAsset = this.getSeparateSourceCapitalAsset();
-
-            // copy source to new assets
+            separateSourceCapitalAsset.setTotalCostAmount(getTotalCostAmount().subtract(assetGlobalService.totalSeparateSourceAmount(this)));
+            // set and reduce source payments
             for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
                 AssetPayment offsetAssetPayment = new AssetPayment();
                 ObjectValueUtils.copySimpleProperties(assetPayment, offsetAssetPayment);
+                
+                // TODO not setting the correct amount
                 assetPayment.setAccountChargeAmount(assetPaymentService.getProratedAssetPayment(this, assetPayment));
                 assetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
                 persistables.add(offsetAssetPayment);

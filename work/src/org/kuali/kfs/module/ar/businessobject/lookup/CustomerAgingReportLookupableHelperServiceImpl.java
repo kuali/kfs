@@ -297,8 +297,6 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
             parameters.put(KNSConstants.REFERENCES_TO_REFRESH, getReferencesToRefresh());
         }
 
-        String encryptedList = "";
-
         Iterator returnKeys = getReturnKeys().iterator();
         while (returnKeys.hasNext()) {
             String fieldNm = (String) returnKeys.next();
@@ -323,14 +321,6 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
                 // LOG.error("Exception while trying to encrypted value for inquiry framework.", e);
                 // throw new RuntimeException(e);
                 // }
-
-                // add to parameter list so that KualiInquiryAction can identify which parameters are encrypted
-                if (encryptedList.equals("")) {
-                    encryptedList = fieldNm;
-                }
-                else {
-                    encryptedList = encryptedList + KNSConstants.FIELD_CONVERSIONS_SEPERATOR + fieldNm;
-                }
             }
 
             // need to format date in url
@@ -340,11 +330,6 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
             }
 
             parameters.put(fieldNm, fieldVal.toString());
-        }
-
-        // if we did encrypt a value (or values), add the list of those that are encrypted to the parameters
-        if (!encryptedList.equals("")) {
-            parameters.put(KNSConstants.ENCRYPTED_LIST_PREFIX, encryptedList);
         }
 
         return parameters;

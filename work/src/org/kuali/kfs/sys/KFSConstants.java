@@ -336,7 +336,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String MAINTENANCE_NEWWITHEXISTING_ACTION = "newWithExisting";
     public static final String MAINTENANCE_NEW_MAINTAINABLE = "document.newMaintainableObject.";
     public static final String MAINTENANCE_OLD_MAINTAINABLE = "document.oldMaintainableObject.";
-    public static final String ENCRYPTED_LIST_PREFIX = "encryptedValues";
     public static final String MAPPING_BASIC = "basic";
     public static final String MAPPING_CANCEL = "cancel";
     public static final String MAPPING_CLOSE = "close";

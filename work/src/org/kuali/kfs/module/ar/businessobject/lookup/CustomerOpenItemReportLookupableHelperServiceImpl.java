@@ -121,8 +121,6 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
             parameters.put(KNSConstants.REFERENCES_TO_REFRESH, getReferencesToRefresh());
         }
         
-        String encryptedList = "";
-
         Iterator returnKeys = getReturnKeys().iterator();
         while (returnKeys.hasNext()) {
             String fieldNm = (String) returnKeys.next();
@@ -148,13 +146,6 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 //                    throw new RuntimeException(e);
 //                }
 
-                // add to parameter list so that KualiInquiryAction can identify which parameters are encrypted
-                if (encryptedList.equals("")) {
-                    encryptedList = fieldNm;
-                }
-                else {
-                    encryptedList = encryptedList + KNSConstants.FIELD_CONVERSIONS_SEPERATOR + fieldNm;
-                }
             }
             
             //need to format date in url
@@ -164,11 +155,6 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
             }
 
             parameters.put(fieldNm, fieldVal.toString());
-        }
-
-        // if we did encrypt a value (or values), add the list of those that are encrypted to the parameters
-        if (!encryptedList.equals("")) {
-            parameters.put(KNSConstants.ENCRYPTED_LIST_PREFIX, encryptedList);
         }
 
         return parameters;

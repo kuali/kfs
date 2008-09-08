@@ -53,8 +53,7 @@ public class Batch extends TimestampedBusinessObjectBase {
     private UniversalUser submiterUser;
     private String submiterUserId; // SBMTR_USR_ID
     private Timestamp fileProcessTimestamp; // FL_PROC_TS
-    private Integer version; // VER_NBR
-
+    
     public Batch() {
         super();
     }
@@ -64,13 +63,6 @@ public class Batch extends TimestampedBusinessObjectBase {
      */
     public Timestamp getFileProcessTimestamp() {
         return fileProcessTimestamp;
-    }
-
-    /**
-     * @hibernate.version column="VER_NBR" not-null="true"
-     */
-    public Integer getVersion() {
-        return version;
     }
 
     /**
@@ -162,13 +154,6 @@ public class Batch extends TimestampedBusinessObjectBase {
      */
     public void setPaymentTotalAmount(BigDecimal decimal) {
         paymentTotalAmount = decimal;
-    }
-
-    /**
-     * @param integer
-     */
-    public void setVersion(Integer integer) {
-        version = integer;
     }
 
     /**

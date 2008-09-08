@@ -46,8 +46,7 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
     private Integer endDisbursementNbr; // END_DISB_NBR
     private Timestamp disbNbrEffectiveDt; // DISB_NBR_EFF_DT
     private Timestamp disbNbrExpirationDt; // DISB_NBR_EXPR_DT
-    private Integer version; // VER_NBR
-
+    
     private Integer bankId;
     private Bank bank;
 
@@ -69,14 +68,7 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
     public void setId(Integer documentTypeId) {
         this.id = documentTypeId;
     }
-    /**
-     * @return
-     * @hibernate.version column="VER_NBR" not-null="true"
-     */
-    public Integer getVersion() {
-        return version;
-    }
-
+    
     /**
      * @return
      * 
@@ -182,13 +174,6 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
      */
     public void setPhysCampusProcCode(String string) {
         physCampusProcCode = string;
-    }
-
-    /**
-     * @param integer
-     */
-    public void setVersion(Integer integer) {
-        version = integer;
     }
 
     public boolean equals(Object obj) {

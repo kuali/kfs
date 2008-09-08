@@ -39,7 +39,6 @@ public class AchAccountNumber extends TimestampedBusinessObjectBase {
 
     private Integer id; // PMT_GRP_ID Primary Key
     private String achBankAccountNbr; // ACH_BNK_ACCT_NBR
-    private Integer version; // VER_NBR
     
     public AchAccountNumber() {
         super();
@@ -92,14 +91,6 @@ public class AchAccountNumber extends TimestampedBusinessObjectBase {
     }
 
     /**
-     * @return
-     * @hibernate.version column="VER_NBR" not-null="true"
-     */
-    public Integer getVersion() {
-        return version;
-    }
-
-    /**
      * @param integer
      */
     public void setAchBankAccountNbr(String s) {
@@ -111,13 +102,6 @@ public class AchAccountNumber extends TimestampedBusinessObjectBase {
      */
     public void setId(Integer integer) {
         id = integer;
-    }
-
-    /**
-     * @param integer
-     */
-    public void setVersion(Integer integer) {
-        version = integer;
     }
 
     public boolean equals(Object obj) {

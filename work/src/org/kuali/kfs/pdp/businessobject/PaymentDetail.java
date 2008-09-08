@@ -54,7 +54,6 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     private BigDecimal invTotShipAmount; // INV_TOT_SHP_AMT
     private BigDecimal invTotOtherDebitAmount; // INV_TOT_OTHR_DEBIT_AMT
     private BigDecimal invTotOtherCreditAmount; // INV_TOT_OTHR_CRDT_AMT
-    private Integer version; // VER_NBR
     private Boolean primaryCancelledPayment; // PDP_PRM_PMT_CNCL_IND
     private Timestamp lastDisbursementActionDate;
     
@@ -168,14 +167,6 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      */
     public Integer getId() {
         return id;
-    }
-
-    /**
-     * @return
-     * @hibernate.version column="VER_NBR" not-null="true"
-     */
-    public Integer getVersion() {
-        return version;
     }
 
     /**
@@ -355,13 +346,6 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      */
     public void setRequisitionNbr(String string) {
         requisitionNbr = string;
-    }
-
-    /**
-     * @param integer
-     */
-    public void setVersion(Integer integer) {
-        version = integer;
     }
 
     /**

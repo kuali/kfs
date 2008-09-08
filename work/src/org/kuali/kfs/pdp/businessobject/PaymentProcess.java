@@ -43,8 +43,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
     private String campus;
     private String processUserId;
     private UniversalUser processUser;
-    private Integer version;
-
+    
     public PaymentProcess() {
         super();
     }
@@ -95,14 +94,6 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     public void setProcessUserId(String processUserId) {
         this.processUserId = processUserId;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
     }
 
     public boolean equals(Object obj) {

@@ -39,8 +39,7 @@ import org.kuali.rice.kns.service.UniversalUserService;
  */
 public class CustomerBank extends TimestampedBusinessObjectBase {
     private Integer id; // CUST_BNK_ID
-    private Integer version;
-
+    
     private Integer customerId;
     private CustomerProfile customerProfile; // CUST_ID
 
@@ -116,21 +115,6 @@ public class CustomerBank extends TimestampedBusinessObjectBase {
      */
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    /**
-     * @hibernate.version column="VER_NBR"
-     * @return Returns the version.
-     */
-    public Integer getVersion() {
-        return version;
-    }
-
-    /**
-     * @param ojbVerNbr The ojbVerNbr to set.
-     */
-    public void setVersion(Integer ver) {
-        this.version = ver;
     }
 
     public boolean equals(Object obj) {

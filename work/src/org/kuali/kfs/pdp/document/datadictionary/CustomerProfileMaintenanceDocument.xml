@@ -195,7 +195,7 @@
               p:name="customerActive"
               p:required="false" />
       <bean parent="MaintainableFieldDefinition"
-	              p:name="version"    
+	              p:name="versionNumber"    
               p:required="false" />
       </list>
     </property>

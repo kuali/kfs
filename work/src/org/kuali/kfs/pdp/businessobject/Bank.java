@@ -38,7 +38,6 @@ import org.kuali.rice.kns.service.UniversalUserService;
  */
 public class Bank extends TimestampedBusinessObjectBase {
     private Integer id;
-    private Integer version;
     private String description;
     private String name;
     private String routingNumber;
@@ -149,21 +148,6 @@ public class Bank extends TimestampedBusinessObjectBase {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * @hibernate.version column="VER_NBR"
-     * @return Returns the version.
-     */
-    public Integer getVersion() {
-        return version;
-    }
-
-    /**
-     * @param ojbVerNbr The ojbVerNbr to set.
-     */
-    public void setVersion(Integer ver) {
-        this.version = ver;
     }
 
     /**

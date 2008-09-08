@@ -55,8 +55,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     private Boolean origPmtSpecHandling; // ORIG_PMT_SPCL_HANDLG_IND VARCHAR2 1
     private Boolean pmtCancelExtractStat; // PMT_CNCL_EXTRT_STAT_IND VARCHAR2 1
     private Timestamp pmtCancelExtractDate; // PMT_CNCL_EXTRT_TS
-    private Integer version; // VER_NBR
-
+    
     private String disbursementTypeCode;
     private DisbursementType disbursementType;
 
@@ -86,14 +85,6 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
      */
     public Integer getId() {
         return id;
-    }
-
-    /**
-     * @return
-     * @hibernate.version column="VER_NBR" not-null="true"
-     */
-    public Integer getVersion() {
-        return version;
     }
 
     /**
@@ -304,13 +295,6 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
      */
     public void setPmtCancelExtractStat(Boolean boolean1) {
         pmtCancelExtractStat = boolean1;
-    }
-
-    /**
-     * @param integer
-     */
-    public void setVersion(Integer integer) {
-        version = integer;
     }
 
     /**

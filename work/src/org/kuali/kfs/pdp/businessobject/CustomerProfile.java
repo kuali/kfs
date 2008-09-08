@@ -79,7 +79,6 @@ public class CustomerProfile extends TimestampedBusinessObjectBase {
     private String fileThresholdEmailAddress; // CUST_FILE_THRSHLD_EMAIL_ADDR
     private Integer id; // CUST_ID
     private Boolean nraReview; // CUST_NRA_RVW_IND
-    private Integer version; // VER_NBR
     private String orgCode; // ORG_CD
     private Boolean ownershipCodeRequired; // CUST_OWNR_CD_REQ_IND
     private Boolean payeeIdRequired; // CUST_PAYEE_ID_REQ_IND
@@ -386,14 +385,6 @@ public class CustomerProfile extends TimestampedBusinessObjectBase {
      */
     public Integer getId() {
         return id;
-    }
-
-    /**
-     * @hibernate.version column="VER_NBR"
-     * @return Returns the ojbVerNbr.
-     */
-    public Integer getVersion() {
-        return version;
     }
 
     /**
@@ -764,13 +755,6 @@ public class CustomerProfile extends TimestampedBusinessObjectBase {
      */
     public void setNraReview(Boolean nraReview) {
         this.nraReview = nraReview;
-    }
-
-    /**
-     * @param ojbVerNbr The ojbVerNbr to set.
-     */
-    public void setVersion(Integer ver) {
-        this.version = ver;
     }
 
     /**

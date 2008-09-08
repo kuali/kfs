@@ -73,8 +73,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private Timestamp epicPaymentCancelledExtractedDate; // PDP_EPIC_PMT_CNCL_EXTRT_TS
     private Timestamp epicPaymentPaidExtractedDate; // PDP_EPIC_PMT_PD_EXTRT_TS
     private Timestamp adviceEmailSentDate; // ADV_EMAIL_SNT_TS
-    private Integer version; // VER_NBR
-
+    
     private Integer batchId;
     private Batch batch; // PMT_BATCH_ID
 
@@ -336,14 +335,6 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      */
     public void setState(String state) {
         this.state = state;
-    }
-
-    /**
-     * @return
-     * @hibernate.version column="VER_NBR" not-null="true"
-     */
-    public Integer getVersion() {
-        return version;
     }
 
     /**
@@ -830,13 +821,6 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      */
     public void setTaxablePayment(Boolean boolean1) {
         taxablePayment = boolean1;
-    }
-
-    /**
-     * @param integer
-     */
-    public void setVersion(Integer integer) {
-        version = integer;
     }
 
     /**

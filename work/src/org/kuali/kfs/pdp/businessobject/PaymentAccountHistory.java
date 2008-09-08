@@ -46,8 +46,7 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
     private String acctAttributeOrigValue; // ACCT_ATTRIB_ORIG_VAL
     private String acctAttributeNewValue; // ACCT_ATTRIB_NEW_VAL
     private Timestamp acctChangeDate; // ACCT_CHG_TS
-    private Integer version; // VER_NBR
-
+    
     private Integer paymentAccountDetailId;
     private PaymentAccountDetail paymentAccountDetail; // PMT_ACCT_DTL_ID
 
@@ -77,14 +76,6 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
      */
     public Integer getId() {
         return id;
-    }
-
-    /**
-     * @return
-     * @hibernate.version column="VER_NBR" not-null="true"
-     */
-    public Integer getVersion() {
-        return version;
     }
 
     /**
@@ -167,13 +158,6 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
      */
     public void setId(Integer integer) {
         id = integer;
-    }
-
-    /**
-     * @param integer
-     */
-    public void setVersion(Integer integer) {
-        version = integer;
     }
 
     public boolean equals(Object obj) {

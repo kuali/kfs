@@ -44,8 +44,7 @@ public class PaymentNoteText extends TimestampedBusinessObjectBase {
 
     private Integer customerNoteLineNbr; // CUST_NTE_LN_NBR
     private String customerNoteText; // CUST_NTE_TXT
-    private Integer version; // VER_NBR
-
+    
     public PaymentNoteText() {
         super();
     }
@@ -64,14 +63,6 @@ public class PaymentNoteText extends TimestampedBusinessObjectBase {
      */
     public void setId(Integer paymentNoteId) {
         this.id = paymentNoteId;
-    }
-
-    /**
-     * @return
-     * @hibernate.version column="VER_NBR" not-null="true"
-     */
-    public Integer getVersion() {
-        return version;
     }
 
     /**
@@ -117,13 +108,6 @@ public class PaymentNoteText extends TimestampedBusinessObjectBase {
      */
     public void setPaymentDetail(PaymentDetail pd) {
         paymentDetail = pd;
-    }
-
-    /**
-     * @param integer
-     */
-    public void setVersion(Integer integer) {
-        version = integer;
     }
 
     public boolean equals(Object obj) {

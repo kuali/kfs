@@ -39,8 +39,7 @@ public class FormatProcess extends TimestampedBusinessObjectBase {
 
     private String physicalCampusProcessCode; // PHYS_CMP_PROC_CD
     private Timestamp beginFormat; // BEG_FMT_TS
-    private Integer version; // VER_NBR
-
+    
     public FormatProcess() {
         super();
     }
@@ -51,14 +50,6 @@ public class FormatProcess extends TimestampedBusinessObjectBase {
 
     public void setBeginFormat(Timestamp beginFormat) {
         this.beginFormat = beginFormat;
-    }
-
-    /**
-     * @return
-     * @hibernate.version column="VER_NBR" not-null="true"
-     */
-    public Integer getVersion() {
-        return version;
     }
 
     /**
@@ -74,13 +65,6 @@ public class FormatProcess extends TimestampedBusinessObjectBase {
      */
     public void setPhysicalCampusProcessCode(String string) {
         physicalCampusProcessCode = string;
-    }
-
-    /**
-     * @param integer
-     */
-    public void setVersion(Integer integer) {
-        version = integer;
     }
 
     public boolean equals(Object obj) {

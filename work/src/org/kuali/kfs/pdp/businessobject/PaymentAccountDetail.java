@@ -49,8 +49,7 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
     private String orgReferenceId; // ORG_REFERENCE_ID
     private String projectCode; // PROJECT_CD
     private BigDecimal accountNetAmount; // ACCT_NET_AMT
-    private Integer version; // VER_NBR
-
+    
     private Integer paymentDetailId;
     private PaymentDetail paymentDetail; // PMT_DTL_ID
 
@@ -84,14 +83,6 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
      */
     public Integer getId() {
         return id;
-    }
-
-    /**
-     * @return
-     * @hibernate.version column="VER_NBR" not-null="true"
-     */
-    public Integer getVersion() {
-        return version;
     }
 
     /**
@@ -234,13 +225,6 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
      */
     public void setSubAccountNbr(String string) {
         subAccountNbr = string;
-    }
-
-    /**
-     * @param integer
-     */
-    public void setVersion(Integer integer) {
-        version = integer;
     }
 
     public boolean equals(Object obj) {

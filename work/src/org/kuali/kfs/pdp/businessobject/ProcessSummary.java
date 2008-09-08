@@ -47,7 +47,6 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
     private Integer endDisbursementNbr;
     private BigDecimal processTotalAmount;
     private Integer processTotalCount;
-    private Integer version;
     private DisbursementType disbursementType;
     private PaymentProcess process;
     private CustomerProfile customer;
@@ -140,14 +139,6 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
 
     public void setProcessTotalCount(Integer processTotalCount) {
         this.processTotalCount = processTotalCount;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
     }
 
     public boolean equals(Object obj) {

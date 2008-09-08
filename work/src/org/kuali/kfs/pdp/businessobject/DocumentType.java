@@ -42,7 +42,6 @@ public class DocumentType extends TimestampedBusinessObjectBase {
     private Integer id; // DOC_TYP_ID
     private String fsOriginCode; // FS_ORIGIN_CD
     private String fdocTypeCode; // FDOC_TYP_CD
-    private Integer version; // VER_NBR
     private TransactionType transactionType;
     private DisbursementType disbursementType;
 
@@ -73,15 +72,6 @@ public class DocumentType extends TimestampedBusinessObjectBase {
     public String getFdocTypeCode() {
         return fdocTypeCode;
     }
-
-    /**
-     * @return
-     * @hibernate.version column="VER_NBR" not-null="true"
-     */
-    public Integer getVersion() {
-        return version;
-    }
-
 
     /**
      * @return
@@ -133,13 +123,6 @@ public class DocumentType extends TimestampedBusinessObjectBase {
      */
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
-    }
-
-    /**
-     * @param integer
-     */
-    public void setVersion(Integer integer) {
-        version = integer;
     }
 
     public boolean equals(Object obj) {

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.document.workflow;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +36,7 @@ import org.kuali.rice.kns.util.Guid;
  * The resulting XML is generally more readable if each RoutingData object
  * has a unique RoutingTypes and the RoutingSet contains multiple RoutingObjects.
  */
-public class RoutingData {
+public class RoutingData implements Serializable {
     List <String> routingTypes;
     Set routingSet;
     public Set getRoutingSet() {

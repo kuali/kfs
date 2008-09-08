@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 package org.kuali.kfs.sys.document.workflow;
+
+import java.io.Serializable;
+
 /**
  * 
  * This class is the abstract superclass of all objects that will contain 
  * document data that will be used by routing attributes to determine routing
  * as part of the generic routing framework.  See {@link RoutingData}
  */
-abstract class RoutingObject {}
+abstract class RoutingObject implements Serializable {}

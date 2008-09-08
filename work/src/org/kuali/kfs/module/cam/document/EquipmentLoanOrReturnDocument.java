@@ -74,7 +74,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     private Country borrowerStorageCountry;
     private UniversalUser borrowerUniversalUser;
     private Asset asset;
-    private PostalZipCode postalZipCode;
+    private PostalZipCode borrowerPostalZipCode;
+    private PostalZipCode borrowerStoragePostalZipCode;
     
     private boolean newLoan;
 
@@ -448,21 +449,39 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     }
 
     /**
-     * Gets the postalZipCode attribute.
+     * Gets the borrowerPostalZipCode attribute.
      * 
-     * @return Returns the postalZipCode
+     * @return Returns the borrowerPostalZipCode
      */
-    public PostalZipCode getPostalZipCode() {
-        return postalZipCode;
+    public PostalZipCode getBorrowerPostalZipCode() {
+        return borrowerPostalZipCode;
     }
 
     /**
-     * Sets the postalZipCode attribute.
+     * Sets the borrowerPostalZipCode attribute.
      * 
-     * @param postalZipCode The postalZipCode to set.
+     * @param borrowerPostalZipCode The borrowerPostalZipCode to set.
      */
-    public void setPostalZipCode(PostalZipCode postalZipCode) {
-        this.postalZipCode = postalZipCode;
+    public void setBorrowerPostalZipCode(PostalZipCode borrowerPostalZipCode) {
+        this.borrowerPostalZipCode = borrowerPostalZipCode;
+    }
+
+    /**
+     * Sets the borrowerStoragePostalZipCode attribute.
+     * 
+     * @param borrowerStoragePostalZipCode The borrowerStoragePostalZipCode to set.
+     */
+    public PostalZipCode getBorrowerStoragePostalZipCode() {
+        return borrowerStoragePostalZipCode;
+    }
+
+    /**
+     * Gets the borrowerStoragePostalZipCode attribute.
+     * 
+     * @return Returns the borrowerStoragePostalZipCode
+     */
+    public void setborrowerStoragePostalZipCode(PostalZipCode borrowerStoragePostalZipCode) {
+        this.borrowerStoragePostalZipCode = borrowerStoragePostalZipCode;
     }
 
     /**

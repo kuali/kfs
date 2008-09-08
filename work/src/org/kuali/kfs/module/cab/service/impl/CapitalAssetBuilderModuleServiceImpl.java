@@ -131,9 +131,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                         valid &= validateFieldRequirementByChartHelper (system, ArrayUtils.subarray(mappedNames, 1, mappedNames.length));
                     }
                 }
-                else {
-                    // This may be added if we have more fields mapped to any place other than purchasingCapitalAssetItems
-                    // or purchasingCapitalAssetSystems.
+                else if (mappedNames[0].equals("assetsSize")){
+                    for (CapitalAssetSystem system : capitalAssetSystems) {
+                        if (system.getItemCapitalAssets().isEmpty()) {
+                            return false;
+                        }
+                    }
+                    return true;
                 }
             }
         }

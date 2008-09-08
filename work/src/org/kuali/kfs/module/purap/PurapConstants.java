@@ -845,7 +845,7 @@ public class PurapConstants extends JSTLConstants {
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MANUFACTURER_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetManufacturerName");
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MODEL_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetModelDescription");
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NOT_CURRENT_FISCAL_YEAR_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetNotReceivedCurrentFiscalYearIndicator"); 
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_REQUISITION, ""); //TODO: Chris said this is the size of the itemCapitalAssets in the system. If the size is 0 and the param is set to Y then it fails the validation.
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_REQUISITION, "assetsSize"); 
 
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_NUMBER_ON_PURCHASE_ORDER, "purchasingCapitalAssetSystems.itemCapitalAssets.capitalAssetNumber");
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_TRANSACTION_TYPE_ON_PURCHASE_ORDER, "purchasingCapitalAssetItems.capitalAssetTransactionType");
@@ -857,7 +857,7 @@ public class PurapConstants extends JSTLConstants {
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MANUFACTURER_ON_PURCHASE_ORDER, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetManufacturerName");
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MODEL_ON_PURCHASE_ORDER, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetModelDescription");
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NOT_CURRENT_FISCAL_YEAR_ON_PURCHASE_ORDER, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetNotReceivedCurrentFiscalYearIndicator");
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_PURCHASE_ORDER, ""); //TODO: Chris said this is the size of the itemCapitalAssets in the system. If the size is 0 and the param is set to Y then it fails the validation.
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_PURCHASE_ORDER, "assetsSize"); 
             
             return Collections.unmodifiableMap(fieldsByParameterNames);
         }

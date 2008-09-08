@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
@@ -112,6 +113,10 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
         else {
             return null;
         }
+    }
+    
+    public boolean isEmpty() {
+        return !(StringUtils.isNotEmpty(capitalAssetTransactionTypeCode) || ! this.getPurchasingCapitalAssetSystem().isEmpty());
     }
  
     protected LinkedHashMap toStringMapper() {

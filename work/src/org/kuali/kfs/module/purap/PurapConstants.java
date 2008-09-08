@@ -732,13 +732,6 @@ public class PurapConstants extends JSTLConstants {
 
     public static final HashMap<String, String> PURAP_DETAIL_TYPE_CODE_MAP = getPurapParameterDetailTypeCodes();
     
-    public static class CAMSValidationStrings {
-        public static final String CAPITAL = "Capital";
-        public static final String EXPENSE = "Expense";
-        public static final String RECURRING = "Recurring";
-        public static final String NON_RECURRING = "Non-recurring";
-    }
-    
     public static class CapitalAssetTabStrings {
         public static final String SYSTEM_DEFINITION = "Definition: A system is any group of line items added together to create one or more identical assets. Systems are further defined as line items that work together to perform one function. Each of the line items must be necessary for the system to function.";
         
@@ -838,6 +831,39 @@ public class PurapConstants extends JSTLConstants {
         public static final String MULIPLE = "MUL";
     }
     
+    
+    public static final class CAMS_REQUIREDNESS_FIELDS {
+        private static final Map<String, String> getRequirednessFieldsByParameterNames() {
+            Map<String, String> fieldsByParameterNames = new HashMap<String, String>();
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_NUMBER_ON_REQUISITION, "purchasingCapitalAssetSystems.itemCapitalAssets.capitalAssetNumber");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_TRANSACTION_TYPE_ON_REQUISITION, "purchasingCapitalAssetItems.capitalAssetTransactionType");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_TYPE_ON_REQUISITION, "purchasingCapitalAssetSystems.capitalAssetTypeCode"); 
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_COMMENTS_ON_REQUISITION, "purchasingCapitalAssetSystems.capitalAssetNoteText");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_DESCRIPTION_ON_REQUISITION, "purchasingCapitalAssetSystems.capitalAssetSystemDescription");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_LOCATIONS_ADDRESS_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetLocations.capitalAssetLine1Address"); 
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_LOCATIONS_QUANTITY_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetLocations.itemQuantity");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MANUFACTURER_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetManufacturerName");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MODEL_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetModelDescription");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NOT_CURRENT_FISCAL_YEAR_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetNotReceivedCurrentFiscalYearIndicator"); 
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_REQUISITION, ""); //TODO: Chris said this is the size of the itemCapitalAssets in the system. If the size is 0 and the param is set to Y then it fails the validation.
+
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_NUMBER_ON_PURCHASE_ORDER, "purchasingCapitalAssetSystems.itemCapitalAssets.capitalAssetNumber");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_TRANSACTION_TYPE_ON_PURCHASE_ORDER, "purchasingCapitalAssetItems.capitalAssetTransactionType");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_TYPE_ON_PURCHASE_ORDER, "purchasingCapitalAssetSystems.capitalAssetTypeCode");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_COMMENTS_ON_PURCHASE_ORDER, "purchasingCapitalAssetSystems.capitalAssetNoteText");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_DESCRIPTION_ON_PURCHASE_ORDER, "purchasingCapitalAssetSystems.capitalAssetSystemDescription");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_LOCATIONS_ADDRESS_ON_PURCHASE_ORDER, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetLocations.capitalAssetLine1Address");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_LOCATIONS_QUANTITY_ON_PURCHASE_ORDER, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetLocations.itemQuantity");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MANUFACTURER_ON_PURCHASE_ORDER, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetManufacturerName");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MODEL_ON_PURCHASE_ORDER, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetModelDescription");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NOT_CURRENT_FISCAL_YEAR_ON_PURCHASE_ORDER, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetNotReceivedCurrentFiscalYearIndicator");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_PURCHASE_ORDER, ""); //TODO: Chris said this is the size of the itemCapitalAssets in the system. If the size is 0 and the param is set to Y then it fails the validation.
+            
+            return Collections.unmodifiableMap(fieldsByParameterNames);
+        }
+        
+        public static final Map<String, String> REQUIREDNESS_FIELDS_BY_PARAMETER_NAMES = getRequirednessFieldsByParameterNames();
+    }
     public static class CapitalAssetSystemStates{
         public static final String NEW = "NEW";
         public static final String MODIFY = "MOD";

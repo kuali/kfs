@@ -78,7 +78,7 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
 
             // set purap status
             SpringContext.getBean(PurapService.class).updateStatus(this, PurchaseOrderStatuses.CLOSED);
-            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
+            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
         }
         // DOCUMENT DISAPPROVED
         else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {

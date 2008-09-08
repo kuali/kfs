@@ -37,6 +37,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.businessobject.RequisitionSource;
+import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.module.purap.util.ItemParserBase;
@@ -164,6 +165,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         purchasingCapitalAssetItems = new TypedArrayList(getPurchasingCapitalAssetItemClass());
         purchasingCapitalAssetSystems = new TypedArrayList(getPurchasingCapitalAssetSystemClass());
     }
+
+    public abstract PurchasingDocumentSpecificService getDocumentSpecificService();
 
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingDocument#templateVendorDetail(org.kuali.kfs.vnd.businessobject.VendorDetail)

@@ -106,7 +106,7 @@
 				</td>
             </tr>
 
-			<logic:iterate indexId="ctr2" name="KualiForm" property="${camsAssetSystemProperty}.purchasingCapitalAssetLocations" id="location">				
+			<logic:iterate indexId="ctr2" name="KualiForm" property="${camsAssetSystemProperty}.capitalAssetLocations" id="location">				
 								
 				<!-- Cams Locations -->
 			    <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
@@ -151,7 +151,7 @@
 					</c:if>   
 				        <th colspan="10" style="padding:0;">
 							<!-- Cams Location List -->
-							<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="${ctr2}" camsAssetLocationProperty="${camsAssetSystemProperty}.purchasingCapitalAssetLocations[${ctr2}]" isEditable="false" availability="${availability}" />
+							<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="${ctr2}" camsAssetLocationProperty="${camsAssetSystemProperty}.capitalAssetLocations[${ctr2}]" isEditable="false" availability="${availability}" />
 				        </th>
 				    
 					<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">

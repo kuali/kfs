@@ -17,12 +17,14 @@ package org.kuali.kfs.module.purap.document.service;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -205,4 +207,14 @@ public interface PurapService {
     */
    public boolean isTodayWithinApoAllowedRange();
 
+   /**
+    * This method can be used to retrieve a list of parameters that
+    * match the given fieldValues criteria. You could also specify the "like"
+    * criteria in the Map.
+    * 
+    * @param   fieldValues The Map containing the key value pairs to be used 
+    *                      to build the criteria.
+    * @return  List of Parameters that match the criteria.
+    */
+   public List<Parameter> getParametersGivenLikeCriteria(Map<String, String> fieldValues);
 }

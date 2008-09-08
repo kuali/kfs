@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -25,6 +26,7 @@ public abstract class PurchasingItemCapitalAssetBase extends PersistableBusiness
     private Long capitalAssetNumber;
     private Integer capitalAssetSystemIdentifier;
     private Integer itemCapitalAssetIdentifier;
+    private CapitalAssetSystem capitalAssetSystem;
     
     /**
      * Default constructor
@@ -62,6 +64,14 @@ public abstract class PurchasingItemCapitalAssetBase extends PersistableBusiness
 
     public void setItemCapitalAssetIdentifier(Integer itemCapitalAssetIdentifier) {
         this.itemCapitalAssetIdentifier = itemCapitalAssetIdentifier;
+    }
+
+    public CapitalAssetSystem getCapitalAssetSystem() {
+        return capitalAssetSystem;
+    }
+
+    public void setCapitalAssetSystem(CapitalAssetSystem capitalAssetSystem) {
+        this.capitalAssetSystem = capitalAssetSystem;
     }
 
     /**

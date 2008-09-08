@@ -1042,7 +1042,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        purchaseOrderService.saveDocumentNoValidation(po);
+        purchaseOrderService.saveDocumentWithoutValidation(po);
 
         return encumbranceAccounts;
     }
@@ -1177,7 +1177,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        purchaseOrderService.saveDocumentNoValidation(po);
+        purchaseOrderService.saveDocumentWithoutValidation(po);
 
         List<SourceAccountingLine> encumbranceAccounts = new ArrayList();
         for (Iterator iter = encumbranceAccountMap.keySet().iterator(); iter.hasNext();) {
@@ -1342,7 +1342,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        purchaseOrderService.saveDocumentNoValidation(po);
+        purchaseOrderService.saveDocumentWithoutValidation(po);
 
         return encumbranceAccounts;
     }

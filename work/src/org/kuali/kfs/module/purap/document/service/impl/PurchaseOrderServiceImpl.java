@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -44,13 +45,17 @@ import org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao;
 import org.kuali.kfs.module.purap.document.service.LogicContainer;
@@ -207,9 +212,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
     
     /**
-     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#saveDocumentNoValidation(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
+     * @see org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService#saveDocumentWithoutValidation(org.kuali.kfs.module.purap.document.PurchasingDocument)
      */
-    public void saveDocumentNoValidation(PurchaseOrderDocument document) {
+    public void saveDocumentWithoutValidation(PurchasingDocument document) {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
         }
@@ -229,7 +234,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         ErrorMap errorHolder = GlobalVariables.getErrorMap();
         GlobalVariables.setErrorMap(new ErrorMap());
         try {
-            saveDocumentNoValidation(document);
+            saveDocumentWithoutValidation(document);
         }
         finally {
             GlobalVariables.setErrorMap(errorHolder);
@@ -252,6 +257,24 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
 
+    public PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
+        PurchasingCapitalAssetItem camsItem = new PurchaseOrderCapitalAssetItem();
+        camsItem.setItemIdentifier(purapItem.getItemIdentifier());
+        // If the system type is INDIVIDUAL then for each of the capital asset items, we need a system attached to it.
+        if (purDoc.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS)) {
+            CapitalAssetSystem resultSystem = new PurchaseOrderCapitalAssetSystem();
+            camsItem.setPurchasingCapitalAssetSystem(resultSystem);
+        }
+        camsItem.setPurchasingDocument(purDoc);
+
+        return camsItem;
+    }
+    
+    public CapitalAssetSystem createCapitalAssetSystem() {
+        CapitalAssetSystem resultSystem = new PurchaseOrderCapitalAssetSystem();
+        return resultSystem;
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#createAutomaticPurchaseOrderDocument(org.kuali.kfs.module.purap.document.RequisitionDocument)
      */
@@ -300,7 +323,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     PurchaseOrderDocument po = generatePurchaseOrderFromRequisition(doc);
                     Integer cmCode = (Integer) objects[1];
                     po.setContractManagerCode(cmCode);
-                    saveDocumentNoValidation(po);
+                    saveDocumentWithoutValidation(po);
                     return po;
                 }
             };
@@ -477,7 +500,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
         if (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) {
-            saveDocumentNoValidation(po);    
+            saveDocumentWithoutValidation(po);    
         }
         else {
         attemptSetupOfInitialOpenOfDocument(po);
@@ -563,7 +586,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new ValidationException("found errors while trying to print po with doc id " + po.getDocumentNumber());
         }
         po.setPurchaseOrderLastTransmitDate(dateTimeService.getCurrentSqlDate());
-        saveDocumentNoValidation(po);
+        saveDocumentWithoutValidation(po);
     }
 
     /**
@@ -769,7 +792,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 newDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
                 
-                saveDocumentNoValidation(newDocument);
+                saveDocumentWithoutValidation(newDocument);
                                    
                 return newDocument;
             }
@@ -891,7 +914,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     try {
                         Note note = documentService.createNoteFromDocument(po, "Unable to automatically update vendor because it is locked");
                         documentService.addNoteToDocument(po, note);
-                        saveDocumentNoValidation(po);
+                        saveDocumentWithoutValidation(po);
                     }
                     catch (Exception e) {
                         throw new RuntimeException(e);
@@ -1034,7 +1057,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
             LOG.info("attemptSetupOfInitialOpenOfDocument() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + PurchaseOrderStatuses.OPEN + "'");
             purapService.updateStatus(po, PurchaseOrderStatuses.OPEN);
-            saveDocumentNoValidation(po);
+            saveDocumentWithoutValidation(po);
             documentWasSaved = true;
         }
         else {

@@ -20,8 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.module.cab.CabConstants.ValidationStrings;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.kfs.module.purap.PurapConstants.CAMSValidationStrings;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PurCams;
@@ -29,9 +29,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum PurchasingCapitalAssetFixture {
     
-    TWO_CAPITAL(CAMSValidationStrings.CAPITAL,CAMSValidationStrings.CAPITAL),
-    TWO_EXPENSE(CAMSValidationStrings.EXPENSE,CAMSValidationStrings.EXPENSE),
-    CAPITAL_EXPENSE(CAMSValidationStrings.CAPITAL,CAMSValidationStrings.EXPENSE),
+    TWO_CAPITAL(ValidationStrings.CAPITAL,ValidationStrings.CAPITAL),
+    TWO_EXPENSE(ValidationStrings.EXPENSE,ValidationStrings.EXPENSE),
+    CAPITAL_EXPENSE(ValidationStrings.CAPITAL,ValidationStrings.EXPENSE),
     
     POSITIVE_QUANTITY_CAPITAL_PRICE_CAP_OBJECT_CODE(PurCams.POSITIVE_AMOUNT,PurCams.CAPITAL_AMOUNT,PurCams.CAPITAL_OBJECT_CODE),
     POSITIVE_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE(PurCams.POSITIVE_AMOUNT,PurCams.CAPITAL_AMOUNT,PurCams.POSSIBLE_OBJECT_CODE),

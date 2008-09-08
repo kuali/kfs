@@ -19,6 +19,7 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
@@ -34,15 +35,14 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
     private String capitalAssetManufacturerName;
     private String capitalAssetModelDescription;
     private String capitalAssetNoteText;
-    private List<ItemCapitalAsset> purchasingItemCapitalAssets;
-    private List<CapitalAssetLocation> purchasingCapitalAssetLocations;
-
+    private List<ItemCapitalAsset> itemCapitalAssets;
+    private List<CapitalAssetLocation> capitalAssetLocations;
     private CapitalAssetLocation newPurchasingCapitalAssetLocationLine;
-
+    
     public PurchasingCapitalAssetSystemBase() {
         super();
-        purchasingItemCapitalAssets = new TypedArrayList(getItemCapitalAssetClass());
-        purchasingCapitalAssetLocations = new TypedArrayList(getCapitalAssetLocationClass());
+        itemCapitalAssets = new TypedArrayList(getItemCapitalAssetClass());
+        capitalAssetLocations = new TypedArrayList(getCapitalAssetLocationClass());
         this.setNewPurchasingCapitalAssetLocationLine(this.setupNewPurchasingCapitalAssetLocationLine());
     }
 
@@ -86,20 +86,20 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
         this.capitalAssetModelDescription = capitalAssetModelDescription;
     }
 
-    public List<ItemCapitalAsset> getPurchasingItemCapitalAssets() {
-        return purchasingItemCapitalAssets;
+    public List<ItemCapitalAsset> getItemCapitalAssets() {
+        return itemCapitalAssets;
     }
 
-    public void setPurchasingItemCapitalAssets(List<ItemCapitalAsset> purchasingItemCapitalAssets) {
-        this.purchasingItemCapitalAssets = purchasingItemCapitalAssets;
+    public void setItemCapitalAssets(List<ItemCapitalAsset> itemCapitalAssets) {
+        this.itemCapitalAssets = itemCapitalAssets;
     }
 
-    public List<CapitalAssetLocation> getPurchasingCapitalAssetLocations() {
-        return purchasingCapitalAssetLocations;
+    public List<CapitalAssetLocation> getCapitalAssetLocations() {
+        return capitalAssetLocations;
     }
 
-    public void setPurchasingCapitalAssetLocations(List<CapitalAssetLocation> purchasingCapitalAssetLocations) {
-        this.purchasingCapitalAssetLocations = purchasingCapitalAssetLocations;
+    public void setCapitalAssetLocations(List<CapitalAssetLocation> capitalAssetLocations) {
+        this.capitalAssetLocations = capitalAssetLocations;
     }
 
     public Integer getCapitalAssetSystemIdentifier() {
@@ -118,6 +118,10 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
         this.capitalAssetNoteText = capitalAssetNoteText;
     }
 
+    public boolean isEmpty() {
+        return !(StringUtils.isNotEmpty(capitalAssetNoteText) || StringUtils.isNotEmpty(capitalAssetSystemDescription) || StringUtils.isNotEmpty(capitalAssetManufacturerName) || StringUtils.isNotEmpty(this.capitalAssetModelDescription) || StringUtils.isNotEmpty(capitalAssetTypeCode));
+    }
+    
     public abstract Class getItemCapitalAssetClass();
     
     public abstract Class getCapitalAssetLocationClass();

@@ -15,22 +15,22 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
-public interface PurchasingService {
+public interface PurchasingDocumentSpecificService {
 
-    public void setupCapitalAssetItems(PurchasingDocument purDoc);
-    
-    public void deleteCapitalAssetItems(PurchasingDocument purDoc, Integer itemIdentifier);
-
-    public void setupCapitalAssetSystem(PurchasingDocument purDoc);
-    
     /**
      * Saves the document without doing validation by invoking the saveDocument method of documentService.
      * 
-     * @param purchasingDocument the purchasing document to be saved
+     * @param requisitionDocument the requisition document to be saved
      */
-    public void saveDocumentWithoutValidation(PurchasingDocument purchasingDocument);
-
+    public void saveDocumentWithoutValidation(PurchasingDocument document);
+    
+    public PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem);
+    
+    public CapitalAssetSystem createCapitalAssetSystem();
+    
 }

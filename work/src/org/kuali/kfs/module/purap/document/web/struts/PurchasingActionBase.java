@@ -663,7 +663,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             CapitalAssetSystem system = purDocument.getPurchasingCapitalAssetSystems().get(getSelectedLine(request));            
             asset = purchasingForm.getAndResetNewPurchasingItemCapitalAssetLine();
             asset.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());            
-            system.getPurchasingItemCapitalAssets().add(asset);
+            system.getItemCapitalAssets().add(asset);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -682,7 +682,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
             asset = purchasingForm.getAndResetNewPurchasingItemCapitalAssetLine();
             asset.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());            
-            system.getPurchasingItemCapitalAssets().add(asset);
+            system.getItemCapitalAssets().add(asset);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -701,7 +701,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             String assetIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
 
             CapitalAssetSystem system = purDocument.getPurchasingCapitalAssetSystems().get(Integer.parseInt(systemIndex));            
-            system.getPurchasingItemCapitalAssets().remove(Integer.parseInt(assetIndex));
+            system.getItemCapitalAssets().remove(Integer.parseInt(assetIndex));
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -721,7 +721,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
             PurchasingCapitalAssetItem assetItem = purDocument.getPurchasingCapitalAssetItems().get(Integer.parseInt(assetItemIndex));
             CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
-            system.getPurchasingItemCapitalAssets().remove(Integer.parseInt(assetIndex));
+            system.getItemCapitalAssets().remove(Integer.parseInt(assetIndex));
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -739,7 +739,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             CapitalAssetSystem system = purDocument.getPurchasingCapitalAssetSystems().get(getSelectedLine(request));            
             location = purchasingForm.getAndResetNewPurchasingCapitalAssetLocationLine();
             location.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());
-            system.getPurchasingCapitalAssetLocations().add(location);
+            system.getCapitalAssetLocations().add(location);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -758,7 +758,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
             location = purchasingForm.getAndResetNewPurchasingCapitalAssetLocationLine();
             location.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());
-            system.getPurchasingCapitalAssetLocations().add(location);
+            system.getCapitalAssetLocations().add(location);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -778,7 +778,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             
             //get specific asset item and grab system as well and attach asset number
             CapitalAssetSystem system = purDocument.getPurchasingCapitalAssetSystems().get(Integer.parseInt(systemIndex));                                   
-            system.getPurchasingCapitalAssetLocations().remove(Integer.parseInt(locationIndex));            
+            system.getCapitalAssetLocations().remove(Integer.parseInt(locationIndex));            
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -799,7 +799,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             //get specific asset item and grab system as well and attach asset number
             PurchasingCapitalAssetItem assetItem = purDocument.getPurchasingCapitalAssetItems().get(Integer.parseInt(assetItemIndex));
             CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();                        
-            system.getPurchasingCapitalAssetLocations().remove(Integer.parseInt(locationIndex));            
+            system.getCapitalAssetLocations().remove(Integer.parseInt(locationIndex));            
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -808,16 +808,16 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward setupCAMSSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
-        SpringContext.getBean(PurchasingService.class).setupCAMSSystem(document);
+        SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     public ActionForward selectSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
-        
-        SpringContext.getBean(PurchasingService.class).setupCAMSSystem(document);
-        SpringContext.getBean(PurchasingService.class).setupCAMSItems(document);
+        SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
+        SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
+        SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -835,7 +835,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
         
-        SpringContext.getBean(PurchasingService.class).setupCAMSItems(document);
+        SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

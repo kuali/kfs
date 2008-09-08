@@ -41,14 +41,17 @@ import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.dataaccess.ParameterDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -62,6 +65,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
+@NonTransactional
 public class PurapServiceImpl implements PurapService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapServiceImpl.class);
 
@@ -75,6 +79,7 @@ public class PurapServiceImpl implements PurapService {
     private PurchaseOrderService purchaseOrderService;
     private UniversityDateService universityDateService;
     private VendorService vendorService;
+    private ParameterDao parameterDao;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
@@ -119,6 +124,11 @@ public class PurapServiceImpl implements PurapService {
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
+    
+    public void setParameterDao(ParameterDao parameterDao) {
+        this.parameterDao = parameterDao;
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurapService#updateStatus(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String)
      */
@@ -634,5 +644,13 @@ public class PurapServiceImpl implements PurapService {
 
         return diffTodayClosing <= allowApoDate;
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.service.ParameterService#getParametersGivenLikeCriteria(java.util.Map)
+     */
+    public List<Parameter> getParametersGivenLikeCriteria(Map<String, String> fieldValues) {
+        return parameterDao.getParametersGivenLikeCriteria(fieldValues);
+    }
+    
 
 }

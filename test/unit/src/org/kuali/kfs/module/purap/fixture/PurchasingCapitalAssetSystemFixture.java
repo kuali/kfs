@@ -80,7 +80,7 @@ public enum PurchasingCapitalAssetSystemFixture {
         
         for (PurchasingCapitalAssetLocationFixture locationFixture : locations) {
             CapitalAssetLocation location = locationFixture.createPurchasingCapitalAssetLocation(RequisitionCapitalAssetLocation.class);
-            assetSystem.getPurchasingCapitalAssetLocations().add(location);
+            assetSystem.getCapitalAssetLocations().add(location);
         }
         return assetSystem;
     }

@@ -18,12 +18,15 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
+import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -127,7 +130,8 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
      */
     public boolean capitalAssetWarningConditionsExist(PurchasingAccountsPayableDocument purapDocument, PurchasingItemBase item) {
         PurchasingDocumentRuleBase ruleBase = new PurchasingDocumentRuleBase();
-        return !ruleBase.validateItemCapitalAssetWithWarnings(purapDocument, item);        
+        RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType();
+        return !(SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateItemCapitalAssetWithWarnings(recurringPaymentType, item)); 
     }
     
 }

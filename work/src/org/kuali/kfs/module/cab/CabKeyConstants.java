@@ -26,6 +26,12 @@ public class CabKeyConstants {
     public static final String ERROR_PO_ID_EMPTY = "error.po.id.empty";
     public static final String MESSAGE_NO_ACTIVE_PURAP_DOC = "message.no.active.purap.doc";
     public static final String MESSAGE_CAB_CHANGES_SAVED_SUCCESS = "message.cab.changes.saved.success";
+
+    public static final String ERROR_ITEM_CAPITAL_AND_EXPENSE = "errors.item.capitalAsset.capital.and.expense";
+    public static final String WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL = "warnings.item.capitalAsset.threshold.objectCodeLevel";
+    public static final String ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE = "errors.item.capitalAsset.tranType.objectCodeSubtype";
+    public static final String ERROR_ITEM_WRONG_TRAN_TYPE = "errors.item.capitalAsset.wrong.tranType";
+    public static final String ERROR_ITEM_NO_TRAN_TYPE = "errors.item.capitalAsset.no.tranType";
     public static final String ERROR_MERGE_QTY_EMPTY = "error.merge.qty.empty";
     public static final String ERROR_MERGE_DESCRIPTION_EMPTY = "error.merge.description.empty";
     public static final String ERROR_ALLOCATE_NO_LINE_SELECTED = "error.allocate.no.line.selected";

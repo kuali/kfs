@@ -18,8 +18,6 @@ package org.kuali.kfs.integration.purap;
 import java.util.List;
 
 
-
-
 public interface CapitalAssetSystem {
 
     public String getCapitalAssetSystemDescription();
@@ -42,13 +40,13 @@ public interface CapitalAssetSystem {
 
     public void setCapitalAssetModelDescription(String capitalAssetModelDescription);
 
-    public List<ItemCapitalAsset> getPurchasingItemCapitalAssets();
+    public List<ItemCapitalAsset> getItemCapitalAssets();
 
-    public void setPurchasingItemCapitalAssets(List<ItemCapitalAsset> purchasingItemCapitalAssets);
+    public void setItemCapitalAssets(List<ItemCapitalAsset> itemCapitalAssets);
 
-    public List<CapitalAssetLocation> getPurchasingCapitalAssetLocations();
+    public List<CapitalAssetLocation> getCapitalAssetLocations();
 
-    public void setPurchasingCapitalAssetLocations(List<CapitalAssetLocation> purchasingCapitalAssetLocations);
+    public void setCapitalAssetLocations(List<CapitalAssetLocation> capitalAssetLocations);
 
     public Integer getCapitalAssetSystemIdentifier();
 
@@ -58,6 +56,8 @@ public interface CapitalAssetSystem {
 
     public void setCapitalAssetNoteText(String capitalAssetNoteText);
 
+    public boolean isEmpty();
+    
     public CapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine();
 
     public void setNewPurchasingCapitalAssetLocationLine(CapitalAssetLocation newCapitalAssetLocationLine);

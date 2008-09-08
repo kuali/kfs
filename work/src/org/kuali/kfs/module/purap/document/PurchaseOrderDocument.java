@@ -54,6 +54,7 @@ import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
@@ -154,6 +155,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.purchaseOrderVendorQuotes = new TypedArrayList(PurchaseOrderVendorQuote.class);
     }
 
+    public PurchasingDocumentSpecificService getDocumentSpecificService() {
+        return SpringContext.getBean(PurchaseOrderService.class);    
+    }
+    
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
      */
@@ -448,7 +453,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         //These are the steps to create the cams items for the po from the cams items for the req.
         List<PurchaseOrderItemCapitalAsset> poCamsItems = new ArrayList<PurchaseOrderItemCapitalAsset>();
         for (PurchasingCapitalAssetItem camsItem : requisitionDocument.getPurchasingCapitalAssetItems()) {
-            this.getPurchasingCapitalAssetItems().add(camsItem);
+            this.getPurchasingCapitalAssetItems().add(new PurchaseOrderCapitalAssetItem(camsItem));
         }
     }
 
@@ -487,7 +492,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                     if (ObjectUtils.isNotNull(currentNode)) {
                         if (StringUtils.isNotBlank(currentNode.getDisapprovedStatusCode())) {
                             SpringContext.getBean(PurapService.class).updateStatus(this, currentNode.getDisapprovedStatusCode());
-                            SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
+                            SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
                             RequisitionDocument req = getPurApSourceDocumentIfPossible();
                             appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
                             return;
@@ -498,7 +503,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                 // DOCUMENT CANCELED
                 else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
                     SpringContext.getBean(PurapService.class).updateStatus(this, PurchaseOrderStatuses.CANCELLED);
-                    SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
+                    SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
                 }
             }
             catch (WorkflowException e) {
@@ -563,7 +568,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                         boolean willHaveRequest = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, null, true);
                         PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
                         poService.setupDocumentForPendingFirstTransmission(this, willHaveRequest);
-                        poService.saveDocumentNoValidation(this);
+                        poService.saveDocumentWithoutValidation(this);
                     }
                     else {
                         String newStatusCode = newNodeDetails.getAwaitingStatusCode();
@@ -572,7 +577,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                                 // if an approve or complete request will be created then we need to set the status as awaiting for
                                 // the new node
                                 SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);
-                                SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
+                                SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(this);
                             }
                         }
                     }

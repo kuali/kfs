@@ -34,6 +34,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.businessobject.RequisitionSource;
+import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
@@ -518,5 +519,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     public PurchasingItem getPurchasingItem(Integer itemIdentifier);
     
     public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem(Integer itemIdentifier);
+    
+    public abstract PurchasingDocumentSpecificService getDocumentSpecificService();
     
 }

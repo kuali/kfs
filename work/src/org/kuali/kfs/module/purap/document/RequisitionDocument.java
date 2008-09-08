@@ -37,6 +37,7 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -92,6 +93,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         super();
     }
 
+    @Override
+    public PurchasingDocumentSpecificService getDocumentSpecificService() {
+        return SpringContext.getBean(RequisitionService.class);
+    }
     /**
      * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#isBoNotesSupport()
      */

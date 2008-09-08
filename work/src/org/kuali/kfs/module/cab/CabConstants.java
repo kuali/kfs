@@ -47,4 +47,10 @@ public class CabConstants extends JSTLConstants {
         public static final String SPLIT = "split";
     }
     
+    public static class ValidationStrings {
+        public static final String CAPITAL = "Capital";
+        public static final String EXPENSE = "Expense";
+        public static final String RECURRING = "Recurring";
+        public static final String NON_RECURRING = "Non-recurring";
+    }
 }

@@ -51,5 +51,7 @@ public interface PurchasingCapitalAssetItem {
     public void setPurchasingDocument(PurchasingDocument pd);
        
     public PurchasingItem getPurchasingItem();                  
+    
+    public boolean isEmpty();
  
 }

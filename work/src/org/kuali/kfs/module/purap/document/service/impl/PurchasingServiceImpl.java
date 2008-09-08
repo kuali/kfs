@@ -15,29 +15,35 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.service.impl.PersistenceServiceStructureImplBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase implements PurchasingService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingServiceImpl.class);
 
     private ParameterService parameterService;
     private SequenceAccessorService sequenceAccessorService;
-    
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -46,98 +52,78 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
-    public void setupCAMSItems(PurchasingDocument purDoc) {
+    public void saveDocumentWithoutValidation(PurchasingDocument document) {
+        document.getDocumentSpecificService().saveDocumentWithoutValidation(document);
+    }
+
+    public void setupCapitalAssetItems(PurchasingDocument purDoc) {
 
         List<PurchasingCapitalAssetItem> camsItemsList = purDoc.getPurchasingCapitalAssetItems();
         List<PurchasingCapitalAssetItem> newCamsItemsList = new TypedArrayList(purDoc.getPurchasingCapitalAssetItemClass());
-        
+
         for (PurApItem purapItem : purDoc.getItems()) {
             if (purapItem.getItemType().isItemTypeAboveTheLineIndicator()) {
-                if ( doesItemNeedCAMS(purapItem) ) {
+                if (doesItemNeedCapitalAsset(purapItem)) {
                     PurchasingCapitalAssetItem camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
-                    if (camsItem == null) {
+                    if (ObjectUtils.isNull(camsItem)) {
                         PurchasingCapitalAssetItem newCamsItem = createCamsItem(purDoc, purapItem);
-                        if (newCamsItem != null) {
-                            newCamsItemsList.add( newCamsItem );
-                        }
+                        newCamsItemsList.add(newCamsItem);
                     }
                     else {
                         newCamsItemsList.add(camsItem);
                     }
                 }
                 else {
-                    // If item does not need CAMS, need to check whether this is the case
-                    // when the item had been in the CAMS tabs but some editing happened so that
-                    // its object code sub type no longer needs CAMS ?
                     PurchasingCapitalAssetItem camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
-                    if (camsItem != null) {
-                        // This is when we have to display error that the user have to blank out the fields
-                        // in the cams tab for this item because it's no longer needing CAMS.
-                        GlobalVariables.getErrorMap().put("somekey", "Please blank out those fields in cams tab for this item");
+                    if (camsItem != null && camsItem.isEmpty()) {
+                        camsItemsList.remove(camsItem);
                     }
                 }
             }
         }
-        
+
         purDoc.setPurchasingCapitalAssetItems(newCamsItemsList);
-        
+
     }
-    
-    private boolean doesItemNeedCAMS (PurApItem item) {
-        //List<String> capitalAssetSubTypes = parameterService.getParameterValues(PurchasingDocument.class, PurapParameterConstants.CapitalAsset.CAPITAL_ASSET_SUB_TYPES);
-        List<String> capitalAssetSubTypes = new ArrayList<String>();
-        capitalAssetSubTypes.add("CL");
+
+    private PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
+        PurchasingDocumentSpecificService purchasingDocumentSpecificService = purDoc.getDocumentSpecificService();
+        if (purapItem.getItemIdentifier() == null) {
+            ClassDescriptor cd = this.getClassDescriptor(purapItem.getClass());
+            String sequenceName = cd.getFieldDescriptorByName(PurapPropertyConstants.ITEM_IDENTIFIER).getSequenceName();
+            Integer itemIdentifier = new Integer(sequenceAccessorService.getNextAvailableSequenceNumber(sequenceName).toString());
+            purapItem.setItemIdentifier(itemIdentifier);
+        }
+        PurchasingCapitalAssetItem camsItem = purchasingDocumentSpecificService.createCamsItem(purDoc, purapItem);
+        return camsItem;
+    }
+
+    private boolean doesItemNeedCapitalAsset(PurApItem item) {
+        List<String> capitalAssetSubTypes = parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_OBJECT_SUB_TYPES);
         for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
-            accountingLine.refreshReferenceObject("objectCode");
+            accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             String subTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
             if (capitalAssetSubTypes.contains(subTypeCode)) {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
-    private PurchasingCapitalAssetItem getItemIfAlreadyInCamsItemsList (PurApItem item, List<PurchasingCapitalAssetItem> camsItemsList) {
-        if (item.getItemIdentifier() == null) {
-            ClassDescriptor cd = this.getClassDescriptor(item.getClass());
-            String sequenceName = cd.getFieldDescriptorByName("itemIdentifier").getSequenceName();
-            Integer itemIdentifier = new Integer(sequenceAccessorService.getNextAvailableSequenceNumber(sequenceName).toString());            
-            item.setItemIdentifier(itemIdentifier);
-        }
+
+    private PurchasingCapitalAssetItem getItemIfAlreadyInCamsItemsList(PurApItem item, List<PurchasingCapitalAssetItem> camsItemsList) {
         for (PurchasingCapitalAssetItem camsItem : camsItemsList) {
             if (camsItem.getItemIdentifier() != null && camsItem.getItemIdentifier().equals(item.getItemIdentifier())) {
-                return camsItem;                     
+                return camsItem;
             }
         }
-        
+
         return null;
     }
-    
-    private PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
-        Class camsItemClass = purDoc.getPurchasingCapitalAssetItemClass();
-        PurchasingCapitalAssetItem camsItem;
-        CapitalAssetSystem resultSystem;
-        try {
-            camsItem = (PurchasingCapitalAssetItem)(camsItemClass.newInstance());
-            camsItem.setItemIdentifier(purapItem.getItemIdentifier());
-            //If the system type is INDIVIDUAL then for each of the capital asset items, we need a system attached to it.
-            if (purDoc.getCapitalAssetSystemTypeCode().equals("IND")) {
-                resultSystem = (CapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
-                camsItem.setPurchasingCapitalAssetSystem(resultSystem);
-                purDoc.getPurchasingCapitalAssetSystems().add(resultSystem);
-            }
-            camsItem.setPurchasingDocument(purDoc);
-        }
-        catch (Exception e) {
-            return null;
-        }
-        
-        return camsItem;
-    }
-    
-    public void deleteCAMSItems(PurchasingDocument purDoc, Integer itemIdentifier) {
-        //delete the corresponding CAMS items.
+
+
+    public void deleteCapitalAssetItems(PurchasingDocument purDoc, Integer itemIdentifier) {
+        // delete the corresponding CAMS items.
         int index = 0;
         for (PurchasingCapitalAssetItem camsItem : purDoc.getPurchasingCapitalAssetItems()) {
             if (camsItem.getItemIdentifier().equals(itemIdentifier)) {
@@ -147,21 +133,14 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         }
         purDoc.getPurchasingCapitalAssetItems().remove(index);
     }
-    
-    public void setupCAMSSystem(PurchasingDocument purDoc) {
-        CapitalAssetSystem resultSystem;
-        try {
-            resultSystem = (CapitalAssetSystem) purDoc.getPurchasingCapitalAssetSystemClass().newInstance();
-            //If the system type is ONE or MULTIPLE then we need a system attached to the document.
-            if (purDoc.getCapitalAssetSystemTypeCode().equals("ONE") || purDoc.getCapitalAssetSystemTypeCode().equals("MUL")) {
-                if (purDoc.getPurchasingCapitalAssetSystems().size() == 0) {
-                    purDoc.getPurchasingCapitalAssetSystems().add(resultSystem);
-                }
+
+    public void setupCapitalAssetSystem(PurchasingDocument purDoc) {
+        CapitalAssetSystem resultSystem = purDoc.getDocumentSpecificService().createCapitalAssetSystem();
+        if (purDoc.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM) || purDoc.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS)) {
+            if (purDoc.getPurchasingCapitalAssetSystems().size() == 0) {
+                purDoc.getPurchasingCapitalAssetSystems().add(resultSystem);
             }
         }
-        catch (Exception e) {
-           
-        }
     }
-    
+
 }

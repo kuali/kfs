@@ -15,15 +15,21 @@
  */
 package org.kuali.kfs.integration.cab;
 
+import java.util.HashSet;
 import java.util.List;
 
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface CapitalAssetBuilderModuleService {
 
-    public boolean validateIndividualCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems) ;
+    public boolean validateIndividualCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) ;
     
     public boolean validateOneSystemCapitalAssetSystemFromPurchasing(String systemState, CapitalAssetSystem capitalAssetSystem) ;
     
@@ -52,4 +58,20 @@ public interface CapitalAssetBuilderModuleService {
      */
     public boolean validateAccounts(List<SourceAccountingLine> accountingLines, String transactionType);
 
+    //Methods moved from PurchasingDocumentRuleBase
+    
+    public boolean validateItemCapitalAssetWithErrors(RecurringPaymentType recurringPaymentType, PurApItem item, boolean apoCheck);
+    
+    public boolean validateItemCapitalAssetWithWarnings(RecurringPaymentType recurringPaymentType, PurApItem item);
+    
+    public boolean validateAccountingLinesNotCapitalAndExpense(HashSet<String> capitalOrExpenseSet, boolean warn, String itemIdentifier, ObjectCode objectCode);
+    
+    public boolean validateLevelCapitalAssetIndication(KualiDecimal itemQuantity, KualiDecimal extendedPrice, ObjectCode objectCode, String itemIdentifier);
+    
+    public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetTransactionType capitalAssetTransactionType, boolean warn, String itemIdentifier);
+    
+    public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetTransactionType capitalAssetTransactionType, RecurringPaymentType recurringPaymentType, boolean warn, String itemIdentifier);
+    
+    public boolean isCapitalAssetObjectCode(ObjectCode oc);
+    
 }

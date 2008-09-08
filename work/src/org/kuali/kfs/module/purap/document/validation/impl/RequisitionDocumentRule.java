@@ -255,16 +255,17 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     /**
      * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase#validateItemCapitalAssetWithErrors(org.kuali.kfs.module.purap.businessobject.PurchasingItemBase, org.kuali.kfs.module.purap.businessobject.RecurringPaymentType, java.lang.String)
      */
-    @Override
-    public boolean validateItemCapitalAssetWithErrors(PurchasingAccountsPayableDocument purapDocument, PurApItem item, boolean apoCheck) {
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND) ||
-                apoCheck) {
-            return super.validateItemCapitalAssetWithErrors(purapDocument, item, apoCheck);
-        }
-        else {
-            return true;
-        }
-    }
+ // TODO: The method has been moved from PurchasingDocumentRuleBase to CapitalAssetBuilderModuleServiceImpl, need to determine what to do about this.    
+//    @Override
+//    public boolean validateItemCapitalAssetWithErrors(PurchasingAccountsPayableDocument purapDocument, PurApItem item, boolean apoCheck) {
+//        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND) ||
+//                apoCheck) {
+//            return super.validateItemCapitalAssetWithErrors(purapDocument, item, apoCheck);
+//        }
+//        else {
+//            return true;
+//        }
+//    }
     
     /**
      * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase#commodityCodeIsRequired()

@@ -20,14 +20,7 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 /**
  * Defines methods that must be implemented by classes providing a RequisitionService.
  */
-public interface RequisitionService {
-
-    /**
-     * Saves the document without doing validation by invoking the saveDocument method of documentService.
-     * 
-     * @param requisitionDocument the requisition document to be saved
-     */
-    public void saveDocumentWithoutValidation(RequisitionDocument requisitionDocument);
+public interface RequisitionService extends PurchasingDocumentSpecificService {
 
     /**
      * Obtains the requisition document from the database given a requisition id as the input parameter

@@ -19,10 +19,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -63,9 +69,9 @@ public class RequisitionServiceImpl implements RequisitionService {
 
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.RequisitionService#saveDocumentWithoutValidation(org.kuali.kfs.module.purap.document.RequisitionDocument)
+     * @see org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService#saveDocumentWithoutValidation(org.kuali.kfs.module.purap.document.PurchasingDocument)
      */
-    public void saveDocumentWithoutValidation(RequisitionDocument document) {
+    public void saveDocumentWithoutValidation(PurchasingDocument document) {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
         }
@@ -76,6 +82,24 @@ public class RequisitionServiceImpl implements RequisitionService {
         }
     }
 
+    public PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
+        PurchasingCapitalAssetItem camsItem = new RequisitionCapitalAssetItem();
+        camsItem.setItemIdentifier(purapItem.getItemIdentifier());
+        // If the system type is INDIVIDUAL then for each of the capital asset items, we need a system attached to it.
+        if (purDoc.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS)) {
+            CapitalAssetSystem resultSystem = new RequisitionCapitalAssetSystem();
+            camsItem.setPurchasingCapitalAssetSystem(resultSystem);
+        }
+        camsItem.setPurchasingDocument(purDoc);
+
+        return camsItem;
+    }
+    
+    public CapitalAssetSystem createCapitalAssetSystem() {
+        CapitalAssetSystem resultSystem = new RequisitionCapitalAssetSystem();
+        return resultSystem;
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.service.RequisitionService#getRequisitionById(java.lang.Integer)
      */

@@ -34,14 +34,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Defines methods that must be implemented by classes providing a PurchaseOrderService.
  */
-public interface PurchaseOrderService {
-
-    /**
-     * Saves the document without doing validation by invoking the saveDocument method of documentService.
-     * 
-     * @param document The purchase order document to be saved.
-     */
-    public void saveDocumentNoValidation(PurchaseOrderDocument document);
+public interface PurchaseOrderService extends PurchasingDocumentSpecificService {
 
     /**
      * Creates an automatic purchase order document using the given requisition document

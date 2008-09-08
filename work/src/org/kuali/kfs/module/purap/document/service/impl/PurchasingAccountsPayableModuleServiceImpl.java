@@ -22,8 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.integration.businessobject.purap.PurchasingAccountsPayableRestrictedMaterial;
-import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableRestrictedMaterial;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.RestrictedMaterial;

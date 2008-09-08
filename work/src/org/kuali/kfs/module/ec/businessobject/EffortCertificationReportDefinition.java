@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.integration.businessobject.ec.EffortCertificationReport;
+import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.util.AccountingPeriodMonth;
 import org.kuali.kfs.sys.KFSPropertyConstants;

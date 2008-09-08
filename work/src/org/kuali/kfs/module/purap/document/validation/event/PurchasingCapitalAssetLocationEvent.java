@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
-import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
+import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**

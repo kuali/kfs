@@ -19,9 +19,9 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
-import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
-import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
+import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 

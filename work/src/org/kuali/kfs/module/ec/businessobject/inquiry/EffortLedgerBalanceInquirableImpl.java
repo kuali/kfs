@@ -23,7 +23,7 @@ import java.util.Properties;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl;
-import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;

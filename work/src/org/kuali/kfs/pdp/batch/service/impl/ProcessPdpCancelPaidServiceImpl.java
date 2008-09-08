@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
-import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpConstants.PurapParameterConstants;
 import org.kuali.kfs.pdp.batch.service.ProcessPdpCancelPaidService;

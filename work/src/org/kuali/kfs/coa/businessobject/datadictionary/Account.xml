@@ -131,7 +131,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:relationship objectAttribute="cfda">
             <dd:primitiveAttribute source="accountCfdaNumber" target="cfdaNumber" />
         </dd:relationship>
-        <dd:relationship objectAttribute="awards" targetClass="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation">
+        <dd:relationship objectAttribute="awards" targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
             <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
             <dd:primitiveAttribute source="accountNumber" target="accountNumber" />
         </dd:relationship>
@@ -679,7 +679,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Account-accountCfdaNumber" parent="Account-accountCfdaNumber-parentBean" />
 
   <bean id="Account-accountCfdaNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda"
 	p:sourceAttributeName="cfdaNumber"> 
 	<property name="name" value="accountCfdaNumber"></property>
     <property name="label" value="Catalog of Federal Domestic Assistance Number" /> 
@@ -989,7 +989,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
           <property name="inquiryFields" >
             <list>
               <bean parent="InquiryCollectionDefinition" p:attributeName="awards"
-                    p:businessObjectClass="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation">
+                    p:businessObjectClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
                 <property name="inquiryFields" >
                   <list>
                     <dd:field attributeName="proposalNumber" />

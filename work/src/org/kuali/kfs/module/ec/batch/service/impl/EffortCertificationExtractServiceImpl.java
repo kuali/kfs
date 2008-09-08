@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.businessobject.ld.LaborLedgerBalance;
-import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.integration.ld.LaborLedgerBalance;
+import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;

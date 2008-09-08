@@ -25,7 +25,6 @@
         <property name="packagePrefixes">
 			<list>
                 <value>org.kuali.kfs.fp</value>
-                <value>org.kuali.kfs.integration.businessobject.fp</value>
 			</list>
 		</property>
 		<property name="dataDictionaryPackages">

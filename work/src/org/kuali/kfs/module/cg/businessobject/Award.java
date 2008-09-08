@@ -24,7 +24,7 @@ import java.util.List;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;

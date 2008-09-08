@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
-import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation;
-import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda;
-import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.service.AgencyService;

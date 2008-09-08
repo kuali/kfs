@@ -17,8 +17,8 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.math.BigDecimal;
 
-import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
-import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
+import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;

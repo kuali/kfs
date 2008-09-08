@@ -25,7 +25,7 @@
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kfs.module.cg</value>
-                <value>org.kuali.kfs.integration.businessobject.cg</value>
+                <value>org.kuali.kfs.integration.cg</value>
             </list>
         </property>
 		<property name="dataDictionaryPackages">
@@ -57,11 +57,11 @@
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.cg.businessobject.Cfda" />
-                <entry key="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
-                <entry key="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.cg.businessobject.Award" />
-                <entry key="org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
-                <entry key="org.kuali.kfs.integration.businessobject.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.cg.businessobject.Cfda" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.cg.businessobject.Award" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
+                <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
             </map>
         </property> 
 	</bean>

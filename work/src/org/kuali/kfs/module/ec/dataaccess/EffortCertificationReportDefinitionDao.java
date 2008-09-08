@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ec.dataaccess;
 
 import java.util.List;
 
-import org.kuali.kfs.integration.businessobject.ec.EffortCertificationReport;
+import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 
 /**

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.integration.businessobject.ld.LaborLedgerBalance;
+import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.rice.kns.util.KualiDecimal;
 

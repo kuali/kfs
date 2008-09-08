@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.integration.businessobject.ItemCapitalAsset;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.PurapConstants.CAMSValidationStrings;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;

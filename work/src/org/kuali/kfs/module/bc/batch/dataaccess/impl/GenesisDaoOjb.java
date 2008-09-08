@@ -40,7 +40,7 @@ import org.kuali.kfs.fp.businessobject.FunctionControlCode;
 import org.kuali.kfs.gl.GeneralLedgerConstants.ColumnNames;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
-import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.GenesisDao;

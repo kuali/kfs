@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.service.impl;
 
 import java.util.Map;
 
-import org.kuali.kfs.integration.service.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 

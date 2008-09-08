@@ -25,7 +25,7 @@
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kfs.module.cam</value>
-                <value>org.kuali.kfs.integration.businessobject.cam</value>
+                <value>org.kuali.kfs.integration.cam</value>
             </list>
         </property>
 		<property name="dataDictionaryPackages">

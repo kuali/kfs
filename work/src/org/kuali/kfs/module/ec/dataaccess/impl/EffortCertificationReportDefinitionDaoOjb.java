@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.integration.businessobject.ec.EffortCertificationReport;
+import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;

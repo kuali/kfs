@@ -19,7 +19,7 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 

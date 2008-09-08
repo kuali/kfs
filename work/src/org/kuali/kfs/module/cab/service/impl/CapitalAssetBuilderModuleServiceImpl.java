@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cab.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
-import org.kuali.kfs.integration.service.CapitalAssetBuilderModuleService;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;

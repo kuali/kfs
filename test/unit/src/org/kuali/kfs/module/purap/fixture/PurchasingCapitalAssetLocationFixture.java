@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
+import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum PurchasingCapitalAssetLocationFixture {

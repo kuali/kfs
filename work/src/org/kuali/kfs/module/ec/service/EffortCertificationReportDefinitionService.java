@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.integration.businessobject.ec.EffortCertificationReport;
+import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportEarnPaygroup;
 

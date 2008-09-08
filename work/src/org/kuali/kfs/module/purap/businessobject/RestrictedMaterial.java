@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.businessobject.purap.PurchasingAccountsPayableRestrictedMaterial;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableRestrictedMaterial;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**

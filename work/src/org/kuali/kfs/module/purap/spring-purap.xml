@@ -25,7 +25,7 @@
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kfs.module.purap</value>
-                <value>org.kuali.kfs.integration.businessobject.purap</value>
+                <value>org.kuali.kfs.integration.purap</value>
             </list>
         </property>
 		<property name="dataDictionaryPackages">
@@ -59,7 +59,7 @@
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.businessobject.purap.PurchasingAccountsPayableRestrictedMaterial" value="org.kuali.kfs.module.purap.businessobject.RestrictedMaterial" />
+                <entry key="org.kuali.kfs.integration.purap.PurchasingAccountsPayableRestrictedMaterial" value="org.kuali.kfs.module.purap.businessobject.RestrictedMaterial" />
             </map>
         </property> 
 	</bean>

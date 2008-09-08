@@ -25,7 +25,6 @@
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kfs.gl</value>
-                <value>org.kuali.kfs.integration.businessobject.gl</value>
             </list>
         </property>
 		<property name="dataDictionaryPackages">

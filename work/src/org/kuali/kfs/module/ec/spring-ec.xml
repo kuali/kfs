@@ -25,7 +25,7 @@
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kfs.module.ec</value>
-                <value>org.kuali.kfs.integration.businessobject.ec</value>
+                <value>org.kuali.kfs.integration.ec</value>
             </list>
         </property>
 		<property name="dataDictionaryPackages">

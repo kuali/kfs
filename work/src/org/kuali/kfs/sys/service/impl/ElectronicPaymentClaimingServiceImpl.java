@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
-import org.kuali.kfs.integration.service.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.context.SpringContext;

@@ -19,8 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.businessobject.purap.PurchasingAccountsPayableRestrictedMaterial;
-import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableRestrictedMaterial;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;

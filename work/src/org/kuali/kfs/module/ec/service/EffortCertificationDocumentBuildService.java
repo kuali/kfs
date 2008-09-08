@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ec.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.integration.businessobject.ld.LaborLedgerBalance;
+import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 

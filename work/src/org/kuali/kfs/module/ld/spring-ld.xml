@@ -25,7 +25,7 @@
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kfs.module.ld</value>
-                <value>org.kuali.kfs.integration.businessobject.ld</value>
+                <value>org.kuali.kfs.integration.ld</value>
             </list>
         </property>
 		<property name="dataDictionaryPackages">
@@ -59,7 +59,7 @@
 		
 		<property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.businessobject.ld.LaborLedgerPositionObjectGroup" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" />
+                <entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" />
             </map>
         </property> 
 	</bean>

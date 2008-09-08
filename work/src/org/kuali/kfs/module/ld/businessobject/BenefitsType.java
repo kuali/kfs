@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ld.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.businessobject.ld.LaborLedgerBenefitsType;
+import org.kuali.kfs.integration.ld.LaborLedgerBenefitsType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**

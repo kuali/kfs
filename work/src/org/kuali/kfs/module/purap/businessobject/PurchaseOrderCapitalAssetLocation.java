@@ -1,6 +1,6 @@
 package org.kuali.kfs.module.purap.businessobject;
 
-import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 
 
 /**

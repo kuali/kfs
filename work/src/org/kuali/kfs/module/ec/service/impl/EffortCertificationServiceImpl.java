@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.integration.businessobject.ec.EffortCertificationReport;
-import org.kuali.kfs.integration.service.EffortCertificationService;
+import org.kuali.kfs.integration.ec.EffortCertificationReport;
+import org.kuali.kfs.integration.ec.EffortCertificationService;
 import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
 import org.kuali.kfs.module.ec.batch.EffortCertificationExtractStep;
 import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;

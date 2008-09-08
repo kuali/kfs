@@ -27,7 +27,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
-import org.kuali.kfs.integration.businessobject.ld.LaborLedgerObject;
+import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds;
 import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;

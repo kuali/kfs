@@ -28,7 +28,6 @@
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kfs.sys</value>
-                <value>org.kuali.kfs.integration.businessobject.sys</value>
             </list>
         </property>
         <property name="dataDictionaryPackages">

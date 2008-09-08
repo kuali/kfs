@@ -18,8 +18,8 @@ package org.kuali.kfs.vnd.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.integration.businessobject.purap.PurchasingAccountsPayableRestrictedMaterial;
-import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableRestrictedMaterial;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;

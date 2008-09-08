@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsCfda;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**

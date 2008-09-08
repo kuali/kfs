@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
-import org.kuali.kfs.integration.businessobject.ec.EffortCertificationReport;
-import org.kuali.kfs.integration.service.EffortCertificationService;
+import org.kuali.kfs.integration.ec.EffortCertificationReport;
+import org.kuali.kfs.integration.ec.EffortCertificationService;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;

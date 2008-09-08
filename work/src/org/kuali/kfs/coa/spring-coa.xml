@@ -25,7 +25,6 @@
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kfs.coa</value>
-                <value>org.kuali.kfs.integration.businessobject.coa</value>
             </list>
         </property>
 		<property name="dataDictionaryPackages">

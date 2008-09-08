@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ld.service;
 
-import org.kuali.kfs.integration.businessobject.ld.LaborLedgerObject;
+import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
 import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.rice.kns.util.KualiDecimal;

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.kfs.integration.businessobject.CapitalAssetLocation;
-import org.kuali.kfs.integration.businessobject.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
 
 public enum PurchasingCapitalAssetSystemFixture {

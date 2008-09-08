@@ -41,7 +41,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
     private Timestamp lastUpdate; // LST_UPDT_TS
     private UniversalUser lastUpdateUser;
     private String lastUpdateUserId; // LST_UPDT_USR_ID
-    private Integer version; // VER_NBR
+    private Long version; // VER_NBR
     private Integer bankId;
 
     public DisbursementNumberMaintenanceForm() {
@@ -64,7 +64,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
         this.setLastUpdateUser(dnr.getLastUpdateUser());
         this.setLastUpdateUserId(dnr.getLastUpdateUserId());
         this.setPhysCampusProcCode(dnr.getPhysCampusProcCode());
-        //this.setVersion(dnr.getVersion());
+        this.setVersion(dnr.getVersionNumber());
     }
 
     public DisbursementNumberRange getDisbursementNumberRange() {
@@ -89,7 +89,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
         //dnr.setLastUpdateUser(this.getLastUpdateUser());
         dnr.setLastUpdateUserId(this.getLastUpdateUserId());
         dnr.setPhysCampusProcCode(this.getPhysCampusProcCode().toUpperCase());
-        //dnr.setVersion(this.getVersion());
+        dnr.setVersionNumber(new Long(this.getVersion()));
 
         return dnr;
     }
@@ -273,7 +273,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
     /**
      * @return Returns the version.
      */
-    public Integer getVersion() {
+    public Long getVersion() {
         return version;
     }
 
@@ -357,7 +357,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
     /**
      * @param version The version to set.
      */
-    public void setVersion(Integer version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 }

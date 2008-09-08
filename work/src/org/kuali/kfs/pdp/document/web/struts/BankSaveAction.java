@@ -83,7 +83,7 @@ public class BankSaveAction extends BaseAction {
             }
             bank.setName(bankForm.getName());
             bank.setRoutingNumber(bankForm.getRoutingNumber());
-            //bank.setVersion(bankForm.getVersion());
+            bank.setVersionNumber(bankForm.getVersion());
             //bank.setLastUpdateUser(getUser(request));
 
             bankService.save(bank);

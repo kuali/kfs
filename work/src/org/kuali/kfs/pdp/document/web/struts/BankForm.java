@@ -37,7 +37,7 @@ public class BankForm extends ActionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankForm.class);
 
     private Integer id;
-    private Integer version;
+    private Long version;
     private String description;
     private String name;
     private String routingNumber;
@@ -52,7 +52,7 @@ public class BankForm extends ActionForm {
     public BankForm(Bank b) {
         super();
         id = b.getId();
-        //version = b.getVersionNumber();
+        version = b.getVersionNumber();
         description = b.getDescription();
         name = b.getName();
         routingNumber = b.getRoutingNumber();
@@ -150,11 +150,11 @@ public class BankForm extends ActionForm {
         this.routingNumber = routingNumber;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(Integer version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 }

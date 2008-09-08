@@ -206,7 +206,7 @@ public class CustomerProfileForm extends ActionForm {
         this.setPsdTransactionCode(cp.getPsdTransactionCode());
         this.setState(cp.getState());
         this.setSubUnitCode(cp.getSubUnitCode().toUpperCase());
-        //this.setVersion(GeneralUtilities.convertIntegerToString(cp.getVersion()));
+        this.setVersion(GeneralUtilities.convertLongToString(cp.getVersionNumber()));
         this.setZipCode(cp.getZipCode());
         this.setId(GeneralUtilities.convertIntegerToString(cp.getId()));
         this.setAccountingEditRequired(cp.getAccountingEditRequired());
@@ -262,7 +262,7 @@ public class CustomerProfileForm extends ActionForm {
         cp.setPsdTransactionCode(this.getPsdTransactionCode());
         cp.setState(this.getState());
         cp.setSubUnitCode(this.getSubUnitCode().toUpperCase());
-        //cp.setVersion(GeneralUtilities.convertStringToInteger(this.getVersion()));
+        cp.setVersionNumber(GeneralUtilities.convertStringToLong(this.getVersion()));
         cp.setZipCode(this.getZipCode());
         cp.setId(GeneralUtilities.convertStringToInteger(this.getId()));
         cp.setAccountingEditRequired(this.getAccountingEditRequired());

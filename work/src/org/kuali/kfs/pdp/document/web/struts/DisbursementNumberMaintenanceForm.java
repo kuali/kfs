@@ -64,7 +64,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
         this.setLastUpdateUser(dnr.getLastUpdateUser());
         this.setLastUpdateUserId(dnr.getLastUpdateUserId());
         this.setPhysCampusProcCode(dnr.getPhysCampusProcCode());
-        this.setVersion(dnr.getVersion());
+        //this.setVersion(dnr.getVersion());
     }
 
     public DisbursementNumberRange getDisbursementNumberRange() {
@@ -89,7 +89,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
         //dnr.setLastUpdateUser(this.getLastUpdateUser());
         dnr.setLastUpdateUserId(this.getLastUpdateUserId());
         dnr.setPhysCampusProcCode(this.getPhysCampusProcCode().toUpperCase());
-        dnr.setVersion(this.getVersion());
+        //dnr.setVersion(this.getVersion());
 
         return dnr;
     }

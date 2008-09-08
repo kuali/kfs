@@ -230,7 +230,7 @@ public class CustomerProfileSaveAction extends BaseAction {
                                     // UPDATE CUSTOMERBANK storedCustomerBank by setting Version and ID
                                     LOG.debug("executeLogic() The next CustomerBank stored will be an UPDATE from existing");
                                     cb.setId(storedCustomerBank.getId());
-                                    cb.setVersion(storedCustomerBank.getVersion());
+                                    //cb.setVersion(storedCustomerBank.getVersion());
                                 }
                             }
 

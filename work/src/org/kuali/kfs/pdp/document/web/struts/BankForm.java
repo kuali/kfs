@@ -52,7 +52,7 @@ public class BankForm extends ActionForm {
     public BankForm(Bank b) {
         super();
         id = b.getId();
-        version = b.getVersion();
+        //version = b.getVersionNumber();
         description = b.getDescription();
         name = b.getName();
         routingNumber = b.getRoutingNumber();

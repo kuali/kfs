@@ -221,7 +221,6 @@
 		readOnly="${(readOnly&&(empty editableFields['financialObjectCode']))|| !(empty forcedReadOnlyFields[accountingLineAttributes.financialObjectCode.name])}"
 		displayHidden="${displayHidden}" overrideField="objectBudgetOverride"
 		lookupOrInquiryKeys="chartOfAccountsCode"
-		lookupUnkeyedFieldConversions="financialObjectTypeCode:${accountingLine}.objectTypeCode,"
 		accountingLineValuesMap="${accountingLineValuesMap}"
 		inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.postingYear}" />
 

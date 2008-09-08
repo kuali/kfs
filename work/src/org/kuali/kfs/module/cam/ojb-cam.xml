@@ -899,10 +899,10 @@
     <reference-descriptor name="borrowerStorageState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="borrowerStorageStateCode" />
     </reference-descriptor>
-    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.sys.businessobject.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="borrowerPostalZipCode" class-ref="org.kuali.kfs.sys.businessobject.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="borrowerZipCode" />
     </reference-descriptor>
-    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.sys.businessobject.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="borrowerStoragePostalZipCode" class-ref="org.kuali.kfs.sys.businessobject.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="borrowerStorageZipCode" />
     </reference-descriptor>
     <reference-descriptor name="borrowerCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">

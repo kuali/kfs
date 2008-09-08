@@ -153,6 +153,7 @@ public class CamsPropertyConstants {
     }
 
     public static class AssetType {
+        public static final String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
         public static final String ASSET_DEPRECIATION_LIFE_LIMIT = "depreciableLifeLimit";
     }
 

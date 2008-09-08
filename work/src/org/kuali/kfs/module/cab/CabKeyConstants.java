@@ -38,4 +38,9 @@ public class CabKeyConstants {
     public static final String ERROR_ALLOCATE_NO_TARGET_ACCOUNT = "error.allocate.no.target.account";
     public static final String ERROR_ADDITIONAL_CHARGES_EXIST = "error.additional.charges.exist";
     public static final String ERROR_MERGE_LINE_SELECTED = "error.merge.line.selected";
+
+    public static class CapitalAssetManagementAsset {
+        public static final String ERROR_ASSET_NEW_OR_UPDATE_ONLY = "error.asset.new.or.update.only";
+        public static final String ERROR_ACTIVE_CAPITAL_ASSET_REQUIRED = "error.active.capital.asset.required";
+    }
 }

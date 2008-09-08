@@ -28,6 +28,11 @@
                 <value>org.kuali.kfs.integration.cam</value>
             </list>
         </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+            </map>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/cam/businessobject/datadictionary</value>

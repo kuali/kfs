@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -58,6 +59,15 @@ public interface CapitalAssetBuilderModuleService {
      */
     public boolean validateAccounts(List<SourceAccountingLine> accountingLines, String transactionType);
 
+    /**
+     * Takes a list of accountingLines for which the capitalAssetManagementAsset data should be validated. Places any errors found on the
+     * global error map and returns false. 
+     * @param accountingLines for which the data applies
+     * @param capitalAssetManagementAsset data to be validated
+     * @return validation succeeded or errors present
+     */
+    public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetManagementAsset capitalAssetManagementAsset);
+    
     //Methods moved from PurchasingDocumentRuleBase
     
     public boolean validateItemCapitalAssetWithErrors(RecurringPaymentType recurringPaymentType, PurApItem item, boolean apoCheck);
@@ -73,5 +83,4 @@ public interface CapitalAssetBuilderModuleService {
     public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetTransactionType capitalAssetTransactionType, RecurringPaymentType recurringPaymentType, boolean warn, String itemIdentifier);
     
     public boolean isCapitalAssetObjectCode(ObjectCode oc);
-    
 }

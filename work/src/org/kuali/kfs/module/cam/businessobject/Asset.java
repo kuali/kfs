@@ -9,6 +9,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.sys.businessobject.Building;
@@ -25,7 +26,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Asset extends PersistableBusinessObjectBase {
+public class Asset extends PersistableBusinessObjectBase implements CapitalAssetManagementAsset {
 
     private Long capitalAssetNumber;
     private String capitalAssetDescription;

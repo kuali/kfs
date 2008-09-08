@@ -13,6 +13,9 @@
 
     <bean id="capitalAssetBuilderModuleService" class="org.kuali.kfs.module.cab.service.impl.CapitalAssetBuilderModuleServiceImpl">
         <property name="parameterService" ref="parameterService"/>
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
+        <property name="assetService" ref="assetService"/>
     </bean>
 
 </beans>

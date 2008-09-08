@@ -196,15 +196,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
             if (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
                 List<String> currentRouteLevels = (List<String>)Arrays.asList(document.getDocumentHeader().getWorkflowDocument().getNodeNames());
                 
-                if (currentRouteLevels.contains(RouteLevelNames.ORG_REVIEW)) return false; // nothing is editable at Org Review level
+                if (currentRouteLevels.contains(RouteLevelNames.ORG_REVIEW)) return isAccountingLineEditableOnOrgReview(document, accountingLine, currentUser);
                 
-                if (currentRouteLevels.contains(RouteLevelNames.ACCOUNT_REVIEW)) {
-                    AccountService accountService = SpringContext.getBean(AccountService.class);
-                    Account acct = accountService.getByPrimaryId(accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber());
-                    
-                    if (ObjectUtils.isNull(acct)) return true; // the account doesn't exist?  whoever was editing it made a mistake - let them fix it
-                    if (accountService.hasResponsibilityOnAccount(currentUser, acct)) return true; // we own the account? then we can do whatever we want
-                }
+                if (currentRouteLevels.contains(RouteLevelNames.ACCOUNT_REVIEW)) return isAccountingLineEditableOnAccountReview(document, accountingLine, currentUser);
             }
         }
         catch (WorkflowException we) {
@@ -212,6 +206,34 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         }
         
         return false; // default?  you can't edit the line none!
+    }
+    
+    /**
+     * Determines if the accounting line can be edited at org review level.  The default implementation always returns false
+     * @param document the accounting document the accounting line to check lives on
+     * @param accountingLine the accounting line to check
+     * @param currentUser the user who is viewing this accounting line
+     * @return true if the line is editable, false otherwise
+     */
+    protected boolean isAccountingLineEditableOnOrgReview(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+        return false;
+    }
+    
+    /**
+     * Determines if the accounting line can be edited at account review level.  The default implementation makes sure that the user is responsible - either fiscal officer
+     * or account supervisor - on the account.
+     * @param document the accounting document the accounting line to check lives on
+     * @param accountingLine the accounting line to check
+     * @param currentUser the user who is viewing this accounting line
+     * @return true if the line is editable, false otherwise
+     */
+    protected boolean isAccountingLineEditableOnAccountReview(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        Account acct = accountService.getByPrimaryId(accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber());
+        
+        if (ObjectUtils.isNull(acct)) return true; // the account doesn't exist?  whoever was editing it made a mistake - let them fix it
+        if (accountService.hasResponsibilityOnAccount(currentUser, acct)) return true; // we own the account? then we can do whatever we want
+        return false;
     }
 
     /**

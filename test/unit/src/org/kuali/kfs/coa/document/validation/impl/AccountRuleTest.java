@@ -1030,8 +1030,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // account must be being closed
-        oldAccount.setActive(false);
-        newAccount.setActive(true);
+        oldAccount.setActive(true);
+        newAccount.setActive(false);
         newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
 
         // continuation coa code null
@@ -1055,8 +1055,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // account must be being closed
-        oldAccount.setActive(false);
-        newAccount.setActive(true);
+        oldAccount.setActive(true);
+        newAccount.setActive(false);
         newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
 
         // continuation coa code null
@@ -1078,8 +1078,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // account must be being closed
-        oldAccount.setActive(true);
-        newAccount.setActive(true);
+        oldAccount.setActive(false);
+        newAccount.setActive(false);
         newAccount.setAccountExpirationDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
 
         // continuation coa code null

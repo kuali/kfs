@@ -237,7 +237,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
         }
 
         // check whether closed or not
-        if (account.isActive()) {
+        if (!account.isActive()) {
             putFieldError(fieldName, KFSKeyConstants.ERROR_CLOSED, errorMessage);
             return result;
         }

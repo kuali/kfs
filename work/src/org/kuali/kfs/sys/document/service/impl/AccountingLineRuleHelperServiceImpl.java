@@ -171,7 +171,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
             if (ObjectUtils.isNull(account)) {
                 return null;
             }
-            if (!account.isActive() && !account.isExpired()) {
+            if (account.isActive() && !account.isExpired()) {
                 return account;
             }
         }
@@ -198,7 +198,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         }
 
         // make sure it's active for usage
-        if (account.isActive()) {
+        if (!account.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED, label);
             return false;
         }

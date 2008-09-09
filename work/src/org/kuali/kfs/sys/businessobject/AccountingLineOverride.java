@@ -312,7 +312,7 @@ public class AccountingLineOverride {
      * @return whether the given account needs an expired account override.
      */
     public static boolean needsExpiredAccountOverride(Account account) {
-        return !ObjectUtils.isNull(account) && !account.isActive() && account.isExpired();
+        return !ObjectUtils.isNull(account) && account.isActive() && account.isExpired();
     }
 
     /**
@@ -322,7 +322,7 @@ public class AccountingLineOverride {
      * @return whether the given account needs an expired account override.
      */
     public static boolean needsNonFringAccountOverride(Account account) {
-        return !ObjectUtils.isNull(account) && !account.isActive() && !account.isAccountsFringesBnftIndicator();
+        return !ObjectUtils.isNull(account) && account.isActive() && !account.isAccountsFringesBnftIndicator();
     }
 
     /**
@@ -332,6 +332,6 @@ public class AccountingLineOverride {
      * @return whether the given object code needs an object budget override
      */
     public static boolean needsObjectBudgetOverride(Account account, ObjectCode objectCode) {
-        return !ObjectUtils.isNull(account) && !ObjectUtils.isNull(objectCode) && !account.isActive() && !SpringContext.getBean(AccountPresenceService.class).isObjectCodeBudgetedForAccountPresence(account, objectCode);
+        return !ObjectUtils.isNull(account) && !ObjectUtils.isNull(objectCode) && account.isActive() && !SpringContext.getBean(AccountPresenceService.class).isObjectCodeBudgetedForAccountPresence(account, objectCode);
     }
 }

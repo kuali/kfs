@@ -413,7 +413,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
 
     private boolean isAccountInvalid(Account account) {
-        return ObjectUtils.isNull(account) || account.isActive() || account.isExpired();
+        return ObjectUtils.isNull(account) || !account.isActive() || account.isExpired();
     }
 
 

@@ -296,7 +296,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         today.setTime(universityRunDate.getUniversityDate());
 
         long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
-        boolean isAccountExpiredOrClosed = (account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) || account.isActive();
+        boolean isAccountExpiredOrClosed = (account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) || !account.isActive();
         boolean continuationAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
         
         if (continuationAccountLogicInd && isAccountExpiredOrClosed) {
@@ -416,7 +416,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         if (account.getAccountExpirationDate() != null) {
             offsetAccountExpirationTime = account.getAccountExpirationDate().getTime();
 
-            if (account.isForContractsAndGrants() && (!account.isActive())) {
+            if (account.isForContractsAndGrants() && account.isActive()) {
                 String daysOffset = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                 int daysOffsetInt = 3 * 30; // default to 90 days (approximately 3 months)
 

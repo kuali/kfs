@@ -217,7 +217,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
             return false;
         }
 
-        if (account.isActive()) {
+        if (!account.isActive()) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(Account.class, KFSPropertyConstants.ACCOUNT_NAME, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, errorMessage);
             return false;

@@ -153,6 +153,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Default no-arg constructor.
      */
     public Account() {
+        active = true; // assume active is true until set otherwise
     }
     
     /**
@@ -165,7 +166,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         List<SubAccount> bosToDeactivate = new ArrayList();
         Map<String, Object> fieldValues;
         Collection existingSubAccounts;
-        if (this.isActive() == true) {
+        if (!isActive()) {
             fieldValues = new HashMap();
             fieldValues.put("chartOfAccountsCode", this.getChartOfAccountsCode());
             fieldValues.put("accountNumber", this.getAccountNumber());

@@ -250,7 +250,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
                 originalAcct = new ExpiredOrClosedAccount(poAccountingLine.getChartOfAccountsCode(), poAccountingLine.getAccountNumber(), poAccountingLine.getSubAccountNumber());
 
-                if (account.isActive()) {
+                if (!account.isActive()) {
 
                     // 1. if the account is closed, get the continuation account and add it to the list
                     Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());

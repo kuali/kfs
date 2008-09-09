@@ -223,7 +223,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         // the account that has been chosen cannot be closed
         Account account = newDelegate.getAccount();
         if (ObjectUtils.isNotNull(account)) {
-            if (account.isActive()) {
+            if (!account.isActive()) {
                 putFieldError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_ACCT_NOT_CLOSED);
                 success &= false;
             }

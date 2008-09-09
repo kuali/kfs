@@ -26,15 +26,15 @@ public enum AccountFixture {
 
     public final String accountNumber;
     public final String chartOfAccountsCode;
-    public final boolean active;
+    public final boolean closed;
     private final String accountExpirationDate;
     public final String continuationFinChrtOfAcctCd;
     public final String continuationAccountNumber;
 
-    private AccountFixture(String chartOfAccountsCode, String accountNumber, boolean active, String continuationFinChrtOfAcctCd, String continuationAccountNumber, String accountExpirationDate) {
+    private AccountFixture(String chartOfAccountsCode, String accountNumber, boolean closed, String continuationFinChrtOfAcctCd, String continuationAccountNumber, String accountExpirationDate) {
         this.accountNumber = accountNumber;
         this.chartOfAccountsCode = chartOfAccountsCode;
-        this.active = active;
+        this.closed = closed;
         this.accountExpirationDate = accountExpirationDate;
         this.continuationFinChrtOfAcctCd = continuationFinChrtOfAcctCd;
         this.continuationAccountNumber = continuationAccountNumber;
@@ -44,7 +44,7 @@ public enum AccountFixture {
         Account account = new Account();
         account.setAccountNumber(this.accountNumber);
         account.setChartOfAccountsCode(this.chartOfAccountsCode);
-        account.setActive(this.active);
+        account.setActive(!this.closed);
         account.setContinuationAccountNumber(this.continuationAccountNumber);
         account.setContinuationFinChrtOfAcctCd(this.continuationFinChrtOfAcctCd);
         if (StringUtils.isNotBlank(this.accountExpirationDate)) {

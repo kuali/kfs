@@ -857,7 +857,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         SimpleDateFormat tdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
         // is account closed?
-        if (budgetConstructionDocument.getAccount().isActive()) {
+        if (!budgetConstructionDocument.getAccount().isActive()) {
             isAllowed = false;
             this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_CLOSED, isAdd, "account: " + budgetConstructionDocument.getAccountNumber());
         }

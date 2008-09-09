@@ -294,7 +294,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return null;
         }
 
-        if ((originEntryAccount.getAccountExpirationDate() == null) && !originEntryAccount.isActive()) {
+        if ((originEntryAccount.getAccountExpirationDate() == null) && originEntryAccount.isActive()) {
             // account is neither closed nor expired
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             return null;
@@ -416,7 +416,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private long getAdjustedAccountExpirationDate(Account account) {
         long offsetAccountExpirationTime = account.getAccountExpirationDate().getTime();
 
-        if (account.isForContractsAndGrants() && (!account.isActive())) {
+        if (account.isForContractsAndGrants() && account.isActive()) {
 
             String daysOffset = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
             int daysOffsetInt = 3 * 30; // default to 90 days (approximately 3 months)

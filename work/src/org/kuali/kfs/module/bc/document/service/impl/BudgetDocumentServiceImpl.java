@@ -687,7 +687,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
 
         // account cannot be closed.
-        if (account.isActive()) {
+        if (!account.isActive()) {
             return false;
         }
 

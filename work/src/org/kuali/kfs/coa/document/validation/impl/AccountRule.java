@@ -263,7 +263,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
             Account newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
 
             // do the test
-            if (oldAccount.isActive() && !user.isSupervisorUser()) {
+            if (!oldAccount.isActive() && !user.isSupervisorUser()) {
                 result = true;
             }
         }
@@ -459,7 +459,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         }
 
         // fringe benefit account must be active
-        if (fringeBenefitAccount.isActive()) {
+        if (!fringeBenefitAccount.isActive()) {
             putFieldError("reportsToAccountNumber", KFSKeyConstants.ERROR_INACTIVE, getFieldLabel(Account.class, "reportsToAccountNumber"));
             result &= false;
         }
@@ -566,7 +566,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
         // if the account isnt being closed, then dont bother processing the rest of
         // the method
-        if (!oldAccount.isActive() && newAccount.isActive()) {
+        if (oldAccount.isActive() && !newAccount.isActive()) {
             isBeingClosed = true;
         }
 

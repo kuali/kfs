@@ -470,7 +470,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NO_ACCOUNT, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber() });
             return false;
         }
-        if (cashOffsetAccount.isActive()) {
+        if (!cashOffsetAccount.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_ACCOUNT_CLOSED, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber() });
             return false;
         }

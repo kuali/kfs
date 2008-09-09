@@ -52,7 +52,7 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
             currentUser.set(user);
         }
         AnchorHtmlData urlDataCopy = getURLData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-        if (!theAccount.isActive() || user.isAdministratorUser()) {
+        if (theAccount.isActive() || user.isAdministratorUser()) {
             anchorHtmlDataList.add(getURLData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
         else {

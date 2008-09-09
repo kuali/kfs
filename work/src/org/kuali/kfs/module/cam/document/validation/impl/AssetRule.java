@@ -164,7 +164,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateAccount() {
         boolean valid = true;
         Account organizationOwnerAccount = newAsset.getOrganizationOwnerAccount();
-        if (ObjectUtils.isNotNull(organizationOwnerAccount) && (organizationOwnerAccount.isExpired() || organizationOwnerAccount.isActive())) {
+        if (ObjectUtils.isNotNull(organizationOwnerAccount) && (organizationOwnerAccount.isExpired() || !organizationOwnerAccount.isActive())) {
             // Account is not active
             putFieldError(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.ORGANIZATION_OWNER_ACCOUNT_INACTIVE);
             valid &= false;

@@ -38,15 +38,6 @@
 	<field name="subFundGroupDescription" class="java.lang.String"/>
 	<field name="baseFy" class="java.lang.String"/>
 	<field name="reqFy" class="java.lang.String"/>
-	<field name="header1" class="java.lang.String"/>
-	<field name="header2a" class="java.lang.String"/>
-	<field name="header2" class="java.lang.String"/>
-	<field name="header3" class="java.lang.String"/>
-	<field name="header31" class="java.lang.String"/>
-	<field name="header40" class="java.lang.String"/>
-	<field name="header4" class="java.lang.String"/>
-	<field name="header5" class="java.lang.String"/>
-	<field name="header6" class="java.lang.String"/>
 	<field name="incomeExpenseCode" class="java.lang.String"/>
 	<field name="financialLevelSortCode" class="java.lang.String"/>
 	<field name="positionCsfLeaveFteQuantity" class="java.math.BigDecimal"/>

@@ -38,15 +38,6 @@ public class BudgetConstructionAccountObjectDetailReport {
     private String baseFy;
     private String reqFy;
 
-    private String header1;
-    private String header2;
-    private String header2a;
-    private String header3;
-    private String header31;
-    private String header4;
-    private String header40;
-    private String header5;
-    private String header6;
     private String accountNumber;
     private String accountName;
     private String subAccountName;
@@ -251,97 +242,6 @@ public class BudgetConstructionAccountObjectDetailReport {
     public void setReqFy(String reqFy) {
         this.reqFy = reqFy;
     }
-
-
-    public String getHeader1() {
-        return header1;
-    }
-
-
-    public void setHeader1(String header1) {
-        this.header1 = header1;
-    }
-
-
-    public String getHeader2() {
-        return header2;
-    }
-
-
-    public void setHeader2(String header2) {
-        this.header2 = header2;
-    }
-
-
-    public String getHeader2a() {
-        return header2a;
-    }
-
-
-    public void setHeader2a(String header2a) {
-        this.header2a = header2a;
-    }
-
-
-    public String getHeader3() {
-        return header3;
-    }
-
-
-    public void setHeader3(String header3) {
-        this.header3 = header3;
-    }
-
-
-    public String getHeader31() {
-        return header31;
-    }
-
-
-    public void setHeader31(String header31) {
-        this.header31 = header31;
-    }
-
-
-    public String getHeader4() {
-        return header4;
-    }
-
-
-    public void setHeader4(String header4) {
-        this.header4 = header4;
-    }
-
-
-    public String getHeader40() {
-        return header40;
-    }
-
-
-    public void setHeader40(String header40) {
-        this.header40 = header40;
-    }
-
-
-    public String getHeader5() {
-        return header5;
-    }
-
-
-    public void setHeader5(String header5) {
-        this.header5 = header5;
-    }
-
-
-    public String getHeader6() {
-        return header6;
-    }
-
-
-    public void setHeader6(String header6) {
-        this.header6 = header6;
-    }
-
 
     public String getAccountNumber() {
         return accountNumber;

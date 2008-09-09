@@ -40,7 +40,6 @@ public class AssetPaymentLockValidation extends GenericValidation {
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails =assetPaymentDocument.getAssetPaymentAssetDetail(); 
         
         for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {            
-            //if (assetService.isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
             if (assetService.isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentAssetDetail.getCapitalAssetNumber())){                            
                 return false;
             }

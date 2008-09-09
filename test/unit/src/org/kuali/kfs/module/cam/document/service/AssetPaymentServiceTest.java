@@ -155,7 +155,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
 
         LOG.info("***Processing Document:"+document.getDocumentNumber());
         // *********Saving asset payment, only. *********************
-        this.assetPaymentService.processApprovedAssetPayment(document, new KualiDecimal(totalHistoricalAmount));
+        this.assetPaymentService.processApprovedAssetPayment(document);
         // ***********************************************************
 
         // ********** Testing data **********************

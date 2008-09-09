@@ -58,7 +58,7 @@ public interface AssetPaymentService {
      * 
      * @param assetPaymentDetail
      */
-    public void processApprovedAssetPayment(AssetPaymentDocument assetPaymentDocument, KualiDecimal totalHistoricalAmount);
+    public void processApprovedAssetPayment(AssetPaymentDocument assetPaymentDocument);
 
 
     /**

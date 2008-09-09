@@ -32,10 +32,6 @@
 		<td style="padding: 0px;border-bottom-style: solid; border-bottom-width: 2px;border-top-style: solid; border-top-width: 1px;">
 		
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="AssetSummary" borders="1">
-		      	<!-- tr>
-					<td class="subhead"  width="100%" colspan="7"><span class="subhead-left">
-					${KualiForm.document.assetPaymentAssetDetail[ctr].capitalAssetNumber} </span></td>
-				</tr> -->
 				<tr>					
 					<kul:htmlAttributeHeaderCell width="10%" align="center" attributeEntry="${assetAttributes.capitalAssetNumber}"/>
 					<kul:htmlAttributeHeaderCell width="42%" align="center" attributeEntry="${assetAttributes.capitalAssetDescription}"/>

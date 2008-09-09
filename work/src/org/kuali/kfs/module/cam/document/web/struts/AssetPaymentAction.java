@@ -63,55 +63,6 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.save(mapping, form, request, response);
     }
-    
-    
-    
-    /**
-     * 
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     *
-    @Override
-    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.createDocument(kualiDocumentFormBase);
-        AssetPaymentForm assetPaymentForm = (AssetPaymentForm) kualiDocumentFormBase;
-        AssetPaymentDocument assetPaymentDocument = assetPaymentForm.getAssetPaymentDocument();
-
-        String capitalAssetNumber = assetPaymentForm.getCapitalAssetNumber();
-
-        //Retrieving the asset data object for the selected asset. 
-        Asset asset = assetPaymentDocument.getAsset();
-        
-        asset = handleRequestFromLookup(capitalAssetNumber, assetPaymentForm, assetPaymentDocument, asset);
-        asset = handleRequestFromLookup(capitalAssetNumber, assetPaymentDocument);
-
-        //Populating the hidden fields in the assetPayment.jsp
-        assetPaymentDocument.setCapitalAssetNumber(asset.getCapitalAssetNumber());        
-        assetPaymentDocument.setPreviousTotalCostAmount(asset.getTotalCostAmount());
-
-        //Adding the changes made in the document in the ActionForm.
-        assetPaymentForm.setDocument(assetPaymentDocument);
-    }*/
-
-    /**
-     * 
-     * Retrieves the asset records for a selected asset number
-     * @param capitalAssetNumber
-     * @param assetPaymentForm
-     * @param assetPaymentDocument
-     * @param asset
-     * @return Asset 
-     */
-//    private Asset handleRequestFromLookup(String capitalAssetNumber, AssetPaymentDocument assetPaymentDocument) {
-//        Asset newAsset = new Asset();
-//        HashMap<String, Object> keys = new HashMap<String, Object>();
-//        keys.put(CAPITAL_ASSET_NUMBER, capitalAssetNumber.toString());
-//
-//        newAsset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, keys);
-//        if (newAsset != null) {
-//            assetPaymentDocument.setAsset(newAsset);
-//        }
-//        return newAsset;
-//    }
 
     /**
      * 
@@ -188,8 +139,10 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         newAssetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
                 
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AssetPaymentAddAssetEvent(errorPath, assetPaymentForm.getDocument(), newAssetPaymentAssetDetail));
-        if (rulePassed) {                
+        if (rulePassed) {      
+            //Storing the current asset cost.
             newAssetPaymentAssetDetail.setPreviousTotalCostAmount(newAssetPaymentAssetDetail.getAsset().getTotalCostAmount());
+            
             assetPaymentForm.getAssetPaymentDocument().addAssetPaymentAssetDetail(newAssetPaymentAssetDetail);
             assetPaymentForm.setCapitalAssetNumber("");
         }

@@ -116,37 +116,6 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     }
 
     
-    
-    /**
-     * 
-     * This method...
-     * @param newAssetPaymentAssetDetail
-     *
-    public void setNewAssetPaymentAssetDetail(AssetPaymentAssetDetail newAssetPaymentAssetDetail) {
-        this.newAssetPaymentAssetDetail = newAssetPaymentAssetDetail;
-    }*/
-    
-    /**
-     * 
-     * This returns a new asset 
-     * @return
-     *
-    public AssetPaymentAssetDetail getNewAssetPaymentAssetDetail() {
-        try {
-            if (this.newAssetPaymentAssetDetail == null)
-                return AssetPaymentAssetDetail.class.newInstance();
-            else
-                return this.newAssetPaymentAssetDetail;
-        }
-        catch (Exception e) {
-            throw new InfrastructureException("unable to create a new asset payment asset detail line", e);
-        }        
-    }*/
-    
-    
-    
-    
-    
     /**
      * 
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getNewSourceLine()
@@ -183,13 +152,6 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
             newSourceLine.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
         }        
         
-//        if (newSourceLine.getExpenditureFinancialDocumentPostedDate() != null) {
-            //Setting the posting year and the posting period into the new assetDetailPayment row. 
-//            assetPaymentService.extractPostedDatePeriod(newSourceLine); 
-//            Calendar postedDate = dateTimeService.getCalendar(newSourceLine.getExpenditureFinancialDocumentPostedDate());        
-//            newSourceLine.setPostingYear(postedDate.get(Calendar.YEAR));
-//            newSourceLine.setPostingPeriodCode(StringUtils.leftPad(Integer.toString(postedDate.get(Calendar.MONTH)),2,"0"));
-//        }                
         return (SourceAccountingLine) newSourceLine;
     }
 
@@ -200,31 +162,12 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     public void populate(HttpServletRequest request) {
         super.populate(request);
         
+        //Refreshing reference to the asset table.
         for(AssetPaymentAssetDetail assetPaymentAssetDetail:this.getAssetPaymentDocument().getAssetPaymentAssetDetail()) {
             assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);            
         }        
     }
     
-    /**
-     * 
-     * This method stores in a Map the total amounts that need to be display on the asset payment screen and that will be passed as
-     * parameter to the accountingLine.tag in order to display them.
-     * 
-     * @return LinkedHashMap
-     *
-    public LinkedHashMap<String, String> getAssetPaymentTotals() {
-        LinkedHashMap<String, String> totals = new LinkedHashMap<String, String>();
-        CurrencyFormatter cf = new CurrencyFormatter();
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
-
-        //KualiDecimal assetTotalCost = (ObjectUtils.isNull(getAssetPaymentDocument().getAsset().getTotalCostAmount()) ? new KualiDecimal(0) : getAssetPaymentDocument().getAsset().getTotalCostAmount());
-        KualiDecimal assetTotalCost = (ObjectUtils.isNull(getAssetPaymentDocument().getPreviousTotalCostAmount()) ? new KualiDecimal(0) : getAssetPaymentDocument().getPreviousTotalCostAmount());
-
-        totals.put(kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.TOTAL_LABEL), (String) cf.format(this.getAssetPaymentDocument().getSourceTotal()));
-        totals.put(kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.PREVIOUS_COST_LABEL), (String) cf.format(assetTotalCost));
-        totals.put(kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.NEW_TOTAL_LABEL), (String) cf.format(getAssetPaymentDocument().getSourceTotal().add(assetTotalCost)));
-        return totals;
-    }*/
 }
 
 

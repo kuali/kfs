@@ -50,8 +50,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AssetPaymentDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
 
-    //private Integer nextCapitalAssetPaymentLineNumber;
-    
     private List<AssetPaymentAssetDetail> assetPaymentAssetDetail;
 
     private Long capitalAssetNumber;
@@ -95,16 +93,9 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public void addSourceAccountingLine(SourceAccountingLine line) {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
 
-        //Assigning the line number to the just added accounting line
-        //assetPaymentDetail.setSequenceNumber(this.getNextSourceLineNumber());
-        
         //Assigning the system date to a field is not being edited on the screen.
         assetPaymentDetail.setPaymentApplicationDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
 
-        //line = (SourceAccountingLine) assetPaymentDetail;
-        //this.sourceAccountingLines.add(assetPaymentDetail);
-        //this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);        
-        //this.setNextCapitalAssetPaymentLineNumber(this.nextSourceLineNumber);
         super.addSourceAccountingLine(assetPaymentDetail);
     }
 
@@ -140,7 +131,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         
         //Update asset payment table with the approved asset detail records.
         if (workflowDocument.stateIsProcessed()) {
-            SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this,this.getAssetsTotalHistoricalCost());
+            SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this);
 
             SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
         }
@@ -168,14 +159,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         return new AssetPaymentAccountingLineParser();
     }
 
-//    public Integer getNextCapitalAssetPaymentLineNumber() {
-//        return nextCapitalAssetPaymentLineNumber;
-//    }
-//
-//    public void setNextCapitalAssetPaymentLineNumber(Integer nextCapitalAssetPaymentLineNumber) {
-//        this.nextCapitalAssetPaymentLineNumber = nextCapitalAssetPaymentLineNumber;
-//    }
-
     public List<AssetPaymentAssetDetail> getAssetPaymentAssetDetail() {
         return assetPaymentAssetDetail;
     }
@@ -192,6 +175,11 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.capitalAssetNumber = capitalAssetNumber;
     }
     
+    /**
+     * 
+     * calculates the total previous cost amount of all the assets in the document 
+     * @return KualiDecimal
+     */
     public KualiDecimal getAssetsTotalHistoricalCost() {
         KualiDecimal total = new KualiDecimal(0);
         for(AssetPaymentAssetDetail detail:this.getAssetPaymentAssetDetail())

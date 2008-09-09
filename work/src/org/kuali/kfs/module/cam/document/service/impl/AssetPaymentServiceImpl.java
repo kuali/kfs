@@ -29,7 +29,6 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
@@ -49,12 +48,11 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+// @Transactional
 public class AssetPaymentServiceImpl implements AssetPaymentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentServiceImpl.class);
 
@@ -104,12 +102,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#processApprovedAssetPayment(org.kuali.kfs.module.cam.document.AssetPaymentDocument)
      */
-    public void processApprovedAssetPayment(AssetPaymentDocument document, KualiDecimal totalHistoricalAmount) {        
+    public void processApprovedAssetPayment(AssetPaymentDocument document) {
         // Creating new asset payment records
-        processPayments(document);        
+        processPayments(document);
     }
 
-     
+
     /**
      * Creates a new asset payment record for each new asset payment detail record and then save them
      * 
@@ -119,23 +117,23 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         List<AssetPaymentDetail> assetPaymentDetailLines = document.getSourceAccountingLines();
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
         List<PersistableBusinessObject> assetPayments = new ArrayList<PersistableBusinessObject>();
-        Integer maxSequenceNo=new Integer(0);        
+        Integer maxSequenceNo = new Integer(0);
 
         try {
             Double totalHistoricalCost = new Double(document.getAssetsTotalHistoricalCost().toString());
             // Creating a new payment record for each asset that has payments.
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
                 maxSequenceNo = getMaxSequenceNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
-                
-                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());                
-                Double percentage = (previousTotalCostAmount/totalHistoricalCost);
+
+                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());
+                Double percentage = (previousTotalCostAmount / totalHistoricalCost);
                 KualiDecimal totalAmount = new KualiDecimal(0);
-                
+
                 for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
                     Double paymentAmount = new Double(assetPaymentDetail.getAmount().toString());
                     KualiDecimal amount = new KualiDecimal(paymentAmount.doubleValue() * percentage.doubleValue());
                     totalAmount = totalAmount.add(amount);
-                    
+
                     AssetPayment assetPayment = new AssetPayment(assetPaymentDetail);
                     assetPayment.setCapitalAssetNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
                     assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_N);
@@ -144,41 +142,40 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                     assetPayment.setAccountChargeAmount(amount);
 
                     KualiDecimal baseAmount = new KualiDecimal(0);
-    
+
                     // If the object sub type is not in the list of federally owned object sub types, then...
                     ObjectCode objectCode = this.getObjectCodeService().getByPrimaryId(assetPaymentDetail.getPostingYear(), assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
-    
+
                     // Depreciation Base Amount will be assigned to each payment only when the object code's sub type code is not a
                     // federally owned one
                     if (!this.isNonDepreciableFederallyOwnedObjSubType(objectCode.getFinancialObjectSubTypeCode())) {
                         baseAmount = baseAmount.add(amount);
                     }
                     assetPayment.setPrimaryDepreciationBaseAmount(baseAmount);
-    
+
                     // Resetting each period field its value with nulls
                     this.adjustPaymentAmounts(assetPayment, false, true);
-    
+
                     // add new payment
                     assetPayments.add(assetPayment);
 
                 }
-                //*********************BEGIN - Updating Asset ***********************************************************
-                //Retrieving the asset that will have its cost updated
-                HashMap<String,Long> keys = new HashMap<String,Long>();
-                keys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER,assetPaymentAssetDetail.getCapitalAssetNumber());                
-                Asset asset = (Asset) getBusinessObjectService().findByPrimaryKey(Asset.class, keys);        
-                
-                //Setting the asset's new cost.
+                // *********************BEGIN - Updating Asset ***********************************************************
+                // Retrieving the asset that will have its cost updated
+                HashMap<String, Long> keys = new HashMap<String, Long>();
+                keys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetPaymentAssetDetail.getCapitalAssetNumber());
+                Asset asset = (Asset) getBusinessObjectService().findByPrimaryKey(Asset.class, keys);
+
+                // Setting the asset's new cost.
                 asset.setTotalCostAmount(assetPaymentAssetDetail.getPreviousTotalCostAmount().add(totalAmount));
-                
-                //Setting the asset's financial object sub-type Code. Only when the asset doesn't have one.
-                if (asset.getFinancialObjectSubTypeCode() == null || 
-                    asset.getFinancialObjectSubTypeCode().trim().equals("")) {
+
+                // Setting the asset's financial object sub-type Code. Only when the asset doesn't have one.
+                if (asset.getFinancialObjectSubTypeCode() == null || asset.getFinancialObjectSubTypeCode().trim().equals("")) {
                     asset.setFinancialObjectSubTypeCode(assetPaymentDetailLines.get(0).getObjectCode().getFinancialObjectSubTypeCode());
                 }
-                //Saving changes
-                getBusinessObjectService().save(asset);                    
-                //*********************END - Updating Asset ***********************************************************                                    
+                // Saving changes
+                getBusinessObjectService().save(asset);
+                // *********************END - Updating Asset ***********************************************************
             }
         }
         catch (Exception e) {
@@ -189,8 +186,8 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#adjustPaymentAmounts(org.kuali.kfs.module.cam.businessobject.AssetPayment, boolean,
-     *      boolean)
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#adjustPaymentAmounts(org.kuali.kfs.module.cam.businessobject.AssetPayment,
+     *      boolean, boolean)
      */
     public void adjustPaymentAmounts(AssetPayment assetPayment, boolean reverseAmount, boolean nullPeriodDepreciation) throws IllegalAccessException, InvocationTargetException {
         LOG.debug("Starting - adjustAmounts() ");
@@ -305,13 +302,14 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getProratedAssetPayment(org.kuali.kfs.module.cam.businessobject.AssetGlobal, org.kuali.kfs.module.cam.businessobject.AssetPayment)
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getProratedAssetPayment(org.kuali.kfs.module.cam.businessobject.AssetGlobal,
+     *      org.kuali.kfs.module.cam.businessobject.AssetPayment)
      */
     public KualiDecimal getProratedAssetPayment(AssetGlobal assetGlobal, AssetPayment assetPayment) {
         KualiDecimal separateSourceTotal = KualiDecimal.ZERO;
         Integer locationQuantity = 0;
         KualiDecimal assetPaymentAmount = assetPayment.getAccountChargeAmount();
-        
+
         // get unique amounts total
         for (AssetGlobalDetail assetSharedDetail : assetGlobal.getAssetSharedDetails()) {
             for (AssetGlobalDetail assetGlobalUniqueDetail : assetSharedDetail.getAssetGlobalUniqueDetails()) {
@@ -320,11 +318,11 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                 locationQuantity++;
             }
         }
-        
+
         // divide total by quantity to get adjusted amount
         KualiDecimal separateSourceAdjustedAmount = separateSourceTotal.divide(new KualiDecimal(locationQuantity));
 
-        // multiply payment amount by adjusted amount, then divide it by the total 
+        // multiply payment amount by adjusted amount, then divide it by the total
         return (assetPaymentAmount.multiply(separateSourceAdjustedAmount)).divide(separateSourceTotal);
     }
 
@@ -341,18 +339,20 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             assetPaymentDetail.setPostingYear(universityDate.getUniversityFiscalYear());
             assetPaymentDetail.setPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
-    
+
     /**
-     * TODO is this needed? 
+     * TODO is this needed?
+     * 
      * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getAssetPaymentDetailQuantity(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
     public Integer getAssetPaymentDetailQuantity(AssetGlobal assetGlobal) {
         Integer assetPaymentDetailQuantity = 0;
-        for (AssetPaymentDetail assetPaymentDetail: assetGlobal.getAssetPaymentDetails()) {
+        for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
             assetPaymentDetailQuantity++;
         }
 

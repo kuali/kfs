@@ -87,8 +87,6 @@
 						<td class="grid"><kul:htmlControlAttribute property="${object}.postingPeriodCode" attributeEntry="${assetPaymentAttributes.postingPeriodCode}" readOnly="true"/></td>								
 						<td class="grid"><div align="right">${allocatedAmount}</div></td>								
 					</tr>
-
-
 				</c:forEach>					
 			</c:forEach>
 		</table>

@@ -43,8 +43,8 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     // bo references    
     private AccountingPeriod financialDocumentPostingPeriod;
-    private DocumentHeader documentHeader;
-    private DocumentHeader expenditureFinancialDocument;
+//    private DocumentHeader documentHeader;
+//    private DocumentHeader expenditureFinancialDocument;
     private DocumentType expenditureFinancialDocumentType;
     private OriginationCode expenditureFinancialSystemOrigination;
 
@@ -186,24 +186,24 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     }
 
 
-    public DocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
-
-    public void setDocumentHeader(DocumentHeader documentHeader) {
-        this.documentHeader = documentHeader;
-    }
-
-
-    public DocumentHeader getExpenditureFinancialDocument() {
-        return expenditureFinancialDocument;
-    }
-    
-
-    public void setExpenditureFinancialDocument(DocumentHeader expenditureFinancialDocument) {
-        this.expenditureFinancialDocument = expenditureFinancialDocument;
-    }
+//    public DocumentHeader getDocumentHeader() {
+//        return documentHeader;
+//    }
+//
+//
+//    public void setDocumentHeader(DocumentHeader documentHeader) {
+//        this.documentHeader = documentHeader;
+//    }
+//
+//
+//    public DocumentHeader getExpenditureFinancialDocument() {
+//        return expenditureFinancialDocument;
+//    }
+//    
+//
+//    public void setExpenditureFinancialDocument(DocumentHeader expenditureFinancialDocument) {
+//        this.expenditureFinancialDocument = expenditureFinancialDocument;
+//    }
 
     
     public DocumentType getExpenditureFinancialDocumentType() {

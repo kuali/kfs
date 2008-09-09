@@ -60,8 +60,7 @@ public class AssetPaymentObjectCodeValidation extends GenericValidation {
         
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = assetPaymentDocument.getAssetPaymentAssetDetail();
         for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {
-            LOG.info("**** AssetPaymentObjectCodeValidation - Asset:"+assetPaymentAssetDetail.getAsset().getCapitalAssetNumber());
-            
+            //LOG.info("**** AssetPaymentObjectCodeValidation - Asset:"+assetPaymentAssetDetail.getAsset().getCapitalAssetNumber());            
             if (assetService.isCapitalAsset(assetPaymentAssetDetail.getAsset())) {
                 if (!validSubtypeCodes.contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {            
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.Payment.ERROR_INVALID_OBJECT_SUBTYPE, new String[] { assetPaymentDetail.getFinancialObjectCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode(), CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES+" "+parameterDetail,validSubtypeCodes.toString() });

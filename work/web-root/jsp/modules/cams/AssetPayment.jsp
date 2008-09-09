@@ -18,11 +18,13 @@
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsAssetPayment"  documentTypeName="AssetPaymentDocument" renderMultipart="true"  showTabButtons="true">
-    <kfs:hiddenDocumentFields />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
   	<html:hidden property="document.capitalAssetNumber"/>
-	
-    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+    <kfs:hiddenDocumentFields isTransactionalDocument="true" isFinancialDocument="true"/>
 
+	<html:hidden property="document.documentNumber" />
+	<html:hidden property="document.versionNumber" />	
+    
     <cams:assetPayments /> 
 
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"

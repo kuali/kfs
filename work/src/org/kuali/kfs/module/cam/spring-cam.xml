@@ -274,7 +274,9 @@
 		</property>
 		<property name="workflowDocumentService">
 			<ref bean="workflowDocumentService" />
-		</property>					
+		</property>
+	  	<property name="parameterService" ref="parameterService" />							
+	  	<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
 	<bean id="assetBarcodeInventoryInputFileType" class="org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType"> 

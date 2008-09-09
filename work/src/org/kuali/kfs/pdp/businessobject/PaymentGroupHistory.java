@@ -55,7 +55,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     private Boolean origPmtSpecHandling; // ORIG_PMT_SPCL_HANDLG_IND VARCHAR2 1
     private Boolean pmtCancelExtractStat; // PMT_CNCL_EXTRT_STAT_IND VARCHAR2 1
     private Timestamp pmtCancelExtractDate; // PMT_CNCL_EXTRT_TS
-    
+
     private String disbursementTypeCode;
     private DisbursementType disbursementType;
 
@@ -403,6 +403,14 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
 
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
+    }
+
+    public Integer getProcessId() {
+        return processId;
+    }
+
+    public void setProcessId(Integer processId) {
+        this.processId = processId;
     }
     
 }

@@ -88,18 +88,31 @@ public class PdpConstants {
     }
 
     public static class PaymentStatusCodes {
-        public static String FORMAT = "FORM";
-        public static String OPEN = "OPEN";
-        public static String CANCEL_DISBURSEMENT = "CDIS";
-        public static String CANCEL_PAYMENT = "CPAY";
-        public static String EXTRACTED = "EXTR";
-        public static String PENDING_ACH = "PACH";
+        public static final String FORMAT = "FORM";
+        public static final String OPEN = "OPEN";
+        public static final String CANCEL_DISBURSEMENT = "CDIS";
+        public static final String CANCEL_PAYMENT = "CPAY";
+        public static final String EXTRACTED = "EXTR";
+        public static final String PENDING_ACH = "PACH";
+        public static final String HELD_TAX_ALL = "HTXA";
+        public static final String HELD_TAX_ALL_FOR_SEARCH = "HTX*";
     }
     
     public static class PurapParameterConstants {
         public static final String PURAP_PDP_EPIC_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String PURAP_PDP_EPIC_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
         public static final String PURAP_PDP_USER_ID = "PRE_DISBURSEMENT_EXTRACT_USER";
+    }
+    
+    public static class Actions{
+        public static final String BATCH_SEARCH_DETAIL_ACTION = "batchsearchDetail.do";
+        public static final String PAYMENT_DETAIL_ACTION = "paymentdetail.do";
+    }
+    
+    public static class ActionMethods{
+        public static final String CONFIRM_CANCEL_ACTION = "confirmCancel";
+        public static final String CONFIRM_REMOVE_HOLD_ACTION = "confirmRemoveHold";
+        public static final String CONFIRM_HOLD_ACTION = "confirmHold";
     }
     
 }

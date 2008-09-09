@@ -33,6 +33,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
@@ -92,6 +94,9 @@ public class CustomerProfile extends TimestampedBusinessObjectBase {
     private Boolean accountingEditRequired; // ACCTG_EDIT_REQ_IND
     private Boolean relieveLiabilities;
     private List customerBanks;
+    
+    private Org organization;
+    private Chart chartOfAccounts;
 
     public CustomerProfile() {
         super();
@@ -843,5 +848,26 @@ public class CustomerProfile extends TimestampedBusinessObjectBase {
 
     public String toString() {
         return new ToStringBuilder(this).append("chartCode", this.chartCode).append("orgCode", this.orgCode).append("subUnitCode", this.subUnitCode).toString();
+    }
+
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    public Org getOrganization() {
+        return organization;
+    }
+
+    /**
+     * This method sets the organization.
+     * @param organization
+     * @deprecated
+     */
+    public void setOrganization(Org organization) {
+        this.organization = organization;
     }
 }

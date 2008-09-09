@@ -23,4 +23,13 @@ public class PdpParameterConstants {
     
     public static final String DISBURSEMENT_CANCELLATION_EMAIL_ADDRESSES = "DISBURSEMENT_CANCELLATION_TO_EMAIL_ADDRESSES";
     
+    public static class BatchConstants{
+        public static final String BATCH_ID_PARAM = "batchId";
+        public static final String ACTION_SUCCESSFUL_PARAM = "actionSuccesful";
+        public static final String MESSAGE_PARAM = "message";
+    }
+    
+    public static class PaymentDetail {
+        public static final String DETAIL_ID_PARAM = "DetailId";
+    }
 }

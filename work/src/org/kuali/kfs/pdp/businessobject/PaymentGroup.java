@@ -73,7 +73,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private Timestamp epicPaymentCancelledExtractedDate; // PDP_EPIC_PMT_CNCL_EXTRT_TS
     private Timestamp epicPaymentPaidExtractedDate; // PDP_EPIC_PMT_PD_EXTRT_TS
     private Timestamp adviceEmailSentDate; // ADV_EMAIL_SNT_TS
-    
+
     private Integer batchId;
     private Batch batch; // PMT_BATCH_ID
 
@@ -918,5 +918,25 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         m.put("id", this.id);
         
         return m;
+    }
+
+    public String getDisbursementTypeCode() {
+        return disbursementTypeCode;
+    }
+
+    public void setDisbursementTypeCode(String disbursementTypeCode) {
+        this.disbursementTypeCode = disbursementTypeCode;
+    }
+
+    public Integer getProcessId() {
+        return processId;
+    }
+
+    public void setProcessId(Integer processId) {
+        this.processId = processId;
+    }
+
+    public void setPaymentStatusCode(String paymentStatusCode) {
+        this.paymentStatusCode = paymentStatusCode;
     }
 }

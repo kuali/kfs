@@ -34,8 +34,8 @@
     <field-descriptor name="description" column="BNK_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="name" column="BNK_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="routingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>    
-	<field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR"/>
@@ -138,6 +138,14 @@
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 
+	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartCode" />
+		<foreignkey field-ref="orgCode" />
+	</reference-descriptor>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartCode" />
+	</reference-descriptor>
+	
     <collection-descriptor name="customerBanks" element-class-ref="org.kuali.kfs.pdp.businessobject.CustomerBank" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
        <inverse-foreignkey field-ref="customerId"/>
     </collection-descriptor>

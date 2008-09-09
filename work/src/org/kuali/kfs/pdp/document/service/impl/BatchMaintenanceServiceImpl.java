@@ -21,6 +21,8 @@ package org.kuali.kfs.pdp.document.service.impl;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentChange;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
@@ -92,7 +94,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
             List paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("cancelPendingBatch() Pending payment groups not found for batchId; throw exception.");
-                throw new CancelPaymentException("Pending payment groups not found for batchId.");
+                throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
             }
 
             // cancel each payment
@@ -105,7 +107,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         }
         else {
             LOG.debug("cancelPendingBatch() Not all payment groups are open; cannot cancel batch.");
-            throw new CancelPaymentException("Not all payment groups are open; cannot cancel batch.");
+            throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_CANCEL);
         }
     }// end cancelPendingBatch()
 
@@ -123,7 +125,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
             List paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("holdPendingBatch() Pending payment groups not found for batchId; throw exception.");
-                throw new CancelPaymentException("Pending payment groups not found for batchId.");
+                throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
             }
 
             // hold each payment
@@ -136,7 +138,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         }
         else {
             LOG.debug("holdPendingBatch() Not all payment groups are open; cannot hold batch.");
-            throw new CancelPaymentException("Not all payment groups are open; cannot hold batch.");
+            throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_HOLD);
         }
     }// end holdPendingBatch()
 
@@ -149,12 +151,12 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param user (User) Actor making change.
      */
     public void removeBatchHold(Integer paymentBatchId, String note, UniversalUser user) throws PdpException {
-        LOG.debug("removeBatchHold() Enter method to hold batch with id = " + paymentBatchId);
+        LOG.debug("removeBatchHold() Enter method to remove hold batch with id = " + paymentBatchId);
         if (doBatchPaymentsHaveHeldStatus(paymentBatchId)) {
             List paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("removeBatchHold() Pending payment groups not found for batchId; throw exception.");
-                throw new CancelPaymentException("Pending payment groups not found for batchId.");
+                throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
             }
 
             // hold each payment
@@ -163,11 +165,11 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
                 PaymentGroup element = (PaymentGroup) iter.next();
                 changeStatus(element, OPEN_CD, REMOVE_HOLD_BATCH_CHNG_CD, note, user);
             }
-            LOG.debug("holdPendingBatch() All payment groups in batch have been held; exit method.");
+            LOG.debug("removeBatchHold() All payment groups in batch have been held; exit method.");
         }
         else {
-            LOG.debug("holdPendingBatch() Not all payment groups are open; cannot hold batch.");
-            throw new CancelPaymentException("Not all payment groups are open; cannot hold batch.");
+            LOG.debug("removeBatchHold() Not all payment groups are open; cannot remove hold on batch.");
+            throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_REMOVE_HOLD);
         }
 
     }// end removeBatchHold()

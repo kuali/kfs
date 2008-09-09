@@ -1,0 +1,127 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="DisbursementType" parent="DisbursementType-parentBean" />
+
+  <bean id="DisbursementType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.DisbursementType" />
+    <property name="inquiryDefinition" >
+      <ref bean="DisbursementType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="DisbursementType-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Disbursement Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="DisbursementType-code" />
+        <ref bean="DisbursementType-name" />
+        <ref bean="DisbursementType-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="DisbursementType-code" parent="DisbursementType-code-parentBean" />
+
+  <bean id="DisbursementType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Disbursement Type Code" />
+    <property name="shortLabel" value="Disbursement Type" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="DisbursementType-name" parent="DisbursementType-name-parentBean" />
+
+  <bean id="DisbursementType-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Disbursement Type Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+  </bean>
+ 
+ 
+  <bean id="DisbursementType-versionNumber" parent="DisbursementType-versionNumber-parentBean" />
+
+  <bean id="DisbursementType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="DisbursementType-inquiryDefinition" parent="DisbursementType-inquiryDefinition-parentBean" />
+
+  <bean id="DisbursementType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Disbursement Type Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="code" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="DisbursementType-lookupDefinition" parent="DisbursementType-lookupDefinition-parentBean" />
+
+  <bean id="DisbursementType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Disbursement Type Lookup" />
+    <property name="instructions" value="Lookup a Disbursement Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>code</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+      </list>
+    </property>
+  </bean>
+</beans>

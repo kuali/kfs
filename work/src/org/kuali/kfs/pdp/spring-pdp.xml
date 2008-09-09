@@ -63,7 +63,7 @@
 
     <bean id="pdpModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="pdpModuleConfiguration" />
-	</bean>
+    </bean>
 
 	<bean id="pdpPayeeTypeDao" class="org.kuali.kfs.pdp.dataaccess.impl.PayeeTypeDaoMap">
     	<property name="payees">
@@ -434,6 +434,64 @@
 
 	<bean id="processPdpCancelsAndPaidJob" parent="scheduledJobDescriptor">
 	</bean>
+	
+	<bean id="batchLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BatchLookupableHelperService" singleton="false">
+	    <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectMetaDataService">
+            <ref bean="businessObjectMetaDataService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>
+        <property name="configurationService" ref="kualiConfigurationService" />
+        <property name="batchMaintenanceService">
+        <ref bean="pdpBatchMaintenanceService"/>
+        </property>
+	</bean>
+
+	<bean id="batchLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="batchLookupableHelperService" />
+		</property>
+	</bean>	
+	
+	<bean id="paymentDetailLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentDetailLookupableHelperService" singleton="false">
+	    <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectMetaDataService">
+            <ref bean="businessObjectMetaDataService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>
+	</bean>
+
+	<bean id="paymentDetailLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="paymentDetailLookupableHelperService" />
+		</property>
+	</bean>	
 
 	
 </beans>

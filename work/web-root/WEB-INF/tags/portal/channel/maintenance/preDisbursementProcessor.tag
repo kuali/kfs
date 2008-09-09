@@ -34,6 +34,8 @@
 	  <li><portal:portalLink displayTitle="true" title="Payee ACH Account" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.pdp.businessobject.PayeeAchAccount&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
       <li><portal:portalLink displayTitle="true" title="Search for Batch" url="pdp/batchsearch.do"/></li>
       <li><portal:portalLink displayTitle="true" title="Search for Payment" url="pdp/paymentsearch.do"/></li>
+      <li><portal:portalLink displayTitle="true" title="Search for Batch Rice" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.pdp.businessobject.Batch&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+      <li><portal:portalLink displayTitle="true" title="Search for Payment Rice" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.pdp.businessobject.PaymentDetail&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
     </ul>
 </div>
 <channel:portalChannelBottom />

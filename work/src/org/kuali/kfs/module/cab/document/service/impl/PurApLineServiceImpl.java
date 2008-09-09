@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.OptimisticLockException;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
@@ -34,9 +33,7 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsse
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cab.dataaccess.PurApLineDao;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
-import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -287,13 +284,25 @@ public class PurApLineServiceImpl implements PurApLineService {
         List<PurchasingAccountsPayableItemAsset> mergeLines = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
         boolean mergeAll = isMergeAllAction(purApLineForm);
 
+        boolean excludeTradeInAllowance = false;
+
         if (mergeAll) {
-            boolean tradeInPending = isTradeInAllocPending(purApLineForm);
+            boolean tradeInIndicator = isTradeInIndicatorExist(purApLineForm);
+            boolean tradeInAllowance = isTradeInAllowanceExist(purApLineForm);
+
+            if (tradeInIndicator & !tradeInAllowance) {
+                // TODO: bring the warning message
+            }
+            if (!tradeInIndicator & tradeInAllowance) {
+                excludeTradeInAllowance = true;
+            }
         }
 
         for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                if ((!mergeAll && item.isSelectedValue()) || (mergeAll && !item.isTradeInAllowance())) {
+                // If not merge all action, select items are the merge lines. If it is merge all action, trade-in allowance is
+                // exception when trade-in indicator not exists.
+                if ((!mergeAll & item.isSelectedValue()) || (mergeAll && (!excludeTradeInAllowance || !item.isTradeInAllowance()))) {
                     mergeLines.add(item);
                     item.setPurchasingAccountsPayableDocument(purApDoc);
                 }
@@ -302,28 +311,77 @@ public class PurApLineServiceImpl implements PurApLineService {
         return mergeLines;
     }
 
-    /**
-     * Check if there is pending allocation for trade-in allowance.
-     * 
-     * @param purApLineForm
-     * @return
-     */
-    private boolean isTradeInAllocPending(PurApLineForm purApLineForm) {
-        boolean tradeInIndicator = false;
+    public boolean isTradeInAllowanceExist(PurApLineForm purApLineForm) {
         boolean tradeInAllowance = false;
-
         for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                tradeInAllowance |= item.isTradeInAllowance();
-                tradeInIndicator |= item.isItemAssignedToTradeInIndicator();
-
-                if (tradeInAllowance & tradeInIndicator) {
+                if (item.isTradeInAllowance()) {
+                    tradeInAllowance = true;
                     break;
                 }
             }
         }
-        // When both trade-in allowance and trade-in indicator exist, trade-in allocation is pending.
-        return tradeInAllowance & tradeInIndicator;
+        return tradeInAllowance;
+    }
+
+    private boolean isTradeInIndicatorExist(PurApLineForm purApLineForm) {
+        boolean tradeInIndicator = false;
+        for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                if (item.isItemAssignedToTradeInIndicator()) {
+                    tradeInIndicator = true;
+                    break;
+                }
+            }
+        }
+        return tradeInIndicator;
+    }
+
+    public boolean isTradeInIndicatorExist(List<PurchasingAccountsPayableItemAsset> itemAssets) {
+        boolean tradeInIndicator = false;
+        for (PurchasingAccountsPayableItemAsset item : itemAssets) {
+            if (item.isItemAssignedToTradeInIndicator()) {
+                tradeInIndicator = true;
+                break;
+            }
+        }
+        return tradeInIndicator;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isAdditionalChargePending(java.util.List,
+     *      org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
+     */
+    public boolean isAdditionalChargePending(List<PurchasingAccountsPayableItemAsset> itemAssets) {
+        boolean additionalChargePending = false;
+        // Check if itemAssets are in different PurAp Document. itemAssets is a sorted list which has item assets from the same
+        // document grouping together.
+        Boolean diffDocment = false;
+        PurchasingAccountsPayableItemAsset firstAsset = itemAssets.get(0);
+        PurchasingAccountsPayableItemAsset lastAsset = itemAssets.get(itemAssets.size() - 1);
+
+        if (ObjectUtils.isNotNull(firstAsset) && ObjectUtils.isNotNull(lastAsset) && !firstAsset.getDocumentNumber().equalsIgnoreCase(lastAsset.getDocumentNumber())) {
+            diffDocment = true;
+        }
+
+        // check if item asset has additional charges not allocated yet.
+        if (diffDocment) {
+            for (PurchasingAccountsPayableItemAsset item : itemAssets) {
+                if (ObjectUtils.isNotNull(item.getPurchasingAccountsPayableDocument())) {
+                    for (PurchasingAccountsPayableItemAsset itemLine : item.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets()) {
+                        if (itemLine.isAdditionalChargeNonTradeInIndicator()) {
+                            additionalChargePending = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (additionalChargePending) {
+                    break;
+                }
+            }
+        }
+        return additionalChargePending;
     }
 
     /**
@@ -332,7 +390,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param purApLineForm
      * @return
      */
-    private boolean isMergeAllAction(PurApLineForm purApLineForm) {
+    public boolean isMergeAllAction(PurApLineForm purApLineForm) {
         boolean mergeAll = true;
 
         for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
@@ -391,6 +449,12 @@ public class PurApLineServiceImpl implements PurApLineService {
         return true;
     }
 
+    /**
+     * Calculate item total cost.
+     * 
+     * @param targetItems
+     * @return
+     */
     private KualiDecimal getItemsTotalCost(List<PurchasingAccountsPayableItemAsset> targetItems) {
         KualiDecimal totalCost = KualiDecimal.ZERO;
 
@@ -447,23 +511,8 @@ public class PurApLineServiceImpl implements PurApLineService {
         for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
             businessObjectService.save(purApDoc);
         }
-        // Removed below codes together with PurApLineSession when using buildListOfDeletionAwareLists is approved.
-        // List itemAssets = purApDoc.getPurchasingAccountsPayableItemAssets();
-        // if (itemAssets != null && !itemAssets.isEmpty()) {
-        // businessObjectService.save(itemAssets);
-        // }
     }
 
-    //
-    // // delete allocated items
-    // if (purApLineSession != null) {
-    // List deletedItems = purApLineSession.getDeletedItemAssets();
-    // if (deletedItems != null && !deletedItems.isEmpty()) {
-    // businessObjectService.delete(deletedItems);
-    // purApLineSession.getDeletedItemAssets().removeAll(deletedItems);
-    // }
-    // }
-    // }
 
     /**
      * Create asset account list for new item asset and update the current account amount.

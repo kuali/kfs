@@ -46,6 +46,7 @@ public class CabConstants extends JSTLConstants {
         public static final String PROCESS = "process";
         public static final String START = "start";
         public static final String SPLIT = "split";
+        public static final String MERGE = "merge";
     }
     
     public static class ValidationStrings {
@@ -54,4 +55,6 @@ public class CabConstants extends JSTLConstants {
         public static final String RECURRING = "Recurring";
         public static final String NON_RECURRING = "Non-recurring";
     }
+    
+    public static final String TRADE_IN_INDICATOR_QUESTION = "TradeInIndicatorConfirmation";
 }

@@ -99,4 +99,37 @@ public interface PurApLineService {
      * @param mergeLines
      */
     void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines);
+
+    /**
+     * Check if the merge action is merge all.
+     * 
+     * @param purApLineForm
+     * @return
+     */
+    public boolean isMergeAllAction(PurApLineForm purApLineForm);
+
+    /**
+     * For line items in itemAssets if they are not in the same PurAp document, check if there is pending additional charges
+     * allocation.
+     * 
+     * @param itemAssets
+     * @return
+     */
+    boolean isAdditionalChargePending(List<PurchasingAccountsPayableItemAsset> itemAssets);
+
+    /**
+     * Check if there is TI indicator exists in the given itemAssets List.
+     * 
+     * @param itemAssets
+     * @return
+     */
+    boolean isTradeInIndicatorExist(List<PurchasingAccountsPayableItemAsset> itemAssets);
+
+    /**
+     * Check if there is trade-in allowance not allocated yet.
+     * 
+     * @param purApLineForm
+     * @return
+     */
+    boolean isTradeInAllowanceExist(PurApLineForm purApLineForm);
 }

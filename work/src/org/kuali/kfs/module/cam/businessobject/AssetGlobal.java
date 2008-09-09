@@ -836,6 +836,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 if (assetGlobalService.isAssetSeparateDocument(this)) {
                     assetPayment.setAccountChargeAmount(payment.getAmount().subtract(location.getSeparateSourceAmount()));
                     assetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
+                    assetPayment.setPrimaryDepreciationBaseAmount(primaryDepreciationBaseAmount);
                 }
                 else {
                     if (isDepreciablePayment) {
@@ -847,9 +848,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                     else {
                         assetPayment.setAccountChargeAmount(KualiDecimal.ZERO);
                     }
+                    assetPayment.setPrimaryDepreciationBaseAmount(assetPayment.getAccountChargeAmount());
                 }
 
-                assetPayment.setPrimaryDepreciationBaseAmount(primaryDepreciationBaseAmount);
                 persistables.add(assetPayment);
             }
         }

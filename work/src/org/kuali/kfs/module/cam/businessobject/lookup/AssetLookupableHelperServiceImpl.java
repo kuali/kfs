@@ -55,7 +55,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         anchorHtmlDataList.add(getURLData(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         anchorHtmlDataList.add(getLoanUrl(bo));
         anchorHtmlDataList.add(getMergeUrl(bo));
-//        anchorHtmlDataList.add(getPaymentUrl(bo));        anchorHtmlDataList.add(getSeparateUrl(bo));        anchorHtmlDataList.add(getTransferUrl(bo));
+        anchorHtmlDataList.add(getSeparateUrl(bo));        anchorHtmlDataList.add(getTransferUrl(bo));
 
         return anchorHtmlDataList;
     }
@@ -117,19 +117,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         String href = "../camsAssetTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=AssetTransferDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber();
         return new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.TRANSFER);
     }
-/*
-    private HtmlData getPaymentUrl(BusinessObject bo) {
-        Asset asset = (Asset) bo;
-        AnchorHtmlData anchorHtmlData = new AnchorHtmlData("", "", CamsConstants.AssetActions.PAYMENT);
 
-        // Only active capital assets will have the payment link.
-        if (getAssetService().isCapitalAsset(asset) && !getAssetService().isAssetRetired(asset)){
-            String href = "../camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber();
-            anchorHtmlData = new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.PAYMENT);
-        }
-        return anchorHtmlData;
-    }
-*/
     public AssetService getAssetService() {
         return assetService;
     }

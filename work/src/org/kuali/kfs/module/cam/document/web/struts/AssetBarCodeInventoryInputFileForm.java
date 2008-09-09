@@ -15,14 +15,19 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm;
 
 public class AssetBarCodeInventoryInputFileForm extends KualiBatchInputFileSetForm {
     private String uploadDescription;
+    private List<String> messages;
     
     public AssetBarCodeInventoryInputFileForm() {
         super();
         this.setSupressDoneFileCreation(true);
+        this.messages = new ArrayList<String>();        
     }
 
     public String getUploadDescription() {
@@ -31,5 +36,13 @@ public class AssetBarCodeInventoryInputFileForm extends KualiBatchInputFileSetFo
 
     public void setUploadDescription(String uploadDescription) {
         this.uploadDescription = uploadDescription;
+    }
+
+    public List<String> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<String> messages) {
+        this.messages = messages;
     }
 }

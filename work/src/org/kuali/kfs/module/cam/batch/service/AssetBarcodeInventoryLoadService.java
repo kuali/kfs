@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.batch.service;
 import java.io.File;
 
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
+import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm;
 
 /**
  * 
@@ -42,7 +43,7 @@ public interface AssetBarcodeInventoryLoadService {
       * @param file
       * @return
       */
-     public boolean processFile(File file, String uploadDescription);
+     public boolean processFile(File file, AssetBarCodeInventoryInputFileForm form);
      
      
      /**

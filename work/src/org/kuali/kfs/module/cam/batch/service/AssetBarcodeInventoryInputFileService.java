@@ -19,10 +19,11 @@ import java.io.InputStream;
 import java.util.Map;
 
 import org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType;
+import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm;
 import org.kuali.kfs.sys.batch.service.BatchInputFileSetService;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.AuthorizationException;
 public interface AssetBarcodeInventoryInputFileService extends BatchInputFileSetService {
-    public Map<String, String> save(UniversalUser user, AssetBarcodeInventoryInputFileType inputType, String fileUserIdentifer, Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation, String uploadDescription) throws AuthorizationException, FileStorageException;
+    public Map<String, String> save(UniversalUser user, AssetBarcodeInventoryInputFileType inputType, String fileUserIdentifer, Map<String, InputStream> typeToStreamMap, AssetBarCodeInventoryInputFileForm form) throws AuthorizationException, FileStorageException;    
 }

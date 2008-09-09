@@ -68,7 +68,6 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BatchUpload batchUpload = ((AssetBarCodeInventoryInputFileForm) form).getBatchUpload();
-        //BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
         AssetBarcodeInventoryInputFileType batchType = (AssetBarcodeInventoryInputFileType)retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
         
         Map<String, FormFile> uploadedFiles = ((KualiBatchInputFileSetForm) form).getUploadedFiles();
@@ -99,7 +98,6 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         
         
         
-        //BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
         AssetBarcodeInventoryInputFileService batchInputFileSetService = SpringContext.getBean(AssetBarcodeInventoryInputFileService.class);
         
         if (!batchInputFileSetService.isFileUserIdentifierProperlyFormatted(batchUpload.getFileUserIdentifer())) {
@@ -107,7 +105,6 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
             requiredValuesForFilesMissing = true;
         }
 
-        //Map<String, FormFile> uploadedFiles = ((KualiBatchInputFileSetForm) form).getUploadedFiles();
         Map<String, InputStream> typeToStreamMap = new HashMap<String, InputStream>();
 
         for (String fileType : uploadedFiles.keySet()) {
@@ -126,7 +123,8 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         }
 
         try {
-            Map<String, String> typeToSavedFileNames = batchInputFileSetService.save(GlobalVariables.getUserSession().getFinancialSystemUser(), batchType, batchUpload.getFileUserIdentifer(), typeToStreamMap, ((AssetBarCodeInventoryInputFileForm) form).isSupressDoneFileCreation(),uploadDescription);
+            //Map<String, String> typeToSavedFileNames =  batchInputFileSetService.save(GlobalVariables.getUserSession().getFinancialSystemUser(), batchType, batchUpload.getFileUserIdentifer(), typeToStreamMap, ((AssetBarCodeInventoryInputFileForm) form).isSupressDoneFileCreation(),uploadDescription);
+            Map<String, String> typeToSavedFileNames =  batchInputFileSetService.save(GlobalVariables.getUserSession().getFinancialSystemUser(), batchType, batchUpload.getFileUserIdentifer(), typeToStreamMap, ((AssetBarCodeInventoryInputFileForm) form));            
         }
         catch (FileStorageException e) {
             LOG.error("Error occured while trying to save file set (probably tried to save a file that already exists).", e);

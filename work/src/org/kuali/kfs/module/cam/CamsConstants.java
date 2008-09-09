@@ -86,6 +86,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String RAZE_RETIREMENT_REASONS = "RAZE_RETIREMENT_REASONS";
         public static final String CAPITAL_OBJECT_SUB_TYPES = "CAPITAL_OBJECT_SUB_TYPES";
         public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS="IGNORES_LOCKS_IND";
+        public static final String MAX_NUMBER_OF_RECORDS_PER_DOCUMENT="MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
     }
 
     public static class Report {
@@ -132,6 +133,9 @@ public class CamsConstants extends JSTLConstants {
         
         public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO="N";
         public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_YES="Y";
+        
+        
+        
         public static final Map<String, String> statusDescription = new HashMap<String, String>(); 
         static {
             statusDescription.put(STATUS_CODE_CORRECTED,STATUS_CODE_CORRECTED_DESCRIPTION);

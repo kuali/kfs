@@ -32,6 +32,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
+import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.user.UniversalUser;
@@ -256,8 +257,8 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
     }        
 
     
-    public void process(Map<String, File> typeToFiles, String uploadDescription) {        
-        SpringContext.getBean(AssetBarcodeInventoryLoadService.class).processFile(typeToFiles.get(CamsConstants.BarCodeInventory.DATA_FILE_TYPE),uploadDescription);
+    public void process(Map<String, File> typeToFiles, AssetBarCodeInventoryInputFileForm form) {        
+        SpringContext.getBean(AssetBarcodeInventoryLoadService.class).processFile(typeToFiles.get(CamsConstants.BarCodeInventory.DATA_FILE_TYPE),form);
     }
 
     /**

@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryInputFileService;
+import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl;
@@ -68,7 +69,7 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
         return true;
     }
 
-    public Map<String, String> save(UniversalUser user, AssetBarcodeInventoryInputFileType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation, String uploadDescription) throws AuthorizationException, FileStorageException {
+    public Map<String, String> save(UniversalUser user, AssetBarcodeInventoryInputFileType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, AssetBarCodeInventoryInputFileForm form) throws AuthorizationException, FileStorageException {
         // check user is authorized to upload a file for the batch type
         if (!isUserAuthorizedForBatchType(inputType, user)) {
             LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to upload a file of batch type " + inputType.getFileSetTypeIdentifer());
@@ -115,6 +116,7 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
             deleteTempFiles(typeToTempFiles);
         }
 
+        boolean suppressDoneFileCreation = form.isSupressDoneFileCreation();
         if (!suppressDoneFileCreation && inputType.isSupportsDoneFileCreation()) {
             String doneFileName = inputType.getDoneFileDirectoryPath() + File.separator + inputType.getDoneFileName(user, fileUserIdentifier);
             File doneFile = new File(doneFileName);
@@ -129,7 +131,7 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
             }
         }
         
-        inputType.process(typeToFiles, uploadDescription);
+        inputType.process(typeToFiles,form);
         
         return typeToFileNames;
     }

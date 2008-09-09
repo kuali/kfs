@@ -28,10 +28,23 @@
 	                                        <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" alt="[Help]Upload" hspace=5 border=0  align="middle"></a>
 	  </h2></strong>
 	</br>
+
 	
-	<table width="100%" border="0"><tr><td>	
-	  <kul:errors keyMatch="*"/>
-	</td></tr></table>  
+	<table width="100%" border="0">
+		<tr>
+			<td>	
+	  			<kul:errors keyMatch="*"/>
+			</td>
+		</tr>
+	    <c:forEach items="${KualiForm.messages}" var="message">
+			<tr>
+				<td>	
+				   ${message}
+				</td>
+			</tr>
+		</c:forEach>		
+	</table>
+	  
 	</br>
 		
 	<kul:tabTop tabTitle="Manage files" defaultOpen="true" tabErrorKey="">

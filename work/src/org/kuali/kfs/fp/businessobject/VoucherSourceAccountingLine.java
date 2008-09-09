@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /**
@@ -71,6 +73,21 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
      */
     public void setObjectTypeCode(String objectTypeCode) {
         this.objectTypeCode = objectTypeCode;
+    }
+
+    /**
+     * Overridden to automatically set the object type code on the setting of the object code - if the object type code is blank
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#setFinancialObjectCode(java.lang.String)
+     */
+    @Override
+    public void setFinancialObjectCode(String financialObjectCode) {
+        super.setFinancialObjectCode(financialObjectCode);
+        if (StringUtils.isBlank(getObjectTypeCode()) && !StringUtils.isBlank(getFinancialObjectCode())) {
+            refreshReferenceObject("objectCode");
+            if (!ObjectUtils.isNull(getObjectCode())) {
+                setObjectTypeCode(getObjectCode().getFinancialObjectTypeCode());
+            }
+        }
     }
     
 }

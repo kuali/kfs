@@ -31,6 +31,7 @@ private String customerNumber;
 private String chartOfAccountsCode;
 private String organizationCode;
 private String accountNumber;
+private String reportOption;
 private Date reportRunDate;
 private KualiDecimal unpaidBalance0to30 = KualiDecimal.ZERO;
 private KualiDecimal unpaidBalance31to60 = KualiDecimal.ZERO;
@@ -89,6 +90,22 @@ private KualiDecimal unpaidBalanceSYSPRplus1orMore = KualiDecimal.ZERO;
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    /**
+     * Gets the reportOption attribute. 
+     * @return Returns the reportOption.
+     */
+    public String getReportOption() {
+        return reportOption;
+    }
+
+    /**
+     * Sets the reportOption attribute value.
+     * @param reportOption The reportOption to set.
+     */
+    public void setReportOption(String reportOption) {
+        this.reportOption = reportOption;
     }
 
     /**

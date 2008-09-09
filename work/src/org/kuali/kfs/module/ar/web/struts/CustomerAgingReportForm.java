@@ -23,6 +23,9 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestImport;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
@@ -53,6 +56,13 @@ public class CustomerAgingReportForm extends LookupForm {
     private Lookupable pendingEntryLookupable;
     private boolean hideReturnLink = false;
 
+//    public CustomerAgingReportForm() {
+//        super();
+//       // this.CustomerAgingReportDetail = new CustomerAgingReportDetail();
+//        setValue(ArConstants.CustomerAgingReportFields.PROCESSING_ORG);
+//        this.set setTitle("BC Request Import Tool");
+//        this.setReportMode("requestImport");      
+//    }
 
     /**
      * Picks out business object name from the request to get retrieve a lookupable and set properties.
@@ -112,6 +122,7 @@ public class CustomerAgingReportForm extends LookupForm {
             if (request.getParameter(KFSConstants.CONVERSION_FIELDS_PARAMETER) != null) {
                 setConversionFields(request.getParameter(KFSConstants.CONVERSION_FIELDS_PARAMETER));
             }
+            
 
             // init lookupable with bo class
             getLookupable().setBusinessObjectClass(Class.forName(getBusinessObjectClassName()));

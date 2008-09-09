@@ -159,8 +159,13 @@ public class ArConstants {
         public static final String CUSTOMER_NUMBER = "customerNumber";
     }
     
-    public static class CustomerAgingReportFields {
+    public static class CustomerAgingReportFields {        
         public static final String REPORT_RUN_DATE = "reportRunDate";
+        
+        // Report Options
+        public static final String PROCESSING_ORG = "Processing Organization";
+        public static final String BILLING_ORG = "Billing Organization";
+        public static final String ACCT = "Account";
     }    
 
     public static class CustomerCreditMemoDocumentFields {

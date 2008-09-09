@@ -8,31 +8,47 @@
 
   <bean id="CustomerAgingReportDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail" />
-    <!-- <property name="inquiryDefinition" >
-      <ref bean="AccountBalanceByConsolidation-inquiryDefinition" />
-    </property> -->
     <property name="lookupDefinition" >
       <ref bean="CustomerAgingReportDetail-lookupDefinition" />
     </property>
     <property name="objectLabel" value="Customer Aging Report" />
     <property name="attributes" >
       <list>
-    <ref bean="CustomerAgingReportDetail-chartOfAccountsCode" />
+          <ref bean="CustomerAgingReportDetail-reportOption" />
+    	<ref bean="CustomerAgingReportDetail-chartOfAccountsCode" />
 	<ref bean="CustomerAgingReportDetail-organizationCode" />
 	<ref bean="CustomerAgingReportDetail-accountNumber" /> 
 	<ref bean="CustomerAgingReportDetail-reportRunDate" />         
-    <ref bean="CustomerAgingReportDetail-customerName" />
+          <ref bean="CustomerAgingReportDetail-customerName" />
 	<ref bean="CustomerAgingReportDetail-customerNumber" />
 	<ref bean="CustomerAgingReportDetail-unpaidBalance0to30" />
 	<ref bean="CustomerAgingReportDetail-unpaidBalance31to60" />
 	<ref bean="CustomerAgingReportDetail-unpaidBalance61to90" />
-    <ref bean="CustomerAgingReportDetail-unpaidBalance91toSYSPR" />
-    <ref bean="CustomerAgingReportDetail-unpaidBalanceSYSPRplus1orMore" />
+          <ref bean="CustomerAgingReportDetail-unpaidBalance91toSYSPR" />
+          <ref bean="CustomerAgingReportDetail-unpaidBalanceSYSPRplus1orMore" />
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
+  <bean id="CustomerAgingReportDetail-reportOption" parent="CustomerAgingReportDetail-reportOption-parentBean" />
+  <bean id="CustomerAgingReportDetail-reportOption-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="reportOption" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Report Option" />
+    <property name="shortLabel" value="Report Option shortLabel" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerAgingReportValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+ </bean>
+
 <bean id="CustomerAgingReportDetail-chartOfAccountsCode" parent="CustomerAgingReportDetail-chartOfAccountsCode-parentBean" />
 <bean id="CustomerAgingReportDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"></bean>
 
@@ -129,17 +145,12 @@
     <property name="title" value="Customer Aging Report" />
     <property name="lookupableID" value="arCustomerAgingReportLookupable" />
     <property name="instructions" value="Lookup open invoices and credit memos for all customers from same Account or Org." />
-    <!-- <property name="defaultSort" >
-      <bean parent="SortDefinition">
-        <property name="attributeNames" >
-          <list>
-            <value>financialObject.financialObjectLevel.finatncialConsolidationObject.finConsolidationObjectCode</value>
-          </list>
-        </property>
-      </bean>
-    </property> -->
     <property name="lookupFields" >
       <list>
+        <bean parent="FieldDefinition"
+        	    p:noLookup="true"
+	    p:attributeName="reportOption" 
+	    p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerAgingReportValuesFinder" />	          
         <bean parent="FieldDefinition"
               p:required="true"
               p:attributeName="chartOfAccountsCode" 	
@@ -154,8 +165,7 @@
          <bean parent="FieldDefinition"
               p:required="true"
               p:attributeName="reportRunDate"
-              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
-              
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />              
       </list>
     </property>
     <property name="resultFields" >

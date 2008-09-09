@@ -136,7 +136,7 @@
                         <kul:htmlControlAttribute
                             attributeEntry="${itemAttributes.itemUnitPrice}"
                             property="document.item[${ctr}].itemUnitPrice"
-                            readOnly="${not (fullEntryMode) or (KualiForm.document.items[ctr].itemType.amountBasedGeneralLedgerIndicator) }" />
+                            readOnly="${not (fullEntryMode) }" />
                     </c:if>
                     <c:if test="${KualiForm.document.items[ctr].itemType.amountBasedGeneralLedgerIndicator}">
                         <kul:htmlControlAttribute

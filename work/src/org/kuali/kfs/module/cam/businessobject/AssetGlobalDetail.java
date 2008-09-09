@@ -8,9 +8,11 @@ import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -61,6 +63,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     private UniversalUser assetRepresentative;
 
     public UniversalUser getAssetRepresentative() {
+        assetRepresentative = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
 

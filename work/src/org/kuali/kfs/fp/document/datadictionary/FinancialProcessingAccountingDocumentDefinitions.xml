@@ -1,87 +1,146 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-        
-    <bean id="FinancialProcessing-SalesTax-accountingLineView" parent="FinancialProcessing-SalesTax-accountingLineView-parent" />
-	
-	<bean id="FinancialProcessing-SalesTax-accountingLineView-parent" parent="AccountingLineView" abstract="true">
-	  <property name="elements">
-	    <list>
-	      <bean parent="AccountingLineView-sequenceNumber" />
-	      <bean parent="AccountingLineView-lines">
-	        <property name="lines">
-	          <list>
-	            <bean parent="AccountingLineView-line">
-	              <property name="elementName" value="accountingInformation" />
-	              <property name="fields">
-	                <list>
-	                  <bean parent="AccountingLineView-field" p:name="postingYear" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="overrideCode" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="versionNumber" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="objectId" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="documentNumber" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
-	                  <bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName">
-	                  	<property name="overrideFields">
-	                  		<list>
-	                  			<bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride" />
-	                  			<bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride" />
-	                  		</list>
-	                  	</property>
-	                  </bean>
-	                  <bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName" />
-	                  <bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
-	                  	<property name="overrideFields">
-	                  		<list>
-	                  			<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride" />
-	                  		</list>
-	                  	</property>
-	                  </bean>
-	                  <bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
-	                  <bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription" />
-	                  <bean parent="AccountingLineView-field" p:name="organizationReferenceId" />
-	                </list>
-	              </property>
-	            </bean>
-	            <bean parent="AccountingLineView-line">
-	              <property name="elementName" value="salesTaxInformation" />
-	              <property name="fields">
-	              	<list>
-		              	<bean parent="AccountingLineView-field" p:name="salesTax.versionNumber" p:hidden="true" />
-		              	<bean parent="AccountingLineView-field" p:name="salesTax.objectId" p:hidden="true" />
-		                <bean parent="AccountingLineView-field" p:name="salesTax.chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="updateChartName" p:dynamicLabelProperty="salesTax.chartOfAccounts.finChartOfAccountDescription" />
-		                <bean parent="AccountingLineView-field" p:name="salesTax.accountNumber" p:required="true" p:webUILeaveFieldFunction="updateAccountNumber" p:dynamicLabelProperty="salesTax.account.accountName" />
-		                <bean parent="AccountingLineView-field" p:name="salesTax.financialDocumentGrossSalesAmount" p:required="true" />
-		                <bean parent="AccountingLineView-field" p:name="salesTax.financialDocumentTaxableSalesAmount" p:required="true" />
-		                <bean parent="AccountingLineView-field" p:name="salesTax.financialDocumentSaleDate" p:required="true" />
-	                </list>
-	              </property>
-	            </bean>
-	          </list>
-	        </property>
-	      </bean>
-	      <bean parent="AccountingLineView-field" p:name="amount" p:required="true" />
-	      <bean parent="AccountingLineView-actions" />
-	    </list>
-	  </property>
+
+	<bean id="accountingInformation"
+		parent="accountingInformation-parent" />
+
+	<bean parent="AccountingLineView-line"
+		id="accountingInformation-parent" abstract="true">
+		<property name="elementName" value="accountingInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"
+					p:name="postingYear" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="overrideCode" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="versionNumber" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="objectId" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="documentNumber" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="chartOfAccountsCode" p:required="true"
+					p:webUILeaveFieldFunction="loadChartInfo"
+					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="accountNumber" p:required="true"
+					p:webUILeaveFieldFunction="loadAccountInfo"
+					p:dynamicLabelProperty="account.accountName">
+					<property name="overrideFields">
+						<list>
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="accountExpiredOverride" />
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="nonFringeAccountOverride" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field"
+					p:name="subAccountNumber"
+					p:webUILeaveFieldFunction="loadSubAccountInfo"
+					p:dynamicLabelProperty="subAccount.subAccountName" />
+				<bean parent="AccountingLineView-field"
+					p:name="financialObjectCode" p:required="true"
+					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
+					<property name="overrideFields">
+						<list>
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="objectBudgetOverride" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field"
+					p:name="financialSubObjectCode"
+					p:webUILeaveFieldFunction="loadSubObjectInfo"
+					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
+				<bean parent="AccountingLineView-field"
+					p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo"
+					p:dynamicLabelProperty="project.projectDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="organizationReferenceId" />
+			</list>
+		</property>
 	</bean>
 
-	<bean id="AccountingDocument-sourceGroupTotals" class="org.springframework.beans.factory.config.ListFactoryBean">
+	<bean id="salesTaxInformation" parent="salesTaxInformation-parent" />
+
+	<bean parent="AccountingLineView-line"
+		id="salesTaxInformation-parent" abstract="true">
+		<property name="elementName" value="salesTaxInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.versionNumber" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.objectId" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.chartOfAccountsCode" p:required="true"
+					p:webUILeaveFieldFunction="updateChartName"
+					p:dynamicLabelProperty="salesTax.chartOfAccounts.finChartOfAccountDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.accountNumber" p:required="true"
+					p:webUILeaveFieldFunction="updateAccountNumber"
+					p:dynamicLabelProperty="salesTax.account.accountName" />
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.financialDocumentGrossSalesAmount"
+					p:required="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.financialDocumentTaxableSalesAmount"
+					p:required="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.financialDocumentSaleDate" p:required="true" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="FinancialProcessing-SalesTax-accountingLineView"
+		parent="FinancialProcessing-SalesTax-accountingLineView-parent" />
+
+	<bean id="FinancialProcessing-SalesTax-accountingLineView-parent"
+		parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber" />
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="accountingInformation" />
+							<ref bean="salesTaxInformation" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount"
+					p:required="true" />
+				<bean parent="AccountingLineView-actions" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AccountingDocument-sourceGroupTotals"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
-	    	<list>
-    			<bean parent="AccountingLineView-groupTotal" p:totalProperty="currencyFormattedSourceTotal" />
-    		</list>
-    	</property>
-    </bean>
-    
-    <bean id="AccountingDocument-targetGroupTotals" class="org.springframework.beans.factory.config.ListFactoryBean">
-    	<property name="sourceList">
-	    	<list>
-    			<bean parent="AccountingLineView-groupTotal" p:totalProperty="currencyFormattedTargetTotal" />
-    		</list>
-    	</property>
-    </bean>
-    
+			<list>
+				<bean parent="AccountingLineView-groupTotal"
+					p:totalProperty="currencyFormattedSourceTotal" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AccountingDocument-targetGroupTotals"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-groupTotal"
+					p:totalProperty="currencyFormattedTargetTotal" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

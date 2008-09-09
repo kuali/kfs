@@ -422,13 +422,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         boolean success = super.processCustomRouteDocumentBusinessRules(document);
-
-        // TODO is this needed? 
-        // cannot create more than 9 assets at a time
-        if (assetPaymentService.getAssetPaymentDetailQuantity(assetGlobal) >= 10) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_ASSET_SPLIT_MAX_LIMIT);
-            success &= false;
-        }
         
         // need at least one asset location
         if (assetSharedDetails.isEmpty() || assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
@@ -470,10 +463,17 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         // only for "Asset Separate" document
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
 
+            // TODO is this needed? 
+            // cannot create more than 9 assets at a time
+            if (assetPaymentService.getAssetPaymentDetailQuantity(assetGlobal) >= 10) {
+                putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_ASSET_SPLIT_MAX_LIMIT);
+                success &= false;
+            }
+            
             // new source payments must be greater than the capital asset cost amount
             KualiDecimal totalSeparateSourceAmount = assetGlobalService.totalSeparateSourceAmount(assetGlobal);
             if (totalSeparateSourceAmount.isGreaterThan(assetGlobal.getTotalCostAmount())) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT_REQUIRED, new String[] { assetGlobal.getSeparateSourceCapitalAssetNumber().toString() });
+                putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_INVALID_TOTAL_SEPARATE_SOURCE_AMOUNT, new String[] { assetGlobal.getSeparateSourceCapitalAssetNumber().toString() });
                 success &= false;
             }
 

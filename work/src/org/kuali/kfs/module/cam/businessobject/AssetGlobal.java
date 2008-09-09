@@ -783,6 +783,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 asset.setCapitalAssetDescription(detail.getCapitalAssetDescription());
                 asset.setManufacturerName(detail.getManufacturerName());
                 asset.setManufacturerModelNumber(detail.getManufacturerModelNumber());
+                
+                /** @TODO set the last inventory date into the new asset(s) **/
+                //asset.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).convertToSqlTimestamp(lastInventoryDate.toString()));
+                
                 // set AssetOrganization data
                 AssetOrganization assetOrganization = new AssetOrganization();
                 assetOrganization.setCapitalAssetNumber(detail.getCapitalAssetNumber());
@@ -859,6 +863,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         if (assetGlobalService.isAssetSeparateDocument(this)) {
             Asset separateSourceCapitalAsset = this.getSeparateSourceCapitalAsset();
             separateSourceCapitalAsset.setTotalCostAmount(getTotalCostAmount().subtract(assetGlobalService.totalSeparateSourceAmount(this)));
+            persistables.add(separateSourceCapitalAsset);
+            
             // copy and set AssetPayment from source Asset into new AssetPayment object
             for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
                 AssetPayment offsetAssetPayment = new AssetPayment();

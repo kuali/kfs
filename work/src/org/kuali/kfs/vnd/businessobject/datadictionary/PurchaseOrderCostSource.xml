@@ -21,6 +21,8 @@
         <ref bean="PurchaseOrderCostSource-purchaseOrderCostSourceCode" />
         <ref bean="PurchaseOrderCostSource-purchaseOrderCostSourceDescription" />
         <ref bean="PurchaseOrderCostSource-active" />
+        <ref bean="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent" />
+        <ref bean="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent" />
         <ref bean="PurchaseOrderCostSource-versionNumber" />
       </list>
     </property>
@@ -72,6 +74,42 @@
   <bean id="PurchaseOrderCostSource-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
+  <bean id="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent" parent="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent-parentBean" />
+
+  <bean id="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemUnitPriceUpperVariancePercent" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Unit Price Upper Variance Percent" />
+    <property name="shortLabel" value="Percent" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  
+  <bean id="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent" parent="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent-parentBean" />
+
+  <bean id="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemUnitPriceLowerVariancePercent" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Unit Price Lower Variance Percent" />
+    <property name="shortLabel" value="Percent" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 
@@ -90,6 +128,10 @@
                     p:attributeName="purchaseOrderCostSourceCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="purchaseOrderCostSourceDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemUnitPriceLowerVariancePercent" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="itemUnitPriceUpperVariancePercent" />            
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -127,6 +169,10 @@
               p:attributeName="purchaseOrderCostSourceCode" />
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderCostSourceDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemUnitPriceLowerVariancePercent" />
+        <bean parent="FieldDefinition"
+              p:attributeName="itemUnitPriceUpperVariancePercent" />            
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

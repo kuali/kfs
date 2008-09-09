@@ -252,7 +252,7 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         setVendorDUNSNumber(eInvoice);
         setVendorDetails(eInvoice);
         
-        Map itemTypeMappings = getItemMappings(eInvoice);
+        Map itemTypeMappings = getItemMappings(eInvoice.getVendorHeaderID(),eInvoice.getVendorDetailID());
         
         boolean validateHeader = true;
         
@@ -324,12 +324,13 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         }
     }
     
-    private Map getItemMappings(ElectronicInvoice eInvoice) {
+    private Map getItemMappings(Integer vendorHeaderId,
+                                Integer vendorDetailId) {
         
         Map itemTypeMappings;
         
-        if (eInvoice.getVendorHeaderID() != null && eInvoice.getVendorDetailID() != null) {
-            itemTypeMappings = mappingService.getItemMappingMap(eInvoice.getVendorHeaderID(), eInvoice.getVendorDetailID());
+        if (vendorHeaderId != null && vendorDetailId != null) {
+            itemTypeMappings = mappingService.getItemMappingMap(vendorHeaderId, vendorDetailId);
         }
         else {
             itemTypeMappings = mappingService.getDefaultItemMappingMap();
@@ -748,7 +749,12 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         errorMap.clearErrorPath();
         errorMap.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
+        rejectDocument.getInvoiceRejectReasons().clear();
         
+        Map itemTypeMappings = getItemMappings(rejectDocument.getVendorHeaderGeneratedIdentifier(),rejectDocument.getVendorDetailAssignedIdentifier());
+        
+        ElectronicInvoiceOrderHolder rejectDocHolder = new ElectronicInvoiceOrderHolder(rejectDocument,itemTypeMappings);
+        matchingService.doMatchingProcess(rejectDocHolder);
         
     }
     

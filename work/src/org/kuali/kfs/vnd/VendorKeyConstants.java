@@ -85,4 +85,9 @@ public class VendorKeyConstants {
     // Vendor Maintenance Commodity Code
     public static final String ERROR_VENDOR_COMMODITY_CODE_REQUIRE_ONE_DEFAULT_IND = "error.vendorCommodityCode.require.one.defaultIndicator";
     public static final String ERROR_VENDOR_COMMODITY_CODE_IS_REQUIRED_FOR_THIS_VENDOR_TYPE = "error.vendorCommodityCode.is.required.for.vendorType";
+    
+    //Purchasr Order Cost Souce
+    public static final String ERROR_ITEM_UNIT_PRICE_VARIANCE_PERCENT_EMPTY = "error.purchaseOrderCostSource.variance.percent.empty";
+    public static final String ERROR_ITEM_UNIT_PRICE_VARIANCE_PERCENT_REQUIRED = "error.purchaseOrderCostSource.variance.percent.required";
+    public static final String ERROR_ITEM_UNIT_PRICE_VARIANCE_PERCENT_INVALID = "error.purchaseOrderCostSource.variance.percent.invalid";
 }

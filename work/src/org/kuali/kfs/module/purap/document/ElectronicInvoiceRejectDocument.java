@@ -21,6 +21,7 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -159,7 +160,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         this.invoiceCustomerNumber = ei.getCustomerNumber();
 
         for (ElectronicInvoiceRejectReason eirr : ei.getFileRejectReasons()) {
-            eirr.setElectronicInvoiceRejectDocument(this);
+            ElectronicInvoiceRejectReason newReason = new ElectronicInvoiceRejectReason();
+            ObjectUtil.buildObject(newReason, eirr);
             this.invoiceRejectReasons.add(eirr);
         }
     }

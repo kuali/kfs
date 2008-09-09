@@ -15,6 +15,7 @@ import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic;
 
 /**
@@ -137,56 +138,8 @@ public class ElectronicInvoiceDetailRequestHeader {
    * @param invoiceDateString The invoiceDateString to set.
    */
   public void setInvoiceDateString(String invoiceDateString) {
-    boolean formatInvalid = true;
-    String formattedDateString = "";
-    this.invoiceDateString = invoiceDateString;
-    String stringToParse = null;
-    if ( (invoiceDateString != null) && (!("".equals(invoiceDateString))) ) {
-      // "0000-00-00"
-      String dateToConvert = null;
-      // get a copy of given date with 0's for all numbers to check format
-      formattedDateString = invoiceDateString.replaceAll("\\d", "0");
-      if (PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT.equals(formattedDateString)) {
-        LOG.info("setInvoiceDateString() CXML Date Formatted for EPIC validation - " + formattedDateString);
-        // strings are equal we can try to process date
-        formatInvalid = false;
-        stringToParse = invoiceDateString;
-      } else {
-        if (PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT.length() != formattedDateString.length()) {
-          // strings are not the same length... must parse down given string from cXML for validation
-          formattedDateString = formattedDateString.substring(0, PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT.length());
-          LOG.info("setInvoiceDateString() CXML Date Shortened and Formatted for EPIC validation - " + formattedDateString);
-          // strings should now be same length
-          if (PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT.equals(formattedDateString)) {
-            // if strings are equal we can process date
-            formatInvalid = false;
-            stringToParse = invoiceDateString.substring(0, PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT.length());
-          } else {
-            // strings are same size and both only use 0 characters so date is invalid
-          }
-        } else {
-          /* strings are of same length but are not equal
-           * this can only occur if date separators are invalid so we have
-           * an invalid format
-           */
-        }
-      }
-    }
-    if (formatInvalid) {
-      LOG.error("\n\n\n\n\nsetInvoiceDateString() Invoice Date from CXML '" + invoiceDateString + "' is in Invalid Format -  EPIC Format: '" + 
-          PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT + "'     CXML date converted to EPIC: '" + formattedDateString + "'\n\n\n\n\n");
-      this.invoiceDate = null;
-    } else {
-      // try to parse date
-      SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_SIMPLE_DATE_FORMAT, Locale.US);
-      try {
-        setInvoiceDate(sdf.parse(invoiceDateString));
-      } catch (ParseException e) {
-        // setting invoice date to null to identify problem
-        LOG.error("setInvoiceDateString() SimpleDateFormat parser error attempting to set invalid date string " + invoiceDateString + " in InvoiceDate field... setting date to null");
-        setInvoiceDate(null);
-      }
-    }
+      this.invoiceDateString = invoiceDateString;
+      setInvoiceDate(ElectronicInvoiceUtils.getDate(invoiceDateString));
   }
 
   /**

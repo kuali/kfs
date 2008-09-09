@@ -25,6 +25,7 @@
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource" p:parameterName="PURCHASE_ORDER_COST_SOURCE" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderCostSourceMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.vnd.document.validation.impl.PurchaseOrderCostSourceRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMCS" />
     <property name="workflowProperties" >
@@ -60,6 +61,10 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="purchaseOrderCostSourceDescription"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="itemUnitPriceLowerVariancePercent"/>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="itemUnitPriceUpperVariancePercent"/>            
         <bean parent="MaintainableFieldDefinition"
               p:name="active" />
         <bean parent="MaintainableFieldDefinition"

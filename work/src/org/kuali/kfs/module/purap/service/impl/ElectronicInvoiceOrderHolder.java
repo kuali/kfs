@@ -33,6 +33,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -53,7 +54,7 @@ public class ElectronicInvoiceOrderHolder {
     private boolean validateHeader;
     
     public ElectronicInvoiceOrderHolder(ElectronicInvoiceRejectDocument rejectDocument,
-                                         Map itemTypeMappings){
+                                        Map itemTypeMappings){
         
         if (rejectDocument == null){
             throw new NullPointerException("ElectronicInvoiceRejectDocument should not be null");
@@ -72,7 +73,7 @@ public class ElectronicInvoiceOrderHolder {
             
             PurApItem poItem = null;
             if (poDocument != null){
-                poItem = poDocument.getItem(invoiceRejectItem.getInvoiceReferenceItemLineNumber());
+                poItem = poDocument.getItemByLineNumber(invoiceRejectItem.getInvoiceReferenceItemLineNumber());
             }
             
             items.add(new ElectronicInvoiceItemHolder(invoiceRejectItem,itemTypeMappings,poItem == null ? null : (PurchaseOrderItem)poItem,this));
@@ -108,7 +109,7 @@ public class ElectronicInvoiceOrderHolder {
             
             PurApItem poItem = null;
             if (poDocument != null){
-                poItem = poDocument.getItem(orderItem.getReferenceLineNumberInteger());
+                poItem = poDocument.getItemByLineNumber(orderItem.getReferenceLineNumberInteger());
             }
             
             items.add(new ElectronicInvoiceItemHolder(orderItem,itemTypeMappings,poItem == null ? null : (PurchaseOrderItem)poItem,this));
@@ -178,8 +179,7 @@ public class ElectronicInvoiceOrderHolder {
     
     public Date getInvoiceDate(){
         if (isRejectDocumentHolder()){
-//            return rejectDocument.getInvoiceFileDateString();
-            return null;
+            return ElectronicInvoiceUtils.getDate(rejectDocument.getInvoiceFileDate());
         }else{
             return eInvoice.getInvoiceDetailRequestHeader().getInvoiceDate();
         }
@@ -299,7 +299,7 @@ public class ElectronicInvoiceOrderHolder {
         if (isRejectDocumentHolder()){
             rejectDocument.addRejectReason(rejectReason);
             if (fieldName != null){
-                GlobalVariables.getErrorMap().putError(fieldName, rejectReason.getInvoiceRejectReasonDescription());    
+                GlobalVariables.getErrorMap().putError("vendorDunsNumber", rejectReason.getInvoiceRejectReasonDescription());    
             }
         }else{
             eInvoice.addFileRejectReasonToList(rejectReason);
@@ -315,7 +315,7 @@ public class ElectronicInvoiceOrderHolder {
         if (isRejectDocumentHolder()){
             rejectDocument.addRejectReason(rejectReason);
             if (fieldName != null){
-                GlobalVariables.getErrorMap().putError(fieldName, rejectReason.getInvoiceRejectReasonDescription());
+                GlobalVariables.getErrorMap().putError("vendorDunsNumber", null);
             }
         }else{
             invoiceOrder.addRejectReasonToList(rejectReason);

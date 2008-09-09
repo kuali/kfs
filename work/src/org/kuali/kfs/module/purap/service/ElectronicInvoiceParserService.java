@@ -34,6 +34,8 @@ public interface ElectronicInvoiceParserService {
                                                             String extraDescription,
                                                             String fileName);*/
     
+    public void doMatchingValidation(ElectronicInvoiceRejectDocument rejectDocument);
+    
     public ElectronicInvoiceRejectDocument createAndSaveRejectDocument(ElectronicInvoiceLoad eInvoiceLoad, 
                                                                        ElectronicInvoice eInvoice,
                                                                        ElectronicInvoiceOrder electronicInvoiceOrder);

@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.vnd.businessobject;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -30,6 +31,8 @@ public class PurchaseOrderCostSource extends PersistableBusinessObjectBase {
 
     private String purchaseOrderCostSourceCode;
     private String purchaseOrderCostSourceDescription;
+    private BigDecimal itemUnitPriceUpperVariancePercent;
+    private BigDecimal itemUnitPriceLowerVariancePercent;
     private boolean active;
 
     /**
@@ -74,5 +77,21 @@ public class PurchaseOrderCostSource extends PersistableBusinessObjectBase {
         m.put("purchaseOrderCostSourceCode", this.purchaseOrderCostSourceCode);
 
         return m;
+    }
+
+    public BigDecimal getItemUnitPriceLowerVariancePercent() {
+        return itemUnitPriceLowerVariancePercent;
+    }
+
+   public void setItemUnitPriceLowerVariancePercent(BigDecimal itemUnitPriceLowerVariancePercent) {
+        this.itemUnitPriceLowerVariancePercent = itemUnitPriceLowerVariancePercent;
+    }
+
+    public BigDecimal getItemUnitPriceUpperVariancePercent() {
+        return itemUnitPriceUpperVariancePercent;
+    }
+
+    public void setItemUnitPriceUpperVariancePercent(BigDecimal itemUnitPriceUpperVariancePercent) {
+        this.itemUnitPriceUpperVariancePercent = itemUnitPriceUpperVariancePercent;
     }
 }

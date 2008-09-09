@@ -565,6 +565,8 @@
     <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="itemUnitPriceUpperVariancePercent" column="ITM_UNIT_PRC_UPR_VAR_PCT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="itemUnitPriceLowerVariancePercent" column="ITM_UNIT_PRC_LWR_VAR_PCT" jdbc-type="DECIMAL"/>
     <field-descriptor name="purchaseOrderCostSourceDescription" column="PO_CST_SRC_DESC" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>

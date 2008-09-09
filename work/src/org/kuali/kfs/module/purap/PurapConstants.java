@@ -763,6 +763,8 @@ public class PurapConstants extends JSTLConstants {
          */
         public static String CXML_DATE_FORMAT = "0000-00-00";
         public static String CXML_SIMPLE_DATE_FORMAT = "yyyy-MM-dd";
+        public static String KUALI_DATE_FORMAT = "0000/00/00";
+        public static String KUALI_SIMPLE_DATE_FORMAT = "yyyy/MM/dd";
 
         // ELECTRONIC INVOICE CXML DEPLOYMENT MODE CODE FOR PRODUCTION
         public static String CXML_DEPLOYMENT_MODE_PRODUCTION = "production";
@@ -776,9 +778,8 @@ public class PurapConstants extends JSTLConstants {
         public final static String DUNS_INVALID = "INDU";
         public final static String INVOICE_ID_INVALID = "INID";
         public final static String INVOICE_ID_EMPTY = "IIDE";
-        public final static String INVOICE_DATE_EMPTY = "IDAE";
         public final static String INVOICE_DATE_GREATER = "IDAG";
-        public final static String INVOICE_DATE_INVALID = "INVD";
+        public final static String INVOICE_DATE_INVALID = "IDIV";
         public final static String INFORMATION_ONLY = "INFO";
         public final static String FILE_FORMAT_INVALID = "INFF";
         public final static String HEADER_INVOICE_IND_ON = "HIIO";
@@ -800,8 +801,8 @@ public class PurapConstants extends JSTLConstants {
         public final static String NO_MATCHING_PO_ITEM = "IMLI";
         public final static String DUPLIATE_INVOICE_LINE_ITEM = "ICSL";
         public final static String INACTIVE_LINE_ITEM = "ILIA";
-        public final static String CATALOG_NUMBER_INVALID = "IICN";
-        public final static String UNIT_OF_MEASURE_INVALID = "IUOM";
+        public final static String CATALOG_NUMBER_MISMATCH = "IICN";
+        public final static String UNIT_OF_MEASURE_MISMATCH = "IUOM";
         public final static String UNIT_PRICE_INVALID = "IUPI";
         public final static String OUTSTANDING_ENCUMBERED_QTY_AVAILABLE = "UEOQ";
         public final static String INVOICE_QTY_EMPTY = "IIQE";

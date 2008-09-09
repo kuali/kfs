@@ -42,7 +42,6 @@
         <ref bean="GeneralLedgerEntry-transactionPostingDate" />
         <ref bean="GeneralLedgerEntry-transactionDate" />
         <ref bean="GeneralLedgerEntry-transactionDateTimeStamp" />
-        <ref bean="GeneralLedgerEntry-versionNumber" />
       </list>
     </property>
   </bean>
@@ -257,10 +256,6 @@
 
   <bean id="GeneralLedgerEntry-transactionDateTimeStamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="transactionDateTimeStamp" />
-  </bean>
-    <bean id="GeneralLedgerEntry-versionNumber" parent="GeneralLedgerEntry-versionNumber-parentBean" />
-
-  <bean id="GeneralLedgerEntry-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 <!-- Business Object Inquiry Definition -->
 

@@ -64,7 +64,6 @@
 		<ref bean="CustomerProfile-nraReview" />
 		<ref bean="CustomerProfile-relieveLiabilities" />
 		<ref bean="CustomerProfile-psdTransactionCode" />
-		<ref bean="CustomerProfile-versionNumber" />
       </list>
     </property>
   </bean>
@@ -785,9 +784,6 @@
     </property>
   </bean>
   
-  <bean id="CustomerProfile-versionNumber" parent="CustomerProfile-versionNumber-parentBean" />
-  <bean id="CustomerProfile-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber"/>
-
 <!-- Business Object Inquiry Definition -->
 
 

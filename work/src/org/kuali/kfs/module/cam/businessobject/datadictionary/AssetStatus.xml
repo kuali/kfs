@@ -20,7 +20,6 @@
         <ref bean="AssetStatus-active" />
         <ref bean="AssetStatus-inventoryStatusCode" />
         <ref bean="AssetStatus-inventoryStatusName" />
-        <ref bean="AssetStatus-versionNumber" />
       </list>
     </property>
   </bean>
@@ -69,10 +68,6 @@
     </property>
     <property name="summary" value="inventoryStatusName" />
     <property name="description" value="inventoryStatusName description..." />
-  </bean>
-  <bean id="AssetStatus-versionNumber" parent="AssetStatus-versionNumber-parentBean" />
-
-  <bean id="AssetStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

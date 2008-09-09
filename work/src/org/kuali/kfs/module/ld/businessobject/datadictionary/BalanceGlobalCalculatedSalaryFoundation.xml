@@ -24,7 +24,6 @@
         <ref bean="BalanceGlobalCalculatedSalaryFoundation-financialSubObjectCode" />
         <ref bean="BalanceGlobalCalculatedSalaryFoundation-personUniversalIdentifier" />
         <ref bean="BalanceGlobalCalculatedSalaryFoundation-subAccountNumber" />
-        <ref bean="BalanceGlobalCalculatedSalaryFoundation-versionNumber" />
       </list>
     </property>
   </bean>
@@ -127,10 +126,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-  </bean>
-  <bean id="BalanceGlobalCalculatedSalaryFoundation-versionNumber" parent="BalanceGlobalCalculatedSalaryFoundation-versionNumber-parentBean" />
-
-  <bean id="BalanceGlobalCalculatedSalaryFoundation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

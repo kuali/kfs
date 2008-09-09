@@ -19,7 +19,6 @@
       <list>
         <ref bean="RoutingFormPersonRole-documentNumber" />
         <ref bean="RoutingFormPersonRole-personRoleCode" />
-        <ref bean="RoutingFormPersonRole-versionNumber" />
       </list>
     </property>
   </bean>
@@ -61,10 +60,6 @@
     </property>
     <property name="summary" value="personRoleCode" />
     <property name="description" value="personRoleCode description..." />
-  </bean>
-  <bean id="RoutingFormPersonRole-versionNumber" parent="RoutingFormPersonRole-versionNumber-parentBean" />
-
-  <bean id="RoutingFormPersonRole-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

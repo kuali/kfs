@@ -180,8 +180,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="active"
               p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -222,8 +220,6 @@
                     p:name="proposalPrimaryOrganizationIndicator" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
           </property>
           <property name="attributeToHighlightOnDuplicateKey" value="organizationCode" />
@@ -269,8 +265,6 @@
                     p:name="proposalProjectDirectorProjectTitle" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
           </property>
         </bean>
@@ -344,8 +338,6 @@
                     p:name="active" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="researchRiskTypeCode" />
             </list>

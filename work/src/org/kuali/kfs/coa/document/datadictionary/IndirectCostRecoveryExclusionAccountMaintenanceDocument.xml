@@ -88,8 +88,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="financialObjectCode"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>

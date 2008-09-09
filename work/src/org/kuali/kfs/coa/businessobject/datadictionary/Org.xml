@@ -45,7 +45,6 @@
         <ref bean="Org-campusPlantChartCode" />
         <ref bean="Org-organizationInFinancialProcessingIndicator" />
         <ref bean="Org-editPlantAccountsSection" />
-        <ref bean="Org-versionNumber" />
         <ref bean="Org-active" />
         <ref bean="Org-editHrmsUnitSection" />
         <ref bean="Org-organizationExtension.hrmsCompany" />
@@ -65,7 +64,6 @@
         <ref bean="Org-organizationExtension.hrmsIuTitleAllowedFlag" />
         <ref bean="Org-organizationExtension.hrmsIuOccupationalUnitAllowedFlag" />
         <ref bean="Org-organizationExtension.hrmsLastUpdateDate" />
-        <ref bean="Org-organizationExtension.versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -497,10 +495,6 @@
   <bean id="Org-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
-  <bean id="Org-versionNumber" parent="Org-versionNumber-parentBean" />
-
-  <bean id="Org-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
   <bean id="Org-editHrmsUnitSection" parent="Org-editHrmsUnitSection-parentBean" />
 
   <bean id="Org-editHrmsUnitSection-parentBean" abstract="true" parent="AttributeDefinition">
@@ -657,11 +651,6 @@
     <property name="name" value="organizationExtension.hrmsLastUpdateDate" />
     <property name="label" value="Last Update Date" />
     <property name="shortLabel" value="Last Update Date" />
-  </bean>
-  <bean id="Org-organizationExtension.versionNumber" parent="Org-organizationExtension.versionNumber-parentBean" />
-
-  <bean id="Org-organizationExtension.versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-    <property name="name" value="organizationExtension.versionNumber" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

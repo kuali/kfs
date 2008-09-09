@@ -27,7 +27,6 @@
         <ref bean="RoutingFormResearchRiskStudy-researchRiskStudyReviewCode" />
         <ref bean="RoutingFormResearchRiskStudy-researchRiskTypeCode" />
         <ref bean="RoutingFormResearchRiskStudy-documentNumber" />
-        <ref bean="RoutingFormResearchRiskStudy-versionNumber" />
       </list>
     </property>
   </bean>
@@ -214,10 +213,6 @@
     </property>
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
-  </bean>
-  <bean id="RoutingFormResearchRiskStudy-versionNumber" parent="RoutingFormResearchRiskStudy-versionNumber-parentBean" />
-
-  <bean id="RoutingFormResearchRiskStudy-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

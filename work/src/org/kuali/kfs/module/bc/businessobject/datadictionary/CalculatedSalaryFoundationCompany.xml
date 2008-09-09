@@ -18,7 +18,6 @@
     <property name="attributes" >
       <list>
         <ref bean="CalculatedSalaryFoundationCompany-hrmsCompany" />
-        <ref bean="CalculatedSalaryFoundationCompany-versionNumber" />
       </list>
     </property>
   </bean>
@@ -43,10 +42,6 @@
     </property>
     <property name="summary" value="hrmsCompany" />
     <property name="description" value="hrmsCompany description..." />
-  </bean>
-  <bean id="CalculatedSalaryFoundationCompany-versionNumber" parent="CalculatedSalaryFoundationCompany-versionNumber-parentBean" />
-
-  <bean id="CalculatedSalaryFoundationCompany-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

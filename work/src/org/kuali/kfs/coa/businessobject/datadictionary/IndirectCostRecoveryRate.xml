@@ -19,7 +19,6 @@
       <list>
         <ref bean="IndirectCostRecoveryRate-universityFiscalYear" />
         <ref bean="IndirectCostRecoveryRate-financialIcrSeriesIdentifier" />
-        <ref bean="IndirectCostRecoveryRate-versionNumber" />
         <ref bean="IndirectCostRecoveryRate-active" />
       </list>
     </property>
@@ -50,9 +49,6 @@
     </property>
   </bean>
   
-  <bean id="IndirectCostRecoveryRate-versionNumber" parent="IndirectCostRecoveryRate-versionNumber-parentBean" />
-  <bean id="IndirectCostRecoveryRate-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
   
   <bean id="IndirectCostRecoveryRate-active" parent="IndirectCostRecoveryRate-active-parentBean" />
   <bean id="IndirectCostRecoveryRate-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">

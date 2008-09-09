@@ -177,10 +177,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorInactiveReasonCode" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorHeader.versionNumber" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="vendorFirstLastNameIndicator" />
       </list>
     </property>
@@ -242,8 +238,6 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
-              <bean parent="MaintainableFieldDefinition"
                     p:name="vendorHeaderGeneratedIdentifier"
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
@@ -279,8 +273,6 @@
                           p:readOnly="true" />
                     <bean parent="MaintainableFieldDefinition"
                           p:name="newCollectionRecord" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="versionNumber" />
                     <bean parent="MaintainableFieldDefinition"
                           p:name="active"
                           p:defaultValue="true" />
@@ -343,8 +335,6 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
-              <bean parent="MaintainableFieldDefinition"
                     p:name="vendorContactGeneratedIdentifier"
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
@@ -384,8 +374,6 @@
                           p:name="vendorPhoneExtensionNumber" />
                     <bean parent="MaintainableFieldDefinition"
                           p:name="newCollectionRecord" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="versionNumber" />
                     <bean parent="MaintainableFieldDefinition"
                           p:name="vendorContactGeneratedIdentifier"
                           p:readOnly="true" />
@@ -432,8 +420,6 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
-              <bean parent="MaintainableFieldDefinition"
                     p:name="active"
                     p:defaultValue="true" />
             </list>
@@ -472,8 +458,6 @@
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="active"
                     p:defaultValue="true" />
@@ -514,8 +498,6 @@
                     p:name="commodityDefaultIndicator"
                     p:defaultValue="false" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
-              <bean parent="MaintainableFieldDefinition"
                     p:name="active"
                     p:defaultValue="true" />
             </list>
@@ -552,8 +534,6 @@
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="active"
                     p:defaultValue="true" />
@@ -603,8 +583,6 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
-              <bean parent="MaintainableFieldDefinition"
                     p:name="active"
                     p:defaultValue="true" />
             </list>
@@ -641,8 +619,6 @@
                     p:name="vendorOrganizationCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="vendorCustomerNumberGeneratedIdentifier"
                     p:readOnly="true" />
@@ -717,8 +693,6 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
-              <bean parent="MaintainableFieldDefinition"
                     p:name="vendorContractGeneratedIdentifier"
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
@@ -763,8 +737,6 @@
                           p:readOnly="true" />
                     <bean parent="MaintainableFieldDefinition"
                           p:name="newCollectionRecord" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="versionNumber" />
                     <bean parent="MaintainableFieldDefinition"
                           p:name="active"
                           p:defaultValue="true" />

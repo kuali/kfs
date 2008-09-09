@@ -20,7 +20,6 @@
         <ref bean="BudgetConstructionAdministrativePost-administrativePost" />
         <ref bean="BudgetConstructionAdministrativePost-emplid" />
         <ref bean="BudgetConstructionAdministrativePost-positionNumber" />
-        <ref bean="BudgetConstructionAdministrativePost-versionNumber" />
       </list>
     </property>
   </bean>
@@ -81,10 +80,6 @@
     </property>
     <property name="summary" value="positionNumber" />
     <property name="description" value="positionNumber description..." />
-  </bean>
-  <bean id="BudgetConstructionAdministrativePost-versionNumber" parent="BudgetConstructionAdministrativePost-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionAdministrativePost-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

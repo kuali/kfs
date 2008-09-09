@@ -44,7 +44,6 @@
         <ref bean="AccountBalancePendingEntry-transactionDebitCreditCode" />
         <ref bean="AccountBalancePendingEntry-acctSufficientFundsFinObjCd" />
         <ref bean="AccountBalancePendingEntry-projectCode" />
-        <ref bean="AccountBalancePendingEntry-versionNumber" />
         <ref bean="AccountBalancePendingEntry-transactionEntryProcessedTs" />
         <ref bean="AccountBalancePendingEntry-objectType.finObjectTypeDebitcreditCd" />
         <ref bean="AccountBalancePendingEntry-dummyBusinessObject.consolidationOption" />
@@ -276,10 +275,6 @@
 
   <bean id="AccountBalancePendingEntry-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="projectCode" />
-  </bean>
-  <bean id="AccountBalancePendingEntry-versionNumber" parent="AccountBalancePendingEntry-versionNumber-parentBean" />
-
-  <bean id="AccountBalancePendingEntry-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AccountBalancePendingEntry-transactionEntryProcessedTs" parent="AccountBalancePendingEntry-transactionEntryProcessedTs-parentBean" />
 

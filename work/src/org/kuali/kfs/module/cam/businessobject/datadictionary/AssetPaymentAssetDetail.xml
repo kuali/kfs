@@ -16,7 +16,6 @@
         <ref bean="AssetPaymentAssetDetail-documentNumber" />
         <ref bean="AssetPaymentAssetDetail-capitalAssetNumber" />
         <ref bean="AssetPaymentAssetDetail-previousTotalCostAmount" />
-        <ref bean="AssetPaymentAssetDetail-versionNumber" />        
       </list>
     </property>
   </bean>
@@ -44,9 +43,6 @@
   <bean id="AssetPaymentAssetDetail-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
   </bean>
 
-  <bean id="AssetPaymentAssetDetail-versionNumber" parent="AssetPaymentAssetDetail-versionNumber-parentBean" />
-  <bean id="AssetPaymentAssetDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 
  <bean id="AssetPaymentAssetDetail-previousTotalCostAmount" parent="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" />

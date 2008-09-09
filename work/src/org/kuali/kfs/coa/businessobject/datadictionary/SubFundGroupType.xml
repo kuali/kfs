@@ -21,7 +21,6 @@
         <ref bean="SubFundGroupType-active" />
         <ref bean="SubFundGroupType-subFundGroupTypeCode" />
         <ref bean="SubFundGroupType-subFundGroupTypeDescription" />
-        <ref bean="SubFundGroupType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -66,10 +65,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-  </bean>
-  <bean id="SubFundGroupType-versionNumber" parent="SubFundGroupType-versionNumber-parentBean" />
-
-  <bean id="SubFundGroupType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

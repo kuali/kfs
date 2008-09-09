@@ -17,7 +17,6 @@
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="RequisitionItem-versionNumber" />
         <ref bean="RequisitionItem-itemIdentifier" />
         <ref bean="RequisitionItem-itemLineNumber" />
         <ref bean="RequisitionItem-itemUnitOfMeasureCode" />
@@ -41,10 +40,6 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="RequisitionItem-versionNumber" parent="RequisitionItem-versionNumber-parentBean" />
-
-  <bean id="RequisitionItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
   <bean id="RequisitionItem-itemIdentifier" parent="RequisitionItem-itemIdentifier-parentBean" />
 
   <bean id="RequisitionItem-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">

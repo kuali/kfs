@@ -69,7 +69,6 @@
         <ref bean="LaborOriginEntry-transactionTotalHours" />
         <ref bean="LaborOriginEntry-universityFiscalPeriodCode" />
         <ref bean="LaborOriginEntry-universityFiscalYear" />
-        <ref bean="LaborOriginEntry-versionNumber" />
       </list>
     </property>
   </bean>
@@ -889,10 +888,6 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-  </bean>
-  <bean id="LaborOriginEntry-versionNumber" parent="LaborOriginEntry-versionNumber-parentBean" />
-
-  <bean id="LaborOriginEntry-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -21,7 +21,6 @@
         <ref bean="VendorStipulation-vendorStipulationIdentifier" />
         <ref bean="VendorStipulation-vendorStipulationName" />
         <ref bean="VendorStipulation-vendorStipulationDescription" />
-        <ref bean="VendorStipulation-versionNumber" />
         <ref bean="VendorStipulation-active" />
       </list>
     </property>
@@ -77,10 +76,6 @@
             p:rows="5"
             p:cols="80" />
     </property>
-  </bean>
-  <bean id="VendorStipulation-versionNumber" parent="VendorStipulation-versionNumber-parentBean" />
-
-  <bean id="VendorStipulation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorStipulation-active" parent="VendorStipulation-active-parentBean" />
 

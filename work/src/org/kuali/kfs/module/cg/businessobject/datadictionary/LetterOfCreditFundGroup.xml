@@ -20,7 +20,6 @@
         <ref bean="LetterOfCreditFundGroup-letterOfCreditFundGroupCode" />
         <ref bean="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription" />
         <ref bean="LetterOfCreditFundGroup-active" />
-        <ref bean="LetterOfCreditFundGroup-versionNumber" />
       </list>
     </property>
   </bean>
@@ -65,10 +64,6 @@
 
   <bean id="LetterOfCreditFundGroup-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="LetterOfCreditFundGroup-versionNumber" parent="LetterOfCreditFundGroup-versionNumber-parentBean" />
-
-  <bean id="LetterOfCreditFundGroup-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

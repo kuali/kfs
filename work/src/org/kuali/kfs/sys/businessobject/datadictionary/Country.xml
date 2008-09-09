@@ -22,7 +22,6 @@
         <ref bean="Country-postalCountryName" />
         <ref bean="Country-postalCountryRestrictedIndicator" />
         <ref bean="Country-active" />
-        <ref bean="Country-versionNumber" />
       </list>
     </property>
   </bean>
@@ -80,10 +79,6 @@
     <property name="name" value="active"/>
   </bean>
 
-  <bean id="Country-versionNumber" parent="Country-versionNumber-parentBean" />
-
-  <bean id="Country-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

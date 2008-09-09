@@ -15,7 +15,6 @@
         <ref bean="ProposalResearchRisk-proposalNumber" />
         <ref bean="ProposalResearchRisk-active" />
         <ref bean="ProposalResearchRisk-newCollectionRecord" />
-        <ref bean="ProposalResearchRisk-versionNumber" />
         <ref bean="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription" />
       </list>
     </property>
@@ -43,10 +42,6 @@
   <bean id="ProposalResearchRisk-newCollectionRecord" parent="ProposalResearchRisk-newCollectionRecord-parentBean" />
 
   <bean id="ProposalResearchRisk-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
-  </bean>
-  <bean id="ProposalResearchRisk-versionNumber" parent="ProposalResearchRisk-versionNumber-parentBean" />
-
-  <bean id="ProposalResearchRisk-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription" parent="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription-parentBean" />
 

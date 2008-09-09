@@ -22,7 +22,6 @@
         <ref bean="RequisitionAccount-sequenceNumber" />
         <ref bean="RequisitionAccount-financialObjectCode" />
         <ref bean="RequisitionAccount-accountNumber" />
-        <ref bean="RequisitionAccount-objectId" />
         <ref bean="RequisitionAccount-organizationReferenceId" />
         <ref bean="RequisitionAccount-chartOfAccountsCode" />
         <ref bean="RequisitionAccount-postingYear" />
@@ -33,7 +32,6 @@
         <ref bean="RequisitionAccount-referenceTypeCode" />
         <ref bean="RequisitionAccount-projectCode" />
         <ref bean="RequisitionAccount-financialSubObjectCode" />
-        <ref bean="RequisitionAccount-versionNumber" />
         <ref bean="RequisitionAccount-documentNumber" />
         <ref bean="RequisitionAccount-debitCreditCode" />
         <ref bean="RequisitionAccount-encumbranceUpdateCode" />
@@ -127,11 +125,6 @@
   <bean id="RequisitionAccount-accountNumber" parent="RequisitionAccount-accountNumber-parentBean" />
 
   <bean id="RequisitionAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  </bean>
-  <bean id="RequisitionAccount-objectId" parent="RequisitionAccount-objectId-parentBean" />
-
-  <bean id="RequisitionAccount-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-    <property name="required" value="false" />
   </bean>
   <bean id="RequisitionAccount-organizationReferenceId" parent="RequisitionAccount-organizationReferenceId-parentBean" />
 
@@ -245,11 +238,6 @@
   <bean id="RequisitionAccount-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
-  </bean>
-  <bean id="RequisitionAccount-versionNumber" parent="RequisitionAccount-versionNumber-parentBean" />
-
-  <bean id="RequisitionAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-    <property name="required" value="false" />
   </bean>
   <bean id="RequisitionAccount-documentNumber" parent="RequisitionAccount-documentNumber-parentBean" />
 

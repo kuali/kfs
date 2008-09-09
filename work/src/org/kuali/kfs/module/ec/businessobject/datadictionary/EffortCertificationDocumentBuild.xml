@@ -24,7 +24,6 @@
         <ref bean="EffortCertificationDocumentBuild-emplid" />
         <ref bean="EffortCertificationDocumentBuild-universityFiscalYear" />
         <ref bean="EffortCertificationDocumentBuild-effortCertificationReportNumber" />
-        <ref bean="EffortCertificationDocumentBuild-versionNumber" />
       </list>
     </property>
     <property name="collections" >
@@ -111,10 +110,6 @@
   <bean id="EffortCertificationDocumentBuild-effortCertificationReportNumber" parent="EffortCertificationDocumentBuild-effortCertificationReportNumber-parentBean" />
 
   <bean id="EffortCertificationDocumentBuild-effortCertificationReportNumber-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportNumber">
-  </bean>
-  <bean id="EffortCertificationDocumentBuild-versionNumber" parent="EffortCertificationDocumentBuild-versionNumber-parentBean" />
-
-  <bean id="EffortCertificationDocumentBuild-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

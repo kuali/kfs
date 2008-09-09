@@ -19,7 +19,6 @@
       <list>
         <ref bean="Keyword-active" />
         <ref bean="Keyword-routingFormKeywordDescription" />
-        <ref bean="Keyword-versionNumber" />
       </list>
     </property>
   </bean>
@@ -50,10 +49,6 @@
     </property>
     <property name="summary" value="routingFormKeywordDescription" />
     <property name="description" value="routingFormKeywordDescription description..." />
-  </bean>
-  <bean id="Keyword-versionNumber" parent="Keyword-versionNumber-parentBean" />
-
-  <bean id="Keyword-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

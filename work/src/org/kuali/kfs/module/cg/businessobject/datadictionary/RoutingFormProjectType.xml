@@ -20,7 +20,6 @@
         <ref bean="RoutingFormProjectType-projectTypeCode" />
         <ref bean="RoutingFormProjectType-documentNumber" />
         <ref bean="RoutingFormProjectType-projectTypeSelectedIndicator" />
-        <ref bean="RoutingFormProjectType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -77,10 +76,6 @@
     </property>
     <property name="summary" value="projectTypeSelectedIndicator" />
     <property name="description" value="projectTypeSelectedIndicator description..." />
-  </bean>
-  <bean id="RoutingFormProjectType-versionNumber" parent="RoutingFormProjectType-versionNumber-parentBean" />
-
-  <bean id="RoutingFormProjectType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

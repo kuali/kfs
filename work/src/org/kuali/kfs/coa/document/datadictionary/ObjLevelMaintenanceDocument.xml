@@ -89,8 +89,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="financialReportingSortCode"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>

@@ -29,7 +29,6 @@
         <ref bean="Threshold-vendorHeaderGeneratedIdentifier" />        
 	    <ref bean="Threshold-vendorDetailAssignedIdentifier" />        
 	    <ref bean="Threshold-thresholdAmount" />    
-  	    <ref bean="Threshold-versionNumber" />  
   	    <ref bean="Threshold-vendorNumber" />  
       </list>
     </property>
@@ -143,10 +142,6 @@
 	  <property name="name" value="active" />
   </bean>
 	
-  <bean id="Threshold-versionNumber" parent="Threshold-versionNumber-parentBean" />
-  
-  <bean id="Threshold-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>	
 	
   <bean id="Threshold-vendorNumber" parent="Threshold-vendorNumber-parentBean" />
   

@@ -44,7 +44,6 @@
         <ref bean="GeneralLedgerPendingEntry-transactionDebitCreditCode" />
         <ref bean="GeneralLedgerPendingEntry-acctSufficientFundsFinObjCd" />
         <ref bean="GeneralLedgerPendingEntry-projectCode" />
-        <ref bean="GeneralLedgerPendingEntry-versionNumber" />
         <ref bean="GeneralLedgerPendingEntry-transactionEntryProcessedTs" />
         <ref bean="GeneralLedgerPendingEntry-documentHeader.financialDocumentStatusCode" />
       </list>
@@ -325,10 +324,6 @@
   <bean id="GeneralLedgerPendingEntry-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="projectCode" />
     <property name="required" value="false" />
-  </bean>
-  <bean id="GeneralLedgerPendingEntry-versionNumber" parent="GeneralLedgerPendingEntry-versionNumber-parentBean" />
-
-  <bean id="GeneralLedgerPendingEntry-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="GeneralLedgerPendingEntry-transactionEntryProcessedTs" parent="GeneralLedgerPendingEntry-transactionEntryProcessedTs-parentBean" />
 

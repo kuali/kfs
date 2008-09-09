@@ -57,9 +57,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="effortCertificationReportPeriodStatusDescription"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber"
-              p:readOnly="true" />
       </list>
     </property>
   </bean>

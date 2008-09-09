@@ -24,7 +24,6 @@
         <ref bean="OrganizationRoutingModel-approvalToThisAmount" />
         <ref bean="OrganizationRoutingModel-active" />
         <ref bean="OrganizationRoutingModel-newCollectionRecord" />
-        <ref bean="OrganizationRoutingModel-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -164,9 +163,5 @@
   <bean id="OrganizationRoutingModel-newCollectionRecord" parent="OrganizationRoutingModel-newCollectionRecord-parentBean" />
 
   <bean id="OrganizationRoutingModel-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
-  </bean>
-  <bean id="OrganizationRoutingModel-versionNumber" parent="OrganizationRoutingModel-versionNumber-parentBean" />
-
-  <bean id="OrganizationRoutingModel-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

@@ -22,7 +22,6 @@
         <ref bean="TaxCounty-stateCode" />
         <ref bean="TaxCounty-taxRegionCode" />
         <ref bean="TaxCounty-active" />
-        <ref bean="TaxCounty-versionNumber" />
       </list>
     </property>
   </bean>
@@ -53,10 +52,6 @@
     <property name="name" value="active" />
   </bean>
   
-  <bean id="TaxCounty-versionNumber" parent="TaxCounty-versionNumber-parentBean" />
-
-  <bean id="TaxCounty-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

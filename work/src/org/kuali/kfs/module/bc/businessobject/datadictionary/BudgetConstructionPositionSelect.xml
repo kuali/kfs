@@ -28,7 +28,6 @@
         <ref bean="BudgetConstructionPositionSelect-salaryAdministrationPlan" />
         <ref bean="BudgetConstructionPositionSelect-setidSalary" />
         <ref bean="BudgetConstructionPositionSelect-universityFiscalYear" />
-        <ref bean="BudgetConstructionPositionSelect-versionNumber" />
       </list>
     </property>
   </bean>
@@ -234,10 +233,6 @@
     <property name="description" value="universityFiscalYear description..." />
   </bean>
   
-  <bean id="BudgetConstructionPositionSelect-versionNumber" parent="BudgetConstructionPositionSelect-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionPositionSelect-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

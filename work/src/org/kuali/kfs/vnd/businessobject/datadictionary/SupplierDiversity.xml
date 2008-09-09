@@ -21,7 +21,6 @@
         <ref bean="SupplierDiversity-vendorSupplierDiversityCode" />
         <ref bean="SupplierDiversity-vendorSupplierDiversityDescription" />
         <ref bean="SupplierDiversity-active" />
-        <ref bean="SupplierDiversity-versionNumber" />
       </list>
     </property>
   </bean>
@@ -66,10 +65,6 @@
 
   <bean id="SupplierDiversity-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="SupplierDiversity-versionNumber" parent="SupplierDiversity-versionNumber-parentBean" />
-
-  <bean id="SupplierDiversity-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

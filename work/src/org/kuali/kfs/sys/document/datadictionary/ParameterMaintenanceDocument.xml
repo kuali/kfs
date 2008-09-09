@@ -92,8 +92,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="parameterWorkgroupName"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>

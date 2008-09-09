@@ -21,8 +21,6 @@
         <ref bean="AgencyType-code" />
         <ref bean="AgencyType-name" />
         <ref bean="AgencyType-active" />
-        <ref bean="AgencyType-versionNumber" />
-        <ref bean="AgencyType-objectId" />
       </list>
     </property>
   </bean>
@@ -70,14 +68,6 @@
 
   <bean id="AgencyType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="AgencyType-versionNumber" parent="AgencyType-versionNumber-parentBean" />
-
-  <bean id="AgencyType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
-  <bean id="AgencyType-objectId" parent="AgencyType-objectId-parentBean" />
-
-  <bean id="AgencyType-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

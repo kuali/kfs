@@ -27,7 +27,6 @@
         <ref bean="ComponentRepairHistory-componentRepairDate" />
         <ref bean="ComponentRepairHistory-componentRepairNoteText" />
         <ref bean="ComponentRepairHistory-componentRepairSolutionDescription" />
-        <ref bean="ComponentRepairHistory-versionNumber" />
       </list>
     </property>
   </bean>
@@ -150,10 +149,6 @@
     </property>
     <property name="summary" value="componentRepairSolutionDescription" />
     <property name="description" value="componentRepairSolutionDescription description..." />
-  </bean>
-  <bean id="ComponentRepairHistory-versionNumber" parent="ComponentRepairHistory-versionNumber-parentBean" />
-
-  <bean id="ComponentRepairHistory-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

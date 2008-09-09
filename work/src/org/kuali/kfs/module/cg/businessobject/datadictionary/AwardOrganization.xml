@@ -22,7 +22,6 @@
         <ref bean="AwardOrganization-proposalNumber" />
         <ref bean="AwardOrganization-organization.organizationName" />
         <ref bean="AwardOrganization-newCollectionRecord" />
-        <ref bean="AwardOrganization-versionNumber" />
         <ref bean="AwardOrganization-awardPrimaryOrganizationIndicator" />
         <ref bean="AwardOrganization-active" />
       </list>
@@ -59,10 +58,6 @@
   <bean id="AwardOrganization-newCollectionRecord" parent="AwardOrganization-newCollectionRecord-parentBean" />
 
   <bean id="AwardOrganization-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
-  </bean>
-  <bean id="AwardOrganization-versionNumber" parent="AwardOrganization-versionNumber-parentBean" />
-
-  <bean id="AwardOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AwardOrganization-awardPrimaryOrganizationIndicator" parent="AwardOrganization-awardPrimaryOrganizationIndicator-parentBean" />
 

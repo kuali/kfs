@@ -32,7 +32,6 @@
         <ref bean="EffortCertificationDetailBuild-sourceAccountNumber" />
         <ref bean="EffortCertificationDetailBuild-sourceChartOfAccountsCode" />
         <ref bean="EffortCertificationDetailBuild-costShareSourceSubAccountNumber" />
-        <ref bean="EffortCertificationDetailBuild-versionNumber" />
         <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber" />
         <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid" />
         <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear" />
@@ -121,10 +120,6 @@
   <bean id="EffortCertificationDetailBuild-costShareSourceSubAccountNumber" parent="EffortCertificationDetailBuild-costShareSourceSubAccountNumber-parentBean" />
 
   <bean id="EffortCertificationDetailBuild-costShareSourceSubAccountNumber-parentBean" abstract="true" parent="EffortCertificationDetail-costShareSourceSubAccountNumber">
-  </bean>
-  <bean id="EffortCertificationDetailBuild-versionNumber" parent="EffortCertificationDetailBuild-versionNumber-parentBean" />
-
-  <bean id="EffortCertificationDetailBuild-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber-parentBean" />
 

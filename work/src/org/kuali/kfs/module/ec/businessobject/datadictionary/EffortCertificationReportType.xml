@@ -21,7 +21,6 @@
         <ref bean="EffortCertificationReportType-effortCertificationReportDescription" />
         <ref bean="EffortCertificationReportType-effortCertificationReportTypeCode" />
         <ref bean="EffortCertificationReportType-active" />
-        <ref bean="EffortCertificationReportType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -70,10 +69,6 @@
 
   <bean id="EffortCertificationReportType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="EffortCertificationReportType-versionNumber" parent="EffortCertificationReportType-versionNumber-parentBean" />
-
-  <bean id="EffortCertificationReportType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

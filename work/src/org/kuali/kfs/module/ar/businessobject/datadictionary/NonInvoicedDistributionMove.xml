@@ -21,7 +21,6 @@
         <ref bean="NonInvoicedDistributionMove-financialDocumentLineAmount" />
         <ref bean="NonInvoicedDistributionMove-financialDocumentLineNumber" />
         <ref bean="NonInvoicedDistributionMove-referenceFinancialDocumentNumber" />
-        <ref bean="NonInvoicedDistributionMove-versionNumber" />
       </list>
     </property>
   </bean>
@@ -100,10 +99,6 @@
     </property>
     <property name="summary" value="referenceFinancialDocumentNumber" />
     <property name="description" value="referenceFinancialDocumentNumber description..." />
-  </bean>
-  <bean id="NonInvoicedDistributionMove-versionNumber" parent="NonInvoicedDistributionMove-versionNumber-parentBean" />
-
-  <bean id="NonInvoicedDistributionMove-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

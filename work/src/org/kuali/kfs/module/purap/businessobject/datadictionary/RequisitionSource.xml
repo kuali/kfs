@@ -21,7 +21,6 @@
         <ref bean="RequisitionSource-requisitionSourceCode" />
         <ref bean="RequisitionSource-requisitionSourceDescription" />
         <ref bean="RequisitionSource-active" />
-        <ref bean="RequisitionSource-versionNumber" />
       </list>
     </property>
   </bean>
@@ -65,10 +64,6 @@
 
   <bean id="RequisitionSource-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="RequisitionSource-versionNumber" parent="RequisitionSource-versionNumber-parentBean" />
-
-  <bean id="RequisitionSource-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

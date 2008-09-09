@@ -15,7 +15,6 @@
         <ref bean="VendorShippingSpecialCondition-newCollectionRecord" />
         <ref bean="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier" />
         <ref bean="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier" />
-        <ref bean="VendorShippingSpecialCondition-versionNumber" />
         <ref bean="VendorShippingSpecialCondition-active" />
       </list>
     </property>
@@ -48,10 +47,6 @@
   <bean id="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier" parent="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier-parentBean" />
 
   <bean id="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
-  </bean>
-  <bean id="VendorShippingSpecialCondition-versionNumber" parent="VendorShippingSpecialCondition-versionNumber-parentBean" />
-
-  <bean id="VendorShippingSpecialCondition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorShippingSpecialCondition-active" parent="VendorShippingSpecialCondition-active-parentBean" />
 

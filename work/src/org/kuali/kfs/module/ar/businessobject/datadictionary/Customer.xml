@@ -47,7 +47,6 @@
 				<ref bean="Customer-customerAddresses.customerAddressInternationalProvinceName" /> 
 				<ref bean="Customer-customerTaxTypeCode" />
 				<ref bean="Customer-customerTaxNbr" /> 
-                <ref bean="Customer-versionNumber" />
 			</list>
 		</property>
 		<property name="collections">
@@ -414,12 +413,6 @@
 		<property name="summary" value="customerTypeCode" />
 		<property name="description"
 			value="customerTypeCode description..." />
-	</bean>
-	<bean id="Customer-versionNumber"
-		parent="Customer-versionNumber-parentBean" />
-
-	<bean id="Customer-versionNumber-parentBean" abstract="true"
-		parent="GenericAttributes-versionNumber">
 	</bean>
 	
 	<bean id="Customer-customerAddresses.customerAddressName" parent="Customer-customerAddresses.customerAddressName-parentBean" />

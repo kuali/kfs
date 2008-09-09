@@ -38,7 +38,6 @@
         <ref bean="PurchaseOrderVendorQuote-vendorEmailAddress" />
         <ref bean="PurchaseOrderVendorQuote-vendorFaxNumber" />
         <ref bean="PurchaseOrderVendorQuote-vendorPhoneNumber" />
-        <ref bean="PurchaseOrderVendorQuote-versionNumber" />
       </list>
     </property>
   </bean>
@@ -234,10 +233,6 @@
     <property name="name" value="vendorPhoneNumber" />
     <property name="label" value="Vendor Phone Number" />
     <property name="shortLabel" value="Vendor Phone" />
-  </bean>
-  <bean id="PurchaseOrderVendorQuote-versionNumber" parent="PurchaseOrderVendorQuote-versionNumber-parentBean" />
-
-  <bean id="PurchaseOrderVendorQuote-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

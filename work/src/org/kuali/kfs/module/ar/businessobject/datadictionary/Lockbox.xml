@@ -28,7 +28,6 @@
         <ref bean="Lockbox-lockboxNumber" />
         <ref bean="Lockbox-processedInvoiceDate" />
         <ref bean="Lockbox-scannedInvoiceDate" />
-        <ref bean="Lockbox-versionNumber" />
       </list>
     </property>
   </bean>
@@ -233,10 +232,6 @@
     </property>
     <property name="summary" value="scannedInvoiceDate" />
     <property name="description" value="scannedInvoiceDate description..." />
-  </bean>
-  <bean id="Lockbox-versionNumber" parent="Lockbox-versionNumber-parentBean" />
-
-  <bean id="Lockbox-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

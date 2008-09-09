@@ -28,7 +28,6 @@
         <ref bean="NonInvoiced-financialSubObjectCode" />
         <ref bean="NonInvoiced-projectCode" />
         <ref bean="NonInvoiced-subAccountNumber" />
-        <ref bean="NonInvoiced-versionNumber" />
       </list>
     </property>
   </bean>
@@ -233,10 +232,6 @@
     </property>
     <property name="summary" value="subAccountNumber" />
     <property name="description" value="subAccountNumber description..." />
-  </bean>
-  <bean id="NonInvoiced-versionNumber" parent="NonInvoiced-versionNumber-parentBean" />
-
-  <bean id="NonInvoiced-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

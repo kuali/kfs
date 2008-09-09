@@ -22,7 +22,6 @@
         <ref bean="OrganizationReversionCategory-organizationReversionCategoryName" />
         <ref bean="OrganizationReversionCategory-organizationReversionSortCode" />
         <ref bean="OrganizationReversionCategory-active" />
-        <ref bean="OrganizationReversionCategory-versionNumber" />
       </list>
     </property>
   </bean>
@@ -82,10 +81,6 @@
 
   <bean id="OrganizationReversionCategory-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="OrganizationReversionCategory-versionNumber" parent="OrganizationReversionCategory-versionNumber-parentBean" />
-
-  <bean id="OrganizationReversionCategory-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

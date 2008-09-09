@@ -56,8 +56,6 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="purchaseOrderContractLanguageIdentifier" />
         <bean parent="MaintainableFieldDefinition"
               p:name="campusCode"

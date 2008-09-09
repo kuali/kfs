@@ -22,8 +22,6 @@
         <ref bean="BalanceTyp-financialBalanceTypeShortNm" />
         <ref bean="BalanceTyp-financialOffsetGenerationIndicator" />
         <ref bean="BalanceTyp-finBalanceTypeEncumIndicator" />
-        <ref bean="BalanceTyp-objectId" />
-        <ref bean="BalanceTyp-versionNumber" />
         <ref bean="BalanceTyp-active" />
       </list>
     </property>
@@ -90,14 +88,6 @@
     <property name="name" value="finBalanceTypeEncumIndicator" />
     <property name="label" value="Encumbrance" />
     <property name="shortLabel" value="Encumbrance" />
-  </bean>
-  <bean id="BalanceTyp-objectId" parent="BalanceTyp-objectId-parentBean" />
-
-  <bean id="BalanceTyp-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-  </bean>
-  <bean id="BalanceTyp-versionNumber" parent="BalanceTyp-versionNumber-parentBean" />
-
-  <bean id="BalanceTyp-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="BalanceTyp-active" parent="BalanceTyp-active-parentBean" />
 

@@ -23,7 +23,6 @@
         <ref bean="ProposalOrganization-proposalNumber" />
         <ref bean="ProposalOrganization-proposalPrimaryOrganizationIndicator" />
         <ref bean="ProposalOrganization-newCollectionRecord" />
-        <ref bean="ProposalOrganization-versionNumber" />
         <ref bean="ProposalOrganization-active" />
       </list>
     </property>
@@ -77,10 +76,6 @@
 
   <bean id="ProposalOrganization-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="ProposalOrganization-versionNumber" parent="ProposalOrganization-versionNumber-parentBean" />
-
-  <bean id="ProposalOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

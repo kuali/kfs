@@ -31,7 +31,6 @@
         <ref bean="ReceivingAddress-useReceivingIndicator" />
         <ref bean="ReceivingAddress-defaultIndicator" />
         <ref bean="ReceivingAddress-active" />
-        <ref bean="ReceivingAddress-versionNumber" />
       </list>
     </property>
   </bean>
@@ -137,10 +136,6 @@
 
   <bean id="ReceivingAddress-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="ReceivingAddress-versionNumber" parent="ReceivingAddress-versionNumber-parentBean" />
-
-  <bean id="ReceivingAddress-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

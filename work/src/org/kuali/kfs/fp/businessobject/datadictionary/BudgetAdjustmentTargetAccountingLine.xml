@@ -37,7 +37,6 @@
         <ref bean="BudgetAdjustmentTargetAccountingLine-sequenceNumber" />
         <ref bean="BudgetAdjustmentTargetAccountingLine-financialObjectCode" />
         <ref bean="BudgetAdjustmentTargetAccountingLine-accountNumber" />
-        <ref bean="BudgetAdjustmentTargetAccountingLine-objectId" />
         <ref bean="BudgetAdjustmentTargetAccountingLine-organizationReferenceId" />
         <ref bean="BudgetAdjustmentTargetAccountingLine-chartOfAccountsCode" />
         <ref bean="BudgetAdjustmentTargetAccountingLine-postingYear" />
@@ -48,7 +47,6 @@
         <ref bean="BudgetAdjustmentTargetAccountingLine-referenceTypeCode" />
         <ref bean="BudgetAdjustmentTargetAccountingLine-projectCode" />
         <ref bean="BudgetAdjustmentTargetAccountingLine-financialSubObjectCode" />
-        <ref bean="BudgetAdjustmentTargetAccountingLine-versionNumber" />
         <ref bean="BudgetAdjustmentTargetAccountingLine-documentNumber" />
         <ref bean="BudgetAdjustmentTargetAccountingLine-debitCreditCode" />
         <ref bean="BudgetAdjustmentTargetAccountingLine-encumbranceUpdateCode" />
@@ -394,11 +392,6 @@
 
   <bean id="BudgetAdjustmentTargetAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="BudgetAdjustmentTargetAccountingLine-objectId" parent="BudgetAdjustmentTargetAccountingLine-objectId-parentBean" />
-
-  <bean id="BudgetAdjustmentTargetAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-    <property name="required" value="false" />
-  </bean>
   <bean id="BudgetAdjustmentTargetAccountingLine-organizationReferenceId" parent="BudgetAdjustmentTargetAccountingLine-organizationReferenceId-parentBean" />
 
   <bean id="BudgetAdjustmentTargetAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -511,11 +504,6 @@
   <bean id="BudgetAdjustmentTargetAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
-  </bean>
-  <bean id="BudgetAdjustmentTargetAccountingLine-versionNumber" parent="BudgetAdjustmentTargetAccountingLine-versionNumber-parentBean" />
-
-  <bean id="BudgetAdjustmentTargetAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-    <property name="required" value="false" />
   </bean>
   <bean id="BudgetAdjustmentTargetAccountingLine-documentNumber" parent="BudgetAdjustmentTargetAccountingLine-documentNumber-parentBean" />
 

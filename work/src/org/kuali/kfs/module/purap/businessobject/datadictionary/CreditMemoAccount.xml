@@ -22,7 +22,6 @@
         <ref bean="CreditMemoAccount-sequenceNumber" />
         <ref bean="CreditMemoAccount-financialObjectCode" />
         <ref bean="CreditMemoAccount-accountNumber" />
-        <ref bean="CreditMemoAccount-objectId" />
         <ref bean="CreditMemoAccount-organizationReferenceId" />
         <ref bean="CreditMemoAccount-chartOfAccountsCode" />
         <ref bean="CreditMemoAccount-postingYear" />
@@ -33,7 +32,6 @@
         <ref bean="CreditMemoAccount-referenceTypeCode" />
         <ref bean="CreditMemoAccount-projectCode" />
         <ref bean="CreditMemoAccount-financialSubObjectCode" />
-        <ref bean="CreditMemoAccount-versionNumber" />
         <ref bean="CreditMemoAccount-documentNumber" />
         <ref bean="CreditMemoAccount-debitCreditCode" />
         <ref bean="CreditMemoAccount-encumbranceUpdateCode" />
@@ -127,11 +125,6 @@
   <bean id="CreditMemoAccount-accountNumber" parent="CreditMemoAccount-accountNumber-parentBean" />
 
   <bean id="CreditMemoAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  </bean>
-  <bean id="CreditMemoAccount-objectId" parent="CreditMemoAccount-objectId-parentBean" />
-
-  <bean id="CreditMemoAccount-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-    <property name="required" value="false" />
   </bean>
   <bean id="CreditMemoAccount-organizationReferenceId" parent="CreditMemoAccount-organizationReferenceId-parentBean" />
 
@@ -245,11 +238,6 @@
   <bean id="CreditMemoAccount-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
-  </bean>
-  <bean id="CreditMemoAccount-versionNumber" parent="CreditMemoAccount-versionNumber-parentBean" />
-
-  <bean id="CreditMemoAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-    <property name="required" value="false" />
   </bean>
   <bean id="CreditMemoAccount-documentNumber" parent="CreditMemoAccount-documentNumber-parentBean" />
 

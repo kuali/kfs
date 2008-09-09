@@ -23,7 +23,6 @@
         <ref bean="FundGroup-financialReportingSortCode" />
         <ref bean="FundGroup-name" />
         <ref bean="FundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode" />
-        <ref bean="FundGroup-versionNumber" />
       </list>
     </property>
   </bean>
@@ -104,10 +103,6 @@
             p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.BudgetAdjustmentFundRestrictionsValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-  </bean>
-  <bean id="FundGroup-versionNumber" parent="FundGroup-versionNumber-parentBean" />
-
-  <bean id="FundGroup-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

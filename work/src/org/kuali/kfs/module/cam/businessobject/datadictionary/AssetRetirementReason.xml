@@ -21,7 +21,6 @@
         <ref bean="AssetRetirementReason-retirementReasonCode" />
         <ref bean="AssetRetirementReason-retirementReasonName" />
         <ref bean="AssetRetirementReason-retirementReasonRestrictionIndicator" />
-        <ref bean="AssetRetirementReason-versionNumber" />
       </list>
     </property>
   </bean>
@@ -84,10 +83,6 @@
     </property>
     <property name="summary" value="retirementReasonRestrictionIndicator" />
     <property name="description" value="retirementReasonRestrictionIndicator description..." />
-  </bean>
-  <bean id="AssetRetirementReason-versionNumber" parent="AssetRetirementReason-versionNumber-parentBean" />
-
-  <bean id="AssetRetirementReason-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

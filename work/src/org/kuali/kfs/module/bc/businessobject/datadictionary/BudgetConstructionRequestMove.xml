@@ -38,7 +38,6 @@
         <ref bean="BudgetConstructionRequestMove-personUniversalIdentifier" />
         <ref bean="BudgetConstructionRequestMove-requestUpdateErrorCode" />
         <ref bean="BudgetConstructionRequestMove-subAccountNumber" />
-        <ref bean="BudgetConstructionRequestMove-versionNumber" />
       </list>
     </property>
   </bean>
@@ -447,10 +446,6 @@
     </property>
     <property name="summary" value="subAccountNumber" />
     <property name="description" value="subAccountNumber description..." />
-  </bean>
-  <bean id="BudgetConstructionRequestMove-versionNumber" parent="BudgetConstructionRequestMove-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionRequestMove-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

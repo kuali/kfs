@@ -23,7 +23,6 @@
         <ref bean="LaborJournalVoucherDetail-sequenceNumber" />
         <ref bean="LaborJournalVoucherDetail-financialObjectCode" />
         <ref bean="LaborJournalVoucherDetail-accountNumber" />
-        <ref bean="LaborJournalVoucherDetail-objectId" />
         <ref bean="LaborJournalVoucherDetail-organizationReferenceId" />
         <ref bean="LaborJournalVoucherDetail-chartOfAccountsCode" />
         <ref bean="LaborJournalVoucherDetail-postingYear" />
@@ -34,7 +33,6 @@
         <ref bean="LaborJournalVoucherDetail-referenceTypeCode" />
         <ref bean="LaborJournalVoucherDetail-projectCode" />
         <ref bean="LaborJournalVoucherDetail-financialSubObjectCode" />
-        <ref bean="LaborJournalVoucherDetail-versionNumber" />
         <ref bean="LaborJournalVoucherDetail-documentNumber" />
         <ref bean="LaborJournalVoucherDetail-debitCreditCode" />
         <ref bean="LaborJournalVoucherDetail-encumbranceUpdateCode" />
@@ -144,11 +142,6 @@
   <bean id="LaborJournalVoucherDetail-accountNumber" parent="LaborJournalVoucherDetail-accountNumber-parentBean" />
 
   <bean id="LaborJournalVoucherDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  </bean>
-  <bean id="LaborJournalVoucherDetail-objectId" parent="LaborJournalVoucherDetail-objectId-parentBean" />
-
-  <bean id="LaborJournalVoucherDetail-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-    <property name="required" value="false" />
   </bean>
   <bean id="LaborJournalVoucherDetail-organizationReferenceId" parent="LaborJournalVoucherDetail-organizationReferenceId-parentBean" />
 
@@ -262,11 +255,6 @@
   <bean id="LaborJournalVoucherDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
-  </bean>
-  <bean id="LaborJournalVoucherDetail-versionNumber" parent="LaborJournalVoucherDetail-versionNumber-parentBean" />
-
-  <bean id="LaborJournalVoucherDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-    <property name="required" value="false" />
   </bean>
   <bean id="LaborJournalVoucherDetail-documentNumber" parent="LaborJournalVoucherDetail-documentNumber-parentBean" />
 

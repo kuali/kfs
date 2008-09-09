@@ -63,7 +63,6 @@
         <ref bean="Award-letterOfCreditFundGroupCode" />
         <ref bean="Award-oldProposalNumber" />
         <ref bean="Award-proposalAwardTypeCode" />
-        <ref bean="Award-versionNumber" />
         <ref bean="Award-active" />
       </list>
     </property>
@@ -590,10 +589,6 @@
             p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalAwardTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-  </bean>
-  <bean id="Award-versionNumber" parent="Award-versionNumber-parentBean" />
-
-  <bean id="Award-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
   <bean id="Award-active" parent="Award-active-parentBean" />

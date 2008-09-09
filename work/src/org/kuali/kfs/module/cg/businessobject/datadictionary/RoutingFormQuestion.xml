@@ -14,7 +14,6 @@
         <ref bean="RoutingFormQuestion-documentNumber" />
         <ref bean="RoutingFormQuestion-questionTypeCode" />
         <ref bean="RoutingFormQuestion-yesNoIndicator" />
-        <ref bean="RoutingFormQuestion-versionNumber" />
       </list>
     </property>
   </bean>
@@ -73,9 +72,5 @@
     </property>
     <property name="summary" value="yesNoIndicator" />
     <property name="description" value="yesNoIndicator description..." />
-  </bean>
-  <bean id="RoutingFormQuestion-versionNumber" parent="RoutingFormQuestion-versionNumber-parentBean" />
-
-  <bean id="RoutingFormQuestion-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

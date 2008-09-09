@@ -32,7 +32,6 @@
         <ref bean="ReceivingCorrectionItem-itemUnitOfMeasureCode" />
         <ref bean="ReceivingCorrectionItem-purchaseOrderIdentifier" />
         <ref bean="ReceivingCorrectionItem-receivingItemIdentifier" />
-        <ref bean="ReceivingCorrectionItem-versionNumber" />
       </list>
     </property>
   </bean>
@@ -310,10 +309,6 @@
     </property>
     <property name="summary" value="receivingItemIdentifier" />
     <property name="description" value="receivingItemIdentifier description..." />
-  </bean>
-  <bean id="ReceivingCorrectionItem-versionNumber" parent="ReceivingCorrectionItem-versionNumber-parentBean" />
-
-  <bean id="ReceivingCorrectionItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -23,7 +23,6 @@
         <ref bean="NonpersonnelObjectCode-nonpersonnelSubCategory.name" />
         <ref bean="NonpersonnelObjectCode-budgetNonpersonnelObjectCode" />
         <ref bean="NonpersonnelObjectCode-active" />
-        <ref bean="NonpersonnelObjectCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -75,10 +74,6 @@
 
   <bean id="NonpersonnelObjectCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="NonpersonnelObjectCode-versionNumber" parent="NonpersonnelObjectCode-versionNumber-parentBean" />
-
-  <bean id="NonpersonnelObjectCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

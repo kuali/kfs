@@ -21,7 +21,6 @@
         <ref bean="TaxIncomeClassCode-code" />
         <ref bean="TaxIncomeClassCode-name" />
         <ref bean="TaxIncomeClassCode-active" />
-        <ref bean="TaxIncomeClassCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -64,10 +63,6 @@
     <property name="name" value="active"/>
   </bean>
 
-  <bean id="TaxIncomeClassCode-versionNumber" parent="TaxIncomeClassCode-versionNumber-parentBean" />
-
-  <bean id="TaxIncomeClassCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

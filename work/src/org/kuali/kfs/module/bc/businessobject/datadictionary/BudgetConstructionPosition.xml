@@ -44,7 +44,6 @@
         <ref bean="BudgetConstructionPosition-setidJobCode" />
         <ref bean="BudgetConstructionPosition-setidSalary" />
         <ref bean="BudgetConstructionPosition-universityFiscalYear" />
-        <ref bean="BudgetConstructionPosition-versionNumber" />
       </list>
     </property>
   </bean>
@@ -488,10 +487,6 @@
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
     <property name="description" value="This identifies the fiscal year." />
-  </bean>
-  <bean id="BudgetConstructionPosition-versionNumber" parent="BudgetConstructionPosition-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionPosition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

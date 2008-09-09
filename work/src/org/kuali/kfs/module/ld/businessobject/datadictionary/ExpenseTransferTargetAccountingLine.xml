@@ -28,7 +28,6 @@
         <ref bean="ExpenseTransferTargetAccountingLine-sequenceNumber" />
         <ref bean="ExpenseTransferTargetAccountingLine-financialObjectCode" />
         <ref bean="ExpenseTransferTargetAccountingLine-accountNumber" />
-        <ref bean="ExpenseTransferTargetAccountingLine-objectId" />
         <ref bean="ExpenseTransferTargetAccountingLine-organizationReferenceId" />
         <ref bean="ExpenseTransferTargetAccountingLine-chartOfAccountsCode" />
         <ref bean="ExpenseTransferTargetAccountingLine-postingYear" />
@@ -39,7 +38,6 @@
         <ref bean="ExpenseTransferTargetAccountingLine-referenceTypeCode" />
         <ref bean="ExpenseTransferTargetAccountingLine-projectCode" />
         <ref bean="ExpenseTransferTargetAccountingLine-financialSubObjectCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-versionNumber" />
         <ref bean="ExpenseTransferTargetAccountingLine-documentNumber" />
         <ref bean="ExpenseTransferTargetAccountingLine-debitCreditCode" />
         <ref bean="ExpenseTransferTargetAccountingLine-encumbranceUpdateCode" />
@@ -192,11 +190,6 @@
 
   <bean id="ExpenseTransferTargetAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-objectId" parent="ExpenseTransferTargetAccountingLine-objectId-parentBean" />
-
-  <bean id="ExpenseTransferTargetAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-    <property name="required" value="false" />
-  </bean>
   <bean id="ExpenseTransferTargetAccountingLine-organizationReferenceId" parent="ExpenseTransferTargetAccountingLine-organizationReferenceId-parentBean" />
 
   <bean id="ExpenseTransferTargetAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -309,11 +302,6 @@
   <bean id="ExpenseTransferTargetAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
-  </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-versionNumber" parent="ExpenseTransferTargetAccountingLine-versionNumber-parentBean" />
-
-  <bean id="ExpenseTransferTargetAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-    <property name="required" value="false" />
   </bean>
   <bean id="ExpenseTransferTargetAccountingLine-documentNumber" parent="ExpenseTransferTargetAccountingLine-documentNumber-parentBean" />
 

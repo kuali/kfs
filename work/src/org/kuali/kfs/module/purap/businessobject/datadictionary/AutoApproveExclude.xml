@@ -21,7 +21,6 @@
         <ref bean="AutoApproveExclude-accountNumber" />
         <ref bean="AutoApproveExclude-chartOfAccountsCode" />
         <ref bean="AutoApproveExclude-active" />
-        <ref bean="AutoApproveExclude-versionNumber" />
       </list>
     </property>
   </bean>
@@ -41,10 +40,6 @@
 
   <bean id="AutoApproveExclude-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="AutoApproveExclude-versionNumber" parent="AutoApproveExclude-versionNumber-parentBean" />
-
-  <bean id="AutoApproveExclude-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

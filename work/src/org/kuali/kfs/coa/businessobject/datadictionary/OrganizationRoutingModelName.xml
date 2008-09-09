@@ -22,7 +22,6 @@
         <ref bean="OrganizationRoutingModelName-organizationCode" />
         <ref bean="OrganizationRoutingModelName-organizationRoutingModelName" />
         <ref bean="OrganizationRoutingModelName-active" />
-        <ref bean="OrganizationRoutingModelName-versionNumber" />
       </list>
     </property>
   </bean>
@@ -85,10 +84,6 @@
     <property name="name" value="active" />
   </bean>
 
-  <bean id="OrganizationRoutingModelName-versionNumber" parent="OrganizationRoutingModelName-versionNumber-parentBean" />
-
-  <bean id="OrganizationRoutingModelName-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

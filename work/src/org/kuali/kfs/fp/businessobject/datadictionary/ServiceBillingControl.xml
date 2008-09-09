@@ -21,8 +21,6 @@
         <ref bean="ServiceBillingControl-accountNumber" />
         <ref bean="ServiceBillingControl-workgroupName" />
         <ref bean="ServiceBillingControl-active" />
-        <ref bean="ServiceBillingControl-versionNumber" />
-        <ref bean="ServiceBillingControl-objectId" />
       </list>
     </property>
   </bean>
@@ -55,14 +53,6 @@
 
   <bean id="ServiceBillingControl-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
-  </bean>
-  <bean id="ServiceBillingControl-versionNumber" parent="ServiceBillingControl-versionNumber-parentBean" />
-
-  <bean id="ServiceBillingControl-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
-  <bean id="ServiceBillingControl-objectId" parent="ServiceBillingControl-objectId-parentBean" />
-
-  <bean id="ServiceBillingControl-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

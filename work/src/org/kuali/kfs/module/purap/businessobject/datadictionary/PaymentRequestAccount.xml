@@ -22,7 +22,6 @@
         <ref bean="PaymentRequestAccount-sequenceNumber" />
         <ref bean="PaymentRequestAccount-financialObjectCode" />
         <ref bean="PaymentRequestAccount-accountNumber" />
-        <ref bean="PaymentRequestAccount-objectId" />
         <ref bean="PaymentRequestAccount-organizationReferenceId" />
         <ref bean="PaymentRequestAccount-chartOfAccountsCode" />
         <ref bean="PaymentRequestAccount-postingYear" />
@@ -33,7 +32,6 @@
         <ref bean="PaymentRequestAccount-referenceTypeCode" />
         <ref bean="PaymentRequestAccount-projectCode" />
         <ref bean="PaymentRequestAccount-financialSubObjectCode" />
-        <ref bean="PaymentRequestAccount-versionNumber" />
         <ref bean="PaymentRequestAccount-documentNumber" />
         <ref bean="PaymentRequestAccount-debitCreditCode" />
         <ref bean="PaymentRequestAccount-encumbranceUpdateCode" />
@@ -128,11 +126,6 @@
   <bean id="PaymentRequestAccount-accountNumber" parent="PaymentRequestAccount-accountNumber-parentBean" />
 
   <bean id="PaymentRequestAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  </bean>
-  <bean id="PaymentRequestAccount-objectId" parent="PaymentRequestAccount-objectId-parentBean" />
-
-  <bean id="PaymentRequestAccount-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-    <property name="required" value="false" />
   </bean>
   <bean id="PaymentRequestAccount-organizationReferenceId" parent="PaymentRequestAccount-organizationReferenceId-parentBean" />
 
@@ -246,11 +239,6 @@
   <bean id="PaymentRequestAccount-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
-  </bean>
-  <bean id="PaymentRequestAccount-versionNumber" parent="PaymentRequestAccount-versionNumber-parentBean" />
-
-  <bean id="PaymentRequestAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-    <property name="required" value="false" />
   </bean>
   <bean id="PaymentRequestAccount-documentNumber" parent="PaymentRequestAccount-documentNumber-parentBean" />
 

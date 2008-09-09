@@ -20,7 +20,6 @@
         <ref bean="UniversityDate-universityDate" />
         <ref bean="UniversityDate-universityFiscalYear" />
         <ref bean="UniversityDate-universityFiscalAccountingPeriod" />
-        <ref bean="UniversityDate-versionNumber" />
       </list>
     </property>
   </bean>
@@ -48,10 +47,6 @@
 
   <bean id="UniversityDate-universityFiscalAccountingPeriod-parentBean" abstract="true" parent="GenericAttributes-universityFiscalAccountingPeriod">
     <property name="required" value="true" />
-  </bean>
-  <bean id="UniversityDate-versionNumber" parent="UniversityDate-versionNumber-parentBean" />
-
-  <bean id="UniversityDate-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

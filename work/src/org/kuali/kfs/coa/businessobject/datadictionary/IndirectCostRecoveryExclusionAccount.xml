@@ -21,7 +21,6 @@
         <ref bean="IndirectCostRecoveryExclusionAccount-accountNumber" />
         <ref bean="IndirectCostRecoveryExclusionAccount-financialObjectCode" />
         <ref bean="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode" />
-        <ref bean="IndirectCostRecoveryExclusionAccount-versionNumber" />
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -76,10 +75,6 @@
     <property name="name" value="financialObjectChartOfAccountCode" />
     <property name="label" value="Object Chart" />
     <property name="shortLabel" value="Object Chart" />
-  </bean>
-  <bean id="IndirectCostRecoveryExclusionAccount-versionNumber" parent="IndirectCostRecoveryExclusionAccount-versionNumber-parentBean" />
-
-  <bean id="IndirectCostRecoveryExclusionAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -21,7 +21,6 @@
         <ref bean="RecurringPaymentType-recurringPaymentTypeCode" />
         <ref bean="RecurringPaymentType-recurringPaymentTypeDescription" />
         <ref bean="RecurringPaymentType-active" />
-        <ref bean="RecurringPaymentType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -65,10 +64,6 @@
 
   <bean id="RecurringPaymentType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="RecurringPaymentType-versionNumber" parent="RecurringPaymentType-versionNumber-parentBean" />
-
-  <bean id="RecurringPaymentType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

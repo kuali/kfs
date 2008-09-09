@@ -21,7 +21,6 @@
         <ref bean="ShippingTitle-vendorShippingTitleCode" />
         <ref bean="ShippingTitle-vendorShippingTitleDescription" />
         <ref bean="ShippingTitle-active" />
-        <ref bean="ShippingTitle-versionNumber" />
       </list>
     </property>
   </bean>
@@ -68,10 +67,6 @@
 
   <bean id="ShippingTitle-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="ShippingTitle-versionNumber" parent="ShippingTitle-versionNumber-parentBean" />
-
-  <bean id="ShippingTitle-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

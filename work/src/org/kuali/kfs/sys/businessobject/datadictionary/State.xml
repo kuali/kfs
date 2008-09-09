@@ -22,7 +22,6 @@
         <ref bean="State-postalStateName" />
         <ref bean="State-codeAndDescription" />
         <ref bean="State-active" />
-        <ref bean="State-versionNumber" />
       </list>
     </property>
   </bean>
@@ -91,10 +90,6 @@
     <property name="name" value="active" />
   </bean>
 
-  <bean id="State-versionNumber" parent="State-versionNumber-parentBean" />
-
-  <bean id="State-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

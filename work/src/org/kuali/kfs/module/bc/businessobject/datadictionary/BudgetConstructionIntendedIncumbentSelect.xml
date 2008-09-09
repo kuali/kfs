@@ -21,7 +21,6 @@
         <ref bean="BudgetConstructionIntendedIncumbentSelect-financialObjectCode" />
         <ref bean="BudgetConstructionIntendedIncumbentSelect-personName" />
         <ref bean="BudgetConstructionIntendedIncumbentSelect-personUniversalIdentifier" />
-        <ref bean="BudgetConstructionIntendedIncumbentSelect-versionNumber" />
       </list>
     </property>
   </bean>
@@ -101,10 +100,6 @@
     <property name="description" value="personUniversalIdentifier description..." />
   </bean>
   
-  <bean id="BudgetConstructionIntendedIncumbentSelect-versionNumber" parent="BudgetConstructionIntendedIncumbentSelect-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionIntendedIncumbentSelect-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

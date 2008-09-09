@@ -21,7 +21,6 @@
         <ref bean="CommodityContractManager-contractManagerCode" />
         <ref bean="CommodityContractManager-newCollectionRecord" />
         <ref bean="CommodityContractManager-purchasingCommodityCode" />
-        <ref bean="CommodityContractManager-versionNumber" />
       </list>
     </property>
   </bean>
@@ -74,10 +73,6 @@
   <bean id="CommodityContractManager-purchasingCommodityCode" parent="CommodityContractManager-purchasingCommodityCode-parentBean" />
 
   <bean id="CommodityContractManager-purchasingCommodityCode-parentBean" abstract="true" parent="CommodityCode-purchasingCommodityCode">
-  </bean>
-  <bean id="CommodityContractManager-versionNumber" parent="CommodityContractManager-versionNumber-parentBean" />
-
-  <bean id="CommodityContractManager-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -20,7 +20,6 @@
         <ref bean="FiscalYearFunctionControl-universityFiscalYear" />
         <ref bean="FiscalYearFunctionControl-financialSystemFunctionControlCode" />
         <ref bean="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator" />
-        <ref bean="FiscalYearFunctionControl-versionNumber" />
       </list>
     </property>
   </bean>
@@ -62,10 +61,6 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
-  </bean>
-  <bean id="FiscalYearFunctionControl-versionNumber" parent="FiscalYearFunctionControl-versionNumber-parentBean" />
-
-  <bean id="FiscalYearFunctionControl-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

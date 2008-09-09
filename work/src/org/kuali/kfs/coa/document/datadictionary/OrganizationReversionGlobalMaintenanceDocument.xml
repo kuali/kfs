@@ -116,8 +116,6 @@
                     p:template="organizationCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
           </property>
         </bean>
@@ -144,8 +142,6 @@
               p:name="cashReversionAccountNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="carryForwardByObjectCodeIndicator" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -177,8 +173,6 @@
                     p:name="organizationReversionCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
           </property>
         </bean>

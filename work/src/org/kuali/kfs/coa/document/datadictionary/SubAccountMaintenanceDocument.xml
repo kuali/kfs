@@ -115,10 +115,6 @@
               p:defaultValue="EX"
               p:required="true"
               p:webUILeaveFieldFunction="clearICR" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="a21SubAccount.versionNumber" />
       </list>
     </property>
   </bean>

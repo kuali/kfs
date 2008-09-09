@@ -79,8 +79,6 @@
               p:name="purchasingDepartmentZipCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="purchasingDepartmentCountryCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>

@@ -25,7 +25,6 @@
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier" />      
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetTypeCode" />
         <ref bean="RequisitionCapitalAssetSystem-purapDocumentIdentifier" />
-        <ref bean="RequisitionCapitalAssetSystem-versionNumber" />
         <ref bean="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber" />
       </list>
     </property>
@@ -171,10 +170,6 @@
     </property>
     <property name="summary" value="purapDocumentIdentifier" />
     <property name="description" value="purapDocumentIdentifier description..." />
-  </bean>
-  <bean id="RequisitionCapitalAssetSystem-versionNumber" parent="RequisitionCapitalAssetSystem-versionNumber-parentBean" />
-
-  <bean id="RequisitionCapitalAssetSystem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
   <bean id="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber" parent="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" />

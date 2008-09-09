@@ -19,7 +19,6 @@
         <ref bean="VendorTaxChange-vendorPreviousTaxTypeCode" />
         <ref bean="VendorTaxChange-vendorPreviousTaxNumber" />
         <ref bean="VendorTaxChange-vendorHeaderGeneratedIdentifier" />
-        <ref bean="VendorTaxChange-versionNumber" />
       </list>
     </property>
   </bean>
@@ -99,9 +98,5 @@
   <bean id="VendorTaxChange-vendorHeaderGeneratedIdentifier" parent="VendorTaxChange-vendorHeaderGeneratedIdentifier-parentBean" />
 
   <bean id="VendorTaxChange-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
-  </bean>
-  <bean id="VendorTaxChange-versionNumber" parent="VendorTaxChange-versionNumber-parentBean" />
-
-  <bean id="VendorTaxChange-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

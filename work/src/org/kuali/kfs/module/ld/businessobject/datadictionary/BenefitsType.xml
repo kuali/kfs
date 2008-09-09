@@ -22,7 +22,6 @@
         <ref bean="BenefitsType-positionBenefitRetirementIndicator" />
         <ref bean="BenefitsType-positionBenefitTypeCode" />
         <ref bean="BenefitsType-positionBenefitTypeDescription" />
-        <ref bean="BenefitsType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -70,10 +69,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-  </bean>
-  <bean id="BenefitsType-versionNumber" parent="BenefitsType-versionNumber-parentBean" />
-
-  <bean id="BenefitsType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

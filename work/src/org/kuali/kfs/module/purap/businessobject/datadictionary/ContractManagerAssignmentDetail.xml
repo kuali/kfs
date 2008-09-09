@@ -14,7 +14,6 @@
         <ref bean="ContractManagerAssignmentDetail-contractManagerCode" />
         <ref bean="ContractManagerAssignmentDetail-documentNumber" />
         <ref bean="ContractManagerAssignmentDetail-requisitionIdentifier" />
-        <ref bean="ContractManagerAssignmentDetail-versionNumber" />
       </list>
     </property>
   </bean>
@@ -69,9 +68,5 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-  </bean>
-  <bean id="ContractManagerAssignmentDetail-versionNumber" parent="ContractManagerAssignmentDetail-versionNumber-parentBean" />
-
-  <bean id="ContractManagerAssignmentDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

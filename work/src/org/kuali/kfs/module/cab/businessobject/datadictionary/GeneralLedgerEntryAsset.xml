@@ -26,7 +26,6 @@
         <ref bean="GeneralLedgerEntryAsset-manufacturerName" />
         <ref bean="GeneralLedgerEntryAsset-manufacturerModelNumber" />
         <ref bean="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber" />
-        <ref bean="GeneralLedgerEntryAsset-versionNumber" />
       </list>
     </property>
   </bean>
@@ -200,10 +199,6 @@
     <property name="description" value="capitalAssetManagementDocumentNumber description..." />
   </bean>
 
-  <bean id="GeneralLedgerEntryAsset-versionNumber" parent="GeneralLedgerEntryAsset-versionNumber-parentBean" />
-
-  <bean id="GeneralLedgerEntryAsset-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

@@ -25,7 +25,6 @@
         <ref bean="ContractManager-contractManagerPhoneNumber" />
         <ref bean="ContractManager-contractManagerSignatureImageLocationDescription" />
         <ref bean="ContractManager-contractManagerUserIdentifier" />
-        <ref bean="ContractManager-versionNumber" />
       </list>
     </property>
   </bean>
@@ -148,10 +147,6 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-  </bean>
-  <bean id="ContractManager-versionNumber" parent="ContractManager-versionNumber-parentBean" />
-
-  <bean id="ContractManager-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

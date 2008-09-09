@@ -27,7 +27,6 @@
         <ref bean="ProjectDirector-universalUser.primaryDepartmentCode" />
         <ref bean="ProjectDirector-universalUser.employeeStatusCode" />
         <ref bean="ProjectDirector-universalUser.employeeTypeCode" />
-        <ref bean="ProjectDirector-versionNumber" />
         <ref bean="ProjectDirector-active" />
       </list>
     </property>
@@ -133,10 +132,6 @@
 
   <bean id="ProjectDirector-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
       <property name="name" value="active" />
-  </bean>
-  <bean id="ProjectDirector-versionNumber" parent="ProjectDirector-versionNumber-parentBean" />
-
-  <bean id="ProjectDirector-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

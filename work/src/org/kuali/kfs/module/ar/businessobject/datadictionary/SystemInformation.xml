@@ -50,7 +50,6 @@
         <ref bean="SystemInformation-organizationRemitToCityName" />
         <ref bean="SystemInformation-organizationRemitToStateCode" />
         <ref bean="SystemInformation-organizationRemitToZipCode" />
-        <ref bean="SystemInformation-versionNumber" />
         <ref bean="SystemInformation-universityFederalEmployerIdentificationNumber" />
         <ref bean="SystemInformation-cashControlWorkgroup" />
       </list>
@@ -445,10 +444,6 @@
   <bean id="SystemInformation-organizationRemitToZipCode" parent="SystemInformation-organizationRemitToZipCode-parentBean" />
 
   <bean id="SystemInformation-organizationRemitToZipCode-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToZipCode">
-  </bean>
-  <bean id="SystemInformation-versionNumber" parent="SystemInformation-versionNumber-parentBean" />
-
-  <bean id="SystemInformation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
   <bean id = "SystemInformation-cashControlWorkgroup" parent="SystemInformation-cashControlWorkgroup-parentBean" />

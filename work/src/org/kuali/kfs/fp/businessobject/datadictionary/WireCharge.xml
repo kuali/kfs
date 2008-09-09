@@ -24,7 +24,6 @@
         <ref bean="WireCharge-expenseFinancialObjectCode" />
         <ref bean="WireCharge-domesticChargeAmt" />
         <ref bean="WireCharge-foreignChargeAmt" />
-        <ref bean="WireCharge-versionNumber" />
       </list>
     </property>
   </bean>
@@ -72,10 +71,6 @@
     <property name="name" value="foreignChargeAmt" />
     <property name="label" value="Foreign Charge Amount" />
     <property name="shortLabel" value="For Amt" />
-  </bean>
-  <bean id="WireCharge-versionNumber" parent="WireCharge-versionNumber-parentBean" />
-
-  <bean id="WireCharge-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

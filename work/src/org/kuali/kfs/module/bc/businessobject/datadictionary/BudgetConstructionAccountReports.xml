@@ -23,7 +23,6 @@
         <ref bean="BudgetConstructionAccountReports-reportsToChartOfAccountsCode" />
         <ref bean="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription" />
         <ref bean="BudgetConstructionAccountReports-reportsToOrganizationCode" />
-        <ref bean="BudgetConstructionAccountReports-versionNumber" />
       </list>
     </property>
   </bean>
@@ -78,10 +77,6 @@
     <property name="label" value="Reports To Organization" />
     <property name="shortLabel" value="Rpts To Org" />
     <property name="description" value="The Reports To organization for the account." />
-  </bean>
-  <bean id="BudgetConstructionAccountReports-versionNumber" parent="BudgetConstructionAccountReports-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionAccountReports-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

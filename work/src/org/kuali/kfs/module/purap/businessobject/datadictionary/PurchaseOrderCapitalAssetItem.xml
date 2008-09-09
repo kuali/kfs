@@ -18,7 +18,6 @@
         <ref bean="PurchaseOrderCapitalAssetItem-capitalAssetTransactionTypeCode" />
         <ref bean="PurchaseOrderCapitalAssetItem-documentNumber" />
         <ref bean="PurchaseOrderCapitalAssetItem-itemIdentifier" />
-        <ref bean="PurchaseOrderCapitalAssetItem-versionNumber" />
       </list>
     </property>
   </bean>
@@ -113,10 +112,6 @@
     </property>
   </bean>
 
-  <bean id="PurchaseOrderCapitalAssetItem-versionNumber" parent="PurchaseOrderCapitalAssetItem-versionNumber-parentBean" />
-  <bean id="PurchaseOrderCapitalAssetItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" 
-        p:name="versionNumber"
-        p:required="false" />
 
   <bean id="PurchaseOrderCapitalAssetItem-inquiryDefinition" parent="PurchaseOrderCapitalAssetItem-inquiryDefinition-parentBean" />
 
@@ -134,7 +129,6 @@
               <bean parent="FieldDefinition" p:attributeName="capitalAssetTransactionTypeCode" />
               <bean parent="FieldDefinition" p:attributeName="documentNumber" />
               <bean parent="FieldDefinition" p:attributeName="itemIdentifier" />
-              <bean parent="FieldDefinition" p:attributeName="versionNumber" />
             </list>
           </property>
         </bean>
@@ -164,7 +158,6 @@
         <bean parent="FieldDefinition" p:attributeName="capitalAssetTransactionTypeCode" />
         <bean parent="FieldDefinition" p:attributeName="documentNumber" />
         <bean parent="FieldDefinition" p:attributeName="itemIdentifier" />
-        <bean parent="FieldDefinition" p:attributeName="versionNumber" />
       </list>
     </property>
     <property name="resultFields" >
@@ -174,7 +167,6 @@
         <bean parent="FieldDefinition" p:attributeName="capitalAssetTransactionTypeCode" />
         <bean parent="FieldDefinition" p:attributeName="documentNumber" />
         <bean parent="FieldDefinition" p:attributeName="itemIdentifier" />
-        <bean parent="FieldDefinition" p:attributeName="versionNumber" />
       </list>
     </property>
   </bean>

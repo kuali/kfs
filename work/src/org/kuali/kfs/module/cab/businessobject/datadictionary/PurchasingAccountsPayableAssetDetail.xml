@@ -28,7 +28,6 @@
         <ref bean="PurchasingAccountsPayableAssetDetail-buildingCode" />
         <ref bean="PurchasingAccountsPayableAssetDetail-buildingRoomNumber" />
         <ref bean="PurchasingAccountsPayableAssetDetail-buildingSubRoomNumber" />
-        <ref bean="PurchasingAccountsPayableAssetDetail-versionNumber" />
         <ref bean="PurchasingAccountsPayableAssetDetail-newCollectionRecord" />
       </list>
     </property>
@@ -238,10 +237,6 @@
     <property name="description" value="campusTagNumber description..." />
   </bean>
   
-  <bean id="PurchasingAccountsPayableAssetDetail-versionNumber" parent="PurchasingAccountsPayableAssetDetail-versionNumber-parentBean" />
-
-  <bean id="PurchasingAccountsPayableAssetDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
-
   <bean id="PurchasingAccountsPayableAssetDetail-newCollectionRecord" parent="PurchasingAccountsPayableAssetDetail-newCollectionRecord-parentBean" />
 
   <bean id="PurchasingAccountsPayableAssetDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord" />

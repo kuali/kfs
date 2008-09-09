@@ -21,7 +21,6 @@
         <ref bean="Carrier-carrierCode" />
         <ref bean="Carrier-carrierDescription" />
         <ref bean="Carrier-active" />
-        <ref bean="Carrier-versionNumber" />
       </list>
     </property>
   </bean>
@@ -65,10 +64,6 @@
 
   <bean id="Carrier-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="Carrier-versionNumber" parent="Carrier-versionNumber-parentBean" />
-
-  <bean id="Carrier-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

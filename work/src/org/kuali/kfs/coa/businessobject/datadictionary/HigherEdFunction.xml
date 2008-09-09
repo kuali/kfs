@@ -25,7 +25,6 @@
         <ref bean="HigherEdFunction-finAicpaFunctionCode" />
         <ref bean="HigherEdFunction-financialFederalFunctionCode" />
         <ref bean="HigherEdFunction-active" />
-        <ref bean="HigherEdFunction-versionNumber" />
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -135,10 +134,6 @@
     <property name="name" value="active" />
   </bean>
 
-  <bean id="HigherEdFunction-versionNumber" parent="HigherEdFunction-versionNumber-parentBean" />
-
-  <bean id="HigherEdFunction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

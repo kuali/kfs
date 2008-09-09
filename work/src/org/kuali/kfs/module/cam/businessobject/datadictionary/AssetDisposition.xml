@@ -22,7 +22,6 @@
         <ref bean="AssetDisposition-dispositionDate" />
         <ref bean="AssetDisposition-dispositionOriginationCode" />
         <ref bean="AssetDisposition-originalCapitalAssetNumber" />
-        <ref bean="AssetDisposition-versionNumber" />
       </list>
     </property>
   </bean>
@@ -119,10 +118,6 @@
     </property>
     <property name="summary" value="originalCapitalAssetNumber" />
     <property name="description" value="originalCapitalAssetNumber description..." />
-  </bean>
-  <bean id="AssetDisposition-versionNumber" parent="AssetDisposition-versionNumber-parentBean" />
-
-  <bean id="AssetDisposition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

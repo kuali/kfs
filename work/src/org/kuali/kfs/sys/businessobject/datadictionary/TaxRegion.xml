@@ -26,7 +26,6 @@
         <ref bean="TaxRegion-accountNumber" />
         <ref bean="TaxRegion-financialObjectCode" />
         <ref bean="TaxRegion-active" />
-        <ref bean="TaxRegion-versionNumber" />
       </list>
     </property>
   </bean>
@@ -122,10 +121,6 @@
       <property name="name" value="active" />
   </bean>
 
-  <bean id="TaxRegion-versionNumber" parent="TaxRegion-versionNumber-parentBean" />
-
-  <bean id="TaxRegion-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
-
 <!-- Business Object Lookup Definition -->
 
 
@@ -184,7 +179,6 @@
         <ref bean="TaxRegionRate-taxRegionCode" />
         <ref bean="TaxRegionRate-effectiveDate" />
         <ref bean="TaxRegionRate-taxRate" />
-        <ref bean="TaxRegionRate-versionNumber" />
       </list>
     </property>
   </bean>
@@ -224,9 +218,6 @@
     <property name="description" value="Tax rate." />
   </bean>
   
-  <bean id="TaxRegionRate-versionNumber" parent="TaxRegionRate-versionNumber-parentBean" />
-  <bean id="TaxRegionRate-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
-
   <bean id="TaxRegion-inquiryDefinition" parent="TaxRegion-inquiryDefinition-parentBean" />
 
   <bean id="TaxRegion-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" 

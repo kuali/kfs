@@ -22,7 +22,6 @@
         <ref bean="RoutingFormOrganization-organizationCode" />
         <ref bean="RoutingFormOrganization-routingFormPrimaryOrganizationIndicator" />
         <ref bean="RoutingFormOrganization-documentNumber" />
-        <ref bean="RoutingFormOrganization-versionNumber" />
       </list>
     </property>
   </bean>
@@ -112,10 +111,6 @@
     </property>
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
-  </bean>
-  <bean id="RoutingFormOrganization-versionNumber" parent="RoutingFormOrganization-versionNumber-parentBean" />
-
-  <bean id="RoutingFormOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

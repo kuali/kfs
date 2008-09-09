@@ -21,7 +21,6 @@
         <ref bean="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode" />
         <ref bean="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName" />
         <ref bean="UniversityBudgetOfficeFunction-active" />
-        <ref bean="UniversityBudgetOfficeFunction-versionNumber" />
       </list>
     </property>
   </bean>
@@ -66,10 +65,6 @@
     <property name="name" value="active" />
   </bean>
 
-  <bean id="UniversityBudgetOfficeFunction-versionNumber" parent="UniversityBudgetOfficeFunction-versionNumber-parentBean" />
-
-  <bean id="UniversityBudgetOfficeFunction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

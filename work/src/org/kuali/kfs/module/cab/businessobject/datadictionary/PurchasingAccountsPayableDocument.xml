@@ -22,7 +22,6 @@
         <ref bean="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" />
         <ref bean="PurchasingAccountsPayableDocument-active" />
         <ref bean="PurchasingAccountsPayableDocument-documentTypeCode" />
-        <ref bean="PurchasingAccountsPayableDocument-versionNumber" />
         <ref bean="PurchasingAccountsPayableDocument-purApContactEmailAddress" />
         <ref bean="PurchasingAccountsPayableDocument-purApContactPhoneNumber" />
       </list>
@@ -63,10 +62,6 @@
 
   <bean id="PurchasingAccountsPayableDocument-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="active" />
-  </bean>
-  <bean id="PurchasingAccountsPayableDocument-versionNumber" parent="PurchasingAccountsPayableDocument-versionNumber-parentBean" />
-
-  <bean id="PurchasingAccountsPayableDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="PurchasingAccountsPayableDocument-documentTypeCode" parent="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" />
 

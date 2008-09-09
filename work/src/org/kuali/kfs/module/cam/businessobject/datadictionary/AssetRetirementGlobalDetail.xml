@@ -65,7 +65,6 @@
         <ref bean="AssetRetirementGlobalDetail-asset.accumulatedDepreciation" />
         <ref bean="AssetRetirementGlobalDetail-asset.bookValue" />
         <ref bean="AssetRetirementGlobalDetail-assetRetirementGlobal.retirementDate" />
-        <ref bean="AssetRetirementGlobalDetail-versionNumber" />
       </list>
     </property>
   </bean>
@@ -481,10 +480,6 @@
 
   <bean id="AssetRetirementGlobalDetail-assetRetirementGlobal.retirementDate-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementDate">
     <property name="name" value="assetRetirementGlobal.retirementDate" />
-  </bean>
-  <bean id="AssetRetirementGlobalDetail-versionNumber" parent="AssetRetirementGlobalDetail-versionNumber-parentBean" />
-
-  <bean id="AssetRetirementGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

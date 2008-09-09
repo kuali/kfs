@@ -28,7 +28,6 @@
         <ref bean="PurchasingAccountsPayableItemAsset-manufacturerName" />
         <ref bean="PurchasingAccountsPayableItemAsset-manufacturerModelNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber" />
-        <ref bean="PurchasingAccountsPayableItemAsset-versionNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-itemLineNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode" />
         <ref bean="PurchasingAccountsPayableItemAsset-itemTypeCode" />
@@ -258,10 +257,6 @@
     <property name="description" value="capitalAssetManagementDocumentNumber description..." />
   </bean>
 
-  <bean id="PurchasingAccountsPayableItemAsset-versionNumber" parent="PurchasingAccountsPayableItemAsset-versionNumber-parentBean" />
-
-  <bean id="PurchasingAccountsPayableItemAsset-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
   <bean id="PurchasingAccountsPayableItemAsset-itemLineNumber" parent="PurchasingAccountsPayableItemAsset-itemLineNumber-parentBean" />
 

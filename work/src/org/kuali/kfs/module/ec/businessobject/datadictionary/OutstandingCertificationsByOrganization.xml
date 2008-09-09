@@ -26,7 +26,6 @@
         <ref bean="OutstandingCertificationsByOrganization-universityFiscalYear" />
         <ref bean="OutstandingCertificationsByOrganization-effortCertificationReportNumber" />
         <ref bean="OutstandingCertificationsByOrganization-nextApprovers" />
-        <ref bean="OutstandingCertificationsByOrganization-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -146,10 +145,6 @@
   <bean id="OutstandingCertificationsByOrganization-effortCertificationReportNumber" parent="OutstandingCertificationsByOrganization-effortCertificationReportNumber-parentBean" />
 
   <bean id="OutstandingCertificationsByOrganization-effortCertificationReportNumber-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportNumber">
-  </bean>
-  <bean id="OutstandingCertificationsByOrganization-versionNumber" parent="OutstandingCertificationsByOrganization-versionNumber-parentBean" />
-
-  <bean id="OutstandingCertificationsByOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Lookup Definition -->

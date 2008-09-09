@@ -37,7 +37,6 @@
         <ref bean="Pretag-serialNumbers" />
         <ref bean="Pretag-pretagDetails.campusTagNumber" />
         <ref bean="Pretag-pretagDetails.serialNumber" />
-        <ref bean="Pretag-versionNumber" />
       </list>
     </property>
     <property name="collections" >
@@ -341,10 +340,6 @@
 
   <bean id="Pretag-pretagDetails.serialNumber-parentBean" abstract="true" parent="PretagDetail-serialNumber">
     <property name="name" value="pretagDetails.serialNumber" />
-  </bean>
-  <bean id="Pretag-versionNumber" parent="Pretag-versionNumber-parentBean" />
-
-  <bean id="Pretag-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

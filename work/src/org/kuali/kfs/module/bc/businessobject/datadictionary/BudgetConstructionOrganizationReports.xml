@@ -25,7 +25,6 @@
         <ref bean="BudgetConstructionOrganizationReports-reportsToOrganizationCode" />
         <ref bean="BudgetConstructionOrganizationReports-responsibilityCenterCode" />
         <ref bean="BudgetConstructionOrganizationReports-selectionKeyCode" />
-        <ref bean="BudgetConstructionOrganizationReports-versionNumber" />
       </list>
     </property>
   </bean>
@@ -117,10 +116,6 @@
     </property>
     <property name="summary" value="Point Of View Organization Selection Key" />
     <property name="description" value="The composite key uniquely identifying a point of view organization." />
-  </bean>
-  <bean id="BudgetConstructionOrganizationReports-versionNumber" parent="BudgetConstructionOrganizationReports-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionOrganizationReports-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

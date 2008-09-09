@@ -212,7 +212,11 @@ public class AccountingLineViewLine implements ReadOnlyable, AccountingLineViewL
         int count = 0;
         for (RenderableElement element : elements) {
             if (!element.isHidden()) {
-                count += 1;
+                if (element instanceof AccountingLineViewField && ((AccountingLineViewField)element).getColSpanOverride() > 1) {
+                    count += ((AccountingLineViewField)element).getColSpanOverride();
+                } else {
+                    count += 1;
+                }
             }
         }
         return count;

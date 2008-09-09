@@ -330,6 +330,47 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     }
     
     /**
+     * If the field definition had an override col span greater than 1 and it doesn't seem as if
+     * the given cell had its colspan lengthened already, this method will increase the colspan
+     * of the table cell to whatever is listed
+     * @param cell the cell to possibly lengthen
+     */
+    protected void updateTableCellWithColSpanOverride(AccountingLineTableCell cell) {
+        if (definition.getOverrideColSpan() > 1 && cell.getColSpan() == 1) {
+            cell.setColSpan(definition.getOverrideColSpan());
+        }
+    }
+    
+    /**
+     * Overridden to allow for colspan override
+     * @see org.kuali.kfs.sys.document.web.FieldTableJoiningWithHeader#createHeaderLabelTableCell()
+     */
+    @Override
+    protected AccountingLineTableCell createHeaderLabelTableCell() {
+        AccountingLineTableCell cell = super.createHeaderLabelTableCell();
+        updateTableCellWithColSpanOverride(cell);
+        return cell;
+    }
+    
+    /**
+     * Overridden to allow for colspan override
+     * @see org.kuali.kfs.sys.document.web.FieldTableJoining#createTableCell()
+     */
+    @Override
+    protected AccountingLineTableCell createTableCell() {
+        AccountingLineTableCell cell = super.createTableCell();
+        updateTableCellWithColSpanOverride(cell);
+        return cell;
+    }
+    
+    /**
+     * @return the colspan override of this field
+     */
+    public int getColSpanOverride() {
+        return definition.getOverrideColSpan();
+    }
+    
+    /**
      * @see org.kuali.kfs.sys.document.web.HeaderLabelPopulating#populateHeaderLabel(org.kuali.kfs.sys.document.web.HeaderLabel, org.kuali.kfs.sys.document.web.AccountingLineRenderingContext)
      */
     public void populateHeaderLabel(HeaderLabel headerLabel, AccountingLineRenderingContext renderingContext) {

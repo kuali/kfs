@@ -42,6 +42,8 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     private boolean hidden = false;
     private List<AccountingLineViewOverrideFieldDefinition> overrideFields;
     private String dynamicNameLabelGeneratorBeanName;
+    private int overrideColSpan = -1;
+    
     private DynamicNameLabelGenerator dynamicNameLabelGenerator;
 
     /**
@@ -124,6 +126,22 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
         this.dynamicNameLabelGeneratorBeanName = dynamicNameLabelGeneratorBeanName;
     }
     
+    /**
+     * Gets the overrideColSpan attribute. 
+     * @return Returns the overrideColSpan.
+     */
+    public int getOverrideColSpan() {
+        return overrideColSpan;
+    }
+
+    /**
+     * Sets the overrideColSpan attribute value.
+     * @param overrideColSpan The overrideColSpan to set.
+     */
+    public void setOverrideColSpan(int overrideColSpan) {
+        this.overrideColSpan = overrideColSpan;
+    }
+
     /**
      * Returns the dynamicNameLabelGenerator for this field definition, if it has one
      * @return an implementation of DynamicNameLabelGenerator to use for this field

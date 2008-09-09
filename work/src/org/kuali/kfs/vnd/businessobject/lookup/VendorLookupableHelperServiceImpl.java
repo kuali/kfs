@@ -67,9 +67,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         if (vendor.isVendorParentIndicator() && vendor.isActiveIndicator()) {
             // only allow active parent vendors to create new divisions
             anchorHtmlDataList.add(super.getURLData(
-                    businessObject, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION, VendorConstants.CREATE_NEW, pkNames));
-            anchorHtmlDataList.add(super.getURLData(
-                    businessObject, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION, VendorConstants.DIVISION, pkNames));
+                    businessObject, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION, VendorConstants.CREATE_DIVISION, pkNames));
         }
         return anchorHtmlDataList;
     }

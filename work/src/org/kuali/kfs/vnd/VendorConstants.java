@@ -40,8 +40,7 @@ public class VendorConstants {
 
     // Miscellaneous generic constants
     public static final String NONE = "NONE";
-    public static final String CREATE_NEW = "create";
-    public static final String DIVISION = "division";
+    public static final String CREATE_DIVISION = "create division";
     public static final String NAME_DELIM = ", ";
     public static final String DASH = "-";
     public static final String VENDOR_HEADER_ATTR = "vendorHeader";

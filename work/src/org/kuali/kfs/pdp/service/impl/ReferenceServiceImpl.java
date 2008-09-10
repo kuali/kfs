@@ -40,10 +40,6 @@ public class ReferenceServiceImpl implements ReferenceService {
         super();
     }
 
-    /*public Code getCode(String type, String key) {
-        return referenceDao.getCode(type, key);
-    }*/
-
     public Map getallMap(String type) {
         return referenceDao.getAllMap(type);
     }
@@ -52,21 +48,9 @@ public class ReferenceServiceImpl implements ReferenceService {
         return referenceDao.getAll(type);
     }
 
-    /*public Code addCode(String type, String code, String description, UniversalUser u) {
-        return referenceDao.addCode(type, code, description, u);
-    }*/
-
     public void updateCode(String code, String description, String type, UniversalUser u) {
         referenceDao.updateCode(code, description, type, u);
     }
-
-    /*public void updateCode(Code item, UniversalUser u) {
-        referenceDao.updateCode(item, u);
-    }*/
-
-    /*public void deleteCode(Code item) {
-        referenceDao.deleteCode(item);
-    }*/
 
     public void setReferenceDao(ReferenceDao r) {
         this.referenceDao = r;

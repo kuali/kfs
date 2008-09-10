@@ -29,17 +29,10 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
  * 
  */
 public interface ReferenceService {
-    //public Code getCode(String type, String key);
 
     public List getAll(String type);
 
     public Map getallMap(String type);
 
-    //public Code addCode(String type, String code, String description, UniversalUser u);
-
     public void updateCode(String code, String description, String type, UniversalUser u);
-
-    //public void updateCode(Code item, UniversalUser u);
-
-    //public void deleteCode(Code item);
 }

@@ -489,9 +489,7 @@ public class FormatServiceImpl implements FormatService {
                     pg.setDisbursementNbr(new Integer(number));
 
                     range.setLastAssignedDisbNbr(new Integer(number));
-                    //range.setLastUpdateUser(p.getProcessUser());
-                    //range.setLastUpdate(nowTs); // This is needed so we know which ranges to save at the end of the format
-
+                    
                     // Update the summary information
                     fps.setDisbursementNumber(pg, new Integer(number));
                 }
@@ -506,9 +504,7 @@ public class FormatServiceImpl implements FormatService {
                 pg.setDisbursementNbr(new Integer(number));
 
                 range.setLastAssignedDisbNbr(new Integer(number));
-                //range.setLastUpdateUser(p.getProcessUser());
-                //range.setLastUpdate(nowTs); // This is needed so we know which ranges to save at the end of the format
-
+                
                 // Update the summary information
                 fps.setDisbursementNumber(pg, new Integer(number));
             }
@@ -531,10 +527,8 @@ public class FormatServiceImpl implements FormatService {
         int rc = 0;
         for (Iterator iter = disbursementRanges.iterator(); iter.hasNext();) {
             DisbursementNumberRange element = (DisbursementNumberRange) iter.next();
-            //if (nowTs.equals(element.getLastUpdate())) {
                 rc++;
                 paymentDetailDao.saveDisbursementNumberRange(element);
-            //}
         }
         LOG.debug("pass2() " + rc + " ranges saved");
     }

@@ -219,6 +219,23 @@
 	</reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory" table="CB_PUR_ACTN_HIST_T">
+	<field-descriptor name="actionIdentifier" column="ACTN_ID" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="actionTypeCode" column="ACTN_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="fromDocumentNumber" column="FRM_FDOC_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="fromPurApLineItemIdentifier" column="FRM_PUR_ITM_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="fromCabLineNumber" column="FRM_CB_LN_NBR" jdbc-type="INTEGER"/>
+	<field-descriptor name="toDocumentNumber" column="TO_FDOC_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="toPurApLineItemIdentifier" column="TO_PUR_ITM_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="toCabLineNumber" column="TO_CB_LN_NBR" jdbc-type="INTEGER"/>
+	<field-descriptor name="generalLedgerAccountIdentifier" column="CB_GL_ACCT_ID" jdbc-type="BIGINT"/>
+	<field-descriptor name="itemAccountTotalAmount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="accountsPayableItemQuantity" column="PUR_ITM_QTY" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableAssetDetail" table="CB_PUR_AST_DTL_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountsPayableLineItemIdentifier" column="PUR_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>

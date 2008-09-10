@@ -21,6 +21,7 @@
         <ref bean="BudgetConstructionReasonCodePick-personUniversalIdentifier" />
         <ref bean="BudgetConstructionReasonCodePick-selectFlag" />
         <ref bean="BudgetConstructionReasonCodePick-appointmentFundingReason.appointmentFundingReasonDescription" />
+        <ref bean="BudgetConstructionReasonCodePick-versionNumber" />
       </list>
     </property>
   </bean>
@@ -86,6 +87,10 @@
 
   <bean id="BudgetConstructionReasonCodePick-appointmentFundingReason.appointmentFundingReasonDescription-parentBean" abstract="true" parent="BudgetConstructionAppointmentFundingReasonCode-appointmentFundingReasonDescription">
     <property name="name" value="appointmentFundingReason.appointmentFundingReasonDescription" />
+  </bean>
+  <bean id="BudgetConstructionReasonCodePick-versionNumber" parent="BudgetConstructionReasonCodePick-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionReasonCodePick-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -64,6 +64,8 @@
               p:name="grade" />
         <bean parent="MaintainableFieldDefinition"
               p:name="iuClassificationLevel" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>

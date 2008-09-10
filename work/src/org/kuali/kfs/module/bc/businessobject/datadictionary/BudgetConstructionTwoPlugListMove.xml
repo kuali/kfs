@@ -24,6 +24,7 @@
         <ref bean="BudgetConstructionTwoPlugListMove-organizationCode" />
         <ref bean="BudgetConstructionTwoPlugListMove-personUniversalIdentifier" />
         <ref bean="BudgetConstructionTwoPlugListMove-subAccountNumber" />
+        <ref bean="BudgetConstructionTwoPlugListMove-versionNumber" />
       </list>
     </property>
   </bean>
@@ -156,6 +157,10 @@
     </property>
     <property name="summary" value="subAccountNumber" />
     <property name="description" value="subAccountNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionTwoPlugListMove-versionNumber" parent="BudgetConstructionTwoPlugListMove-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionTwoPlugListMove-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

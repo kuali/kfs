@@ -29,6 +29,7 @@
 				<ref
 					bean="FunctionalFieldDescription-description" />
 				<ref bean="FunctionalFieldDescription-active" />
+				<ref bean="FunctionalFieldDescription-versionNumber" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -149,6 +150,12 @@
 		abstract="true" parent="GenericAttributes-activeIndicator">
 		<property name="name" value="active" />
 	</bean>
+
+	<bean id="FunctionalFieldDescription-versionNumber"
+		parent="FunctionalFieldDescription-versionNumber-parentBean" />
+
+	<bean id="FunctionalFieldDescription-versionNumber-parentBean"
+		abstract="true" parent="GenericAttributes-versionNumber" />
 
 	<!-- Business Object Lookup Definition -->
 	<bean id="FunctionalFieldDescription-lookupDefinition"

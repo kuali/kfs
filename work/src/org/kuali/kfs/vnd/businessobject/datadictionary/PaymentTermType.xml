@@ -26,6 +26,7 @@
         <ref bean="PaymentTermType-vendorPaymentTermsDescription" />
         <ref bean="PaymentTermType-vendorPaymentTermsPercent" />
         <ref bean="PaymentTermType-active" />
+        <ref bean="PaymentTermType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -154,6 +155,10 @@
 
   <bean id="PaymentTermType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="PaymentTermType-versionNumber" parent="PaymentTermType-versionNumber-parentBean" />
+
+  <bean id="PaymentTermType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

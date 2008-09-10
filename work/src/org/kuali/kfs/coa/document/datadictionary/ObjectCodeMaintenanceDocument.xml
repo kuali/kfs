@@ -135,6 +135,8 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="nextYearFinancialObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>

@@ -64,6 +64,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="depreciationConventionCode"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>

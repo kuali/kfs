@@ -23,6 +23,7 @@
         <ref bean="NonAppliedDistribution-referenceFinancialDocumentNumber" />
         <ref bean="NonAppliedDistribution-universityFiscalPeriodCode" />
         <ref bean="NonAppliedDistribution-universityFiscalYear" />
+        <ref bean="NonAppliedDistribution-versionNumber" />
       </list>
     </property>
   </bean>
@@ -137,6 +138,10 @@
     </property>
     <property name="summary" value="universityFiscalYear" />
     <property name="description" value="universityFiscalYear description..." />
+  </bean>
+  <bean id="NonAppliedDistribution-versionNumber" parent="NonAppliedDistribution-versionNumber-parentBean" />
+
+  <bean id="NonAppliedDistribution-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

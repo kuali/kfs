@@ -16,6 +16,7 @@
         <ref bean="CapitalAssetSystemState-active" />
         <ref bean="CapitalAssetSystemState-capitalAssetSystemStateCode" />
         <ref bean="CapitalAssetSystemState-capitalAssetSystemStateDescription" />
+        <ref bean="CapitalAssetSystemState-versionNumber" />
       </list>
     </property>
   </bean>
@@ -62,6 +63,11 @@
     </property>
   </bean>
 
+  <bean id="CapitalAssetSystemState-versionNumber" parent="CapitalAssetSystemState-versionNumber-parentBean" />
+  <bean id="CapitalAssetSystemState-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" 
+        p:name="versionNumber"
+        p:required="false" />
+
   <bean id="CapitalAssetSystemState-inquiryDefinition" parent="CapitalAssetSystemState-inquiryDefinition-parentBean" />
 
   <bean id="CapitalAssetSystemState-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
@@ -76,6 +82,7 @@
               <bean parent="FieldDefinition" p:attributeName="active" />
               <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateCode" />
               <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateDescription" />
+              <bean parent="FieldDefinition" p:attributeName="versionNumber" />
             </list>
           </property>
         </bean>
@@ -97,6 +104,7 @@
         <bean parent="FieldDefinition" p:attributeName="active" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateCode" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateDescription" />
+        <bean parent="FieldDefinition" p:attributeName="versionNumber" />
       </list>
     </property>
     <property name="resultFields" >
@@ -104,6 +112,7 @@
         <bean parent="FieldDefinition" p:attributeName="active" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateCode" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateDescription" />
+        <bean parent="FieldDefinition" p:attributeName="versionNumber" />
       </list>
     </property>
   </bean>

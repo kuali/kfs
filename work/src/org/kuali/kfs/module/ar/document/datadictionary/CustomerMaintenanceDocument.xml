@@ -90,6 +90,8 @@
               p:name="customerAddressChangeDate"
               p:readOnly="true" />
 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -112,6 +114,8 @@
               p:name="customerCreditApprovedByName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerCreditLimitAmount" />
+  <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -138,6 +142,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="customerContactPhoneNumber" />
 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -193,6 +199,8 @@
                     p:name="customerEmailAddress" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerAddressEndDate" />     
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
             </list>
           </property>
         </bean>

@@ -22,6 +22,7 @@
         <ref bean="VendorCommodityCode-purchasingCommodityCode" />
         <ref bean="VendorCommodityCode-vendorHeaderGeneratedIdentifier" />
         <ref bean="VendorCommodityCode-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorCommodityCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -59,6 +60,10 @@
   <bean id="VendorCommodityCode-vendorDetailAssignedIdentifier" parent="VendorCommodityCode-vendorDetailAssignedIdentifier-parentBean" />
 
   <bean id="VendorCommodityCode-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="VendorCommodityCode-versionNumber" parent="VendorCommodityCode-versionNumber-parentBean" />
+
+  <bean id="VendorCommodityCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

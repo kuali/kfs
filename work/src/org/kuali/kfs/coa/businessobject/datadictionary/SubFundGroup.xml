@@ -22,12 +22,14 @@
         <ref bean="SubFundGroup-codeAndDescription" />
         <ref bean="SubFundGroup-active" />
         <ref bean="SubFundGroup-subFundGroupWagesIndicator" />
+        <ref bean="SubFundGroup-objectId" />
         <ref bean="SubFundGroup-fundGroupCode" />
         <ref bean="SubFundGroup-subFundGroupTypeCode" />
         <ref bean="SubFundGroup-subFundGroupDescription" />
         <ref bean="SubFundGroup-accountRestrictedStatusCode" />
         <ref bean="SubFundGroup-financialReportingSortCode" />
         <ref bean="SubFundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode" />
+        <ref bean="SubFundGroup-versionNumber" />
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -85,6 +87,10 @@
     <property name="name" value="subFundGroupWagesIndicator" />
     <property name="label" value="Wage Indicator" />
     <property name="shortLabel" value="Indicator" />
+  </bean>
+  <bean id="SubFundGroup-objectId" parent="SubFundGroup-objectId-parentBean" />
+
+  <bean id="SubFundGroup-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
   <bean id="SubFundGroup-fundGroupCode" parent="SubFundGroup-fundGroupCode-parentBean" />
 
@@ -161,6 +167,10 @@
             p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.BudgetAdjustmentSubFundRestrictionsValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
+  </bean>
+  <bean id="SubFundGroup-versionNumber" parent="SubFundGroup-versionNumber-parentBean" />
+
+  <bean id="SubFundGroup-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

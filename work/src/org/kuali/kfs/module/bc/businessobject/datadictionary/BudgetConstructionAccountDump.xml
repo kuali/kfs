@@ -22,6 +22,7 @@
         <ref bean="BudgetConstructionAccountDump-personUniversalIdentifier" />
         <ref bean="BudgetConstructionAccountDump-subAccountNumber" />
         <ref bean="BudgetConstructionAccountDump-universityFiscalYear" />
+        <ref bean="BudgetConstructionAccountDump-versionNumber" />
       </list>
     </property>
   </bean>
@@ -118,6 +119,10 @@
     </property>
     <property name="summary" value="universityFiscalYear" />
     <property name="description" value="universityFiscalYear description..." />
+  </bean>
+  <bean id="BudgetConstructionAccountDump-versionNumber" parent="BudgetConstructionAccountDump-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionAccountDump-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

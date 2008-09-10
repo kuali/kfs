@@ -60,6 +60,7 @@
         <ref bean="ProcurementCardTransaction-vendorStateCode" />
         <ref bean="ProcurementCardTransaction-vendorZipCode" />
         <ref bean="ProcurementCardTransaction-visaVendorIdentifier" />
+        <ref bean="ProcurementCardTransaction-versionNumber" />
       </list>
     </property>
   </bean>
@@ -288,5 +289,9 @@
   <bean id="ProcurementCardTransaction-visaVendorIdentifier" parent="ProcurementCardTransaction-visaVendorIdentifier-parentBean" />
 
   <bean id="ProcurementCardTransaction-visaVendorIdentifier-parentBean" abstract="true" parent="ProcurementCardVendor-visaVendorIdentifier">
+  </bean>
+  <bean id="ProcurementCardTransaction-versionNumber" parent="ProcurementCardTransaction-versionNumber-parentBean" />
+
+  <bean id="ProcurementCardTransaction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

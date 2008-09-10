@@ -36,6 +36,7 @@
         <ref bean="AssetComponent-componentWarrantyNumber" />
         <ref bean="AssetComponent-componentWarrantyPurchaseOrderNumber" />
         <ref bean="AssetComponent-componentWarrantyText" />
+        <ref bean="AssetComponent-versionNumber" />
         <ref bean="AssetComponent-componentWarrantyPhoneNumber" />
         <ref bean="AssetComponent-governmentTagNumber" />
         <ref bean="AssetComponent-nationalStockNumber" />
@@ -360,6 +361,10 @@
     </property>
     <property name="summary" value="componentWarrantyText" />
     <property name="description" value="componentWarrantyText description..." />
+  </bean>
+  <bean id="AssetComponent-versionNumber" parent="AssetComponent-versionNumber-parentBean" />
+
+  <bean id="AssetComponent-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AssetComponent-componentWarrantyPhoneNumber" parent="AssetComponent-componentWarrantyPhoneNumber-parentBean" />
 

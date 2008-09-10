@@ -29,6 +29,7 @@
         <ref bean="PendingBudgetConstructionGeneralLedger-financialSubObjectCode" />
         <ref bean="PendingBudgetConstructionGeneralLedger-subAccountNumber" />
         <ref bean="PendingBudgetConstructionGeneralLedger-universityFiscalYear" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-versionNumber" />
         <ref bean="PendingBudgetConstructionGeneralLedger-adjustmentAmount" />
       </list>
     </property>
@@ -261,6 +262,10 @@
     </property>
     <property name="summary" value="universityFiscalYear" />
     <property name="description" value="universityFiscalYear description..." />
+  </bean>
+  <bean id="PendingBudgetConstructionGeneralLedger-versionNumber" parent="PendingBudgetConstructionGeneralLedger-versionNumber-parentBean" />
+
+  <bean id="PendingBudgetConstructionGeneralLedger-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
   <bean id="PendingBudgetConstructionGeneralLedger-adjustmentAmount" parent="PendingBudgetConstructionGeneralLedger-adjustmentAmount-parentBean" />

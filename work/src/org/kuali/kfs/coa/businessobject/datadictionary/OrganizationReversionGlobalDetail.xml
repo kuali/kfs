@@ -16,6 +16,7 @@
         <ref bean="OrganizationReversionGlobalDetail-organizationReversionObjectCode" />
         <ref bean="OrganizationReversionGlobalDetail-organizationReversionCode" />
         <ref bean="OrganizationReversionGlobalDetail-newCollectionRecord" />
+        <ref bean="OrganizationReversionGlobalDetail-versionNumber" />
       </list>
     </property>
   </bean>
@@ -74,5 +75,9 @@
   <bean id="OrganizationReversionGlobalDetail-newCollectionRecord" parent="OrganizationReversionGlobalDetail-newCollectionRecord-parentBean" />
 
   <bean id="OrganizationReversionGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
+  </bean>
+  <bean id="OrganizationReversionGlobalDetail-versionNumber" parent="OrganizationReversionGlobalDetail-versionNumber-parentBean" />
+
+  <bean id="OrganizationReversionGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

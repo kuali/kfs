@@ -21,6 +21,7 @@
         <ref bean="DueDateType-approvalLeadTime" />
         <ref bean="DueDateType-dueDateDescription" />
         <ref bean="DueDateType-dueDateTypeCode" />
+        <ref bean="DueDateType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -87,6 +88,10 @@
     </property>
     <property name="summary" value="dueDateTypeCode" />
     <property name="description" value="dueDateTypeCode description..." />
+  </bean>
+  <bean id="DueDateType-versionNumber" parent="DueDateType-versionNumber-parentBean" />
+
+  <bean id="DueDateType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

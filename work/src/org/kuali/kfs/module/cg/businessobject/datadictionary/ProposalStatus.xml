@@ -20,6 +20,7 @@
         <ref bean="ProposalStatus-proposalStatusCode" />
         <ref bean="ProposalStatus-proposalStatusDescription" />
         <ref bean="ProposalStatus-active" />
+        <ref bean="ProposalStatus-versionNumber" />
       </list>
     </property>
   </bean>
@@ -71,6 +72,10 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
+  </bean>
+  <bean id="ProposalStatus-versionNumber" parent="ProposalStatus-versionNumber-parentBean" />
+
+  <bean id="ProposalStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

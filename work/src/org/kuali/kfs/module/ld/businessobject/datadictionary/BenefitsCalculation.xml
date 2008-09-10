@@ -23,6 +23,7 @@
         <ref bean="BenefitsCalculation-positionFringeBenefitObjectCode" />
         <ref bean="BenefitsCalculation-positionBenefitTypeCode" />
         <ref bean="BenefitsCalculation-positionFringeBenefitPercent" />
+        <ref bean="BenefitsCalculation-versionNumber" />
       </list>
     </property>
   </bean>
@@ -64,6 +65,10 @@
       <bean parent="TextControlDefinition"
             p:size="24" />
     </property>
+  </bean>
+  <bean id="BenefitsCalculation-versionNumber" parent="BenefitsCalculation-versionNumber-parentBean" />
+
+  <bean id="BenefitsCalculation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

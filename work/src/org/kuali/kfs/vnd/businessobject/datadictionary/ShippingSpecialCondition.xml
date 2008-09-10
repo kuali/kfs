@@ -21,6 +21,7 @@
         <ref bean="ShippingSpecialCondition-vendorShippingSpecialConditionCode" />
         <ref bean="ShippingSpecialCondition-vendorShippingSpecialConditionDescription" />
         <ref bean="ShippingSpecialCondition-active" />
+        <ref bean="ShippingSpecialCondition-versionNumber" />
       </list>
     </property>
   </bean>
@@ -65,6 +66,10 @@
 
   <bean id="ShippingSpecialCondition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="ShippingSpecialCondition-versionNumber" parent="ShippingSpecialCondition-versionNumber-parentBean" />
+
+  <bean id="ShippingSpecialCondition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -24,6 +24,7 @@
         <ref bean="ProcurementCardVendor-vendorOrderNumber" />
         <ref bean="ProcurementCardVendor-vendorStateCode" />
         <ref bean="ProcurementCardVendor-vendorZipCode" />
+        <ref bean="ProcurementCardVendor-versionNumber" />
         <ref bean="ProcurementCardVendor-visaVendorIdentifier" />
       </list>
     </property>
@@ -138,6 +139,10 @@
     <property name="label" value="Vendor Postal (ZIP) Code" />
     <property name="shortLabel" value="Code" />
   </bean>
+  <bean id="ProcurementCardVendor-versionNumber" parent="ProcurementCardVendor-versionNumber-parentBean" />
+
+  <bean id="ProcurementCardVendor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
   <bean id="ProcurementCardVendor-visaVendorIdentifier" parent="ProcurementCardVendor-visaVendorIdentifier-parentBean" />
 
   <bean id="ProcurementCardVendor-visaVendorIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
@@ -186,6 +191,8 @@
                     p:attributeName="vendorStateCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="vendorZipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="versionNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="visaVendorIdentifier" />
             </list>

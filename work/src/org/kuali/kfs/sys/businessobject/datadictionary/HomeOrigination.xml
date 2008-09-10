@@ -19,6 +19,7 @@
     <property name="attributes" >
       <list>
         <ref bean="HomeOrigination-finSystemHomeOriginationCode" />
+        <ref bean="HomeOrigination-versionNumber" />
       </list>
     </property>
   </bean>
@@ -34,6 +35,10 @@
     <property name="shortLabel" value="Home Orig Code" />
     <property name="summary" value="Home Origination Code" />
     <property name="description" value="The code uniquely identify a Home Origination." />
+  </bean>
+  <bean id="HomeOrigination-versionNumber" parent="HomeOrigination-versionNumber-parentBean" />
+
+  <bean id="HomeOrigination-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

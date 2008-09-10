@@ -19,6 +19,7 @@
       <list>
         <ref bean="RoutingFormKeyword-routingFormKeywordDescription" />
         <ref bean="RoutingFormKeyword-documentNumber" />
+        <ref bean="RoutingFormKeyword-versionNumber" />
       </list>
     </property>
   </bean>
@@ -62,6 +63,10 @@
     </property>
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="RoutingFormKeyword-versionNumber" parent="RoutingFormKeyword-versionNumber-parentBean" />
+
+  <bean id="RoutingFormKeyword-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

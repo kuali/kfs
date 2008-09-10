@@ -15,6 +15,7 @@
         <ref bean="VendorDefaultAddress-vendorDefaultAddressGeneratedIdentifier" />
         <ref bean="VendorDefaultAddress-vendorCampusCode" />
         <ref bean="VendorDefaultAddress-newCollectionRecord" />
+        <ref bean="VendorDefaultAddress-versionNumber" />
         <ref bean="VendorDefaultAddress-active" />
       </list>
     </property>
@@ -52,6 +53,10 @@
   <bean id="VendorDefaultAddress-newCollectionRecord" parent="VendorDefaultAddress-newCollectionRecord-parentBean" />
 
   <bean id="VendorDefaultAddress-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
+  </bean>
+  <bean id="VendorDefaultAddress-versionNumber" parent="VendorDefaultAddress-versionNumber-parentBean" />
+
+  <bean id="VendorDefaultAddress-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorDefaultAddress-active" parent="VendorDefaultAddress-active-parentBean" />
 

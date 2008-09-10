@@ -47,6 +47,7 @@
         <ref bean="LedgerBalanceForBenefitExpenseTransfer-month12Amount" />
         <ref bean="LedgerBalanceForBenefitExpenseTransfer-month13Amount" />
         <ref bean="LedgerBalanceForBenefitExpenseTransfer-transactionDateTimeStamp" />
+        <ref bean="LedgerBalanceForBenefitExpenseTransfer-versionNumber" />
         <ref bean="LedgerBalanceForBenefitExpenseTransfer-dummyBusinessObject.genericAmount" />
       </list>
     </property>
@@ -282,6 +283,10 @@
     <property name="name" value="transactionDateTimeStamp" />
     <property name="label" value="Transaction Entry Processed" />
     <property name="shortLabel" value="Entry Processed" />
+  </bean>
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-versionNumber" parent="LedgerBalanceForBenefitExpenseTransfer-versionNumber-parentBean" />
+
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="LedgerBalanceForBenefitExpenseTransfer-dummyBusinessObject.genericAmount" parent="LedgerBalanceForBenefitExpenseTransfer-dummyBusinessObject.genericAmount-parentBean" />
 

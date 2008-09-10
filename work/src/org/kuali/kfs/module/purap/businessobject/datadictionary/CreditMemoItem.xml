@@ -24,6 +24,7 @@
         <ref bean="CreditMemoItem-extendedPrice" />
         <ref bean="CreditMemoItem-itemCatalogNumber" />
         <ref bean="CreditMemoItem-itemDescription" />
+        <ref bean="CreditMemoItem-versionNumber" />
       </list>
     </property>
   </bean>
@@ -160,5 +161,9 @@
             p:rows="2"
             p:cols="20" />
     </property>
+  </bean>
+  <bean id="CreditMemoItem-versionNumber" parent="CreditMemoItem-versionNumber-parentBean" />
+
+  <bean id="CreditMemoItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

@@ -45,6 +45,7 @@
         <ref bean="OrganizationAccountingDefault-writeoffProjectCode" />
         <ref bean="OrganizationAccountingDefault-writeoffOrganizationReferenceIdentifier" />
         <ref bean="OrganizationAccountingDefault-universityFiscalYear" />
+        <ref bean="OrganizationAccountingDefault-versionNumber" />
       </list>
     </property>
   </bean>
@@ -282,6 +283,10 @@
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
     <property name="required" value="true" />
+  </bean>
+  <bean id="OrganizationAccountingDefault-versionNumber" parent="OrganizationAccountingDefault-versionNumber-parentBean" />
+
+  <bean id="OrganizationAccountingDefault-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

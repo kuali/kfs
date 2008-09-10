@@ -20,6 +20,7 @@
         <ref bean="CustomerProcessingType-active" />
         <ref bean="CustomerProcessingType-customerSpecialProcessingCode" />
         <ref bean="CustomerProcessingType-customerSpecialProcessingDescription" />
+        <ref bean="CustomerProcessingType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -76,6 +77,10 @@
     </property>
     <property name="summary" value="customerSpecialProcessingDescription" />
     <property name="description" value="customerSpecialProcessingDescription description..." />
+  </bean>
+  <bean id="CustomerProcessingType-versionNumber" parent="CustomerProcessingType-versionNumber-parentBean" />
+
+  <bean id="CustomerProcessingType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -26,6 +26,8 @@
         <ref bean="GraduateAssistantRate-campusMaximumPeriod4Rate" />
         <ref bean="GraduateAssistantRate-campusMaximumPeriod5Rate" />
         <ref bean="GraduateAssistantRate-campusMaximumPeriod6Rate" />
+        <ref bean="GraduateAssistantRate-objectId" />
+        <ref bean="GraduateAssistantRate-versionNumber" />
       </list>
     </property>
   </bean>
@@ -166,6 +168,14 @@
     </property>
     <property name="summary" value="Period 6 Remission Rate" />
     <property name="description" value="Period 6 Remission Rate..." />
+  </bean>
+  <bean id="GraduateAssistantRate-objectId" parent="GraduateAssistantRate-objectId-parentBean" />
+
+  <bean id="GraduateAssistantRate-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
+  </bean>
+  <bean id="GraduateAssistantRate-versionNumber" parent="GraduateAssistantRate-versionNumber-parentBean" />
+
+  <bean id="GraduateAssistantRate-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

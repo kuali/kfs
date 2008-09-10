@@ -31,6 +31,7 @@
         <ref bean="CustomerAddress-customerZipCode" />
         <ref bean="CustomerAddress-customerCountryCode" />
         <ref bean="CustomerAddress-customerAddressInternationalProvinceName" />
+        <ref bean="CustomerAddress-versionNumber" />
       </list>
     </property>
   </bean>
@@ -284,6 +285,10 @@
     <property name="description" value="customerAddressInternationalProvinceName description..." />
   </bean>
   
+  <bean id="CustomerAddress-versionNumber" parent="CustomerAddress-versionNumber-parentBean" />
+
+  <bean id="CustomerAddress-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

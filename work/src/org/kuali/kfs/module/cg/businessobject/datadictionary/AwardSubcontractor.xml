@@ -28,6 +28,7 @@
         <ref bean="AwardSubcontractor-subcontractorContactFirstName" />
         <ref bean="AwardSubcontractor-subcontractorContactLastName" />
         <ref bean="AwardSubcontractor-newCollectionRecord" />
+        <ref bean="AwardSubcontractor-versionNumber" />
         <ref bean="AwardSubcontractor-active" />
       </list>
     </property>
@@ -165,6 +166,10 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="AwardSubcontractor-versionNumber" parent="AwardSubcontractor-versionNumber-parentBean" />
+
+  <bean id="AwardSubcontractor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

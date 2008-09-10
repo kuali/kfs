@@ -24,6 +24,7 @@
         <ref bean="RestrictedMaterial-restrictedMaterialWorkgroupName" />
         <ref bean="RestrictedMaterial-selected" />
         <ref bean="RestrictedMaterial-active" />
+        <ref bean="RestrictedMaterial-versionNumber" />
       </list>
     </property>
   </bean>
@@ -110,6 +111,10 @@
 
   <bean id="RestrictedMaterial-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="RestrictedMaterial-versionNumber" parent="RestrictedMaterial-versionNumber-parentBean" />
+
+  <bean id="RestrictedMaterial-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

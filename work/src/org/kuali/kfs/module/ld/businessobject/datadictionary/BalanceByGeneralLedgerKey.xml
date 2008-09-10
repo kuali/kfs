@@ -27,6 +27,7 @@
         <ref bean="BalanceByGeneralLedgerKey-personUniversalIdentifier" />
         <ref bean="BalanceByGeneralLedgerKey-positionNumber" />
         <ref bean="BalanceByGeneralLedgerKey-subAccountNumber" />
+        <ref bean="BalanceByGeneralLedgerKey-versionNumber" />
       </list>
     </property>
   </bean>
@@ -177,6 +178,10 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
+  </bean>
+  <bean id="BalanceByGeneralLedgerKey-versionNumber" parent="BalanceByGeneralLedgerKey-versionNumber-parentBean" />
+
+  <bean id="BalanceByGeneralLedgerKey-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

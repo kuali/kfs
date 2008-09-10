@@ -23,6 +23,7 @@
         <ref bean="BudgetConstructionPullup-pullFlag" />
         <ref bean="BudgetConstructionPullup-reportsToChartOfAccountsCode" />
         <ref bean="BudgetConstructionPullup-reportsToOrganizationCode" />
+        <ref bean="BudgetConstructionPullup-versionNumber" />
       </list>
     </property>
   </bean>
@@ -137,6 +138,10 @@
     </property>
     <property name="summary" value="reportsToOrganizationCode" />
     <property name="description" value="reportsToOrganizationCode description..." />
+  </bean>
+  <bean id="BudgetConstructionPullup-versionNumber" parent="BudgetConstructionPullup-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionPullup-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

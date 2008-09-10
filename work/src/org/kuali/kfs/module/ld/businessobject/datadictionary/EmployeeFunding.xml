@@ -18,6 +18,7 @@
     </property>
     <property name="attributes" >
       <list>
+        <ref bean="EmployeeFunding-versionNumber" />
         <ref bean="EmployeeFunding-emplid" />
         <ref bean="EmployeeFunding-personName" />
         <ref bean="EmployeeFunding-positionNumber" />
@@ -69,6 +70,10 @@
 <!-- Attribute Definitions -->
 
 
+  <bean id="EmployeeFunding-versionNumber" parent="EmployeeFunding-versionNumber-parentBean" />
+
+  <bean id="EmployeeFunding-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
   <bean id="EmployeeFunding-emplid" parent="EmployeeFunding-emplid-parentBean" />
 
   <bean id="EmployeeFunding-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">

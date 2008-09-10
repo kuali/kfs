@@ -21,6 +21,7 @@
         <ref bean="RecurringPaymentFrequency-recurringPaymentFrequencyCode" />
         <ref bean="RecurringPaymentFrequency-recurringPaymentFrequencyDescription" />
         <ref bean="RecurringPaymentFrequency-active" />
+        <ref bean="RecurringPaymentFrequency-versionNumber" />
       </list>
     </property>
   </bean>
@@ -64,6 +65,10 @@
 
   <bean id="RecurringPaymentFrequency-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="RecurringPaymentFrequency-versionNumber" parent="RecurringPaymentFrequency-versionNumber-parentBean" />
+
+  <bean id="RecurringPaymentFrequency-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

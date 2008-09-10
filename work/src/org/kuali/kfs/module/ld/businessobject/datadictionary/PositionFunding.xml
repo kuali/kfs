@@ -36,6 +36,7 @@
         <ref bean="PositionFunding-emplid" />
         <ref bean="PositionFunding-personName" />
         <ref bean="PositionFunding-positionNumber" />
+        <ref bean="PositionFunding-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -138,6 +139,10 @@
   <bean id="PositionFunding-positionNumber" parent="PositionFunding-positionNumber-parentBean" />
 
   <bean id="PositionFunding-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
+  </bean>
+  <bean id="PositionFunding-versionNumber" parent="PositionFunding-versionNumber-parentBean" />
+
+  <bean id="PositionFunding-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

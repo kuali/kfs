@@ -25,6 +25,8 @@
         <ref bean="AppointmentType-costShareFringeRateAmount" />
         <ref bean="AppointmentType-lastUpdate" />
         <ref bean="AppointmentType-relatedAppointmentTypeCode" />
+        <ref bean="AppointmentType-objectId" />
+        <ref bean="AppointmentType-versionNumber" />
         <ref bean="AppointmentType-active" />
       </list>
     </property>
@@ -145,6 +147,28 @@
     <property name="shortLabel" value="Related Appt Type" />
     <property name="summary" value="Related Appointment Type Code" />
     <property name="description" value="The Appointment Type Code of a related Appointment Type, used for creating entries for dual appointment types.  For example, an Academic 12- Month appointment could be combined with an Hourly appointment." />
+  </bean>
+  <bean id="AppointmentType-objectId" parent="AppointmentType-objectId-parentBean" />
+
+  <bean id="AppointmentType-objectId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Id" />
+    <property name="shortLabel" value="GUID" />
+    <property name="maxLength" value="36" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="36" />
+    </property>
+    <property name="summary" value="Object ID" />
+    <property name="description" value="objectId description..." />
+  </bean>
+  <bean id="AppointmentType-versionNumber" parent="AppointmentType-versionNumber-parentBean" />
+
+  <bean id="AppointmentType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AppointmentType-active" parent="AppointmentType-active-parentBean" />
 

@@ -17,6 +17,7 @@
         <ref bean="VendorContractOrganization-vendorContractExcludeIndicator" />
         <ref bean="VendorContractOrganization-vendorContractGeneratedIdentifier" />
         <ref bean="VendorContractOrganization-newCollectionRecord" />
+        <ref bean="VendorContractOrganization-versionNumber" />
         <ref bean="VendorContractOrganization-active" />
       </list>
     </property>
@@ -58,6 +59,10 @@
   <bean id="VendorContractOrganization-newCollectionRecord" parent="VendorContractOrganization-newCollectionRecord-parentBean" />
 
   <bean id="VendorContractOrganization-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
+  </bean>
+  <bean id="VendorContractOrganization-versionNumber" parent="VendorContractOrganization-versionNumber-parentBean" />
+
+  <bean id="VendorContractOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorContractOrganization-active" parent="VendorContractOrganization-active-parentBean" />
 

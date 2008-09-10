@@ -23,6 +23,8 @@
         <ref bean="AccountingPeriod-universityFiscalPeriodCode" />
         <ref bean="AccountingPeriod-universityFiscalPeriodEndDate" />
         <ref bean="AccountingPeriod-universityFiscalYear" />
+        <ref bean="AccountingPeriod-versionNumber" />
+        <ref bean="AccountingPeriod-objectId" />
       </list>
     </property>
   </bean>
@@ -112,6 +114,14 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
+  </bean>
+  <bean id="AccountingPeriod-versionNumber" parent="AccountingPeriod-versionNumber-parentBean" />
+
+  <bean id="AccountingPeriod-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  <bean id="AccountingPeriod-objectId" parent="AccountingPeriod-objectId-parentBean" />
+
+  <bean id="AccountingPeriod-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

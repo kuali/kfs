@@ -18,6 +18,7 @@
         <ref bean="OrganizationReversionGlobal-cashReversionFinancialChartOfAccountsCode" />
         <ref bean="OrganizationReversionGlobal-cashReversionAccountNumber" />
         <ref bean="OrganizationReversionGlobal-carryForwardByObjectCodeIndicator" />
+        <ref bean="OrganizationReversionGlobal-versionNumber" />
       </list>
     </property>
   </bean>
@@ -93,5 +94,9 @@
             p:includeKeyInLabel="false" />
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+  </bean>
+  <bean id="OrganizationReversionGlobal-versionNumber" parent="OrganizationReversionGlobal-versionNumber-parentBean" />
+
+  <bean id="OrganizationReversionGlobal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

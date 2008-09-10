@@ -12,6 +12,8 @@
     <property name="attributes" >
       <list>
         <ref bean="BudgetTaskPeriodIndirectCost-documentNumber" />
+        <ref bean="BudgetTaskPeriodIndirectCost-objectId" />
+        <ref bean="BudgetTaskPeriodIndirectCost-versionNumber" />
         <ref bean="BudgetTaskPeriodIndirectCost-budgetManualIndirectCostRate" />
         <ref bean="BudgetTaskPeriodIndirectCost-budgetTaskSequenceNumber" />
         <ref bean="BudgetTaskPeriodIndirectCost-budgetPeriodSequenceNumber" />
@@ -39,6 +41,40 @@
     </property>
     <property name="summary" value="Document Header Id" />
     <property name="description" value="Document Header Id" />
+  </bean>
+  <bean id="BudgetTaskPeriodIndirectCost-objectId" parent="BudgetTaskPeriodIndirectCost-objectId-parentBean" />
+
+  <bean id="BudgetTaskPeriodIndirectCost-objectId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Object Id" />
+    <property name="shortLabel" value="GUID" />
+    <property name="maxLength" value="36" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="objectId summary..." />
+    <property name="description" value="objectId description..." />
+  </bean>
+  <bean id="BudgetTaskPeriodIndirectCost-versionNumber" parent="BudgetTaskPeriodIndirectCost-versionNumber-parentBean" />
+
+  <bean id="BudgetTaskPeriodIndirectCost-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="versionNumber summary..." />
+    <property name="description" value="versionNumber description..." />
   </bean>
   <bean id="BudgetTaskPeriodIndirectCost-budgetManualIndirectCostRate" parent="BudgetTaskPeriodIndirectCost-budgetManualIndirectCostRate-parentBean" />
 

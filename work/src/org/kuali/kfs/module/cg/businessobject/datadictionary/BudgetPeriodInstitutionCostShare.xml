@@ -18,6 +18,7 @@
         <ref bean="BudgetPeriodInstitutionCostShare-budgetPeriodSequenceNumber" />
         <ref bean="BudgetPeriodInstitutionCostShare-budgetCostShareSequenceNumber" />
         <ref bean="BudgetPeriodInstitutionCostShare-budgetCostShareAmount" />
+        <ref bean="BudgetPeriodInstitutionCostShare-versionNumber" />
       </list>
     </property>
   </bean>
@@ -94,6 +95,24 @@
     </property>
     <property name="summary" value="Amount" />
     <property name="description" value="Amount" />
+  </bean>
+  <bean id="BudgetPeriodInstitutionCostShare-versionNumber" parent="BudgetPeriodInstitutionCostShare-versionNumber-parentBean" />
+
+  <bean id="BudgetPeriodInstitutionCostShare-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="-1" />
+    </property>
+    <property name="summary" value="versionNumber summary..." />
+    <property name="description" value="versionNumber description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -24,6 +24,7 @@
         <ref bean="AgeTrialBalance-over60InvoiceAmount" />
         <ref bean="AgeTrialBalance-over90InvoiceAmount" />
         <ref bean="AgeTrialBalance-personUniversalIdentifier" />
+        <ref bean="AgeTrialBalance-versionNumber" />
       </list>
     </property>
   </bean>
@@ -156,6 +157,10 @@
     </property>
     <property name="summary" value="personUniversalIdentifier" />
     <property name="description" value="personUniversalIdentifier description..." />
+  </bean>
+  <bean id="AgeTrialBalance-versionNumber" parent="AgeTrialBalance-versionNumber-parentBean" />
+
+  <bean id="AgeTrialBalance-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

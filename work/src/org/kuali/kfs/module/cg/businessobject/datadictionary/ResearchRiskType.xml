@@ -24,6 +24,7 @@
         <ref bean="ResearchRiskType-researchRiskTypeSortNumber" />
         <ref bean="ResearchRiskType-researchRiskTypeNotificationGroupText" />
         <ref bean="ResearchRiskType-researchRiskTypeNotificationValue" />
+        <ref bean="ResearchRiskType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -137,6 +138,10 @@
     </property>
     <property name="summary" value="Research Risk Type Notification Value" />
     <property name="description" value="Value on which to route to the notification group.  Valid options are Y (yes), N (no), A (all), X (never)." />
+  </bean>
+  <bean id="ResearchRiskType-versionNumber" parent="ResearchRiskType-versionNumber-parentBean" />
+
+  <bean id="ResearchRiskType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

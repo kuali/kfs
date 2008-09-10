@@ -24,6 +24,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode" />
         <ref bean="EffortCertificationReportPosition-universityFiscalYear" />
         <ref bean="EffortCertificationReportPosition-active" />
+        <ref bean="EffortCertificationReportPosition-versionNumber" />
         <ref bean="EffortCertificationReportPosition-newCollectionRecord" />
       </list>
     </property>
@@ -71,6 +72,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="EffortCertificationReportPosition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="EffortCertificationReportPosition-versionNumber" parent="EffortCertificationReportPosition-versionNumber-parentBean" />
+
+  <bean id="EffortCertificationReportPosition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="EffortCertificationReportPosition-newCollectionRecord" parent="EffortCertificationReportPosition-newCollectionRecord-parentBean" />
 

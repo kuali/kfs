@@ -21,6 +21,7 @@
         <ref bean="BudgetConstructionObjectPick-personUniversalIdentifier" />
         <ref bean="BudgetConstructionObjectPick-selectFlag" />
         <ref bean="BudgetConstructionObjectPick-objectCodeDescription" />
+        <ref bean="BudgetConstructionObjectPick-versionNumber" />
       </list>
     </property>
   </bean>
@@ -88,6 +89,10 @@
     <property name="name" value="objectCodeDescription" />
     <property name="label" value="Object Description" />
     <property name="required" value="false" />
+  </bean>
+  <bean id="BudgetConstructionObjectPick-versionNumber" parent="BudgetConstructionObjectPick-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionObjectPick-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

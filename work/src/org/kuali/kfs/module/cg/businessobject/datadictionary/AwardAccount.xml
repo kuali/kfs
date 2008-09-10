@@ -30,6 +30,7 @@
         <ref bean="AwardAccount-award.workgroupName" />
         <ref bean="AwardAccount-award.kualiGroupNames" />
         <ref bean="AwardAccount-newCollectionRecord" />
+        <ref bean="AwardAccount-versionNumber" />
         <ref bean="AwardAccount-active" />
       </list>
     </property>
@@ -157,6 +158,10 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="AwardAccount-versionNumber" parent="AwardAccount-versionNumber-parentBean" />
+
+  <bean id="AwardAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

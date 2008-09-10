@@ -43,6 +43,7 @@
         <ref bean="BudgetConstructionPositionInitializationMove-setidJobCode" />
         <ref bean="BudgetConstructionPositionInitializationMove-setidSalary" />
         <ref bean="BudgetConstructionPositionInitializationMove-universityFiscalYear" />
+        <ref bean="BudgetConstructionPositionInitializationMove-versionNumber" />
       </list>
     </property>
   </bean>
@@ -517,6 +518,10 @@
     </property>
     <property name="summary" value="universityFiscalYear" />
     <property name="description" value="universityFiscalYear description..." />
+  </bean>
+  <bean id="BudgetConstructionPositionInitializationMove-versionNumber" parent="BudgetConstructionPositionInitializationMove-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionPositionInitializationMove-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

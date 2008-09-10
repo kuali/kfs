@@ -24,6 +24,7 @@
         <ref bean="Room-buildingRoomType" />
         <ref bean="Room-buildingRoomDescription" />
         <ref bean="Room-active" />
+        <ref bean="Room-versionNumber" />
       </list>
     </property>
   </bean>
@@ -125,6 +126,10 @@
 
   <bean id="Room-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="Room-versionNumber" parent="Room-versionNumber-parentBean" />
+
+  <bean id="Room-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

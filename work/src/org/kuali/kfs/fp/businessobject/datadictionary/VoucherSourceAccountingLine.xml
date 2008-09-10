@@ -22,6 +22,7 @@
         <ref bean="VoucherSourceAccountingLine-sequenceNumber" />
         <ref bean="VoucherSourceAccountingLine-financialObjectCode" />
         <ref bean="VoucherSourceAccountingLine-accountNumber" />
+        <ref bean="VoucherSourceAccountingLine-objectId" />
         <ref bean="VoucherSourceAccountingLine-organizationReferenceId" />
         <ref bean="VoucherSourceAccountingLine-chartOfAccountsCode" />
         <ref bean="VoucherSourceAccountingLine-postingYear" />
@@ -32,6 +33,7 @@
         <ref bean="VoucherSourceAccountingLine-referenceTypeCode" />
         <ref bean="VoucherSourceAccountingLine-projectCode" />
         <ref bean="VoucherSourceAccountingLine-financialSubObjectCode" />
+        <ref bean="VoucherSourceAccountingLine-versionNumber" />
         <ref bean="VoucherSourceAccountingLine-documentNumber" />
         <ref bean="VoucherSourceAccountingLine-debitCreditCode" />
         <ref bean="VoucherSourceAccountingLine-encumbranceUpdateCode" />
@@ -122,6 +124,11 @@
   <bean id="VoucherSourceAccountingLine-accountNumber" parent="VoucherSourceAccountingLine-accountNumber-parentBean" />
 
   <bean id="VoucherSourceAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="VoucherSourceAccountingLine-objectId" parent="VoucherSourceAccountingLine-objectId-parentBean" />
+
+  <bean id="VoucherSourceAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
+    <property name="required" value="false" />
   </bean>
   <bean id="VoucherSourceAccountingLine-organizationReferenceId" parent="VoucherSourceAccountingLine-organizationReferenceId-parentBean" />
 
@@ -235,6 +242,11 @@
   <bean id="VoucherSourceAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
+  </bean>
+  <bean id="VoucherSourceAccountingLine-versionNumber" parent="VoucherSourceAccountingLine-versionNumber-parentBean" />
+
+  <bean id="VoucherSourceAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+    <property name="required" value="false" />
   </bean>
   <bean id="VoucherSourceAccountingLine-documentNumber" parent="VoucherSourceAccountingLine-documentNumber-parentBean" />
 

@@ -27,6 +27,7 @@
         <ref bean="Agency-indirectAmount" />
         <ref bean="Agency-reportsToAgencyNumber" />
         <ref bean="Agency-active" />
+        <ref bean="Agency-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -165,6 +166,10 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="Agency-versionNumber" parent="Agency-versionNumber-parentBean" />
+
+  <bean id="Agency-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

@@ -25,6 +25,7 @@
         <ref bean="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionSalaryTotal-organizationCode" />
         <ref bean="BudgetConstructionSalaryTotal-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionSalaryTotal-versionNumber" />
       </list>
     </property>
   </bean>
@@ -175,6 +176,10 @@
     </property>
     <property name="summary" value="personUniversalIdentifier" />
     <property name="description" value="personUniversalIdentifier description..." />
+  </bean>
+  <bean id="BudgetConstructionSalaryTotal-versionNumber" parent="BudgetConstructionSalaryTotal-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionSalaryTotal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

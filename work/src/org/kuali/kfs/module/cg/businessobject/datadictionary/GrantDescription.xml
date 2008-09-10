@@ -20,6 +20,7 @@
         <ref bean="GrantDescription-grantDescription" />
         <ref bean="GrantDescription-grantDescriptionCode" />
         <ref bean="GrantDescription-active" />
+        <ref bean="GrantDescription-versionNumber" />
       </list>
     </property>
   </bean>
@@ -64,6 +65,10 @@
 
   <bean id="GrantDescription-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="GrantDescription-versionNumber" parent="GrantDescription-versionNumber-parentBean" />
+
+  <bean id="GrantDescription-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -21,6 +21,7 @@
         <ref bean="ControlAttributeType-controlAttributeTypeDescription" />
         <ref bean="ControlAttributeType-active" />
         <ref bean="ControlAttributeType-requiredIndicator" />
+        <ref bean="ControlAttributeType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -83,6 +84,10 @@
     </property>
     <property name="summary" value="requiredIndicator" />
     <property name="description" value="requiredIndicator description..." />
+  </bean>
+  <bean id="ControlAttributeType-versionNumber" parent="ControlAttributeType-versionNumber-parentBean" />
+
+  <bean id="ControlAttributeType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

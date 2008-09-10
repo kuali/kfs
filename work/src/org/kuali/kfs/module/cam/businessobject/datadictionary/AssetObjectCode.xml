@@ -24,6 +24,7 @@
         <ref bean="AssetObjectCode-accumulatedDepreciationFinancialObjectCode" />
         <ref bean="AssetObjectCode-depreciationExpenseFinancialObjectCode" />
         <ref bean="AssetObjectCode-active" />
+        <ref bean="AssetObjectCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -69,6 +70,10 @@
 
   <bean id="AssetObjectCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="AssetObjectCode-versionNumber" parent="AssetObjectCode-versionNumber-parentBean" />
+
+  <bean id="AssetObjectCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

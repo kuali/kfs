@@ -49,6 +49,7 @@
         <ref bean="LedgerBalance-month12Amount" />
         <ref bean="LedgerBalance-month13Amount" />
         <ref bean="LedgerBalance-transactionDateTimeStamp" />
+        <ref bean="LedgerBalance-versionNumber" />
         <ref bean="LedgerBalance-dummyBusinessObject.genericAmount" />
         <ref bean="LedgerBalance-dummyBusinessObject.consolidationOption" />
         <ref bean="LedgerBalance-dummyBusinessObject.pendingEntryOption" />
@@ -353,6 +354,10 @@
     <property name="name" value="transactionDateTimeStamp" />
     <property name="label" value="Transaction Entry Processed" />
     <property name="shortLabel" value="Entry Processed" />
+  </bean>
+  <bean id="LedgerBalance-versionNumber" parent="LedgerBalance-versionNumber-parentBean" />
+
+  <bean id="LedgerBalance-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="LedgerBalance-dummyBusinessObject.genericAmount" parent="LedgerBalance-dummyBusinessObject.genericAmount-parentBean" />
 

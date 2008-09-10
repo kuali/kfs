@@ -35,6 +35,8 @@
         <ref bean="SubAccount-a21SubAccount.indirectCostRecoveryAccountNumber" />
         <ref bean="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode" />
         <ref bean="SubAccount-a21SubAccount.offCampusCode" />
+        <ref bean="SubAccount-versionNumber" />
+        <ref bean="SubAccount-a21SubAccount.versionNumber" />
         <ref bean="SubAccount-financialReportingCodeSection" />
         <ref bean="SubAccount-cgCostSharingSection" />
         <ref bean="SubAccount-cgICRSection" />
@@ -209,6 +211,15 @@
     <property name="label" value="Off Campus Indicator" />
     <property name="shortLabel" value="Off Campus" />
     <property name="required" value="false" />
+  </bean>
+  <bean id="SubAccount-versionNumber" parent="SubAccount-versionNumber-parentBean" />
+
+  <bean id="SubAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  <bean id="SubAccount-a21SubAccount.versionNumber" parent="SubAccount-a21SubAccount.versionNumber-parentBean" />
+
+  <bean id="SubAccount-a21SubAccount.versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+    <property name="name" value="a21SubAccount.versionNumber" />
   </bean>
   <bean id="SubAccount-financialReportingCodeSection" parent="SubAccount-financialReportingCodeSection-parentBean" />
 

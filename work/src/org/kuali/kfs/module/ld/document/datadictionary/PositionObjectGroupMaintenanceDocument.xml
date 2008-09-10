@@ -62,6 +62,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="rowActiveIndicator"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>

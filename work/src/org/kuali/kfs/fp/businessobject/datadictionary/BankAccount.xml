@@ -27,6 +27,7 @@
         <ref bean="BankAccount-cashOffsetObjectCode" />
         <ref bean="BankAccount-cashOffsetSubObjectCode" />
         <ref bean="BankAccount-active" />
+        <ref bean="BankAccount-versionNumber" />
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -128,6 +129,10 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="BankAccount-versionNumber" parent="BankAccount-versionNumber-parentBean" />
+
+  <bean id="BankAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

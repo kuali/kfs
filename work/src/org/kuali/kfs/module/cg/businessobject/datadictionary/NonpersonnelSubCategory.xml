@@ -23,6 +23,8 @@
         <ref bean="NonpersonnelSubCategory-nonpersonnelMtdcExcludedIndicator" />
         <ref bean="NonpersonnelSubCategory-nonpersonnelModularExcludedIndicator" />
         <ref bean="NonpersonnelSubCategory-name" />
+        <ref bean="NonpersonnelSubCategory-versionNumber" />
+        <ref bean="NonpersonnelSubCategory-objectId" />
       </list>
     </property>
   </bean>
@@ -101,6 +103,14 @@
     </property>
     <property name="summary" value="Nonpersonnel Sub Category Name" />
     <property name="description" value="The name of the Nonpersonnel Sub Category." />
+  </bean>
+  <bean id="NonpersonnelSubCategory-versionNumber" parent="NonpersonnelSubCategory-versionNumber-parentBean" />
+
+  <bean id="NonpersonnelSubCategory-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  <bean id="NonpersonnelSubCategory-objectId" parent="NonpersonnelSubCategory-objectId-parentBean" />
+
+  <bean id="NonpersonnelSubCategory-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

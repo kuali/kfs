@@ -21,6 +21,7 @@
         <ref bean="MandatoryTransferEliminationCode-code" />
         <ref bean="MandatoryTransferEliminationCode-name" />
         <ref bean="MandatoryTransferEliminationCode-active" />
+        <ref bean="MandatoryTransferEliminationCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -65,6 +66,10 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="MandatoryTransferEliminationCode-versionNumber" parent="MandatoryTransferEliminationCode-versionNumber-parentBean" />
+
+  <bean id="MandatoryTransferEliminationCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

@@ -22,6 +22,7 @@
         <ref bean="SourceAccountingLine-sequenceNumber" />
         <ref bean="SourceAccountingLine-financialObjectCode" />
         <ref bean="SourceAccountingLine-accountNumber" />
+        <ref bean="SourceAccountingLine-objectId" />
         <ref bean="SourceAccountingLine-organizationReferenceId" />
         <ref bean="SourceAccountingLine-chartOfAccountsCode" />
         <ref bean="SourceAccountingLine-postingYear" />
@@ -32,6 +33,7 @@
         <ref bean="SourceAccountingLine-referenceTypeCode" />
         <ref bean="SourceAccountingLine-projectCode" />
         <ref bean="SourceAccountingLine-financialSubObjectCode" />
+        <ref bean="SourceAccountingLine-versionNumber" />
         <ref bean="SourceAccountingLine-documentNumber" />
         <ref bean="SourceAccountingLine-debitCreditCode" />
         <ref bean="SourceAccountingLine-encumbranceUpdateCode" />
@@ -122,6 +124,11 @@
   <bean id="SourceAccountingLine-accountNumber" parent="SourceAccountingLine-accountNumber-parentBean" />
 
   <bean id="SourceAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="SourceAccountingLine-objectId" parent="SourceAccountingLine-objectId-parentBean" />
+
+  <bean id="SourceAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
+    <property name="required" value="false" />
   </bean>
   <bean id="SourceAccountingLine-organizationReferenceId" parent="SourceAccountingLine-organizationReferenceId-parentBean" />
 
@@ -235,6 +242,11 @@
   <bean id="SourceAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
+  </bean>
+  <bean id="SourceAccountingLine-versionNumber" parent="SourceAccountingLine-versionNumber-parentBean" />
+
+  <bean id="SourceAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+    <property name="required" value="false" />
   </bean>
   <bean id="SourceAccountingLine-documentNumber" parent="SourceAccountingLine-documentNumber-parentBean" />
 

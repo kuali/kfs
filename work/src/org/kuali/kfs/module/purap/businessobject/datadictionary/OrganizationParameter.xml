@@ -21,6 +21,7 @@
         <ref bean="OrganizationParameter-chartOfAccountsCode" />
         <ref bean="OrganizationParameter-organizationCode" />
         <ref bean="OrganizationParameter-organizationAutomaticPurchaseOrderLimit" />
+        <ref bean="OrganizationParameter-versionNumber" />
       </list>
     </property>
   </bean>
@@ -44,6 +45,10 @@
     <property name="shortLabel" value="Organization APO Limit" />
     <property name="required" value="false" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="OrganizationParameter-versionNumber" parent="OrganizationParameter-versionNumber-parentBean" />
+
+  <bean id="OrganizationParameter-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

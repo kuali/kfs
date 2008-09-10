@@ -35,6 +35,7 @@
         <ref bean="Bank-bankAchIndicator" />
         <ref bean="Bank-bankCheckIndicator" />
         <ref bean="Bank-active" />
+        <ref bean="Bank-versionNumber" />
       </list>
     </property>
   </bean>
@@ -229,6 +230,9 @@
     <property name="required" value="false" />
   </bean>
   
+  <bean id="Bank-versionNumber" parent="Bank-versionNumber-parentBean" />
+  <bean id="Bank-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
+
 <!-- Business Object Inquiry Definition -->
 
 

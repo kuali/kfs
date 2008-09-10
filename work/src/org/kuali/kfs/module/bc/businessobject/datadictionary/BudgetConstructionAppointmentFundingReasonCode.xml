@@ -21,6 +21,7 @@
         <ref bean="BudgetConstructionAppointmentFundingReasonCode-appointmentFundingReasonCode" />
         <ref bean="BudgetConstructionAppointmentFundingReasonCode-appointmentFundingReasonDescription" />
         <ref bean="BudgetConstructionAppointmentFundingReasonCode-rowActiveIndicator" />
+        <ref bean="BudgetConstructionAppointmentFundingReasonCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -78,6 +79,10 @@
     </property>
     <property name="summary" value="Active Code" />
     <property name="description" value="Reason Code Active Code" />
+  </bean>
+  <bean id="BudgetConstructionAppointmentFundingReasonCode-versionNumber" parent="BudgetConstructionAppointmentFundingReasonCode-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionAppointmentFundingReasonCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

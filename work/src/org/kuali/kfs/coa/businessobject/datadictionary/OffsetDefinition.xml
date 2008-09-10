@@ -22,6 +22,7 @@
         <ref bean="OffsetDefinition-financialObjectCode" />
         <ref bean="OffsetDefinition-financialDocumentTypeCode" />
         <ref bean="OffsetDefinition-financialBalanceTypeCode" />
+        <ref bean="OffsetDefinition-versionNumber" />
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -60,6 +61,10 @@
 
   <bean id="OffsetDefinition-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
     <property name="name" value="financialBalanceTypeCode" />
+  </bean>
+  <bean id="OffsetDefinition-versionNumber" parent="OffsetDefinition-versionNumber-parentBean" />
+
+  <bean id="OffsetDefinition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

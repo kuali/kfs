@@ -96,6 +96,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="responsibilityCenterCode"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>

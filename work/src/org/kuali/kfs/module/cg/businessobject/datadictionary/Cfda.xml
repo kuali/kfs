@@ -21,6 +21,7 @@
         <ref bean="Cfda-cfdaNumber" />
         <ref bean="Cfda-cfdaProgramTitleName" />
         <ref bean="Cfda-cfdaStatusCode" />
+        <ref bean="Cfda-versionNumber" />
         <ref bean="Cfda-active" />
       </list>
     </property>
@@ -98,6 +99,10 @@
 	<property name="name" value="active" />
   </bean>
 
+  <bean id="Cfda-versionNumber" parent="Cfda-versionNumber-parentBean" />
+
+  <bean id="Cfda-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

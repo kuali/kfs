@@ -21,6 +21,7 @@
         <ref bean="NonResidentAlienTaxPercent-incomeTaxTypeCode" />
         <ref bean="NonResidentAlienTaxPercent-incomeTaxPercent" />
         <ref bean="NonResidentAlienTaxPercent-active" />
+        <ref bean="NonResidentAlienTaxPercent-versionNumber" />
       </list>
     </property>
   </bean>
@@ -85,6 +86,10 @@
     <property name="name" value="active"/>
   </bean>
 
+  <bean id="NonResidentAlienTaxPercent-versionNumber" parent="NonResidentAlienTaxPercent-versionNumber-parentBean" />
+
+  <bean id="NonResidentAlienTaxPercent-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

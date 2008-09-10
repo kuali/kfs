@@ -19,6 +19,7 @@
       <list>
         <ref bean="RoutingFormDueDateType-documentNumber" />
         <ref bean="RoutingFormDueDateType-dueDateTypeCode" />
+        <ref bean="RoutingFormDueDateType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -61,6 +62,10 @@
     </property>
     <property name="summary" value="dueDateTypeCode" />
     <property name="description" value="dueDateTypeCode description..." />
+  </bean>
+  <bean id="RoutingFormDueDateType-versionNumber" parent="RoutingFormDueDateType-versionNumber-parentBean" />
+
+  <bean id="RoutingFormDueDateType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

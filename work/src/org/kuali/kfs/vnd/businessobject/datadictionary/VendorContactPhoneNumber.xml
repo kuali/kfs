@@ -17,6 +17,7 @@
         <ref bean="VendorContactPhoneNumber-vendorPhoneTypeCode" />
         <ref bean="VendorContactPhoneNumber-newCollectionRecord" />
         <ref bean="VendorContactPhoneNumber-vendorContactGeneratedIdentifier" />
+        <ref bean="VendorContactPhoneNumber-versionNumber" />
         <ref bean="VendorContactPhoneNumber-active" />
       </list>
     </property>
@@ -82,6 +83,10 @@
   <bean id="VendorContactPhoneNumber-vendorContactGeneratedIdentifier" parent="VendorContactPhoneNumber-vendorContactGeneratedIdentifier-parentBean" />
 
   <bean id="VendorContactPhoneNumber-vendorContactGeneratedIdentifier-parentBean" abstract="true" parent="VendorContact-vendorContactGeneratedIdentifier">
+  </bean>
+  <bean id="VendorContactPhoneNumber-versionNumber" parent="VendorContactPhoneNumber-versionNumber-parentBean" />
+
+  <bean id="VendorContactPhoneNumber-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorContactPhoneNumber-active" parent="VendorContactPhoneNumber-active-parentBean" />
 

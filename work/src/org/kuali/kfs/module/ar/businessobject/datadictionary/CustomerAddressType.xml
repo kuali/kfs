@@ -21,6 +21,7 @@
         <ref bean="CustomerAddressType-customerAddressTypeCode" />
         <ref bean="CustomerAddressType-customerAddressTypeDescription" />
         <ref bean="CustomerAddressType-active" />
+        <ref bean="CustomerAddressType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -71,6 +72,10 @@
 
   <bean id="CustomerAddressType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="CustomerAddressType-versionNumber" parent="CustomerAddressType-versionNumber-parentBean" />
+
+  <bean id="CustomerAddressType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

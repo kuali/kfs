@@ -23,6 +23,7 @@
         <ref bean="RoutingFormOrganizationCreditPercent-organizationCreditPercent" />
         <ref bean="RoutingFormOrganizationCreditPercent-organizationCreditRoleText" />
         <ref bean="RoutingFormOrganizationCreditPercent-organizationFinancialAidPercent" />
+        <ref bean="RoutingFormOrganizationCreditPercent-versionNumber" />
       </list>
     </property>
   </bean>
@@ -140,6 +141,10 @@
     </property>
     <property name="summary" value="organizationFinancialAidPercent" />
     <property name="description" value="organizationFinancialAidPercent description..." />
+  </bean>
+  <bean id="RoutingFormOrganizationCreditPercent-versionNumber" parent="RoutingFormOrganizationCreditPercent-versionNumber-parentBean" />
+
+  <bean id="RoutingFormOrganizationCreditPercent-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

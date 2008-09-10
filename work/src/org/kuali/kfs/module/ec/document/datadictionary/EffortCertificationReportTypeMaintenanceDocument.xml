@@ -60,6 +60,8 @@
               p:name="active"
               p:defaultValue="true"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>

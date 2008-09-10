@@ -28,6 +28,7 @@
         <ref bean="PendingPurchaseOrder-requestorPersonEmailAddress" />
         <ref bean="PendingPurchaseOrder-requestorPersonPhoneNumber" />
         <ref bean="PendingPurchaseOrder-requiredNumber" />
+        <ref bean="PendingPurchaseOrder-versionNumber" />
       </list>
     </property>
   </bean>
@@ -232,6 +233,10 @@
     </property>
     <property name="summary" value="requiredNumber" />
     <property name="description" value="requiredNumber description..." />
+  </bean>
+  <bean id="PendingPurchaseOrder-versionNumber" parent="PendingPurchaseOrder-versionNumber-parentBean" />
+
+  <bean id="PendingPurchaseOrder-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

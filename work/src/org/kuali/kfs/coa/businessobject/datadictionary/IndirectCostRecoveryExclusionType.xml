@@ -19,6 +19,7 @@
         <ref bean="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode" />
         <ref bean="IndirectCostRecoveryExclusionType-chartOfAccountsCode" />
         <ref bean="IndirectCostRecoveryExclusionType-financialObjectCode" />
+        <ref bean="IndirectCostRecoveryExclusionType-versionNumber" />
         <ref bean="IndirectCostRecoveryExclusionType-active" />
 		<ref bean="IndirectCostRecoveryExclusionType-newCollectionRecord" />
       </list>
@@ -72,6 +73,9 @@
     </property>
   </bean>
   
+  <bean id="IndirectCostRecoveryExclusionType-versionNumber" parent="IndirectCostRecoveryExclusionType-versionNumber-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
   
   <bean id="IndirectCostRecoveryExclusionType-active" parent="IndirectCostRecoveryExclusionType-active-parentBean" />
   <bean id="IndirectCostRecoveryExclusionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">

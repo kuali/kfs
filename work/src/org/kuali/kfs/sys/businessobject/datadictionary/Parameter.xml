@@ -29,6 +29,8 @@
         <ref bean="Parameter-parameterDetailType.parameterDetailTypeName" />
         <ref bean="Parameter-parameterWorkgroupName" />
         <ref bean="Parameter-parameterNamespace.codeAndDescription" />
+        <ref bean="Parameter-objectId" />
+        <ref bean="Parameter-versionNumber" />
       </list>
     </property>
   </bean>
@@ -167,6 +169,14 @@
 
   <bean id="Parameter-parameterNamespace.codeAndDescription-parentBean" abstract="true" parent="ParameterNamespace-codeAndDescription">
     <property name="name" value="parameterNamespace.codeAndDescription" />
+  </bean>
+  <bean id="Parameter-objectId" parent="Parameter-objectId-parentBean" />
+
+  <bean id="Parameter-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
+  </bean>
+  <bean id="Parameter-versionNumber" parent="Parameter-versionNumber-parentBean" />
+
+  <bean id="Parameter-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

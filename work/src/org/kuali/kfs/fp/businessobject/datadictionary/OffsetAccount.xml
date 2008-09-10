@@ -24,6 +24,7 @@
         <ref bean="OffsetAccount-financialOffsetAccountNumber" />
         <ref bean="OffsetAccount-financialOffsetObjectCode" />
         <ref bean="OffsetAccount-active" />
+        <ref bean="OffsetAccount-versionNumber" />
       </list>
     </property>
   </bean>
@@ -67,6 +68,10 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="OffsetAccount-versionNumber" parent="OffsetAccount-versionNumber-parentBean" />
+
+  <bean id="OffsetAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

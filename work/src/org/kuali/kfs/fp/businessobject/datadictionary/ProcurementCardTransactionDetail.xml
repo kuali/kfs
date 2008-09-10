@@ -34,6 +34,7 @@
         <ref bean="ProcurementCardTransactionDetail-transactionCycleEndDate" />
         <ref bean="ProcurementCardTransactionDetail-transactionCycleStartDate" />
         <ref bean="ProcurementCardTransactionDetail-transactionTotalAmount" />
+        <ref bean="ProcurementCardTransactionDetail-versionNumber" />
       </list>
     </property>
   </bean>
@@ -319,6 +320,10 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
+  </bean>
+  <bean id="ProcurementCardTransactionDetail-versionNumber" parent="ProcurementCardTransactionDetail-versionNumber-parentBean" />
+
+  <bean id="ProcurementCardTransactionDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -17,6 +17,7 @@
         <ref bean="FinancialSystemUser-activeFinancialSystemUser" />
         <ref bean="FinancialSystemUser-chartOfAccountsCode" />
         <ref bean="FinancialSystemUser-organizationCode" />
+        <ref bean="FinancialSystemUser-versionNumber" />
         <ref bean="FinancialSystemUser-embeddedUniversalUser.personUserIdentifier" />
         <ref bean="FinancialSystemUser-embeddedUniversalUser.personPayrollIdentifier" />
         <ref bean="FinancialSystemUser-embeddedUniversalUser.personName" />
@@ -38,6 +39,7 @@
         <ref bean="FinancialSystemUser-embeddedUniversalUser.personTaxIdentifierTypeCode" />
         <ref bean="FinancialSystemUser-embeddedUniversalUser.financialSystemsEncryptedPasswordText" />
         <ref bean="FinancialSystemUser-embeddedUniversalUser.campusCode" />
+        <ref bean="FinancialSystemUser-embeddedUniversalUser.versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -72,6 +74,8 @@
   <bean id="FinancialSystemUser-personUniversalIdentifier" parent="FinancialSystemUser-personUniversalIdentifier-parentBean" />
   <bean id="FinancialSystemUser-personUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
   </bean>
+
+  <bean id="FinancialSystemUser-versionNumber" parent="AttributeReferenceDummy-versionNumber" />
 
   <bean id="FinancialSystemUser-activeFinancialSystemUser" parent="FinancialSystemUser-activeFinancialSystemUser-parentBean" />
   <bean id="FinancialSystemUser-activeFinancialSystemUser-parentBean" abstract="true" parent="GenericAttributes-activeIndicator"
@@ -199,6 +203,11 @@
     <property name="name" value="embeddedUniversalUser.campusCode" />
   </bean>
 
+  <bean id="FinancialSystemUser-embeddedUniversalUser.versionNumber" parent="FinancialSystemUser-embeddedUniversalUser.versionNumber-parentBean" />
+
+  <bean id="FinancialSystemUser-embeddedUniversalUser.versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <property name="name" value="embeddedUniversalUser.versionNumber" />
+  </bean>
 
 
 <!-- Business Object Inquiry Definition -->
@@ -370,6 +379,7 @@
         <ref bean="FinancialSystemUserPrimaryOrganization-moduleId" />
         <ref bean="FinancialSystemUserPrimaryOrganization-chartOfAccountsCode" />
         <ref bean="FinancialSystemUserPrimaryOrganization-organizationCode" />
+        <ref bean="FinancialSystemUserPrimaryOrganization-versionNumber" />
         <ref bean="FinancialSystemUserPrimaryOrganization-active" />
       </list>
     </property>
@@ -407,6 +417,8 @@
     p:label="Active?">
   </bean>
 
+  <bean id="FinancialSystemUserPrimaryOrganization-versionNumber" parent="AttributeReferenceDummy-versionNumber" />
+
 <!-- FinancialSystemUserOrganizationSecurity -->
 
   <bean id="FinancialSystemUserOrganizationSecurity" parent="FinancialSystemUserOrganizationSecurity-parentBean" />
@@ -423,6 +435,7 @@
         <ref bean="FinancialSystemUserOrganizationSecurity-chartOfAccountsCode" />
         <ref bean="FinancialSystemUserOrganizationSecurity-organizationCode" />
         <ref bean="FinancialSystemUserOrganizationSecurity-descendOrgHierarchy" />
+        <ref bean="FinancialSystemUserOrganizationSecurity-versionNumber" />
         <ref bean="FinancialSystemUserOrganizationSecurity-active" />
       </list>
     </property>
@@ -460,6 +473,8 @@
     p:name="active"
     p:label="Active?">
   </bean>
+
+  <bean id="FinancialSystemUserOrganizationSecurity-versionNumber" parent="AttributeReferenceDummy-versionNumber" />
 
 
 <!-- KFS User Maintenance Document -->
@@ -559,6 +574,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="embeddedUniversalUser.personCampusAddress" />
         <bean parent="MaintainableFieldDefinition" p:name="embeddedUniversalUser.personLocalPhoneNumber" />
         <bean parent="MaintainableFieldDefinition" p:name="embeddedUniversalUser.personBaseSalaryAmount" />
+        <bean parent="MaintainableFieldDefinition" p:name="embeddedUniversalUser.versionNumber" />
       </list>
     </property>
   </bean>
@@ -571,6 +587,7 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="activeFinancialSystemUser" p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" />
         <bean parent="MaintainableFieldDefinition" p:name="organizationCode" />
       </list>
@@ -608,6 +625,7 @@
 	        		<bean parent="MaintainableFieldDefinition" p:name="moduleId" p:required="true" />
 	        		<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" />
 	        		<bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
                     <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
         		</list>
         	</property>
@@ -650,6 +668,7 @@
                     <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" />
                     <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true" />
                     <bean parent="MaintainableFieldDefinition" p:name="descendOrgHierarchy" />
+                    <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
                     <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
                 </list>
             </property>

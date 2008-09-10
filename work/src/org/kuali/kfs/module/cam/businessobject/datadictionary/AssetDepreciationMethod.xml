@@ -19,6 +19,7 @@
       <list>
         <ref bean="AssetDepreciationMethod-depreciationMethodCode" />
         <ref bean="AssetDepreciationMethod-depreciationMethodName" />
+        <ref bean="AssetDepreciationMethod-versionNumber" />
         <ref bean="AssetDepreciationMethod-active" />
       </list>
     </property>
@@ -63,6 +64,10 @@
     </property>
     <property name="summary" value="depreciationMethodName" />
     <property name="description" value="depreciationMethodName description..." />
+  </bean>
+  <bean id="AssetDepreciationMethod-versionNumber" parent="AssetDepreciationMethod-versionNumber-parentBean" />
+
+  <bean id="AssetDepreciationMethod-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AssetDepreciationMethod-active" parent="AssetDepreciationMethod-active-parentBean" />
 

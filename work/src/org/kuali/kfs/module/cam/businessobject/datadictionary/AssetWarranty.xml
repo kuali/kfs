@@ -18,6 +18,7 @@
     <property name="attributes" >
       <list>
         <ref bean="AssetWarranty-capitalAssetNumber" />
+        <ref bean="AssetWarranty-versionNumber" />
         <ref bean="AssetWarranty-warrantyBeginningDate" />
         <ref bean="AssetWarranty-warrantyEndingDate" />
         <ref bean="AssetWarranty-warrantyContactName" />
@@ -35,6 +36,10 @@
   <bean id="AssetWarranty-capitalAssetNumber" parent="AssetWarranty-capitalAssetNumber-parentBean" />
 
   <bean id="AssetWarranty-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
+  </bean>
+  <bean id="AssetWarranty-versionNumber" parent="AssetWarranty-versionNumber-parentBean" />
+
+  <bean id="AssetWarranty-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AssetWarranty-warrantyBeginningDate" parent="AssetWarranty-warrantyBeginningDate-parentBean" />
 

@@ -21,6 +21,7 @@
         <ref bean="Purpose-purposeDescription" />
         <ref bean="Purpose-userSortNumber" />
         <ref bean="Purpose-active" />
+        <ref bean="Purpose-versionNumber" />
       </list>
     </property>
   </bean>
@@ -87,6 +88,10 @@
 
   <bean id="Purpose-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="Purpose-versionNumber" parent="Purpose-versionNumber-parentBean" />
+
+  <bean id="Purpose-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

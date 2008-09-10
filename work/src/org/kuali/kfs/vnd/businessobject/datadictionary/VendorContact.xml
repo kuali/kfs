@@ -36,6 +36,7 @@
         <ref bean="VendorContact-vendorAttentionName" />
         <ref bean="VendorContact-vendorHeaderGeneratedIdentifier" />
         <ref bean="VendorContact-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorContact-versionNumber" />
         <ref bean="VendorContact-active" />
       </list>
     </property>
@@ -182,6 +183,10 @@
   <bean id="VendorContact-vendorDetailAssignedIdentifier" parent="VendorContact-vendorDetailAssignedIdentifier-parentBean" />
 
   <bean id="VendorContact-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="VendorContact-versionNumber" parent="VendorContact-versionNumber-parentBean" />
+
+  <bean id="VendorContact-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorContact-active" parent="VendorContact-active-parentBean" />
 

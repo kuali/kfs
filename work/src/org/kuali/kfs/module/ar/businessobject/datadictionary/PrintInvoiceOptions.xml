@@ -20,6 +20,7 @@
         <ref bean="PrintInvoiceOptions-active" />
         <ref bean="PrintInvoiceOptions-printInvoiceDescription" />
         <ref bean="PrintInvoiceOptions-printInvoiceIndicator" />
+        <ref bean="PrintInvoiceOptions-versionNumber" />
       </list>
     </property>
   </bean>
@@ -76,6 +77,10 @@
     </property>
     <property name="summary" value="printInvoiceIndicator" />
     <property name="description" value="printInvoiceIndicator description..." />
+  </bean>
+  <bean id="PrintInvoiceOptions-versionNumber" parent="PrintInvoiceOptions-versionNumber-parentBean" />
+
+  <bean id="PrintInvoiceOptions-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

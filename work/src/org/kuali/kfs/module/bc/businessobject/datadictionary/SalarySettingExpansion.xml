@@ -29,6 +29,7 @@
         <ref bean="SalarySettingExpansion-financialSubObjectCode" />
         <ref bean="SalarySettingExpansion-subAccountNumber" />
         <ref bean="SalarySettingExpansion-universityFiscalYear" />
+        <ref bean="SalarySettingExpansion-versionNumber" />
       </list>
     </property>
   </bean>
@@ -250,6 +251,10 @@
     </property>
     <property name="summary" value="universityFiscalYear" />
     <property name="description" value="universityFiscalYear description..." />
+  </bean>
+  <bean id="SalarySettingExpansion-versionNumber" parent="SalarySettingExpansion-versionNumber-parentBean" />
+
+  <bean id="SalarySettingExpansion-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

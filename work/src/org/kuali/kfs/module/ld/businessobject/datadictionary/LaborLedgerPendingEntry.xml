@@ -66,6 +66,7 @@
         <ref bean="LaborLedgerPendingEntry-universityFiscalPeriodCode" />
         <ref bean="LaborLedgerPendingEntry-universityFiscalYear" />
         <ref bean="LaborLedgerPendingEntry-documentHeader.financialDocumentStatusCode" />
+        <ref bean="LaborLedgerPendingEntry-versionNumber" />
       </list>
     </property>
   </bean>
@@ -409,6 +410,10 @@
             p:includeKeyInLabel="false" />
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+  </bean>
+  <bean id="LaborLedgerPendingEntry-versionNumber" parent="LaborLedgerPendingEntry-versionNumber-parentBean" />
+
+  <bean id="LaborLedgerPendingEntry-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

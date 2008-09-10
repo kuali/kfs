@@ -41,6 +41,7 @@
         <ref bean="RoutingFormAgency-routingFormRequiredCopyText" />
         <ref bean="RoutingFormAgency-routingFormSubmitDate" />
         <ref bean="RoutingFormAgency-documentNumber" />
+        <ref bean="RoutingFormAgency-versionNumber" />
       </list>
     </property>
   </bean>
@@ -467,6 +468,10 @@
     </property>
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="RoutingFormAgency-versionNumber" parent="RoutingFormAgency-versionNumber-parentBean" />
+
+  <bean id="RoutingFormAgency-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

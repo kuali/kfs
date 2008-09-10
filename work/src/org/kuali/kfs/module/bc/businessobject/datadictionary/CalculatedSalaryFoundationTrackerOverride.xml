@@ -32,6 +32,7 @@
         <ref bean="CalculatedSalaryFoundationTrackerOverride-positionNumber" />
         <ref bean="CalculatedSalaryFoundationTrackerOverride-subAccountNumber" />
         <ref bean="CalculatedSalaryFoundationTrackerOverride-universityFiscalYear" />
+        <ref bean="CalculatedSalaryFoundationTrackerOverride-versionNumber" />
       </list>
     </property>
   </bean>
@@ -222,6 +223,10 @@
     </property>
     <property name="summary" value="University Fiscal Year" />
     <property name="description" value="University Fiscal Year" />
+  </bean>
+  <bean id="CalculatedSalaryFoundationTrackerOverride-versionNumber" parent="CalculatedSalaryFoundationTrackerOverride-versionNumber-parentBean" />
+
+  <bean id="CalculatedSalaryFoundationTrackerOverride-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

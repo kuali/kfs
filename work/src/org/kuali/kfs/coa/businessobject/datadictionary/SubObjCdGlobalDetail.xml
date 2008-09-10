@@ -15,6 +15,7 @@
         <ref bean="SubObjCdGlobalDetail-chartOfAccountsCode" />
         <ref bean="SubObjCdGlobalDetail-financialObjectCode" />
         <ref bean="SubObjCdGlobalDetail-newCollectionRecord" />
+        <ref bean="SubObjCdGlobalDetail-versionNumber" />
       </list>
     </property>
   </bean>
@@ -60,5 +61,9 @@
   <bean id="SubObjCdGlobalDetail-newCollectionRecord" parent="SubObjCdGlobalDetail-newCollectionRecord-parentBean" />
 
   <bean id="SubObjCdGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
+  </bean>
+  <bean id="SubObjCdGlobalDetail-versionNumber" parent="SubObjCdGlobalDetail-versionNumber-parentBean" />
+
+  <bean id="SubObjCdGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

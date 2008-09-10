@@ -64,6 +64,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="contractManagerCode"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -104,6 +106,8 @@
                     p:name="vendorDetail.vendorName"
                     p:template="vendorDetail.vendorName" 
                     p:readOnly="true"/>                    
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />                    
             </list>
           </property>
           <property name="duplicateIdentificationFields">

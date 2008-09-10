@@ -27,6 +27,7 @@
         <ref bean="Subcontractor-subcontractorZipCode" />
         <ref bean="Subcontractor-subcontractorCountryCode" />
         <ref bean="Subcontractor-active" />
+        <ref bean="Subcontractor-versionNumber" />
       </list>
     </property>
   </bean>
@@ -146,6 +147,10 @@
   <bean id="Subcontractor-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
     <property name="shortLabel" value="Active" />
+  </bean>
+  <bean id="Subcontractor-versionNumber" parent="Subcontractor-versionNumber-parentBean" />
+
+  <bean id="Subcontractor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

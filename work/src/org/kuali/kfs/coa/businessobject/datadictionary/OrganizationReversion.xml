@@ -28,6 +28,7 @@
         <ref bean="OrganizationReversion-cashReversionAccountNumber" />
         <ref bean="OrganizationReversion-carryForwardByObjectCodeIndicator" />
         <ref bean="OrganizationReversion-active" />
+        <ref bean="OrganizationReversion-versionNumber" />
       </list>
     </property>
   </bean>
@@ -103,6 +104,10 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="OrganizationReversion-versionNumber" parent="OrganizationReversion-versionNumber-parentBean" />
+
+  <bean id="OrganizationReversion-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

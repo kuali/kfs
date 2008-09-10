@@ -35,6 +35,7 @@
         <ref bean="EffortCertificationDetail-accountExpiredOverride" />
         <ref bean="EffortCertificationDetail-originalFringeBenefitAmount" />
         <ref bean="EffortCertificationDetail-fringeBenefitAmount" />
+        <ref bean="EffortCertificationDetail-versionNumber" />
       </list>
     </property>
   </bean>
@@ -214,6 +215,10 @@
     <property name="summary" value="F-Ben" />
     <property name="description" value="F-Ben" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+  </bean>
+  <bean id="EffortCertificationDetail-versionNumber" parent="EffortCertificationDetail-versionNumber-parentBean" />
+
+  <bean id="EffortCertificationDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -129,6 +129,8 @@
               p:name="expenseFinancialSubObjectCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="expenseSubAccountNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>

@@ -24,6 +24,7 @@
         <ref bean="VendorAddress-vendorFaxNumber" />
         <ref bean="VendorAddress-vendorAddressTypeCode" />
         <ref bean="VendorAddress-newCollectionRecord" />
+        <ref bean="VendorAddress-versionNumber" />
         <ref bean="VendorAddress-vendorLine1Address" />
         <ref bean="VendorAddress-vendorLine2Address" />
         <ref bean="VendorAddress-vendorCityName" />
@@ -128,6 +129,10 @@
   <bean id="VendorAddress-newCollectionRecord" parent="VendorAddress-newCollectionRecord-parentBean" />
 
   <bean id="VendorAddress-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
+  </bean>
+  <bean id="VendorAddress-versionNumber" parent="VendorAddress-versionNumber-parentBean" />
+
+  <bean id="VendorAddress-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorAddress-vendorLine1Address" parent="VendorAddress-vendorLine1Address-parentBean" />
 

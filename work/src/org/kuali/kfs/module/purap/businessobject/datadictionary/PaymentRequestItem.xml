@@ -17,6 +17,7 @@
     </property>
     <property name="attributes" >
       <list>
+        <ref bean="PaymentRequestItem-versionNumber" />
         <ref bean="PaymentRequestItem-itemIdentifier" />
         <ref bean="PaymentRequestItem-itemLineNumber" />
         <ref bean="PaymentRequestItem-itemUnitOfMeasureCode" />
@@ -44,6 +45,10 @@
 <!-- Attribute Definitions -->
 
 
+  <bean id="PaymentRequestItem-versionNumber" parent="PaymentRequestItem-versionNumber-parentBean" />
+
+  <bean id="PaymentRequestItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
   <bean id="PaymentRequestItem-itemIdentifier" parent="PaymentRequestItem-itemIdentifier-parentBean" />
 
   <bean id="PaymentRequestItem-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">

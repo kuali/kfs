@@ -159,6 +159,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="active"
               p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -225,6 +227,9 @@
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationExtension.hrmsLastUpdateDate"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationExtension.versionNumber"
               p:readOnly="true" />
       </list>
     </property>

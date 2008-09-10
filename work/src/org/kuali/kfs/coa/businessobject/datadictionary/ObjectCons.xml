@@ -26,6 +26,7 @@
         <ref bean="ObjectCons-financialEliminationsObject.financialObjectCodeName" />
         <ref bean="ObjectCons-financialEliminationsObjectCode" />
         <ref bean="ObjectCons-financialReportingSortCode" />
+        <ref bean="ObjectCons-versionNumber" />
       </list>
     </property>
   </bean>
@@ -123,6 +124,10 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
+  </bean>
+  <bean id="ObjectCons-versionNumber" parent="ObjectCons-versionNumber-parentBean" />
+
+  <bean id="ObjectCons-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

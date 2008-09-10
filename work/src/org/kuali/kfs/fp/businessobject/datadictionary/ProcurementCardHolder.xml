@@ -32,6 +32,7 @@
         <ref bean="ProcurementCardHolder-documentNumber" />
         <ref bean="ProcurementCardHolder-subAccountNumber" />
         <ref bean="ProcurementCardHolder-transactionCreditCardNumber" />
+        <ref bean="ProcurementCardHolder-versionNumber" />
       </list>
     </property>
   </bean>
@@ -246,6 +247,10 @@
       <bean parent="TextControlDefinition"
             p:size="18" />
     </property>
+  </bean>
+  <bean id="ProcurementCardHolder-versionNumber" parent="ProcurementCardHolder-versionNumber-parentBean" />
+
+  <bean id="ProcurementCardHolder-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

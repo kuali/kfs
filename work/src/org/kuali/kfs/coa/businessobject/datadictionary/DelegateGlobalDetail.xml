@@ -27,6 +27,7 @@
         <ref bean="DelegateGlobalDetail-approvalToThisAmount" />
         <ref bean="DelegateGlobalDetail-documentNumber" />
         <ref bean="DelegateGlobalDetail-newCollectionRecord" />
+        <ref bean="DelegateGlobalDetail-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -163,6 +164,10 @@
 
   <bean id="DelegateGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
+  <bean id="DelegateGlobalDetail-versionNumber" parent="DelegateGlobalDetail-versionNumber-parentBean" />
+
+  <bean id="DelegateGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -192,6 +197,8 @@
                     p:attributeName="approvalToThisAmount" />
               <bean parent="FieldDefinition"
                     p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="versionNumber" />
             </list>
           </property>
         </bean>
@@ -227,6 +234,8 @@
               p:attributeName="approvalToThisAmount" />
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber" />
       </list>
     </property>
     <property name="resultFields" >
@@ -245,6 +254,8 @@
               p:attributeName="approvalToThisAmount" />
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber" />
       </list>
     </property>
   </bean>

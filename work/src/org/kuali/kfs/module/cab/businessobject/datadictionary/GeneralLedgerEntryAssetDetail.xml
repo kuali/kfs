@@ -27,6 +27,7 @@
         <ref bean="GeneralLedgerEntryAssetDetail-buildingCode" />
         <ref bean="GeneralLedgerEntryAssetDetail-buildingRoomNumber" />
         <ref bean="GeneralLedgerEntryAssetDetail-buildingSubRoomNumber" />
+        <ref bean="GeneralLedgerEntryAssetDetail-versionNumber" />
         <ref bean="GeneralLedgerEntryAssetDetail-newCollectionRecord" />
       </list>
     </property>
@@ -217,6 +218,10 @@
     <property name="description" value="campusTagNumber description..." />
   </bean>
   
+  <bean id="GeneralLedgerEntryAssetDetail-versionNumber" parent="GeneralLedgerEntryAssetDetail-versionNumber-parentBean" />
+
+  <bean id="GeneralLedgerEntryAssetDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
+
   <bean id="GeneralLedgerEntryAssetDetail-newCollectionRecord" parent="GeneralLedgerEntryAssetDetail-newCollectionRecord-parentBean" />
 
   <bean id="GeneralLedgerEntryAssetDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord" />

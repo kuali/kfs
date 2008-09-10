@@ -25,6 +25,7 @@
         <ref bean="BudgetConstructionActiveJobMove-employeeStatus" />
         <ref bean="BudgetConstructionActiveJobMove-personUniversalIdentifier" />
         <ref bean="BudgetConstructionActiveJobMove-positionNumber" />
+        <ref bean="BudgetConstructionActiveJobMove-versionNumber" />
       </list>
     </property>
   </bean>
@@ -175,6 +176,10 @@
     </property>
     <property name="summary" value="positionNumber" />
     <property name="description" value="positionNumber description..." />
+  </bean>
+  <bean id="BudgetConstructionActiveJobMove-versionNumber" parent="BudgetConstructionActiveJobMove-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionActiveJobMove-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -21,6 +21,7 @@
         <ref bean="FederalFundedCode-code" />
         <ref bean="FederalFundedCode-name" />
         <ref bean="FederalFundedCode-active" />
+        <ref bean="FederalFundedCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -65,6 +66,10 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="FederalFundedCode-versionNumber" parent="FederalFundedCode-versionNumber-parentBean" />
+
+  <bean id="FederalFundedCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

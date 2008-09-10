@@ -37,6 +37,7 @@
         <ref bean="VendorContract-newCollectionRecord" />
         <ref bean="VendorContract-vendorHeaderGeneratedIdentifier" />
         <ref bean="VendorContract-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorContract-versionNumber" />
         <ref bean="VendorContract-active" />
       </list>
     </property>
@@ -238,6 +239,10 @@
   <bean id="VendorContract-vendorDetailAssignedIdentifier" parent="VendorContract-vendorDetailAssignedIdentifier-parentBean" />
 
   <bean id="VendorContract-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="VendorContract-versionNumber" parent="VendorContract-versionNumber-parentBean" />
+
+  <bean id="VendorContract-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorContract-active" parent="VendorContract-active-parentBean" />
 

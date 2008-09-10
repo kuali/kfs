@@ -21,6 +21,7 @@
         <ref bean="PersonRole-personRoleDescription" />
         <ref bean="PersonRole-personRoleSortNumber" />
         <ref bean="PersonRole-active" />
+        <ref bean="PersonRole-versionNumber" />
       </list>
     </property>
   </bean>
@@ -87,6 +88,10 @@
 
   <bean id="PersonRole-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="PersonRole-versionNumber" parent="PersonRole-versionNumber-parentBean" />
+
+  <bean id="PersonRole-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

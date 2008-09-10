@@ -11,6 +11,7 @@
     <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurApSummaryItem" />
     <property name="attributes" >
       <list>
+        <ref bean="PurApSummaryItem-versionNumber" />
         <ref bean="PurApSummaryItem-itemIdentifier" />
         <ref bean="PurApSummaryItem-itemLineNumber" />
         <ref bean="PurApSummaryItem-itemUnitOfMeasureCode" />
@@ -32,6 +33,10 @@
 <!-- Attribute Definitions -->
 
 
+  <bean id="PurApSummaryItem-versionNumber" parent="PurApSummaryItem-versionNumber-parentBean" />
+
+  <bean id="PurApSummaryItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
   <bean id="PurApSummaryItem-itemIdentifier" parent="PurApSummaryItem-itemIdentifier-parentBean" />
 
   <bean id="PurApSummaryItem-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">

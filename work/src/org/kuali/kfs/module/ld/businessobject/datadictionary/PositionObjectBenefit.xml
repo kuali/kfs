@@ -22,6 +22,7 @@
         <ref bean="PositionObjectBenefit-chartOfAccountsCode" />
         <ref bean="PositionObjectBenefit-financialObjectCode" />
         <ref bean="PositionObjectBenefit-financialObjectBenefitsTypeCode" />
+        <ref bean="PositionObjectBenefit-versionNumber" />
       </list>
     </property>
   </bean>
@@ -47,6 +48,10 @@
 
   <bean id="PositionObjectBenefit-financialObjectBenefitsTypeCode-parentBean" abstract="true" parent="BenefitsType-positionBenefitTypeCode">
     <property name="name" value="financialObjectBenefitsTypeCode" />
+  </bean>
+  <bean id="PositionObjectBenefit-versionNumber" parent="PositionObjectBenefit-versionNumber-parentBean" />
+
+  <bean id="PositionObjectBenefit-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

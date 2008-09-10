@@ -67,6 +67,7 @@
         <ref bean="Asset-totalCostAmount" />
         <ref bean="Asset-transferOfFundsFinancialDocumentNumber" />
         <ref bean="Asset-vendorName" />
+        <ref bean="Asset-versionNumber" />
         <ref bean="Asset-capitalAssetType.depreciableLifeLimit" />
         <ref bean="Asset-representativeUniversalIdentifier" />
         <ref bean="Asset-assetRepresentative.personUserIdentifier" />
@@ -81,6 +82,7 @@
         <ref bean="Asset-assetOrganization.organizationText" />
         <ref bean="Asset-assetOrganization.organizationTagNumber" /> 
         <ref bean="Asset-assetOrganization.organizationAssetTypeIdentifier" />
+        <ref bean="Asset-assetOrganization.versionNumber" />
         <ref bean="Asset-conditionCode" />
         <ref bean="Asset-landCountyName" />
         <ref bean="Asset-landAcreageSize" />
@@ -100,8 +102,10 @@
         <ref bean="Asset-assetWarranty.warrantyBeginningDate" />
         <ref bean="Asset-assetWarranty.warrantyEndingDate" />
         <ref bean="Asset-assetWarranty.warrantyText" />
+        <ref bean="Asset-assetWarranty.versionNumber" />
         <ref bean="Asset-assetSeparateHistory.originalCapitalAssetNumber" />
         <ref bean="Asset-assetSeparateHistory.dispositionDate" />
+        <ref bean="Asset-assetDispositions.versionNumber" />
         <ref bean="Asset-retirementInfo.documentNumber" />
         <ref bean="Asset-retirementReason.retirementReasonName" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementDate" />
@@ -134,6 +138,7 @@
         <ref bean="Asset-offCampusLocation.assetLocationStateCode" />
         <ref bean="Asset-offCampusLocation.assetLocationZipCode" />
         <ref bean="Asset-offCampusLocation.assetLocationCountryCode" />
+        <ref bean="Asset-offCampusLocation.versionNumber" />
         <ref bean="Asset-assetStatus.inventoryStatusCode" />        
         <ref bean="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" />
         <ref bean="Asset-inventoryStatus.inventoryStatusCode" />
@@ -893,6 +898,10 @@
     <property name="summary" value="vendorName" />
     <property name="description" value="vendorName description..." />
   </bean>
+  <bean id="Asset-versionNumber" parent="Asset-versionNumber-parentBean" />
+
+  <bean id="Asset-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
   <bean id="Asset-capitalAssetType.depreciableLifeLimit" parent="Asset-capitalAssetType.depreciableLifeLimit-parentBean" />
 
   <bean id="Asset-capitalAssetType.depreciableLifeLimit-parentBean" abstract="true" parent="AssetType-depreciableLifeLimit">
@@ -975,6 +984,11 @@
 
   <bean id="Asset-assetOrganization.organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AssetOrganization-organizationAssetTypeIdentifier">
     <property name="name" value="assetOrganization.organizationAssetTypeIdentifier" />
+  </bean>
+  <bean id="Asset-assetOrganization.versionNumber" parent="Asset-assetOrganization.versionNumber-parentBean" />
+
+  <bean id="Asset-assetOrganization.versionNumber-parentBean" abstract="true" parent="AssetOrganization-versionNumber">
+    <property name="name" value="assetOrganization.versionNumber" />
   </bean>
   <bean id="Asset-conditionCode" parent="Asset-conditionCode-parentBean" />
 
@@ -1161,6 +1175,11 @@
     <property name="name" value="assetWarranty.warrantyText" />
     <property name="label" value="Description" />
   </bean>
+  <bean id="Asset-assetWarranty.versionNumber" parent="Asset-assetWarranty.versionNumber-parentBean" />
+
+  <bean id="Asset-assetWarranty.versionNumber-parentBean" abstract="true" parent="AssetWarranty-versionNumber">
+    <property name="name" value="assetWarranty.versionNumber" />
+  </bean>
   <bean id="Asset-assetSeparateHistory.originalCapitalAssetNumber" parent="Asset-assetSeparateHistory.originalCapitalAssetNumber-parentBean" />
 
   <bean id="Asset-assetSeparateHistory.originalCapitalAssetNumber-parentBean" abstract="true" parent="AssetDisposition-originalCapitalAssetNumber">
@@ -1174,6 +1193,11 @@
     <property name="name" value="assetSeparateHistory.dispositionDate" />
     <property name="label" value="Separate Date" />
     <property name="shortLabel" value="SeparateDate" />
+  </bean>
+  <bean id="Asset-assetDispositions.versionNumber" parent="Asset-assetDispositions.versionNumber-parentBean" />
+
+  <bean id="Asset-assetDispositions.versionNumber-parentBean" abstract="true" parent="AssetDisposition-versionNumber">
+    <property name="name" value="assetDispositions.versionNumber" />
   </bean>
   <bean id="Asset-retirementInfo.documentNumber" parent="Asset-retirementInfo.documentNumber-parentBean" />
 
@@ -1408,6 +1432,11 @@
     
     <property name="summary" value="Asset Off Campus Country" />
     <property name="description" value="Asset Off Campus Country description..." />
+  </bean>
+  <bean id="Asset-offCampusLocation.versionNumber" parent="Asset-offCampusLocation.versionNumber-parentBean" />
+
+  <bean id="Asset-offCampusLocation.versionNumber-parentBean" abstract="true" parent="AssetLocation-versionNumber">
+    <property name="name" value="offCampusLocation.versionNumber" />
   </bean>
   <bean id="Asset-assetStatus.inventoryStatusCode" parent="Asset-assetStatus.inventoryStatusCode-parentBean" />
 

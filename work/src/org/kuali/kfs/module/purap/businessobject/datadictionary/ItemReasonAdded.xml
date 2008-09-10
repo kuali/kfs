@@ -21,6 +21,7 @@
         <ref bean="ItemReasonAdded-active" />
         <ref bean="ItemReasonAdded-itemReasonAddedCode" />
         <ref bean="ItemReasonAdded-itemReasonAddedDescription" />
+        <ref bean="ItemReasonAdded-versionNumber" />
       </list>
     </property>
   </bean>
@@ -77,6 +78,10 @@
     </property>
     <property name="summary" value="itemReasonAddedDescription" />
     <property name="description" value="itemReasonAddedDescription description..." />
+  </bean>
+  <bean id="ItemReasonAdded-versionNumber" parent="ItemReasonAdded-versionNumber-parentBean" />
+
+  <bean id="ItemReasonAdded-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

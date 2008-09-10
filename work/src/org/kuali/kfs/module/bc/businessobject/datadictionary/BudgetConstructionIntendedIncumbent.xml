@@ -23,6 +23,7 @@
         <ref bean="BudgetConstructionIntendedIncumbent-personName" />
         <ref bean="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan" />
         <ref bean="BudgetConstructionIntendedIncumbent-setidSalary" />
+        <ref bean="BudgetConstructionIntendedIncumbent-versionNumber" />
       </list>
     </property>
   </bean>
@@ -139,6 +140,10 @@
     </property>
     <property name="summary" value="Salary Setid" />
     <property name="description" value="Salary admin plan set identifier for the employee." />
+  </bean>
+  <bean id="BudgetConstructionIntendedIncumbent-versionNumber" parent="BudgetConstructionIntendedIncumbent-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionIntendedIncumbent-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

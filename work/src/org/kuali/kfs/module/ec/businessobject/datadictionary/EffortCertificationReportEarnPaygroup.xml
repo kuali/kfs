@@ -23,6 +23,7 @@
         <ref bean="EffortCertificationReportEarnPaygroup-payGroup" />
         <ref bean="EffortCertificationReportEarnPaygroup-universityFiscalYear" />
         <ref bean="EffortCertificationReportEarnPaygroup-active" />
+        <ref bean="EffortCertificationReportEarnPaygroup-versionNumber" />
       </list>
     </property>
   </bean>
@@ -79,6 +80,10 @@
 
   <bean id="EffortCertificationReportEarnPaygroup-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="EffortCertificationReportEarnPaygroup-versionNumber" parent="EffortCertificationReportEarnPaygroup-versionNumber-parentBean" />
+
+  <bean id="EffortCertificationReportEarnPaygroup-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

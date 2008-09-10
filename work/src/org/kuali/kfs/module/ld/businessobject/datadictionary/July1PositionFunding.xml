@@ -27,6 +27,7 @@
         <ref bean="July1PositionFunding-emplid" />
         <ref bean="July1PositionFunding-personName" />
         <ref bean="July1PositionFunding-positionNumber" />
+        <ref bean="July1PositionFunding-versionNumber" />
         <ref bean="July1PositionFunding-july1BudgetAmount" />
         <ref bean="July1PositionFunding-july1BudgetFteQuantity" />
         <ref bean="July1PositionFunding-july1BudgetTimePercent" />
@@ -77,6 +78,10 @@
   <bean id="July1PositionFunding-positionNumber" parent="July1PositionFunding-positionNumber-parentBean" />
 
   <bean id="July1PositionFunding-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
+  </bean>
+  <bean id="July1PositionFunding-versionNumber" parent="July1PositionFunding-versionNumber-parentBean" />
+
+  <bean id="July1PositionFunding-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="July1PositionFunding-july1BudgetAmount" parent="July1PositionFunding-july1BudgetAmount-parentBean" />
 

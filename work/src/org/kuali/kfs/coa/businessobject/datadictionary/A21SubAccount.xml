@@ -24,6 +24,7 @@
         <ref bean="A21SubAccount-costShareChartOfAccountCode" />
         <ref bean="A21SubAccount-costShareSourceAccountNumber" />
         <ref bean="A21SubAccount-costShareSourceSubAccountNumber" />
+        <ref bean="A21SubAccount-versionNumber" />
       </list>
     </property>
   </bean>
@@ -137,5 +138,9 @@
     <property name="name" value="costShareSourceSubAccountNumber" />
     <property name="label" value="Cost Sharing Sub-Account Number" />
     <property name="shortLabel" value="Cost Sharing Sub-Account" />
+  </bean>
+  <bean id="A21SubAccount-versionNumber" parent="A21SubAccount-versionNumber-parentBean" />
+
+  <bean id="A21SubAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

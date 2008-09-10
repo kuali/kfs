@@ -21,6 +21,7 @@
         <ref bean="BudgetConstructionAppointmentFundingLoad02Move-chartOfAccountsCode" />
         <ref bean="BudgetConstructionAppointmentFundingLoad02Move-continuationAccountNumber" />
         <ref bean="BudgetConstructionAppointmentFundingLoad02Move-continuationFinChrtOfAcctCd" />
+        <ref bean="BudgetConstructionAppointmentFundingLoad02Move-versionNumber" />
       </list>
     </property>
   </bean>
@@ -99,6 +100,10 @@
     </property>
     <property name="summary" value="continuationFinChrtOfAcctCd" />
     <property name="description" value="continuationFinChrtOfAcctCd description..." />
+  </bean>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-versionNumber" parent="BudgetConstructionAppointmentFundingLoad02Move-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

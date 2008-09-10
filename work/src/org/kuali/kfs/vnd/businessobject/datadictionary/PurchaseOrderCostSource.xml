@@ -23,6 +23,7 @@
         <ref bean="PurchaseOrderCostSource-active" />
         <ref bean="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent" />
         <ref bean="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent" />
+        <ref bean="PurchaseOrderCostSource-versionNumber" />
       </list>
     </property>
   </bean>
@@ -67,6 +68,10 @@
 
   <bean id="PurchaseOrderCostSource-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="PurchaseOrderCostSource-versionNumber" parent="PurchaseOrderCostSource-versionNumber-parentBean" />
+
+  <bean id="PurchaseOrderCostSource-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
   <bean id="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent" parent="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent-parentBean" />

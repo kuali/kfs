@@ -22,6 +22,7 @@
         <ref bean="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense" />
         <ref bean="TravelCompanyCode-name" />
         <ref bean="TravelCompanyCode-active" />
+        <ref bean="TravelCompanyCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -58,6 +59,10 @@
     <property name="name" value="active"/>
   </bean>
 
+  <bean id="TravelCompanyCode-versionNumber" parent="TravelCompanyCode-versionNumber-parentBean" />
+
+  <bean id="TravelCompanyCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

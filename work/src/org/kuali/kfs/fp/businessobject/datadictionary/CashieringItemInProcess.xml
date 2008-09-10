@@ -26,6 +26,7 @@
         <ref bean="CashieringItemInProcess-itemClosedDate" />
         <ref bean="CashieringItemInProcess-itemDescription" />
         <ref bean="CashieringItemInProcess-currentPayment" />
+        <ref bean="CashieringItemInProcess-versionNumber" />
       </list>
     </property>
   </bean>
@@ -166,6 +167,10 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
+  </bean>
+  <bean id="CashieringItemInProcess-versionNumber" parent="CashieringItemInProcess-versionNumber-parentBean" />
+
+  <bean id="CashieringItemInProcess-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

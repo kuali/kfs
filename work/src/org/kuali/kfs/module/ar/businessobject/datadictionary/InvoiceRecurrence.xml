@@ -33,6 +33,7 @@
 
         <ref bean="InvoiceRecurrence-documentLastCreateDate" />
         <ref bean="InvoiceRecurrence-active" />
+        <ref bean="InvoiceRecurrence-versionNumber" />
       </list>
     </property>
 
@@ -314,6 +315,10 @@
 
   <bean id="InvoiceRecurrence-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="InvoiceRecurrence-versionNumber" parent="InvoiceRecurrence-versionNumber-parentBean" />
+
+  <bean id="InvoiceRecurrence-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

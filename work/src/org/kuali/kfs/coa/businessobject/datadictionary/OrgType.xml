@@ -20,7 +20,9 @@
       <list>
         <ref bean="OrgType-organizationTypeCode" />
         <ref bean="OrgType-organizationTypeName" />
+        <ref bean="OrgType-objectId" />
         <ref bean="OrgType-active" />
+        <ref bean="OrgType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -59,10 +61,18 @@
             p:size="40" />
     </property>
   </bean>
+  <bean id="OrgType-objectId" parent="OrgType-objectId-parentBean" />
+
+  <bean id="OrgType-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
+  </bean>
   <bean id="OrgType-active" parent="OrgType-active-parentBean" />
 
   <bean id="OrgType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="OrgType-versionNumber" parent="OrgType-versionNumber-parentBean" />
+
+  <bean id="OrgType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

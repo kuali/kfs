@@ -27,6 +27,8 @@
         <ref bean="ReportingCodes-universalUser.personName" />
         <ref bean="ReportingCodes-financialReportsToReportingCode" />
         <ref bean="ReportingCodes-active" />
+        <ref bean="ReportingCodes-versionNumber" />
+        <ref bean="ReportingCodes-objectId" />
       </list>
     </property>
     <property name="relationships" >
@@ -156,6 +158,14 @@
 
   <bean id="ReportingCodes-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
+  </bean>
+  <bean id="ReportingCodes-versionNumber" parent="ReportingCodes-versionNumber-parentBean" />
+
+  <bean id="ReportingCodes-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  <bean id="ReportingCodes-objectId" parent="ReportingCodes-objectId-parentBean" />
+
+  <bean id="ReportingCodes-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

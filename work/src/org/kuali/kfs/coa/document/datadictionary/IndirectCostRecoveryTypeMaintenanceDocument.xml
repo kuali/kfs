@@ -61,6 +61,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="name"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
     	<bean parent="MaintainableFieldDefinition"
     	      p:name="active"
     	      p:defaultValue="true" />
@@ -99,6 +101,8 @@
     	    	    p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
+		      <bean parent="MaintainableFieldDefinition"
+					p:name="versionNumber" />
     		  <bean parent="MaintainableFieldDefinition"
     		        p:name="active"
     		        p:defaultValue="true" />

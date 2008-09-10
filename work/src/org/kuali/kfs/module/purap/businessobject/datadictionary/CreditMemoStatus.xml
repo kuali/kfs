@@ -20,6 +20,7 @@
       <list>
         <ref bean="CreditMemoStatus-statusCode" />
         <ref bean="CreditMemoStatus-statusDescription" />
+        <ref bean="CreditMemoStatus-versionNumber" />
       </list>
     </property>
   </bean>
@@ -58,6 +59,10 @@
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
+  </bean>
+  <bean id="CreditMemoStatus-versionNumber" parent="CreditMemoStatus-versionNumber-parentBean" />
+
+  <bean id="CreditMemoStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

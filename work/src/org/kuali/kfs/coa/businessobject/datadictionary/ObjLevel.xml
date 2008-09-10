@@ -25,6 +25,7 @@
         <ref bean="ObjLevel-financialConsolidationObjectCode" />
         <ref bean="ObjLevel-active" />
         <ref bean="ObjLevel-financialReportingSortCode" />
+        <ref bean="ObjLevel-versionNumber" />
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -125,6 +126,10 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
+  </bean>
+  <bean id="ObjLevel-versionNumber" parent="ObjLevel-versionNumber-parentBean" />
+
+  <bean id="ObjLevel-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

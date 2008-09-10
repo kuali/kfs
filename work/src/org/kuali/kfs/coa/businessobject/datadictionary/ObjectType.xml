@@ -25,6 +25,8 @@
         <ref bean="ObjectType-finObjectTypeIcrSelectionIndicator" />
         <ref bean="ObjectType-fundBalanceIndicator" />
         <ref bean="ObjectType-basicAccountingCategoryCode" />
+        <ref bean="ObjectType-objectId" />
+        <ref bean="ObjectType-versionNumber" />
         <ref bean="ObjectType-active" />
       </list>
     </property>
@@ -129,6 +131,14 @@
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.BasicAccountingCategoryValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
+  </bean>
+  <bean id="ObjectType-objectId" parent="ObjectType-objectId-parentBean" />
+
+  <bean id="ObjectType-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
+  </bean>
+  <bean id="ObjectType-versionNumber" parent="ObjectType-versionNumber-parentBean" />
+
+  <bean id="ObjectType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="ObjectType-active" parent="ObjectType-active-parentBean" />
 

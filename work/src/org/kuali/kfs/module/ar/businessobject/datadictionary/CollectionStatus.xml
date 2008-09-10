@@ -20,6 +20,7 @@
         <ref bean="CollectionStatus-active" />
         <ref bean="CollectionStatus-customerCollectionStatusCode" />
         <ref bean="CollectionStatus-customerCollectionStatusName" />
+        <ref bean="CollectionStatus-versionNumber" />
       </list>
     </property>
   </bean>
@@ -76,6 +77,10 @@
     </property>
     <property name="summary" value="customerCollectionStatusName" />
     <property name="description" value="customerCollectionStatusName description..." />
+  </bean>
+  <bean id="CollectionStatus-versionNumber" parent="CollectionStatus-versionNumber-parentBean" />
+
+  <bean id="CollectionStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

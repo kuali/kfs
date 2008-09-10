@@ -24,6 +24,8 @@
         <ref bean="PostalZipCode-buildingCode" />
         <ref bean="PostalZipCode-buildingRoomNumber" />
         <ref bean="PostalZipCode-active" />
+        <ref bean="PostalZipCode-objectId" />
+        <ref bean="PostalZipCode-versionNumber" />
         <ref bean="PostalZipCode-countyCode" />
       </list>
     </property>
@@ -121,6 +123,14 @@
 
   <bean id="PostalZipCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="PostalZipCode-objectId" parent="PostalZipCode-objectId-parentBean" />
+
+  <bean id="PostalZipCode-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
+  </bean>
+  <bean id="PostalZipCode-versionNumber" parent="PostalZipCode-versionNumber-parentBean" />
+
+  <bean id="PostalZipCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
   <bean id="PostalZipCode-countyCode" parent="PostalZipCode-countyCode-parentBean" />

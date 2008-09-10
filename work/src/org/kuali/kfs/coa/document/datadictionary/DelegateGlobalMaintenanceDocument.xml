@@ -109,6 +109,8 @@
                     p:defaultValue="0.00" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
             </list>
           </property>
           <property name="includeMultipleLookupLine" value="false" />
@@ -161,6 +163,8 @@
                     p:template="accountName" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
             </list>
           </property>
           <property name="duplicateIdentificationFields">

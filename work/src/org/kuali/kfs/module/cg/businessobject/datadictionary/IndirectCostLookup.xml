@@ -21,6 +21,7 @@
         <ref bean="IndirectCostLookup-budgetPurposeCode" />
         <ref bean="IndirectCostLookup-budgetIndirectCostRate" />
         <ref bean="IndirectCostLookup-active" />
+        <ref bean="IndirectCostLookup-versionNumber" />
       </list>
     </property>
   </bean>
@@ -74,6 +75,10 @@
 
   <bean id="IndirectCostLookup-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="IndirectCostLookup-versionNumber" parent="IndirectCostLookup-versionNumber-parentBean" />
+
+  <bean id="IndirectCostLookup-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -20,6 +20,7 @@
       <list>
         <ref bean="AcctType-accountTypeCode" />
         <ref bean="AcctType-accountTypeName" />
+        <ref bean="AcctType-versionNumber" />
         <ref bean="AcctType-active" />
       </list>
     </property>
@@ -70,6 +71,10 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="AcctType-versionNumber" parent="AcctType-versionNumber-parentBean" />
+
+  <bean id="AcctType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

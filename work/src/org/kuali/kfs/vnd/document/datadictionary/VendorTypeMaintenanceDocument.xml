@@ -76,6 +76,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorReviewText" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition"
               p:name="active" />
       </list>
     </property>

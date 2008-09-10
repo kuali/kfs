@@ -22,6 +22,7 @@
         <ref bean="PurchaseOrderQuoteList-purchaseOrderQuoteListName" />
         <ref bean="PurchaseOrderQuoteList-contractManagerCode" />
         <ref bean="PurchaseOrderQuoteList-contractManagerName" />
+        <ref bean="PurchaseOrderQuoteList-versionNumber" />
       </list>
     </property>
   </bean>
@@ -77,6 +78,10 @@
   <bean id="PurchaseOrderQuoteList-contractManagerName-parentBean" abstract="true" parent="ContractManager-contractManagerName">
   </bean>
   
+  <bean id="PurchaseOrderQuoteList-versionNumber" parent="PurchaseOrderQuoteList-versionNumber-parentBean" />
+
+  <bean id="PurchaseOrderQuoteList-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

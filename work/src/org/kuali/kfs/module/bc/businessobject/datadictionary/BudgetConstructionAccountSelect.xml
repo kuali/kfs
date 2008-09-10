@@ -30,6 +30,7 @@
         <ref bean="BudgetConstructionAccountSelect-subAccountNumber" />
         <ref bean="BudgetConstructionAccountSelect-universityFiscalYear" />
         <ref bean="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.personUserIdentifier" />
+        <ref bean="BudgetConstructionAccountSelect-versionNumber" />
       </list>
     </property>
   </bean>
@@ -262,6 +263,10 @@
     <property name="description" value="Bdgt. Lock" />
   </bean>
   
+  <bean id="BudgetConstructionAccountSelect-versionNumber" parent="BudgetConstructionAccountSelect-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionAccountSelect-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

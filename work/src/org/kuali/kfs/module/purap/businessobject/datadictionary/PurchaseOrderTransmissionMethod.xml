@@ -21,6 +21,7 @@
         <ref bean="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode" />
         <ref bean="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription" />
         <ref bean="PurchaseOrderTransmissionMethod-active" />
+        <ref bean="PurchaseOrderTransmissionMethod-versionNumber" />
       </list>
     </property>
   </bean>
@@ -66,6 +67,10 @@
 
   <bean id="PurchaseOrderTransmissionMethod-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="PurchaseOrderTransmissionMethod-versionNumber" parent="PurchaseOrderTransmissionMethod-versionNumber-parentBean" />
+
+  <bean id="PurchaseOrderTransmissionMethod-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -19,6 +19,8 @@
       <list>
         <ref bean="BudgetAggregationCode-code" />
         <ref bean="BudgetAggregationCode-name" />
+        <ref bean="BudgetAggregationCode-objectId" />
+        <ref bean="BudgetAggregationCode-versionNumber" />
         <ref bean="BudgetAggregationCode-active" />
       </list>
     </property>
@@ -57,6 +59,14 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
+  </bean>
+  <bean id="BudgetAggregationCode-objectId" parent="BudgetAggregationCode-objectId-parentBean" />
+
+  <bean id="BudgetAggregationCode-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
+  </bean>
+  <bean id="BudgetAggregationCode-versionNumber" parent="BudgetAggregationCode-versionNumber-parentBean" />
+
+  <bean id="BudgetAggregationCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="BudgetAggregationCode-active" parent="BudgetAggregationCode-active-parentBean" />
 

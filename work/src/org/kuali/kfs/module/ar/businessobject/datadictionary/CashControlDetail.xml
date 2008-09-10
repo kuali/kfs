@@ -25,6 +25,7 @@
         <ref bean="CashControlDetail-financialDocumentLineAmount" />
         <ref bean="CashControlDetail-referenceFinancialDocumentNumber" />
         <ref bean="CashControlDetail-status" />
+        <ref bean="CashControlDetail-versionNumber" />
       </list>
     </property>
   </bean>
@@ -114,6 +115,10 @@
     <property name="name" value="status" />
     <property name="label" value="Status" />
     <property name="shortLabel" value="Status" />
+  </bean>
+  <bean id="CashControlDetail-versionNumber" parent="CashControlDetail-versionNumber-parentBean" />
+
+  <bean id="CashControlDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

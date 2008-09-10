@@ -20,6 +20,7 @@
         <ref bean="CustomerInvoiceDetail-subAccountNumber" />
         <ref bean="CustomerInvoiceDetail-projectCode" />
         <ref bean="CustomerInvoiceDetail-financialSubObjectCode" />
+        <ref bean="CustomerInvoiceDetail-versionNumber" />
         <ref bean="CustomerInvoiceDetail-documentNumber" />
         <ref bean="CustomerInvoiceDetail-accountsReceivableObjectCode" />
         <ref bean="CustomerInvoiceDetail-accountsReceivableSubObjectCode" />
@@ -149,6 +150,11 @@
   <bean id="CustomerInvoiceDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
+  </bean>
+  <bean id="CustomerInvoiceDetail-versionNumber" parent="CustomerInvoiceDetail-versionNumber-parentBean" />
+
+  <bean id="CustomerInvoiceDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+    <property name="required" value="false" />
   </bean>
   <bean id="CustomerInvoiceDetail-documentNumber" parent="CustomerInvoiceDetail-documentNumber-parentBean" />
 

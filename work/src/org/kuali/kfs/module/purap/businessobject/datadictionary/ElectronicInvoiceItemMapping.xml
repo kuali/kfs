@@ -23,6 +23,7 @@
         <ref bean="ElectronicInvoiceItemMapping-invoiceMapIdentifier" />
         <ref bean="ElectronicInvoiceItemMapping-vendorHeaderGeneratedIdentifier" />
         <ref bean="ElectronicInvoiceItemMapping-vendorDetailAssignedIdentifier" />
+        <ref bean="ElectronicInvoiceItemMapping-versionNumber" />
       </list>
     </property>
   </bean>
@@ -127,6 +128,22 @@
     </property>
   </bean>
 
+  <bean id="ElectronicInvoiceItemMapping-versionNumber" parent="ElectronicInvoiceItemMapping-versionNumber-parentBean" />
+
+  <bean id="ElectronicInvoiceItemMapping-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

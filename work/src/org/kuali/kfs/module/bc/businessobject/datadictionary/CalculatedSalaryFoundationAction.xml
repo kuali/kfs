@@ -20,6 +20,7 @@
         <ref bean="CalculatedSalaryFoundationAction-action" />
         <ref bean="CalculatedSalaryFoundationAction-actionReason" />
         <ref bean="CalculatedSalaryFoundationAction-csfFundingStatusCode" />
+        <ref bean="CalculatedSalaryFoundationAction-versionNumber" />
       </list>
     </property>
   </bean>
@@ -80,6 +81,10 @@
     </property>
     <property name="summary" value="csfFundingStatusCode" />
     <property name="description" value="csfFundingStatusCode description..." />
+  </bean>
+  <bean id="CalculatedSalaryFoundationAction-versionNumber" parent="CalculatedSalaryFoundationAction-versionNumber-parentBean" />
+
+  <bean id="CalculatedSalaryFoundationAction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

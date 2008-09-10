@@ -18,6 +18,7 @@
     <property name="attributes" >
       <list>
         <ref bean="AssetLocationGlobal-documentNumber" />
+        <ref bean="AssetLocationGlobal-versionNumber" />
       </list>
     </property>
   </bean>
@@ -42,6 +43,10 @@
     </property>
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="AssetLocationGlobal-versionNumber" parent="AssetLocationGlobal-versionNumber-parentBean" />
+
+  <bean id="AssetLocationGlobal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

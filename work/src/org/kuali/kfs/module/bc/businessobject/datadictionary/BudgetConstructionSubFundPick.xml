@@ -21,6 +21,7 @@
         <ref bean="BudgetConstructionSubFundPick-reportFlag" />
         <ref bean="BudgetConstructionSubFundPick-subFundGroupCode" />
         <ref bean="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription" />
+        <ref bean="BudgetConstructionSubFundPick-versionNumber" />
       </list>
     </property>
   </bean>
@@ -87,6 +88,10 @@
   <bean id="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription-parentBean" abstract="true" parent="SubFundGroup-subFundGroupDescription">
     <property name="name" value="subFundGroup.subFundGroupDescription" />
     <property name="required" value="false" />
+  </bean>
+  <bean id="BudgetConstructionSubFundPick-versionNumber" parent="BudgetConstructionSubFundPick-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionSubFundPick-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

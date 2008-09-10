@@ -26,6 +26,7 @@
         <ref bean="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd" />
         <ref bean="ObjectCodeGlobal-financialFederalFundedCode" />
         <ref bean="ObjectCodeGlobal-nextYearFinancialObjectCode" />
+        <ref bean="ObjectCodeGlobal-versionNumber" />
       </list>
     </property>
   </bean>
@@ -258,5 +259,9 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
+  </bean>
+  <bean id="ObjectCodeGlobal-versionNumber" parent="ObjectCodeGlobal-versionNumber-parentBean" />
+
+  <bean id="ObjectCodeGlobal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

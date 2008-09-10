@@ -22,6 +22,8 @@
         <ref bean="ParameterType-name" />
         <ref bean="ParameterType-codeAndDescription" />
         <ref bean="ParameterType-active" />
+        <ref bean="ParameterType-objectId" />
+        <ref bean="ParameterType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -93,6 +95,14 @@
 
   <bean id="ParameterType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="ParameterType-objectId" parent="ParameterType-objectId-parentBean" />
+
+  <bean id="ParameterType-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
+  </bean>
+  <bean id="ParameterType-versionNumber" parent="ParameterType-versionNumber-parentBean" />
+
+  <bean id="ParameterType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

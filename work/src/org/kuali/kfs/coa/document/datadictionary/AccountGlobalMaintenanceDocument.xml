@@ -147,6 +147,8 @@
               p:name="accountSufficientFundsCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="pendingAcctSufficientFundsIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -189,6 +191,8 @@
                     p:name="account.accountName"
                     p:readOnly="true"
                     p:template="accountName" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
             </list>

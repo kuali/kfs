@@ -20,6 +20,7 @@
         <ref bean="ProposalAwardType-proposalAwardTypeCode" />
         <ref bean="ProposalAwardType-proposalAwardTypeDescription" />
         <ref bean="ProposalAwardType-active" />
+        <ref bean="ProposalAwardType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -65,6 +66,10 @@
 
   <bean id="ProposalAwardType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="ProposalAwardType-versionNumber" parent="ProposalAwardType-versionNumber-parentBean" />
+
+  <bean id="ProposalAwardType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -30,6 +30,7 @@
         <ref bean="BarcodeInventoryErrorDetail-uploadRowNumber" />
         <ref bean="BarcodeInventoryErrorDetail-uploadScanIndicator" />
         <ref bean="BarcodeInventoryErrorDetail-uploadScanTimestamp" />
+        <ref bean="BarcodeInventoryErrorDetail-versionNumber" />
         <ref bean="BarcodeInventoryErrorDetail-errorDescription" />
       </list>
     </property>
@@ -290,6 +291,10 @@
     </property>
     <property name="summary" value="uploadScanTimestamp" />
     <property name="description" value="uploadScanTimestamp description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-versionNumber" parent="BarcodeInventoryErrorDetail-versionNumber-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

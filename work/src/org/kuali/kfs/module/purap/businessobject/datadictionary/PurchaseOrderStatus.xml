@@ -20,6 +20,7 @@
       <list>
         <ref bean="PurchaseOrderStatus-statusCode" />
         <ref bean="PurchaseOrderStatus-statusDescription" />
+        <ref bean="PurchaseOrderStatus-versionNumber" />
       </list>
     </property>
   </bean>
@@ -58,6 +59,10 @@
       <bean parent="TextControlDefinition"
             p:size="47" />
     </property>
+  </bean>
+  <bean id="PurchaseOrderStatus-versionNumber" parent="PurchaseOrderStatus-versionNumber-parentBean" />
+
+  <bean id="PurchaseOrderStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

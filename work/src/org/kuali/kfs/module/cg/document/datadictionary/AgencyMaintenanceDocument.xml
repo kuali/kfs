@@ -88,6 +88,8 @@
               p:name="indirectAmount" />
         <bean parent="MaintainableFieldDefinition"
               p:name="reportsToAgencyNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>

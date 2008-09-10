@@ -19,6 +19,7 @@
       <list>
         <ref bean="RoutingFormConflictOfInterest-routingFormConflictOfInterestDescription" />
         <ref bean="RoutingFormConflictOfInterest-documentNumber" />
+        <ref bean="RoutingFormConflictOfInterest-versionNumber" />
       </list>
     </property>
   </bean>
@@ -62,6 +63,10 @@
     </property>
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="RoutingFormConflictOfInterest-versionNumber" parent="RoutingFormConflictOfInterest-versionNumber-parentBean" />
+
+  <bean id="RoutingFormConflictOfInterest-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

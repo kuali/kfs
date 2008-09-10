@@ -22,6 +22,7 @@
         <ref bean="BudgetConstructionSalarySocialSecurityNumber-organizationCode" />
         <ref bean="BudgetConstructionSalarySocialSecurityNumber-personName" />
         <ref bean="BudgetConstructionSalarySocialSecurityNumber-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionSalarySocialSecurityNumber-versionNumber" />
       </list>
     </property>
   </bean>
@@ -118,6 +119,10 @@
     </property>
     <property name="summary" value="personUniversalIdentifier" />
     <property name="description" value="personUniversalIdentifier description..." />
+  </bean>
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-versionNumber" parent="BudgetConstructionSalarySocialSecurityNumber-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

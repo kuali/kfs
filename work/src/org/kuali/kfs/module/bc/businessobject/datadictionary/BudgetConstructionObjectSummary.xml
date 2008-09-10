@@ -34,6 +34,7 @@
         <ref bean="BudgetConstructionObjectSummary-personUniversalIdentifier" />
         <ref bean="BudgetConstructionObjectSummary-positionCsfLeaveFteQuantity" />
         <ref bean="BudgetConstructionObjectSummary-subFundGroupCode" />
+        <ref bean="BudgetConstructionObjectSummary-versionNumber" />
       </list>
     </property>
   </bean>
@@ -346,6 +347,10 @@
     </property>
     <property name="summary" value="subFundGroupCode" />
     <property name="description" value="subFundGroupCode description..." />
+  </bean>
+  <bean id="BudgetConstructionObjectSummary-versionNumber" parent="BudgetConstructionObjectSummary-versionNumber-parentBean" />
+
+  <bean id="BudgetConstructionObjectSummary-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

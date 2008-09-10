@@ -22,6 +22,7 @@
         <ref bean="ShippingPaymentTerms-vendorShippingPaymentTermsDescription" />
         <ref bean="ShippingPaymentTerms-vendorShippingPaymentTermsPayIndicator" />
         <ref bean="ShippingPaymentTerms-active" />
+        <ref bean="ShippingPaymentTerms-versionNumber" />
       </list>
     </property>
   </bean>
@@ -78,6 +79,10 @@
 
   <bean id="ShippingPaymentTerms-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="ShippingPaymentTerms-versionNumber" parent="ShippingPaymentTerms-versionNumber-parentBean" />
+
+  <bean id="ShippingPaymentTerms-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

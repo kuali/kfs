@@ -15,6 +15,7 @@
         <ref bean="VendorAlias-newCollectionRecord" />
         <ref bean="VendorAlias-vendorHeaderGeneratedIdentifier" />
         <ref bean="VendorAlias-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorAlias-versionNumber" />
         <ref bean="VendorAlias-active" />
       </list>
     </property>
@@ -52,6 +53,10 @@
   <bean id="VendorAlias-vendorDetailAssignedIdentifier" parent="VendorAlias-vendorDetailAssignedIdentifier-parentBean" />
 
   <bean id="VendorAlias-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="VendorAlias-versionNumber" parent="VendorAlias-versionNumber-parentBean" />
+
+  <bean id="VendorAlias-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorAlias-active" parent="VendorAlias-active-parentBean" />
 

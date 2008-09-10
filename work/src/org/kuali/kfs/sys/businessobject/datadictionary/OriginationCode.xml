@@ -32,6 +32,7 @@
         <ref bean="OriginationCode-acctRcvbNextCustomerNumber" />
         <ref bean="OriginationCode-financialDocumentNextItemIdentifier" />
         <ref bean="OriginationCode-active" />
+        <ref bean="OriginationCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -284,6 +285,10 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="OriginationCode-versionNumber" parent="OriginationCode-versionNumber-parentBean" />
+
+  <bean id="OriginationCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

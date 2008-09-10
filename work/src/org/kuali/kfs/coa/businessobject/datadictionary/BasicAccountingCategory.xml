@@ -22,6 +22,7 @@
         <ref bean="BasicAccountingCategory-shortName" />
         <ref bean="BasicAccountingCategory-active" />
         <ref bean="BasicAccountingCategory-sortCode" />
+        <ref bean="BasicAccountingCategory-versionNumber" />
       </list>
     </property>
   </bean>
@@ -99,6 +100,10 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
+  </bean>
+  <bean id="BasicAccountingCategory-versionNumber" parent="BasicAccountingCategory-versionNumber-parentBean" />
+
+  <bean id="BasicAccountingCategory-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -105,6 +105,8 @@
                     p:template="campusTagNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
             </list>
           </property>
         </bean>

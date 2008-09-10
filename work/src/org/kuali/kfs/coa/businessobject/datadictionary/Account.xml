@@ -82,14 +82,17 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="Account-accountManagerUserPersonUserIdentifier" />
         <ref bean="Account-accountManagerUser.personUserIdentifier" />
         <ref bean="Account-accountManagerUser.personName" />
+        <ref bean="Account-versionNumber" />
         <ref bean="Account-accountGuideline.accountExpenseGuidelineText" />
         <ref bean="Account-accountGuideline.accountIncomeGuidelineText" />
         <ref bean="Account-accountGuideline.accountPurposeText" />
+        <ref bean="Account-accountGuideline.versionNumber" />
         <ref bean="Account-accountDescription.campusDescription" />
         <ref bean="Account-accountDescription.organizationDescription" />
         <ref bean="Account-accountDescription.responsibilityCenterDescription" />
         <ref bean="Account-accountDescription.campusCode" />
         <ref bean="Account-accountDescription.buildingCode" />
+        <ref bean="Account-accountDescription.versionNumber" />
       </list>
     </property>
     <property name="collections" >
@@ -823,6 +826,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Account Manager Name" />
     <property name="required" value="false" />
   </bean>
+  <bean id="Account-versionNumber" parent="Account-versionNumber-parentBean" />
+
+  <bean id="Account-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
   <bean id="Account-accountGuideline.accountExpenseGuidelineText" parent="Account-accountGuideline.accountExpenseGuidelineText-parentBean" />
 
   <bean id="Account-accountGuideline.accountExpenseGuidelineText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
@@ -846,6 +853,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Account Purpose Text" />
     <property name="shortLabel" value="AcctPurpTxt" />
     <property name="required" value="false" />
+  </bean>
+  <bean id="Account-accountGuideline.versionNumber" parent="Account-accountGuideline.versionNumber-parentBean" />
+
+  <bean id="Account-accountGuideline.versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+    <property name="name" value="accountGuideline.versionNumber" />
   </bean>
   <bean id="Account-accountDescription.campusDescription" parent="Account-accountDescription.campusDescription-parentBean" />
 
@@ -871,6 +883,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-accountDescription.buildingCode-parentBean" abstract="true" parent="AccountDescription-buildingCode">
     <property name="name" value="accountDescription.buildingCode" />
+  </bean>
+  <bean id="Account-accountDescription.versionNumber" parent="Account-accountDescription.versionNumber-parentBean" />
+
+  <bean id="Account-accountDescription.versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+    <property name="name" value="accountDescription.versionNumber" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -21,6 +21,7 @@
         <ref bean="VendorCustomerNumber-newCollectionRecord" />
         <ref bean="VendorCustomerNumber-vendorHeaderGeneratedIdentifier" />
         <ref bean="VendorCustomerNumber-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorCustomerNumber-versionNumber" />
         <ref bean="VendorCustomerNumber-active" />
       </list>
     </property>
@@ -88,6 +89,10 @@
   <bean id="VendorCustomerNumber-vendorDetailAssignedIdentifier" parent="VendorCustomerNumber-vendorDetailAssignedIdentifier-parentBean" />
 
   <bean id="VendorCustomerNumber-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  </bean>
+  <bean id="VendorCustomerNumber-versionNumber" parent="VendorCustomerNumber-versionNumber-parentBean" />
+
+  <bean id="VendorCustomerNumber-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorCustomerNumber-active" parent="VendorCustomerNumber-active-parentBean" />
 

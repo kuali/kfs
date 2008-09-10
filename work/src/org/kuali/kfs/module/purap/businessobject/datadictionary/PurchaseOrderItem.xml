@@ -17,6 +17,7 @@
     </property>
     <property name="attributes" >
       <list>
+        <ref bean="PurchaseOrderItem-versionNumber" />
         <ref bean="PurchaseOrderItem-itemIdentifier" />
         <ref bean="PurchaseOrderItem-itemLineNumber" />
         <ref bean="PurchaseOrderItem-itemUnitOfMeasureCode" />
@@ -47,6 +48,10 @@
 <!-- Attribute Definitions -->
 
 
+  <bean id="PurchaseOrderItem-versionNumber" parent="PurchaseOrderItem-versionNumber-parentBean" />
+
+  <bean id="PurchaseOrderItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
   <bean id="PurchaseOrderItem-itemIdentifier" parent="PurchaseOrderItem-itemIdentifier-parentBean" />
 
   <bean id="PurchaseOrderItem-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">

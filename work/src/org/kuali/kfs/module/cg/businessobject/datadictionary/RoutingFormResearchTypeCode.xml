@@ -19,6 +19,7 @@
       <list>
         <ref bean="RoutingFormResearchTypeCode-documentNumber" />
         <ref bean="RoutingFormResearchTypeCode-researchTypeCode" />
+        <ref bean="RoutingFormResearchTypeCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -61,6 +62,10 @@
     </property>
     <property name="summary" value="researchTypeCode" />
     <property name="description" value="researchTypeCode description..." />
+  </bean>
+  <bean id="RoutingFormResearchTypeCode-versionNumber" parent="RoutingFormResearchTypeCode-versionNumber-parentBean" />
+
+  <bean id="RoutingFormResearchTypeCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

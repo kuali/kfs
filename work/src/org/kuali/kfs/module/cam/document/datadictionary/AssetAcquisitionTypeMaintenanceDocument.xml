@@ -61,6 +61,8 @@
               p:name="incomeAssetObjectCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>

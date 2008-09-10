@@ -21,6 +21,7 @@
         <ref bean="TaxRegionType-taxRegionTypeCode" />
         <ref bean="TaxRegionType-taxRegionTypeName" />
         <ref bean="TaxRegionType-active" />
+        <ref bean="TaxRegionType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -74,6 +75,10 @@
       <property name="name" value="active" />
   </bean>
   
+  <bean id="TaxRegionType-versionNumber" parent="TaxRegionType-versionNumber-parentBean" />
+
+  <bean id="TaxRegionType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
   
   <bean id="TaxRegionType-inquiryDefinition" parent="TaxRegionType-inquiryDefinition-parentBean" />
 

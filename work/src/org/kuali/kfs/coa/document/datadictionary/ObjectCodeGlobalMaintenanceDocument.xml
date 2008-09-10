@@ -118,6 +118,8 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="nextYearFinancialObjectCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -151,6 +153,8 @@
                     p:name="chartOfAccountsCode"
                     p:readOnlyAfterAdd="true"
                     p:template="chartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
             </list>

@@ -34,6 +34,7 @@
         <ref bean="ObjectCodeCurrent-finObjMandatoryTrnfrelimCd" />
         <ref bean="ObjectCodeCurrent-financialFederalFundedCode" />
         <ref bean="ObjectCodeCurrent-nextYearFinancialObjectCode" />
+        <ref bean="ObjectCodeCurrent-versionNumber" />
       </list>
     </property>
   </bean>
@@ -287,6 +288,10 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
+  </bean>
+  <bean id="ObjectCodeCurrent-versionNumber" parent="ObjectCodeCurrent-versionNumber-parentBean" />
+
+  <bean id="ObjectCodeCurrent-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

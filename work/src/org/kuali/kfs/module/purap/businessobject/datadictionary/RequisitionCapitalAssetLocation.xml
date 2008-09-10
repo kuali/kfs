@@ -29,6 +29,7 @@
         <ref bean="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier" />
         <ref bean="RequisitionCapitalAssetLocation-itemQuantity" />
         <ref bean="RequisitionCapitalAssetLocation-offCampusIndicator" />
+        <ref bean="RequisitionCapitalAssetLocation-versionNumber" />
       </list>
     </property>
   </bean>
@@ -240,6 +241,10 @@
     <property name="description" value="offCampusIndicator description..." />
   </bean>
 
+  <bean id="RequisitionCapitalAssetLocation-versionNumber" parent="RequisitionCapitalAssetLocation-versionNumber-parentBean" />
+
+  <bean id="RequisitionCapitalAssetLocation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

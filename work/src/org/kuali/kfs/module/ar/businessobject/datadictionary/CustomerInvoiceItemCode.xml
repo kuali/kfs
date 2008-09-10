@@ -35,6 +35,7 @@
         <ref bean="CustomerInvoiceItemCode-itemDefaultQuantity" />
         <ref bean="CustomerInvoiceItemCode-organizationCode" />
         <ref bean="CustomerInvoiceItemCode-relatedStockNumber" />
+        <ref bean="CustomerInvoiceItemCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -348,6 +349,10 @@
     </property>
     <property name="summary" value="relatedStockNumber" />
     <property name="description" value="relatedStockNumber description..." />
+  </bean>
+  <bean id="CustomerInvoiceItemCode-versionNumber" parent="CustomerInvoiceItemCode-versionNumber-parentBean" />
+
+  <bean id="CustomerInvoiceItemCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -22,6 +22,7 @@
         <ref bean="CapitalAssetTransactionType-capitalAssetTransactionTypeDescription" />
         <ref bean="CapitalAssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator" />
         <ref bean="CapitalAssetTransactionType-active" />
+        <ref bean="CapitalAssetTransactionType-versionNumber" />
         <ref bean="CapitalAssetTransactionType-capitalAssetQuantitySubtypeRequiredText" />
         <ref bean="CapitalAssetTransactionType-capitalAssetNonquantitySubtypeRequiredText" />
       </list>
@@ -80,6 +81,10 @@
 
   <bean id="CapitalAssetTransactionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+  <bean id="CapitalAssetTransactionType-versionNumber" parent="CapitalAssetTransactionType-versionNumber-parentBean" />
+
+  <bean id="CapitalAssetTransactionType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
   <bean id="CapitalAssetTransactionType-capitalAssetQuantitySubtypeRequiredText" parent="CapitalAssetTransactionType-capitalAssetQuantitySubtypeRequiredText-parentBean" />

@@ -23,6 +23,7 @@
         <ref bean="NegativePaymentRequestApprovalLimit-chartOfAccountsCode" />
         <ref bean="NegativePaymentRequestApprovalLimit-accountNumber" />
         <ref bean="NegativePaymentRequestApprovalLimit-organizationCode" />
+        <ref bean="NegativePaymentRequestApprovalLimit-versionNumber" />
       </list>
     </property>
   </bean>
@@ -75,6 +76,10 @@
 
   <bean id="NegativePaymentRequestApprovalLimit-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
     <property name="required" value="false" />
+  </bean>
+  <bean id="NegativePaymentRequestApprovalLimit-versionNumber" parent="NegativePaymentRequestApprovalLimit-versionNumber-parentBean" />
+
+  <bean id="NegativePaymentRequestApprovalLimit-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

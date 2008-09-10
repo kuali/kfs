@@ -20,6 +20,7 @@
         <ref bean="RoutingFormResearchRisk-researchRiskDescription" />
         <ref bean="RoutingFormResearchRisk-documentNumber" />
         <ref bean="RoutingFormResearchRisk-researchRiskTypeCode" />
+        <ref bean="RoutingFormResearchRisk-versionNumber" />
       </list>
     </property>
   </bean>
@@ -82,6 +83,10 @@
     </property>
     <property name="summary" value="researchRiskTypeCode" />
     <property name="description" value="researchRiskTypeCode description..." />
+  </bean>
+  <bean id="RoutingFormResearchRisk-versionNumber" parent="RoutingFormResearchRisk-versionNumber-parentBean" />
+
+  <bean id="RoutingFormResearchRisk-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

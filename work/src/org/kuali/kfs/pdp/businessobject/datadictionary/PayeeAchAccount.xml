@@ -276,10 +276,11 @@
 
   <bean id="PayeeAchAccount-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
     <property name="shortLabel" value="Vendor Number" />
-    <property name="control" >
-      <bean parent="LookupReadonlyControlDefinition" />
-    </property>
+    <property name="label" value="Vendor Number" />
+    <property name="summary" value="Vendor Number" />
+    <property name="description" value="Vendor Number" />
   </bean>
+  
   <bean id="PayeeAchAccount-disbVchrPayeeIdNumber" parent="PayeeAchAccount-disbVchrPayeeIdNumber-parentBean" />
 
   <bean id="PayeeAchAccount-disbVchrPayeeIdNumber-parentBean" abstract="true" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeIdNumber">
@@ -408,6 +409,8 @@
               p:attributeName="payeeEmailAddress" />
         <bean parent="FieldDefinition"
               p:attributeName="payeeIdentifierTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

@@ -29,6 +29,7 @@
 <!-- Attribute Definitions -->
 
 
+
   <bean id="BudgetConstructionDuration-appointmentDurationCode" parent="BudgetConstructionDuration-appointmentDurationCode-parentBean" />
 
   <bean id="BudgetConstructionDuration-appointmentDurationCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -71,7 +72,7 @@
   <bean id="BudgetConstructionDuration-rowActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rowActiveIndicator" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Duration Code active code" />
+    <property name="label" value="Active Code" />
     <property name="shortLabel" value="Active Code" />
     <property name="maxLength" value="1" />
     <property name="control" >
@@ -118,7 +119,7 @@
   <bean id="BudgetConstructionDuration-lookupDefinition" parent="BudgetConstructionDuration-lookupDefinition-parentBean" />
 
   <bean id="BudgetConstructionDuration-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Duration Lookup" />
+    <property name="title" value="Appointment Funding Duration Lookup" />
     <property name="instructions" value="Look up a Budget Construction Duration" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

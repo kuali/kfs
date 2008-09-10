@@ -45,7 +45,7 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" /></div>
 		</th>
         <td align=left valign=middle class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" property="document.capitalAssetSystemTypeCode" extraReadOnlyProperty="document.capitalAssetSystemType.capitalAssetSystemTypeDescription" readOnly="${!empty KualiForm.document.purchasingCapitalAssetSystems}"/>
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" property="document.capitalAssetSystemTypeCode" extraReadOnlyProperty="document.capitalAssetSystemType.capitalAssetSystemTypeDescription" readOnly="${!empty KualiForm.document.purchasingCapitalAssetItems}"/>
 		</td>
 	</tr>
 	<tr>
@@ -53,7 +53,7 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" /></div>
 		</th>
         <td align=left valign=middle class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" readOnly="${!empty KualiForm.document.purchasingCapitalAssetSystems}"/>
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" readOnly="${!empty KualiForm.document.purchasingCapitalAssetItems}"/>
 		</td>
 	</tr>
 	<tr>
@@ -62,7 +62,7 @@
        </th>
 	   <td align=left valign=middle class="datacell">
 			<c:choose>
-			<c:when test="${empty KualiForm.document.purchasingCapitalAssetSystems}">
+			<c:when test="${empty KualiForm.document.purchasingCapitalAssetItems}">
 				<html:image property="methodToCall.selectSystem" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="select system" styleClass="tinybutton"/>
 			</c:when>
 			<c:otherwise>
@@ -77,7 +77,7 @@
 
 	<c:set var="availabilityOnce" value="${PurapConstants.CapitalAssetAvailability.ONCE}"/>
 
-	<c:if test="${!empty KualiForm.document.purchasingCapitalAssetSystems and ( (KualiForm.purchasingItemCapitalAssetAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemAvailability eq availabilityOnce) )}">
+	<c:if test="${!empty KualiForm.document.purchasingCapitalAssetItems and ( (KualiForm.purchasingItemCapitalAssetAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemAvailability eq availabilityOnce) )}">
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="CAMS Systems" style="width:100%">
 	<tr>
 		<td colspan="12" class="subhead">System Detail</td>

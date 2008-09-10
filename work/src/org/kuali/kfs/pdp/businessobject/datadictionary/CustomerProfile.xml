@@ -346,10 +346,11 @@
     <property name="shortLabel" value="City" />
     <property name="summary" value="City" />
     <property name="description" value="City" />
+    <property name="maxLength" value="50" />
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="30" />
+            p:size="50" />
     </property>
   </bean>
   

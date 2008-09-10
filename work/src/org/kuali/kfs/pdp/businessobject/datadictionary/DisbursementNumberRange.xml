@@ -25,7 +25,6 @@
         <ref bean="DisbursementNumberRange-disbNbrEffectiveDt" />
         <ref bean="DisbursementNumberRange-disbNbrExpirationDt" />
         <ref bean="DisbursementNumberRange-bankId" />
-        <ref bean="DisbursementNumberRange-lastUpdate" />
         <ref bean="DisbursementNumberRange-versionNumber" />
       </list>
     </property>
@@ -167,20 +166,6 @@
     <property name="description" value="Bank Code" />
   </bean>
   
-  <bean id="DisbursementNumberRange-lastUpdate" parent="DisbursementNumberRange-lastUpdate-parentBean" />
-  <bean id="DisbursementNumberRange-lastUpdate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="lastUpdate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Last Update" />
-    <property name="shortLabel" value="Last Update" />
-    <property name="summary" value="Last Update" />
-    <property name="description" value="Last Update" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
-    </property>
-  </bean>
-  
   <bean id="DisbursementNumberRange-versionNumber" parent="DisbursementNumberRange-versionNumber-parentBean" />
   <bean id="DisbursementNumberRange-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber"/>
 
@@ -256,8 +241,6 @@
               p:attributeName="disbNbrEffectiveDt" />
         <bean parent="FieldDefinition"
               p:attributeName="disbNbrExpirationDt" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lastUpdate" />
       </list>
     </property>
   </bean>

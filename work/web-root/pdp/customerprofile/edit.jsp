@@ -214,7 +214,7 @@
           * City:  
          </th>
         <td align=left class="datacell" >
-          <html:text property="city" tabindex="32" maxlength="30"  />
+          <html:text property="city" tabindex="50" maxlength="50"  />
         </td>
       </tr>
       <tr>

@@ -404,7 +404,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             return null;
         }
 
-        return effortCertificationDocumentBuildService.generateDocumentBuild(postingYear, reportDefinition, qualifiedLedgerBalance, parameters);
+        return effortCertificationDocumentBuildService.generateDocumentBuild(postingYear, reportDefinition, qualifiedLedgerBalance);
     }
 
     // add an error entry into error map
@@ -427,9 +427,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         parameters.put(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT, EffortCertificationParameterFinder.getAccountTypeCodes());
         parameters.put(SystemParameters.FEDERAL_ONLY_BALANCE_IND, EffortCertificationParameterFinder.getFederalOnlyBalanceIndicatorAsString());
         parameters.put(SystemParameters.FEDERAL_AGENCY_TYPE_CODE, EffortCertificationParameterFinder.getFederalAgencyTypeCodes());
-
-        parameters.put(SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE, EffortCertificationParameterFinder.getCostShareSubAccountTypeCode());
-        parameters.put(SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE, EffortCertificationParameterFinder.getExpenseSubAccountTypeCode());
 
         return parameters;
     }

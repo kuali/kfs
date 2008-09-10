@@ -42,9 +42,9 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
 
     /**
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDetailBuildService#generateDetailBuild(java.lang.Integer,
-     *      org.kuali.kfs.module.ld.businessobject.LedgerBalance, org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition, java.util.Map)
+     *      org.kuali.kfs.module.ld.businessobject.LedgerBalance, org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
-    public EffortCertificationDetailBuild generateDetailBuild(Integer postingYear, LaborLedgerBalance ledgerBalance, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
+    public EffortCertificationDetailBuild generateDetailBuild(Integer postingYear, LaborLedgerBalance ledgerBalance, EffortCertificationReportDefinition reportDefinition) {
         EffortCertificationDetailBuild detailLine = new EffortCertificationDetailBuild();
 
         detailLine.setUniversityFiscalYear(postingYear);
@@ -63,7 +63,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
         detailLine.setEffortCertificationCalculatedOverallPercent(0);
         detailLine.setEffortCertificationUpdatedOverallPercent(0);
 
-        populateCostShareRelatedFields(detailLine, ledgerBalance, parameters);
+        populateCostShareRelatedFields(detailLine, ledgerBalance);
 
         return detailLine;
     }
@@ -75,9 +75,9 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
      * @param ledgerBalance the given ledger balance
      * @param parameters the given parameters setup in the calling client
      */
-    private void populateCostShareRelatedFields(EffortCertificationDetailBuild detailLine, LaborLedgerBalance ledgerBalance, Map<String, List<String>> parameters) {
-        List<String> expenseSubAccountTypeCodes = parameters.get(SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE);
-        List<String> costShareSubAccountTypeCodes = parameters.get(SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);
+    private void populateCostShareRelatedFields(EffortCertificationDetailBuild detailLine, LaborLedgerBalance ledgerBalance) {
+        List<String> expenseSubAccountTypeCodes = EffortConstants.ELIGIBLE_EXPENSE_SUB_ACCOUNT_TYPE_CODES;
+        List<String> costShareSubAccountTypeCodes = EffortConstants.ELIGIBLE_COST_SHARE_SUB_ACCOUNT_TYPE_CODES;
 
         A21SubAccount A21SubAccount = this.getA21SubAccount(ledgerBalance);
         String subAccountTypeCode = ObjectUtils.isNull(A21SubAccount) ? null : A21SubAccount.getSubAccountTypeCode();

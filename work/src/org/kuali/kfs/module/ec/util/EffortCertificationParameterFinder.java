@@ -97,24 +97,6 @@ public class EffortCertificationParameterFinder {
     }
 
     /**
-     * get the cost share sub account type code setup in system paremters
-     * 
-     * @return the cost share sub account type code setup in system paremters
-     */
-    public static List<String> getCostShareSubAccountTypeCode() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);
-    }
-
-    /**
-     * get the expense sub account type code setup in system paremters
-     * 
-     * @return the expense sub account type code setup in system paremters
-     */
-    public static List<String> getExpenseSubAccountTypeCode() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE);
-    }
-
-    /**
      * get the report fiscal year setup in system paremters for create process
      * 
      * @return the report fiscal year setup in system paremters

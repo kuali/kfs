@@ -145,11 +145,10 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
     private void assertDocumentEquals(String testTarget, boolean savedIntoDatabase) {
         List<String> documentKeyFields = ObjectUtil.split(documentFieldNames, deliminator);
         List<String> detailKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
-        Map<String, List<String>> systemParameters = this.buildSystemParameterMap("");
 
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
 
-        EffortCertificationDocumentBuild documentBuild = effortCertificationDocumentBuildService.generateDocumentBuild(postingYear, reportDefinition, ledgerBalances, systemParameters);
+        EffortCertificationDocumentBuild documentBuild = effortCertificationDocumentBuildService.generateDocumentBuild(postingYear, reportDefinition, ledgerBalances);
         if (savedIntoDatabase) {
             businessObjectService.save(documentBuild);
             persistenceService.retrieveNonKeyFields(documentBuild);
@@ -180,11 +179,10 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
      */
     private void assertDocumentListEquals(String testTarget) {
         List<String> documentKeyFields = ObjectUtil.split(documentFieldNames, deliminator);
-        Map<String, List<String>> systemParameters = this.buildSystemParameterMap("");
 
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
 
-        List<EffortCertificationDocumentBuild> documentBuildList = effortCertificationDocumentBuildService.generateDocumentBuildList(postingYear, reportDefinition, ledgerBalances, systemParameters);
+        List<EffortCertificationDocumentBuild> documentBuildList = effortCertificationDocumentBuildService.generateDocumentBuildList(postingYear, reportDefinition, ledgerBalances);
 
         int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_EXPECTED_DOCUMENTS));
         List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + EffortTestDataPropertyConstants.EXPECTED_DOCUMENT, documentFieldNames, deliminator, numberOfExpectedDocuments);
@@ -228,23 +226,6 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         }
 
         return ledgerBalances;
-    }
-
-    /**
-     * construct a system parameter map
-     * 
-     * @param testTarget the given test target that specifies the test data being used
-     * @return a system parameter map
-     */
-    private Map<String, List<String>> buildSystemParameterMap(String testTarget) {
-        List<String> expSubAccountType = ObjectUtil.split(properties.getProperty(testTarget + "systemParameter.EXPENSE_SUB_ACCOUNT_TYPE_CODE"), deliminator);
-        List<String> csSubAccountType = ObjectUtil.split(properties.getProperty(testTarget + "systemParameter.COST_SHARE_SUB_ACCOUNT_TYPE_CODE"), deliminator);
-
-        Map<String, List<String>> systemParameters = new HashMap<String, List<String>>();
-        systemParameters.put(SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE, expSubAccountType);
-        systemParameters.put(SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE, csSubAccountType);
-
-        return systemParameters;
     }
 
     /**

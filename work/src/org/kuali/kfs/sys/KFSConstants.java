@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.sys;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
@@ -134,7 +136,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String CONVERSION_FIELDS_PARAMETER = "conversionFields";
     public static final String LOOKUP_READ_ONLY_FIELDS = "readOnlyFields";
     public static final String LOOKUP_AUTO_SEARCH = "autoSearch";
-    public static final String COST_SHARE = "CS";
     public static final String CREDIT_AMOUNT_PROPERTY_NAME = "newSourceLineCredit";
     public static final String DEBIT_AMOUNT_PROPERTY_NAME = "newSourceLineDebit";
     public static final String DELETE_LINE_METHOD = "deleteLine";
@@ -1169,7 +1170,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String SEQUENCE_NUMBER_BLOCK = "sequenceNumber";
         public static final String SALES_TAX_BLOCK = "salesTaxInformation";
     }
-    
+       
     public static final class TaxRegionConstants {
         public static final String TAX_REGION_RATES = "taxRegionRates";
         public static final String TAX_REGION_COUNTIES = "taxRegionCounties";
@@ -1178,6 +1179,20 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String TAX_REGION_STATE_CODE = "stateCode";
         public static final String TAX_REGION_COUNTY_CODE = "countyCode";
         public static final String TAX_REGION_POSTAL_CODE = "postalCode";
+    }
+    
+    public static final class SubAccountType {
+        public static final String COST_SHARE = "CS";
+        public static final String EXPENSE = "EX";
+        
+        public static final List<String> ELIGIBLE_SUB_ACCOUNT_TYPE_CODES = getEligibleSubAccountTypeCodes();
+        
+        private static final List<String> getEligibleSubAccountTypeCodes(){
+            List<String> subAccountTypeCodesList = new ArrayList<String>();
+            subAccountTypeCodesList.add(KFSConstants.SubAccountType.COST_SHARE);
+            subAccountTypeCodesList.add(KFSConstants.SubAccountType.EXPENSE);
+            return subAccountTypeCodesList;
+        }
     }
 }
 

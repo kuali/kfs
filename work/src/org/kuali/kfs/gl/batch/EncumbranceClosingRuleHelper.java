@@ -219,7 +219,7 @@ public class EncumbranceClosingRuleHelper {
             }
 
             // everything is valid, return true if the a21 sub account is a cost share sub-account
-            return KFSConstants.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode());
+            return KFSConstants.SubAccountType.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode());
 
         }
         else {

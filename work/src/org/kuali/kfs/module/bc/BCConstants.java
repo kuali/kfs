@@ -125,8 +125,6 @@ public class BCConstants extends JSTLConstants {
 
     // account budgetRecordingLevelCode where no budget is allowed
     public static final String BUDGET_RECORDING_LEVEL_N = "N";
-    public static final String SUB_ACCOUNT_TYPE_COST_SHARE = "CS";
-
 
     public static final String BC_DOCUMENT_REFRESH_CALLER = "BudgetConstruction";
     public static final String BC_DOCUMENT_ACTION = "budgetBudgetConstruction.do";
@@ -337,7 +335,7 @@ public class BCConstants extends JSTLConstants {
             if (this.equals(QUOTE))
                 return "\"";
             if (this.equals(NOTHING))
-                return " ";
+                return "";
 
             return this.toString();
         }
@@ -460,5 +458,5 @@ public class BCConstants extends JSTLConstants {
     public class ErrorKey {
         public static final String DETAIL_SALARY_SETTING_TAB_ERRORS = "newBCAFLine*, budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding*,budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding*";
         public static final String QUICK_SALARY_SETTING_TAB_ERRORS = "salarySettingExpansion.pendingBudgetConstructionAppointmentFunding*,adjustment*";
-    }
+}
 }

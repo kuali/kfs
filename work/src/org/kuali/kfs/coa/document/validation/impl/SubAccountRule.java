@@ -46,10 +46,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRule.class);
 
-
-    public static final String CG_A21_TYPE_COST_SHARING = "CS";
-    public static final String CG_A21_TYPE_ICR = "EX";
-
     private SubAccount oldSubAccount;
     private SubAccount newSubAccount;
     private boolean cgAuthorized;
@@ -304,7 +300,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                         //All references for A21SubAccount are non-updatable
                         newSubAccount.getA21SubAccount().refreshNonUpdateableReferences();
                         a21SubAccountRefreshed = true;
-                        if (StringUtils.isEmpty(newSubAccount.getA21SubAccount().getSubAccountTypeCode()) || !newSubAccount.getA21SubAccount().getSubAccountTypeCode().equals(SubAccountRule.CG_A21_TYPE_ICR)) {
+                        if (StringUtils.isEmpty(newSubAccount.getA21SubAccount().getSubAccountTypeCode()) || !newSubAccount.getA21SubAccount().getSubAccountTypeCode().equals(KFSConstants.SubAccountType.EXPENSE)) {
                             putFieldError("a21SubAccount.subAccountTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_SUB_ACCT_TYPE_CODE_INVALID, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel(), SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue() });
                         }
                     }
@@ -328,10 +324,9 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             newSubAccount.getA21SubAccount().refresh();
         }
 
-        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(SubAccount.class, KFSConstants.ChartApcParms.CG_ALLOWED_SUBACCOUNT_TYPE_CODES, newSubAccount.getA21SubAccount().getSubAccountTypeCode());
         // C&G A21 Type field must be in the allowed values
-        if (!evaluator.evaluationSucceeds()) {
-            putFieldError("a21SubAccount.subAccountTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_INVALI_SUBACCOUNT_TYPE_CODES, evaluator.getParameterValuesForMessage());
+        if (!KFSConstants.SubAccountType.ELIGIBLE_SUB_ACCOUNT_TYPE_CODES.contains(newSubAccount.getA21SubAccount().getSubAccountTypeCode())) {
+            putFieldError("a21SubAccount.subAccountTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_INVALI_SUBACCOUNT_TYPE_CODES, KFSConstants.SubAccountType.ELIGIBLE_SUB_ACCOUNT_TYPE_CODES.toString());
             success &= false;
         }
 
@@ -339,12 +334,12 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         String cgA21TypeCode = newSubAccount.getA21SubAccount().getSubAccountTypeCode();
 
         // if this is a Cost Sharing SubAccount, run the Cost Sharing rules
-        if (CG_A21_TYPE_COST_SHARING.trim().equalsIgnoreCase(StringUtils.trim(cgA21TypeCode))) {
+        if (KFSConstants.SubAccountType.COST_SHARE.trim().equalsIgnoreCase(StringUtils.trim(cgA21TypeCode))) {
             success &= checkCgCostSharingRules();
         }
 
         // if this is an ICR subaccount, run the ICR rules
-        if (CG_A21_TYPE_ICR.trim().equals(StringUtils.trim(cgA21TypeCode))) {
+        if (KFSConstants.SubAccountType.EXPENSE.trim().equals(StringUtils.trim(cgA21TypeCode))) {
             success &= checkCgIcrRules();
         }
 

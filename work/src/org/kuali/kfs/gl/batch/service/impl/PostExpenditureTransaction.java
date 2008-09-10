@@ -129,7 +129,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
                 return false;
             }
             
-            if ((a21SubAccount != null) && KFSConstants.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode())) {
+            if ((a21SubAccount != null) && KFSConstants.SubAccountType.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode())) {
                 // No need to post this
                 LOG.debug("isIcrTransaction() A21 subaccounts with type of CS - not posted");
                 return false;

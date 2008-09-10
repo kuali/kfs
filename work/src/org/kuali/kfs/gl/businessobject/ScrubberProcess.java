@@ -84,7 +84,7 @@ public class ScrubberProcess {
     private static final String TRANSACTION_TYPE_CAPITALIZATION = "C";
     private static final String TRANSACTION_TYPE_LIABILITY = "L";
     private static final String TRANSACTION_TYPE_TRANSFER = "T";
-    private static final String TRANSACTION_TYPE_COST_SHARE = "CS";
+        private static final String TRANSACTION_TYPE_COST_SHARE = "CS";
     private static final String TRANSACTION_TYPE_OTHER = "X";
 
     private static final String COST_SHARE_CODE = "CSHR";
@@ -457,7 +457,7 @@ public class ScrubberProcess {
             String transactionType = getTransactionType(transaction);
             if (TRANSACTION_TYPE_COST_SHARE.equals(transactionType)) {
                 transaction.setFinancialDocumentTypeCode(KFSConstants.TRANSFER_FUNDS);
-                transaction.setFinancialSystemOriginationCode(KFSConstants.COST_SHARE);
+                transaction.setFinancialSystemOriginationCode(KFSConstants.SubAccountType.COST_SHARE);
                 StringBuffer docNbr = new StringBuffer(COST_SHARE_CODE);
 
                 String desc = transaction.getTransactionLedgerEntryDescription();
@@ -631,7 +631,7 @@ public class ScrubberProcess {
                     ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
 
                     Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
-                    if (costShareObjectTypeCodes.evaluationSucceeds() && costShareEncBalanceTypeCodes.evaluationSucceeds() && scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareEncFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
+                    if (costShareObjectTypeCodes.evaluationSucceeds() && costShareEncBalanceTypeCodes.evaluationSucceeds() && scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.SubAccountType.COST_SHARE.equals(subAccountTypeCode) && costShareEncFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
                         TransactionError te1 = generateCostShareEncumbranceEntries(scrubbedEntry);
                         if (te1 != null) {
                             List errors = new ArrayList();
@@ -644,7 +644,7 @@ public class ScrubberProcess {
                     }
 
                     Options scrubbedEntryOption = referenceLookup.get().getOption(scrubbedEntry);
-                    if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntryOption.getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
+                    if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntryOption.getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.SubAccountType.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
                         if (scrubbedEntry.isDebit()) {
                             scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
                         }

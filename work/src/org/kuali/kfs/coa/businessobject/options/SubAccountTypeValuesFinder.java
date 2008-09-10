@@ -41,7 +41,7 @@ public class SubAccountTypeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List activeLabels = new ArrayList();
         activeLabels.add(new KeyLabelPair("", ""));
-        for (String value : SpringContext.getBean(ParameterService.class).getParameterValues(SubAccount.class, KFSConstants.ChartApcParms.CG_ALLOWED_SUBACCOUNT_TYPE_CODES)) {
+        for (String value : KFSConstants.SubAccountType.ELIGIBLE_SUB_ACCOUNT_TYPE_CODES) {
             activeLabels.add(new KeyLabelPair(value, value));
         }
         return activeLabels;

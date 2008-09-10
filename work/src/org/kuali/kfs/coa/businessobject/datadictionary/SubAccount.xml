@@ -129,10 +129,9 @@
     <property name="name" value="a21SubAccount.subAccountTypeCode" />
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="ApcSelectControlDefinition"
-            p:parameterNamespace="KFS-COA"
-            p:parameterName="SUB_ACCOUNT_TYPES"
-            p:parameterDetailType="SubAccount" />
+       <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SubAccountTypeValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="SubAccount-a21SubAccount.costShareChartOfAccountCode" parent="SubAccount-a21SubAccount.costShareChartOfAccountCode-parentBean" />

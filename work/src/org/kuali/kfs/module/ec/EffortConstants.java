@@ -50,11 +50,8 @@ public class EffortConstants extends JSTLConstants {
     public class SystemParameters {
         public static final String ACCOUNT_TYPE_CODE_BALANCE_SELECT = "ACCOUNT_TYPE_CODE_BALANCE_SELECT";
         public static final String CG_DENOTING_VALUE = ChartApcParms.ACCOUNT_CG_DENOTING_VALUE;
-        public static final String COST_SHARE_SUB_ACCOUNT_TYPE_CODE = "COST_SHARE_SUB_ACCOUNT_TYPE_CODE";
-
         public static final String CREATE_FISCAL_YEAR = "CREATE_FISCAL_YEAR";
         public static final String CREATE_REPORT_NUMBER = "CREATE_REPORT_NUMBER";
-        public static final String EXPENSE_SUB_ACCOUNT_TYPE_CODE = "EXPENSE_SUB_ACCOUNT_TYPE_CODE";
         public static final String FEDERAL_AGENCY_TYPE_CODE = "FEDERAL_AGENCY_TYPE_CODE";
 
         public static final String FEDERAL_ONLY_BALANCE_IND = "FEDERAL_ONLY_BALANCE_IND";
@@ -85,7 +82,23 @@ public class EffortConstants extends JSTLConstants {
         
         return balanceTypeList;
     }
-
+    
+    public static final List<String> ELIGIBLE_COST_SHARE_SUB_ACCOUNT_TYPE_CODES = getEligibleCostShareSubAccountTypeCodes();
+    
+    private static final List<String> getEligibleCostShareSubAccountTypeCodes(){
+        List<String> costShareSubAccountTypeCodesList = new ArrayList<String>();
+        costShareSubAccountTypeCodesList.add(KFSConstants.SubAccountType.COST_SHARE);
+        return costShareSubAccountTypeCodesList;
+    }
+    
+    public static final List<String> ELIGIBLE_EXPENSE_SUB_ACCOUNT_TYPE_CODES = getEligibleExpenseSubAccountTypeCodes();
+    
+    private static final List<String> getEligibleExpenseSubAccountTypeCodes(){
+        List<String> expenseSubAccountTypeCodesList = new ArrayList<String>();
+        expenseSubAccountTypeCodesList.add(KFSConstants.SubAccountType.EXPENSE);
+        return expenseSubAccountTypeCodesList;
+    }
+    
     public static final double PERCENT_LIMIT_OF_LINE_SALARY_CHANGE = 0.005;
     public static final double AMOUNT_LIMIT_OF_TOTAL_SALARY_CHANGE = 0.009;
 

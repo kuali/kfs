@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.integration.ec.EffortCertificationService;
+import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
 import org.kuali.kfs.module.ec.batch.EffortCertificationExtractStep;
 import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
@@ -74,7 +75,7 @@ public class EffortCertificationServiceImpl implements EffortCertificationServic
      * @see org.kuali.kfs.integration.service.EffortCertificationService#getCostShareSubAccountTypeCodes()
      */
     public List<String> getCostShareSubAccountTypeCodes() {
-        return this.getParameterService().getParameterValues(EffortCertificationExtractStep.class, SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);
+        return EffortConstants.ELIGIBLE_COST_SHARE_SUB_ACCOUNT_TYPE_CODES;
     }
 
     /**

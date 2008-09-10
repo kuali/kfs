@@ -393,7 +393,7 @@ public class LaborScrubberProcess {
                 ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
 
                 if (scrubbedEntry.getAccount() != null) {
-                    if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
+                    if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.SubAccountType.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
                         if (scrubbedEntry.isDebit()) {
                             scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
                         }

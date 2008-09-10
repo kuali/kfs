@@ -896,9 +896,9 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             // TODO this expects a a21_sub_account, kuldev doesn't have one to one instances
             budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
             if (budgetConstructionDocument.getSubAccount().getA21SubAccount() != null) {
-                if (budgetConstructionDocument.getSubAccount().getA21SubAccount().getSubAccountTypeCode().equalsIgnoreCase(BCConstants.SUB_ACCOUNT_TYPE_COST_SHARE)) {
+                if (budgetConstructionDocument.getSubAccount().getA21SubAccount().getSubAccountTypeCode().equalsIgnoreCase(KFSConstants.SubAccountType.COST_SHARE)) {
                     isAllowed = false;
-                    this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), BCConstants.SUB_ACCOUNT_TYPE_COST_SHARE);
+                    this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), KFSConstants.SubAccountType.COST_SHARE);
                 }
             }
         }

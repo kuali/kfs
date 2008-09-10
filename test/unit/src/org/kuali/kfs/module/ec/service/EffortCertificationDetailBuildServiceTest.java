@@ -111,16 +111,6 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
     }
 
     /**
-     * test if a build detail line can be generated from the specified ledger balance with the sub account whose type is not null
-     * and the specified as the system parameters
-     */
-    public void testGenerateDetailBuild_UnspecifiedTypeSubAccount() throws Exception {
-        String testTarget = "generateDetailBuild.unspecifiedTypeSubAccount.";
-        reportDefinition = this.buildReportDefinition("");
-        this.assertDetailEquals(testTarget);
-    }
-
-    /**
      * test if a build detail line can be generated from the specified ledger balance approperitely for the customized long period
      */
     public void testGenerateDetailBuild_LongReportPeriod() throws Exception {
@@ -136,11 +126,10 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
      */
     private void assertDetailEquals(String testTarget) {
         List<String> keyFields = ObjectUtil.split(detailFieldNames, deliminator);
-        Map<String, List<String>> systemParameters = this.buildSystemParameterMap(testTarget);
 
         LaborLedgerBalance ledgerBalance = this.buildLedgerBalance(testTarget);
 
-        EffortCertificationDetailBuild detailBuild = effortCertificationDetailBuildService.generateDetailBuild(postingYear, ledgerBalance, reportDefinition, systemParameters);
+        EffortCertificationDetailBuild detailBuild = effortCertificationDetailBuildService.generateDetailBuild(postingYear, ledgerBalance, reportDefinition);
         System.out.printf("FringeBenefitAmount = %s; PayrollAmount = %s.\n", detailBuild.getFringeBenefitAmount(), detailBuild.getEffortCertificationPayrollAmount());
 
         EffortCertificationDetailBuild expectedDetailBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDetailBuild.class, properties, testTarget + EffortTestDataPropertyConstants.EXPECTED_DETAIL, detailFieldNames, deliminator);
@@ -161,23 +150,6 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
         persistenceService.retrieveNonKeyFields(ledgerBalance);
 
         return ledgerBalance;
-    }
-
-    /**
-     * construct a system parameter map
-     * 
-     * @param testTarget the given test target that specifies the test data being used
-     * @return a system parameter map
-     */
-    private Map<String, List<String>> buildSystemParameterMap(String testTarget) {
-        List<String> expSubAccountType = ObjectUtil.split(properties.getProperty(testTarget + "systemParameter.EXPENSE_SUB_ACCOUNT_TYPE_CODE"), deliminator);
-        List<String> csSubAccountType = ObjectUtil.split(properties.getProperty(testTarget + "systemParameter.COST_SHARE_SUB_ACCOUNT_TYPE_CODE"), deliminator);
-
-        Map<String, List<String>> systemParameters = new HashMap<String, List<String>>();
-        systemParameters.put(SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE, expSubAccountType);
-        systemParameters.put(SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE, csSubAccountType);
-
-        return systemParameters;
     }
 
     /**

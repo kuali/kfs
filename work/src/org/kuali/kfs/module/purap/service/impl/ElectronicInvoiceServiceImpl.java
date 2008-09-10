@@ -846,7 +846,10 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   public PaymentRequestInitializationValidationErrors validatePaymentRequestCreation(ElectronicInvoice eInvoice,
                                                                                      ElectronicInvoiceOrder eInvoiceOrder) {
       
-    LOG.debug("validatePaymentRequestCreation() started");
+      /**
+       * Commented by venkat (Have to delete this class)
+       */
+    /*LOG.debug("validatePaymentRequestCreation() started");
     
     // here we call the validation of the Payment Request Creation
     // in order to check to see if this Invoice can be processed
@@ -871,7 +874,9 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
         
         LOG.debug("validatePaymentRequestCreation() ended");
         
-        return initErrors;
+        return initErrors;*/
+      
+      return null;
   }
   
   public PaymentRequestDocument createPaymentRequestFromInvoice(ElectronicInvoice ei,ElectronicInvoiceOrder eio,

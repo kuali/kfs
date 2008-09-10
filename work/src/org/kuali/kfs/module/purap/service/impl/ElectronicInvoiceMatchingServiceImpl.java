@@ -73,14 +73,32 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
     
     public void doMatchingProcess(ElectronicInvoiceOrderHolder orderHolder) {
         
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Matching process started");
+        }
+        
         try {
             if (orderHolder.isValidateHeaderInformation()) {
+                
                 validateHeaderInformation(orderHolder);
+                
                 if (orderHolder.isInvoiceRejected()) {
+                    if (LOG.isDebugEnabled()){
+                        LOG.debug("Matching process failed at header validation");
+                    }
                     return;
                 }
             }
+            
             validateInvoiceDetails(orderHolder);
+            
+            if (orderHolder.isInvoiceRejected()) {
+                if (LOG.isDebugEnabled()){
+                    LOG.debug("Matching process failed at detail validation");
+                }
+                return;
+            }
+            
         }
         catch (NumberFormatException e) {
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVALID_NUMBER_FORMAT, e.getMessage(), orderHolder.getFileName());

@@ -818,6 +818,8 @@ public class PurapConstants extends JSTLConstants {
         public final static String PAYMENT_REQUEST_CREATION_ERROR = "PRCE";
         public final static String INVOICE_ORDER_DUPLICATE = "EIDU";
         
+        public final static String PREQ_WORKLOW_EXCEPTION = "PRWE";
+        
     }
     
     public static String PRODUCTION_ENVIRONMENT = "PRD";

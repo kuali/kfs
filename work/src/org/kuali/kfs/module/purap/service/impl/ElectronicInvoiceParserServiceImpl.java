@@ -50,7 +50,9 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReasonTy
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.dataaccess.ElectronicInvoicingDao;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.exception.CxmlParseException;
@@ -61,6 +63,7 @@ import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMatchingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceParserService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceService;
+import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -73,15 +76,18 @@ import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.Attachment;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.springframework.dao.support.DaoSupport;
 import org.springframework.transaction.annotation.Transactional;
@@ -117,16 +123,15 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         String acceptDirName = electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "accept" + File.separator;
         String sourceDirName = getSourceDir();
 
-        /**
-         * FIXME: Is it a file name or emailid
-         */
-        String emailFileName = "c:\\test.txt";
-        (new File(emailFileName)).delete();
+        Boolean moveFiles = false;
 
-        LOG.info("loadElectronicInvoices() Invoice Base Directory - " + electronicInvoiceInputFileType.getDirectoryPath());
-        LOG.info("loadElectronicInvoices() Invoice Source Directory - " + sourceDirName);
-        LOG.info("loadElectronicInvoices() Invoice Accept Directory - " + acceptDirName);
-        LOG.info("loadElectronicInvoices() Invoice Reject Directory - " + rejectDirName);
+        if (LOG.isInfoEnabled()){
+            LOG.info("loadElectronicInvoices() Invoice Base Directory - " + electronicInvoiceInputFileType.getDirectoryPath());
+            LOG.info("loadElectronicInvoices() Invoice Source Directory - " + sourceDirName);
+            LOG.info("loadElectronicInvoices() Invoice Accept Directory - " + acceptDirName);
+            LOG.info("loadElectronicInvoices() Invoice Reject Directory - " + rejectDirName);
+            LOG.info("Is moving files allowed - " + moveFiles);
+        }
 
         if (StringUtils.isBlank(rejectDirName)) {
             throw new RuntimeException("Reject directory name should not be empty");
@@ -147,6 +152,9 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
                                                             }
                                                         });
 
+        String emailFileName = "c:\\test.txt";
+        (new File(emailFileName)).delete();
+        
         if (!sourceDir.exists() ||  
              filesToBeProcessed == null || 
              filesToBeProcessed.length == 0) {
@@ -165,9 +173,6 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
             FileUtils.forceMkdir(new File(acceptDirName));
             FileUtils.forceMkdir(new File(rejectDirName));
         }catch (IOException e) {
-            /**
-             * FIXME : Mail required?
-             */
             throw new RuntimeException(e);
         }
         
@@ -177,14 +182,12 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         /**
          * FIMXE : Introduce param here
          */
-        Boolean moveFiles = false;
-
-        LOG.info("Is moving files allowed - " + moveFiles);
-        
         boolean hasRejectedFile = false;
         ElectronicInvoiceLoad eInvoiceLoad = new ElectronicInvoiceLoad();
 
-        LOG.info(filesToBeProcessed.length + " file(s) available for processing");
+        if (LOG.isInfoEnabled()){
+            LOG.info(filesToBeProcessed.length + " file(s) available for processing");
+        }
 
         for (int i = 0; i < filesToBeProcessed.length; i++) {
 
@@ -193,21 +196,25 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
             boolean isRejected = processElectronicInvoice(eInvoiceLoad, filesToBeProcessed[i]);
 
             if (isRejected) {
-                LOG.info(filesToBeProcessed[i].getName() + " has been rejected");
+                if (LOG.isInfoEnabled()){
+                    LOG.info(filesToBeProcessed[i].getName() + " has been rejected");
+                }
                 if (moveFiles) {
-                    LOG.info(filesToBeProcessed[i].getName() + " has been marked to move to " + rejectDirName);
+                    
+                    if (LOG.isDebugEnabled()){
+                        LOG.debug(filesToBeProcessed[i].getName() + " has been marked to move to " + rejectDirName);
+                    }
                     eInvoiceLoad.insertRejectFileToMove(filesToBeProcessed[i], rejectDirName);
                 }
                 hasRejectedFile = true;
             } else {
-                LOG.info(filesToBeProcessed[i].getName() + " has been accepted");
+                if (LOG.isInfoEnabled()){
+                    LOG.info(filesToBeProcessed[i].getName() + " has been accepted");
+                }
                 if (moveFiles) {
                     if (!moveFile(filesToBeProcessed[i], acceptDirName)) {
                         String errorMessage = filesToBeProcessed[i].getName() + " unable to move";
                         LOG.error("loadElectronicInvoices() " + errorMessage);
-                        /**
-                         * FIXME: Is it enough? Or mail to somebody to clean up the file?
-                         */
                         throw new PurError(errorMessage);
                     }
                 }
@@ -241,6 +248,10 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
 
         ElectronicInvoice eInvoice = null;
 
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Processing " + invoiceFile.getName());
+        }
+        
         try {
             eInvoice = loadElectronicInvoice(invoiceFile);
         }catch (CxmlParseException e) {
@@ -261,6 +272,15 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         setVendorDetails(eInvoice);
         
         Map itemTypeMappings = getItemMappings(eInvoice.getVendorHeaderID(),eInvoice.getVendorDetailID());
+        
+        if (LOG.isDebugEnabled()){
+            if (itemTypeMappings == null){
+                LOG.debug("Item mappings not found for the vendor" );
+            }else{
+                LOG.debug("Item mappings found");
+            }
+        }
+        
         Map kualiItemTypes = getKualiItemTypes();
         
         boolean validateHeader = true;
@@ -276,24 +296,45 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
                     order.setInvoicePurchaseOrderID(poID);
                     order.setPurchaseOrderID(po.getPurapDocumentIdentifier());
                     order.setPurchaseOrderCampusCode(po.getDeliveryCampus().getCampusCode());
+                    
+                    if (LOG.isDebugEnabled()){
+                        LOG.debug("PO matching Document found");
+                    }
+                    
+                }else{
+                    if (LOG.isDebugEnabled()){
+                        LOG.debug("PO matching document not found");
+                    }
                 }
             }
             
             ElectronicInvoiceOrderHolder orderHolder = new ElectronicInvoiceOrderHolder(eInvoice,order,po,itemTypeMappings,kualiItemTypes,validateHeader);
             matchingService.doMatchingProcess(orderHolder);
             
-            if (eInvoice.isFileRejected()){
+            if (orderHolder.isInvoiceRejected()){
                 
                 ElectronicInvoiceRejectDocument rejectDocument = createAndSaveRejectDocument(eInvoiceLoad, eInvoice, order);
                 
                 ElectronicInvoiceLoadSummary loadSummary = getOrCreateLoadSummary(eInvoiceLoad, eInvoice.getDunsNumber());
                 loadSummary.addFailedInvoiceOrder(rejectDocument.getTotalAmount(),eInvoice);
                 eInvoiceLoad.insertInvoiceLoadSummary(loadSummary);
+                
             }else{
-                createPaymentRequest(orderHolder);
-                /**
-                 * TODO: Add success summary
-                 */
+                
+                PaymentRequestDocument preqDoc  = createPaymentRequest(orderHolder);
+                
+                if (orderHolder.isInvoiceRejected()){
+                    ElectronicInvoiceRejectDocument rejectDocument = createAndSaveRejectDocument(eInvoiceLoad, eInvoice, order);
+                    
+                    ElectronicInvoiceLoadSummary loadSummary = getOrCreateLoadSummary(eInvoiceLoad, eInvoice.getDunsNumber());
+                    loadSummary.addFailedInvoiceOrder(rejectDocument.getTotalAmount(),eInvoice);
+                    eInvoiceLoad.insertInvoiceLoadSummary(loadSummary);
+                }else{
+                    ElectronicInvoiceLoadSummary loadSummary = getOrCreateLoadSummary(eInvoiceLoad, eInvoice.getDunsNumber());
+                    loadSummary.addSuccessfulInvoiceOrder(preqDoc.getTotalDollarAmount(),eInvoice);
+                    eInvoiceLoad.insertInvoiceLoadSummary(loadSummary);
+                }
+                
             }
             
             validateHeader = false;
@@ -313,6 +354,9 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         }
         
         if (StringUtils.isNotEmpty((dunsNumber))) {
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Setting Vendor DUNS number - " + dunsNumber);
+            }
             eInvoice.setDunsNumber(dunsNumber);
         }
         
@@ -325,10 +369,16 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
             VendorDetail vendorDetail = vendorService.getVendorByDunsNumber(eInvoice.getDunsNumber());
             
             if (vendorDetail != null) {
+                if (LOG.isDebugEnabled()){
+                    LOG.debug("Vendor match found - " + vendorDetail.getVendorNumber());
+                }
                 eInvoice.setVendorHeaderID(vendorDetail.getVendorHeaderGeneratedIdentifier());
                 eInvoice.setVendorDetailID(vendorDetail.getVendorDetailAssignedIdentifier());
                 eInvoice.setVendorName(vendorDetail.getVendorName());
             }else{
+                if (LOG.isDebugEnabled()){
+                    LOG.debug("Vendor match not found");
+                }
                 eInvoice.setVendorHeaderID(null);
                 eInvoice.setVendorDetailID(null);
                 eInvoice.setVendorName(null);
@@ -373,6 +423,10 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
                                             ElectronicInvoice electronicInvoice,
                                             File invoiceFile){
         
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Checking for complete failure...");
+        }
+        
         if (electronicInvoice.getInvoiceDetailRequestHeader().isHeaderInvoiceIndicator()) {
             rejectElectronicInvoiceFile(electronicInvoiceLoad, UNKNOWN_DUNS_IDENTIFIER, invoiceFile,PurapConstants.ElectronicInvoice.HEADER_INVOICE_IND_ON);
             return true;
@@ -393,6 +447,10 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
               invoiceItem.setCatalogNumber(mappingService.getCatalogNumber(invoiceItem));
             }
           }
+        }
+        
+        if (LOG.isDebugEnabled()){
+            LOG.debug("No Complete failure");
         }
         
         return false;
@@ -416,8 +474,9 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
                                              File attachmentFile, 
                                              String extraDescription,
                                              String rejectReasonTypeCode) {
-
-        LOG.info("rejectElectronicInvoiceFile() started");
+        if (LOG.isDebugEnabled()){
+            LOG.debug("rejectElectronicInvoiceFile() started");
+        }
         
         ElectronicInvoiceLoadSummary eInvoiceLoadSummary;
 
@@ -449,11 +508,11 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
             ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(rejectReasonTypeCode,extraDescription, attachmentFile.getName());
             list.add(rejectReason);
             
-            emailTextErrorList.append("           " + rejectReason.getInvoiceRejectReasonDescription());
+            emailTextErrorList.append("    - " + rejectReason.getInvoiceRejectReasonDescription());
             emailTextErrorList.append("\n\n");
             
             eInvoiceRejectDocument.setInvoiceRejectReasons(list);
-            eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription("Complete failure");
+            eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription("Complete failure document");
             
             String noteText = "Complete failure - " + rejectReason.getInvoiceRejectReasonDescription();
             
@@ -462,12 +521,15 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
             
             KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
         }catch (WorkflowException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         eInvoiceLoad.addInvoiceReject(eInvoiceRejectDocument);
         
-        LOG.debug("rejectElectronicInvoiceFile() ended");
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Complete failure document has been created (DocNo:" + eInvoiceRejectDocument.getDocumentNumber() + ")");
+            LOG.debug("rejectElectronicInvoiceFile() ended");
+        }
     }
     
     private Note attachInvoiceXMLWithRejectDoc(ElectronicInvoiceRejectDocument eInvoiceRejectDocument,
@@ -507,7 +569,9 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
                                                                        ElectronicInvoice eInvoice,
                                                                        ElectronicInvoiceOrder electronicInvoiceOrder) {
 
-        LOG.info("Creating reject document [DUNS=" + eInvoice.getDunsNumber() + ",POID=" + electronicInvoiceOrder.getInvoicePurchaseOrderID() + "]");
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Creating reject document [DUNS=" + eInvoice.getDunsNumber() + ",POID=" + electronicInvoiceOrder.getInvoicePurchaseOrderID() + "]");
+        }
 
         ElectronicInvoiceRejectDocument eInvoiceRejectDocument;
         
@@ -531,11 +595,22 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
             throw new RuntimeException(e);
         }
         
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Reject document has been created (DocNo=" + eInvoiceRejectDocument.getDocumentNumber() + ")");
+        }
+        
+        emailTextErrorList.append("An Invoice from file '" + eInvoice.getFileName() + "' has been rejected due to the following errors:\n");
+        for (Iterator iter = eInvoiceRejectDocument.getInvoiceRejectReasons().iterator(); iter.hasNext();) {
+          ElectronicInvoiceRejectReason reason = (ElectronicInvoiceRejectReason) iter.next();
+          emailTextErrorList.append("    - " + reason.getInvoiceRejectReasonDescription() + "\n");
+        }
+        emailTextErrorList.append("\n\n");
+        
         return eInvoiceRejectDocument;
     }
     
     public ElectronicInvoiceLoadSummary getOrCreateLoadSummary(ElectronicInvoiceLoad eInvoiceLoad,
-                                                                String fileDunsNumber){
+                                                               String fileDunsNumber){
         ElectronicInvoiceLoadSummary eInvoiceLoadSummary;
         
         if (eInvoiceLoad.getInvoiceLoadSummaries().containsKey(fileDunsNumber)) {
@@ -559,8 +634,10 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
     
     public ElectronicInvoice loadElectronicInvoice(File invoiceFile)
     throws CxmlParseException {
-        
-      LOG.debug("loadElectronicInvoice() started");
+      
+      if (LOG.isDebugEnabled()){
+          LOG.debug("loadElectronicInvoice() started");
+      }
       
       BufferedInputStream fileStream = null;
       try {
@@ -591,7 +668,9 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
           }
       }
       
-      LOG.debug("loadElectronicInvoice() ended");
+      if (LOG.isDebugEnabled()){
+          LOG.debug("loadElectronicInvoice() ended");
+      }
       
       return electronicInvoice;
       
@@ -734,7 +813,7 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         
     }
     
-    public void createPaymentRequest(ElectronicInvoiceOrderHolder orderHolder){
+    public PaymentRequestDocument createPaymentRequest(ElectronicInvoiceOrderHolder orderHolder){
         
         LOG.debug("Creating PREQ......");
         
@@ -743,12 +822,48 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         validatePaymentRequestCreation(orderHolder,initData);
         
         if (orderHolder.isInvoiceRejected()){
-            return;
+            return null;
         }
         
+        PaymentRequestDocument preqDoc = null;
+        try {
+            preqDoc = (PaymentRequestDocument) KNSServiceLocator.getDocumentService().getNewDocument("PaymentRequestDocument");
+        }
+        catch (WorkflowException e) {
+            String extraDescription = "Error=" + e.getMessage();
+            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_WORKLOW_EXCEPTION,          
+                                                                                            extraDescription, 
+                                                                                            orderHolder.getFileName());
+            orderHolder.addInvoiceOrderRejectReason(rejectReason);
+            return null;
+        }
+        
+        populatePREQDocumentDescription(preqDoc);
+        
+        HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = SpringContext.getBean(AccountsPayableService.class).getExpiredOrClosedAccountList(preqDoc);
+        preqDoc.populatePaymentRequestFromPurchaseOrder(orderHolder.getPurchaseOrderDocument(),expiredOrClosedAccountList);
         
         
+        try {
+            KNSServiceLocator.getDocumentService().saveDocument(preqDoc);
+        }
+        catch (WorkflowException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
+        return preqDoc;
+    }
+    
+    private void populatePREQDocumentDescription(PaymentRequestDocument preqDocument) {
+        
+        String description = "PO: " + preqDocument.getPurapDocumentIdentifier() + " Vendor: " + preqDocument.getVendorName() + " Electronic Invoice";
+        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
+        
+        if (noteTextMaxLength < description.length()) {
+            description = description.substring(0, noteTextMaxLength);
+        }
+        preqDocument.getDocumentHeader().setDocumentDescription(description);
     }
     
     private void validatePaymentRequestCreation(ElectronicInvoiceOrderHolder orderHolder,

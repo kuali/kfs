@@ -531,10 +531,10 @@ public class FormatServiceImpl implements FormatService {
         int rc = 0;
         for (Iterator iter = disbursementRanges.iterator(); iter.hasNext();) {
             DisbursementNumberRange element = (DisbursementNumberRange) iter.next();
-            if (nowTs.equals(element.getLastUpdate())) {
+            //if (nowTs.equals(element.getLastUpdate())) {
                 rc++;
                 paymentDetailDao.saveDisbursementNumberRange(element);
-            }
+            //}
         }
         LOG.debug("pass2() " + rc + " ranges saved");
     }

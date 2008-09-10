@@ -1,0 +1,78 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="TaxRegionTypeMaintenanceDocument" parent="TaxRegionTypeMaintenanceDocument-parentBean" />
+
+  <bean id="TaxRegionTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionType" />
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="TaxRegionTypeMaintenanceDocument-TaxRegionTypes" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>taxRegionTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Tax Region Type" />
+    <property name="shortLabel" value="Tax Regio nType" />
+    <property name="summary" value="Tax Region Type maintenance document" />
+    <property name="description" value="Document used to create or update TaxRegionType objects" />
+  <!--   <property name="helpDefinition" >
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.TaxRegionType" p:parameterName="TaxRegionType" />
+    </property> -->
+    <property name="documentTypeName" value="TaxRegionTypeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="TRTP" />
+    <property name="workflowProperties" >
+      <ref bean="TaxRegionTypeMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="TaxRegionTypeMaintenanceDocument-TaxRegionTypes" parent="TaxRegionTypeMaintenanceDocument-TaxRegionTypes-parentBean" />
+
+  <bean id="TaxRegionTypeMaintenanceDocument-TaxRegionTypes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Tax Region Types" />
+    <property name="title" value="Edit Tax Region Types" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="taxRegionTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="taxRegionTypeName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="TaxRegionTypeMaintenanceDocument-workflowProperties" parent="TaxRegionTypeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="TaxRegionTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+</beans>

@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="TaxRegionPostalCode" parent="TaxRegionPostalCode-parentBean" />
+
+  <bean id="TaxRegionPostalCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionPostalCode" />
+    <property name="titleAttribute" value="taxPostalCode" />
+    <property name="objectLabel" value="TaxRegionPostalCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="TaxRegionPostalCode-postalCode" />
+        <ref bean="TaxRegionPostalCode-taxRegionCode" />
+        <ref bean="TaxRegionPostalCode-active" />
+        <ref bean="TaxRegionPostalCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+ <bean id="TaxRegionPostalCode-postalCode" parent="TaxRegionPostalCode-postalCode-parentBean" />
+
+  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+    <property name="name" value="postalCode" />
+  </bean>
+  
+  <bean id="TaxRegionPostalCode-taxRegionCode" parent="TaxRegionPostalCode-taxRegionCode-parentBean" />
+
+  <bean id="TaxRegionPostalCode-taxRegionCode-parentBean" abstract="true" parent="TaxRegion-taxRegionCode">
+    
+  </bean>
+  
+  <bean id="TaxRegionPostalCode-active" parent="TaxRegionPostalCode-active-parentBean" />
+
+  <bean id="TaxRegionPostalCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  
+  <bean id="TaxRegionPostalCode-versionNumber" parent="TaxRegionPostalCode-versionNumber-parentBean" />
+
+  <bean id="TaxRegionPostalCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+
+</beans>

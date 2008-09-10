@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class TaxCounty extends PersistableBusinessObjectBase implements Inactivateable {
+public class TaxRegionCounty extends PersistableBusinessObjectBase implements Inactivateable {
 	
 	private String countyCode;
 	private String stateCode;

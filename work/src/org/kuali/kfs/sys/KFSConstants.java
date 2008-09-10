@@ -1169,5 +1169,15 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String SEQUENCE_NUMBER_BLOCK = "sequenceNumber";
         public static final String SALES_TAX_BLOCK = "salesTaxInformation";
     }
+    
+    public static final class TaxRegionConstants {
+        public static final String TAX_REGION_RATES = "taxRegionRates";
+        public static final String TAX_REGION_COUNTIES = "taxRegionCounties";
+        public static final String TAX_REGION_STATES = "taxRegionStates";
+        public static final String TAX_REGION_POSTAL_CODES = "taxRegionPostalCodes";
+        public static final String TAX_REGION_STATE_CODE = "stateCode";
+        public static final String TAX_REGION_COUNTY_CODE = "countyCode";
+        public static final String TAX_REGION_POSTAL_CODE = "postalCode";
+    }
 }
 

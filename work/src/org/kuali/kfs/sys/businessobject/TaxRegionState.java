@@ -5,30 +5,24 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class TaxPostalCode extends PersistableBusinessObjectBase implements Inactivateable {
+public class TaxRegionState extends PersistableBusinessObjectBase implements Inactivateable {
 	
-	private String postalCode;
+	private String stateCode;
 	private String taxRegionCode;
 	private boolean active;
-	private PostalZipCode postalZip;
+	private State state;
 	
-	public PostalZipCode getPostalZip() {
-		return postalZip;
-	}
-	public void setPostalZip(PostalZipCode postalZip) {
-		this.postalZip = postalZip;
-	}
 	public boolean isActive() {
 		return active;
 	}
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	public String getPostalCode() {
-		return postalCode;
+	public String getStateCode() {
+		return stateCode;
 	}
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 	public String getTaxRegionCode() {
 		return taxRegionCode;
@@ -37,10 +31,16 @@ public class TaxPostalCode extends PersistableBusinessObjectBase implements Inac
 		this.taxRegionCode = taxRegionCode;
 	}
 	
-	protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("postalCode", this.postalCode);
+        m.put("stateCode", this.stateCode);
         m.put("taxRegionCode", this.taxRegionCode);
         return m;
     }
+	public State getState() {
+		return state;
+	}
+	public void setState(State state) {
+		this.state = state;
+	}
 }

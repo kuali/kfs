@@ -38,8 +38,12 @@ public class TaxRegion extends PersistableBusinessObjectBase {
     private Chart chartOfAccounts;
     private Account account;
     private ObjectCodeCurrent objectCode;
+    private TaxRegionType taxRegionType;
     
     private List<TaxRegionRate> taxRegionRates = new TypedArrayList(TaxRegionRate.class);
+    private List<TaxRegionState> taxRegionStates = new TypedArrayList(TaxRegionState.class);
+    private List<TaxRegionCounty> taxRegionCounties = new TypedArrayList(TaxRegionCounty.class);
+    private List<TaxRegionPostalCode> taxRegionPostalCodes = new TypedArrayList(TaxRegionPostalCode.class);
     
     public List<TaxRegionRate> getTaxRegionRates() {
         return taxRegionRates;
@@ -47,6 +51,38 @@ public class TaxRegion extends PersistableBusinessObjectBase {
 
     public void setTaxRegionRates(List<TaxRegionRate> taxRegionRates) {
         this.taxRegionRates = taxRegionRates;
+    }
+
+    public List<TaxRegionState> getTaxRegionStates() {
+        return taxRegionStates;
+    }
+
+    public void setTaxRegionStates(List<TaxRegionState> taxRegionStates) {
+        this.taxRegionStates = taxRegionStates;
+    }
+
+    public List<TaxRegionCounty> getTaxRegionCounties() {
+        return taxRegionCounties;
+    }
+
+    public void setTaxRegionCounties(List<TaxRegionCounty> taxRegionCounties) {
+        this.taxRegionCounties = taxRegionCounties;
+    }
+
+    public List<TaxRegionPostalCode> getTaxRegionPostalCodes() {
+        return taxRegionPostalCodes;
+    }
+
+    public void setTaxRegionPostalCodes(List<TaxRegionPostalCode> taxRegionPostalCodes) {
+        this.taxRegionPostalCodes = taxRegionPostalCodes;
+    }
+
+    public TaxRegionType getTaxRegionType() {
+        return taxRegionType;
+    }
+
+    public void setTaxRegionType(TaxRegionType taxRegionType) {
+        this.taxRegionType = taxRegionType;
     }
 
     public String getAccountNumber() {

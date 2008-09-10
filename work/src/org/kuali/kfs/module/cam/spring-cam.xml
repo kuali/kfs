@@ -152,7 +152,7 @@
     <bean id="assetLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
     	<property name="assetService" ref="assetService"/>    
     </bean>
-
+       
     <bean id="assetLookupable" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="assetLookupableHelperService" />
@@ -173,6 +173,7 @@
             <ref bean="assetPaymentLookupableHelperService" />
         </property>
     </bean> 
+
     
     <bean id="assetRetirementReasonLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetRetirementReasonLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 

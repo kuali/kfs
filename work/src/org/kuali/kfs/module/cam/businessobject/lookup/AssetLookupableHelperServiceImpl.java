@@ -51,7 +51,6 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
         /** TODO per authorization don't show some links * */
         /** TODO per Asset status don't show some links * */
-
         anchorHtmlDataList.add(getURLData(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         anchorHtmlDataList.add(getLoanUrl(bo));
         anchorHtmlDataList.add(getMergeUrl(bo));

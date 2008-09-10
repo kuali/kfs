@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.businessobject.lookup;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +49,13 @@ public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelp
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetPayment.getCapitalAssetNumber());
         Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, primaryKeys);
+        
+        List assetPrimaryKey = new ArrayList();
+        assetPrimaryKey.add(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER);
+        
+        
         assetLookupableHelperService.setBusinessObjectClass(Asset.class);
-        return assetLookupableHelperService.getCustomActionUrls(asset, pkNames);
+        return assetLookupableHelperService.getCustomActionUrls(asset, assetPrimaryKey);
     }
 
     /**

@@ -1232,6 +1232,7 @@
               p:attributeName="account.organization.campusPlantChartCode" /> 
       </list>
     </property>
+
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
@@ -1239,8 +1240,16 @@
         <bean parent="FieldDefinition"
               p:attributeName="paymentSequenceNumber" />
         <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingPeriodCode" />
+        <bean parent="FieldDefinition"
               p:attributeName="asset.capitalAssetDescription"
               p:noInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="account.organizationCode" />              
+        <bean parent="FieldDefinition"
+              p:attributeName="chartOfAccountsCode" />              
         <bean parent="FieldDefinition"
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
@@ -1250,15 +1259,19 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
+              p:attributeName="account.subFundGroupCode" />
+        <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="account.subFundGroupCode" />
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentPostingDate" />
         <bean parent="FieldDefinition"
               p:attributeName="accountChargeAmount" />
         <bean parent="FieldDefinition"
-              p:attributeName="account.organizationCode" />              
+              p:attributeName="accumulatedPrimaryDepreciationAmount" />
      </list>
     </property>
   </bean>

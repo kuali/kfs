@@ -119,7 +119,8 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
             State state = (State) businessObjectService.findByPrimaryKey(State.class, criteria);
 
             if (ObjectUtils.isNull(state) || !state.isActive()) {
-                putFieldError(KFSConstants.TaxRegionConstants.TAX_REGION_STATE_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_STATE, taxRegionState.getStateCode());
+                GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_STATE_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_STATE, taxRegionState.getStateCode());
+                success = false;
             }
         }
 
@@ -142,7 +143,8 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
             County county = (County) businessObjectService.findByPrimaryKey(County.class, criteria);
 
             if (ObjectUtils.isNull(county) || !county.isActive()) {
-                putFieldError(KFSConstants.TaxRegionConstants.TAX_REGION_COUNTY_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_COUNTY, new String[] { taxRegionCounty.getCountyCode(), taxRegionCounty.getStateCode() });
+                GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_COUNTY_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_COUNTY, new String[] { taxRegionCounty.getCountyCode(), taxRegionCounty.getStateCode() });
+                success = false;
             }
         }
 
@@ -164,7 +166,8 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
             PostalZipCode postalZipCode = (PostalZipCode) businessObjectService.findByPrimaryKey(PostalZipCode.class, criteria);
  
             if (ObjectUtils.isNull(postalZipCode) || !postalZipCode.isActive()) {
-                putFieldError(KFSConstants.TaxRegionConstants.TAX_REGION_POSTAL_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_POSTAL_CODE, taxRegionPostalCode.getPostalCode());
+                GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_POSTAL_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_POSTAL_CODE, taxRegionPostalCode.getPostalCode());
+                success = false;
             }
         }
 

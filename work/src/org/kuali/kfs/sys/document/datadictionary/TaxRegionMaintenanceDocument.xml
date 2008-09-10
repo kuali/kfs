@@ -82,9 +82,9 @@
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionName" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionUseTaxIndicator" />
-        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" />
-        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" />
-        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" />
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
       </list>
@@ -102,7 +102,6 @@
         	p:id="TaxRegionRatesSection"
         	p:name="taxRegionRates"
         	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionRate"
-
         	p:includeMultipleLookupLine="false"
         	p:summaryTitle="Effective Date/Rate">
         	<!-- 
@@ -142,7 +141,7 @@
         	p:id="TaxRegionStatesSection"
         	p:name="taxRegionStates"
         	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionState"
-
+			p:alwaysAllowCollectionDeletion="true"
         	p:includeMultipleLookupLine="false"
         	p:summaryTitle="States" 
         	p:attributeToHighlightOnDuplicateKey="stateCode"

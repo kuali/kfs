@@ -80,20 +80,11 @@
   
   <bean id="TaxRegion-taxRegionUseTaxIndicator" parent="TaxRegion-taxRegionUseTaxIndicator-parentBean" />
   
-  <bean id="TaxRegion-taxRegionUseTaxIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="TaxRegion-taxRegionUseTaxIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="taxRegionUseTaxIndicator" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Tax Region Use Tax Indicator" />
     <property name="shortLabel" value="Use Tax Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
-    </property>
     <property name="summary" value="Tax Region Use Tax Indicator" />
     <property name="description" value="Indicator for Use Tax" />
   </bean>

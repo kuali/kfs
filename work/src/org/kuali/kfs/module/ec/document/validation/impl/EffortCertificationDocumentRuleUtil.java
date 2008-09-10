@@ -126,7 +126,7 @@ public class EffortCertificationDocumentRuleUtil {
      * @return true if the given detail line is associated with a closed account; otherwise, false
      */
     public static boolean hasClosedAccount(EffortCertificationDetail detailLine) {
-        return detailLine.getAccount().isActive();
+        return !detailLine.getAccount().isActive();
     }
 
     /**

@@ -128,5 +128,15 @@ public class PurapParameterConstants implements ParameterKeyConstants {
             public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = "INTERNAL_PURCHASING_REVIEWERS_GROUP";
         }
     }
+    
+    public static class B2BParameters{
+        public static final String PUNCHOUT_URL = "B2B_PUNCHOUT_URL";
+        public static final String PUNCHBACK_URL = "B2B_PUNCHBACK_URL";
+        public static final String ENVIRONMENT = "B2B_ENVIRONMENT";
+        public static final String USER_AGENT = "B2B_USER_AGENT";
+        public static final String PASSWORD = "B2B_PASSWORD";
+        public static final String PO_PASSWORD = "B2B_PO_PASSWORD";
+        public static final String PO_URL = "B2B_PO_URL";
+    }
 
 }

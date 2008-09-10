@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -28,7 +29,7 @@ import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class TimestampedBusinessObjectBase extends PersistableBusinessObjectBase implements TimestampedBusinessObject {
+public abstract class TimestampedBusinessObjectBase extends PersistableBusinessObjectBase implements TimestampedBusinessObject {
     private Timestamp lastUpdate;
     private String lastUpdateUserId; 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TimestampedBusinessObjectBase.class);
@@ -59,7 +60,9 @@ public class TimestampedBusinessObjectBase extends PersistableBusinessObjectBase
     public UniversalUser getLastUpdateUser() {
         UniversalUser user = null;
         try {
-            user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(lastUpdateUserId);
+            if (StringUtils.isNotBlank(lastUpdateUserId)) {
+                user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(lastUpdateUserId);
+            }
         }
         catch (UserNotFoundException e) {
             LOG.error(e);

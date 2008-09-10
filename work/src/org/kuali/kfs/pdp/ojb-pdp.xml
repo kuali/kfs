@@ -89,7 +89,6 @@
   
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.CustomerProfile" table="PDP_CUST_PRFL_T">
     <field-descriptor name="id" column="CUST_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_CUST_ID_SEQ" autoincrement="true"/>
-    <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountingEditRequired" column="ACCTG_EDIT_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="defaultSubAccountNumber" column="DFLT_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="achPaymentDescription" column="ACH_PMT_DESC" jdbc-type="VARCHAR"/>
@@ -135,7 +134,6 @@
     <field-descriptor name="ownershipCodeRequired" column="CUST_OWNR_CD_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="payeeIdRequired" column="CUST_PAYEE_ID_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="relieveLiabilities" column="FIN_OBJECT_CD_LBLTY_RLF_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 
 	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -153,15 +151,15 @@
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.DisbursementNumberRange" table="PDP_DISB_NBR_RNG_T">
     <field-descriptor name="id" column="DISB_NBR_RNG_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_DISB_NBR_RNG_ID_SEQ" autoincrement="true"/>
-    <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="INTEGER"/>
+	<field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>    
+	<field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="INTEGER"/>
     <field-descriptor name="disbNbrEffectiveDt" column="DISB_NBR_EFF_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="disbNbrExpirationDt" column="DISB_NBR_EXPR_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="endDisbursementNbr" column="END_DISB_NBR" jdbc-type="INTEGER"/>
     <field-descriptor name="lastAssignedDisbNbr" column="LST_ASND_DISB_NBR" jdbc-type="INTEGER"/>
     <field-descriptor name="physCampusProcCode" column="PHYS_CMP_PROC_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 
     <field-descriptor name="bankId" column="BNK_ID" jdbc-type="INTEGER"/>
     <reference-descriptor name="bank" class-ref="org.kuali.kfs.pdp.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">

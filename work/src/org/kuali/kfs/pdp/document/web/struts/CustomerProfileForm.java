@@ -193,9 +193,9 @@ public class CustomerProfileForm extends ActionForm {
         this.setEmployeeCheck(cp.getEmployeeCheck());
         this.setFileThresholdAmount(GeneralUtilities.convertBigDecimalToString(cp.getFileThresholdAmount()));
         this.setFileThresholdEmailAddress(cp.getFileThresholdEmailAddress());
-        this.setLastUpdate(cp.getLastUpdate());
+        /*this.setLastUpdate(cp.getLastUpdate());
         this.setLastUpdateUser(cp.getLastUpdateUser());
-        this.setLastUpdateUserId(cp.getLastUpdateUserId());
+        this.setLastUpdateUserId(cp.getLastUpdateUserId());*/
         this.setNraReview(cp.getNraReview());
         this.setOrgCode(cp.getOrgCode().toUpperCase());
         this.setOwnershipCodeRequired(cp.getOwnershipCodeRequired());
@@ -250,7 +250,7 @@ public class CustomerProfileForm extends ActionForm {
         cp.setEmployeeCheck(this.getEmployeeCheck());
         cp.setFileThresholdAmount(GeneralUtilities.convertStringToBigDecimal(this.getFileThresholdAmount()));
         cp.setFileThresholdEmailAddress(this.getFileThresholdEmailAddress());
-        cp.setLastUpdate(this.getLastUpdate());
+        //cp.setLastUpdate(this.getLastUpdate());
         //cp.setLastUpdateUser(this.getLastUpdateUser());
         cp.setNraReview(this.getNraReview());
         cp.setOrgCode(this.getOrgCode().toUpperCase());

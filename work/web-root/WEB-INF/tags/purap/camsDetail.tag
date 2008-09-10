@@ -12,6 +12,13 @@
 <html:hidden property="${camsAssetSystemProperty}.versionNumber" />
 <html:hidden property="${camsAssetSystemProperty}.objectId" />
 
+<c:if test="${isRequisition}">
+	<html:hidden property="${camsAssetSystemProperty}.purapDocumentIdentifier" />
+</c:if>
+<c:if test="${isPurchaseOrder}">
+	<html:hidden property="${camsAssetSystemProperty}.documentNumber" />
+</c:if> 
+	
 <c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByItem.line${ctr}" />
 <c:if test="${PurapConstants.CapitalAssetAvailability.ONCE eq availability}">
 	<c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByDocument.line${ctr}" />
@@ -39,8 +46,8 @@
 	    <tr>  
 	      <kul:htmlAttributeHeaderCell attributeEntry="${camsAssetAttributes.capitalAssetNumber}" align="right"/>
 	      <td class="datacell" valign="top" colspan="3">	
-			<logic:iterate indexId="idx" name="KualiForm" property="${camsAssetSystemProperty}.purchasingItemCapitalAssets" id="asset">
-	 			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="${camsAssetSystemProperty}.purchasingItemCapitalAssets[${idx}].capitalAssetNumber" readOnly="true" />
+			<logic:iterate indexId="idx" name="KualiForm" property="${camsAssetSystemProperty}.itemCapitalAssets" id="asset">
+	 			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].capitalAssetNumber" readOnly="true" />
   				<html:image property="${deleteItemAssetUrl}.((#${idx}#))" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete an Asset Number" title="Delete an Asset Number" styleClass="tinybutton" />
 				  <br/>
 			</logic:iterate>

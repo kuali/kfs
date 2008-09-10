@@ -19,14 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
-import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -43,19 +40,21 @@ public class PurApAccountLineGroup extends AccountLineGroup {
      * @param entry PurApAccountingLineBase Line
      */
     public PurApAccountLineGroup(PurApAccountingLineBase entry) {
-        // TODO validate this
         if (ObjectUtils.isNotNull((AccountsPayableItem) entry.getPurapItem()) && ObjectUtils.isNotNull(((AccountsPayableItem) entry.getPurapItem()).getPurapDocument())) {
-            UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
             AccountsPayableDocumentBase document = ((AccountsPayableItem) entry.getPurapItem()).getPurapDocument();
-            setUniversityFiscalYear(currentUniversityDate.getUniversityFiscalYear());
-            // TODO - Remove hard coding when local testing is over
-            // setUniversityFiscalPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());
-            setUniversityFiscalPeriodCode("01");
             setReferenceFinancialDocumentNumber(document.getPurchaseOrderIdentifier() != null ? document.getPurchaseOrderIdentifier().toString() : "");
             setDocumentNumber(document.getDocumentNumber());
         }
         else {
             LOG.error("Could not load PurAP document details for " + entry.toString());
+        }
+        setUniversityFiscalYear(entry.getPostingYear());
+        // TODO - this needs to be updated later when decision is final
+        if (PaymentRequestAccountHistory.class.isAssignableFrom(entry.getClass())) {
+            setUniversityFiscalPeriodCode(((PaymentRequestAccountHistory) entry).getPostingPeriodCode());
+        }
+        else if (CreditMemoAccountHistory.class.isAssignableFrom(entry.getClass())) {
+            setUniversityFiscalPeriodCode(((CreditMemoAccountHistory) entry).getPostingPeriodCode());
         }
         setChartOfAccountsCode(entry.getChartOfAccountsCode());
         setAccountNumber(entry.getAccountNumber());
@@ -71,7 +70,6 @@ public class PurApAccountLineGroup extends AccountLineGroup {
             setAmount(entry.getAmount());
         }
     }
-
 
     /**
      * Returns true if input PurApAccountingLineBase entry belongs to this account group

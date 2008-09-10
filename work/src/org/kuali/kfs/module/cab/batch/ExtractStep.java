@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.module.cab.batch.service.BatchExtractReportService;
 import org.kuali.kfs.module.cab.batch.service.BatchExtractService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -31,6 +32,7 @@ public class ExtractStep extends AbstractStep {
     private static final Logger LOG = Logger.getLogger(ExtractStep.class);
     private BatchExtractService batchExtractService;
     private DateTimeService dateTimeService;
+    private BatchExtractReportService batchExtractReportService;
 
     /**
      * CAB Extract Steps
@@ -87,8 +89,8 @@ public class ExtractStep extends AbstractStep {
         }
         finally {
             batchExtractService.sendStatusEmail(processLog);
-            batchExtractService.generateStatusReport(processLog);
-            LOG.info("Batch status email is sent successfully.");
+            batchExtractReportService.generateStatusReportPDF(processLog);
+            LOG.info("Batch status report is generated successfully.");
         }
         return true;
     }
@@ -127,6 +129,24 @@ public class ExtractStep extends AbstractStep {
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Gets the batchExtractReportService attribute.
+     * 
+     * @return Returns the batchExtractReportService.
+     */
+    public BatchExtractReportService getBatchExtractReportService() {
+        return batchExtractReportService;
+    }
+
+    /**
+     * Sets the batchExtractReportService attribute value.
+     * 
+     * @param batchExtractReportService The batchExtractReportService to set.
+     */
+    public void setBatchExtractReportService(BatchExtractReportService batchExtractReportService) {
+        this.batchExtractReportService = batchExtractReportService;
     }
 
 

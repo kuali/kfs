@@ -91,10 +91,5 @@ public interface BatchExtractService {
      */
     Collection<PurApAccountingLineBase> findPurapAccountHistory();
 
-    /**
-     * Generates a PDF report with status details
-     * 
-     * @param extractProcessLog ExtractProcessLog
-     */
-    void generateStatusReport(ExtractProcessLog extractProcessLog);
+
 }

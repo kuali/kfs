@@ -115,6 +115,9 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="mailService" ref="mailService" />
+	</bean>
+	<bean id="batchExtractReportService" class="org.kuali.kfs.module.cab.batch.service.impl.BatchExtractReportServiceImpl">
+		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="cabBatchStatusReportInfo" ref="cabBatchStatusReportInfo" />
 		<property name="reportGenerationService" ref="reportGenerationService" />
 	</bean>
@@ -123,7 +126,8 @@
 	</bean>
 	 <bean id="cabExtractStep" class="org.kuali.kfs.module.cab.batch.ExtractStep" parent="step">
 	 	<property name="batchExtractService" ref="batchExtractService" />
-	 	<property name="dateTimeService" ref="dateTimeService" />
+	 	<property name="batchExtractReportService" ref="batchExtractReportService" />
+	 	<property name="dateTimeService" ref="dateTimeService" />	 	
 	</bean>
 	<bean id="cabExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">

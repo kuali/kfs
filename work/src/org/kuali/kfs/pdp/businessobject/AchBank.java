@@ -32,7 +32,6 @@ public class AchBank extends PersistableBusinessObjectBase {
     private String bankCityName;
     private String bankStateCode;
     private String bankZipCode;
-    private String bankZipExtensionCode;
     private String bankPhoneAreaCode;
     private String bankPhonePrefixNumber;
     private String bankPhoneSuffixNumber;
@@ -88,7 +87,6 @@ public class AchBank extends PersistableBusinessObjectBase {
         setBankCityName(getField(fileData, 108, 20));
         setBankStateCode(getField(fileData, 128, 2));
         setBankZipCode(getField(fileData, 130, 5));
-        setBankZipExtensionCode(getField(fileData, 135, 4));
         setBankPhoneAreaCode(getField(fileData, 139, 3));
         setBankPhonePrefixNumber(getField(fileData, 142, 3));
         setBankPhoneSuffixNumber(getField(fileData, 145, 4));
@@ -288,26 +286,6 @@ public class AchBank extends PersistableBusinessObjectBase {
     public void setBankZipCode(String bankZipCode) {
         this.bankZipCode = bankZipCode;
     }
-
-
-    /**
-     * Gets the bankZipExtensionCode attribute.
-     * 
-     * @return Returns the bankZipExtensionCode
-     */
-    public String getBankZipExtensionCode() {
-        return bankZipExtensionCode;
-    }
-
-    /**
-     * Sets the bankZipExtensionCode attribute.
-     * 
-     * @param bankZipExtensionCode The bankZipExtensionCode to set.
-     */
-    public void setBankZipExtensionCode(String bankZipExtensionCode) {
-        this.bankZipExtensionCode = bankZipExtensionCode;
-    }
-
 
     /**
      * Gets the bankPhoneAreaCode attribute.

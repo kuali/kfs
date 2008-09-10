@@ -531,7 +531,6 @@
 	<field-descriptor name="bankCityName" column="BNK_CTY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="bankStateCode" column="BNK_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="bankZipCode" column="BNK_ZIP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="bankZipExtensionCode" column="BNK_ZIP_EXTNS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="bankPhoneAreaCode" column="BNK_PHN_AREA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="bankPhonePrefixNumber" column="BNK_PHN_PRFX_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="bankPhoneSuffixNumber" column="BNK_PHN_SFX_NBR" jdbc-type="VARCHAR"/>

@@ -105,9 +105,6 @@
               p:name="bankZipCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="bankZipExtensionCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="bankPhoneAreaCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"

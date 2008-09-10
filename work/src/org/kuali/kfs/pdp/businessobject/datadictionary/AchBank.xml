@@ -27,7 +27,6 @@
         <ref bean="AchBank-bankCityName" />
         <ref bean="AchBank-bankStateCode" />
         <ref bean="AchBank-bankZipCode" />
-        <ref bean="AchBank-bankZipExtensionCode" />
         <ref bean="AchBank-bankPhoneAreaCode" />
         <ref bean="AchBank-bankPhonePrefixNumber" />
         <ref bean="AchBank-bankPhoneSuffixNumber" />
@@ -220,37 +219,19 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Zip Code" />
     <property name="shortLabel" value="Bank Zip Code" />
-    <property name="maxLength" value="5" />
+    <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="5" />
+            p:size="20" />
     </property>
     <property name="summary" value="Bank Zip Code" />
     <property name="description" value="Zip code in the delivery address" />
   </bean>
-  <bean id="AchBank-bankZipExtensionCode" parent="AchBank-bankZipExtensionCode-parentBean" />
-
-  <bean id="AchBank-bankZipExtensionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankZipExtensionCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Bank Zip Extension Code" />
-    <property name="shortLabel" value="Bank Zip Extension Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-    <property name="summary" value="Bank Zip Extension Code" />
-    <property name="description" value="Zip code extension in the delivery address" />
-  </bean>
+  
   <bean id="AchBank-bankPhoneAreaCode" parent="AchBank-bankPhoneAreaCode-parentBean" />
 
   <bean id="AchBank-bankPhoneAreaCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -386,8 +367,6 @@
                     p:attributeName="bankStateCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="bankZipCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankZipExtensionCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="bankPhoneAreaCode" />
               <bean parent="FieldDefinition"

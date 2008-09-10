@@ -29,6 +29,7 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectItem;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
@@ -46,6 +47,7 @@ public class ElectronicInvoiceOrderHolder {
     private ElectronicInvoice eInvoice;
     private PurchaseOrderDocument poDocument;
     private Map<String,ElectronicInvoiceItemMapping> itemTypeMappings;
+    private Map<String,ItemType> kualiItemTypes;
     
     private List<ElectronicInvoiceItemHolder> items = new ArrayList<ElectronicInvoiceItemHolder>();
     
@@ -54,7 +56,8 @@ public class ElectronicInvoiceOrderHolder {
     private boolean validateHeader;
     
     public ElectronicInvoiceOrderHolder(ElectronicInvoiceRejectDocument rejectDocument,
-                                        Map itemTypeMappings){
+                                        Map itemTypeMappings,
+                                        Map itemTypes){
         
         if (rejectDocument == null){
             throw new NullPointerException("ElectronicInvoiceRejectDocument should not be null");
@@ -63,6 +66,7 @@ public class ElectronicInvoiceOrderHolder {
         this.rejectDocument = rejectDocument;
         this.itemTypeMappings = itemTypeMappings;
         this.poDocument = rejectDocument.getCurrentPurchaseOrderDocument();
+        this.kualiItemTypes = itemTypes;
         
         isRejectDocumentHolder = true;
         validateHeader = true;
@@ -84,6 +88,7 @@ public class ElectronicInvoiceOrderHolder {
                                         ElectronicInvoiceOrder invoiceOrder,
                                         PurchaseOrderDocument poDocument,
                                         Map itemTypeMappings,
+                                        Map itemTypes,
                                         boolean validateHeader){
         
         if (eInvoice == null){
@@ -98,6 +103,7 @@ public class ElectronicInvoiceOrderHolder {
         this.invoiceOrder = invoiceOrder;
         this.itemTypeMappings = itemTypeMappings;
         this.validateHeader = validateHeader;
+        this.kualiItemTypes = itemTypes;
         
         this.poDocument = poDocument;
         
@@ -335,20 +341,29 @@ public class ElectronicInvoiceOrderHolder {
         return isRejectDocumentHolder;
     }
 
-    public ElectronicInvoiceItemMapping getItemMapping(String invoiceItemTypeCode){
-        if (itemTypeMappings == null){
-            return null;
-        }else{
-            return itemTypeMappings.get(invoiceItemTypeCode);
+//    public ElectronicInvoiceItemMapping getItemMapping(String invoiceItemTypeCode){
+//        if (itemTypeMappings == null){
+//            return null;
+//        }else{
+//            return itemTypeMappings.get(invoiceItemTypeCode);
+//        }
+//    }
+    
+    /*public boolean isItemTypeAvailableInKuali(String invoiceItemTypeCode) {
+        if (itemTypeMappings == null) {
+            return false;
         }
-    }
+        else {
+            return itemTypeMappings.containsKey(invoiceItemTypeCode);
+        }
+    }*/
     
     public boolean isItemTypeAvailableInKuali(String invoiceItemTypeCode) {
         if (itemTypeMappings == null) {
             return false;
         }
         else {
-            return itemTypeMappings.containsKey(invoiceItemTypeCode);
+            return kualiItemTypes.containsKey(invoiceItemTypeCode);
         }
     }
 
@@ -363,7 +378,7 @@ public class ElectronicInvoiceOrderHolder {
     }
 
     
-    public String getKualiItemTypeCode(String invoiceItemTypeCode) {
+    /*public String getKualiItemTypeCode(String invoiceItemTypeCode) {
         
         ElectronicInvoiceItemMapping itemMapping = getItemMapping(invoiceItemTypeCode);
         
@@ -371,6 +386,28 @@ public class ElectronicInvoiceOrderHolder {
             return itemMapping.getItemTypeCode();
         }
         else {
+            return null;
+        }
+    }*/
+    
+    public String getKualiItemTypeCode(String invoiceItemTypeCode) {
+        
+        ItemType itemType = kualiItemTypes.get(invoiceItemTypeCode);
+        
+        if (itemType != null) {
+            return itemType.getItemTypeCode();
+        }
+        else {
+            return null;
+        }
+    }
+    
+    public ElectronicInvoiceItemMapping[] getInvoiceItemTypeMappings(){
+        if (itemTypeMappings != null){
+            ElectronicInvoiceItemMapping[] itemMappings = new ElectronicInvoiceItemMapping[itemTypeMappings.size()];
+            itemTypeMappings.values().toArray(itemMappings);
+            return itemMappings;
+        }else{
             return null;
         }
     }

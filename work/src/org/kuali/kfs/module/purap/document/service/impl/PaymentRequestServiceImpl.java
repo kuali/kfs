@@ -44,6 +44,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -51,9 +53,11 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.AutoApproveExclude;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
@@ -75,8 +79,10 @@ import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
 import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors;
 import org.kuali.kfs.module.purap.exception.PurError;
+import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors.AccountContinuation;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceOrderHolder;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
@@ -1437,65 +1443,257 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @return A PaymentRequestInitializationValidationErrors object containing continuation accounting
      *             and error messages if need be
      */
-    public PaymentRequestInitializationValidationErrors validateElectronicInvoicePaymentRequest(Integer purchaseOrderID, 
-                                                                                                java.util.Date invoiceDate, 
-                                                                                                String invoiceNumber, 
-                                                                                                String invoiceFilename) {
-      LOG.debug("validateElectronicInvoicePaymentRequest() started");
-      
-      String error;
-      List messages = new ArrayList();
-      PaymentRequestInitializationValidationErrors initValidationErrors = new PaymentRequestInitializationValidationErrors();
-      
-      /**
-       * venkat- Commented out to successfully process a order 
-       */
-      /*PurchaseOrderDocument po = purchaseOrderService.getPurchaseOrderById(purchaseOrderID,null);
-      
-      if (po == null || (!(EpicConstants.PO_STAT_OPEN.equals(po.getPurchaseOrderStatus().getCode())))) {
-        // Send error based on PO status... not avail for processing
-        if (po == null) {
-          error = "Invoice PO Number '" + purchaseOrderID + "' from file does not exist in EPIC";
-        } else {
-          error = "PO NUMBER - '" + purchaseOrderID + "':  EPIC PO has status '" + po.getPurchaseOrderStatus().getDescription() + "' and is not processible";
+    public void validateElectronicInvoicePaymentRequest(ElectronicInvoiceOrderHolder orderHolder,
+                                                        PaymentRequestInitializationValidationErrors validationErrors){
+        
+        LOG.debug("validateElectronicInvoicePaymentRequest() started");
+        
+        PurchaseOrderDocument poDoc = orderHolder.getPurchaseOrderDocument();
+        
+        if ( poDoc == null){
+            throw new RuntimeException("PurchaseOrder not available");
         }
-        LOG.error("validateElectronicInvoicePaymentRequest() " + error);
-        messages.add(error);
-        initValidationErrors.errorMessages = messages;
-        LOG.debug("validateElectronicInvoicePaymentRequest() ended");
-        return initValidationErrors;
-      }
-      
-      List preqs = this.getPaymentRequestsByVendorNumberInvoiceNumber(po.getVendorHeaderGeneratedId(), po.getVendorDetailAssignedId(), invoiceNumber);
-      if ( (preqs != null) && (preqs.size() > 0) ) {
-        error = "PO NUMBER - '" + purchaseOrderID + "':  Invoice has potential duplicate for invoice number '" + invoiceNumber + 
-            "' and vendor id " + po.getVendorHeaderGeneratedId() + "-" + po.getVendorDetailAssignedId();
-        LOG.error("validateElectronicInvoicePaymentRequest() " + error);
-        messages.add(error);
-        initValidationErrors.errorMessages = messages;
-        LOG.debug("validateElectronicInvoicePaymentRequest() ended");
-        return initValidationErrors;
-      }
-      
-      if (this.isInvoiceDateAfterToday(invoiceDate)) {
-        // Send Error on Invoice Date
-        if (invoiceDate != null) {
-          error = "PO NUMBER - '" + purchaseOrderID + "':  Invoice has invoice date '" + invoiceDate.toString() + "' which is after today";
-        } else {
-          error = "PO NUMBER - '" + purchaseOrderID + "':  Invoice has empty invoice date";
+            
+        if (!poDoc.getStatusCode().equals(PurchaseOrderStatuses.OPEN)) {
+            validationErrors.addPREQCreationFailure(PurapConstants.ElectronicInvoice.PO_NOT_OPEN,null);
+            return;
         }
-        LOG.error("validateElectronicInvoicePaymentRequest() " + error);
-        messages.add(error);
-        initValidationErrors.errorMessages = messages;
-        LOG.debug("validateElectronicInvoicePaymentRequest() ended");
-        return initValidationErrors;
-      }
-      
-      this.checkForExpiredOrClosedAccounts(po, initValidationErrors, new ArrayList(), new ArrayList());
-      
-      initValidationErrors.errorMessages = messages;*/
-      
-      LOG.debug("validateElectronicInvoicePaymentRequest() ended");
-      return initValidationErrors;
+        
+        List preqs = getPaymentRequestsByVendorNumberInvoiceNumber(poDoc.getVendorHeaderGeneratedIdentifier(), 
+                                                                   poDoc.getVendorDetailAssignedIdentifier(), 
+                                                                   orderHolder.getInvoiceNumber());
+        
+        if (preqs != null && preqs.size() > 0){
+            validationErrors.addPREQCreationFailure(PurapConstants.ElectronicInvoice.INVOICE_ORDER_DUPLICATE,null);
+            return;
+        }
+        
+        if (orderHolder.getInvoiceDate() == null){
+            validationErrors.addPREQCreationFailure(PurapConstants.ElectronicInvoice.INVOICE_DATE_INVALID,null);
+            return;
+        }else if (orderHolder.getInvoiceDate().after(new java.util.Date())) {
+            validationErrors.addPREQCreationFailure(PurapConstants.ElectronicInvoice.INVOICE_DATE_GREATER,null);
+            return;
+        }
+        
+        validateAccounts(poDoc, validationErrors);
+        
     }
+    
+    private void validateAccounts(PurchaseOrderDocument poDoc,
+                                  PaymentRequestInitializationValidationErrors validationErrors){
+        
+        List<SourceAccountingLine> summaries = SpringContext.getBean(PurapAccountingService.class).generateSummary(poDoc.getItems());
+        List closedAccounts = new ArrayList();
+        List expiredAccounts = new ArrayList();
+        
+        
+        /**
+         * Venkat - I think this method is not needed since there is a method already available
+         * 
+         *  HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = SpringContext.getBean(AccountsPayableService.class).getExpiredOrClosedAccountList(paymentRequestDocument);
+         *  
+         *  
+         */
+        /*for (int i = 0; i < summaries.size(); i++) {
+            
+            Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(summaries.get(i).getChartOfAccountsCode(), 
+                                                                                         summaries.get(i).getAccountNumber());
+            
+            if (account == null){
+                throw new RuntimeException("Account " + account.getChartOfAccountsCode() + " does not exists");
+            }
+            
+            if (!account.isActive()){ // Active indicator is used to know whether a account has been closed or not
+                
+                //if the account is closed, create error and prompt the user to use the continuation account or enter a new account
+                //see if we've passed in a replacement for this closed account
+                
+                AccountContinuation replacementAcct = getReplacementAccount(account.getChartOfAccountsCode(), account.getAccountNumber(), closedAccounts);
+                
+                if (replacementAcct == null) {
+                    validationErrors.addClosedAccount(account);
+                }
+                else {
+                    Account replacement = SpringContext.getBean(AccountService.class).getByPrimaryId(replacementAcct.getReplacementFinancialChartOfAccountsCode(), replacementAcct.getReplacementAccountNumber());
+                    // need to validate the replacement account
+                    if (replacement != null) {
+                        // replace pur accounts w/
+                        replacementAcct.setReplacementAccountValid(Boolean.TRUE);
+                    }
+                    else {
+                        replacementAcct.setReplacementAccountValid(Boolean.FALSE);
+                    }
+                    validationErrors.addClosedAccount(replacementAcct);
+                }
+                
+            }else if (account.isExpired()){
+                
+                //Business rules (Alternate flow 2.2.3):
+                // 2.  if the account is expired and the current date is <= 30 days from the expiration date, let them continue
+                // 3.  if the account is expired and the current date is > 30 days from the expiration date, create error and prompt user to use the continuation account
+                
+                AccountContinuation replacementAcct = getReplacementAccount(account.getChartOfAccountsCode(), account.getAccountNumber(), expiredAccounts);
+                
+                if (replacementAcct == null) {
+                    validationErrors.addExpiredAccount(account);
+                }
+                else {
+                    Account replacement = SpringContext.getBean(AccountService.class).getByPrimaryId(replacementAcct.getReplacementFinancialChartOfAccountsCode(), replacementAcct.getReplacementAccountNumber());
+                    // need to validate the replacement account
+                    if (replacement != null) {
+                        // replace pur accounts w/
+                        replacementAcct.setReplacementAccountValid(Boolean.TRUE);
+                    }
+                    else {
+                        replacementAcct.setReplacementAccountValid(Boolean.FALSE);
+                    }
+                    validationErrors.addExpiredAccount(replacementAcct);
+                }
+            }
+            
+        }*/
+        
+    }
+    
+    private AccountContinuation getReplacementAccount(String accountFinancialChartOfAccountsCode, 
+                                                      String accountAccountNumber, 
+                                                      List accountList) {
+
+        for (Iterator i = accountList.iterator(); i.hasNext();) {
+            AccountContinuation acct = (AccountContinuation) i.next();
+            if (accountFinancialChartOfAccountsCode.equals(acct.getAccountFinancialChartOfAccountsCode()) && accountAccountNumber.equals(acct.getAccountAccountNumber())) {
+                return acct;
+            }
+        }
+        
+        return null;
+    }
+ 
+    /**
+     * FIXME: Have to delete this comments
+     */
+//    private void checkForExpiredOrClosedAccounts(PurchaseOrder po, PaymentRequestInitializationValidationErrors initValidationErrors, 
+//            List closedAccounts, List expiredAccounts) {
+//          // check the accounts listed on the PO items
+//          List accountNumberList = new ArrayList();
+//          for (Iterator i = po.getDisplayAccounts(PurchaseOrder.INCLUDE_ACTIVE_ONLY).iterator(); i.hasNext(); ) {
+//            DisplayAccount poAcct = (DisplayAccount) i.next();
+//            AccountWithAttributes accountWithAttributes = chartOfAccountsService.getAccountWithValidation(poAcct.getFinancialChartOfAccountsCode(),
+//                poAcct.getAccountNumber(),ChartOfAccountsService.USE_CG_GRACE_PERIOD);
+//            Account account = accountWithAttributes.getAccount();
+//            
+//            if (account == null) {
+//              // This is mostly for E-Invoicing
+//              String error = "Account " + poAcct.getFinancialChartOfAccountsCode() + "-" + 
+//                  poAcct.getAccountNumber() + " does not exist in the FIS";
+//              throw new PurError(error,new Exception("checkForExpiredOrClosedAccounts() NULL POINTER AVERTED: " + error));
+//            }
+//            
+//            if (accountWithAttributes.isAccountClosed()) {
+//              // 1.  if the account is closed, create error and prompt the user to use the continuation account or enter a new account
+//              
+//              //see if we've passed in a replacement for this closed account
+//              PaymentRequestInitializationValidationErrors.AccountContinuation replacementAcct = 
+//                getReplacementAccount(account.getChartOfAccountsCode(), account.getAccountNumber(), closedAccounts);
+//              
+//              if (replacementAcct == null) {
+//                initValidationErrors.addClosedAccount(account);            
+//              } else {
+//                Account replacement = chartOfAccountsService.getAccount(replacementAcct.getReplacementFinancialChartOfAccountsCode(), replacementAcct.getReplacementAccountNumber());
+//                //need to validate the replacement account
+//                if (replacement != null) {
+//                  //replace pur accounts w/
+//                  replacementAcct.setReplacementAccountValid(Boolean.TRUE);
+//                } else {
+//                  replacementAcct.setReplacementAccountValid(Boolean.FALSE);
+//                }
+//                initValidationErrors.closedAccounts.add(replacementAcct);
+//              }
+//            } else if (accountWithAttributes.isAccountExpired()) {
+//              // Business rules (Alternate flow 2.2.3):
+//              // 2.  if the account is expired and the current date is <= 30 days from the expiration date, let them continue
+//              // 3.  if the account is expired and the current date is > 30 days from the expiration date, create error and prompt user to use the continuation account
+//
+//              //see if we've passed in a replacement for this closed account
+//              PaymentRequestInitializationValidationErrors.AccountContinuation replacementAcct = 
+//                getReplacementAccount(account.getChartOfAccountsCode(), account.getAccountNumber(), expiredAccounts);
+//              if (replacementAcct == null) {
+//                initValidationErrors.addExpiredAccount(account);
+//              } else {
+//                Account replacement = chartOfAccountsService.getAccount(replacementAcct.getReplacementFinancialChartOfAccountsCode(), replacementAcct.getReplacementAccountNumber());
+//                //need to validate the replacement account
+//                if (replacement != null) {
+//                  //replace pur accounts w/
+//                  replacementAcct.setReplacementAccountValid(Boolean.TRUE);
+//                } else {
+//                  replacementAcct.setReplacementAccountValid(Boolean.FALSE);
+//                }
+//                initValidationErrors.expiredAccounts.add(replacementAcct);
+//              }
+//            }
+//          }
+//        }
+    
+//  public PaymentRequestInitializationValidationErrors validateElectronicInvoicePaymentRequest1(Integer purchaseOrderID, 
+//  java.util.Date invoiceDate, 
+//  String invoiceNumber, 
+//  String invoiceFilename) {
+//LOG.debug("validateElectronicInvoicePaymentRequest() started");
+//
+//String error;
+//List messages = new ArrayList();
+//PaymentRequestInitializationValidationErrors initValidationErrors = new PaymentRequestInitializationValidationErrors();
+//
+///**
+//* venkat- Commented out to successfully process a order 
+//*/
+//PurchaseOrderDocument po = purchaseOrderService.getPurchaseOrderById(purchaseOrderID,null);
+
+//if (po == null || (!(EpicConstants.PO_STAT_OPEN.equals(po.getPurchaseOrderStatus().getCode())))) {
+//// Send error based on PO status... not avail for processing
+//if (po == null) {
+//error = "Invoice PO Number '" + purchaseOrderID + "' from file does not exist in EPIC";
+//} else {
+//error = "PO NUMBER - '" + purchaseOrderID + "':  EPIC PO has status '" + po.getPurchaseOrderStatus().getDescription() + "' and is not processible";
+//}
+//LOG.error("validateElectronicInvoicePaymentRequest() " + error);
+//messages.add(error);
+//initValidationErrors.errorMessages = messages;
+//LOG.debug("validateElectronicInvoicePaymentRequest() ended");
+//return initValidationErrors;
+//}
+
+//List preqs = this.getPaymentRequestsByVendorNumberInvoiceNumber(po.getVendorHeaderGeneratedId(), po.getVendorDetailAssignedId(), invoiceNumber);
+//if ( (preqs != null) && (preqs.size() > 0) ) {
+//error = "PO NUMBER - '" + purchaseOrderID + "':  Invoice has potential duplicate for invoice number '" + invoiceNumber + 
+//"' and vendor id " + po.getVendorHeaderGeneratedId() + "-" + po.getVendorDetailAssignedId();
+//LOG.error("validateElectronicInvoicePaymentRequest() " + error);
+//messages.add(error);
+//initValidationErrors.errorMessages = messages;
+//LOG.debug("validateElectronicInvoicePaymentRequest() ended");
+//return initValidationErrors;
+//}
+
+//if (this.isInvoiceDateAfterToday(invoiceDate)) {
+//// Send Error on Invoice Date
+//if (invoiceDate != null) {
+//error = "PO NUMBER - '" + purchaseOrderID + "':  Invoice has invoice date '" + invoiceDate.toString() + "' which is after today";
+//} else {
+//error = "PO NUMBER - '" + purchaseOrderID + "':  Invoice has empty invoice date";
+//}
+//LOG.error("validateElectronicInvoicePaymentRequest() " + error);
+//messages.add(error);
+//initValidationErrors.errorMessages = messages;
+//LOG.debug("validateElectronicInvoicePaymentRequest() ended");
+//return initValidationErrors;
+//}
+
+//this.checkForExpiredOrClosedAccounts(po, initValidationErrors, new ArrayList(), new ArrayList());
+//
+//initValidationErrors.errorMessages = messages;
+//
+//LOG.debug("validateElectronicInvoicePaymentRequest() ended");
+//return initValidationErrors;
+//}
 }

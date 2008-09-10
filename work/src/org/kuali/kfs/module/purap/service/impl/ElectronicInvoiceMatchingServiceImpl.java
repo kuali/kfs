@@ -40,6 +40,7 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestHeader;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestSummary;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItem;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoad;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
@@ -124,11 +125,12 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_DATE_INVALID,null,orderHolder.getFileName());
             orderHolder.addInvoiceHeaderRejectReason(rejectReason,invoiceDateField);
             return;
-        }else if (orderHolder.getInvoiceDate().after(new java.util.Date())) {
+        }
+        /*else if (orderHolder.getInvoiceDate().after(new java.util.Date())) {
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_DATE_GREATER,null,orderHolder.getFileName());
             orderHolder.addInvoiceHeaderRejectReason(rejectReason,invoiceDateField);
             return;
-        }
+        }*/
 
         if (orderHolder.isInformationOnly()){
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INFORMATION_ONLY,null,orderHolder.getFileName());
@@ -198,7 +200,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         String specialHandlingAmoutFieldName = "";
         String discountAmountFieldName = "";
 
-        if (validateKualiItemType(orderHolder, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, taxAmoutFieldName)) {
+        /*if (validateKualiItemType(orderHolder, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, taxAmoutFieldName)) {
             validateKualiItemTypeCode(orderHolder, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, taxAmoutFieldName);
         }
 
@@ -212,6 +214,22 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
 
         if (validateKualiItemType(orderHolder, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DISCOUNT, discountAmountFieldName)) {
             validateKualiItemTypeCode(orderHolder, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DISCOUNT, discountAmountFieldName);
+        }*/
+        
+        ElectronicInvoiceItemMapping[] itemTypeMappings = orderHolder.getInvoiceItemTypeMappings();
+        
+        if (itemTypeMappings == null || itemTypeMappings.length == 0){
+            String extraDescription = "Vendor=" + orderHolder.getVendorName();
+            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.ITEM_TYPE_MAPPING_NOT_AVAILABLE, extraDescription, orderHolder.getFileName());
+            orderHolder.addInvoiceHeaderRejectReason(rejectReason);
+        }else{
+            for (int i = 0; i < itemTypeMappings.length; i++) {
+                if (!orderHolder.isItemTypeAvailableInKuali(itemTypeMappings[i].getItemTypeCode())){
+                    String extraDescription = "InvoiceItemTypeCode=" + itemTypeMappings[i].getItemTypeCode();
+                    ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.ITEM_TYPE_RECORD_NOT_AVAILABLE, extraDescription, orderHolder.getFileName());
+                    orderHolder.addInvoiceHeaderRejectReason(rejectReason);
+                }
+            }
         }
 
     }
@@ -229,7 +247,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
 
     }
     
-    private void validateKualiItemTypeCode(ElectronicInvoiceOrderHolder orderHolder, String invoiceItemTypeCode, String fieldName) {
+    /*private void validateKualiItemTypeCode(ElectronicInvoiceOrderHolder orderHolder, String invoiceItemTypeCode, String fieldName) {
 
         String kualiItemTypeCode = orderHolder.getKualiItemTypeCode(invoiceItemTypeCode);
 
@@ -238,7 +256,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.ITEM_TYPE_NAME_NOT_AVAILABLE, extraDescription, orderHolder.getFileName());
             orderHolder.addInvoiceHeaderRejectReason(rejectReason);
         }
-    }
+    }*/
     
     private void validateInvoiceDetails(ElectronicInvoiceOrderHolder orderHolder){
         
@@ -281,14 +299,6 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_VENDOR_NOT_MATCHES_WITH_INVOICE_VENDOR,null,orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason);
         }
-        
-        /**
-         * TODO: Move this code where PREQ is created
-         */
-//        if (!poDoc.getStatusCode().equals(PurchaseOrderStatuses.OPEN)) {
-//            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_NOT_OPEN,null,orderHolder.getFileName());
-//            orderHolder.addInvoiceOrderRejectReason(rejectReason);            
-//        }
         
     }
     
@@ -447,14 +457,11 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             return;
         }
         
-        /**
-         * FIXME : Is it needed????????????
-         */
-        if (costSource.getItemUnitPriceLowerVariancePercent() != null && costSource.getItemUnitPriceUpperVariancePercent() != null){
-            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_COST_SOURCE_INVALID,null,orderHolder.getFileName());
-            orderHolder.addInvoiceOrderRejectReason(rejectReason);
-            return;
-        }
+//        if (costSource.getItemUnitPriceLowerVariancePercent() != null && costSource.getItemUnitPriceUpperVariancePercent() != null){
+//            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_COST_SOURCE_INVALID,null,orderHolder.getFileName());
+//            orderHolder.addInvoiceOrderRejectReason(rejectReason);
+//            return;
+//        }
         
         BigDecimal actualVariance = itemHolder.getInvoiceItemUnitPrice().subtract(poItem.getItemUnitPrice());
         
@@ -467,7 +474,9 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
                 ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_AMT_LESSER_THAN_LOWER_VARIANCE,null,orderHolder.getFileName());
                 orderHolder.addInvoiceOrderRejectReason(rejectReason);
             }
-        }else{
+        }
+        
+        if (costSource.getItemUnitPriceUpperVariancePercent() != null){
             //Checking for upper variance
             BigDecimal percentage = costSource.getItemUnitPriceUpperVariancePercent();
             BigDecimal upperAcceptableVariance = (percentage.divide(new BigDecimal(100))).multiply(poItem.getItemUnitPrice());

@@ -80,7 +80,6 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
-    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="5" />
@@ -98,7 +97,6 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
-    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="5" />

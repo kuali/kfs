@@ -30,11 +30,7 @@ public interface ElectronicInvoiceParserService {
     
     public ElectronicInvoiceLoadSummary getOrCreateLoadSummary(ElectronicInvoiceLoad eInvoiceLoad,String fileDunsNumber);
     
-    /*public ElectronicInvoiceRejectReason createRejectReason(String rejectReasonTypeCode,
-                                                            String extraDescription,
-                                                            String fileName);*/
-    
-    public void doMatchingValidation(ElectronicInvoiceRejectDocument rejectDocument);
+    public void doMatchingProcess(ElectronicInvoiceRejectDocument rejectDocument);
     
     public ElectronicInvoiceRejectDocument createAndSaveRejectDocument(ElectronicInvoiceLoad eInvoiceLoad, 
                                                                        ElectronicInvoice eInvoice,

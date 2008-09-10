@@ -610,6 +610,9 @@
 		<property name="purchaseOrderService">
             <ref bean="purchaseOrderService" />
         </property>
+        <property name="paymentRequestService">
+            <ref bean="paymentRequestService" />
+        </property>
 	</bean>
 	
 	<bean id="electronicInvoiceMatchingService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceMatchingServiceImpl">

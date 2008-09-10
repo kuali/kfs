@@ -23,6 +23,7 @@ import java.util.List;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors;
+import org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceOrderHolder;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -366,15 +367,10 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     /**
      * This validates an electronic invoice and makes sure it can be turned into a Payment Request
      * 
-     * @param purchaseOrderID  PO ID from E-Invoice
-     * @param invoiceDate      invoice date from E-Invoice
-     * @param invoiceNumber    invoice number of the electronic invoice file
-     * @param filename         filename of electronic invoice file
+     * @param orderHolder         holds reject document or electronicinvoice class
      * @return A PaymentRequestInitializationValidationErrors object containing continuation accounting
      *             and error messages if need be
      */
-    public PaymentRequestInitializationValidationErrors validateElectronicInvoicePaymentRequest(Integer purchaseOrderID, 
-                                                                                                java.util.Date invoiceDate, 
-                                                                                                String invoiceNumber, 
-                                                                                                String invoiceFilename);
+    public void validateElectronicInvoicePaymentRequest(ElectronicInvoiceOrderHolder orderHolder,
+                                                        PaymentRequestInitializationValidationErrors validationErrors);
 }

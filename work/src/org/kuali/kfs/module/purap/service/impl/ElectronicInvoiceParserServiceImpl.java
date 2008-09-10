@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,12 +47,16 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReasonType;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.dataaccess.ElectronicInvoicingDao;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.exception.CxmlParseException;
+import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors;
 import org.kuali.kfs.module.purap.exception.PurError;
+import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors.PREQCreationFailure;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMatchingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceParserService;
@@ -70,6 +75,7 @@ import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.Attachment;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -77,6 +83,7 @@ import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.springframework.dao.support.DaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -96,6 +103,7 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
     private BatchInputFileService batchInputFileService;
     private VendorService vendorService;
     private PurchaseOrderService purchaseOrderService;
+    private PaymentRequestService paymentRequestService;
     
     public boolean loadElectronicInvoices() {
 
@@ -253,6 +261,7 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         setVendorDetails(eInvoice);
         
         Map itemTypeMappings = getItemMappings(eInvoice.getVendorHeaderID(),eInvoice.getVendorDetailID());
+        Map kualiItemTypes = getKualiItemTypes();
         
         boolean validateHeader = true;
         
@@ -270,7 +279,7 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
                 }
             }
             
-            ElectronicInvoiceOrderHolder orderHolder = new ElectronicInvoiceOrderHolder(eInvoice,order,po,itemTypeMappings,validateHeader);
+            ElectronicInvoiceOrderHolder orderHolder = new ElectronicInvoiceOrderHolder(eInvoice,order,po,itemTypeMappings,kualiItemTypes,validateHeader);
             matchingService.doMatchingProcess(orderHolder);
             
             if (eInvoice.isFileRejected()){
@@ -281,7 +290,10 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
                 loadSummary.addFailedInvoiceOrder(rejectDocument.getTotalAmount(),eInvoice);
                 eInvoiceLoad.insertInvoiceLoadSummary(loadSummary);
             }else{
-                LOG.debug("*********************Invoice order accepted*********************");
+                createPaymentRequest(orderHolder);
+                /**
+                 * TODO: Add success summary
+                 */
             }
             
             validateHeader = false;
@@ -294,9 +306,9 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         
         String dunsNumber = null;
         
-        if ("DUNS".equals(eInvoice.getCxmlHeader().getFromDomain())) {
+        if (StringUtils.equals(eInvoice.getCxmlHeader().getFromDomain(),"DUNS")) {
             dunsNumber = eInvoice.getCxmlHeader().getFromIdentity();
-        }else if ("DUNS".equals(eInvoice.getCxmlHeader().getSenderDomain())) {
+        }else if (StringUtils.equals(eInvoice.getCxmlHeader().getSenderDomain(),"DUNS")) {
             dunsNumber = eInvoice.getCxmlHeader().getSenderIdentity();
         }
         
@@ -337,6 +349,24 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         }
 
         return itemTypeMappings;
+    }
+    
+    private Map<String, ItemType> getKualiItemTypes(){
+        
+        Collection<ItemType> collection = SpringContext.getBean(BusinessObjectService.class).findAll(ItemType.class);
+        Map kualiItemTypes = new HashMap<String, ItemType>();
+        
+        if (collection != null){
+            ItemType[] itemTypes = new ItemType[collection.size()];
+            collection.toArray(itemTypes);
+            for (int i = 0; i < itemTypes.length; i++) {
+                kualiItemTypes.put(itemTypes[i].getItemTypeCode(),itemTypes[i]);
+            }
+            return kualiItemTypes;
+        }else{
+            return null;
+        }
+        
     }
     
     private boolean checkForCompleteFailure(ElectronicInvoiceLoad electronicInvoiceLoad, 
@@ -472,67 +502,6 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         
         return note;
     }
-    
-    /*private void rejectElectronicInvoiceOrders(ElectronicInvoiceLoad eInvoiceLoad, 
-                                               String fileDunsNumber, 
-                                               ElectronicInvoice eInvoice,
-                                               File invoiceFile,
-                                               String[] rejectReasonCodes,
-                                               boolean isPartialFailure) {
-
-        LOG.info("rejectElectronicInvoiceFileWithOrders() started");
-
-        StringBuffer message = new StringBuffer();
-        ElectronicInvoiceLoadSummary eInvoiceLoadSummary = getOrCreateLoadSummary(eInvoiceLoad,fileDunsNumber);;
-
-        message.append("Invoice File with Filename '" + eInvoice.getFileName() + "' has been rejected (the entire file) for the following errors:\n");
-        
-        for (Iterator itemIter = eInvoice.getInvoiceDetailOrders().iterator(); itemIter.hasNext();) {
-            try {
-
-                ElectronicInvoiceOrder eInvoiceOrder = (ElectronicInvoiceOrder) itemIter.next();
-                ElectronicInvoiceRejectDocument eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("ElectronicInvoiceRejectDocument");
-                
-                eInvoiceRejectDocument.setFileLevelData(eInvoice);
-                eInvoiceRejectDocument.setInvoiceOrderLevelData(eInvoice, eInvoiceOrder);
-                
-                if (rejectReasonCodes != null){
-                    for (int i = 0; i < rejectReasonCodes.length; i++) {
-                        ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(rejectReasonCodes[i], null, invoiceFile.getName());
-                        eInvoiceRejectDocument.addRejectReason(rejectReason);
-                    }
-                }
-                
-                for (int i = 0; eInvoice.getFileRejectReasons().size() > i; i++) {
-                    message.append("    - " + eInvoice.getFileRejectReasons().get(i).getInvoiceRejectReasonDescription() + "\n");
-                }
-                
-                message.append("\n\n");
-                emailTextErrorList.append(message);
-                
-                String noteText = isPartialFailure ? "Partial failure" : "Complete failure";
-                
-                eInvoiceRejectDocument.addNote(attachInvoiceXMLWithRejectDoc(eInvoiceRejectDocument,invoiceFile,noteText));
-                
-                LOG.info("rejectElectronicInvoiceOrders() Using amount " + eInvoiceRejectDocument.getTotalAmount().doubleValue() + " for load summary");
-                
-                eInvoiceLoadSummary.addFailedInvoiceOrder(eInvoiceRejectDocument.getTotalAmount(), eInvoice);
-
-                eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription(noteText);
-                
-                eInvoiceLoad.insertInvoiceLoadSummary(eInvoiceLoadSummary);
-                eInvoiceLoad.addInvoiceReject(eInvoiceRejectDocument);
-
-                KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
-            }
-            catch (WorkflowException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        eInvoiceLoad.insertInvoiceLoadSummary(eInvoiceLoadSummary);
-    }*/
     
     public ElectronicInvoiceRejectDocument createAndSaveRejectDocument(ElectronicInvoiceLoad eInvoiceLoad, 
                                                                        ElectronicInvoice eInvoice,
@@ -743,7 +712,7 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         
     }
     
-    public void doMatchingValidation(ElectronicInvoiceRejectDocument rejectDocument){
+    public void doMatchingProcess(ElectronicInvoiceRejectDocument rejectDocument){
         
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         errorMap.clearErrorPath();
@@ -751,13 +720,64 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
         
         rejectDocument.getInvoiceRejectReasons().clear();
         
-        Map itemTypeMappings = getItemMappings(rejectDocument.getVendorHeaderGeneratedIdentifier(),rejectDocument.getVendorDetailAssignedIdentifier());
+        Map itemTypeMappings = getItemMappings(rejectDocument.getVendorHeaderGeneratedIdentifier(),
+                                               rejectDocument.getVendorDetailAssignedIdentifier());
         
-        ElectronicInvoiceOrderHolder rejectDocHolder = new ElectronicInvoiceOrderHolder(rejectDocument,itemTypeMappings);
+        Map kualiItemTypes = getKualiItemTypes();
+        
+        ElectronicInvoiceOrderHolder rejectDocHolder = new ElectronicInvoiceOrderHolder(rejectDocument,itemTypeMappings,kualiItemTypes);
         matchingService.doMatchingProcess(rejectDocHolder);
+        
+        if (!rejectDocHolder.isInvoiceRejected()){
+            createPaymentRequest(rejectDocHolder);
+        }
         
     }
     
+    public void createPaymentRequest(ElectronicInvoiceOrderHolder orderHolder){
+        
+        LOG.debug("Creating PREQ......");
+        
+        PaymentRequestInitializationValidationErrors initData = new PaymentRequestInitializationValidationErrors();
+        
+        validatePaymentRequestCreation(orderHolder,initData);
+        
+        if (orderHolder.isInvoiceRejected()){
+            return;
+        }
+        
+        
+        
+        
+    }
+    
+    private void validatePaymentRequestCreation(ElectronicInvoiceOrderHolder orderHolder,
+                                                PaymentRequestInitializationValidationErrors initData){
+        
+        try{
+            //we use try-catch block because error is coming from PREQ service method 
+            paymentRequestService.validateElectronicInvoicePaymentRequest(orderHolder,initData);
+        }catch(Exception e){
+            String extraDescription = "Error=" + e.getMessage();
+            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PAYMENT_REQUEST_CREATION_ERROR, 
+                                                                                            extraDescription, 
+                                                                                            orderHolder.getFileName());
+            orderHolder.addInvoiceOrderRejectReason(rejectReason);
+            return;
+        }
+        
+        PREQCreationFailure[] preqFailures = initData.getPREQCreationFailures();
+        
+        if (preqFailures != null){
+            for (int i = 0; i < preqFailures.length; i++) {
+                orderHolder.addInvoiceOrderRejectReason(matchingService.createRejectReason(preqFailures[i].getRejectReasonCode(),          
+                                                                                           preqFailures[i].getExtraDescription(), 
+                                                                                           orderHolder.getFileName()));
+            }
+        }
+        
+    }
+
     public String getSourceDir(){
         return electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "source" + File.separator;
     }
@@ -824,5 +844,9 @@ public class ElectronicInvoiceParserServiceImpl implements ElectronicInvoicePars
 
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
+    }
+
+    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
+        this.paymentRequestService = paymentRequestService;
     }
 }

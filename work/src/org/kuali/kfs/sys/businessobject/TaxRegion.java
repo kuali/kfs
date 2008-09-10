@@ -39,6 +39,7 @@ public class TaxRegion extends PersistableBusinessObjectBase {
     private Account account;
     private ObjectCodeCurrent objectCode;
     private TaxRegionType taxRegionType;
+    private TaxRegionRate selectedTaxRegionRate;
     
     private List<TaxRegionRate> taxRegionRates = new TypedArrayList(TaxRegionRate.class);
     private List<TaxRegionState> taxRegionStates = new TypedArrayList(TaxRegionState.class);
@@ -178,5 +179,13 @@ public class TaxRegion extends PersistableBusinessObjectBase {
 	public void setTaxRegionUseTaxIndicator(String taxRegionUseTaxIndicator) {
 		this.taxRegionUseTaxIndicator = taxRegionUseTaxIndicator;
 	}
+	
+    public TaxRegionRate getSelectedTaxRegionRate() {
+        return selectedTaxRegionRate;
+    }
+
+    public void setSelectedTaxRegionRate(TaxRegionRate selectedTaxRegionRate) {
+        this.selectedTaxRegionRate = selectedTaxRegionRate;
+    }	
 
 }

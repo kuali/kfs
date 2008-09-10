@@ -11,6 +11,7 @@ public class TaxRegionPostalCode extends PersistableBusinessObjectBase implement
 	private String taxRegionCode;
 	private boolean active;
 	private PostalZipCode postalZip;
+	private TaxRegion taxRegion;
 	
 	public PostalZipCode getPostalZip() {
 		return postalZip;
@@ -18,7 +19,13 @@ public class TaxRegionPostalCode extends PersistableBusinessObjectBase implement
 	public void setPostalZip(PostalZipCode postalZip) {
 		this.postalZip = postalZip;
 	}
-	public boolean isActive() {
+	public TaxRegion getTaxRegion() {
+        return taxRegion;
+    }
+    public void setTaxRegion(TaxRegion taxRegion) {
+        this.taxRegion = taxRegion;
+    }
+    public boolean isActive() {
 		return active;
 	}
 	public void setActive(boolean active) {

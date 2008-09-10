@@ -19,12 +19,14 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
-public class TaxRate extends TransientBusinessObjectBase {
+public class TaxDetail extends TransientBusinessObjectBase {
 
     private String rateCode; //(e.g., state code or district code)
     private String rateName; //(e.g., state name or tax district name)
     private BigDecimal taxRate; //(a rate between 0 and 1)
+    private KualiDecimal taxAmount;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String financialObjectCode;
@@ -75,6 +77,14 @@ public class TaxRate extends TransientBusinessObjectBase {
 
     public void setTaxRate(BigDecimal taxRate) {
         this.taxRate = taxRate;
+    }
+
+    public KualiDecimal getTaxAmount() {
+        return taxAmount;
+    }
+
+    public void setTaxAmount(KualiDecimal taxAmount) {
+        this.taxAmount = taxAmount;
     }
 
     @Override

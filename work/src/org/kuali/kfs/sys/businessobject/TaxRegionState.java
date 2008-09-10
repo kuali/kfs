@@ -11,6 +11,7 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Ina
 	private String taxRegionCode;
 	private boolean active;
 	private State state;
+	private TaxRegion taxRegion;
 	
 	public boolean isActive() {
 		return active;
@@ -24,7 +25,13 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Ina
 	public void setStateCode(String stateCode) {
 		this.stateCode = stateCode;
 	}
-	public String getTaxRegionCode() {
+	public TaxRegion getTaxRegion() {
+        return taxRegion;
+    }
+    public void setTaxRegion(TaxRegion taxRegion) {
+        this.taxRegion = taxRegion;
+    }
+    public String getTaxRegionCode() {
 		return taxRegionCode;
 	}
 	public void setTaxRegionCode(String taxRegionCode) {

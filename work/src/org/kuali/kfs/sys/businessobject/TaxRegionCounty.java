@@ -12,6 +12,7 @@ public class TaxRegionCounty extends PersistableBusinessObjectBase implements In
 	private String taxRegionCode;
 	private boolean active;
 	private County county;
+	private TaxRegion taxRegion;
 	
 	public String getCountyCode() {
 		return countyCode;
@@ -25,7 +26,13 @@ public class TaxRegionCounty extends PersistableBusinessObjectBase implements In
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	public String getStateCode() {
+	public TaxRegion getTaxRegion() {
+        return taxRegion;
+    }
+    public void setTaxRegion(TaxRegion taxRegion) {
+        this.taxRegion = taxRegion;
+    }
+    public String getStateCode() {
 		return stateCode;
 	}
 	public void setStateCode(String stateCode) {

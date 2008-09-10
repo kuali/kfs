@@ -38,8 +38,8 @@ public class CabKeyConstants {
     public static final String ERROR_ALLOCATE_NO_TARGET_ACCOUNT = "error.allocate.no.target.account";
     public static final String ERROR_ADDITIONAL_CHARGES_EXIST = "error.additional.charges.exist";
     public static final String ERROR_MERGE_LINE_SELECTED = "error.merge.line.selected";
-    public static final String ERROR_MERGE_WITH_ADDL_CHARGE_PENDING = "error.merge.with.addl.charge.pending";
-    public static final String ERROR_MERGE_WITH_TRADE_IN_PENDING = "error.merge.with.trade.in.pending";
+    public static final String ERROR_ADDL_CHARGE_PENDING = "error.addl.charge.pending";
+    public static final String ERROR_TRADE_IN_PENDING = "error.trade.in.pending";
     public static final String QUESTION_TRADE_IN_INDICATOR_EXISTING = "question.trade.in.indicator.existing";
     
     public static class CapitalAssetManagementAsset {

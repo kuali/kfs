@@ -67,7 +67,7 @@ public interface PurApLineService {
      * 
      * @param purLineForm
      */
-    boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines);
+    boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm);
 
     /**
      * Get the target lines based on allocation line type
@@ -98,7 +98,7 @@ public interface PurApLineService {
      * 
      * @param mergeLines
      */
-    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines);
+    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm);
 
     /**
      * Check if the merge action is merge all.
@@ -106,7 +106,7 @@ public interface PurApLineService {
      * @param purApLineForm
      * @return
      */
-    public boolean isMergeAllAction(PurApLineForm purApLineForm);
+    boolean isMergeAllAction(PurApLineForm purApLineForm);
 
     /**
      * For line items in itemAssets if they are not in the same PurAp document, check if there is pending additional charges
@@ -132,4 +132,12 @@ public interface PurApLineService {
      * @return
      */
     boolean isTradeInAllowanceExist(PurApLineForm purApLineForm);
+
+    /**
+     * Check if there is additional charge line exist in given form.
+     * 
+     * @param purApForm
+     * @return
+     */
+    boolean isAdditionalChargeExist(PurApLineForm purApForm);
 }

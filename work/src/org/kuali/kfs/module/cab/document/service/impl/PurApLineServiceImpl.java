@@ -69,7 +69,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processAdditionalChargeAllocate(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
-    public boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines) {
+    public boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm) {
         boolean allocatedIndicator = true;
         // Maintain this account List for update. So accounts already allocated won't take effect for account not allocated yet.
         List<PurchasingAccountsPayableLineAssetAccount> newAccountList = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
@@ -77,22 +77,30 @@ public class PurApLineServiceImpl implements PurApLineService {
         for (PurchasingAccountsPayableLineAssetAccount sourceAccount : selectedLineItem.getPurchasingAccountsPayableLineAssetAccounts()) {
             // Get allocate to target account list
             List<PurchasingAccountsPayableLineAssetAccount> targetAccounts = getAllocationTargetAccounts(sourceAccount, allocateTargetLines, selectedLineItem.isAdditionalChargeNonTradeInIndicator() | selectedLineItem.isTradeInAllowance());
-            if (targetAccounts.isEmpty()) {
-                allocatedIndicator = false;
-                break;
-            }
-            else {
+            if (!targetAccounts.isEmpty()) {
                 // Percentage amount to each target account
                 allocateByItemAccountAmount(sourceAccount, targetAccounts, newAccountList);
+            }
+            else {
+                allocatedIndicator = false;
+                break;
             }
         }
 
         if (allocatedIndicator) {
-            addNewAccountToItemList(newAccountList);
-            updateLineItemsCost(allocateTargetLines);
+            postAllocateProcess(selectedLineItem, allocateTargetLines, purApForm, newAccountList);
         }
 
         return allocatedIndicator;
+    }
+
+    private void postAllocateProcess(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm, List<PurchasingAccountsPayableLineAssetAccount> newAccountList) {
+        addNewAccountToItemList(newAccountList);
+        updateLineItemsCost(allocateTargetLines);
+        if (ObjectUtils.isNotNull(selectedLineItem.getPurchasingAccountsPayableDocument())) {
+            selectedLineItem.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(selectedLineItem);
+        }
+        resetSelectedValue(purApForm);
     }
 
     /**
@@ -286,16 +294,8 @@ public class PurApLineServiceImpl implements PurApLineService {
 
         boolean excludeTradeInAllowance = false;
 
-        if (mergeAll) {
-            boolean tradeInIndicator = isTradeInIndicatorExist(purApLineForm);
-            boolean tradeInAllowance = isTradeInAllowanceExist(purApLineForm);
-
-            if (tradeInIndicator & !tradeInAllowance) {
-                // TODO: bring the warning message
-            }
-            if (!tradeInIndicator & tradeInAllowance) {
-                excludeTradeInAllowance = true;
-            }
+        if (mergeAll && !isTradeInIndicatorExist(purApLineForm) & isTradeInAllowanceExist(purApLineForm)) {
+            excludeTradeInAllowance = true;
         }
 
         for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
@@ -311,6 +311,9 @@ public class PurApLineServiceImpl implements PurApLineService {
         return mergeLines;
     }
 
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isTradeInAllowanceExist(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
+     */
     public boolean isTradeInAllowanceExist(PurApLineForm purApLineForm) {
         boolean tradeInAllowance = false;
         for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
@@ -324,6 +327,12 @@ public class PurApLineServiceImpl implements PurApLineService {
         return tradeInAllowance;
     }
 
+    /**
+     * Check if TI indicator exists in all form lines
+     * 
+     * @param purApLineForm
+     * @return
+     */
     private boolean isTradeInIndicatorExist(PurApLineForm purApLineForm) {
         boolean tradeInIndicator = false;
         for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
@@ -337,6 +346,9 @@ public class PurApLineServiceImpl implements PurApLineService {
         return tradeInIndicator;
     }
 
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isTradeInIndicatorExist(java.util.List)
+     */
     public boolean isTradeInIndicatorExist(List<PurchasingAccountsPayableItemAsset> itemAssets) {
         boolean tradeInIndicator = false;
         for (PurchasingAccountsPayableItemAsset item : itemAssets) {
@@ -405,15 +417,27 @@ public class PurApLineServiceImpl implements PurApLineService {
         return mergeAll;
     }
 
+    public boolean isAdditionalChargeExist(PurApLineForm purApForm) {
+        for (PurchasingAccountsPayableDocument purApDoc : purApForm.getPurApDocs()) {
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                if (item.isAdditionalChargeNonTradeInIndicator()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processMerge(java.util.List)
      */
-    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines) {
+    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm) {
         PurchasingAccountsPayableItemAsset firstItem = mergeLines.get(0);
         List<PurchasingAccountsPayableLineAssetAccount> firstAccountList = firstItem.getPurchasingAccountsPayableLineAssetAccounts();
         PurchasingAccountsPayableItemAsset item = null;
         PurchasingAccountsPayableLineAssetAccount targetAccount = null;
+
+        preMergeProcess(firstItem, purApForm);
 
         // Merge item accounts to the first line.
         for (int i = 1; i < mergeLines.size(); i++) {
@@ -432,7 +456,41 @@ public class PurApLineServiceImpl implements PurApLineService {
                 }
             }
         }
+
+        postMergeProcess(mergeLines, purApForm);
+    }
+
+    /**
+     * Process before merge.
+     * 
+     * @param firstItem
+     * @param purApForm
+     */
+    private void preMergeProcess(PurchasingAccountsPayableItemAsset firstItem, PurApLineForm purApForm) {
+        // Set new value for quantity and description.
+        firstItem.setAccountsPayableItemQuantity(purApForm.getMergeQty());
+        firstItem.setAccountsPayableLineItemDescription(purApForm.getMergeDesc());
+    }
+
+    /**
+     * Process after merge.
+     * 
+     * @param mergeLines
+     * @param purApForm
+     */
+    private void postMergeProcess(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm) {
+        PurchasingAccountsPayableItemAsset firstItem = mergeLines.get(0);
         setLineItemCost(firstItem);
+        firstItem.setItemAssignedToTradeInIndicator(false);
+        // remove mergeLines except the first one.
+        for (int i = 1; i < mergeLines.size(); i++) {
+            PurchasingAccountsPayableItemAsset item = mergeLines.get(i);
+            item.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(item);
+        }
+        // reset user input values.
+        resetSelectedValue(purApForm);
+        purApForm.setMergeQty(null);
+        purApForm.setMergeDesc(null);
     }
 
     /**

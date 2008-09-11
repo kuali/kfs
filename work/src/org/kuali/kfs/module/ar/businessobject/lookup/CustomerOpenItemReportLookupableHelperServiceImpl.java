@@ -199,7 +199,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
                     if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER, col.getPropertyName())) {
                         String propertyURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + propValue + "&command=displayDocSearchView";
                         col.setPropertyURL(propertyURL);
-                    }
+                    } else col.setPropertyURL("");
                 }
             }
 

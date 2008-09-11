@@ -31,7 +31,8 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
     public PurchaseOrderCapitalAssetItem(PurchasingDocument pd){
         super(pd);
         setDocumentNumber(documentNumber);
-        this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem());
+        //We may need to remove the instantiation of system in the next line, see KULPURAP-2840
+        //this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem());
     }
     
     public PurchaseOrderCapitalAssetItem (PurchasingCapitalAssetItem reqAssetItem) {

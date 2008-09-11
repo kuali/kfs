@@ -25,13 +25,13 @@ public class RequisitionCapitalAssetItem extends PurchasingCapitalAssetItemBase 
     
     public RequisitionCapitalAssetItem(){
         super();
-        this.setPurchasingCapitalAssetSystem(new RequisitionCapitalAssetSystem());
+        //this.setPurchasingCapitalAssetSystem(new RequisitionCapitalAssetSystem());
     }
     
     public RequisitionCapitalAssetItem(PurchasingDocument pd) {
         super(pd);
         setPurapDocumentIdentifier(pd.getPurapDocumentIdentifier());
-        this.setPurchasingCapitalAssetSystem(new RequisitionCapitalAssetSystem());
+        //this.setPurchasingCapitalAssetSystem(new RequisitionCapitalAssetSystem());
     }
 
     public Integer getPurapDocumentIdentifier() {

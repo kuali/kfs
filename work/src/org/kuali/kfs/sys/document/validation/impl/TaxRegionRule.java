@@ -25,13 +25,12 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.County;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionCounty;
 import org.kuali.kfs.sys.businessobject.TaxRegionPostalCode;
 import org.kuali.kfs.sys.businessobject.TaxRegionRate;
 import org.kuali.kfs.sys.businessobject.TaxRegionState;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.VendorKeyConstants;
-import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -59,50 +58,72 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
 
         boolean success = true;
         if (KFSConstants.TaxRegionConstants.TAX_REGION_RATES.equals(collectionName)) {
-            success &= validateTaxRegionRate((TaxRegionRate) bo);
+            success &= isValidTaxRegionRate((TaxRegionRate) bo, null);
         }
         else if (KFSConstants.TaxRegionConstants.TAX_REGION_STATES.equals(collectionName)) {
-            success &= validateTaxRegionState((TaxRegionState) bo);
+            success &= isValidTaxRegionState((TaxRegionState) bo);
         }
         else if (KFSConstants.TaxRegionConstants.TAX_REGION_COUNTIES.equals(collectionName)) {
-            success &= validateTaxRegionCounty((TaxRegionCounty) bo);
+            success &= isValidTaxRegionCounty((TaxRegionCounty) bo);
         }
         else if (KFSConstants.TaxRegionConstants.TAX_REGION_POSTAL_CODES.equals(collectionName)) {
-            success &= validateTaxRegionPostalCode((TaxRegionPostalCode) bo);
+            success &= isValidTaxRegionPostalCode((TaxRegionPostalCode) bo);
         }
 
         return success;
     }
 
     /**
-     * Rules: 1) Effective date should be a future date. 2) Tax rate should be a numeric value between 0 and 1 (inclusive).
-     * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
-    protected boolean validateTaxRegionRate(TaxRegionRate taxRegionRate) {
+    protected boolean isValidTaxRegionRate(TaxRegionRate taxRegionRate, TaxRegion taxRegion) {
 
         boolean success = true;
-        if (taxRegionRate != null) {
-            if (taxRegionRate.getEffectiveDate() != null) {
-                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-                Date currentDate = dateTimeService.getCurrentDate();
-                int comparison = taxRegionRate.getEffectiveDate().compareTo(currentDate);
-                if (comparison == 0 || comparison < 0) {
-                    GlobalVariables.getErrorMap().putError("effectiveDate", KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_CANT_ADD_PAST_OR_CURRENT_DATE_FOR_TAX_DISTRICT);
-                    success = false;
-                }
-            }
-            if (taxRegionRate.getTaxRate() != null) {
-                if (taxRegionRate.getTaxRate().intValue() > 1 || taxRegionRate.getTaxRate().intValue() < 0) {
-                    GlobalVariables.getErrorMap().putError("taxRate", KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_TAX_RATE_BETWEEN0AND1);
-                    success = false;
-                }
-            }
+        if (ObjectUtils.isNotNull(taxRegionRate)) {
+            success &= isValidEffectiveDate(taxRegionRate);
+            success &= isValidTaxRate(taxRegionRate);
         }
 
         return success;
     }
+
+
+    /**
+     * This method returns true if the effective date is not a date in the past or today's date.
+     * 
+     * @param taxRegionRate
+     * @return
+     */
+    protected boolean isValidEffectiveDate(TaxRegionRate taxRegionRate){
+        boolean success = true;
+        if (taxRegionRate.getEffectiveDate() != null) {
+            Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+            int comparison = taxRegionRate.getEffectiveDate().compareTo(currentDate);
+            if (comparison == 0 || comparison < 0) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_EFFECTIVE_DATE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_CANT_ADD_PAST_OR_CURRENT_DATE_FOR_TAX_DISTRICT);
+                success = false;
+            }
+        }
+        return success;
+    }
+    
+    /**
+     * This method returns true if the tax rate is between 0 and 1.
+     * 
+     * @param taxRegionRate
+     * @return
+     */
+    protected boolean isValidTaxRate(TaxRegionRate taxRegionRate){
+        boolean success = true;
+        if (taxRegionRate.getTaxRate() != null) {
+            if (taxRegionRate.getTaxRate().intValue() > 1 || taxRegionRate.getTaxRate().intValue() < 0) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_TAX_RATE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_TAX_RATE_BETWEEN0AND1);
+                success = false;
+            }
+        }
+        return success;
+    }    
 
     /**
      * This method returns true if the state on tax region state object is valid.
@@ -110,7 +131,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
      * @param taxRegionState
      * @return
      */
-    protected boolean validateTaxRegionState(TaxRegionState taxRegionState) {
+    protected boolean isValidTaxRegionState(TaxRegionState taxRegionState) {
         boolean success = true;
 
         if (StringUtils.isNotEmpty(taxRegionState.getStateCode())) {
@@ -133,7 +154,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
      * @param taxRegionCounty
      * @return
      */
-    protected boolean validateTaxRegionCounty(TaxRegionCounty taxRegionCounty) {
+    protected boolean isValidTaxRegionCounty(TaxRegionCounty taxRegionCounty) {
         boolean success = true;
 
         if (StringUtils.isNotEmpty(taxRegionCounty.getStateCode()) || StringUtils.isNotEmpty(taxRegionCounty.getCountyCode())) {
@@ -157,7 +178,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
      * @param taxRegionPostalCode
      * @return
      */
-    protected boolean validateTaxRegionPostalCode(TaxRegionPostalCode taxRegionPostalCode) {
+    protected boolean isValidTaxRegionPostalCode(TaxRegionPostalCode taxRegionPostalCode) {
         boolean success = true;
 
         if (StringUtils.isNotEmpty(taxRegionPostalCode.getTaxRegionCode())) {

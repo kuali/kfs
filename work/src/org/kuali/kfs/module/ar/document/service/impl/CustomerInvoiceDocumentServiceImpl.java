@@ -194,7 +194,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
 
-    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode, Date date) {
+    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
         Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
 
         Map fieldValues = new HashMap();

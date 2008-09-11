@@ -41,11 +41,11 @@ public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
             AccountingDocumentTestUtils.saveDocument(poDocument, documentService);
             PurchaseOrderDocument result = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocument.getDocumentNumber());
             purchaseOrderNumber = result.getPurapDocumentIdentifier();
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             assertTrue(false);
-        }        
+        }
         String url = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getPurchaseOrderInquiryUrl(purchaseOrderNumber);
         assertFalse(StringUtils.isEmpty(url));
     }
-
 }

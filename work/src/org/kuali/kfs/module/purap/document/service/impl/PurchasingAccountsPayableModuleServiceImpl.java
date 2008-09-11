@@ -80,10 +80,16 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
      */
     public String getPurchaseOrderInquiryUrl(Integer purchaseOrderNumber) {
         Properties parameters = new Properties();
-        PurchaseOrderDocument currentDocument = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);      
+        String url = "";
         parameters.setProperty(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        parameters.setProperty("documentNumber", currentDocument.getDocumentNumber());
-        String url = UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, parameters);
+        try {
+            PurchaseOrderDocument currentDocument = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);                  
+            parameters.setProperty("documentNumber", currentDocument.getDocumentNumber());
+        }
+        catch (NullPointerException npe) {
+            //TODO Find an appropriate exception.
+        }
+        url = UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, parameters);
         return url;
     }
 

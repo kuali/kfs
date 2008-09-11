@@ -216,10 +216,14 @@ public class PurApLineAction extends KualiAction {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
+        // check if the user entered merge quantity and merge description
         checkMergeRequiredFields(purApForm);
 
         // Check if the selected merge lines violate the business constraints.
-        if (!purApLineService.isMergeAllAction(purApForm)) {
+        if (purApLineService.isMergeAllAction(purApForm)) {
+            checkMergeAllValid(mergeLines,purApForm);
+        }
+        else {
             checkMergeLinesValid(mergeLines, purApForm);
         }
 
@@ -234,6 +238,12 @@ public class PurApLineAction extends KualiAction {
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    private void checkMergeAllValid(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm) {
+        if (purApLineService.isTradeInAllowanceExist(purApForm)) {
+            GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_TRADE_IN_PENDING);
+        }
     }
 
     /**
@@ -253,6 +263,7 @@ public class PurApLineAction extends KualiAction {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ADDL_CHARGE_PENDING);
         }
 
+        // if merge lines has indicator exists and trade-in allowance is pending for allocation, we will block this action.
         if (purApLineService.isTradeInIndicatorExist(mergeLines) & purApLineService.isTradeInAllowanceExist(purApForm)) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_TRADE_IN_PENDING);
         }
@@ -336,8 +347,8 @@ public class PurApLineAction extends KualiAction {
     }
 
     /**
-     * 
      * Check if the line items are allowed to allocate.
+     * 
      * @param selectedLine
      * @param allocateTargetLines
      * @param purApForm
@@ -346,19 +357,19 @@ public class PurApLineAction extends KualiAction {
         if (allocateTargetLines.isEmpty()) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ALLOCATE_NO_LINE_SELECTED);
         }
-        
+
         // Additional charges(no trade-in) must be allocated before allocate trade-in.
         if (selectedLine.isTradeInAllowance() && purApLineService.isAdditionalChargeExist(purApForm)) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ADDL_CHARGE_PENDING);
         }
-        
+
         if (!selectedLine.isAdditionalChargeNonTradeInIndicator() & !selectedLine.isTradeInAllowance()) {
             allocateTargetLines.add(selectedLine);
             // Additional charges(no trade-in) must be allocated before other lines.
             if (purApLineService.isAdditionalChargePending(allocateTargetLines)) {
                 GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ADDL_CHARGE_PENDING);
             }
-            
+
             if (purApLineService.isTradeInIndicatorExist(allocateTargetLines) & purApLineService.isTradeInAllowanceExist(purApForm)) {
                 // For line item, check if trade-in allowance allocation pending.
                 GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_TRADE_IN_PENDING);

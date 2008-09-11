@@ -96,6 +96,8 @@
 			</c:if>
 		</c:if>
 		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-allocate.gif" styleClass="tinybutton" property="methodToCall.allocate.doc${docPos-1}.line${linePos-1}" title="allocate" alt="allocate"/>
+		<html:button property="methodToCall.createnewassets.doc${docPos-1}.line${linePos-1}"  style="color:purple" styleClass="tinybutton" title="create new assets" value="create new assets" />
+		<html:button property="methodToCall.addpayments.doc${docPos-1}.line${linePos-1}"  style="color:purple" styleClass="tinybutton" title="add payments" value="add payments" />
 	</td>
 </tr>
 <tr>

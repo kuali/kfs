@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
@@ -559,7 +560,12 @@ public class PurApLineServiceImpl implements PurApLineService {
         setLineItemCost(currentItemAsset);
         currentItemAsset.setSplitQty(null);
 
+        addToActionHistory(currentItemAsset,newItemAsset);
         return newItemAsset;
+    }
+
+    private void addToActionHistory(PurchasingAccountsPayableItemAsset currentItemAsset, PurchasingAccountsPayableItemAsset newItemAsset) {
+        PurchasingAccountsPayableActionHistory newAction = new PurchasingAccountsPayableActionHistory(currentItemAsset, newItemAsset, CabConstants.Actions.SPLIT);
     }
 
     /**

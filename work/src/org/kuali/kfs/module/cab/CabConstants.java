@@ -48,6 +48,8 @@ public class CabConstants extends JSTLConstants {
         public static final String SPLIT = "split";
         public static final String MERGE = "merge";
         public static final String ALLOCATE = "allocate";
+        public static final String CREATE_NEW = "create new assets";
+        public static final String ADD_PAYMENTS = "add payments";
     }
     
     public static class ValidationStrings {

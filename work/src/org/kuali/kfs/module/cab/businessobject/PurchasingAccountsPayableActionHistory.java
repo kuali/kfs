@@ -2,6 +2,7 @@ package org.kuali.kfs.module.cab.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -23,6 +24,16 @@ public class PurchasingAccountsPayableActionHistory extends PersistableBusinessO
     private KualiDecimal accountsPayableItemQuantity;
     private boolean active;
 
+    public PurchasingAccountsPayableActionHistory(PurchasingAccountsPayableItemAsset fromItem, PurchasingAccountsPayableItemAsset toItem, String actionType) {
+        this.actionTypeCode = actionType;
+        this.fromDocumentNumber = fromItem.getDocumentNumber();
+        this.fromPurApLineItemIdentifier = fromItem.getAccountsPayableLineItemIdentifier();
+        this.fromCabLineNumber = fromItem.getCapitalAssetBuilderLineNumber();
+        this.toDocumentNumber = toItem.getDocumentNumber();
+        this.toPurApLineItemIdentifier = toItem.getAccountsPayableLineItemIdentifier();
+        this.toCabLineNumber = toItem.getCapitalAssetBuilderLineNumber();
+        this.active = true;
+    }
 
     /**
      * Gets the actionIdentifier attribute.

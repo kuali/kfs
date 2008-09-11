@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -23,11 +22,6 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
     private String capitalAssetManagementDocumentNumber;
 
     private AssetType capitalAssetType;
-    private List<GeneralLedgerEntryAssetDetail> generalLedgerEntryAssetDetails;
-
-    public GeneralLedgerEntryAsset() {
-        this.generalLedgerEntryAssetDetails = new TypedArrayList(GeneralLedgerEntryAssetDetail.class);
-    }
 
     /**
      * Gets the generalLedgerAccountIdentifier attribute.
@@ -208,24 +202,6 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
      */
     public void setCapitalAssetType(AssetType capitalAssetType) {
         this.capitalAssetType = capitalAssetType;
-    }
-
-    /**
-     * Gets the generalLedgerEntryAssetDetails attribute.
-     * 
-     * @return Returns the generalLedgerEntryAssetDetails.
-     */
-    public List<GeneralLedgerEntryAssetDetail> getGeneralLedgerEntryAssetDetails() {
-        return generalLedgerEntryAssetDetails;
-    }
-
-    /**
-     * Sets the generalLedgerEntryAssetDetails attribute value.
-     * 
-     * @param generalLedgerEntryAssetDetails The generalLedgerEntryAssetDetails to set.
-     */
-    public void setGeneralLedgerEntryAssetDetails(List<GeneralLedgerEntryAssetDetail> generalLedgerEntryAssetDetails) {
-        this.generalLedgerEntryAssetDetails = generalLedgerEntryAssetDetails;
     }
 
     /**

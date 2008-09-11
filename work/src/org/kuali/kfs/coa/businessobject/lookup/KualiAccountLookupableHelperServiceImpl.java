@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
@@ -61,4 +62,23 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
         anchorHtmlDataList.add(urlDataCopy);
         return anchorHtmlDataList;
     }
+    /**
+     * Overridden to changed the "closed" parameter to an "active" parameter
+     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     */
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> parameters) {
+        if (parameters.containsKey("closed")) {
+            final String closedValue = parameters.get("closed");
+            if ("Y1T".indexOf(closedValue) > -1) {
+                parameters.put("active", "N");
+            } else if ("N0F".indexOf(closedValue) > -1){
+                parameters.put("active", "Y");
+            }
+            parameters.remove("closed");
+        }
+        return super.getSearchResults(parameters);
+    }
+    
+    
 }

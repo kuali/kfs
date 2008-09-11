@@ -70,6 +70,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="Account-accountCfdaNumber" />
         <ref bean="Account-accountOffCampusIndicator" />
         <ref bean="Account-active" />
+        <ref bean="Account-closed" />
         <ref bean="Account-accountFiscalOfficerSystemIdentifier" />
         <ref bean="Account-accountFiscalOfficerUserPersonUserIdentifier" />
         <ref bean="Account-accountFiscalOfficerUser.personUserIdentifier" />
@@ -699,8 +700,16 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-    <property name="label" value="Open?" />
+    <property name="label" value="Active?" />
   </bean>
+  
+  <bean id="Account-closed" parent="Account-closed-parentBean" />
+  
+  <bean id="Account-closed-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  	<property name="name" value="closed" />
+  	<property name="label" value="Closed?" />
+  </bean>
+  
   <bean id="Account-accountFiscalOfficerSystemIdentifier" parent="Account-accountFiscalOfficerSystemIdentifier-parentBean" />
 
   <bean id="Account-accountFiscalOfficerSystemIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
@@ -914,7 +923,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <dd:field attributeName="accountState.codeAndDescription" />
               <dd:field attributeName="accountStreetAddress" />
               <dd:field attributeName="accountOffCampusIndicator" />
-              <dd:field attributeName="active" />
+              <dd:field attributeName="closed" />
               <dd:field attributeName="accountTypeCode" />
               <dd:field attributeName="subFundGroup.codeAndDescription" />
               <dd:field attributeName="accountsFringesBnftIndicator" />
@@ -1038,7 +1047,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:field attributeName="accountFiscalOfficerSystemIdentifier"  />
         <dd:field attributeName="accountFiscalOfficerUser.personUserIdentifier"  />
         <dd:field attributeName="accountFiscalOfficerUser.personName"  />
-        <dd:field attributeName="active" defaultValue="N" />
+        <dd:field attributeName="closed" defaultValue="N" />
       </list>
     </property>
     <property name="resultFields" >
@@ -1051,7 +1060,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:field attributeName="subFundGroupCode"  />
         <dd:field attributeName="accountFiscalOfficerUser.personUserIdentifier"  />
         <dd:field attributeName="accountFiscalOfficerUser.personName" inquiry="force" />
-        <dd:field attributeName="active"  />
+        <dd:field attributeName="closed"  />
         <dd:field attributeName="accountManagerUser.personName" inquiry="force" />
         <dd:field attributeName="accountCreateDate" />
         <dd:field attributeName="accountExpirationDate" />

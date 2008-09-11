@@ -804,6 +804,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setActive(boolean active) {
         this.active = active;
     }
+    
+    /**
+     * Returns whether this account is not active or not
+     * @return the opposite of isActive()
+     */
+    public boolean isClosed() {
+        return !active;
+    }
 
     /**
      * Gets the chartOfAccounts attribute.

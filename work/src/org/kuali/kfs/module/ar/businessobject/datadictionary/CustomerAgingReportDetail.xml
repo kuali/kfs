@@ -61,7 +61,7 @@
  <bean id="CustomerAgingReportDetail-reportRunDate" parent="CustomerAgingReportDetail-reportRunDate-parentBean" />
  <bean id="CustomerAgingReportDetail-reportRunDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="reportRunDate" />
-    <property name="label" value="Report Run Date" />
+    <property name="label" value="Report Run Date                      (using Customer Purchase Order Date for testing right now)" />
  </bean>
   
 <bean id="CustomerAgingReportDetail-customerName" parent="CustomerAgingReportDetail-customerName-parentBean" />

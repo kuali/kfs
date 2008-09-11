@@ -87,8 +87,20 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        
+        String accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+        String chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+        String orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
+        Collection<CustomerInvoiceDetail> invoiceDetails = null;
+        Collection<CustomerInvoiceDocument> invoices = null;
 
-        Collection<CustomerInvoiceDetail> invoiceDetails= getCustomerInvoiceDetailsByAccountNumber((String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME));
+
+        if (accountNumber.length()!=0) {
+            invoiceDetails= getCustomerInvoiceDetailsByAccountNumber(accountNumber);
+        }
+        if (chartCode.length()!=0 && orgCode.length()!=0) {
+            invoices= customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
+        }
         
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
       
@@ -116,7 +128,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         LOG.info("\t\t***********************  cutoffdate 365:\t\t"+cutoffdate365.toString());
 
         // List invoices = (List) customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
-        Collection<CustomerInvoiceDocument> invoices = customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
+        //JUSTIN SAYS NOT WORKING SO DON'T USE: Collection<CustomerInvoiceDocument> invoices = customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
         CustomerAgingReportDetail testcustomer1 = new CustomerAgingReportDetail();
 
         Map<String, Object> knownCustomers = new HashMap<String, Object>(invoices.size());
@@ -252,20 +264,30 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
         Map args = new HashMap();
         args.put("accountNumber", accountNumber);
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
-
     }  
  
 //    /**
-//     * @return the CustomerInvoiceDocument associated with a given documentNumber
+//     * @return a List of the CustomerInvoiceDetails associated with a given Processing Chart and Org
 //     */
 //    @SuppressWarnings("unchecked")
-//    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByAccountNumber(String accountNumber) {
+//    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentByProcessingChartOrg(String chartCode, String orgCode) {
+//        // MJM NOT WORKING YET
 //        Map args = new HashMap();
-//        args.put("accountNumber", accountNumber);
+//        args.put("chartOfAccountsCode", chartCode);
 //        return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
+//    }      
 //
-//    } 
-
+//    /**
+//     * @return a List of the CustomerInvoiceDetails associated with a given Billing Chart and Org
+//     */
+//    @SuppressWarnings("unchecked")
+//    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByBillingChartOrg(String chartCode, String orgCode) {
+//        // MJM THIS NO WORKY YET
+//        Map args = new HashMap();
+//        args.put("chartOfAccountsCode", chartCode);
+//        return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
+//    }   
+//    
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.
      */

@@ -783,10 +783,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 asset.setCapitalAssetDescription(detail.getCapitalAssetDescription());
                 asset.setManufacturerName(detail.getManufacturerName());
                 asset.setManufacturerModelNumber(detail.getManufacturerModelNumber());
-                
-                /** @TODO set the last inventory date into the new asset(s) **/
-                //asset.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).convertToSqlTimestamp(lastInventoryDate.toString()));
-                
+                asset.setLastInventoryDate(separateSourceCapitalAsset.getLastInventoryDate());
                 // set AssetOrganization data
                 AssetOrganization assetOrganization = new AssetOrganization();
                 assetOrganization.setCapitalAssetNumber(detail.getCapitalAssetNumber());
